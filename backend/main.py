@@ -558,30 +558,73 @@ def get_generation_status(job_id):
 
     job = jobs[job_id]
 
-    # Simulate progress through the steps
-    if job["status"] == "generating_code":
-        job["status"] = "building"
-        save_jobs_to_file()
-        add_log_entry(job_id, "🏗️  Starting build process...")
-        add_log_entry(job_id, "📦 Preparing Docker container configuration...")
+    # Add progress information
+    progress_info = {
+        "analyzing": {"step": 1, "total_steps": 4, "description": "Analyzing data file"},
+        "generating_code": {"step": 2, "total_steps": 4, "description": "Generating API code with AI"},
+        "building": {"step": 3, "total_steps": 4, "description": "Building Docker container"},
+        "deployed": {"step": 4, "total_steps": 4, "description": "Deployment completed"}
+    }
+
+    current_progress = progress_info.get(job["status"], {"step": 1, "total_steps": 4, "description": "Processing"})
+
+    # Calculate elapsed time
+    elapsed_seconds = None
+    if job.get("created_at"):
+        try:
+            created_time = datetime.fromisoformat(job["created_at"])
+            elapsed_seconds = int((datetime.utcnow() - created_time).total_seconds())
+        except:
+            pass
+
+    # Simulate progress through the steps with better timing
+    if job["status"] == "analyzing":
+        # Move to generating_code after some time has passed
+        if elapsed_seconds and elapsed_seconds > 5:  # Give analysis at least 5 seconds
+            job["status"] = "generating_code"
+            save_jobs_to_file()
+            add_log_entry(job_id, "🤖 Starting AI code generation...")
+            add_log_entry(job_id, "📝 Sending data schema to AI model...")
+            current_progress = progress_info["generating_code"]
+
+    elif job["status"] == "generating_code":
+        # Add some progress updates during AI generation
+        if elapsed_seconds:
+            if elapsed_seconds > 120:  # After 2 minutes, show building progress
+                job["status"] = "building"
+                save_jobs_to_file()
+                add_log_entry(job_id, "🏗️ Starting build process...")
+                add_log_entry(job_id, "📦 Creating Docker container...")
+                current_progress = progress_info["building"]
+            elif elapsed_seconds > 60:  # After 1 minute, add AI processing log
+                # Only add this log once
+                recent_logs = [log for log in job.get("logs", []) if "AI model processing" in log.get("message", "")]
+                if not recent_logs:
+                    add_log_entry(job_id, "⚡ AI model processing your data schema...")
+
     elif job["status"] == "building":
-        job["status"] = "deployed"
-        job["api_url"] = f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}"
-        job["api_key"] = f"api_key_{job_id[:8]}"
-        job["completed_at"] = datetime.utcnow().isoformat()
-        save_jobs_to_file()
-        add_log_entry(job_id, "🚀 Deployment completed successfully!")
-        add_log_entry(job_id, f"🌐 API available at: {job['api_url']}")
-        add_log_entry(job_id, f"🔑 API Key: {job['api_key']}")
+        # Move to deployed after build time has passed
+        if elapsed_seconds and elapsed_seconds > 180:  # Give building at least 3 minutes
+            job["status"] = "deployed"
+            job["api_url"] = f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}"
+            job["api_key"] = f"api_key_{job_id[:8]}"
+            job["completed_at"] = datetime.utcnow().isoformat()
+            save_jobs_to_file()
+            add_log_entry(job_id, "🚀 Deployment completed successfully!")
+            add_log_entry(job_id, f"🌐 API available at: {job['api_url']}")
+            add_log_entry(job_id, f"🔑 API Key: {job['api_key']}")
+            current_progress = progress_info["deployed"]
 
     return jsonify({
         "job_id": job["id"],
         "status": job["status"],
+        "progress": current_progress,
         "api_url": job["api_url"],
         "api_key": job["api_key"],
         "error_message": job["error_message"],
         "created_at": job["created_at"],
         "completed_at": job["completed_at"],
+        "elapsed_seconds": elapsed_seconds,
         "logs": job.get("logs", [])
     })
 
@@ -1075,12 +1118,83 @@ def health_check():
 @app.route('/mock-api/<job_id>/data', methods=['GET'])
 def mock_api_endpoint(job_id):
     """Mock API endpoint that simulates a generated API"""
-    if job_id not in jobs:
-        return jsonify({"error": "API not found"}), 404
+    job = None
 
-    job = jobs[job_id]
+    # First try to find the job in memory
+    if job_id in jobs:
+        job = jobs[job_id]
+    else:
+        # If not in memory, try to reconstruct from saved files
+        upload_dir = '/app/uploads'
+        if os.path.exists(upload_dir):
+            try:
+                possible_files = [f for f in os.listdir(upload_dir) if f.startswith(f"{job_id}_")]
+                if possible_files:
+                    file_path = os.path.join(upload_dir, possible_files[0])
+                    filename = possible_files[0].replace(f"{job_id}_", "")
+
+                    # Try to analyze the file to get schema
+                    try:
+                        schema = analyze_data_file(file_path)
+                        # Create a minimal job entry
+                        job = {
+                            "id": job_id,
+                            "filename": filename,
+                            "status": "deployed",
+                            "file_path": file_path,
+                            "schema": schema,
+                            "api_url": f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}",
+                            "api_key": f"api_key_{job_id[:8]}",
+                            "created_at": datetime.utcnow().isoformat(),
+                            "completed_at": datetime.utcnow().isoformat()
+                        }
+                        # Save the reconstructed job
+                        jobs[job_id] = job
+                        save_jobs_to_file()
+                        add_log_entry(job_id, f"🔄 Reconstructed job from saved file: {filename}")
+                    except Exception as e:
+                        print(f"Failed to reconstruct job {job_id}: {str(e)}")
+            except OSError as e:
+                print(f"Failed to access upload directory: {str(e)}")
+
+    if not job:
+        # Try to find in generated_apis directory as a last resort
+        generated_api_path = f'/app/generated_apis/{job_id}'
+        if os.path.exists(generated_api_path):
+            data_file = os.path.join(generated_api_path, 'data.csv')
+            if os.path.exists(data_file):
+                try:
+                    schema = analyze_data_file(data_file)
+                    job = {
+                        "id": job_id,
+                        "filename": f"api_{job_id}.csv",
+                        "status": "deployed",
+                        "file_path": data_file,
+                        "schema": schema,
+                        "api_url": f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}",
+                        "api_key": f"api_key_{job_id[:8]}",
+                        "created_at": datetime.utcnow().isoformat(),
+                        "completed_at": datetime.utcnow().isoformat()
+                    }
+                    # Save the reconstructed job
+                    jobs[job_id] = job
+                    save_jobs_to_file()
+                    add_log_entry(job_id, f"🔄 Reconstructed job from generated API: {job_id}")
+                except Exception as e:
+                    print(f"Failed to reconstruct from generated API {job_id}: {str(e)}")
+
+    if not job:
+        return jsonify({
+            "error": "API not found",
+            "message": f"The API with job ID '{job_id}' could not be found. This may happen if the backend restarted or the job was not properly saved.",
+            "suggestion": "Please try uploading your file again to generate a new API."
+        }), 404
+
     if not job.get("schema"):
-        return jsonify({"error": "Schema not available"}), 404
+        return jsonify({
+            "error": "Schema not available",
+            "message": "The API schema information is missing."
+        }), 404
 
     schema = job["schema"]
 
@@ -1193,12 +1307,40 @@ def mock_api_endpoint(job_id):
 @app.route('/mock-api/<job_id>/schema', methods=['GET'])
 def mock_api_schema(job_id):
     """Return schema information for the mock API"""
-    if job_id not in jobs:
-        return jsonify({"error": "API not found"}), 404
+    # Use the same job reconstruction logic
+    job = None
+    if job_id in jobs:
+        job = jobs[job_id]
+    else:
+        # Try to reconstruct from saved files
+        upload_dir = '/app/uploads'
+        if os.path.exists(upload_dir):
+            try:
+                possible_files = [f for f in os.listdir(upload_dir) if f.startswith(f"{job_id}_")]
+                if possible_files:
+                    file_path = os.path.join(upload_dir, possible_files[0])
+                    try:
+                        schema = analyze_data_file(file_path)
+                        job = {
+                            "id": job_id,
+                            "schema": schema
+                        }
+                    except Exception as e:
+                        print(f"Failed to reconstruct schema for {job_id}: {str(e)}")
+            except OSError as e:
+                print(f"Failed to access upload directory: {str(e)}")
 
-    job = jobs[job_id]
+    if not job:
+        return jsonify({
+            "error": "API not found",
+            "message": f"The API with job ID '{job_id}' could not be found."
+        }), 404
+
     if not job.get("schema"):
-        return jsonify({"error": "Schema not available"}), 404
+        return jsonify({
+            "error": "Schema not available",
+            "message": "The API schema information is missing."
+        }), 404
 
     return jsonify(job["schema"])
 
@@ -1206,11 +1348,17 @@ def mock_api_schema(job_id):
 def get_generated_code(job_id):
     """Return the AI-generated code files"""
     if job_id not in jobs:
-        return jsonify({"error": "API not found"}), 404
+        return jsonify({
+            "error": "API not found",
+            "message": f"The API with job ID '{job_id}' could not be found."
+        }), 404
 
     job = jobs[job_id]
     if not job.get("generated_code"):
-        return jsonify({"error": "No generated code available"}), 404
+        return jsonify({
+            "error": "No generated code available",
+            "message": "AI-generated code is not available for this API."
+        }), 404
 
     return jsonify({
         "main_py": job["generated_code"]["main_py"],
@@ -1223,16 +1371,46 @@ def get_generated_code(job_id):
 @app.route('/mock-api/<job_id>/run', methods=['POST'])
 def run_generated_api(job_id):
     """Test the generated API by returning the first few records"""
-    if job_id not in jobs:
-        return jsonify({"error": "API not found"}), 404
+    # Use the same job reconstruction logic
+    job = None
+    if job_id in jobs:
+        job = jobs[job_id]
+    else:
+        # Try to reconstruct from saved files
+        upload_dir = '/app/uploads'
+        if os.path.exists(upload_dir):
+            try:
+                possible_files = [f for f in os.listdir(upload_dir) if f.startswith(f"{job_id}_")]
+                if possible_files:
+                    file_path = os.path.join(upload_dir, possible_files[0])
+                    filename = possible_files[0].replace(f"{job_id}_", "")
+                    try:
+                        schema = analyze_data_file(file_path)
+                        job = {
+                            "id": job_id,
+                            "filename": filename,
+                            "file_path": file_path,
+                            "schema": schema
+                        }
+                    except Exception as e:
+                        print(f"Failed to reconstruct job for testing {job_id}: {str(e)}")
+            except OSError as e:
+                print(f"Failed to access upload directory: {str(e)}")
 
-    job = jobs[job_id]
+    if not job:
+        return jsonify({
+            "error": "API not found",
+            "message": f"The API with job ID '{job_id}' could not be found."
+        }), 404
 
     try:
         # Read the uploaded data file and return first few records
         file_path = job.get("file_path")
         if not file_path or not os.path.exists(file_path):
-            return jsonify({"error": "Data file not found"}), 404
+            return jsonify({
+                "error": "Data file not found",
+                "message": "The uploaded data file is no longer available."
+            }), 404
 
         # Read data from the uploaded file (supports multiple formats)
         file_data = read_data_file(file_path)
