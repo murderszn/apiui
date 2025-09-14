@@ -921,12 +921,12 @@
                             </span>
                         </div>
 
-                        ${api.url ? `
+                        ${(api.api_url || api.url) ? `
                             <div class="mt-2 flex items-center text-xs text-gray-500">
                                 <svg class="w-3 h-3 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
                                 </svg>
-                                <span class="truncate font-mono">${api.url}</span>
+                                <span class="truncate font-mono">${api.api_url || api.url}</span>
                             </div>
                         ` : ''}
                     </div>
@@ -962,7 +962,7 @@
 
             // Add event listener to test button
             const testBtn = row.querySelector('.test-api-btn');
-            testBtn.addEventListener('click', () => testApiInline(testBtn, api.id, api.url));
+            testBtn.addEventListener('click', () => testApiInline(testBtn, api.id, api.api_url || api.url));
 
             // Add event listener to delete button (only for locally stored APIs)
             const deleteBtn = row.querySelector('.delete-api-btn');
@@ -994,19 +994,40 @@
             button.disabled = true;
 
             try {
-                const testEndpoint = apiUrl || `https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis/${apiId}`;
+                // Construct the test endpoint URL
+                let testEndpoint;
+                if (apiUrl) {
+                    // For locally stored APIs, use the api_url directly
+                    testEndpoint = apiUrl;
+                } else {
+                    // For backend APIs, construct the URL
+                    testEndpoint = `https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis/${apiId}`;
+                }
+
+                // Remove trailing slash if present
+                testEndpoint = testEndpoint.replace(/\/$/, '');
+
+                console.log('Testing API endpoint:', `${testEndpoint}/data?limit=1`);
+
+                // Add timeout to prevent hanging
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
                 const response = await fetch(`${testEndpoint}/data?limit=1`, {
                     method: 'GET',
                     headers: {
-                        'Accept': 'application/json'
-                    }
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    signal: controller.signal
                 });
+
+                clearTimeout(timeoutId);
 
                 if (response.ok) {
                     const data = await response.json();
 
-                    // Success state
+                    // Success state with data preview
                     button.innerHTML = `
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -1014,6 +1035,9 @@
                         ✅ Pass
                     `;
                     button.className = 'inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors';
+
+                    // Show success message with data preview
+                    console.log('✅ API test successful:', data);
 
                     // Reset after 3 seconds
                     setTimeout(() => {
@@ -1027,6 +1051,8 @@
                 }
 
             } catch (error) {
+                console.log('❌ API test failed:', error.message);
+
                 // Failure state
                 button.innerHTML = `
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
