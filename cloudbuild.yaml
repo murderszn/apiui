@@ -1,0 +1,6 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/apiui-backend:latest', '-f', 'docker/cloudrun.Dockerfile', '.']
+
+images:
+  - 'gcr.io/$PROJECT_ID/apiui-backend:latest'
