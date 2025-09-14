@@ -98,8 +98,14 @@ def load_api_registry_from_file():
     global api_registry
     try:
         import json
+        print(f"Loading API registry from: {API_REGISTRY_FILE}")
+        print(f"File exists: {os.path.exists(API_REGISTRY_FILE)}")
         if os.path.exists(API_REGISTRY_FILE):
-            api_registry.update(json.load(open(API_REGISTRY_FILE, 'r')))
+            data = json.load(open(API_REGISTRY_FILE, 'r'))
+            api_registry.update(data)
+            print(f"Loaded {len(data)} APIs from registry file")
+        else:
+            print("API registry file not found, starting with empty registry")
     except Exception as e:
         print(f"Failed to load API registry: {e}")
 
