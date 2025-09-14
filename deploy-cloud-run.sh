@@ -45,7 +45,7 @@ gcloud services enable cloudbuild.googleapis.com
 
 # Build and push Docker image using Cloud Build
 echo -e "${YELLOW}🏗️  Building Docker image with Cloud Build...${NC}"
-gcloud builds submit --tag ${IMAGE_NAME}:latest --timeout=900 .
+gcloud builds submit --config cloudbuild.yaml --timeout=900 .
 
 # Deploy to Cloud Run
 echo -e "${YELLOW}🚀 Deploying to Cloud Run...${NC}"
