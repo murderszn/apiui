@@ -1561,11 +1561,18 @@ data = response.json()">
             const file = event.target.files[0];
             if (!file) return;
 
+            // Prevent multiple simultaneous uploads
+            if (currentJobId && !confirm('Another upload is in progress. Start a new one?')) {
+                event.target.value = ''; // Clear the file input
+                return;
+            }
+
             // Validate file type
             const allowedExtensions = ['.csv', '.json', '.xlsx', '.xls', '.parquet', '.txt'];
             const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
             if (!allowedExtensions.includes(fileExtension)) {
                 alert('Unsupported file type. Please upload XLSX, CSV, Parquet, or TXT files.');
+                event.target.value = ''; // Clear the file input
                 return;
             }
 
@@ -1636,12 +1643,32 @@ data = response.json()">
                 currentJobId = result.job_id;
 
                 const uploadTime = ((Date.now() - uploadStartTime) / 1000).toFixed(2);
-                addLog(`File uploaded successfully in ${uploadTime}s`, 'success');
-                addLog(`Job ID assigned: ${currentJobId}`, 'info');
-                addLog('Connecting to real-time status stream...', 'info');
 
-                // Start polling for status
-                startPolling();
+                if (result.status === 'already_exists') {
+                    addLog(`File uploaded successfully in ${uploadTime}s`, 'success');
+                    addLog(`📋 File '${file.name}' already processed - using existing API`, 'info');
+                    addLog(`🔄 Found existing job: ${currentJobId}`, 'info');
+                    addLog(`🌐 API URL: ${result.api_url}`, 'info');
+                    addLog(`🔑 API Key: ${result.api_key}`, 'info');
+
+                    // Show API result directly
+                    showApiResult({
+                        api_url: result.api_url,
+                        api_key: result.api_key,
+                        job_id: currentJobId,
+                        status: 'deployed'
+                    });
+
+                    // Update progress to completed
+                    updateProgress({ status: 'deployed', progress: { step: 4, total_steps: 4, description: 'API already available' } });
+                } else {
+                    addLog(`File uploaded successfully in ${uploadTime}s`, 'success');
+                    addLog(`Job ID assigned: ${currentJobId}`, 'info');
+                    addLog('Connecting to real-time status stream...', 'info');
+
+                    // Start polling for status
+                    startPolling();
+                }
 
             } catch (error) {
                 console.error('Upload error:', error);
@@ -1722,6 +1749,7 @@ data = response.json()">
                             addLog('Your API is now ready to use', 'success');
                             addLog(`Endpoint: ${status.api_url}`, 'info');
                             showApiResult(status);
+                            currentJobId = null; // Clear job ID when complete
                         } else if (status.status === 'failed') {
                             clearInterval(pollingInterval);
                             addLog(`Generation failed: ${status.error_message || 'Unknown error'}`, 'error');

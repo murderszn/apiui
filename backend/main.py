@@ -506,11 +506,38 @@ def generate_api():
         if file_ext not in allowed_extensions:
             return jsonify({"error": "Unsupported file type"}), 400
 
-        # Create job
+        # Check if this file has already been processed
+        import hashlib
+        file_content = file.read()
+        file.seek(0)  # Reset file pointer
+        file_hash = hashlib.md5(file_content).hexdigest()
+
+        # Look for existing job with same file hash
+        existing_job_id = None
+        for job_id, job_data in jobs.items():
+            if (job_data.get("file_hash") == file_hash and
+                job_data.get("filename") == file.filename and
+                job_data.get("status") in ["deployed", "available"]):
+                existing_job_id = job_id
+                break
+
+        if existing_job_id:
+            add_log_entry(existing_job_id, f"📋 File '{file.filename}' already processed - reusing existing API")
+            add_log_entry(existing_job_id, f"🔄 Found existing job: {existing_job_id}")
+            return jsonify({
+                "job_id": existing_job_id,
+                "status": "already_exists",
+                "message": f"API for '{file.filename}' already exists",
+                "api_url": jobs[existing_job_id].get("api_url"),
+                "api_key": jobs[existing_job_id].get("api_key")
+            })
+
+        # Create new job
         job_id = str(uuid.uuid4())
         jobs[job_id] = {
             "id": job_id,
             "filename": file.filename,
+            "file_hash": file_hash,
             "status": "analyzing",
             "created_at": datetime.utcnow().isoformat(),
             "completed_at": None,
