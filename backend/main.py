@@ -32,6 +32,58 @@ running_apis = {}
 # In-memory storage for running servers started by "Run Generated API"
 running_servers = {}
 
+# File-based persistence for jobs
+JOBS_FILE = '/app/jobs.json'
+APIS_FILE = '/app/apis.json'
+
+def save_jobs_to_file():
+    """Save jobs to file for persistence"""
+    try:
+        import json
+        with open(JOBS_FILE, 'w') as f:
+            json.dump(jobs, f, default=str)
+    except Exception as e:
+        print(f"Failed to save jobs: {e}")
+
+def load_jobs_from_file():
+    """Load jobs from file"""
+    global jobs
+    try:
+        import json
+        if os.path.exists(JOBS_FILE):
+            with open(JOBS_FILE, 'r') as f:
+                jobs.update(json.load(f))
+    except Exception as e:
+        print(f"Failed to load jobs: {e}")
+
+def save_apis_to_file():
+    """Save APIs to file for persistence"""
+    try:
+        import json
+        with open(APIS_FILE, 'w') as f:
+            json.dump({
+                'running_apis': running_apis,
+                'running_servers': running_servers
+            }, f, default=str)
+    except Exception as e:
+        print(f"Failed to save APIs: {e}")
+
+def load_apis_from_file():
+    """Load APIs from file"""
+    global running_apis, running_servers
+    try:
+        import json
+        if os.path.exists(APIS_FILE):
+            data = json.load(open(APIS_FILE, 'r'))
+            running_apis.update(data.get('running_apis', {}))
+            running_servers.update(data.get('running_servers', {}))
+    except Exception as e:
+        print(f"Failed to load APIs: {e}")
+
+# Load persisted data on startup
+load_jobs_from_file()
+load_apis_from_file()
+
 def add_log_entry(job_id, message, level="info"):
     """Add a log entry to a job"""
     if job_id not in jobs:
@@ -49,6 +101,9 @@ def add_log_entry(job_id, message, level="info"):
     # Keep only last 50 log entries to prevent memory issues
     if len(jobs[job_id]["logs"]) > 50:
         jobs[job_id]["logs"] = jobs[job_id]["logs"][-50:]
+
+    # Save jobs to file
+    save_jobs_to_file()
 
 # Initialize AI service
 ai_service = AIService()
@@ -421,7 +476,7 @@ def generate_api():
         file.seek(0)  # Reset file pointer after reading size
 
         # Save uploaded file to persistent location
-        upload_dir = '/Users/jahflyx/apiui/uploads'
+        upload_dir = '/app/uploads'
         os.makedirs(upload_dir, exist_ok=True)
         persistent_path = os.path.join(upload_dir, f"{job_id}_{file.filename}")
 
@@ -430,6 +485,9 @@ def generate_api():
 
         add_log_entry(job_id, f"💾 File saved persistently at: {persistent_path}")
         jobs[job_id]["file_path"] = persistent_path
+
+        # Save jobs after creation
+        save_jobs_to_file()
 
         # Process file (supports multiple formats)
         add_log_entry(job_id, f"🔍 Starting {file_ext.upper()} file analysis...")
@@ -446,6 +504,7 @@ def generate_api():
             add_log_entry(job_id, f"❌ File analysis failed: {schema['error']}", "error")
             jobs[job_id]["error_message"] = schema["error"]
             jobs[job_id]["status"] = "failed"
+            save_jobs_to_file()
         else:
             add_log_entry(job_id, f"📊 Schema analysis complete: {len(schema['columns'])} columns, {schema['row_count']} rows")
             for col in schema['columns'][:5]:  # Log first 5 columns
@@ -453,6 +512,7 @@ def generate_api():
 
         # Generate AI code using OpenAI
         jobs[job_id]["status"] = "generating_code"
+        save_jobs_to_file()
         add_log_entry(job_id, "🤖 Starting AI code generation with OpenAI GPT-4...")
         add_log_entry(job_id, "📝 Preparing prompt for AI model...")
 
@@ -466,7 +526,8 @@ def generate_api():
         if ai_result["success"]:
             add_log_entry(job_id, "✅ AI code generation successful!")
             add_log_entry(job_id, f"📄 Generated {len(ai_result['main_py'])} characters of FastAPI code")
-            add_log_entry(job_id, f"📦 Generated requirements.txt with {len(ai_result['requirements_txt'].split('\\n'))} packages")
+            req_lines = ai_result['requirements_txt'].split('\n')
+            add_log_entry(job_id, f"📦 Generated requirements.txt with {len(req_lines)} packages")
             jobs[job_id]["generated_code"] = {
                 "main_py": ai_result["main_py"],
                 "requirements_txt": ai_result["requirements_txt"],
@@ -477,6 +538,7 @@ def generate_api():
             add_log_entry(job_id, f"❌ AI generation failed: {error_msg}", "error")
             jobs[job_id]["error_message"] = error_msg
             jobs[job_id]["status"] = "failed"
+            save_jobs_to_file()
 
         return jsonify({
             "job_id": job_id,
@@ -498,6 +560,7 @@ def get_generation_status(job_id):
     # Simulate progress through the steps
     if job["status"] == "generating_code":
         job["status"] = "building"
+        save_jobs_to_file()
         add_log_entry(job_id, "🏗️  Starting build process...")
         add_log_entry(job_id, "📦 Preparing Docker container configuration...")
     elif job["status"] == "building":
@@ -505,6 +568,7 @@ def get_generation_status(job_id):
         job["api_url"] = f"http://localhost:8000/mock-api/{job_id}"
         job["api_key"] = f"api_key_{job_id[:8]}"
         job["completed_at"] = datetime.utcnow().isoformat()
+        save_jobs_to_file()
         add_log_entry(job_id, "🚀 Deployment completed successfully!")
         add_log_entry(job_id, f"🌐 API available at: {job['api_url']}")
         add_log_entry(job_id, f"🔑 API Key: {job['api_key']}")
@@ -524,7 +588,7 @@ def get_generation_status(job_id):
 def list_generated_apis():
     """List all generated APIs"""
     try:
-        apis_dir = '/Users/jahflyx/apiui/generated_apis'
+        apis_dir = '/app/generated_apis'
         if not os.path.exists(apis_dir):
             return jsonify({"apis": [], "total": 0})
 
@@ -625,7 +689,7 @@ def list_generated_apis():
 def get_api_details(api_id):
     """Get detailed information about a specific generated API"""
     try:
-        api_path = f'/Users/jahflyx/apiui/generated_apis/{api_id}'
+        api_path = f'/app/generated_apis/{api_id}'
         if not os.path.exists(api_path):
             return jsonify({"error": "API not found"}), 404
 
@@ -750,7 +814,7 @@ def get_api_details(api_id):
 def start_api(api_id):
     """Start a generated API server"""
     try:
-        api_path = f'/Users/jahflyx/apiui/generated_apis/{api_id}'
+        api_path = f'/app/generated_apis/{api_id}'
         if not os.path.exists(api_path):
             return jsonify({"error": "API not found"}), 404
 
@@ -844,7 +908,7 @@ def stop_api(api_id):
 def get_api_status(api_id):
     """Get the status of a specific API"""
     try:
-        api_path = f'/Users/jahflyx/apiui/generated_apis/{api_id}'
+        api_path = f'/app/generated_apis/{api_id}'
         if not os.path.exists(api_path):
             return jsonify({"error": "API not found"}), 404
 
@@ -883,7 +947,7 @@ def get_api_status(api_id):
 def get_api_docs(api_id):
     """Generate API documentation for a specific API"""
     try:
-        api_path = f'/Users/jahflyx/apiui/generated_apis/{api_id}'
+        api_path = f'/app/generated_apis/{api_id}'
         if not os.path.exists(api_path):
             return jsonify({"error": "API not found"}), 404
 

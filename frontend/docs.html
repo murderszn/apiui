@@ -15,131 +15,40 @@
             line-height: 1.6;
         }
 
-        /* Professional Typography */
-        .hero-title {
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            line-height: 1.1;
+        /* Clean typography */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;
         }
 
-        .hero-subtitle {
-            font-weight: 300;
-            letter-spacing: -0.01em;
-            opacity: 0.8;
-        }
-
-        .section-title {
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-
-        /* Professional Cards */
-        .professional-card {
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .professional-card:hover {
-            border-color: rgba(0, 0, 0, 0.15);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            transform: translateY(-2px);
-        }
-
-        /* Professional Buttons */
-        .btn-professional {
-            font-weight: 500;
-            letter-spacing: 0.025em;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-professional::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn-professional:hover::before {
-            left: 100%;
-        }
-
-        /* Professional Section Spacing */
+        /* Section spacing */
         .section-spacing {
-            padding: 5rem 0;
+            padding: 4rem 0;
         }
 
-        /* Subtle Accent Lines */
-        .accent-line {
-            position: relative;
-            margin: 3rem 0;
-        }
-
-        .accent-line::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.3), transparent);
-        }
-
-        /* Professional Icon Containers */
-        .icon-professional {
-            background: linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.1));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Professional Focus States */
-        a:focus, button:focus {
-            outline: 2px solid rgba(0,0,0,0.5);
-            outline-offset: 2px;
-        }
-
-        /* Documentation-specific styling */
+        /* Documentation sections */
         .doc-section {
             scroll-margin-top: 100px;
         }
 
+        /* Code blocks */
         .code-block {
-            background: rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 8px;
-            font-family: 'Inter', monospace;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Consolas', monospace;
             font-size: 14px;
-            line-height: 1.6;
-            padding: 1.5rem;
+            line-height: 1.5;
+            padding: 1rem;
             overflow-x: auto;
         }
 
-        .nav-link {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-        }
-
-        .nav-link:hover {
-            background: rgba(0, 0, 0, 0.05);
+        /* Focus states */
+        a:focus, button:focus {
+            outline: 2px solid #000;
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -150,10 +59,12 @@
             <a href="index.html" class="text-xl sm:text-2xl font-light tracking-widest lowercase text-black">api<span class="font-bold">ui</span></a>
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-black">Home</a>
-                <a href="#getting-started" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-black">Get Started</a>
-                <a href="#api-endpoints" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-black">API Reference</a>
-                <a href="#examples" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-black">Examples</a>
+                <a href="index.html" class="text-gray-700 hover:text-black font-medium transition-colors">Home</a>
+                <a href="index.html#features" class="text-gray-700 hover:text-black font-medium transition-colors">Features</a>
+                <a href="index.html#pricing" class="text-gray-700 hover:text-black font-medium transition-colors">Pricing</a>
+                <a href="app.html" class="text-gray-700 hover:text-black font-medium transition-colors">App</a>
+                <a href="docs.html" class="text-gray-700 hover:text-black font-medium transition-colors">Docs</a>
+                <a href="api-hub.html" class="text-gray-700 hover:text-black font-medium transition-colors">API Hub</a>
             </div>
             <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="md:hidden p-2">
@@ -166,9 +77,11 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
             <div class="container mx-auto px-4 py-4 space-y-4">
                 <a href="index.html" class="block text-gray-700 hover:text-black font-medium py-2">Home</a>
-                <a href="#getting-started" class="block text-gray-700 hover:text-black font-medium py-2">Get Started</a>
-                <a href="#api-endpoints" class="block text-gray-700 hover:text-black font-medium py-2">API Reference</a>
-                <a href="#examples" class="block text-gray-700 hover:text-black font-medium py-2">Examples</a>
+                <a href="index.html#features" class="block text-gray-700 hover:text-black font-medium py-2">Features</a>
+                <a href="index.html#pricing" class="block text-gray-700 hover:text-black font-medium py-2">Pricing</a>
+                <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
+                <a href="docs.html" class="block text-gray-700 hover:text-black font-medium py-2">Docs</a>
+                <a href="api-hub.html" class="block text-gray-700 hover:text-black font-medium py-2">API Hub</a>
             </div>
         </div>
     </header>
@@ -176,52 +89,47 @@
     <!-- Main Content -->
     <main class="flex-grow">
         <!-- Hero Section -->
-        <section class="section-spacing">
+        <section class="py-16">
             <div class="container mx-auto px-6 max-w-4xl text-center">
-                <h1 class="section-title text-4xl sm:text-5xl text-black mb-6">Documentation</h1>
+                <h1 class="text-4xl sm:text-5xl font-bold text-black mb-6">Documentation</h1>
                 <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12">
                     Learn how to turn your data into powerful REST APIs in minutes.
-                    <span class="font-semibold text-black">Complete guide to using apiui effectively.</span>
+                    Complete guide to using apiui effectively.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-6">
-                    <a href="#getting-started" class="btn-professional w-full sm:w-auto bg-black text-white px-8 py-4 text-lg hover:bg-gray-900 text-center">
+                    <a href="#getting-started" class="bg-black text-white px-8 py-4 text-lg font-medium hover:bg-gray-800 text-center rounded-md">
                         Get Started
                     </a>
-                    <a href="index.html" class="btn-professional w-full sm:w-auto border-2 border-black text-black px-8 py-4 text-lg hover:bg-gray-50 text-center">
+                    <a href="index.html" class="border-2 border-black text-black px-8 py-4 text-lg font-medium hover:bg-gray-50 text-center rounded-md">
                         Try It Now
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- Professional Section Divider -->
-        <div class="accent-line"></div>
-
         <!-- Table of Contents -->
-        <section class="bg-gray-50 section-spacing">
+        <section class="bg-gray-50 py-16">
             <div class="container mx-auto px-6 max-w-6xl">
-                <div class="professional-card p-8 mb-8">
-                    <h2 class="text-3xl font-bold text-black mb-8">Table of Contents</h2>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="text-lg font-semibold text-black mb-4">Getting Started</h3>
-                            <ul class="space-y-2 text-gray-600">
-                                <li><a href="#overview" class="hover:text-black">Overview</a></li>
-                                <li><a href="#quick-start" class="hover:text-black">Quick Start</a></li>
-                                <li><a href="#supported-formats" class="hover:text-black">Supported File Formats</a></li>
-                                <li><a href="#requirements" class="hover:text-black">System Requirements</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-black mb-4">API Usage</h3>
-                            <ul class="space-y-2 text-gray-600">
-                                <li><a href="#api-management" class="hover:text-black">API Management</a></li>
-                                <li><a href="#api-endpoints" class="hover:text-black">API Endpoints</a></li>
-                                <li><a href="#examples" class="hover:text-black">Code Examples</a></li>
-                                <li><a href="#advanced-features" class="hover:text-black">Advanced Features</a></li>
-                                <li><a href="#troubleshooting" class="hover:text-black">Troubleshooting</a></li>
-                            </ul>
-                        </div>
+                <h2 class="text-3xl font-bold text-black mb-8">Table of Contents</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-black mb-4">Getting Started</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><a href="#overview" class="hover:text-black">Overview</a></li>
+                            <li><a href="#quick-start" class="hover:text-black">Quick Start</a></li>
+                            <li><a href="#supported-formats" class="hover:text-black">Supported File Formats</a></li>
+                            <li><a href="#requirements" class="hover:text-black">System Requirements</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-black mb-4">API Usage</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li><a href="#api-management" class="hover:text-black">API Management</a></li>
+                            <li><a href="#api-endpoints" class="hover:text-black">API Endpoints</a></li>
+                            <li><a href="#examples" class="hover:text-black">Code Examples</a></li>
+                            <li><a href="#advanced-features" class="hover:text-black">Advanced Features</a></li>
+                            <li><a href="#troubleshooting" class="hover:text-black">Troubleshooting</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -244,6 +244,24 @@ Thumbs.db
 # Upload directories (contain user data)
 uploads/
 generated_apis/
+backend/uploads/
+backend/generated_apis/
+
+# Runtime data and logs
+*.log
+jobs.json
+*.pid
+
+# Backup files
+*.bak
+*.backup
+main.py.backup
+
+# Temporary build directories
+temp-build/
+tmp/
+temp/
+clean-docker/
 
 # Virtual environments
 venv/

@@ -13,15 +13,24 @@ class AIService:
         Generate FastAPI code using AI based on data schema
         """
         try:
-            if self.google_ai_api_key:
-                return await self._generate_with_gemini(schema, job_id)
-            elif self.openai_api_key:
-                return await self._generate_with_openai(schema, job_id)
-            else:
-                return await self._generate_mock_code(schema, job_id)
+            if self.google_ai_api_key and self.google_ai_api_key.strip():
+                result = await self._generate_with_gemini(schema, job_id)
+                if result["success"]:
+                    return result
+                else:
+                    print(f"Gemini failed: {result['error']}, falling back to mock")
+            if self.openai_api_key and self.openai_api_key.strip() and self.openai_api_key != "demo-key-placeholder":
+                result = await self._generate_with_openai(schema, job_id)
+                if result["success"]:
+                    return result
+                else:
+                    print(f"OpenAI failed: {result['error']}, falling back to mock")
+            # Always fall back to mock generation
+            return await self._generate_mock_code(schema, job_id)
 
         except Exception as e:
-            return {"success": False, "error": f"AI generation failed: {str(e)}"}
+            print(f"AI generation failed: {str(e)}, falling back to mock")
+            return await self._generate_mock_code(schema, job_id)
 
     async def _generate_with_gemini(self, schema: Dict[str, Any], job_id: str) -> Dict[str, Any]:
         """Generate code using Google's Gemini API"""
@@ -44,6 +53,11 @@ class AIService:
     async def _generate_with_openai(self, schema: Dict[str, Any], job_id: str) -> Dict[str, Any]:
         """Generate code using OpenAI GPT API"""
         try:
+            # Check if API key is valid (not placeholder/demo)
+            if not self.openai_api_key or self.openai_api_key == "demo-key-placeholder":
+                print("OpenAI API key not configured, falling back to mock generation")
+                return await self._generate_mock_code(schema, job_id)
+
             async with httpx.AsyncClient() as client:
                 headers = {
                     "Authorization": f"Bearer {self.openai_api_key}",
@@ -74,7 +88,9 @@ class AIService:
                 )
 
                 if response.status_code != 200:
-                    return {"success": False, "error": f"OpenAI API error: {response.text}"}
+                    print(f"OpenAI API error: {response.status_code} - {response.text}")
+                    print("Falling back to mock generation")
+                    return await self._generate_mock_code(schema, job_id)
 
                 result = response.json()
                 content = result["choices"][0]["message"]["content"]
@@ -83,7 +99,9 @@ class AIService:
                 return parsed_result
 
         except Exception as e:
-            return {"success": False, "error": f"OpenAI API error: {str(e)}"}
+            print(f"OpenAI API error: {str(e)}")
+            print("Falling back to mock generation")
+            return await self._generate_mock_code(schema, job_id)
 
     async def _generate_mock_code(self, schema: Dict[str, Any], job_id: str) -> Dict[str, Any]:
         """Generate mock code for testing when no AI API is configured"""
@@ -306,15 +324,6 @@ async def get_schema():
         "total_rows": len(df)
     }}
 
-@app.get("/data/{item_id}")
-async def get_item(item_id: int):
-    """Get a specific item by ID"""
-    try:
-        if item_id < 0 or item_id >= len(df):
-            raise HTTPException(status_code=404, detail="Item not found")
-        return df.iloc[item_id].to_dict()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
