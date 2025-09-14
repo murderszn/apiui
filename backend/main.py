@@ -505,10 +505,11 @@ def generate_api():
             jobs[job_id]["error_message"] = schema["error"]
             jobs[job_id]["status"] = "failed"
             save_jobs_to_file()
-        else:
-            add_log_entry(job_id, f"📊 Schema analysis complete: {len(schema['columns'])} columns, {schema['row_count']} rows")
-            for col in schema['columns'][:5]:  # Log first 5 columns
-                add_log_entry(job_id, f"   📋 Column: {col['name']} ({col['inferred_type']})")
+            return jsonify({"job_id": job_id, "status": "failed", "error": schema["error"]})
+
+        add_log_entry(job_id, f"📊 Schema analysis complete: {len(schema['columns'])} columns, {schema['row_count']} rows")
+        for col in schema['columns'][:5]:  # Log first 5 columns
+            add_log_entry(job_id, f"   📋 Column: {col['name']} ({col['inferred_type']})")
 
         # Generate AI code using OpenAI
         jobs[job_id]["status"] = "generating_code"
