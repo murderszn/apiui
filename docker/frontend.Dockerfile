@@ -7,7 +7,7 @@ COPY frontend/ /usr/share/nginx/html/
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 # Expose port
-EXPOSE 80
+EXPOSE 7777
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
