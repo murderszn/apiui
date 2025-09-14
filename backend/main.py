@@ -662,10 +662,10 @@ def get_generation_status(job_id):
         except:
             pass
 
-    # Simulate progress through the steps with better timing
+    # FAST progress simulation - reduce artificial delays significantly
     if job["status"] == "analyzing":
-        # Move to generating_code after some time has passed
-        if elapsed_seconds and elapsed_seconds > 5:  # Give analysis at least 5 seconds
+        # Move to generating_code much faster - just 1 second for analysis
+        if elapsed_seconds and elapsed_seconds > 1:  # Reduced from 5 seconds
             job["status"] = "generating_code"
             save_jobs_to_file()
             add_log_entry(job_id, "🤖 Starting AI code generation...")
@@ -673,23 +673,26 @@ def get_generation_status(job_id):
             current_progress = progress_info["generating_code"]
 
     elif job["status"] == "generating_code":
-        # Add some progress updates during AI generation
-        if elapsed_seconds:
-            if elapsed_seconds > 120:  # After 2 minutes, show building progress
-                job["status"] = "building"
-                save_jobs_to_file()
-                add_log_entry(job_id, "🏗️ Starting build process...")
-                add_log_entry(job_id, "📦 Creating Docker container...")
-                current_progress = progress_info["building"]
-            elif elapsed_seconds > 60:  # After 1 minute, add AI processing log
-                # Only add this log once
-                recent_logs = [log for log in job.get("logs", []) if "AI model processing" in log.get("message", "")]
-                if not recent_logs:
-                    add_log_entry(job_id, "⚡ AI model processing your data schema...")
+        # DEBUG: Log elapsed time for troubleshooting
+        add_log_entry(job_id, f"🔍 DEBUG: Status=generating_code, elapsed_seconds={elapsed_seconds}, type={type(elapsed_seconds)}")
+
+        # Move to building much faster - after 3 seconds instead of 2 minutes
+        if elapsed_seconds and elapsed_seconds > 3:  # Reduced from 120 seconds (2 minutes)
+            add_log_entry(job_id, f"✅ DEBUG: Moving to building phase (elapsed: {elapsed_seconds}s)")
+            job["status"] = "building"
+            save_jobs_to_file()
+            add_log_entry(job_id, "🏗️ Starting build process...")
+            add_log_entry(job_id, "📦 Creating Docker container...")
+            current_progress = progress_info["building"]
+        elif elapsed_seconds and elapsed_seconds > 2:  # Add AI processing log after 2 seconds
+            # Only add this log once
+            recent_logs = [log for log in job.get("logs", []) if "AI model processing" in log.get("message", "")]
+            if not recent_logs:
+                add_log_entry(job_id, "⚡ AI model processing your data schema...")
 
     elif job["status"] == "building":
-        # Move to deployed after build time has passed
-        if elapsed_seconds and elapsed_seconds > 180:  # Give building at least 3 minutes
+        # Move to deployed much faster - after 1 second instead of 3 minutes
+        if elapsed_seconds and elapsed_seconds > 1:  # Reduced from 180 seconds (3 minutes)
             job["status"] = "deployed"
             job["api_url"] = f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}"
             job["api_key"] = f"api_key_{job_id[:8]}"
