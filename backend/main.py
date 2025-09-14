@@ -1267,6 +1267,6 @@ def run_generated_api(job_id):
 
 if __name__ == '__main__':
     import os
-    port = int(os.environ.get('PORT', 8080))  # Cloud Run expects 8080
+    port = int(os.environ.get('PORT', 9999))  # Backend runs on 9999
     debug = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
     app.run(host='0.0.0.0', port=port, debug=debug)
