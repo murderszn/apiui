@@ -1293,6 +1293,30 @@ def debug_registry():
         "timestamp": datetime.utcnow().isoformat()
     })
 
+@app.route('/debug/test-registry', methods=['POST'])
+def test_registry():
+    """Test endpoint to create and save a test API"""
+    test_api_id = "test-api-123"
+    test_data = {
+        "id": test_api_id,
+        "created_at": datetime.utcnow().isoformat(),
+        "status": "available",
+        "file_path": "/app/uploads/test.csv",
+        "api_url": f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{test_api_id}",
+        "api_key": f"api_key_{test_api_id[:8]}",
+        "filename": "test.csv"
+    }
+
+    api_registry[test_api_id] = test_data
+    save_api_registry_to_file()
+
+    return jsonify({
+        "message": "Test API created and saved",
+        "api_id": test_api_id,
+        "data": test_data,
+        "registry_count": len(api_registry)
+    })
+
 @app.route('/mock-api/<job_id>', methods=['GET'])
 @app.route('/mock-api/<job_id>/data', methods=['GET'])
 def mock_api_endpoint(job_id):
