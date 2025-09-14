@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     gcs_project_id: Optional[str] = None
 
     # AI Service settings
-    openai_api_key: Optional[str] = "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"
+    openai_api_key: Optional[str] = None  # Must be set via OPENAI_API_KEY environment variable
     google_ai_api_key: Optional[str] = None  # Not using Google AI, only OpenAI
 
     # Cloud Run settings
