@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  apiui-backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - DATABASE_NAME=apiui
+    volumes:
+      - ./backend:/app
+      - ./backend/env.example:/app/.env
+    depends_on:
+      - mongodb
+    networks:
+      - apiui-network
+
+  mongodb:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=apiui
+    volumes:
+      - mongodb_data:/data/db
+      - ./docker/mongo-init:/docker-entrypoint-initdb.d
+    networks:
+      - apiui-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    networks:
+      - apiui-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  apiui-network:
+    driver: bridge

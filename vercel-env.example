@@ -1,0 +1,13 @@
+# Environment Variables for Vercel Deployment
+# Copy these to your Vercel project settings
+
+OPENAI_API_KEY=your-openai-api-key-here
+GOOGLE_AI_API_KEY=your-google-ai-api-key-here
+MONGODB_URL=mongodb+srv://your-connection-string
+DATABASE_NAME=apiui
+GCS_BUCKET_NAME=your-bucket-name
+GCS_PROJECT_ID=your-gcp-project-id
+GCP_PROJECT_ID=your-gcp-project-id
+GCP_REGION=us-central1
+SECRET_KEY=your-production-secret-key-here
+API_GATEWAY_URL=https://your-api-gateway-url

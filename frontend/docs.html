@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>apiui Documentation - How It Works</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        /* Professional Typography */
+        .hero-title {
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-weight: 300;
+            letter-spacing: -0.01em;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        /* Professional Cards */
+        .professional-card {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .professional-card:hover {
+            border-color: rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* Professional Buttons */
+        .btn-professional {
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-professional::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-professional:hover::before {
+            left: 100%;
+        }
+
+        /* Professional Section Spacing */
+        .section-spacing {
+            padding: 5rem 0;
+        }
+
+        /* Subtle Accent Lines */
+        .accent-line {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .accent-line::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.3), transparent);
+        }
+
+        /* Professional Icon Containers */
+        .icon-professional {
+            background: linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.1));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Professional Focus States */
+        a:focus, button:focus {
+            outline: 2px solid rgba(0,0,0,0.5);
+            outline-offset: 2px;
+        }
+
+        /* Documentation-specific styling */
+        .doc-section {
+            scroll-margin-top: 100px;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            font-family: 'Inter', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .nav-link {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .nav-link:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <header class="border-b border-gray-400 sticky top-0 bg-white z-10">
+        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl sm:text-2xl font-light tracking-widest lowercase text-black">api<span class="font-bold">ui</span></a>
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-black">Home</a>
+                <a href="#getting-started" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-black">Get Started</a>
+                <a href="#api-endpoints" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-black">API Reference</a>
+                <a href="#examples" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-black">Examples</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="index.html" class="block text-gray-700 hover:text-black font-medium py-2">Home</a>
+                <a href="#getting-started" class="block text-gray-700 hover:text-black font-medium py-2">Get Started</a>
+                <a href="#api-endpoints" class="block text-gray-700 hover:text-black font-medium py-2">API Reference</a>
+                <a href="#examples" class="block text-gray-700 hover:text-black font-medium py-2">Examples</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="section-spacing">
+            <div class="container mx-auto px-6 max-w-4xl text-center">
+                <h1 class="section-title text-4xl sm:text-5xl text-black mb-6">Documentation</h1>
+                <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12">
+                    Learn how to turn your data into powerful REST APIs in minutes.
+                    <span class="font-semibold text-black">Complete guide to using apiui effectively.</span>
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <a href="#getting-started" class="btn-professional w-full sm:w-auto bg-black text-white px-8 py-4 text-lg hover:bg-gray-900 text-center">
+                        Get Started
+                    </a>
+                    <a href="index.html" class="btn-professional w-full sm:w-auto border-2 border-black text-black px-8 py-4 text-lg hover:bg-gray-50 text-center">
+                        Try It Now
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Section Divider -->
+        <div class="accent-line"></div>
+
+        <!-- Table of Contents -->
+        <section class="bg-gray-50 section-spacing">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="professional-card p-8 mb-8">
+                    <h2 class="text-3xl font-bold text-black mb-8">Table of Contents</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-black mb-4">Getting Started</h3>
+                            <ul class="space-y-2 text-gray-600">
+                                <li><a href="#overview" class="hover:text-black">Overview</a></li>
+                                <li><a href="#quick-start" class="hover:text-black">Quick Start</a></li>
+                                <li><a href="#supported-formats" class="hover:text-black">Supported File Formats</a></li>
+                                <li><a href="#requirements" class="hover:text-black">System Requirements</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-black mb-4">API Usage</h3>
+                            <ul class="space-y-2 text-gray-600">
+                                <li><a href="#api-management" class="hover:text-black">API Management</a></li>
+                                <li><a href="#api-endpoints" class="hover:text-black">API Endpoints</a></li>
+                                <li><a href="#examples" class="hover:text-black">Code Examples</a></li>
+                                <li><a href="#advanced-features" class="hover:text-black">Advanced Features</a></li>
+                                <li><a href="#troubleshooting" class="hover:text-black">Troubleshooting</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Section -->
+        <section id="overview" class="doc-section py-16">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-black mb-8">Overview</h2>
+                    <div class="prose prose-lg max-w-none text-gray-700">
+                        <p class="mb-6">
+                            <strong class="text-black">apiui</strong> is a powerful platform that transforms your CSV, Excel, or other data files into fully functional REST APIs. Instead of spending hours writing backend code, you can upload your data and instantly get a production-ready API endpoint.
+                        </p>
+
+                        <h3 class="text-2xl font-semibold text-black mb-4">How It Works</h3>
+                        <ol class="list-decimal list-inside space-y-3 mb-8">
+                            <li><strong>Upload Your Data:</strong> Simply drag and drop your CSV, Excel (.xlsx/.xls), or other supported file formats</li>
+                            <li><strong>Automatic Analysis:</strong> Our system analyzes your data structure and infers column types, relationships, and optimal API design</li>
+                            <li><strong>API Generation:</strong> We automatically generate FastAPI server code with proper data models, validation, and endpoints</li>
+                            <li><strong>Instant Deployment:</strong> Your API is deployed and ready to use within seconds</li>
+                            <li><strong>Query Your Data:</strong> Use standard REST API calls to query, filter, and manipulate your data</li>
+                        </ol>
+
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-8">
+                            <h4 class="text-lg font-semibold text-black mb-3">Key Features</h4>
+                            <ul class="grid md:grid-cols-2 gap-3 text-gray-700">
+                                <li>✅ Automatic data type detection</li>
+                                <li>✅ RESTful API endpoints</li>
+                                <li>✅ Query parameters support</li>
+                                <li>✅ Pagination built-in</li>
+                                <li>✅ JSON response format</li>
+                                <li>✅ CORS enabled</li>
+                                <li>✅ Input validation</li>
+                                <li>✅ Error handling</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Start Section -->
+        <section id="quick-start" class="doc-section py-16 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-black mb-8">Quick Start</h2>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">1. Prepare Your Data</h3>
+                            <p class="text-gray-700 mb-4">
+                                Create a CSV file with your data. Make sure the first row contains column headers:
+                            </p>
+                            <div class="code-block p-4 mb-4">
+                                <pre><code>name,email,department,salary
+John Doe,john@example.com,Engineering,75000
+Jane Smith,jane@example.com,Marketing,65000
+Bob Johnson,bob@example.com,Engineering,80000</code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">2. Upload Your File</h3>
+                            <p class="text-gray-700 mb-4">
+                                Drag and drop your file onto the upload area or click to browse and select your file.
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-gray-200">
+                                <p class="text-sm text-gray-600">Supported formats: CSV, Excel (.xlsx/.xls), Parquet, TXT</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">3. Wait for Processing</h3>
+                            <p class="text-gray-700 mb-4">
+                                The system will analyze your data, generate the API code, and deploy it automatically. This usually takes 30-60 seconds.
+                            </p>
+
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+                                <h4 class="font-semibold text-gray-900 mb-2">What happens during processing:</h4>
+                                <ul class="text-gray-700 space-y-1 text-sm">
+                                    <li>• Data structure analysis and column type detection</li>
+                                    <li>• Automatic FastAPI code generation</li>
+                                    <li>• REST endpoint creation with proper routing</li>
+                                    <li>• Data validation and error handling setup</li>
+                                    <li>• API deployment and endpoint activation</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">4. Test Your API</h3>
+                            <p class="text-gray-700 mb-4">
+                                Once your API is ready, you can test it directly from the app using the "Test API" button:
+                            </p>
+
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+                                <h4 class="font-semibold text-gray-900 mb-2">Test API Button Features:</h4>
+                                <ul class="text-gray-700 space-y-1 text-sm">
+                                    <li>• <strong>Inline Testing:</strong> Shows pass/fail status without opening new windows</li>
+                                    <li>• <strong>Real-time Feedback:</strong> Immediate results with visual indicators</li>
+                                    <li>• <strong>Automatic Reset:</strong> Status clears after 3 seconds</li>
+                                    <li>• <strong>Error Details:</strong> Clear messages for any connection issues</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">5. View API Documentation</h3>
+                            <p class="text-gray-700 mb-4">
+                                Click the "API Docs" button to see comprehensive documentation for your API:
+                            </p>
+
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+                                <h4 class="font-semibold text-gray-900 mb-2">Documentation Features:</h4>
+                                <ul class="text-gray-700 space-y-1 text-sm">
+                                    <li>• <strong>Available Endpoints:</strong> Complete list of all API routes</li>
+                                    <li>• <strong>Interactive Code Examples:</strong> Copy-ready examples in multiple languages</li>
+                                    <li>• <strong>Copy Buttons:</strong> One-click copying for all code snippets</li>
+                                    <li>• <strong>Advanced Usage:</strong> Filtering, sorting, and pagination examples</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">6. Generate Server Files (Optional)</h3>
+                            <p class="text-gray-700 mb-4">
+                                If you want to run your API locally or deploy it elsewhere, click "Run Generated API" to create the actual server files:
+                            </p>
+
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+                                <h4 class="font-semibold text-gray-900 mb-2">Generated Files Include:</h4>
+                                <ul class="text-gray-700 space-y-1 text-sm">
+                                    <li>• <strong>main.py:</strong> Complete FastAPI server code</li>
+                                    <li>• <strong>requirements.txt:</strong> All Python dependencies</li>
+                                    <li>• <strong>data.csv:</strong> Your original data file</li>
+                                    <li>• <strong>api_code.txt:</strong> Documentation-ready code with examples</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-block p-4">
+                                <pre><code># To run your API locally:
+cd /path/to/generated/api
+python main.py
+
+# API will be available at: http://localhost:8000</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Management Section -->
+        <section id="api-management" class="doc-section py-16 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-black mb-8">API Management</h2>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">My APIs Dashboard</h3>
+                            <p class="text-gray-700 mb-4">
+                                The "My APIs" section provides a comprehensive dashboard to manage all your generated APIs:
+                            </p>
+
+                            <div class="bg-white p-6 rounded-lg border border-gray-200 mb-6">
+                                <h4 class="font-semibold text-black mb-3">Dashboard Features:</h4>
+                                <ul class="grid md:grid-cols-2 gap-3 text-gray-700">
+                                    <li>• <strong>API Status:</strong> Real-time running/stopped status</li>
+                                    <li>• <strong>Endpoint Count:</strong> Number of available routes</li>
+                                    <li>• <strong>Data Models:</strong> Generated data models</li>
+                                    <li>• <strong>Creation Date:</strong> When API was generated</li>
+                                    <li>• <strong>Base URL:</strong> API endpoint URL</li>
+                                    <li>• <strong>Quick Actions:</strong> Test and documentation buttons</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">Testing Your APIs</h3>
+                            <p class="text-gray-700 mb-4">
+                                Each API in your dashboard has a "Test API" button for quick connectivity testing:
+                            </p>
+
+                            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                                <h4 class="font-semibold text-gray-900 mb-3">Test Button Features:</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3">
+                                        <span class="text-gray-600 mt-1">•</span>
+                                        <div>
+                                            <strong class="text-gray-900">Inline Testing:</strong>
+                                            <p class="text-gray-700 text-sm">Shows pass/fail status without opening new windows</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <span class="text-gray-600 mt-1">•</span>
+                                        <div>
+                                            <strong class="text-gray-900">Real-time Results:</strong>
+                                            <p class="text-gray-700 text-sm">Immediate feedback with visual indicators</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <span class="text-gray-600 mt-1">•</span>
+                                        <div>
+                                            <strong class="text-gray-900">Auto-Reset:</strong>
+                                            <p class="text-gray-700 text-sm">Status clears automatically after 3 seconds</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">API Documentation</h3>
+                            <p class="text-gray-700 mb-4">
+                                The "API Docs" button opens a comprehensive documentation modal with:
+                            </p>
+
+                            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                                <h4 class="font-semibold text-gray-900 mb-3">Documentation Features:</h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <h5 class="font-medium text-gray-900 mb-2">Core Information:</h5>
+                                        <ul class="text-gray-700 text-sm space-y-1">
+                                            <li>• Complete endpoint list</li>
+                                            <li>• HTTP method details</li>
+                                            <li>• API status information</li>
+                                            <li>• Base URL and metadata</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-gray-900 mb-2">Code Examples:</h5>
+                                        <ul class="text-gray-700 text-sm space-y-1">
+                                            <li>• Multiple language support</li>
+                                            <li>• Copy-to-clipboard buttons</li>
+                                            <li>• Advanced usage examples</li>
+                                            <li>• Ready-to-use code snippets</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Supported Formats Section -->
+        <section id="supported-formats" class="doc-section py-16">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-black mb-8">Supported File Formats</h2>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="text-xl font-semibold text-black mb-4">CSV Files</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>✅ Comma-separated values</li>
+                                <li>✅ Tab-separated values (TSV)</li>
+                                <li>✅ Custom delimiters</li>
+                                <li>✅ Quoted fields</li>
+                                <li>✅ Header row detection</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="text-xl font-semibold text-black mb-4">Excel Files</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>✅ .xlsx (Excel 2007+)</li>
+                                <li>✅ .xls (Excel 97-2003)</li>
+                                <li>✅ Multiple worksheets</li>
+                                <li>✅ Data type preservation</li>
+                                <li>✅ Formula evaluation</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="text-xl font-semibold text-black mb-4">Other Formats</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>✅ Parquet files</li>
+                                <li>✅ JSON files</li>
+                                <li>✅ Plain text files</li>
+                                <li>✅ TSV files</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="text-xl font-semibold text-black mb-4">Data Types</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>✅ Automatic type detection</li>
+                                <li>✅ String/text fields</li>
+                                <li>✅ Numeric fields</li>
+                                <li>✅ Date/time fields</li>
+                                <li>✅ Boolean fields</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Endpoints Section -->
+        <section id="api-endpoints" class="doc-section py-16 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-black mb-8">API Endpoints</h2>
+
+                    <div class="space-y-8">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <div class="flex items-center mb-4">
+                                <span class="bg-black text-white px-3 py-1 rounded-full text-sm font-medium mr-3">GET</span>
+                                <h3 class="text-xl font-semibold text-black">/data</h3>
+                            </div>
+                            <p class="text-gray-700 mb-4">Retrieve all records from your dataset</p>
+
+                            <h4 class="font-semibold text-black mb-2">Query Parameters:</h4>
+                            <ul class="space-y-1 text-gray-700 mb-4">
+                                <li><code>limit</code> - Number of records to return (default: 100)</li>
+                                <li><code>offset</code> - Number of records to skip (default: 0)</li>
+                                <li><code>[column_name]</code> - Filter by column value</li>
+                            </ul>
+
+                            <h4 class="font-semibold text-black mb-2">Example:</h4>
+                            <div class="code-block p-3">
+                                <pre><code>GET /data?limit=10&department=Engineering</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <div class="flex items-center mb-4">
+                                <span class="bg-black text-white px-3 py-1 rounded-full text-sm font-medium mr-3">GET</span>
+                                <h3 class="text-xl font-semibold text-black">/data/{id}</h3>
+                            </div>
+                            <p class="text-gray-700 mb-4">Retrieve a specific record by ID</p>
+
+                            <h4 class="font-semibold text-black mb-2">Example:</h4>
+                            <div class="code-block p-3">
+                                <pre><code>GET /data/123</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <div class="flex items-center mb-4">
+                                <span class="bg-black text-white px-3 py-1 rounded-full text-sm font-medium mr-3">GET</span>
+                                <h3 class="text-xl font-semibold text-black">/data/schema</h3>
+                            </div>
+                            <p class="text-gray-700 mb-4">Get the data schema and column information</p>
+
+                            <h4 class="font-semibold text-black mb-2">Example:</h4>
+                            <div class="code-block p-3">
+                                <pre><code>GET /data/schema</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Examples Section -->
+        <section id="examples" class="doc-section py-16">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-black mb-8">Code Examples</h2>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">JavaScript (Fetch API)</h3>
+                            <div class="code-block p-4 mb-4">
+                                <pre><code>// Get all data
+fetch('https://your-api-endpoint.com/data')
+  .then(response => response.json())
+  .then(data => console.log(data));
+
+// Get data with filtering
+fetch('https://your-api-endpoint.com/data?department=Engineering&limit=5')
+  .then(response => response.json())
+  .then(data => console.log(data));
+
+// Get specific record
+fetch('https://your-api-endpoint.com/data/123')
+  .then(response => response.json())
+  .then(data => console.log(data));</code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">Python (Requests)</h3>
+                            <div class="code-block p-4 mb-4">
+                                <pre><code>import requests
+
+# Get all data
+response = requests.get('https://your-api-endpoint.com/data')
+data = response.json()
+print(data)
+
+# Get data with filtering
+params = {'department': 'Engineering', 'limit': 5}
+response = requests.get('https://your-api-endpoint.com/data', params=params)
+data = response.json()
+print(data)
+
+# Get specific record
+response = requests.get('https://your-api-endpoint.com/data/123')
+data = response.json()
+print(data)</code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">cURL</h3>
+                            <div class="code-block p-4 mb-4">
+                                <pre><code># Get all data
+curl "https://your-api-endpoint.com/data"
+
+# Get data with pagination
+curl "https://your-api-endpoint.com/data?limit=10&offset=20"
+
+# Get data with filtering
+curl "https://your-api-endpoint.com/data?department=Engineering&salary[gte]=50000"
+
+# Get specific record
+curl "https://your-api-endpoint.com/data/123"
+
+# Get schema information
+curl "https://your-api-endpoint.com/data/schema"</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Requirements Section -->
+        <section id="requirements" class="doc-section py-16 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-black mb-8">System Requirements</h2>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="text-xl font-semibold text-black mb-4">File Requirements</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>✅ Maximum file size: 100MB</li>
+                                <li>✅ First row must contain headers</li>
+                                <li>✅ UTF-8 encoding recommended</li>
+                                <li>✅ Consistent data types per column</li>
+                                <li>✅ No empty header names</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="text-xl font-semibold text-black mb-4">Data Quality</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>✅ Clean, consistent data</li>
+                                <li>✅ Proper date formats</li>
+                                <li>✅ Valid numeric values</li>
+                                <li>✅ No special characters in headers</li>
+                                <li>✅ Unique identifier column (recommended)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold text-black mb-3">Best Practices</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li>• Use descriptive column names (e.g., "first_name" instead of "fn")</li>
+                            <li>• Include an ID column for record identification</li>
+                            <li>• Ensure consistent date formats across your data</li>
+                            <li>• Remove any unnecessary columns before uploading</li>
+                            <li>• Test your API with small datasets first</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advanced Features Section -->
+        <section id="advanced-features" class="doc-section py-16 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-black mb-8">Advanced Features</h2>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">Query Parameters & Filtering</h3>
+                            <p class="text-gray-700 mb-4">
+                                Your APIs support powerful query parameters for filtering, sorting, and pagination:
+                            </p>
+
+                            <div class="bg-white p-6 rounded-lg border border-gray-200">
+                                <h4 class="font-semibold text-black mb-4">Available Parameters:</h4>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h5 class="font-medium text-gray-900 mb-2">Filtering:</h5>
+                                        <div class="bg-black text-green-400 p-3 rounded font-mono text-sm overflow-x-auto">
+                                            ?column_name=value<br>
+                                            ?status=active&department=engineering
+                                        </div>
+                                        <p class="text-gray-600 text-sm mt-2">Filter by any column value</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-gray-900 mb-2">Sorting:</h5>
+                                        <div class="bg-black text-green-400 p-3 rounded font-mono text-sm overflow-x-auto">
+                                            ?sort_by=salary&sort_order=desc<br>
+                                            ?sort_by=name&sort_order=asc
+                                        </div>
+                                        <p class="text-gray-600 text-sm mt-2">Sort by any column</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-gray-900 mb-2">Pagination:</h5>
+                                        <div class="bg-black text-green-400 p-3 rounded font-mono text-sm overflow-x-auto">
+                                            ?limit=10&skip=0<br>
+                                            ?limit=50&skip=100
+                                        </div>
+                                        <p class="text-gray-600 text-sm mt-2">Control result size and offset</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-gray-900 mb-2">Combining:</h5>
+                                        <div class="bg-black text-green-400 p-3 rounded font-mono text-sm overflow-x-auto">
+                                            ?department=engineering&sort_by=salary&limit=5
+                                        </div>
+                                        <p class="text-gray-600 text-sm mt-2">Mix and match parameters</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">File Generation Feature</h3>
+                            <p class="text-gray-700 mb-4">
+                                The "Run Generated API" button creates complete server files for local deployment:
+                            </p>
+
+                            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                                <h4 class="font-semibold text-gray-900 mb-4">Generated Files:</h4>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="text-center">
+                                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                            <span class="text-gray-600 text-xl font-mono">PY</span>
+                                        </div>
+                                        <h5 class="font-medium text-gray-900">main.py</h5>
+                                        <p class="text-gray-700 text-sm">Complete FastAPI server code</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                            <span class="text-gray-600 text-xl font-mono">TXT</span>
+                                        </div>
+                                        <h5 class="font-medium text-gray-900">requirements.txt</h5>
+                                        <p class="text-gray-700 text-sm">Python dependencies</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                            <span class="text-gray-600 text-xl font-mono">CSV</span>
+                                        </div>
+                                        <h5 class="font-medium text-gray-900">data.csv</h5>
+                                        <p class="text-gray-700 text-sm">Your original data file</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-4 bg-white rounded border border-gray-200">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="text-gray-600 text-sm font-mono px-2 py-1 bg-gray-200 rounded">DOC</span>
+                                        <div>
+                                            <strong class="text-gray-900">api_code.txt</strong>
+                                            <p class="text-gray-700 text-sm">Documentation-ready code with examples</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <h5 class="font-medium text-gray-900 mb-2">Usage:</h5>
+                                    <div class="bg-black text-green-400 p-4 rounded font-mono text-sm">
+                                        cd /path/to/generated/api<br>
+                                        python main.py<br><br>
+                                        # API will be available at: http://localhost:8000
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-black mb-4">Copy-to-Clipboard Feature</h3>
+                            <p class="text-gray-700 mb-4">
+                                Every code example in the API documentation modal includes a copy button for instant copying:
+                            </p>
+
+                            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                                <h4 class="font-semibold text-gray-900 mb-3">Copy Button Features:</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3">
+                                        <span class="text-gray-600 mt-1">•</span>
+                                        <div>
+                                            <strong class="text-gray-900">One-Click Copy:</strong>
+                                            <p class="text-gray-700 text-sm">Copy any code example with a single click</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <span class="text-gray-600 mt-1">•</span>
+                                        <div>
+                                            <strong class="text-gray-900">Visual Feedback:</strong>
+                                            <p class="text-gray-700 text-sm">Button shows "Copied!" confirmation</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <span class="text-gray-600 mt-1">•</span>
+                                        <div>
+                                            <strong class="text-gray-900">Cross-Browser:</strong>
+                                            <p class="text-gray-700 text-sm">Works with modern browsers and includes fallback</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Troubleshooting Section -->
+        <section id="troubleshooting" class="doc-section py-16">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-4xl font-bold text-black mb-8">Troubleshooting</h2>
+
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="text-xl font-semibold text-black mb-4">Common Issues & Solutions</h3>
+
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-gray-400 pl-4">
+                                    <h4 class="font-semibold text-gray-900">API Test Button Shows "Fail"</h4>
+                                    <p class="text-gray-700 text-sm mb-2">The inline test indicates connection problems</p>
+                                    <ul class="text-gray-600 text-sm space-y-1">
+                                        <li>• <strong>Server Status:</strong> Check if the API server is running</li>
+                                        <li>• <strong>Network Issues:</strong> Verify your internet connection</li>
+                                        <li>• <strong>API State:</strong> Ensure the API wasn't stopped or deleted</li>
+                                        <li>• <strong>Page Refresh:</strong> Try refreshing the page to reload API status</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border-l-4 border-gray-400 pl-4">
+                                    <h4 class="font-semibold text-gray-900">File Upload Rejected</h4>
+                                    <p class="text-gray-700 text-sm mb-2">Your file upload is being rejected</p>
+                                    <ul class="text-gray-600 text-sm space-y-1">
+                                        <li>• <strong>Format Check:</strong> Ensure file is CSV, Excel (.xlsx/.xls), Parquet, or TXT</li>
+                                        <li>• <strong>File Integrity:</strong> Verify the file isn't corrupted or empty</li>
+                                        <li>• <strong>Size Limits:</strong> Check if file exceeds size restrictions</li>
+                                        <li>• <strong>Special Characters:</strong> Remove special characters from filename</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border-l-4 border-gray-400 pl-4">
+                                    <h4 class="font-semibold text-gray-900">Processing Takes Too Long</h4>
+                                    <p class="text-gray-700 text-sm mb-2">API generation seems stuck or slow</p>
+                                    <ul class="text-gray-600 text-sm space-y-1">
+                                        <li>• <strong>Large Files:</strong> Bigger files naturally take longer to process</li>
+                                        <li>• <strong>Complex Data:</strong> Intricate data structures need more analysis time</li>
+                                        <li>• <strong>Connection Speed:</strong> Check your internet connection stability</li>
+                                        <li>• <strong>Retry Process:</strong> Refresh and try uploading again</li>
+                                    </ul>
+                                </div>
+
+                                <div class="border-l-4 border-gray-400 pl-4">
+                                    <h4 class="font-semibold text-gray-900">Documentation Issues</h4>
+                                    <p class="text-gray-700 text-sm mb-2">Problems with API documentation or copy buttons</p>
+                                    <ul class="text-gray-600 text-sm space-y-1">
+                                        <li>• <strong>Modal Loading:</strong> Wait for the documentation modal to fully load</li>
+                                        <li>• <strong>Copy Function:</strong> Ensure you're using a modern web browser</li>
+                                        <li>• <strong>Code Examples:</strong> All examples are dynamically generated for your API</li>
+                                        <li>• <strong>Advanced Section:</strong> Click the arrow to expand advanced examples</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <h3 class="text-xl font-semibold text-black mb-4">Getting Help</h3>
+                            <p class="text-gray-700 mb-4">
+                                If you continue to experience issues:
+                            </p>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>• <strong>Browser Console:</strong> Check for detailed error messages in browser developer tools</li>
+                                <li>• <strong>Page Refresh:</strong> Simple page refresh often resolves temporary issues</li>
+                                <li>• <strong>Support:</strong> Contact our support team through available channels</li>
+                                <li>• <strong>Bug Reports:</strong> Help us improve by reporting any persistent issues</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Professional Section Divider -->
+    <div class="accent-line"></div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-16">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <!-- Brand Section -->
+                <div class="md:col-span-1">
+                    <h3 class="text-2xl font-bold text-black mb-4 tracking-tight">api<span class="font-bold">ui</span></h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6 max-w-xs">
+                        Turn your data into APIs instantly. No coding required.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-500 hover:text-black transition-colors duration-200" aria-label="Twitter">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-black transition-colors duration-200" aria-label="LinkedIn">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Links Section -->
+                <div class="md:col-span-2 grid grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Documentation</h4>
+                        <ul class="space-y-3">
+                            <li><a href="#overview" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Overview</a></li>
+                            <li><a href="#quick-start" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Quick Start</a></li>
+                            <li><a href="#api-endpoints" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">API Reference</a></li>
+                            <li><a href="#examples" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Examples</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Resources</h4>
+                        <ul class="space-y-3">
+                            <li><a href="index.html" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Home</a></li>
+                            <li><a href="app.html" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Try apiui</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section -->
+            <div class="border-t border-gray-200 pt-8">
+                <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                    <p class="text-gray-500 text-sm">&copy; 2025 api<span class="font-bold">ui</span> Inc. All rights reserved.</p>
+                    <p class="text-gray-500 text-sm">Made with ❤️ for developers using AURABLOX AI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking on a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

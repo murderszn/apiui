@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>apiui - Create & Manage APIs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        /* Professional Typography */
+        .hero-title {
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-weight: 300;
+            letter-spacing: -0.01em;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        /* Professional Cards */
+        .professional-card {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .professional-card:hover {
+            border-color: rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* Professional Buttons */
+        .btn-professional {
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-professional::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-professional:hover::before {
+            left: 100%;
+        }
+
+        /* Professional Section Spacing */
+        .section-spacing {
+            padding: 5rem 0;
+        }
+
+        /* Subtle Accent Lines */
+        .accent-line {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .accent-line::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.3), transparent);
+        }
+
+        /* Professional Icon Containers */
+        .icon-professional {
+            background: linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.1));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Professional Focus States */
+        a:focus, button:focus {
+            outline: 2px solid rgba(0,0,0,0.5);
+            outline-offset: 2px;
+        }
+
+        /* App-specific styling */
+        .file-drop-area {
+            border: 2px dashed #9ca3af;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 12px;
+        }
+
+        .file-drop-area.dragover {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: #000;
+            border-style: solid;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .loader {
+            border: 2px solid #e0e0e0;
+            border-top: 2px solid #000;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-step-connector {
+            height: 24px;
+            width: 2px;
+            background-color: #e0e0e0;
+            margin-left: 11px;
+        }
+
+        /* Terminal styling */
+        .terminal-window {
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .terminal-header {
+            background: #111;
+            padding: 1rem;
+            border-bottom: 1px solid #333;
+        }
+
+        .terminal-content {
+            background: #000;
+            color: #fff;
+            font-family: 'Inter', monospace;
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="border-b border-gray-400">
+        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl sm:text-2xl font-light tracking-widest lowercase text-black">api<span class="font-bold">ui</span></a>
+            <div class="flex items-center space-x-4 sm:space-x-6">
+                <a href="index.html" class="text-gray-700 hover:text-black font-medium transition-colors text-sm sm:text-base">Home</a>
+                <a href="docs.html" class="text-gray-700 hover:text-black font-medium transition-colors text-sm sm:text-base">Docs</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+
+        <!-- Create API Section -->
+        <section class="section-spacing">
+            <div class="container mx-auto px-6 max-w-4xl text-center">
+                <h2 class="section-title text-4xl sm:text-5xl text-black mb-6">Create Your API</h2>
+                <p class="text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed mb-12">
+                    Upload an Excel, CSV, or Parquet file. We'll instantly generate a secure, queryable REST API endpoint for your data.
+                </p>
+            </div>
+
+            <div class="container mx-auto px-6 max-w-6xl">
+
+            <div id="app-container" class="w-full">
+                <!-- Uploader -->
+                <div id="uploader-section">
+                    <input type="file" id="file-input" class="hidden" accept=".xlsx,.xls,.csv,.parquet,.txt">
+                    <label for="file-input" id="file-drop-area" class="file-drop-area w-full p-16 flex flex-col items-center justify-center cursor-pointer">
+                        <div class="w-16 h-16 icon-professional mb-6">
+                            <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
+                            </svg>
+                        </div>
+                        <p class="text-xl font-semibold text-black mb-2">
+                            Click to upload or drag and drop
+                        </p>
+                        <p class="text-gray-600">XLSX, CSV, Parquet or TXT files</p>
+                        <p class="text-xs text-gray-500 mt-2">💡 Try the demo: <a href="sample-data.csv" download class="underline hover:text-black">Download sample-data.csv</a></p>
+                    </label>
+                </div>
+
+                <!-- Status & Result -->
+                <div id="status-section" class="hidden w-full professional-card p-8">
+                    <!-- File Info -->
+                    <div id="file-info" class="flex items-center justify-between pb-4 border-b border-gray-300">
+                        <div>
+                            <p class="font-medium text-black">File:</p>
+                            <p id="file-name" class="text-gray-700"></p>
+                        </div>
+                        <button id="change-file-btn" class="text-sm font-medium underline text-black hover:text-gray-600">Change</button>
+                    </div>
+
+                    <!-- Progress Tracker -->
+                    <div id="progress-tracker" class="hidden mt-6 space-y-2">
+                        <!-- Logs Panel -->
+                        <div class="mt-6">
+                            <div class="flex items-center justify-between mb-3 border-b border-gray-400 pb-2">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-3 h-3 bg-black rounded-full"></div>
+                                    <div class="w-3 h-3 bg-gray-600 rounded-full"></div>
+                                    <div class="w-3 h-3 bg-white border border-black rounded-full"></div>
+                                    <span class="font-mono text-sm font-medium text-black ml-2">apiui-terminal</span>
+                                </div>
+                                <button id="minimize-logs-btn" class="text-black hover:text-gray-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div id="logs-container" class="bg-white rounded-lg border border-gray-400 overflow-hidden">
+                                <div class="bg-gray-100 px-3 py-2 border-b border-gray-300">
+                                    <span class="text-black font-mono text-xs">$ apiui generate --file sample-data.csv</span>
+                                </div>
+                                <div id="logs-content" class="p-4 max-h-80 overflow-y-auto font-mono text-sm bg-white text-black leading-relaxed">
+                                    <div class="text-gray-600 italic">Ready to process your file...</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Step 1: Analyze -->
+                        <div class="flex items-center space-x-4">
+                            <div id="step-icon-analyze" class="w-6 h-6 flex items-center justify-center"></div>
+                            <p id="step-text-analyze" class="font-medium">Analyzing Data Structure</p>
+                        </div>
+                        <div class="progress-step-connector"></div>
+                        <!-- Step 2: Generate Code -->
+                        <div class="flex items-center space-x-4">
+                            <div id="step-icon-generate" class="w-6 h-6 flex items-center justify-center"></div>
+                            <p id="step-text-generate" class="font-medium text-gray-400">Generating API Code</p>
+                        </div>
+                         <div class="progress-step-connector"></div>
+                        <!-- Step 3: Build Environment -->
+                        <div class="flex items-center space-x-4">
+                            <div id="step-icon-build" class="w-6 h-6 flex items-center justify-center"></div>
+                            <p id="step-text-build" class="font-medium text-gray-400">Building Environment</p>
+                        </div>
+                         <div class="progress-step-connector"></div>
+                        <!-- Step 4: Deploy -->
+                        <div class="flex items-center space-x-4">
+                            <div id="step-icon-deploy" class="w-6 h-6 flex items-center justify-center"></div>
+                            <p id="step-text-deploy" class="font-medium text-gray-400">Deploying API</p>
+                        </div>
+                    </div>
+
+
+                    <!-- API Result -->
+                    <div id="api-result-container" class="hidden mt-6 space-y-4">
+                         <div>
+                            <p class="font-semibold text-lg">Your API is Live!</p>
+                        </div>
+                        <div>
+                            <label class="font-medium text-sm">Your new API Endpoint:</label>
+                            <div class="mt-1 flex items-center w-full bg-white border border-black/20 rounded-md">
+                                <input id="api-endpoint-url" type="text" readonly class="flex-grow p-2 bg-transparent focus:outline-none text-sm font-mono">
+                                <button id="copy-url-btn" class="p-2 text-gray-500 hover:text-black">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="font-medium text-sm">Example Usage (cURL):</label>
+                            <div class="mt-1 flex items-center w-full bg-black rounded-md">
+                                 <pre id="api-curl-command" class="flex-grow p-3 text-white text-sm font-mono overflow-x-auto"></pre>
+                                <button id="copy-curl-btn" class="p-2 text-gray-400 hover:text-white">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="run-api-section" class="hidden">
+                            <label class="font-medium text-sm">Run Your Generated API:</label>
+                            <div class="mt-1 flex items-center space-x-3">
+                                <button id="run-api-btn" class="px-4 py-2 bg-black text-white rounded-md text-sm font-medium hover:bg-gray-800">
+                                    🚀 Run Generated API
+                                </button>
+                                <span id="run-status" class="text-sm text-gray-600"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Section Divider -->
+        <div class="accent-line"></div>
+
+        <!-- My APIs Section -->
+        <section class="section-spacing">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="section-title text-4xl sm:text-5xl text-black mb-6">My APIs</h2>
+                    <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">Manage and interact with your generated APIs</p>
+                </div>
+
+                <div id="apis-container">
+                    <!-- Loading state -->
+                    <div id="apis-loading" class="text-center py-16">
+                        <div class="inline-flex items-center space-x-3 professional-card px-8 py-6">
+                            <div class="loader"></div>
+                            <span class="text-gray-700 font-medium">Loading your APIs...</span>
+                        </div>
+                    </div>
+
+                    <!-- No APIs state -->
+                    <div id="no-apis" class="hidden text-center py-16">
+                        <div class="professional-card p-12 max-w-lg mx-auto">
+                        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">No APIs yet</h3>
+                        <p class="text-gray-600 mb-6">Upload a CSV file above to create your first API</p>
+                    </div>
+                </div>
+
+                <!-- APIs List -->
+                <div id="apis-list" class="hidden">
+                    <div class="professional-card overflow-hidden">
+                        <div class="px-8 py-6 border-b border-gray-200">
+                            <h3 class="text-xl font-semibold text-black">Your APIs</h3>
+                        </div>
+                        <div id="apis-table-body" class="divide-y divide-gray-200">
+                            <!-- API rows will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Professional Section Divider -->
+    <div class="accent-line"></div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-16">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <!-- Brand Section -->
+                <div class="md:col-span-1">
+                    <h3 class="text-2xl font-bold text-black mb-4 tracking-tight">api<span class="font-bold">ui</span></h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6 max-w-xs">
+                        Turn your data into APIs instantly. No coding required.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-500 hover:text-black transition-colors duration-200" aria-label="Twitter">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-black transition-colors duration-200" aria-label="LinkedIn">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Links Section -->
+                <div class="md:col-span-2 grid grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Product</h4>
+                        <ul class="space-y-3">
+                            <li><a href="index.html" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Home</a></li>
+                            <li><a href="docs.html" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Documentation</a></li>
+                            <li><a href="#create-api" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Create API</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
+                        <ul class="space-y-3">
+                            <li><a href="docs.html" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Help Center</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200 text-sm">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section -->
+            <div class="border-t border-gray-200 pt-8">
+                <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                    <p class="text-gray-500 text-sm">&copy; 2025 api<span class="font-bold">ui</span> Inc. All rights reserved.</p>
+                    <p class="text-gray-500 text-sm">Made with ❤️ for developers using AURABLOX AI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // APIs UI elements
+        const apisLoading = document.getElementById('apis-loading');
+        const noApis = document.getElementById('no-apis');
+        const apisList = document.getElementById('apis-list');
+
+        // File upload elements
+        const fileInput = document.getElementById('file-input');
+        const fileDropArea = document.getElementById('file-drop-area');
+        const uploaderSection = document.getElementById('uploader-section');
+        const statusSection = document.getElementById('status-section');
+        const fileNameEl = document.getElementById('file-name');
+        const changeFileBtn = document.getElementById('change-file-btn');
+
+        const progressTracker = document.getElementById('progress-tracker');
+        const apiResultContainer = document.getElementById('api-result-container');
+        const runApiSection = document.getElementById('run-api-section');
+        const runApiBtn = document.getElementById('run-api-btn');
+        const runStatus = document.getElementById('run-status');
+        const apiEndpointUrl = document.getElementById('api-endpoint-url');
+        const apiCurlCommand = document.getElementById('api-curl-command');
+        const copyUrlBtn = document.getElementById('copy-url-btn');
+        const copyCurlBtn = document.getElementById('copy-curl-btn');
+
+        // Logs elements
+        const minimizeLogsBtn = document.getElementById('minimize-logs-btn');
+        const logsContainer = document.getElementById('logs-container');
+        const logsContent = document.getElementById('logs-content');
+
+        const stepIcons = {
+            analyze: document.getElementById('step-icon-analyze'),
+            generate: document.getElementById('step-icon-generate'),
+            build: document.getElementById('step-icon-build'),
+            deploy: document.getElementById('step-icon-deploy'),
+        };
+
+        const stepTexts = {
+            analyze: document.getElementById('step-text-analyze'),
+            generate: document.getElementById('step-text-generate'),
+            build: document.getElementById('step-text-build'),
+            deploy: document.getElementById('step-text-deploy'),
+        };
+
+        const icons = {
+            pending: `<div class="w-3 h-3 border-2 border-gray-400 rounded-full bg-white"></div>`,
+            inProgress: `<div class="w-3 h-3 border-2 border-black rounded-full bg-gray-200 animate-pulse"></div>`,
+            complete: `<svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`,
+        };
+
+        let currentJobId = null;
+        let pollingInterval = null;
+        let displayedLogs = new Set(); // Track which logs we've already displayed
+
+        // Load APIs on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadApis();
+        });
+
+        // Load APIs from backend
+        async function loadApis() {
+            try {
+                apisLoading.classList.remove('hidden');
+                noApis.classList.add('hidden');
+                apisList.classList.add('hidden');
+
+                const response = await fetch('http://localhost:8000/v1/apis');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                apisLoading.classList.add('hidden');
+
+                if (data.total === 0) {
+                    noApis.classList.remove('hidden');
+                } else {
+                    renderApisList(data.apis);
+                    apisList.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Failed to load APIs:', error);
+                apisLoading.classList.add('hidden');
+                noApis.classList.remove('hidden');
+            }
+        }
+
+        // Render APIs list
+        function renderApisList(apis) {
+            const apisTableBody = document.getElementById('apis-table-body');
+            apisTableBody.innerHTML = '';
+
+            // Sort APIs by creation date (newest first)
+            apis.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            apis.forEach(api => {
+                const apiRow = createApiRow(api);
+                apisTableBody.appendChild(apiRow);
+            });
+        }
+
+        // Create API row element
+        function createApiRow(api) {
+            const row = document.createElement('div');
+            row.className = 'px-6 py-4 hover:bg-gray-50 transition-colors';
+
+            const statusColor = api.status === 'running' ? 'text-gray-900' : 'text-gray-500';
+            const statusBg = api.status === 'running' ? 'bg-gray-50 border-gray-300' : 'bg-gray-50 border-gray-200';
+
+            row.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center space-x-3">
+                            <h3 class="text-lg font-semibold text-gray-900 truncate">${api.title || `API ${api.id.slice(0, 8)}`}</h3>
+                            <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusBg} ${statusColor}">
+                                ${api.status === 'running' ? '●' : '○'} ${api.status}
+                            </div>
+                        </div>
+
+                        <div class="mt-2 flex items-center space-x-6 text-sm text-gray-600">
+                            <span class="flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                ${api.endpoints ? api.endpoints.length : 0} endpoints
+                            </span>
+                            <span class="flex items-center">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                ${api.models ? api.models.length : 0} models
+                            </span>
+                            <span class="text-xs text-gray-500">
+                                Created ${new Date(api.created_at).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                })} at ${new Date(api.created_at).toLocaleTimeString('en-US', {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}
+                            </span>
+                        </div>
+
+                        ${api.url ? `
+                            <div class="mt-2 flex items-center text-xs text-gray-500">
+                                <svg class="w-3 h-3 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                                </svg>
+                                <span class="truncate font-mono">${api.url}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="flex items-center ml-6 space-x-2">
+                        <button class="api-docs-btn inline-flex items-center px-3 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            API Docs
+                        </button>
+                        <button class="test-api-btn inline-flex items-center px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Test API
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Add event listener to API docs button
+            const docsBtn = row.querySelector('.api-docs-btn');
+            docsBtn.addEventListener('click', () => showApiDocumentation(api.id, api));
+
+            // Add event listener to test button
+            const testBtn = row.querySelector('.test-api-btn');
+            testBtn.addEventListener('click', () => testApiInline(testBtn, api.id, api.url));
+
+            return row;
+        }
+
+        // Test API inline
+        async function testApiInline(button, apiId, apiUrl) {
+            const originalContent = button.innerHTML;
+            const originalClasses = button.className;
+
+            // Show testing state
+            button.innerHTML = `
+                <svg class="w-4 h-4 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Testing...
+            `;
+            button.className = 'inline-flex items-center px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg cursor-not-allowed';
+            button.disabled = true;
+
+            try {
+                const testEndpoint = apiUrl || `http://localhost:8000/v1/apis/${apiId}`;
+
+                const response = await fetch(`${testEndpoint}/data?limit=1`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // Success state
+                    button.innerHTML = `
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        ✅ Pass
+                    `;
+                    button.className = 'inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors';
+
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                        button.className = originalClasses;
+                        button.disabled = false;
+                    }, 3000);
+
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+            } catch (error) {
+                // Failure state
+                button.innerHTML = `
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    ❌ Fail
+                `;
+                button.className = 'inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors';
+
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalContent;
+                    button.className = originalClasses;
+                    button.disabled = false;
+                }, 3000);
+            }
+        }
+
+        // Show API documentation
+        function showApiDocumentation(apiId, api) {
+            // Create full-screen documentation overlay
+            const docsModal = document.createElement('div');
+            docsModal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+            docsModal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+                    <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-black rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-900">API Documentation</h2>
+                                <p class="text-sm text-gray-600">API ID: ${apiId.slice(0, 8)}</p>
+                            </div>
+                        </div>
+                        <button class="close-docs text-gray-400 hover:text-gray-600 text-2xl" title="Close">&times;</button>
+                    </div>
+
+                    <div class="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+                        <div class="space-y-8">
+                            <!-- Endpoints -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-4">API Endpoints</h3>
+                                <div class="space-y-3">
+                                    ${api.endpoints && api.endpoints.length > 0 ? api.endpoints.map(endpoint => `
+                                        <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium ${
+                                                endpoint.method === 'GET' ? 'bg-black text-white' :
+                                                endpoint.method === 'POST' ? 'bg-black text-white' :
+                                                endpoint.method === 'PUT' ? 'bg-black text-white' :
+                                                'bg-black text-white'
+                                            }">
+                                                ${endpoint.method}
+                                            </span>
+                                            <span class="ml-4 text-sm font-mono text-gray-700">${endpoint.route}</span>
+                                        </div>
+                                    `).join('') : '<p class="text-sm text-gray-600 text-center py-8">No endpoints available</p>'}
+                                </div>
+                            </div>
+
+                            <!-- Code Examples -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-4">Code Examples</h3>
+                                <div class="space-y-6">
+                                    <!-- Basic cURL -->
+                                    <div class="p-4 border border-gray-200 rounded-lg">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <h4 class="font-medium text-gray-900">cURL</h4>
+                                            <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;http://localhost:8000/v1/apis/${apiId}/data&quot;">
+                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                </svg>
+                                                Copy
+                                            </button>
+                                        </div>
+                                        <div class="bg-black text-green-400 p-4 rounded font-mono text-sm overflow-x-auto">
+                                            curl "http://localhost:8000/v1/apis/${apiId}/data"
+                                        </div>
+                                    </div>
+
+                                    <!-- Language Examples -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="p-4 border border-gray-200 rounded-lg">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <h4 class="font-medium text-gray-900">Python</h4>
+                                                <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="import requests
+
+response = requests.get(
+    'http://localhost:8000/v1/apis/${apiId}/data'
+)
+data = response.json()">
+                                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                    Copy
+                                                </button>
+                                            </div>
+                                            <div class="bg-black text-green-400 p-4 rounded font-mono text-xs overflow-x-auto">
+                                                import requests<br><br>
+                                                response = requests.get(<br>
+                                                &nbsp;&nbsp;'http://localhost:8000/v1/apis/${apiId}/data'<br>
+                                                )<br>
+                                                data = response.json()
+                                            </div>
+                                        </div>
+
+                                        <div class="p-4 border border-gray-200 rounded-lg">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <h4 class="font-medium text-gray-900">JavaScript</h4>
+                                                <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="fetch('http://localhost:8000/v1/apis/${apiId}/data')
+    .then(response => response.json())
+    .then(data => console.log(data))">
+                                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                    Copy
+                                                </button>
+                                            </div>
+                                            <div class="bg-black text-yellow-400 p-4 rounded font-mono text-xs overflow-x-auto">
+                                                fetch('http://localhost:8000/v1/apis/${apiId}/data')<br>
+                                                &nbsp;&nbsp;.then(response => response.json())<br>
+                                                &nbsp;&nbsp;.then(data => console.log(data))
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Advanced Usage -->
+                                    <details class="group">
+                                        <summary class="cursor-pointer font-medium text-gray-700 hover:text-gray-900 flex items-center">
+                                            <span>Advanced Usage</span>
+                                            <svg class="ml-2 w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </summary>
+                                        <div class="mt-4 space-y-3">
+                                            <div class="p-3 border border-gray-200 rounded">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <h5 class="text-sm font-medium text-gray-700">Filter Data</h5>
+                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;http://localhost:8000/v1/apis/${apiId}/data?column=value&quot;">
+                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                        </svg>
+                                                        Copy
+                                                    </button>
+                                                </div>
+                                                <div class="bg-black text-green-400 p-3 rounded font-mono text-xs">
+                                                    curl "http://localhost:8000/v1/apis/${apiId}/data?column=value"
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border border-gray-200 rounded">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <h5 class="text-sm font-medium text-gray-700">Sort Results</h5>
+                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;http://localhost:8000/v1/apis/${apiId}/data?sort_by=column&sort_order=desc&quot;">
+                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                        </svg>
+                                                        Copy
+                                                    </button>
+                                                </div>
+                                                <div class="bg-black text-green-400 p-3 rounded font-mono text-xs">
+                                                    curl "http://localhost:8000/v1/apis/${apiId}/data?sort_by=column&sort_order=desc"
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border border-gray-200 rounded">
+                                                <div class="flex items-center justify-between mb-2">
+                                                    <h5 class="text-sm font-medium text-gray-700">Pagination</h5>
+                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;http://localhost:8000/v1/apis/${apiId}/data?skip=10&limit=5&quot;">
+                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                        </svg>
+                                                        Copy
+                                                    </button>
+                                                </div>
+                                                <div class="bg-black text-green-400 p-3 rounded font-mono text-xs">
+                                                    curl "http://localhost:8000/v1/apis/${apiId}/data?skip=10&limit=5"
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </details>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(docsModal);
+
+            // Copy button functionality
+            const copyButtons = docsModal.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const code = button.getAttribute('data-code');
+
+                    try {
+                        await navigator.clipboard.writeText(code);
+
+                        // Visual feedback
+                        const originalText = button.innerHTML;
+                        button.innerHTML = `
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Copied!
+                        `;
+                        button.classList.add('text-green-600', 'border-green-300');
+                        button.classList.remove('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
+
+                        // Reset after 2 seconds
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.classList.remove('text-green-600', 'border-green-300');
+                            button.classList.add('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy: ', err);
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = code;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+
+                        // Visual feedback for fallback
+                        const originalText = button.innerHTML;
+                        button.innerHTML = `
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Copied!
+                        `;
+                        button.classList.add('text-green-600', 'border-green-300');
+
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.classList.remove('text-green-600', 'border-green-300');
+                            button.classList.add('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
+                        }, 2000);
+                    }
+                });
+            });
+
+            // Close modal functionality
+            const closeBtn = docsModal.querySelector('.close-docs');
+            closeBtn.addEventListener('click', () => {
+                document.body.removeChild(docsModal);
+            });
+
+            // Close on background click
+            docsModal.addEventListener('click', (e) => {
+                if (e.target === docsModal) {
+                    document.body.removeChild(docsModal);
+                }
+            });
+
+            // Close on ESC key
+            document.addEventListener('keydown', function closeOnEscape(e) {
+                if (e.key === 'Escape') {
+                    document.body.removeChild(docsModal);
+                    document.removeEventListener('keydown', closeOnEscape);
+                }
+            });
+        }
+
+        // --- Drag and Drop Logic ---
+        fileDropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileDropArea.classList.add('dragover');
+        });
+        fileDropArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            fileDropArea.classList.remove('dragover');
+        });
+        fileDropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileDropArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect({ target: fileInput });
+            }
+        });
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // --- Logs Management ---
+        function addLog(message, level = "info") {
+            const timestamp = new Date().toLocaleTimeString();
+            const logId = `${timestamp}-${message}`;
+
+            // Skip if we've already displayed this log
+            if (displayedLogs.has(logId)) return;
+            displayedLogs.add(logId);
+
+            const logEntry = document.createElement('div');
+            logEntry.className = 'mb-1';
+
+            // Monochrome styling - all messages in black
+            let prefix = '';
+            let styleClass = 'font-normal'; // default
+
+            if (level === 'error') {
+                prefix = '[ERROR] ';
+                styleClass = 'font-bold';
+            } else if (level === 'warning') {
+                prefix = '[WARN] ';
+                styleClass = 'font-medium';
+            } else if (level === 'info') {
+                prefix = '[INFO] ';
+                styleClass = 'font-normal';
+            } else if (level === 'success') {
+                prefix = '[SUCCESS] ';
+                styleClass = 'font-bold';
+            }
+
+            logEntry.innerHTML = `
+                <span class="text-gray-600 text-xs mr-2">${timestamp.slice(0, 8)}</span>
+                <span class="text-black ${styleClass}">${prefix}${message}</span>
+            `;
+
+            // Remove the "Ready to process" message if it exists
+            const readyMessage = logsContent.querySelector('.text-gray-600.italic');
+            if (readyMessage) {
+                readyMessage.remove();
+            }
+
+            logsContent.appendChild(logEntry);
+            logsContent.scrollTop = logsContent.scrollHeight; // Auto-scroll to bottom
+        }
+
+        function clearLogs() {
+            // Don't actually clear logs, just add a separator
+            const separator = document.createElement('div');
+            separator.className = 'border-t border-gray-600 my-3';
+            separator.innerHTML = '<span class="text-gray-600 text-xs">--- New Session ---</span>';
+            logsContent.appendChild(separator);
+            displayedLogs.clear();
+        }
+
+        // --- Logs Minimize ---
+        let logsMinimized = false;
+        minimizeLogsBtn.addEventListener('click', () => {
+            const logContent = document.getElementById('logs-content');
+            if (logsMinimized) {
+                logContent.style.maxHeight = '320px'; // 80 * 4px = 320px
+                minimizeLogsBtn.querySelector('svg').style.transform = 'rotate(0deg)';
+                logsMinimized = false;
+            } else {
+                logContent.style.maxHeight = '80px';
+                minimizeLogsBtn.querySelector('svg').style.transform = 'rotate(180deg)';
+                logsMinimized = true;
+            }
+        });
+
+        // --- UI State Management ---
+        function resetUI() {
+            uploaderSection.classList.remove('hidden');
+            statusSection.classList.add('hidden');
+            progressTracker.classList.add('hidden');
+            apiResultContainer.classList.add('hidden');
+            fileInput.value = '';
+
+            // Show progress steps again for new uploads
+            const progressSteps = progressTracker.querySelectorAll('.flex.items-center.space-x-4');
+            progressSteps.forEach(step => step.style.display = 'flex');
+
+            // Add session separator instead of clearing logs
+            addLog('🔄 Session ended - ready for new upload', 'info');
+            addLog('─'.repeat(50), 'info');
+
+            if (currentJobId) {
+                currentJobId = null;
+            }
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+            }
+        }
+
+        changeFileBtn.addEventListener('click', resetUI);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file type
+            const allowedExtensions = ['.csv', '.json', '.xlsx', '.xls', '.parquet', '.txt'];
+            const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
+            if (!allowedExtensions.includes(fileExtension)) {
+                alert('Unsupported file type. Please upload XLSX, CSV, Parquet, or TXT files.');
+                return;
+            }
+
+            uploaderSection.classList.add('hidden');
+            statusSection.classList.remove('hidden');
+            fileNameEl.textContent = file.name;
+
+            // Start new session but keep previous logs
+            clearLogs();
+            addLog(`📁 File selected: ${file.name}`, 'info');
+            addLog(`📊 File size: ${(file.size / 1024).toFixed(1)} KB`, 'info');
+            addLog(`🔄 Initializing upload process...`, 'info');
+
+            startGenerationProcess(file);
+        }
+
+        function updateStep(step, status) {
+            stepIcons[step].innerHTML = icons[status];
+            if(status === 'inProgress') {
+                stepTexts[step].classList.remove('text-gray-400');
+                stepTexts[step].classList.add('text-black', 'font-bold');
+            } else if(status === 'complete') {
+                stepTexts[step].classList.remove('text-gray-400');
+                stepTexts[step].classList.add('text-black');
+            } else {
+                stepTexts[step].classList.add('text-gray-600');
+                stepTexts[step].classList.remove('text-black', 'font-bold');
+            }
+        }
+
+        function initializeProgressTracker() {
+             apiResultContainer.classList.add('hidden');
+             progressTracker.classList.remove('hidden');
+
+             // Make sure progress steps are visible for new uploads
+             const progressSteps = progressTracker.querySelectorAll('.flex.items-center.space-x-4');
+             progressSteps.forEach(step => step.style.display = 'flex');
+
+             Object.keys(stepIcons).forEach(key => updateStep(key, 'pending'));
+        }
+
+        async function startGenerationProcess(file) {
+            try {
+                initializeProgressTracker();
+                addLog('🚀 Establishing connection to apiui backend...', 'info');
+                addLog('📤 Preparing file for upload...', 'info');
+
+                // Upload file to backend
+                const formData = new FormData();
+                formData.append('file', file);
+
+                addLog('⬆️ Uploading file to server...', 'info');
+                const uploadStartTime = Date.now();
+
+                const response = await fetch('http://localhost:8000/v1/generate', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                currentJobId = result.job_id;
+
+                const uploadTime = ((Date.now() - uploadStartTime) / 1000).toFixed(2);
+                addLog(`✅ File uploaded successfully in ${uploadTime}s`, 'success');
+                addLog(`🔢 Job ID assigned: ${currentJobId}`, 'info');
+                addLog('📡 Connecting to real-time status stream...', 'info');
+
+                // Start polling for status
+                startPolling();
+
+            } catch (error) {
+                console.error('Upload error:', error);
+                addLog(`❌ Upload failed: ${error.message}`, 'error');
+                addLog('💡 Please check your internet connection and try again', 'warning');
+                alert('Upload failed: ' + error.message);
+                resetUI();
+            }
+        }
+
+        function startPolling() {
+            let pollCount = 0;
+            pollingInterval = setInterval(async () => {
+                try {
+                    pollCount++;
+                    // Only log polling every 5th attempt to reduce noise
+                    if (pollCount % 5 === 1) {
+                        addLog('📡 Monitoring API generation progress...', 'info');
+                    }
+
+                    const response = await fetch(`http://localhost:8000/v1/generate/status/${currentJobId}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const status = await response.json();
+
+                    // Display new logs from backend
+                    if (status.logs && Array.isArray(status.logs)) {
+                        status.logs.forEach(log => {
+                            const level = log.level || 'info';
+                            addLog(log.message, level);
+                        });
+                    }
+
+                    updateProgress(status);
+
+                    if (status.status === 'deployed') {
+                        clearInterval(pollingInterval);
+                        addLog('🎉 API generation completed successfully!', 'success');
+                        addLog('🌐 Your API is now ready to use', 'success');
+                        addLog(`🔗 Endpoint: ${status.api_url}`, 'info');
+                        showApiResult(status);
+                    } else if (status.status === 'failed') {
+                        clearInterval(pollingInterval);
+                        addLog(`❌ Generation failed: ${status.error_message || 'Unknown error'}`, 'error');
+                        addLog('🔧 Please check your file format and try again', 'warning');
+                        alert('Generation failed: ' + (status.error_message || 'Unknown error'));
+                        resetUI();
+                    }
+                } catch (error) {
+                    clearInterval(pollingInterval);
+                    console.error('Polling error:', error);
+                    addLog(`❌ Connection lost: ${error.message}`, 'error');
+                    addLog('🔄 Attempting to reconnect...', 'warning');
+                    alert('Connection lost. Please check your internet and refresh the page.');
+                    resetUI();
+                }
+            }, 2000);
+        }
+
+        function updateProgress(status) {
+            const statusMap = {
+                'analyzing': 'analyze',
+                'generating_code': 'generate',
+                'building': 'build',
+                'deployed': 'deploy'
+            };
+
+            const currentStep = statusMap[status.status];
+            if (currentStep) {
+                // Update previous steps to complete
+                const stepOrder = ['analyze', 'generate', 'build', 'deploy'];
+                const currentIndex = stepOrder.indexOf(currentStep);
+
+                stepOrder.forEach((step, index) => {
+                    if (index < currentIndex) {
+                        updateStep(step, 'complete');
+                    } else if (index === currentIndex) {
+                        updateStep(step, 'inProgress');
+                    } else {
+                        updateStep(step, 'pending');
+                    }
+                });
+            }
+        }
+
+        function showApiResult(status) {
+            const endpoint = status.api_url || '/mock-api';
+            const apiKey = status.api_key || 'demo-key-123';
+
+            apiEndpointUrl.value = endpoint;
+            apiCurlCommand.textContent = `curl "${endpoint}/data?limit=10"`;
+
+            // Keep the progress tracker visible so the terminal stays there
+            // But hide the progress steps since they're no longer needed
+            const progressSteps = progressTracker.querySelectorAll('.flex.items-center.space-x-4');
+            progressSteps.forEach(step => step.style.display = 'none');
+
+            apiResultContainer.classList.remove('hidden');
+
+            // Add final completion logs
+            addLog('📋 API configuration complete', 'success');
+            addLog(`🔗 API Endpoint: ${endpoint}`, 'info');
+            addLog(`🔑 API Key: ${apiKey}`, 'info');
+            addLog('🎯 Ready to serve your data!', 'success');
+
+            // Check if this is AI-generated code
+            if (status.ai_generated || currentJobId) {
+                runApiSection.classList.remove('hidden');
+                addLog('💡 Click "Run Generated API" to create the actual FastAPI server files', 'info');
+            }
+        }
+
+        // --- Copy to Clipboard Logic ---
+        function copyToClipboard(text, button) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                const originalIcon = button.innerHTML;
+                button.innerHTML = '<svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                setTimeout(() => {
+                    button.innerHTML = originalIcon;
+                }, 1500);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        copyUrlBtn.addEventListener('click', () => {
+            copyToClipboard(apiEndpointUrl.value, copyUrlBtn);
+        });
+
+        copyCurlBtn.addEventListener('click', () => {
+            const curlText = apiCurlCommand.textContent.replace('\\\n', ' ');
+            copyToClipboard(curlText, copyCurlBtn);
+        });
+
+
+
+        // Start API - show full screen terminal
+        async function startApi(apiId) {
+            showApiStartupTerminal(apiId);
+        }
+
+        // Stop API
+        async function stopApi(apiId) {
+            try {
+                const response = await fetch(`http://localhost:8000/v1/apis/${apiId}/stop`, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                alert('API stopped successfully!');
+
+                // Refresh APIs list
+                loadApis();
+            } catch (error) {
+                console.error('Failed to stop API:', error);
+                alert('Failed to stop API: ' + error.message);
+            }
+        }
+
+        // Show full-screen API startup terminal
+        function showApiStartupTerminal(apiId) {
+            // Create full-screen terminal overlay
+            const terminal = document.createElement('div');
+            terminal.className = 'fixed inset-0 bg-black z-50 flex flex-col';
+            terminal.innerHTML = `
+                <div class="flex items-center justify-between p-4 border-b border-gray-600">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-black rounded-full"></div>
+                        <div class="w-3 h-3 bg-gray-600 rounded-full"></div>
+                        <div class="w-3 h-3 bg-white border border-black rounded-full"></div>
+                        <span class="text-white font-mono text-sm ml-2">apiui-terminal - Starting API ${apiId.slice(0, 8)}</span>
+                    </div>
+                    <button class="close-terminal text-gray-400 hover:text-white text-xl" title="Close Terminal">&times;</button>
+                </div>
+                <div class="flex-1 p-4 overflow-hidden">
+                    <div class="bg-black text-white font-mono text-sm h-full overflow-y-auto p-4" id="terminal-content">
+                        <div class="text-gray-500 mb-2">$ apiui start --api ${apiId.slice(0, 8)}</div>
+                        <div class="text-gray-600 italic">Initializing API startup process...</div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(terminal);
+
+            const terminalContent = terminal.querySelector('#terminal-content');
+            let startupPolling = null;
+
+            // Add log function for terminal (black and white theme)
+            function addTerminalLog(message, level = "info") {
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = document.createElement('div');
+                logEntry.className = 'mb-1';
+
+                let styleClass = 'text-white'; // default white text
+                let prefix = '';
+
+                if (level === 'error') {
+                    prefix = '[ERROR] ';
+                    styleClass = 'text-white font-bold';
+                } else if (level === 'warning') {
+                    prefix = '[WARN] ';
+                    styleClass = 'text-gray-300';
+                } else if (level === 'success') {
+                    prefix = '[SUCCESS] ';
+                    styleClass = 'text-white font-bold';
+                }
+
+                logEntry.innerHTML = `
+                    <span class="text-gray-600 text-xs mr-2">${timestamp.slice(0, 8)}</span>
+                    <span class="${styleClass}">${prefix}${message}</span>
+                `;
+
+                terminalContent.appendChild(logEntry);
+                terminalContent.scrollTop = terminalContent.scrollHeight;
+            }
+
+            // Start API and begin polling
+            async function startApiProcess() {
+                try {
+                    addTerminalLog('🚀 Sending startup request to backend...', 'info');
+                    addTerminalLog(`📍 API ID: ${apiId}`, 'info');
+
+                    const response = await fetch(`http://localhost:8000/v1/apis/${apiId}/start`, {
+                        method: 'POST'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    addTerminalLog('✅ Startup request accepted', 'success');
+                    addTerminalLog(`🌐 Target URL: ${result.url}`, 'info');
+                    addTerminalLog(`🔌 Port: ${result.port}`, 'info');
+                    addTerminalLog('⏳ Starting server process...', 'info');
+
+                    // Begin polling for status
+                    let pollCount = 0;
+                    startupPolling = setInterval(async () => {
+                        try {
+                            pollCount++;
+                            const statusResponse = await fetch(`http://localhost:8000/v1/apis/${apiId}/status`);
+
+                            if (!statusResponse.ok) {
+                                throw new Error(`Status check failed: ${statusResponse.status}`);
+                            }
+
+                            const status = await statusResponse.json();
+
+                            if (pollCount % 3 === 1) { // Log every 3rd poll to avoid spam
+                                addTerminalLog(`🔄 Checking API status... (${status.status})`, 'info');
+                            }
+
+                            if (status.status === 'running') {
+                                clearInterval(startupPolling);
+                                addTerminalLog('🎉 API startup successful!', 'success');
+                                addTerminalLog(`🌐 API is now live at: ${status.url}`, 'success');
+                                addTerminalLog('📖 API documentation: ' + status.url + '/docs', 'info');
+                                addTerminalLog('✅ Terminal will close in 3 seconds...', 'info');
+
+                                // Close terminal after success
+                                setTimeout(() => {
+                                    if (document.body.contains(terminal)) {
+                                        document.body.removeChild(terminal);
+                                        // Refresh APIs list
+                                        loadApis();
+                                    }
+                                }, 3000);
+
+                            } else if (status.status === 'stopped') {
+                                clearInterval(startupPolling);
+                                addTerminalLog('❌ API startup failed - process stopped unexpectedly', 'error');
+                                addTerminalLog('💡 Check the server logs for more details', 'warning');
+                            }
+
+                        } catch (error) {
+                            clearInterval(startupPolling);
+                            addTerminalLog(`❌ Status check failed: ${error.message}`, 'error');
+                        }
+                    }, 2000);
+
+                } catch (error) {
+                    addTerminalLog(`❌ Failed to start API: ${error.message}`, 'error');
+                    addTerminalLog('💡 Please check your configuration and try again', 'warning');
+                }
+            }
+
+            // Start the process
+            startApiProcess();
+
+            // Close terminal functionality
+            terminal.querySelector('.close-terminal').addEventListener('click', () => {
+                if (startupPolling) {
+                    clearInterval(startupPolling);
+                }
+                document.body.removeChild(terminal);
+            });
+
+            // Allow ESC key to close
+            document.addEventListener('keydown', function closeOnEscape(e) {
+                if (e.key === 'Escape') {
+                    if (startupPolling) {
+                        clearInterval(startupPolling);
+                    }
+                    document.body.removeChild(terminal);
+                    document.removeEventListener('keydown', closeOnEscape);
+                }
+            });
+        }
+
+
+
+        // --- Run Generated API Logic ---
+        runApiBtn.addEventListener('click', async () => {
+            if (!currentJobId) return;
+
+            addLog('🧪 Testing generated API with sample data...', 'info');
+            runApiBtn.disabled = true;
+            runApiBtn.textContent = '🔄 Testing API...';
+
+            try {
+                addLog('📤 Sending test request to backend...', 'info');
+                const response = await fetch(`http://localhost:8000/mock-api/${currentJobId}/run`, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                if (result.status === 'test_successful') {
+                    addLog('✅ API test successful!', 'success');
+                    addLog(`📊 Found ${result.total_records} total records`, 'info');
+                    addLog(`📋 Showing ${result.sample_records.length} sample records`, 'info');
+
+                    runApiBtn.textContent = '✅ API Working!';
+                    runStatus.innerHTML = `
+                        <div class="text-black font-mono text-sm">
+                            <div class="mb-2">🎉 Success! API is working correctly</div>
+                            <div class="bg-green-100 p-3 rounded text-xs border border-green-300 mb-3">
+                                <div class="font-bold mb-2">📊 Sample Data (First ${result.sample_records.length} records):</div>
+                                <div class="max-h-48 overflow-y-auto">
+                                    <pre class="text-green-800 whitespace-pre-wrap">${JSON.stringify(result.sample_records, null, 2)}</pre>
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-600">
+                                <div><strong>API Name:</strong> ${result.api_name}</div>
+                                <div><strong>Total Records:</strong> ${result.total_records}</div>
+                                <div><strong>Columns:</strong> ${result.columns.join(', ')}</div>
+                            </div>
+                        </div>
+                    `;
+
+                    addLog('🎯 Your API is ready to use!', 'success');
+                } else {
+                    throw new Error(result.error || 'Test failed');
+                }
+
+            } catch (error) {
+                addLog(`❌ API test failed: ${error.message}`, 'error');
+                addLog('🔧 Please check your data file and try again', 'warning');
+                runApiBtn.disabled = false;
+                runApiBtn.textContent = '🚀 Run Generated API';
+                runStatus.innerHTML = `
+                    <div class="text-red-100 p-3 rounded text-sm border border-red-300">
+                        <div class="font-bold text-red-800 mb-1">❌ Test Failed</div>
+                        <div class="text-red-700">${error.message}</div>
+                    </div>
+                `;
+            }
+        });
+
+        // Show API Tester (Postman-like interface)
+        function showApiTester(serverUrl, jobId) {
+            const testerModal = document.createElement('div');
+            testerModal.className = 'fixed inset-0 bg-black z-50 flex flex-col';
+            testerModal.innerHTML = `
+                <div class="flex items-center justify-between p-4 border-b border-gray-600 bg-gray-900">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">API</span>
+                        </div>
+                        <div>
+                            <h2 class="text-white font-semibold">API Tester</h2>
+                            <p class="text-gray-400 text-sm">${serverUrl}</p>
+                        </div>
+                    </div>
+                    <button class="close-tester text-gray-400 hover:text-white text-xl">×</button>
+                </div>
+
+                <div class="flex flex-1 overflow-hidden">
+                    <!-- Sidebar with endpoints -->
+                    <div class="w-64 bg-gray-800 border-r border-gray-600 p-4 overflow-y-auto">
+                        <h3 class="text-white font-semibold mb-4">Endpoints</h3>
+                        <div class="space-y-2">
+                            <div class="endpoint-item p-3 rounded cursor-pointer hover:bg-gray-700 text-white" data-endpoint="/data">
+                                <div class="flex items-center space-x-2">
+                                    <span class="bg-green-600 text-white px-2 py-1 rounded text-xs font-medium">GET</span>
+                                    <span class="text-sm">/data</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Get all records</p>
+                            </div>
+                            <div class="endpoint-item p-3 rounded cursor-pointer hover:bg-gray-700 text-white" data-endpoint="/data?limit=5">
+                                <div class="flex items-center space-x-2">
+                                    <span class="bg-green-600 text-white px-2 py-1 rounded text-xs font-medium">GET</span>
+                                    <span class="text-sm">/data?limit=5</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Get first 5 records</p>
+                            </div>
+                            <div class="endpoint-item p-3 rounded cursor-pointer hover:bg-gray-700 text-white" data-endpoint="/data/0">
+                                <div class="flex items-center space-x-2">
+                                    <span class="bg-green-600 text-white px-2 py-1 rounded text-xs font-medium">GET</span>
+                                    <span class="text-sm">/data/0</span>
+                                </div>
+                                <p class="text-gray-400 text-xs mt-1">Get first record</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main content area -->
+                    <div class="flex-1 flex flex-col">
+                        <!-- Request section -->
+                        <div class="bg-gray-900 p-4 border-b border-gray-600">
+                            <div class="flex items-center space-x-4">
+                                <select id="request-method" class="bg-gray-700 text-white px-3 py-2 rounded border border-gray-600">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                                <input id="request-url" type="text" class="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600" value="${serverUrl}/data/">
+                                <button id="send-request" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Response section -->
+                        <div class="flex-1 flex flex-col">
+                            <!-- Response headers -->
+                            <div class="bg-gray-800 p-4 border-b border-gray-600">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-white font-semibold">Response</h3>
+                                    <div class="flex items-center space-x-4">
+                                        <span id="response-status" class="text-gray-400">Status: -</span>
+                                        <span id="response-time" class="text-gray-400">Time: -</span>
+                                        <span id="response-size" class="text-gray-400">Size: -</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Response content -->
+                            <div class="flex-1 bg-gray-900 p-4 overflow-auto">
+                                <pre id="response-content" class="text-green-400 font-mono text-sm whitespace-pre-wrap"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(testerModal);
+
+            // Add event listeners
+            const closeBtn = testerModal.querySelector('.close-tester');
+            const sendBtn = testerModal.querySelector('#send-request');
+            const endpointItems = testerModal.querySelectorAll('.endpoint-item');
+            const requestUrl = testerModal.querySelector('#request-url');
+            const requestMethod = testerModal.querySelector('#request-method');
+            const responseContent = testerModal.querySelector('#response-content');
+            const responseStatus = testerModal.querySelector('#response-status');
+            const responseTime = testerModal.querySelector('#response-time');
+            const responseSize = testerModal.querySelector('#response-size');
+
+            // Close modal
+            closeBtn.addEventListener('click', () => {
+                document.body.removeChild(testerModal);
+            });
+
+            // ESC key to close
+            document.addEventListener('keydown', function closeOnEscape(e) {
+                if (e.key === 'Escape') {
+                    document.body.removeChild(testerModal);
+                    document.removeEventListener('keydown', closeOnEscape);
+                }
+            });
+
+            // Endpoint selection
+            endpointItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const endpoint = item.getAttribute('data-endpoint');
+                    requestUrl.value = serverUrl + endpoint;
+
+                    // Update active state
+                    endpointItems.forEach(i => i.classList.remove('bg-blue-600'));
+                    item.classList.add('bg-blue-600');
+                });
+            });
+
+            // Send request
+            sendBtn.addEventListener('click', async () => {
+                const url = requestUrl.value;
+                const method = requestMethod.value;
+                const startTime = Date.now();
+
+                try {
+                    sendBtn.disabled = true;
+                    sendBtn.textContent = 'Sending...';
+
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    const endTime = Date.now();
+                    const responseTime = endTime - startTime;
+                    const responseText = await response.text();
+                    const responseSize = new Blob([responseText]).size;
+
+                    // Update status
+                    responseStatus.textContent = `Status: ${response.status} ${response.statusText}`;
+                    responseStatus.className = response.ok ? 'text-green-400' : 'text-red-400';
+
+                    responseTime.textContent = `Time: ${responseTime}ms`;
+                    responseSize.textContent = `Size: ${responseSize} bytes`;
+
+                    // Format and display response
+                    try {
+                        const jsonData = JSON.parse(responseText);
+                        responseContent.textContent = JSON.stringify(jsonData, null, 2);
+                    } catch (e) {
+                        responseContent.textContent = responseText;
+                    }
+
+                } catch (error) {
+                    responseStatus.textContent = 'Status: Error';
+                    responseStatus.className = 'text-red-400';
+                    responseTimeDisplay.textContent = 'Time: -';
+                    responseSizeDisplay.textContent = 'Size: -';
+                    responseContent.textContent = `Error: ${error.message}`;
+                } finally {
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = 'Send';
+                }
+            });
+
+            // Load initial data
+            setTimeout(() => {
+                sendBtn.click();
+            }, 500);
+        }
+
+    </script>
+</body>
+</html>
+

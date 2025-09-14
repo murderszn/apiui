@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/app",
+      "dest": "/frontend/app.html"
+    },
+    {
+      "src": "/app.html",
+      "dest": "/frontend/app.html"
+    },
+    {
+      "src": "/docs",
+      "dest": "/frontend/docs.html"
+    },
+    {
+      "src": "/docs.html",
+      "dest": "/frontend/docs.html"
+    },
+    {
+      "src": "/api-hub",
+      "dest": "/frontend/api-hub.html"
+    },
+    {
+      "src": "/api-hub.html",
+      "dest": "/frontend/api-hub.html"
+    },
+    {
+      "src": "/",
+      "dest": "/frontend/index.html"
+    }
+  ],
+  "builds": [
+    {
+      "src": "frontend/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "frontend/app.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "frontend/docs.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "frontend/api-hub.html",
+      "use": "@vercel/static"
+    }
+  ]
+}

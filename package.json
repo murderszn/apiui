@@ -1,0 +1,27 @@
+{
+  "name": "apiui",
+  "version": "1.0.0",
+  "description": "Turn your data into APIs instantly",
+  "main": "index.js",
+  "scripts": {
+    "dev": "python backend/main.py",
+    "start": "python backend/main.py",
+    "build": "echo 'Static files ready for deployment'",
+    "vercel-deploy": "vercel --prod"
+  },
+  "keywords": [
+    "api",
+    "data",
+    "fastapi",
+    "csv",
+    "json"
+  ],
+  "author": "apiui",
+  "license": "MIT",
+  "devDependencies": {
+    "@vercel/static": "^2.0.0"
+  },
+  "dependencies": {
+    "vercel": "^48.0.0"
+  }
+}
