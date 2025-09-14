@@ -41,13 +41,11 @@ gcloud config set project ${PROJECT_ID}
 echo -e "${YELLOW}🔌 Enabling required Google Cloud APIs...${NC}"
 gcloud services enable run.googleapis.com
 gcloud services enable containerregistry.googleapis.com
+gcloud services enable cloudbuild.googleapis.com
 
-# Build and push Docker image
-echo -e "${YELLOW}🏗️  Building Docker image...${NC}"
-docker build -f docker/cloudrun.Dockerfile -t ${IMAGE_NAME}:latest .
-
-echo -e "${YELLOW}📤 Pushing image to Google Container Registry...${NC}"
-docker push ${IMAGE_NAME}:latest
+# Build and push Docker image using Cloud Build
+echo -e "${YELLOW}🏗️  Building Docker image with Cloud Build...${NC}"
+gcloud builds submit --tag ${IMAGE_NAME}:latest --timeout=900 .
 
 # Deploy to Cloud Run
 echo -e "${YELLOW}🚀 Deploying to Cloud Run...${NC}"
