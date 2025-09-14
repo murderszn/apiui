@@ -32,9 +32,13 @@ running_apis = {}
 # In-memory storage for running servers started by "Run Generated API"
 running_servers = {}
 
+# Permanent registry of all created APIs (static until explicitly deleted)
+api_registry = {}
+
 # File-based persistence for jobs
 JOBS_FILE = '/app/jobs.json'
 APIS_FILE = '/app/apis.json'
+API_REGISTRY_FILE = '/app/api_registry.json'
 
 def save_jobs_to_file():
     """Save jobs to file for persistence"""
@@ -80,9 +84,54 @@ def load_apis_from_file():
     except Exception as e:
         print(f"Failed to load APIs: {e}")
 
+def save_api_registry_to_file():
+    """Save API registry to file for permanent persistence"""
+    try:
+        import json
+        with open(API_REGISTRY_FILE, 'w') as f:
+            json.dump(api_registry, f, default=str)
+    except Exception as e:
+        print(f"Failed to save API registry: {e}")
+
+def load_api_registry_from_file():
+    """Load API registry from file"""
+    global api_registry
+    try:
+        import json
+        if os.path.exists(API_REGISTRY_FILE):
+            api_registry.update(json.load(open(API_REGISTRY_FILE, 'r')))
+    except Exception as e:
+        print(f"Failed to load API registry: {e}")
+
+def register_api(api_id, api_data):
+    """Register an API permanently in the registry"""
+    api_registry[api_id] = {
+        "id": api_id,
+        "created_at": datetime.utcnow().isoformat(),
+        "status": "available",  # available, running, stopped
+        "file_path": api_data.get("file_path"),
+        "api_url": api_data.get("api_url"),
+        "api_key": api_data.get("api_key"),
+        "filename": api_data.get("filename"),
+        "schema": api_data.get("schema"),
+        "title": api_data.get("title", f"API {api_id}"),
+        "last_accessed": datetime.utcnow().isoformat(),
+        **api_data
+    }
+    save_api_registry_to_file()
+
+def unregister_api(api_id):
+    """Remove an API from the registry (permanent deletion)"""
+    if api_id in api_registry:
+        del api_registry[api_id]
+        save_api_registry_to_file()
+        return True
+    return False
+
 # Load persisted data on startup
 load_jobs_from_file()
 load_apis_from_file()
+load_api_registry_from_file()
 
 def add_log_entry(job_id, message, level="info"):
     """Add a log entry to a job"""
@@ -610,9 +659,14 @@ def get_generation_status(job_id):
             job["api_key"] = f"api_key_{job_id[:8]}"
             job["completed_at"] = datetime.utcnow().isoformat()
             save_jobs_to_file()
+
+            # Register API permanently in the registry
+            register_api(job_id, job)
+
             add_log_entry(job_id, "🚀 Deployment completed successfully!")
             add_log_entry(job_id, f"🌐 API available at: {job['api_url']}")
             add_log_entry(job_id, f"🔑 API Key: {job['api_key']}")
+            add_log_entry(job_id, "📝 API registered permanently - will persist until manually deleted")
             current_progress = progress_info["deployed"]
 
     return jsonify({
@@ -630,100 +684,99 @@ def get_generation_status(job_id):
 
 @app.route('/v1/apis', methods=['GET'])
 def list_generated_apis():
-    """List all generated APIs"""
+    """List all generated APIs (from permanent registry)"""
     try:
-        apis_dir = '/app/generated_apis'
-        if not os.path.exists(apis_dir):
-            return jsonify({"apis": [], "total": 0})
-
         apis = []
-        for api_id in os.listdir(apis_dir):
-            api_path = os.path.join(apis_dir, api_id)
-            if os.path.isdir(api_path):
-                # Check if main.py exists
-                main_py_path = os.path.join(api_path, 'main.py')
-                data_csv_path = os.path.join(api_path, 'data.csv')
-                requirements_path = os.path.join(api_path, 'requirements.txt')
+        for api_id, api_data in api_registry.items():
+            # Update last accessed time
+            api_registry[api_id]["last_accessed"] = datetime.utcnow().isoformat()
+            save_api_registry_to_file()
 
-                if os.path.exists(main_py_path):
-                    # Get basic info from the main.py file
-                    api_info = {
-                        "id": api_id,
-                        "path": api_path,
-                        "created_at": datetime.fromtimestamp(os.path.getctime(api_path)).isoformat(),
-                        "has_main_py": True,
-                        "has_data_csv": os.path.exists(data_csv_path),
-                        "has_requirements": os.path.exists(requirements_path),
-                        "status": "stopped"  # Default status, will be updated when we check if running
-                    }
+            # Check current running status
+            status = api_data.get("status", "available")
+            url = None
+            port = None
+            started_at = None
 
-                    # Check API status
-                    status = "stopped"
-                    url = None
-                    port = None
-                    started_at = None
+            if api_id in running_apis:
+                api_info_running = running_apis[api_id]
+                process = api_info_running["process"]
+                if process.poll() is None:
+                    status = "running"
+                    url = api_info_running["url"]
+                    port = api_info_running["port"]
+                    started_at = api_info_running["started_at"]
+                else:
+                    # Process has stopped, update status
+                    status = "available"
+                    del running_apis[api_id]
+                    api_registry[api_id]["status"] = status
+                    save_api_registry_to_file()
 
-                    if api_id in running_apis:
-                        api_info_running = running_apis[api_id]
-                        process = api_info_running["process"]
-                        if process.poll() is None:
-                            status = "running"
-                            url = api_info_running["url"]
-                            port = api_info_running["port"]
-                            started_at = api_info_running["started_at"]
-                        else:
-                            # Process has stopped, clean up
-                            del running_apis[api_id]
+            # Get file information
+            api_path = f'/app/generated_apis/{api_id}'
+            main_py_path = os.path.join(api_path, 'main.py')
+            data_csv_path = os.path.join(api_path, 'data.csv')
+            requirements_path = os.path.join(api_path, 'requirements.txt')
 
-                    api_info["status"] = status
-                    api_info["url"] = url
-                    api_info["port"] = port
-                    api_info["started_at"] = started_at
+            api_info = {
+                "id": api_id,
+                "title": api_data.get("title", f"API {api_id}"),
+                "created_at": api_data.get("created_at"),
+                "last_accessed": api_data.get("last_accessed"),
+                "status": status,
+                "api_url": api_data.get("api_url"),
+                "api_key": api_data.get("api_key"),
+                "filename": api_data.get("filename"),
+                "url": url,
+                "port": port,
+                "started_at": started_at,
+                "path": api_path,
+                "has_main_py": os.path.exists(main_py_path) if main_py_path else False,
+                "has_data_csv": os.path.exists(data_csv_path) if data_csv_path else False,
+                "has_requirements": os.path.exists(requirements_path) if requirements_path else False,
+            }
 
-                    # Try to extract API info from main.py
-                    try:
-                        with open(main_py_path, 'r') as f:
-                            content = f.read()
+            # Try to extract additional API info from main.py if it exists
+            if api_info["has_main_py"]:
+                try:
+                    with open(main_py_path, 'r') as f:
+                        content = f.read()
 
-                        # Extract app title if available
-                        if 'app = FastAPI(' in content:
-                            lines = content.split('\n')
-                            for line in lines:
-                                if 'app = FastAPI(' in line:
-                                    # Try to extract title
-                                    if 'title=' in line:
-                                        title_part = line.split('title=')[1].split(',')[0].strip('"\'''"')
-                                        api_info["title"] = title_part
-                                    break
-
-                        # Extract data model if available
-                        if 'class ' in content and '(BaseModel):' in content:
-                            models = []
-                            for line in content.split('\n'):
-                                if line.strip().startswith('class ') and '(BaseModel):' in line:
-                                    model_name = line.split('class ')[1].split('(BaseModel):')[0].strip()
-                                    models.append(model_name)
-                            if models:
-                                api_info["models"] = models
-
-                        # Extract endpoints
-                        endpoints = []
+                    # Extract data models
+                    if 'class ' in content and '(BaseModel):' in content:
+                        models = []
                         for line in content.split('\n'):
-                            if line.strip().startswith('@app.'):
-                                method = line.split('@app.')[1].split('(')[0]
-                                route = line.split('\'')[1] if '\'' in line else line.split('"')[1] if '"' in line else ""
+                            if line.strip().startswith('class ') and '(BaseModel):' in line:
+                                model_name = line.split('class ')[1].split('(BaseModel):')[0].strip()
+                                models.append(model_name)
+                        if models:
+                            api_info["models"] = models
+
+                    # Extract endpoints
+                    endpoints = []
+                    for line in content.split('\n'):
+                        if line.strip().startswith('@app.'):
+                            method = line.split('@app.')[1].split('(')[0]
+                            route = line.split('\'')[1] if '\'' in line else line.split('"')[1] if '"' in line else ""
+                            if route:
                                 endpoints.append({"method": method.upper(), "route": route})
+                    if endpoints:
                         api_info["endpoints"] = endpoints
 
-                    except Exception as e:
-                        api_info["parse_error"] = str(e)
+                except Exception as e:
+                    api_info["parse_error"] = str(e)
 
-                    apis.append(api_info)
+            apis.append(api_info)
+
+        # Sort by creation date (newest first)
+        apis.sort(key=lambda x: x.get("created_at", ""), reverse=True)
 
         return jsonify({
             "apis": apis,
             "total": len(apis),
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
+            "message": "APIs are permanently stored and will persist until manually deleted"
         })
 
     except Exception as e:
@@ -733,25 +786,38 @@ def list_generated_apis():
 def get_api_details(api_id):
     """Get detailed information about a specific generated API"""
     try:
-        api_path = f'/app/generated_apis/{api_id}'
-        if not os.path.exists(api_path):
-            return jsonify({"error": "API not found"}), 404
+        # Check if API exists in registry
+        if api_id not in api_registry:
+            return jsonify({
+                "error": "API not found",
+                "message": f"The API with ID '{api_id}' is not registered. It may have been deleted or never existed."
+            }), 404
 
+        api_data = api_registry[api_id]
+
+        # Update last accessed time
+        api_registry[api_id]["last_accessed"] = datetime.utcnow().isoformat()
+        save_api_registry_to_file()
+
+        api_path = f'/app/generated_apis/{api_id}'
         main_py_path = os.path.join(api_path, 'main.py')
         data_csv_path = os.path.join(api_path, 'data.csv')
         requirements_path = os.path.join(api_path, 'requirements.txt')
 
-        if not os.path.exists(main_py_path):
-            return jsonify({"error": "API main.py file not found"}), 404
-
         api_info = {
             "id": api_id,
+            "title": api_data.get("title", f"API {api_id}"),
+            "created_at": api_data.get("created_at"),
+            "last_accessed": api_data.get("last_accessed"),
+            "status": api_data.get("status", "available"),
+            "api_url": api_data.get("api_url"),
+            "api_key": api_data.get("api_key"),
+            "filename": api_data.get("filename"),
             "path": api_path,
-            "created_at": datetime.fromtimestamp(os.path.getctime(api_path)).isoformat(),
             "files": {
-                "main_py": os.path.exists(main_py_path),
-                "data_csv": os.path.exists(data_csv_path),
-                "requirements_txt": os.path.exists(requirements_path)
+                "main_py": os.path.exists(main_py_path) if main_py_path else False,
+                "data_csv": os.path.exists(data_csv_path) if data_csv_path else False,
+                "requirements_txt": os.path.exists(requirements_path) if requirements_path else False
             }
         }
 
@@ -850,6 +916,65 @@ def get_api_details(api_id):
                 api_info["data_error"] = str(e)
 
         return jsonify(api_info)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/v1/apis/<api_id>', methods=['DELETE'])
+def delete_api(api_id):
+    """Permanently delete an API from the registry and filesystem"""
+    try:
+        # Check if API exists in registry
+        if api_id not in api_registry:
+            return jsonify({
+                "error": "API not found",
+                "message": f"The API with ID '{api_id}' is not registered."
+            }), 404
+
+        api_data = api_registry[api_id]
+
+        # Stop the API if it's running
+        if api_id in running_apis:
+            try:
+                api_info_running = running_apis[api_id]
+                process = api_info_running["process"]
+                # Terminate the process group
+                os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+                # Wait a bit for graceful shutdown
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    # Force kill if it doesn't respond
+                    os.killpg(os.getpgid(process.pid), signal.SIGKILL)
+                    process.wait()
+                del running_apis[api_id]
+                save_apis_to_file()
+            except Exception as e:
+                print(f"Error stopping API {api_id}: {str(e)}")
+
+        # Remove from registry
+        unregister_api(api_id)
+
+        # Optionally remove files from filesystem
+        api_path = f'/app/generated_apis/{api_id}'
+        if os.path.exists(api_path):
+            try:
+                import shutil
+                shutil.rmtree(api_path)
+                files_removed = True
+            except Exception as e:
+                print(f"Error removing API files for {api_id}: {str(e)}")
+                files_removed = False
+        else:
+            files_removed = True  # Files already don't exist
+
+        return jsonify({
+            "message": f"API '{api_id}' has been permanently deleted",
+            "api_id": api_id,
+            "title": api_data.get("title", f"API {api_id}"),
+            "files_removed": files_removed,
+            "deleted_at": datetime.utcnow().isoformat()
+        })
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
