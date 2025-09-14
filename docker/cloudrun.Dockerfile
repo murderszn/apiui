@@ -15,7 +15,10 @@ COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY backend/ .
+COPY backend/main.py .
+COPY backend/core/ ./core/
+COPY backend/models/ ./models/
+COPY backend/services/ ./services/
 
 # Create necessary directories
 RUN mkdir -p uploads generated_apis
