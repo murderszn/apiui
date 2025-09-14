@@ -1275,6 +1275,24 @@ def health_check():
         "timestamp": datetime.utcnow().isoformat()
     })
 
+@app.route('/debug/registry', methods=['GET'])
+def debug_registry():
+    """Debug endpoint to check API registry state"""
+    import os
+    registry_exists = os.path.exists(API_REGISTRY_FILE)
+    registry_size = os.path.getsize(API_REGISTRY_FILE) if registry_exists else 0
+
+    return jsonify({
+        "api_registry_file": API_REGISTRY_FILE,
+        "registry_exists": registry_exists,
+        "registry_size": registry_size,
+        "api_registry_count": len(api_registry),
+        "api_registry_keys": list(api_registry.keys()),
+        "jobs_count": len(jobs),
+        "jobs_keys": list(jobs.keys()),
+        "timestamp": datetime.utcnow().isoformat()
+    })
+
 @app.route('/mock-api/<job_id>', methods=['GET'])
 @app.route('/mock-api/<job_id>/data', methods=['GET'])
 def mock_api_endpoint(job_id):
