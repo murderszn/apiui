@@ -566,7 +566,7 @@ def get_generation_status(job_id):
         add_log_entry(job_id, "📦 Preparing Docker container configuration...")
     elif job["status"] == "building":
         job["status"] = "deployed"
-        job["api_url"] = f"http://localhost:8000/mock-api/{job_id}"
+        job["api_url"] = f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}"
         job["api_key"] = f"api_key_{job_id[:8]}"
         job["completed_at"] = datetime.utcnow().isoformat()
         save_jobs_to_file()
@@ -853,13 +853,13 @@ def start_api(api_id):
                 "process": process,
                 "port": port,
                 "started_at": datetime.utcnow().isoformat(),
-                "url": f"http://localhost:{port}"
+                "url": f"https://apiui-backend-24bi767viq-uc.a.run.app/generated/{api_id}"
             }
 
             return jsonify({
                 "message": "API started successfully",
                 "status": "running",
-                "url": f"http://localhost:{port}",
+                "url": f"https://apiui-backend-24bi767viq-uc.a.run.app/generated/{api_id}",
                 "port": port,
                 "started_at": running_apis[api_id]["started_at"]
             })
@@ -977,7 +977,7 @@ def get_api_docs(api_id):
             },
             "servers": [
                 {
-                    "url": f"http://localhost:8000/v1/apis/{api_id}",
+                    "url": f"https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis/{api_id}",
                     "description": "Generated API server"
                 }
             ],

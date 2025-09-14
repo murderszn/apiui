@@ -81,7 +81,7 @@ class DeploymentService:
         """Mock deployment for development/testing"""
         try:
             # Simulate deployment by creating a mock URL and API key
-            mock_url = f"http://localhost:8000/api/{job_id}"
+            mock_url = f"https://apiui-backend-24bi767viq-uc.a.run.app/api/{job_id}"
             mock_api_key = str(uuid.uuid4())
 
             # In a real deployment, this would:
