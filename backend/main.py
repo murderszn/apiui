@@ -565,6 +565,9 @@ def generate_api():
         # Save jobs after creation
         save_jobs_to_file()
 
+        # Debug: Log the file_path that was saved
+        add_log_entry(job_id, f"📁 File path stored in job: {jobs[job_id]['file_path']}")
+
         # Process file (supports multiple formats)
         add_log_entry(job_id, f"🔍 Starting {file_ext.upper()} file analysis...")
         add_log_entry(job_id, f"📂 File extension detected: {file_ext}")
@@ -1360,10 +1363,18 @@ def mock_api_endpoint(job_id):
         try:
             # Use the stored file path from the job
             file_path = job.get("file_path")
-            if file_path and os.path.exists(file_path):
-                file_data = read_data_file(file_path)
-                add_log_entry(job_id, f"✅ Loaded {len(file_data)} records from uploaded file")
+            add_log_entry(job_id, f"🔍 Attempting to load file from path: {file_path}")
+            if file_path:
+                add_log_entry(job_id, f"📁 File path exists in job: {file_path}")
+                add_log_entry(job_id, f"📂 File exists on disk: {os.path.exists(file_path) if file_path else False}")
+                if file_path and os.path.exists(file_path):
+                    file_data = read_data_file(file_path)
+                    add_log_entry(job_id, f"✅ Loaded {len(file_data)} records from uploaded file")
+                else:
+                    add_log_entry(job_id, f"❌ File not found: {file_path}")
+                    raise FileNotFoundError(f"File not found: {file_path}")
             else:
+                add_log_entry(job_id, f"❌ No file_path in job data")
                 raise FileNotFoundError("File path not found in job")
         except Exception as e:
             add_log_entry(job_id, f"⚠️ File not accessible ({str(e)}), using sample data")
