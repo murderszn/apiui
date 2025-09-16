@@ -18,10 +18,6 @@
   ],
   "author": "apiui",
   "license": "MIT",
-  "devDependencies": {
-    "@vercel/static": "^2.0.0"
-  },
-  "dependencies": {
-    "vercel": "^48.0.0"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }
