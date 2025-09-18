@@ -158,13 +158,41 @@ Set these in Cloud Run console or via gcloud:
 # Required for AI functionality
 OPENAI_API_KEY=your-key-here
 
-# Database (if using MongoDB Atlas)
-MONGODB_URL=mongodb+srv://...
+# Storage Configuration (choose one)
+USE_GCS_STORAGE=True  # Set to True to use Google Cloud Storage
+GCS_BUCKET_NAME=your-bucket-name  # Your GCS bucket name
+GCS_PROJECT_ID=your-gcp-project-id  # Your GCP project ID
+
+# Database (choose one - MongoDB recommended for persistence)
+MONGODB_URL=mongodb+srv://...  # MongoDB Atlas connection string
 
 # Optional
 FLASK_DEBUG=False
 PORT=8080
 ```
+
+### Storage Options
+
+1. **Google Cloud Storage (Recommended for production)**:
+   - Set `USE_GCS_STORAGE=True`
+   - Create a GCS bucket: `gsutil mb gs://your-bucket-name`
+   - Set appropriate IAM permissions for Cloud Run service account
+
+2. **Local Storage (Development only)**:
+   - Keep `USE_GCS_STORAGE=False` (default)
+   - Files stored in container's `/app/uploads` and `/app/generated_apis`
+   - **Warning**: Data will be lost when container restarts in Cloud Run
+
+### Database Options
+
+1. **MongoDB Atlas (Recommended)**:
+   - Create cluster at [mongodb.com/atlas](https://mongodb.com/atlas)
+   - Get connection string and set `MONGODB_URL`
+   - Provides full persistence across container restarts
+
+2. **No Database (Fallback)**:
+   - Uses storage service for persistence
+   - Less reliable but simpler setup
 
 ## 🗄️ Database Options
 

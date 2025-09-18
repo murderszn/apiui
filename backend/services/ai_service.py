@@ -6,19 +6,12 @@ from core.config import settings
 class AIService:
     def __init__(self):
         self.openai_api_key = settings.openai_api_key
-        self.google_ai_api_key = settings.google_ai_api_key
 
     async def generate_api_code(self, schema: Dict[str, Any], job_id: str) -> Dict[str, Any]:
         """
         Generate FastAPI code using AI based on data schema
         """
         try:
-            if self.google_ai_api_key and self.google_ai_api_key.strip():
-                result = await self._generate_with_gemini(schema, job_id)
-                if result["success"]:
-                    return result
-                else:
-                    print(f"Gemini failed: {result['error']}, falling back to mock")
             if self.openai_api_key and self.openai_api_key.strip() and self.openai_api_key != "demo-key-placeholder":
                 result = await self._generate_with_openai(schema, job_id)
                 if result["success"]:
@@ -31,24 +24,6 @@ class AIService:
         except Exception as e:
             print(f"AI generation failed: {str(e)}, falling back to mock")
             return await self._generate_mock_code(schema, job_id)
-
-    async def _generate_with_gemini(self, schema: Dict[str, Any], job_id: str) -> Dict[str, Any]:
-        """Generate code using Google's Gemini API"""
-        try:
-            import google.generativeai as genai
-
-            genai.configure(api_key=self.google_ai_api_key)
-            model = genai.GenerativeModel('gemini-pro')
-
-            prompt = self._build_ai_prompt(schema)
-
-            response = model.generate_content(prompt)
-            result = self._parse_ai_response(response.text)
-
-            return result
-
-        except Exception as e:
-            return {"success": False, "error": f"Gemini API error: {str(e)}"}
 
     async def _generate_with_openai(self, schema: Dict[str, Any], job_id: str) -> Dict[str, Any]:
         """Generate code using OpenAI GPT API"""

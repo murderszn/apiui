@@ -1,5 +1,240 @@
 # apiui
 
+**🚀 Persistent API Generation Platform**
+
+Generate REST APIs from CSV/Excel files with persistent storage and Cloud Run deployment.
+
+## 🎯 Key Features
+
+- **🔄 Persistent APIs**: APIs remain available after container restarts
+- **☁️ Cloud Storage**: Google Cloud Storage integration for file persistence
+- **🗄️ Database Support**: MongoDB Atlas integration for metadata persistence
+- **🤖 AI-Powered**: OpenAI GPT-4 integration for intelligent API generation
+- **🐳 Container Ready**: Optimized for Cloud Run deployment
+- **📊 Multi-Format Support**: CSV, JSON, Excel, Parquet files
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend       │    │   Storage       │
+│   (HTML/JS)     │◄──►│   (Flask)       │◄──►│   (GCS/MongoDB) │
+│                 │    │                 │    │                 │
+│ • File Upload   │    │ • API Generation│    │ • File Storage  │
+│ • API Testing   │    │ • Job Management│    │ • Metadata      │
+│ • Documentation │    │ • Mock Endpoints│    │ • Persistence   │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
+- Google Cloud Account
+- OpenAI API Key
+- Docker (optional)
+
+### 2. Setup GCP Resources
+```bash
+# Configure your project ID
+export PROJECT_ID=your-gcp-project-id
+
+# Run setup script
+./setup-gcp.sh
+```
+
+### 3. Deploy to Cloud Run
+```bash
+# Set your OpenAI key
+export OPENAI_API_KEY=your-key-here
+
+# Deploy
+./deploy-cloud-run.sh
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+```bash
+# Required
+OPENAI_API_KEY=your-openai-key
+PROJECT_ID=your-gcp-project-id
+
+# Storage (choose one)
+USE_GCS_STORAGE=True              # Use Google Cloud Storage
+GCS_BUCKET_NAME=your-bucket-name  # GCS bucket name
+
+# Database (recommended)
+MONGODB_URL=mongodb+srv://...     # MongoDB Atlas connection
+
+# Optional
+FLASK_DEBUG=False
+PORT=8080
+```
+
+### Storage Options
+
+1. **Google Cloud Storage (Production)**:
+   - Persistent across container restarts
+   - Scalable and reliable
+   - Recommended for production
+
+2. **Local Storage (Development)**:
+   - Files stored in container filesystem
+   - Lost on container restart
+   - Good for development/testing
+
+### Database Options
+
+1. **MongoDB Atlas (Recommended)**:
+   - Full metadata persistence
+   - Cross-container state management
+   - Best for production
+
+2. **Storage-Only (Fallback)**:
+   - Uses GCS/Local for persistence
+   - No database required
+   - Simpler setup
+
+## 📡 API Endpoints
+
+### Core Endpoints
+- `POST /v1/generate` - Upload file and generate API
+- `GET /v1/generate/status/<job_id>` - Check generation status
+- `GET /v1/apis` - List all generated APIs
+- `GET /v1/apis/<api_id>` - Get API details
+- `GET /mock-api/<job_id>/data` - Access generated API data
+
+### Health & Monitoring
+- `GET /health` - Health check with storage/database status
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+**APIs disappear after restart**:
+- Ensure `USE_GCS_STORAGE=True` and bucket is configured
+- Check MongoDB connection if using database
+
+**File upload fails**:
+- Verify GCS bucket permissions
+- Check service account has `storage.objectAdmin` role
+
+**Database connection issues**:
+- Verify MongoDB Atlas connection string
+- Check network connectivity and firewall rules
+
+### Health Check
+Check system status:
+```bash
+curl https://your-service-url/health
+```
+
+Expected response:
+```json
+{
+  "status": "healthy",
+  "storage": {"type": "GCS", "status": "available"},
+  "database": {"type": "MongoDB", "status": "connected"},
+  "jobs_count": 5,
+  "apis_count": 3
+}
+```
+
+## 🏗️ Development
+
+### Local Development
+```bash
+# Backend
+cd backend
+pip install -r requirements.txt
+python main.py
+
+# Frontend (separate terminal)
+cd frontend
+python -m http.server 8000
+```
+
+### Docker Development
+```bash
+# Build and run
+docker build -f docker/backend.Dockerfile -t apiui-backend .
+docker run -p 9999:9999 apiui-backend
+```
+
+## 🚀 Deployment
+
+### Cloud Run (Recommended)
+```bash
+# Automated deployment
+./deploy-cloud-run.sh
+
+# Manual deployment
+gcloud run deploy apiui-backend \
+  --source . \
+  --platform managed \
+  --region us-central1 \
+  --set-env-vars="OPENAI_API_KEY=your-key,USE_GCS_STORAGE=True"
+```
+
+### Other Platforms
+The application can also be deployed to:
+- Google App Engine
+- Kubernetes
+- AWS Fargate
+- Azure Container Instances
+
+## 📊 Monitoring
+
+### Cloud Run Logs
+```bash
+gcloud logging read "resource.type=cloud_run_revision" --limit=50
+```
+
+### Storage Monitoring
+```bash
+# Check bucket contents
+gsutil ls gs://your-bucket-name/
+
+# View bucket usage
+gsutil du -sh gs://your-bucket-name/
+```
+
+## 🔒 Security
+
+### Best Practices
+- Use environment variables for secrets
+- Enable Cloud Run authentication for production
+- Set up VPC for database access
+- Configure CORS for your frontend domain
+- Use service accounts with minimal permissions
+
+### IAM Permissions Required
+- `storage.objectAdmin` - GCS bucket access
+- `run.invoker` - Cloud Run invocation
+- MongoDB Atlas network access
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test with both local and GCS storage
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+- **Issues**: [GitHub Issues](https://github.com/your-repo/apiui/issues)
+- **Documentation**: [Cloud Run Deployment Guide](CLOUD_RUN_DEPLOYMENT.md)
+- **Health Check**: `/health` endpoint for system status
+
+---
+
+**🎉 Your APIs are now persistent and production-ready!**
+
 **Turn your data files into production-ready APIs with AI-generated FastAPI applications**
 
 apiui is a platform that automatically generates secure, scalable REST APIs from your data files (CSV, JSON, Excel, Parquet) using artificial intelligence. Upload your data, and get a fully functional API with pagination, filtering, and sorting capabilities.

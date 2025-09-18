@@ -1,10 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect, session, make_response
 from flask_cors import CORS
 import uuid
 import os
 import json
 import csv
-import tempfile
 from datetime import datetime
 import asyncio
 import sys
@@ -13,131 +12,531 @@ from contextlib import redirect_stdout, redirect_stderr
 import subprocess
 import signal
 import threading
+import secrets
+from urllib.parse import urlencode
+from typing import Optional
+
+import httpx
 
 # Add backend to path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from core.config import settings
 from services.ai_service import AIService
+from services.storage_service import storage_service
+from services.database_service import db_service
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+app.secret_key = settings.secret_key
+app.config.setdefault("SESSION_COOKIE_SAMESITE", "Lax")
+cookie_secure = any(
+    url and url.startswith("https://")
+    for url in (settings.github_redirect_uri, settings.google_redirect_uri)
+)
+app.config.setdefault("SESSION_COOKIE_SECURE", cookie_secure)
+CORS(app, supports_credentials=True)  # Enable CORS for all routes with credentials
 
-# In-memory storage for jobs (in production, use a database)
+GITHUB_AUTHORIZE_URL = "https://github.com/login/oauth/authorize"
+GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token"
+GITHUB_USER_API = "https://api.github.com/user"
+GITHUB_EMAILS_API = "https://api.github.com/user/emails"
+
+GOOGLE_AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/v2/auth"
+GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
+GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo"
+
+
+def is_github_oauth_configured() -> bool:
+    return bool(settings.github_client_id and settings.github_client_secret and settings.github_redirect_uri)
+
+
+def is_google_oauth_configured() -> bool:
+    return bool(settings.google_client_id and settings.google_client_secret and settings.google_redirect_uri)
+
+
+def set_authenticated_session(provider: str, user_info: dict, access_token: Optional[str] = None, refresh_token: Optional[str] = None) -> None:
+    session['auth_provider'] = provider
+    session['auth_user'] = user_info
+    if access_token:
+        session['auth_access_token'] = access_token
+    else:
+        session.pop('auth_access_token', None)
+
+    if refresh_token:
+        session['auth_refresh_token'] = refresh_token
+    else:
+        session.pop('auth_refresh_token', None)
+
+    if provider == 'github':
+        session['github_user'] = user_info
+        if access_token:
+            session['github_access_token'] = access_token
+        else:
+            session.pop('github_access_token', None)
+    elif provider == 'google':
+        session['google_user'] = user_info
+        if access_token:
+            session['google_access_token'] = access_token
+        else:
+            session.pop('google_access_token', None)
+        if refresh_token:
+            session['google_refresh_token'] = refresh_token
+        else:
+            session.pop('google_refresh_token', None)
+
+
+def clear_authenticated_session() -> None:
+    session.pop('auth_provider', None)
+    session.pop('auth_user', None)
+    session.pop('auth_access_token', None)
+    session.pop('auth_refresh_token', None)
+    session.pop('github_user', None)
+    session.pop('github_access_token', None)
+    session.pop('google_user', None)
+    session.pop('google_access_token', None)
+    session.pop('google_refresh_token', None)
+    session.pop('github_oauth_state', None)
+    session.pop('google_oauth_state', None)
+    session.pop('post_auth_redirect', None)
+    session.pop('post_auth_provider', None)
+
+
+def _build_post_auth_redirect_url(base_url: str, status: str = "success", provider: str = "github") -> str:
+    separator = "&" if "?" in base_url else "?"
+    return f"{base_url}{separator}status={status}&provider={provider}"
+
+
+def _oauth_error_response(message: str, status_code: int = 400, provider: Optional[str] = None):
+    redirect_target = session.pop('post_auth_redirect', None)
+    provider = provider or session.pop('post_auth_provider', None) or 'github'
+    if redirect_target:
+        return redirect(_build_post_auth_redirect_url(redirect_target, status="error", provider=provider))
+
+    if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+        return jsonify({"success": False, "error": message, "provider": provider}), status_code
+
+    friendly_provider = "Google" if provider == 'google' else "GitHub"
+    html = f"""
+    <html>
+        <head><title>{friendly_provider} Sign In</title></head>
+        <body style='font-family: Arial, sans-serif; padding: 2rem;'>
+            <h2>{friendly_provider} sign-in failed</h2>
+            <p>{message}</p>
+            <p>You can close this window and try again.</p>
+        </body>
+    </html>
+    """
+    response = make_response(html, status_code)
+    response.headers["Content-Type"] = "text/html; charset=utf-8"
+    return response
+
+
+@app.route("/auth/github/login", methods=["GET"])
+def github_login():
+    if not is_github_oauth_configured():
+        return jsonify({
+            "success": False,
+            "error": "GitHub OAuth is not configured. Set GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, and GITHUB_REDIRECT_URI."
+        }), 503
+
+    state = secrets.token_urlsafe(32)
+    session['github_oauth_state'] = state
+
+    next_url = request.args.get('next')
+    if next_url:
+        session['post_auth_redirect'] = next_url
+        session['post_auth_provider'] = 'github'
+    else:
+        session['post_auth_provider'] = 'github'
+
+    params = {
+        "client_id": settings.github_client_id,
+        "redirect_uri": settings.github_redirect_uri,
+        "scope": "read:user user:email",
+        "state": state,
+        "allow_signup": "true",
+    }
+
+    authorize_url = f"{GITHUB_AUTHORIZE_URL}?{urlencode(params)}"
+
+    if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+        return jsonify({"success": True, "authorization_url": authorize_url, "state": state})
+
+    return redirect(authorize_url)
+
+
+@app.route("/auth/github/callback", methods=["GET"])
+def github_callback():
+    if not is_github_oauth_configured():
+        return jsonify({
+            "success": False,
+            "error": "GitHub OAuth is not configured."
+        }), 503
+
+    if request.args.get('error'):
+        error_desc = request.args.get('error_description') or request.args.get('error') or "Unknown error"
+        return _oauth_error_response(error_desc, 400, provider='github')
+
+    state = request.args.get('state')
+    stored_state = session.pop('github_oauth_state', None)
+
+    if not state or not stored_state or state != stored_state:
+        return _oauth_error_response("OAuth state mismatch. Please try signing in again.", 400, provider='github')
+
+    code = request.args.get('code')
+    if not code:
+        return _oauth_error_response("Missing authorization code from GitHub.", 400, provider='github')
+
+    token_payload = {
+        "client_id": settings.github_client_id,
+        "client_secret": settings.github_client_secret,
+        "code": code,
+        "redirect_uri": settings.github_redirect_uri,
+        "state": state,
+    }
+
+    try:
+        with httpx.Client(timeout=10) as client:
+            token_response = client.post(
+                GITHUB_TOKEN_URL,
+                headers={"Accept": "application/json"},
+                data=token_payload,
+            )
+            token_response.raise_for_status()
+    except httpx.HTTPError as exc:
+        return _oauth_error_response(f"Failed to exchange authorization code with GitHub: {exc}", 502, provider='github')
+
+    token_data = token_response.json()
+    access_token = token_data.get('access_token')
+    if not access_token:
+        error_description = token_data.get('error_description') or "No access token returned by GitHub."
+        return _oauth_error_response(error_description, 502, provider='github')
+
+    user_headers = {
+        "Accept": "application/json",
+        "Authorization": f"token {access_token}",
+        "User-Agent": "apiui-app",
+    }
+
+    try:
+        with httpx.Client(timeout=10) as client:
+            user_response = client.get(GITHUB_USER_API, headers=user_headers)
+            user_response.raise_for_status()
+            user_data = user_response.json()
+
+            emails_response = client.get(GITHUB_EMAILS_API, headers=user_headers)
+            emails_response.raise_for_status()
+            emails_data = emails_response.json()
+    except httpx.HTTPError as exc:
+        return _oauth_error_response(f"Failed to load GitHub user profile: {exc}", 502, provider='github')
+
+    primary_email = None
+    if isinstance(emails_data, list):
+        for email_entry in emails_data:
+            if email_entry.get('primary') and email_entry.get('verified'):
+                primary_email = email_entry.get('email')
+                break
+        if not primary_email and emails_data:
+            primary_email = emails_data[0].get('email')
+
+    user_info = {
+        "id": user_data.get('id'),
+        "login": user_data.get('login'),
+        "name": user_data.get('name'),
+        "email": primary_email or user_data.get('email'),
+        "avatar_url": user_data.get('avatar_url'),
+        "profile_url": user_data.get('html_url'),
+    }
+
+    set_authenticated_session('github', user_info, access_token)
+
+    redirect_target = session.pop('post_auth_redirect', None)
+    session.pop('post_auth_provider', None)
+    if redirect_target:
+        return redirect(_build_post_auth_redirect_url(redirect_target, provider='github'))
+
+    if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+        return jsonify({"success": True, "provider": "github", "user": user_info})
+
+    html = f"""
+    <html>
+        <head><title>GitHub Sign In</title></head>
+        <body style='font-family: Arial, sans-serif; padding: 2rem;'>
+            <h2>Signed in with GitHub</h2>
+            <p>You are now signed in as <strong>{user_info.get('login') or user_info.get('email') or 'GitHub user'}</strong>.</p>
+            <p>You can close this window and return to the application.</p>
+        </body>
+    </html>
+    """
+
+    response = make_response(html, 200)
+    response.headers["Content-Type"] = "text/html; charset=utf-8"
+    return response
+
+
+@app.route("/auth/github/me", methods=["GET"])
+def github_me():
+    user_info = session.get('github_user')
+    if not user_info:
+        return jsonify({"authenticated": False, "provider": None}), 401
+
+    return jsonify({"authenticated": True, "provider": "github", "user": user_info})
+
+
+@app.route("/auth/session", methods=["GET"])
+def auth_session():
+    user_info = session.get('auth_user')
+    provider = session.get('auth_provider')
+
+    if not user_info or not provider:
+        return jsonify({"authenticated": False, "provider": None}), 401
+
+    return jsonify({"authenticated": True, "provider": provider, "user": user_info})
+
+
+@app.route("/auth/google/login", methods=["GET"])
+def google_login():
+    if not is_google_oauth_configured():
+        return jsonify({
+            "success": False,
+            "error": "Google OAuth is not configured. Set GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REDIRECT_URI."
+        }), 503
+
+    state = secrets.token_urlsafe(32)
+    session['google_oauth_state'] = state
+
+    next_url = request.args.get('next')
+    if next_url:
+        session['post_auth_redirect'] = next_url
+        session['post_auth_provider'] = 'google'
+    else:
+        session['post_auth_provider'] = 'google'
+
+    params = {
+        "client_id": settings.google_client_id,
+        "redirect_uri": settings.google_redirect_uri,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "state": state,
+        "access_type": "offline",
+        "include_granted_scopes": "true",
+        "prompt": "consent",
+    }
+
+    authorize_url = f"{GOOGLE_AUTHORIZE_URL}?{urlencode(params)}"
+
+    if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+        return jsonify({"success": True, "authorization_url": authorize_url, "state": state})
+
+    return redirect(authorize_url)
+
+
+@app.route("/auth/google/callback", methods=["GET"])
+def google_callback():
+    if not is_google_oauth_configured():
+        return jsonify({
+            "success": False,
+            "error": "Google OAuth is not configured."
+        }), 503
+
+    if request.args.get('error'):
+        error_desc = request.args.get('error_description') or request.args.get('error') or "Unknown error"
+        return _oauth_error_response(error_desc, 400, provider='google')
+
+    state = request.args.get('state')
+    stored_state = session.pop('google_oauth_state', None)
+
+    if not state or not stored_state or state != stored_state:
+        return _oauth_error_response("OAuth state mismatch. Please try signing in again.", 400, provider='google')
+
+    code = request.args.get('code')
+    if not code:
+        return _oauth_error_response("Missing authorization code from Google.", 400, provider='google')
+
+    token_payload = {
+        "client_id": settings.google_client_id,
+        "client_secret": settings.google_client_secret,
+        "code": code,
+        "redirect_uri": settings.google_redirect_uri,
+        "grant_type": "authorization_code",
+    }
+
+    try:
+        with httpx.Client(timeout=10) as client:
+            token_response = client.post(
+                GOOGLE_TOKEN_URL,
+                headers={"Accept": "application/json"},
+                data=token_payload,
+            )
+            token_response.raise_for_status()
+    except httpx.HTTPError as exc:
+        return _oauth_error_response(f"Failed to exchange authorization code with Google: {exc}", 502, provider='google')
+
+    token_data = token_response.json()
+    access_token = token_data.get('access_token')
+    if not access_token:
+        error_description = token_data.get('error_description') or "No access token returned by Google."
+        return _oauth_error_response(error_description, 502, provider='google')
+
+    user_headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Accept": "application/json",
+    }
+
+    try:
+        with httpx.Client(timeout=10) as client:
+            user_response = client.get(GOOGLE_USERINFO_URL, headers=user_headers)
+            user_response.raise_for_status()
+            user_data = user_response.json()
+    except httpx.HTTPError as exc:
+        return _oauth_error_response(f"Failed to load Google user profile: {exc}", 502, provider='google')
+
+    user_info = {
+        "id": user_data.get('id') or user_data.get('sub'),
+        "name": user_data.get('name'),
+        "email": user_data.get('email'),
+        "avatar_url": user_data.get('picture'),
+        "profile_url": user_data.get('link'),
+    }
+
+    refresh_token = token_data.get('refresh_token')
+    set_authenticated_session('google', user_info, access_token, refresh_token)
+
+    redirect_target = session.pop('post_auth_redirect', None)
+    session.pop('post_auth_provider', None)
+    if redirect_target:
+        return redirect(_build_post_auth_redirect_url(redirect_target, provider='google'))
+
+    if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+        return jsonify({"success": True, "provider": "google", "user": user_info})
+
+    html = f"""
+    <html>
+        <head><title>Google Sign In</title></head>
+        <body style='font-family: Arial, sans-serif; padding: 2rem;'>
+            <h2>Signed in with Google</h2>
+            <p>You are now signed in as <strong>{user_info.get('name') or user_info.get('email') or 'Google user'}</strong>.</p>
+            <p>You can close this window and return to the application.</p>
+        </body>
+    </html>
+    """
+
+    response = make_response(html, 200)
+    response.headers["Content-Type"] = "text/html; charset=utf-8"
+    return response
+
+
+@app.route("/auth/logout", methods=["POST"])
+def auth_logout():
+    clear_authenticated_session()
+    return jsonify({"success": True})
+
+# In-memory storage (will be backed by persistent storage)
 jobs = {}
-
-# In-memory storage for running API processes
 running_apis = {}
-
-# In-memory storage for running servers started by "Run Generated API"
 running_servers = {}
 
-# Permanent registry of all created APIs (static until explicitly deleted)
-api_registry = {}
+# Database and storage initialization
+db_connected = False
 
-# File-based persistence for jobs
-JOBS_FILE = '/app/jobs.json'
-APIS_FILE = '/app/apis.json'
-API_REGISTRY_FILE = '/app/api_registry.json'
+async def save_job_async(job_id: str, job_data: dict):
+    """Save job data persistently"""
+    global db_connected
 
-def save_jobs_to_file():
-    """Save jobs to file for persistence"""
-    try:
-        import json
-        with open(JOBS_FILE, 'w') as f:
-            json.dump(jobs, f, default=str)
-    except Exception as e:
-        print(f"Failed to save jobs: {e}")
+    if db_connected:
+        success = await db_service.save_job(job_id, job_data)
+        if not success:
+            # Fallback to storage service
+            storage_service.save_persistent_data("jobs", jobs)
+    else:
+        # Fallback to storage service
+        storage_service.save_persistent_data("jobs", jobs)
 
-def load_jobs_from_file():
-    """Load jobs from file"""
-    global jobs
-    try:
-        import json
-        if os.path.exists(JOBS_FILE):
-            with open(JOBS_FILE, 'r') as f:
-                jobs.update(json.load(f))
-    except Exception as e:
-        print(f"Failed to load jobs: {e}")
+async def save_api_states_async():
+    """Save API states persistently"""
+    global db_connected
 
-def save_apis_to_file():
-    """Save APIs to file for persistence"""
-    try:
-        import json
-        with open(APIS_FILE, 'w') as f:
-            json.dump({
-                'running_apis': running_apis,
-                'running_servers': running_servers
-            }, f, default=str)
-    except Exception as e:
-        print(f"Failed to save APIs: {e}")
-
-def load_apis_from_file():
-    """Load APIs from file"""
-    global running_apis, running_servers
-    try:
-        import json
-        if os.path.exists(APIS_FILE):
-            data = json.load(open(APIS_FILE, 'r'))
-            running_apis.update(data.get('running_apis', {}))
-            running_servers.update(data.get('running_servers', {}))
-    except Exception as e:
-        print(f"Failed to load APIs: {e}")
-
-def save_api_registry_to_file():
-    """Save API registry to file for permanent persistence"""
-    try:
-        import json
-        with open(API_REGISTRY_FILE, 'w') as f:
-            json.dump(api_registry, f, default=str)
-    except Exception as e:
-        print(f"Failed to save API registry: {e}")
-
-def load_api_registry_from_file():
-    """Load API registry from file"""
-    global api_registry
-    try:
-        import json
-        print(f"Loading API registry from: {API_REGISTRY_FILE}")
-        print(f"File exists: {os.path.exists(API_REGISTRY_FILE)}")
-        if os.path.exists(API_REGISTRY_FILE):
-            data = json.load(open(API_REGISTRY_FILE, 'r'))
-            api_registry.update(data)
-            print(f"Loaded {len(data)} APIs from registry file")
-        else:
-            print("API registry file not found, starting with empty registry")
-    except Exception as e:
-        print(f"Failed to load API registry: {e}")
-
-def register_api(api_id, api_data):
-    """Register an API permanently in the registry"""
-    api_registry[api_id] = {
-        "id": api_id,
-        "created_at": datetime.utcnow().isoformat(),
-        "status": "available",  # available, running, stopped
-        "file_path": api_data.get("file_path"),
-        "api_url": api_data.get("api_url"),
-        "api_key": api_data.get("api_key"),
-        "filename": api_data.get("filename"),
-        "schema": api_data.get("schema"),
-        "title": api_data.get("title", f"API {api_id}"),
-        "last_accessed": datetime.utcnow().isoformat(),
-        **api_data
+    api_states = {
+        'running_apis': running_apis,
+        'running_servers': running_servers
     }
-    save_api_registry_to_file()
 
-def unregister_api(api_id):
-    """Remove an API from the registry (permanent deletion)"""
-    if api_id in api_registry:
-        del api_registry[api_id]
-        save_api_registry_to_file()
-        return True
-    return False
+    if db_connected:
+        success = await db_service.save_api_state(api_states)
+        if not success:
+            # Fallback to storage service
+            storage_service.save_persistent_data("api_states", api_states)
+    else:
+        # Fallback to storage service
+        storage_service.save_persistent_data("api_states", api_states)
 
-# Load persisted data on startup
-load_jobs_from_file()
-load_apis_from_file()
-load_api_registry_from_file()
+async def load_persistent_data():
+    """Load all persistent data on startup"""
+    global jobs, running_apis, running_servers, db_connected
+
+    try:
+        # Try database first
+        if db_connected:
+            jobs = await db_service.load_all_jobs()
+            api_states = await db_service.load_api_state()
+            if api_states:
+                running_apis = api_states.get('running_apis', {})
+                running_servers = api_states.get('running_servers', {})
+        else:
+            # Fallback to storage service
+            jobs_data = storage_service.load_persistent_data("jobs")
+            if jobs_data:
+                jobs = jobs_data
+
+            api_states_data = storage_service.load_persistent_data("api_states")
+            if api_states_data:
+                running_apis = api_states_data.get('running_apis', {})
+                running_servers = api_states_data.get('running_servers', {})
+
+        print(f"Loaded {len(jobs)} jobs and {len(running_apis)} running APIs from persistent storage")
+
+    except Exception as e:
+        print(f"Failed to load persistent data: {str(e)}")
+
+
+# Initialize database and load persisted data on startup
+async def initialize_app():
+    """Initialize database connection and load persistent data"""
+    global db_connected
+
+    # Try to connect to database
+    if settings.mongodb_url and settings.mongodb_url != "mongodb://localhost:27017":
+        try:
+            await db_service.connect()
+            db_connected = await db_service.health_check()
+            if db_connected:
+                print("Database connection established")
+            else:
+                print("Database connection failed, using storage service")
+        except Exception as e:
+            print(f"Database initialization failed: {str(e)}, using storage service")
+
+    # Load persistent data
+    await load_persistent_data()
+
+# Initialize on startup
+asyncio.run(initialize_app())
+
+def save_job_background(job_id, job_data):
+    """Save job data in background thread to handle Flask async issues"""
+    try:
+        asyncio.create_task(save_job_async(job_id, job_data))
+    except RuntimeError:
+        # Handle case where event loop is not available
+        import threading
+        def save_async():
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(save_job_async(job_id, job_data))
+            loop.close()
+        thread = threading.Thread(target=save_async)
+        thread.daemon = True
+        thread.start()
 
 def add_log_entry(job_id, message, level="info"):
     """Add a log entry to a job"""
@@ -157,8 +556,8 @@ def add_log_entry(job_id, message, level="info"):
     if len(jobs[job_id]["logs"]) > 50:
         jobs[job_id]["logs"] = jobs[job_id]["logs"][-50:]
 
-    # Save jobs to file
-    save_jobs_to_file()
+    # Save jobs persistently (async)
+    save_job_background(job_id, jobs[job_id])
 
 # Initialize AI service
 ai_service = AIService()
@@ -178,27 +577,293 @@ def run_async_ai_generation(schema, job_id):
     except Exception as e:
         return {"success": False, "error": f"AI generation failed: {str(e)}"}
 
+def analyze_data_from_bytes(file_data: bytes, file_ext: str):
+    """Analyze data from bytes and return schema - supports CSV, JSON, XLSX, Parquet"""
+    try:
+        file_ext = file_ext.lower()
+
+        # Handle different file formats
+        if file_ext == '.csv':
+            return analyze_csv_from_bytes(file_data)
+        elif file_ext == '.json':
+            return analyze_json_from_bytes(file_data)
+        elif file_ext in ['.xlsx', '.xls']:
+            return analyze_excel_from_bytes(file_data)
+        elif file_ext == '.parquet':
+            return analyze_parquet_from_bytes(file_data)
+        elif file_ext == '.txt':
+            # Try to detect if it's actually CSV-like
+            return analyze_csv_from_bytes(file_data)
+        else:
+            return {"error": f"Unsupported file format: {file_ext}", "columns": [], "row_count": 0}
+
+    except Exception as e:
+        return {"error": str(e), "columns": [], "row_count": 0}
+
 def analyze_data_file(file_path, file_ext=None):
     """Analyze data file and return schema - supports CSV, JSON, XLSX, Parquet"""
     try:
         if file_ext is None:
             file_ext = os.path.splitext(file_path)[1].lower()
 
-        # Handle different file formats
-        if file_ext == '.csv':
-            return analyze_csv_file(file_path)
-        elif file_ext == '.json':
-            return analyze_json_file(file_path)
-        elif file_ext in ['.xlsx', '.xls']:
-            return analyze_excel_file(file_path)
-        elif file_ext == '.parquet':
-            return analyze_parquet_file(file_path)
-        elif file_ext == '.txt':
-            # Try to detect if it's actually CSV-like
-            return analyze_csv_file(file_path)
-        else:
-            return {"error": f"Unsupported file format: {file_ext}", "columns": [], "row_count": 0}
+        # Read file data and use the bytes version
+        with open(file_path, 'rb') as f:
+            file_data = f.read()
+        return analyze_data_from_bytes(file_data, file_ext)
 
+    except Exception as e:
+        return {"error": str(e), "columns": [], "row_count": 0}
+
+def analyze_csv_from_bytes(file_data: bytes):
+    """Analyze CSV data from bytes and return schema"""
+    try:
+        import io
+        sample = file_data.decode('utf-8', errors='ignore')[:1024]
+        csv_io = io.StringIO(file_data.decode('utf-8'))
+
+        reader = csv.reader(csv_io)
+
+        # Read header
+        header = next(reader, None)
+        if not header:
+            return {"columns": [], "row_count": 0}
+
+        # Count rows
+        csv_io.seek(0)
+        next(reader)  # Skip header
+        row_count = sum(1 for row in reader) + 1  # +1 for header
+
+        # Infer column types from first few rows
+        csv_io.seek(0)
+        next(reader)  # Skip header
+        sample_rows = []
+        for i, row in enumerate(reader):
+            if i >= 5:  # Sample first 5 data rows
+                break
+            sample_rows.append(row)
+
+        columns = []
+        for i, col_name in enumerate(header):
+            # Try to infer type from sample data
+            sample_values = [row[i] for row in sample_rows if i < len(row)]
+
+            inferred_type = "string"
+            if sample_values:
+                # Check if all values are numeric
+                try:
+                    [float(v) for v in sample_values if v]
+                    if '.' in str(sample_values[0]) or any('.' in str(v) for v in sample_values):
+                        inferred_type = "float"
+                    else:
+                        inferred_type = "integer"
+                except ValueError:
+                    # Check if dates
+                    if any('T' in str(v) or '-' in str(v) for v in sample_values):
+                        inferred_type = "date"
+
+            columns.append({
+                "name": col_name,
+                "type": inferred_type,
+                "nullable": any(not row[i] if i < len(row) else True for row in sample_rows),
+                "unique_count": len(set(sample_values)),
+                "inferred_type": inferred_type
+            })
+
+        return {
+            "columns": columns,
+            "row_count": row_count,
+            "sample_data": sample_rows[:3]
+        }
+
+    except Exception as e:
+        return {"error": str(e), "columns": [], "row_count": 0}
+
+def analyze_json_from_bytes(file_data: bytes):
+    """Analyze JSON data from bytes and return schema"""
+    try:
+        import json
+        import io
+
+        data = json.loads(file_data.decode('utf-8'))
+
+        # Handle different JSON structures
+        if isinstance(data, list):
+            # Array of objects
+            if len(data) == 0:
+                return {"columns": [], "row_count": 0}
+
+            # Get all unique keys from all objects
+            all_keys = set()
+            for item in data[:100]:  # Sample first 100 items
+                if isinstance(item, dict):
+                    all_keys.update(item.keys())
+
+            columns = []
+            sample_data = []
+
+            for key in sorted(all_keys):
+                # Sample values for this key
+                sample_values = []
+                for item in data[:5]:  # Sample first 5 items
+                    if isinstance(item, dict) and key in item:
+                        sample_values.append(str(item[key]))
+
+                inferred_type = "string"
+                if sample_values:
+                    # Check if all values are numeric
+                    try:
+                        [float(v) for v in sample_values if v and v != 'None']
+                        if '.' in str(sample_values[0]) or any('.' in str(v) for v in sample_values):
+                            inferred_type = "float"
+                        else:
+                            inferred_type = "integer"
+                    except ValueError:
+                        # Check if dates
+                        if any('T' in str(v) or '-' in str(v) for v in sample_values):
+                            inferred_type = "date"
+
+                # Check nullability
+                null_count = sum(1 for item in data[:100] if isinstance(item, dict) and (key not in item or item[key] is None))
+                nullable = null_count > 0
+
+                columns.append({
+                    "name": key,
+                    "type": inferred_type,
+                    "nullable": nullable,
+                    "unique_count": len(set(str(item.get(key)) for item in data[:100] if isinstance(item, dict))),
+                    "inferred_type": inferred_type
+                })
+
+            # Convert sample data to list format for consistency
+            sample_data = []
+            for item in data[:3]:
+                if isinstance(item, dict):
+                    row = []
+                    for key in sorted(all_keys):
+                        row.append(str(item.get(key, '')))
+                    sample_data.append(row)
+
+            return {
+                "columns": columns,
+                "row_count": len(data),
+                "sample_data": sample_data
+            }
+        else:
+            return {"error": "JSON file must contain an array of objects", "columns": [], "row_count": 0}
+
+    except Exception as e:
+        return {"error": str(e), "columns": [], "row_count": 0}
+
+def analyze_excel_from_bytes(file_data: bytes):
+    """Analyze Excel data from bytes and return schema"""
+    try:
+        import pandas as pd
+        import io
+
+        # Read the first sheet
+        df = pd.read_excel(io.BytesIO(file_data), sheet_name=0)
+
+        if df.empty:
+            return {"columns": [], "row_count": 0}
+
+        columns = []
+        sample_data = []
+
+        for col_name in df.columns:
+            # Get sample values
+            sample_values = df[col_name].dropna().head(5).astype(str).tolist()
+
+            inferred_type = "string"
+            if len(sample_values) > 0:
+                # Check if all values are numeric
+                try:
+                    [float(v) for v in sample_values if v]
+                    if '.' in str(sample_values[0]) or any('.' in str(v) for v in sample_values):
+                        inferred_type = "float"
+                    else:
+                        inferred_type = "integer"
+                except ValueError:
+                    # Check if dates
+                    if any('T' in str(v) or '-' in str(v) for v in sample_values):
+                        inferred_type = "date"
+
+            columns.append({
+                "name": str(col_name),
+                "type": inferred_type,
+                "nullable": df[col_name].isna().any(),
+                "unique_count": df[col_name].nunique(),
+                "inferred_type": inferred_type
+            })
+
+        # Convert sample data to list format
+        sample_df = df.head(3)
+        sample_data = []
+        for _, row in sample_df.iterrows():
+            sample_data.append([str(val) for val in row])
+
+        return {
+            "columns": columns,
+            "row_count": len(df),
+            "sample_data": sample_data
+        }
+
+    except Exception as e:
+        return {"error": str(e), "columns": [], "row_count": 0}
+
+def analyze_parquet_from_bytes(file_data: bytes):
+    """Analyze Parquet data from bytes and return schema"""
+    try:
+        import pandas as pd
+        import io
+
+        df = pd.read_parquet(io.BytesIO(file_data))
+
+        if df.empty:
+            return {"columns": [], "row_count": 0}
+
+        columns = []
+        sample_data = []
+
+        for col_name in df.columns:
+            # Get sample values
+            sample_values = df[col_name].dropna().head(5).astype(str).tolist()
+
+            inferred_type = "string"
+            if len(sample_values) > 0:
+                # Check if all values are numeric
+                try:
+                    [float(v) for v in sample_values if v]
+                    if '.' in str(sample_values[0]) or any('.' in str(v) for v in sample_values):
+                        inferred_type = "float"
+                    else:
+                        inferred_type = "integer"
+                except ValueError:
+                    # Check if dates
+                    if any('T' in str(v) or '-' in str(v) for v in sample_values):
+                        inferred_type = "date"
+
+            columns.append({
+                "name": str(col_name),
+                "type": inferred_type,
+                "nullable": df[col_name].isna().any(),
+                "unique_count": df[col_name].nunique(),
+                "inferred_type": inferred_type
+            })
+
+        # Convert sample data to list format
+        sample_df = df.head(3)
+        sample_data = []
+        for _, row in sample_df.iterrows():
+            sample_data.append([str(val) for val in row])
+
+        return {
+            "columns": columns,
+            "row_count": len(df),
+            "sample_data": sample_data
+        }
+
+    except ImportError:
+        return {"error": "Parquet support requires pyarrow. Please install pyarrow to process Parquet files.", "columns": [], "row_count": 0}
     except Exception as e:
         return {"error": str(e), "columns": [], "row_count": 0}
 
@@ -495,6 +1160,54 @@ def read_data_file(file_path):
     else:
         raise ValueError(f"Unsupported file format: {file_ext}")
 
+def read_data_from_bytes(file_data: bytes, file_ext: str):
+    """Read data from bytes and return as list of dictionaries - supports CSV, JSON, XLSX, Parquet"""
+    file_ext = file_ext.lower()
+
+    if file_ext == '.csv':
+        import csv
+        import io
+        data = []
+        csv_io = io.StringIO(file_data.decode('utf-8'))
+        reader = csv.DictReader(csv_io)
+        for row in reader:
+            data.append(row)
+        return data
+
+    elif file_ext == '.json':
+        import json
+        data = json.loads(file_data.decode('utf-8'))
+        return data if isinstance(data, list) else [data]
+
+    elif file_ext in ['.xlsx', '.xls']:
+        import pandas as pd
+        import io
+        df = pd.read_excel(io.BytesIO(file_data))
+        return df.to_dict('records')
+
+    elif file_ext == '.parquet':
+        try:
+            import pandas as pd
+            import io
+            df = pd.read_parquet(io.BytesIO(file_data))
+            return df.to_dict('records')
+        except ImportError:
+            return {"error": "Parquet support requires pyarrow. Please install pyarrow to process Parquet files."}
+
+    elif file_ext == '.txt':
+        # Try as CSV
+        import csv
+        import io
+        data = []
+        csv_io = io.StringIO(file_data.decode('utf-8'))
+        reader = csv.DictReader(csv_io)
+        for row in reader:
+            data.append(row)
+        return data
+
+    else:
+        raise ValueError(f"Unsupported file format: {file_ext}")
+
 @app.route('/v1/generate', methods=['POST'])
 def generate_api():
     """Generate an API from uploaded file"""
@@ -512,38 +1225,11 @@ def generate_api():
         if file_ext not in allowed_extensions:
             return jsonify({"error": "Unsupported file type"}), 400
 
-        # Check if this file has already been processed
-        import hashlib
-        file_content = file.read()
-        file.seek(0)  # Reset file pointer
-        file_hash = hashlib.md5(file_content).hexdigest()
-
-        # Look for existing job with same file hash
-        existing_job_id = None
-        for job_id, job_data in jobs.items():
-            if (job_data.get("file_hash") == file_hash and
-                job_data.get("filename") == file.filename and
-                job_data.get("status") in ["deployed", "available"]):
-                existing_job_id = job_id
-                break
-
-        if existing_job_id:
-            add_log_entry(existing_job_id, f"📋 File '{file.filename}' already processed - reusing existing API")
-            add_log_entry(existing_job_id, f"🔄 Found existing job: {existing_job_id}")
-            return jsonify({
-                "job_id": existing_job_id,
-                "status": "already_exists",
-                "message": f"API for '{file.filename}' already exists",
-                "api_url": jobs[existing_job_id].get("api_url"),
-                "api_key": jobs[existing_job_id].get("api_key")
-            })
-
-        # Create new job
+        # Create job
         job_id = str(uuid.uuid4())
         jobs[job_id] = {
             "id": job_id,
             "filename": file.filename,
-            "file_hash": file_hash,
             "status": "analyzing",
             "created_at": datetime.utcnow().isoformat(),
             "completed_at": None,
@@ -553,54 +1239,50 @@ def generate_api():
             "logs": []
         }
 
-        add_log_entry(job_id, f"🚀 Job {job_id} created for file: {file.filename}")
-        add_log_entry(job_id, f"📁 File size: {len(file.read())} bytes")
+        add_log_entry(job_id, f"Job {job_id} created for file: {file.filename}")
+        add_log_entry(job_id, f"File size: {len(file.read())} bytes")
         file.seek(0)  # Reset file pointer after reading size
 
-        # Save uploaded file to persistent location
-        upload_dir = '/app/uploads'
-        os.makedirs(upload_dir, exist_ok=True)
-        persistent_path = os.path.join(upload_dir, f"{job_id}_{file.filename}")
+        # Save uploaded file using storage service
+        file_data = file.read()
+        file.seek(0)  # Reset for potential reuse
 
-        with open(persistent_path, 'wb') as f:
-            file.save(f)
+        file_path = storage_service.save_upload_file(file_data, file.filename, job_id)
+        jobs[job_id]["file_path"] = file_path
 
-        add_log_entry(job_id, f"💾 File saved persistently at: {persistent_path}")
-        jobs[job_id]["file_path"] = persistent_path
+        add_log_entry(job_id, f"💾 File saved persistently: {file_path}")
 
         # Save jobs after creation
-        save_jobs_to_file()
-
-        # Debug: Log the file_path that was saved
-        add_log_entry(job_id, f"📁 File path stored in job: {jobs[job_id]['file_path']}")
+        save_job_background(job_id, jobs[job_id])
 
         # Process file (supports multiple formats)
-        add_log_entry(job_id, f"🔍 Starting {file_ext.upper()} file analysis...")
-        add_log_entry(job_id, f"📂 File extension detected: {file_ext}")
-        add_log_entry(job_id, f"📁 File exists: {os.path.exists(persistent_path)}")
-        add_log_entry(job_id, f"📏 File size: {os.path.getsize(persistent_path) if os.path.exists(persistent_path) else 0} bytes")
+        add_log_entry(job_id, f"Starting {file_ext.upper()} file analysis...")
+        add_log_entry(job_id, f"File extension detected: {file_ext}")
+        add_log_entry(job_id, f"File stored: {file_path}")
+        add_log_entry(job_id, f"File size: {len(file_data)} bytes")
 
-        schema = analyze_data_file(persistent_path, file_ext)
+        # Analyze file using data from storage
+        schema = analyze_data_from_bytes(file_data, file_ext)
         jobs[job_id]["schema"] = schema
 
-        add_log_entry(job_id, f"📊 Schema analysis result: {len(schema.get('columns', []))} columns, {schema.get('row_count', 0)} rows")
+        add_log_entry(job_id, f"Schema analysis result: {len(schema.get('columns', []))} columns, {schema.get('row_count', 0)} rows")
 
         if schema.get("error"):
-            add_log_entry(job_id, f"❌ File analysis failed: {schema['error']}", "error")
+            add_log_entry(job_id, f"File analysis failed: {schema['error']}", "error")
             jobs[job_id]["error_message"] = schema["error"]
             jobs[job_id]["status"] = "failed"
-            save_jobs_to_file()
+            save_job_background(job_id, jobs[job_id])
             return jsonify({"job_id": job_id, "status": "failed", "error": schema["error"]})
 
-        add_log_entry(job_id, f"📊 Schema analysis complete: {len(schema['columns'])} columns, {schema['row_count']} rows")
+        add_log_entry(job_id, f"Schema analysis complete: {len(schema['columns'])} columns, {schema['row_count']} rows")
         for col in schema['columns'][:5]:  # Log first 5 columns
-            add_log_entry(job_id, f"   📋 Column: {col['name']} ({col['inferred_type']})")
+            add_log_entry(job_id, f"   Column: {col['name']} ({col['inferred_type']})")
 
         # Generate AI code using OpenAI
         jobs[job_id]["status"] = "generating_code"
-        save_jobs_to_file()
-        add_log_entry(job_id, "🤖 Starting AI code generation with OpenAI GPT-4...")
-        add_log_entry(job_id, "📝 Preparing prompt for AI model...")
+        save_job_background(job_id, jobs[job_id])
+        add_log_entry(job_id, "Starting AI code generation with OpenAI GPT-4...")
+        add_log_entry(job_id, "Preparing prompt for AI model...")
 
         # Capture stdout and stderr to prevent Flask output issues
         stdout_capture = io.StringIO()
@@ -610,10 +1292,10 @@ def generate_api():
             ai_result = run_async_ai_generation(schema, job_id)
 
         if ai_result["success"]:
-            add_log_entry(job_id, "✅ AI code generation successful!")
-            add_log_entry(job_id, f"📄 Generated {len(ai_result['main_py'])} characters of FastAPI code")
+            add_log_entry(job_id, "AI code generation successful!")
+            add_log_entry(job_id, f"Generated {len(ai_result['main_py'])} characters of FastAPI code")
             req_lines = ai_result['requirements_txt'].split('\n')
-            add_log_entry(job_id, f"📦 Generated requirements.txt with {len(req_lines)} packages")
+            add_log_entry(job_id, f"Generated requirements.txt with {len(req_lines)} packages")
             jobs[job_id]["generated_code"] = {
                 "main_py": ai_result["main_py"],
                 "requirements_txt": ai_result["requirements_txt"],
@@ -621,10 +1303,10 @@ def generate_api():
             }
         else:
             error_msg = ai_result.get("error", "AI generation failed")
-            add_log_entry(job_id, f"❌ AI generation failed: {error_msg}", "error")
+            add_log_entry(job_id, f"AI generation failed: {error_msg}", "error")
             jobs[job_id]["error_message"] = error_msg
             jobs[job_id]["status"] = "failed"
-            save_jobs_to_file()
+            save_job_background(job_id, jobs[job_id])
 
         return jsonify({
             "job_id": job_id,
@@ -643,149 +1325,108 @@ def get_generation_status(job_id):
 
     job = jobs[job_id]
 
-    # Add progress information
-    progress_info = {
-        "analyzing": {"step": 1, "total_steps": 4, "description": "Analyzing data file"},
-        "generating_code": {"step": 2, "total_steps": 4, "description": "Generating API code with AI"},
-        "building": {"step": 3, "total_steps": 4, "description": "Building Docker container"},
-        "deployed": {"step": 4, "total_steps": 4, "description": "Deployment completed"}
-    }
-
-    current_progress = progress_info.get(job["status"], {"step": 1, "total_steps": 4, "description": "Processing"})
-
-    # Calculate elapsed time
-    elapsed_seconds = None
-    if job.get("created_at"):
-        try:
-            created_time = datetime.fromisoformat(job["created_at"])
-            elapsed_seconds = int((datetime.utcnow() - created_time).total_seconds())
-        except:
-            pass
-
-    # FAST progress simulation - reduce artificial delays significantly
-    if job["status"] == "analyzing":
-        # Move to generating_code much faster - just 1 second for analysis
-        if elapsed_seconds and elapsed_seconds > 1:  # Reduced from 5 seconds
-            job["status"] = "generating_code"
-            save_jobs_to_file()
-            add_log_entry(job_id, "🤖 Starting AI code generation...")
-            add_log_entry(job_id, "📝 Sending data schema to AI model...")
-            current_progress = progress_info["generating_code"]
-
-    elif job["status"] == "generating_code":
-        # DEBUG: Log elapsed time for troubleshooting
-        add_log_entry(job_id, f"🔍 DEBUG: Status=generating_code, elapsed_seconds={elapsed_seconds}, type={type(elapsed_seconds)}")
-
-        # Move to building much faster - after 3 seconds instead of 2 minutes
-        if elapsed_seconds and elapsed_seconds > 3:  # Reduced from 120 seconds (2 minutes)
-            add_log_entry(job_id, f"✅ DEBUG: Moving to building phase (elapsed: {elapsed_seconds}s)")
-            job["status"] = "building"
-            save_jobs_to_file()
-            add_log_entry(job_id, "🏗️ Starting build process...")
-            add_log_entry(job_id, "📦 Creating Docker container...")
-            current_progress = progress_info["building"]
-        elif elapsed_seconds and elapsed_seconds > 2:  # Add AI processing log after 2 seconds
-            # Only add this log once
-            recent_logs = [log for log in job.get("logs", []) if "AI model processing" in log.get("message", "")]
-            if not recent_logs:
-                add_log_entry(job_id, "⚡ AI model processing your data schema...")
-
+    # Simulate progress through the steps
+    if job["status"] == "generating_code":
+        job["status"] = "building"
+        save_job_background(job_id, job)
+        add_log_entry(job_id, "Starting build process...")
+        add_log_entry(job_id, "Preparing Docker container configuration...")
     elif job["status"] == "building":
-        # Move to deployed much faster - after 1 second instead of 3 minutes
-        if elapsed_seconds and elapsed_seconds > 1:  # Reduced from 180 seconds (3 minutes)
-            job["status"] = "deployed"
+        job["status"] = "deployed"
+
+        # Detect if running locally or in Docker
+        port = os.environ.get('PORT', '9999')
+        if port == '9999' or os.environ.get('FLASK_ENV') == 'development':
+            # Use local URL for Docker/development
+            job["api_url"] = f"http://localhost:{port}/mock-api/{job_id}"
+        else:
+            # Use Cloud Run URL for production
             job["api_url"] = f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}"
-            job["api_key"] = f"api_key_{job_id[:8]}"
-            job["completed_at"] = datetime.utcnow().isoformat()
-            save_jobs_to_file()
 
-            # Register API permanently in the registry
-            register_api(job_id, job)
-
-            add_log_entry(job_id, "🚀 Deployment completed successfully!")
-            add_log_entry(job_id, f"🌐 API available at: {job['api_url']}")
-            add_log_entry(job_id, f"🔑 API Key: {job['api_key']}")
-            add_log_entry(job_id, "📝 API registered permanently - will persist until manually deleted")
-            current_progress = progress_info["deployed"]
+        job["api_key"] = f"api_key_{job_id[:8]}"
+        job["completed_at"] = datetime.utcnow().isoformat()
+        save_job_background(job_id, job)
+        add_log_entry(job_id, "Deployment completed successfully!")
+        add_log_entry(job_id, f"API available at: {job['api_url']}")
+        add_log_entry(job_id, f"API Key: {job['api_key']}")
 
     return jsonify({
         "job_id": job["id"],
         "status": job["status"],
-        "progress": current_progress,
         "api_url": job["api_url"],
         "api_key": job["api_key"],
         "error_message": job["error_message"],
         "created_at": job["created_at"],
         "completed_at": job["completed_at"],
-        "elapsed_seconds": elapsed_seconds,
         "logs": job.get("logs", [])
     })
 
 @app.route('/v1/apis', methods=['GET'])
 def list_generated_apis():
-    """List all generated APIs (from permanent registry)"""
+    """List all generated APIs"""
     try:
+        # Get API IDs from storage service
+        api_ids = storage_service.list_generated_apis()
+
         apis = []
-        for api_id, api_data in api_registry.items():
-            # Update last accessed time
-            api_registry[api_id]["last_accessed"] = datetime.utcnow().isoformat()
-            save_api_registry_to_file()
+        for api_id in api_ids:
+            # Get API files from storage
+            api_files = storage_service.get_generated_api_files(api_id)
 
-            # Check current running status
-            status = api_data.get("status", "available")
-            url = None
-            port = None
-            started_at = None
+            if api_files and 'main.py' in api_files:
+                # Get basic info from the API files
+                api_info = {
+                    "id": api_id,
+                    "path": f"storage://generated_apis/{api_id}",
+                    "created_at": datetime.utcnow().isoformat(),  # Storage doesn't preserve creation time
+                    "has_main_py": 'main.py' in api_files,
+                    "has_data_csv": 'data.csv' in api_files,
+                    "has_requirements": 'requirements.txt' in api_files,
+                    "status": "stopped"  # Default status, will be updated when we check if running
+                }
 
-            if api_id in running_apis:
-                api_info_running = running_apis[api_id]
-                process = api_info_running["process"]
-                if process.poll() is None:
-                    status = "running"
-                    url = api_info_running["url"]
-                    port = api_info_running["port"]
-                    started_at = api_info_running["started_at"]
-                else:
-                    # Process has stopped, update status
-                    status = "available"
-                    del running_apis[api_id]
-                    api_registry[api_id]["status"] = status
-                    save_api_registry_to_file()
+                # Check API status
+                status = "stopped"
+                url = None
+                port = None
+                started_at = None
 
-            # Get file information
-            api_path = f'/app/generated_apis/{api_id}'
-            main_py_path = os.path.join(api_path, 'main.py')
-            data_csv_path = os.path.join(api_path, 'data.csv')
-            requirements_path = os.path.join(api_path, 'requirements.txt')
+                if api_id in running_apis:
+                    api_info_running = running_apis[api_id]
+                    process = api_info_running["process"]
+                    if process.poll() is None:
+                        status = "running"
+                        url = api_info_running["url"]
+                        port = api_info_running["port"]
+                        started_at = api_info_running["started_at"]
+                    else:
+                        # Process has stopped, clean up
+                        del running_apis[api_id]
 
-            api_info = {
-                "id": api_id,
-                "title": api_data.get("title", f"API {api_id}"),
-                "created_at": api_data.get("created_at"),
-                "last_accessed": api_data.get("last_accessed"),
-                "status": status,
-                "api_url": api_data.get("api_url"),
-                "api_key": api_data.get("api_key"),
-                "filename": api_data.get("filename"),
-                "url": url,
-                "port": port,
-                "started_at": started_at,
-                "path": api_path,
-                "has_main_py": os.path.exists(main_py_path) if main_py_path else False,
-                "has_data_csv": os.path.exists(data_csv_path) if data_csv_path else False,
-                "has_requirements": os.path.exists(requirements_path) if requirements_path else False,
-            }
+                api_info["status"] = status
+                api_info["url"] = url
+                api_info["port"] = port
+                api_info["started_at"] = started_at
 
-            # Try to extract additional API info from main.py if it exists
-            if api_info["has_main_py"]:
+                # Try to extract API info from main.py content
                 try:
-                    with open(main_py_path, 'r') as f:
-                        content = f.read()
+                    main_py_content = api_files['main.py']
 
-                    # Extract data models
-                    if 'class ' in content and '(BaseModel):' in content:
+                    # Extract app title if available
+                    if 'app = FastAPI(' in main_py_content:
+                        lines = main_py_content.split('\n')
+                        for line in lines:
+                            if 'app = FastAPI(' in line:
+                                # Try to extract title
+                                if 'title=' in line:
+                                    title_part = line.split('title=')[1].split(',')[0].strip('"\'''"')
+                                    api_info["title"] = title_part
+                                break
+
+                    # Extract data model if available
+                    if 'class ' in main_py_content and '(BaseModel):' in main_py_content:
                         models = []
-                        for line in content.split('\n'):
+                        for line in main_py_content.split('\n'):
                             if line.strip().startswith('class ') and '(BaseModel):' in line:
                                 model_name = line.split('class ')[1].split('(BaseModel):')[0].strip()
                                 models.append(model_name)
@@ -794,28 +1435,22 @@ def list_generated_apis():
 
                     # Extract endpoints
                     endpoints = []
-                    for line in content.split('\n'):
+                    for line in main_py_content.split('\n'):
                         if line.strip().startswith('@app.'):
                             method = line.split('@app.')[1].split('(')[0]
                             route = line.split('\'')[1] if '\'' in line else line.split('"')[1] if '"' in line else ""
-                            if route:
-                                endpoints.append({"method": method.upper(), "route": route})
-                    if endpoints:
-                        api_info["endpoints"] = endpoints
+                            endpoints.append({"method": method.upper(), "route": route})
+                    api_info["endpoints"] = endpoints
 
                 except Exception as e:
                     api_info["parse_error"] = str(e)
 
-            apis.append(api_info)
-
-        # Sort by creation date (newest first)
-        apis.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+                apis.append(api_info)
 
         return jsonify({
             "apis": apis,
             "total": len(apis),
-            "timestamp": datetime.utcnow().isoformat(),
-            "message": "APIs are permanently stored and will persist until manually deleted"
+            "timestamp": datetime.utcnow().isoformat()
         })
 
     except Exception as e:
@@ -825,38 +1460,25 @@ def list_generated_apis():
 def get_api_details(api_id):
     """Get detailed information about a specific generated API"""
     try:
-        # Check if API exists in registry
-        if api_id not in api_registry:
-            return jsonify({
-                "error": "API not found",
-                "message": f"The API with ID '{api_id}' is not registered. It may have been deleted or never existed."
-            }), 404
-
-        api_data = api_registry[api_id]
-
-        # Update last accessed time
-        api_registry[api_id]["last_accessed"] = datetime.utcnow().isoformat()
-        save_api_registry_to_file()
-
         api_path = f'/app/generated_apis/{api_id}'
+        if not os.path.exists(api_path):
+            return jsonify({"error": "API not found"}), 404
+
         main_py_path = os.path.join(api_path, 'main.py')
         data_csv_path = os.path.join(api_path, 'data.csv')
         requirements_path = os.path.join(api_path, 'requirements.txt')
 
+        if not os.path.exists(main_py_path):
+            return jsonify({"error": "API main.py file not found"}), 404
+
         api_info = {
             "id": api_id,
-            "title": api_data.get("title", f"API {api_id}"),
-            "created_at": api_data.get("created_at"),
-            "last_accessed": api_data.get("last_accessed"),
-            "status": api_data.get("status", "available"),
-            "api_url": api_data.get("api_url"),
-            "api_key": api_data.get("api_key"),
-            "filename": api_data.get("filename"),
             "path": api_path,
+            "created_at": datetime.fromtimestamp(os.path.getctime(api_path)).isoformat(),
             "files": {
-                "main_py": os.path.exists(main_py_path) if main_py_path else False,
-                "data_csv": os.path.exists(data_csv_path) if data_csv_path else False,
-                "requirements_txt": os.path.exists(requirements_path) if requirements_path else False
+                "main_py": os.path.exists(main_py_path),
+                "data_csv": os.path.exists(data_csv_path),
+                "requirements_txt": os.path.exists(requirements_path)
             }
         }
 
@@ -959,65 +1581,6 @@ def get_api_details(api_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/v1/apis/<api_id>', methods=['DELETE'])
-def delete_api(api_id):
-    """Permanently delete an API from the registry and filesystem"""
-    try:
-        # Check if API exists in registry
-        if api_id not in api_registry:
-            return jsonify({
-                "error": "API not found",
-                "message": f"The API with ID '{api_id}' is not registered."
-            }), 404
-
-        api_data = api_registry[api_id]
-
-        # Stop the API if it's running
-        if api_id in running_apis:
-            try:
-                api_info_running = running_apis[api_id]
-                process = api_info_running["process"]
-                # Terminate the process group
-                os.killpg(os.getpgid(process.pid), signal.SIGTERM)
-                # Wait a bit for graceful shutdown
-                try:
-                    process.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    # Force kill if it doesn't respond
-                    os.killpg(os.getpgid(process.pid), signal.SIGKILL)
-                    process.wait()
-                del running_apis[api_id]
-                save_apis_to_file()
-            except Exception as e:
-                print(f"Error stopping API {api_id}: {str(e)}")
-
-        # Remove from registry
-        unregister_api(api_id)
-
-        # Optionally remove files from filesystem
-        api_path = f'/app/generated_apis/{api_id}'
-        if os.path.exists(api_path):
-            try:
-                import shutil
-                shutil.rmtree(api_path)
-                files_removed = True
-            except Exception as e:
-                print(f"Error removing API files for {api_id}: {str(e)}")
-                files_removed = False
-        else:
-            files_removed = True  # Files already don't exist
-
-        return jsonify({
-            "message": f"API '{api_id}' has been permanently deleted",
-            "api_id": api_id,
-            "title": api_data.get("title", f"API {api_id}"),
-            "files_removed": files_removed,
-            "deleted_at": datetime.utcnow().isoformat()
-        })
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
 @app.route('/v1/apis/<api_id>/start', methods=['POST'])
 def start_api(api_id):
     """Start a generated API server"""
@@ -1060,13 +1623,13 @@ def start_api(api_id):
                 "process": process,
                 "port": port,
                 "started_at": datetime.utcnow().isoformat(),
-                "url": f"https://apiui-backend-24bi767viq-uc.a.run.app/generated/{api_id}"
+                "url": f"http://localhost:{port}"
             }
 
             return jsonify({
                 "message": "API started successfully",
                 "status": "running",
-                "url": f"https://apiui-backend-24bi767viq-uc.a.run.app/generated/{api_id}",
+                "url": f"http://localhost:{port}",
                 "port": port,
                 "started_at": running_apis[api_id]["started_at"]
             })
@@ -1184,7 +1747,7 @@ def get_api_docs(api_id):
             },
             "servers": [
                 {
-                    "url": f"https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis/{api_id}",
+                    "url": f"http://localhost:7777/v1/apis/{api_id}",
                     "description": "Generated API server"
                 }
             ],
@@ -1273,159 +1836,80 @@ def get_api_docs(api_id):
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
-    return jsonify({
+    health_status = {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat()
-    })
-
-@app.route('/debug/registry', methods=['GET'])
-def debug_registry():
-    """Debug endpoint to check API registry state"""
-    import os
-    registry_exists = os.path.exists(API_REGISTRY_FILE)
-    registry_size = os.path.getsize(API_REGISTRY_FILE) if registry_exists else 0
-
-    return jsonify({
-        "api_registry_file": API_REGISTRY_FILE,
-        "registry_exists": registry_exists,
-        "registry_size": registry_size,
-        "api_registry_count": len(api_registry),
-        "api_registry_keys": list(api_registry.keys()),
+        "timestamp": datetime.utcnow().isoformat(),
+        "storage": {
+            "type": "GCS" if storage_service.use_gcs else "Local",
+            "status": "available"
+        },
+        "database": {
+            "type": "MongoDB" if db_connected else "None",
+            "status": "connected" if db_connected else "disconnected"
+        },
         "jobs_count": len(jobs),
-        "jobs_keys": list(jobs.keys()),
-        "timestamp": datetime.utcnow().isoformat()
-    })
-
-@app.route('/debug/test-registry', methods=['POST'])
-def test_registry():
-    """Test endpoint to create and save a test API"""
-    test_api_id = "test-api-123"
-    test_data = {
-        "id": test_api_id,
-        "created_at": datetime.utcnow().isoformat(),
-        "status": "available",
-        "file_path": "/app/uploads/test.csv",
-        "api_url": f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{test_api_id}",
-        "api_key": f"api_key_{test_api_id[:8]}",
-        "filename": "test.csv"
+        "apis_count": len(running_apis)
     }
 
-    api_registry[test_api_id] = test_data
-    save_api_registry_to_file()
+    # Check storage health
+    try:
+        if storage_service.use_gcs:
+            # Try to list objects to check GCS connectivity
+            list(storage_service.bucket.list_blobs(max_results=1))
+        else:
+            # Check if directories exist
+            os.path.exists(storage_service.local_uploads_dir)
+    except Exception as e:
+        health_status["storage"]["status"] = f"error: {str(e)}"
+        health_status["status"] = "degraded"
 
-    return jsonify({
-        "message": "Test API created and saved",
-        "api_id": test_api_id,
-        "data": test_data,
-        "registry_count": len(api_registry)
-    })
+    # Check database health
+    if db_connected:
+        try:
+            db_health = asyncio.run(db_service.health_check())
+            if not db_health:
+                health_status["database"]["status"] = "error"
+                health_status["status"] = "degraded"
+        except Exception as e:
+            health_status["database"]["status"] = f"error: {str(e)}"
+            health_status["status"] = "degraded"
+
+    return jsonify(health_status)
 
 @app.route('/mock-api/<job_id>', methods=['GET'])
 @app.route('/mock-api/<job_id>/data', methods=['GET'])
 def mock_api_endpoint(job_id):
     """Mock API endpoint that simulates a generated API"""
-    job = None
+    if job_id not in jobs:
+        return jsonify({"error": "API not found"}), 404
 
-    # First try to find the job in memory
-    if job_id in jobs:
-        job = jobs[job_id]
-    else:
-        # If not in memory, try to reconstruct from saved files
-        upload_dir = '/app/uploads'
-        if os.path.exists(upload_dir):
-            try:
-                possible_files = [f for f in os.listdir(upload_dir) if f.startswith(f"{job_id}_")]
-                if possible_files:
-                    file_path = os.path.join(upload_dir, possible_files[0])
-                    filename = possible_files[0].replace(f"{job_id}_", "")
-
-                    # Try to analyze the file to get schema
-                    try:
-                        schema = analyze_data_file(file_path)
-                        # Create a minimal job entry
-                        job = {
-                            "id": job_id,
-                            "filename": filename,
-                            "status": "deployed",
-                            "file_path": file_path,
-                            "schema": schema,
-                            "api_url": f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}",
-                            "api_key": f"api_key_{job_id[:8]}",
-                            "created_at": datetime.utcnow().isoformat(),
-                            "completed_at": datetime.utcnow().isoformat()
-                        }
-                        # Save the reconstructed job
-                        jobs[job_id] = job
-                        save_jobs_to_file()
-                        add_log_entry(job_id, f"🔄 Reconstructed job from saved file: {filename}")
-                    except Exception as e:
-                        print(f"Failed to reconstruct job {job_id}: {str(e)}")
-            except OSError as e:
-                print(f"Failed to access upload directory: {str(e)}")
-
-    if not job:
-        # Try to find in generated_apis directory as a last resort
-        generated_api_path = f'/app/generated_apis/{job_id}'
-        if os.path.exists(generated_api_path):
-            data_file = os.path.join(generated_api_path, 'data.csv')
-            if os.path.exists(data_file):
-                try:
-                    schema = analyze_data_file(data_file)
-                    job = {
-                        "id": job_id,
-                        "filename": f"api_{job_id}.csv",
-                        "status": "deployed",
-                        "file_path": data_file,
-                        "schema": schema,
-                        "api_url": f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}",
-                        "api_key": f"api_key_{job_id[:8]}",
-                        "created_at": datetime.utcnow().isoformat(),
-                        "completed_at": datetime.utcnow().isoformat()
-                    }
-                    # Save the reconstructed job
-                    jobs[job_id] = job
-                    save_jobs_to_file()
-                    add_log_entry(job_id, f"🔄 Reconstructed job from generated API: {job_id}")
-                except Exception as e:
-                    print(f"Failed to reconstruct from generated API {job_id}: {str(e)}")
-
-    if not job:
-        return jsonify({
-            "error": "API not found",
-            "message": f"The API with job ID '{job_id}' could not be found. This may happen if the backend restarted or the job was not properly saved.",
-            "suggestion": "Please try uploading your file again to generate a new API."
-        }), 404
-
+    job = jobs[job_id]
     if not job.get("schema"):
-        return jsonify({
-            "error": "Schema not available",
-            "message": "The API schema information is missing."
-        }), 404
+        return jsonify({"error": "Schema not available"}), 404
 
     schema = job["schema"]
 
     # Check if we have AI-generated code
     if job.get("generated_code"):
-        # If we have real generated code, return actual data from the CSV
+        # If we have real generated code, return actual data from the uploaded file
         generated = job["generated_code"]
 
-        # Read the original file data (supports multiple formats)
+        # Read the original file data using storage service
         file_data = []
         try:
             # Use the stored file path from the job
             file_path = job.get("file_path")
-            add_log_entry(job_id, f"🔍 Attempting to load file from path: {file_path}")
             if file_path:
-                add_log_entry(job_id, f"📁 File path exists in job: {file_path}")
-                add_log_entry(job_id, f"📂 File exists on disk: {os.path.exists(file_path) if file_path else False}")
-                if file_path and os.path.exists(file_path):
-                    file_data = read_data_file(file_path)
-                    add_log_entry(job_id, f"✅ Loaded {len(file_data)} records from uploaded file")
+                # Try to get file data from storage service
+                file_bytes = storage_service.get_upload_file(file_path)
+                if file_bytes:
+                    # Parse the data based on file extension
+                    file_ext = os.path.splitext(file_path)[1].lower()
+                    file_data = read_data_from_bytes(file_bytes, file_ext)
+                    add_log_entry(job_id, f"✅ Loaded {len(file_data)} records from storage")
                 else:
-                    add_log_entry(job_id, f"❌ File not found: {file_path}")
-                    raise FileNotFoundError(f"File not found: {file_path}")
+                    raise FileNotFoundError("File not found in storage")
             else:
-                add_log_entry(job_id, f"❌ No file_path in job data")
                 raise FileNotFoundError("File path not found in job")
         except Exception as e:
             add_log_entry(job_id, f"⚠️ File not accessible ({str(e)}), using sample data")
@@ -1521,40 +2005,12 @@ def mock_api_endpoint(job_id):
 @app.route('/mock-api/<job_id>/schema', methods=['GET'])
 def mock_api_schema(job_id):
     """Return schema information for the mock API"""
-    # Use the same job reconstruction logic
-    job = None
-    if job_id in jobs:
-        job = jobs[job_id]
-    else:
-        # Try to reconstruct from saved files
-        upload_dir = '/app/uploads'
-        if os.path.exists(upload_dir):
-            try:
-                possible_files = [f for f in os.listdir(upload_dir) if f.startswith(f"{job_id}_")]
-                if possible_files:
-                    file_path = os.path.join(upload_dir, possible_files[0])
-                    try:
-                        schema = analyze_data_file(file_path)
-                        job = {
-                            "id": job_id,
-                            "schema": schema
-                        }
-                    except Exception as e:
-                        print(f"Failed to reconstruct schema for {job_id}: {str(e)}")
-            except OSError as e:
-                print(f"Failed to access upload directory: {str(e)}")
+    if job_id not in jobs:
+        return jsonify({"error": "API not found"}), 404
 
-    if not job:
-        return jsonify({
-            "error": "API not found",
-            "message": f"The API with job ID '{job_id}' could not be found."
-        }), 404
-
+    job = jobs[job_id]
     if not job.get("schema"):
-        return jsonify({
-            "error": "Schema not available",
-            "message": "The API schema information is missing."
-        }), 404
+        return jsonify({"error": "Schema not available"}), 404
 
     return jsonify(job["schema"])
 
@@ -1562,17 +2018,11 @@ def mock_api_schema(job_id):
 def get_generated_code(job_id):
     """Return the AI-generated code files"""
     if job_id not in jobs:
-        return jsonify({
-            "error": "API not found",
-            "message": f"The API with job ID '{job_id}' could not be found."
-        }), 404
+        return jsonify({"error": "API not found"}), 404
 
     job = jobs[job_id]
     if not job.get("generated_code"):
-        return jsonify({
-            "error": "No generated code available",
-            "message": "AI-generated code is not available for this API."
-        }), 404
+        return jsonify({"error": "No generated code available"}), 404
 
     return jsonify({
         "main_py": job["generated_code"]["main_py"],
@@ -1585,46 +2035,16 @@ def get_generated_code(job_id):
 @app.route('/mock-api/<job_id>/run', methods=['POST'])
 def run_generated_api(job_id):
     """Test the generated API by returning the first few records"""
-    # Use the same job reconstruction logic
-    job = None
-    if job_id in jobs:
-        job = jobs[job_id]
-    else:
-        # Try to reconstruct from saved files
-        upload_dir = '/app/uploads'
-        if os.path.exists(upload_dir):
-            try:
-                possible_files = [f for f in os.listdir(upload_dir) if f.startswith(f"{job_id}_")]
-                if possible_files:
-                    file_path = os.path.join(upload_dir, possible_files[0])
-                    filename = possible_files[0].replace(f"{job_id}_", "")
-                    try:
-                        schema = analyze_data_file(file_path)
-                        job = {
-                            "id": job_id,
-                            "filename": filename,
-                            "file_path": file_path,
-                            "schema": schema
-                        }
-                    except Exception as e:
-                        print(f"Failed to reconstruct job for testing {job_id}: {str(e)}")
-            except OSError as e:
-                print(f"Failed to access upload directory: {str(e)}")
+    if job_id not in jobs:
+        return jsonify({"error": "API not found"}), 404
 
-    if not job:
-        return jsonify({
-            "error": "API not found",
-            "message": f"The API with job ID '{job_id}' could not be found."
-        }), 404
+    job = jobs[job_id]
 
     try:
         # Read the uploaded data file and return first few records
         file_path = job.get("file_path")
         if not file_path or not os.path.exists(file_path):
-            return jsonify({
-                "error": "Data file not found",
-                "message": "The uploaded data file is no longer available."
-            }), 404
+            return jsonify({"error": "Data file not found"}), 404
 
         # Read data from the uploaded file (supports multiple formats)
         file_data = read_data_file(file_path)
@@ -1659,6 +2079,6 @@ def run_generated_api(job_id):
 
 if __name__ == '__main__':
     import os
-    port = int(os.environ.get('PORT', 9999))  # Backend runs on 9999
+    port = int(os.environ.get('PORT', 9999))  # Docker container port
     debug = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
     app.run(host='0.0.0.0', port=port, debug=debug)

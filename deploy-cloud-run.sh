@@ -8,7 +8,7 @@ set -e
 echo "🚀 Starting Cloud Run deployment for apiui..."
 
 # Configuration
-PROJECT_ID=${PROJECT_ID:-"your-gcp-project-id"}
+PROJECT_ID=${PROJECT_ID:-"aurablox-ai"}
 SERVICE_NAME="apiui-backend"
 REGION=${REGION:-"us-central1"}
 IMAGE_NAME="gcr.io/${PROJECT_ID}/${SERVICE_NAME}"
@@ -60,7 +60,7 @@ gcloud run deploy ${SERVICE_NAME} \
     --max-instances 10 \
     --concurrency 80 \
     --timeout 300 \
-    --set-env-vars="FLASK_DEBUG=False"
+    --set-env-vars="FLASK_DEBUG=False,USE_GCS_STORAGE=True,GCS_BUCKET_NAME=apiui-files-${PROJECT_ID}"
 
 # Get the service URL
 SERVICE_URL=$(gcloud run services describe ${SERVICE_NAME} --region=${REGION} --format="value(status.url)")

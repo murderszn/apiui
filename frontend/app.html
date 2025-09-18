@@ -15,7 +15,50 @@
             line-height: 1.6;
         }
 
-        /* Professional Typography */
+        .hero-section-app {
+            position: relative;
+            overflow: hidden;
+            background: #050505;
+            color: #f5f5f5;
+        }
+
+        .hero-section-app::before,
+        .hero-section-app::after {
+            content: '';
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            filter: blur(125px);
+            opacity: 0.18;
+            pointer-events: none;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.12) 0%, transparent 75%);
+        }
+
+        .hero-section-app::before {
+            top: -160px;
+            left: -150px;
+        }
+
+        .hero-section-app::after {
+            bottom: -200px;
+            right: -120px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #e6e6e6;
+        }
+
         .hero-title {
             font-weight: 700;
             letter-spacing: -0.025em;
@@ -25,7 +68,12 @@
         .hero-subtitle {
             font-weight: 300;
             letter-spacing: -0.01em;
-            opacity: 0.8;
+        }
+
+        .hero-highlight {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.75rem;
         }
 
         .section-title {
@@ -34,27 +82,46 @@
             line-height: 1.2;
         }
 
-        /* Professional Cards */
         .professional-card {
             background: #ffffff;
             border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
+            border-radius: 14px;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(20,20,20,0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .professional-card:hover::before {
+            opacity: 1;
         }
 
         .professional-card:hover {
-            border-color: rgba(0, 0, 0, 0.15);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            transform: translateY(-2px);
+            border-color: rgba(20, 20, 20, 0.35);
+            box-shadow: 0 18px 40px rgba(15, 15, 15, 0.2);
+            transform: translateY(-3px);
         }
 
-        /* Professional Buttons */
+        .professional-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
         .btn-professional {
             font-weight: 500;
             letter-spacing: 0.025em;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 8px;
+            border-radius: 10px;
             position: relative;
             overflow: hidden;
         }
@@ -66,7 +133,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
             transition: left 0.5s ease;
         }
 
@@ -74,12 +141,32 @@
             left: 100%;
         }
 
-        /* Professional Section Spacing */
+        .btn-primary {
+            background: linear-gradient(135deg, #111111, #202020);
+            color: #f5f5f5;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        .btn-outline-light {
+            color: #f0f0f0;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .btn-outline-light:hover {
+            color: #0b0b0b;
+            background: rgba(255, 255, 255, 0.92);
+            border-color: transparent;
+        }
+
         .section-spacing {
             padding: 5rem 0;
         }
 
-        /* Subtle Accent Lines */
         .accent-line {
             position: relative;
             margin: 3rem 0;
@@ -93,54 +180,82 @@
             transform: translate(-50%, -50%);
             width: 80px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.3), transparent);
         }
 
-        /* Professional Icon Containers */
         .icon-professional {
-            background: linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.1));
-            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(14, 165, 233, 0.12));
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto;
+            border: 1px solid rgba(56, 189, 248, 0.28);
         }
 
-        /* Perfect centering for upload icon */
-        .icon-professional svg {
-            display: block;
-            margin: 0 auto;
-            transform: translateX(0) translateY(0);
-        }
-
-        /* Smooth Scrolling */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Professional Focus States */
         a:focus, button:focus {
-            outline: 2px solid rgba(0,0,0,0.5);
+            outline: 2px solid rgba(30, 64, 175, 0.5);
             outline-offset: 2px;
         }
 
-        /* App-specific styling */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #111827, #1f2937);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.35);
+            border: 1px solid rgba(15, 23, 42, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(16px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(135deg, #0f172a, #111827);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #22d3ee, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
         .file-drop-area {
-            border: 2px dashed #9ca3af;
+            border: 2px dashed rgba(148, 163, 184, 0.6);
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 12px;
+            border-radius: 18px;
+            background: linear-gradient(145deg, rgba(226, 232, 240, 0.35), rgba(248, 250, 252, 0.65));
         }
 
         .file-drop-area.dragover {
-            background: rgba(0, 0, 0, 0.02);
-            border-color: #000;
+            background: rgba(15, 23, 42, 0.05);
+            border-color: rgba(56, 189, 248, 0.85);
             border-style: solid;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 22px 45px rgba(2, 132, 199, 0.2);
         }
 
         .loader {
-            border: 2px solid #e0e0e0;
-            border-top: 2px solid #000;
+            border: 2px solid rgba(148, 163, 184, 0.4);
+            border-top: 2px solid #38bdf8;
             border-radius: 50%;
             width: 16px;
             height: 16px;
@@ -207,57 +322,96 @@
             max-height: 400px;
             overflow-y: auto;
         }
+
+        .icon-professional svg,
+        .professional-card svg {
+            color: #111111 !important;
+        }
+
+        .text-indigo-500,
+        .text-sky-500,
+        .text-emerald-500,
+        .text-fuchsia-500,
+        .text-green-600,
+        .text-blue-500 {
+            color: #1f1f1f !important;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
     <!-- Header -->
-    <header class="border-b border-gray-400">
+    <header class="border-b border-gray-200">
         <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="text-xl sm:text-2xl font-light tracking-widest lowercase text-black">api<span class="font-bold">ui</span></a>
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html" class="text-gray-700 hover:text-black font-medium transition-colors">Home</a>
-                <a href="index.html#features" class="text-gray-700 hover:text-black font-medium transition-colors">Features</a>
-                <a href="index.html#pricing" class="text-gray-700 hover:text-black font-medium transition-colors">Pricing</a>
-                <a href="app.html" class="text-gray-700 hover:text-black font-medium transition-colors">App</a>
-                <a href="docs.html" class="text-gray-700 hover:text-black font-medium transition-colors">Docs</a>
-                <a href="api-hub.html" class="text-gray-700 hover:text-black font-medium transition-colors">API Hub</a>
-                <!-- Sign In Dropdown -->
-                <div class="relative">
-                    <button id="signin-dropdown-btn" class="px-4 py-2 border border-black rounded-md text-sm font-medium hover:bg-black hover:text-white transition-colors flex items-center">
-                        Sign In
-                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
+                <a href="index.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Home</a>
+                <a href="index.html#features" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Features</a>
+                <a href="index.html#pricing" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Pricing</a>
+                <a href="app.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">App</a>
+                <a href="docs.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Docs</a>
+                <a href="api-hub.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">API Hub</a>
 
-                    <!-- Dropdown Menu -->
-                    <div id="signin-dropdown" class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 ease-out z-50">
-                        <div class="p-2">
-                            <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-3 px-3">Sign in with</div>
+    <!-- Sign In Dropdown -->
+    <div class="relative">
+        <button id="signin-dropdown-btn" class="px-4 py-2 border border-black rounded-md text-sm font-medium hover:bg-black hover:text-white transition-colors flex items-center">
+            <span id="signin-button-label">Sign In</span>
+            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </button>
 
-                            <!-- GitHub Button -->
-                            <button class="w-full mb-2 flex items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors group">
-                                <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                                </svg>
-                                <span class="text-sm font-medium">Continue with GitHub</span>
-                            </button>
+        <!-- Dropdown Menu -->
+        <div id="signin-dropdown" class="absolute right-0 mt-2 w-64 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 ease-out z-50">
+            <div id="signin-provider-options" class="p-2">
+                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3 px-3">Sign in with</div>
 
-                            <!-- Google Button -->
-                            <button class="w-full flex items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors group">
-                                <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
-                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                                </svg>
-                                <span class="text-sm font-medium">Continue with Google</span>
-                            </button>
+                <!-- GitHub Button -->
+                <button type="button" data-auth-provider="github" class="w-full mb-2 flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
+                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <span class="text-sm font-medium">Continue with GitHub</span>
+                </button>
+
+                <!-- Google Button -->
+                <button type="button" data-auth-provider="google" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
+                    <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <span class="text-sm font-medium">Continue with Google</span>
+                </button>
+            </div>
+
+            <div id="signedin-dropdown" class="hidden">
+                <div class="px-4 py-3 border-b border-slate-200">
+                    <div class="flex items-center gap-3">
+                        <img id="signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-slate-200">
+                        <div>
+                            <p id="signedin-name" class="text-sm font-semibold text-slate-900"></p>
+                            <p id="signedin-email" class="text-xs text-slate-500"></p>
                         </div>
                     </div>
                 </div>
+                <div class="p-3 space-y-2">
+                    <a id="signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-indigo-500 hover:text-indigo-600 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
+                        </svg>
+                        <span>View profile</span>
+                    </a>
+                    <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
+                        Sign out
+                    </button>
+                </div>
             </div>
+        </div>
+    </div>
+
+<!-- Mobile Menu Button -->
             <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="md:hidden p-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -266,116 +420,208 @@
             </button>
         </nav>
         <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
             <div class="container mx-auto px-4 py-4 space-y-4">
-                <a href="index.html" class="block text-gray-700 hover:text-black font-medium py-2">Home</a>
-                <a href="index.html#features" class="block text-gray-700 hover:text-black font-medium py-2">Features</a>
-                <a href="index.html#pricing" class="block text-gray-700 hover:text-black font-medium py-2">Pricing</a>
-                <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
-                <a href="docs.html" class="block text-gray-700 hover:text-black font-medium py-2">Docs</a>
-                <a href="api-hub.html" class="block text-gray-700 hover:text-black font-medium py-2">API Hub</a>
+                <a href="index.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Home</a>
+                <a href="index.html#features" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Features</a>
+                <a href="index.html#pricing" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Pricing</a>
+                <a href="app.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">App</a>
+                <a href="docs.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Docs</a>
+                <a href="api-hub.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">API Hub</a>
                 <!-- Mobile Sign In Section -->
                 <div class="space-y-2">
                     <button id="mobile-signin-toggle" class="w-full text-left px-4 py-2 border border-black rounded-md text-sm font-medium hover:bg-black hover:text-white transition-colors flex items-center justify-between">
-                        Sign In
+                        <span id="mobile-signin-label">Sign In</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
 
-                    <!-- Mobile Auth Options -->
-                    <div id="mobile-signin-options" class="hidden space-y-2 ml-4">
-                        <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-2">Sign in with</div>
 
-                        <!-- GitHub Button -->
-                        <button class="w-full flex items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors group">
-                            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                            <span class="text-sm font-medium">Continue with GitHub</span>
-                        </button>
+<!-- Mobile Auth Options -->
+<div id="mobile-signin-options" class="hidden space-y-2 ml-4">
+    <div id="mobile-signedout-options" class="space-y-2">
+        <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">Sign in with</div>
 
-                        <!-- Google Button -->
-                        <button class="w-full flex items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors group">
-                            <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
-                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                            </svg>
-                            <span class="text-sm font-medium">Continue with Google</span>
-                        </button>
-                    </div>
+        <!-- GitHub Button -->
+        <button type="button" data-auth-provider="github" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span class="text-sm font-medium">Continue with GitHub</span>
+        </button>
+
+        <!-- Google Button -->
+        <button type="button" data-auth-provider="google" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
+            <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            <span class="text-sm font-medium">Continue with Google</span>
+        </button>
+    </div>
+
+    <div id="mobile-signedin-options" class="hidden space-y-3 border border-slate-200 rounded-lg p-4 bg-slate-900/10">
+        <div class="flex items-center gap-3">
+            <img id="mobile-signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-slate-200">
+            <div>
+                <p id="mobile-signedin-name" class="text-sm font-semibold text-slate-900"></p>
+                <p id="mobile-signedin-email" class="text-xs text-slate-600"></p>
+            </div>
+        </div>
+        <a id="mobile-signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center gap-2 text-sm font-medium text-indigo-500 hover:text-indigo-600">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
+            </svg>
+            <span>View profile</span>
+        </a>
+        <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
+            Sign out
+        </button>
+    </div>
+</div>
+            </div>
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- Hero -->
+    <section class="hero-section-app section-spacing">
+        <div class="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
+            <div class="text-center mb-16">
+                <span class="hero-badge text-slate-100 mb-8">Upload · Generate · Ship</span>
+                <h1 class="hero-title text-4xl sm:text-6xl md:text-7xl text-white max-w-4xl mx-auto mb-6">
+                    Build live APIs from spreadsheets in <span class="gradient-text">minutes</span>
+                </h1>
+                <p class="hero-subtitle text-xl sm:text-2xl text-slate-200 max-w-3xl mx-auto leading-relaxed">
+                    Drag in your data, watch apiui orchestrate validation, code generation, and deployment—all without leaving the browser.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
     <!-- Main Content -->
     <main class="flex-grow">
 
         <!-- Create API Section -->
-        <section class="section-spacing">
+        <section class="section-spacing bg-slate-50">
             <div class="container mx-auto px-6 max-w-4xl text-center">
-                <h2 class="section-title text-4xl sm:text-5xl text-black mb-6">Create Your API</h2>
-                <p class="text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed mb-12">
+                <h2 class="section-title text-4xl sm:text-5xl text-slate-900 mb-6">Create Your API</h2>
+                <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-12">
                     Upload an Excel, CSV, or Parquet file. We'll instantly generate a secure, queryable REST API endpoint for your data.
                 </p>
             </div>
 
-            <div class="container mx-auto px-6 max-w-7xl flex justify-center">
+            <div class="container mx-auto px-6 max-w-7xl">
 
-            <div id="app-container" class="w-full max-w-6xl">
-                <!-- Connection Status -->
-                <div id="connection-status" class="mb-4 flex items-center justify-center">
-                    <div class="flex items-center space-x-2 text-sm">
-                        <div id="connection-indicator" class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span id="connection-text" class="text-gray-600">Connected</span>
+            <div id="app-container" class="w-full">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 p-5 border border-slate-200 rounded-xl bg-white shadow-sm">
+                    <div>
+                        <p class="text-sm text-slate-500 uppercase tracking-wide">Connected backend</p>
+                        <p id="backend-url-display" class="font-mono text-sm text-slate-900 break-all">Detecting…</p>
+                    </div>
+                    <div class="mt-3 sm:mt-0 flex items-center space-x-3">
+                        <span id="backend-status-indicator" class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-700">Checking</span>
+                        <button id="change-backend-btn" class="btn-professional px-4 py-2 text-sm font-medium border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors">Change</button>
                     </div>
                 </div>
 
                 <!-- Uploader -->
-                <div id="uploader-section" class="flex justify-center">
+                <div id="uploader-section">
                     <input type="file" id="file-input" class="hidden" accept=".xlsx,.xls,.csv,.parquet,.txt">
-                    <label for="file-input" id="file-drop-area" class="file-drop-area w-full max-w-lg p-16 flex flex-col items-center justify-center cursor-pointer mx-auto">
-                        <!-- Normal upload state -->
-                        <div id="upload-normal-state" class="flex flex-col items-center justify-center text-center">
-                            <div class="w-16 h-16 icon-professional mb-6 flex items-center justify-center">
-                                <svg class="w-8 h-8 text-black transform translate-x-0 translate-y-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto;">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
-                                </svg>
-                            </div>
-                            <div class="flex flex-col items-center space-y-2">
-                                <p class="text-xl font-semibold text-black">
-                                    Click to upload or drag and drop
-                                </p>
-                                <p class="text-gray-600">XLSX, CSV, Parquet or TXT files</p>
-                                <p class="text-xs text-gray-500">💡 Try the demo: <a href="sample-data.csv" download class="underline hover:text-black">Download sample-data.csv</a>
-                            </div>
+                    <label for="file-input" id="file-drop-area" class="file-drop-area w-full p-16 flex flex-col items-center justify-center cursor-pointer">
+                        <div class="w-16 h-16 icon-professional mb-6">
+                            <svg class="w-8 h-8 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
+                            </svg>
                         </div>
-
-                        <!-- Loading state -->
-                        <div id="upload-loading-state" class="hidden flex flex-col items-center justify-center text-center">
-                            <div class="w-16 h-16 mb-6 flex items-center justify-center">
-                                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto"></div>
-                            </div>
-                            <div class="flex flex-col items-center space-y-2">
-                                <p class="text-xl font-semibold text-black">
-                                    Processing your file...
-                                </p>
-                                <p class="text-gray-600">This may take a few minutes for larger files</p>
-                                <div class="mt-4 w-full max-w-xs mx-auto">
-                                    <div class="bg-gray-200 rounded-full h-2">
-                                        <div id="upload-progress-bar" class="bg-black h-2 rounded-full transition-all duration-300" style="width: 10%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="text-xl font-semibold text-slate-900 mb-2">
+                            Click to upload or drag and drop
+                        </p>
+                        <p class="text-slate-600">XLSX, CSV, Parquet or TXT files</p>
+                        <p class="text-xs text-slate-500 mt-2">💡 Try the demo: <a href="sample-data.csv" download class="underline hover:text-slate-900">Download sample-data.csv</a></p>
                     </label>
                 </div>
 
+                <!-- File Preview -->
+                <div id="file-preview-section" class="hidden w-full bg-white border border-slate-200 rounded-xl shadow-lg/40 p-8">
+                    <!-- File Info Header -->
+                    <div class="flex items-center justify-between pb-6 border-b border-slate-200 mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-900 text-sm">File Preview:</p>
+                                <p id="preview-file-name" class="text-gray-700 font-medium"></p>
+                            </div>
+                        </div>
+                        <button id="change-file-preview-btn" class="btn-professional px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors">
+                            Change File
+                        </button>
+                    </div>
+
+                    <!-- File Metadata -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-100">
+                            <p class="text-xs text-slate-500 uppercase tracking-wider">File Size</p>
+                            <p id="preview-file-size" class="text-lg font-semibold text-slate-900">-</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-100">
+                            <p class="text-xs text-slate-500 uppercase tracking-wider">File Type</p>
+                            <p id="preview-file-type" class="text-lg font-semibold text-slate-900">-</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-100">
+                            <p class="text-xs text-slate-500 uppercase tracking-wider">Records</p>
+                            <p id="preview-record-count" class="text-lg font-semibold text-slate-900">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Data Preview -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-sm font-medium text-gray-900">Data Preview</h4>
+                            <span id="preview-records-shown" class="text-xs text-gray-500">Showing first 5 records</span>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg overflow-x-auto">
+                            <table class="min-w-full divide-y divide-slate-200">
+                                <thead class="bg-slate-100">
+                                    <tr id="preview-table-headers">
+                                        <!-- Headers will be populated here -->
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-slate-200" id="preview-table-body">
+                                    <!-- Data rows will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                        <button id="cancel-preview-btn" class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            Cancel
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <div id="preview-loading" class="hidden flex items-center space-x-2 text-sm text-gray-600">
+                                <div class="loader w-4 h-4"></div>
+                                <span>Analyzing file...</span>
+                            </div>
+                            <button id="generate-api-btn" class="px-6 py-2 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
+                                Generate API
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Status & Result -->
-                <div id="status-section" class="hidden w-full max-w-6xl bg-white border border-gray-200 rounded-xl shadow-sm p-8 mx-auto">
+                <div id="status-section" class="hidden w-full bg-white border border-gray-200 rounded-xl shadow-sm p-8">
                     <!-- File Info -->
                     <div id="file-info" class="flex items-center justify-between pb-6 border-b border-gray-200 mb-8">
                         <div class="flex items-center space-x-4">
@@ -395,7 +641,7 @@
                     </div>
 
                     <!-- Progress Tracker -->
-                    <div id="progress-tracker" class="hidden mt-8 mx-auto max-w-7xl">
+                    <div id="progress-tracker" class="hidden mt-8">
                         <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 h-[600px]">
                             <!-- Process Steps -->
                             <div class="xl:col-span-1">
@@ -404,32 +650,32 @@
                                     <div class="space-y-4 flex-grow">
                                         <!-- Step 1: Analyze -->
                                         <div class="flex items-center space-x-4">
-                                            <div id="step-icon-analyze" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full mx-auto"></div>
-                                            <div class="flex-1 text-center">
+                                            <div id="step-icon-analyze" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full"></div>
+                                            <div>
                                                 <p id="step-text-analyze" class="font-medium text-gray-400">Analyzing Data Structure</p>
                                             </div>
                                         </div>
 
                                         <!-- Step 2: Generate Code -->
                                         <div class="flex items-center space-x-4">
-                                            <div id="step-icon-generate" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full mx-auto"></div>
-                                            <div class="flex-1 text-center">
+                                            <div id="step-icon-generate" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full"></div>
+                                            <div>
                                                 <p id="step-text-generate" class="font-medium text-gray-400">Generating API Code</p>
                                             </div>
                                         </div>
 
                                         <!-- Step 3: Build Environment -->
                                         <div class="flex items-center space-x-4">
-                                            <div id="step-icon-build" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full mx-auto"></div>
-                                            <div class="flex-1 text-center">
+                                            <div id="step-icon-build" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full"></div>
+                                            <div>
                                                 <p id="step-text-build" class="font-medium text-gray-400">Building Environment</p>
                                             </div>
                                         </div>
 
                                         <!-- Step 4: Deploy -->
                                         <div class="flex items-center space-x-4">
-                                            <div id="step-icon-deploy" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full mx-auto"></div>
-                                            <div class="flex-1 text-center">
+                                            <div id="step-icon-deploy" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full"></div>
+                                            <div>
                                                 <p id="step-text-deploy" class="font-medium text-gray-400">Deploying API</p>
                                             </div>
                                         </div>
@@ -460,11 +706,11 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <div class="bg-white px-6 py-3 border-b border-gray-200 flex-shrink-0">
-                                        <span class="text-gray-900 font-mono text-sm">$ apiui generate --file sample-data.csv</span>
+                                    <div class="bg-black px-6 py-3 border-b border-gray-300 flex-shrink-0">
+                                        <span class="text-green-400 font-mono text-sm">$ apiui generate --file sample-data.csv</span>
                                     </div>
                                     <div id="logs-content" class="p-6 overflow-y-auto font-mono text-sm bg-white text-gray-900 leading-relaxed" style="height: 450px; max-height: 450px;">
-                                        <div class="text-gray-600 italic">Ready to process your file...</div>
+                                        <div class="text-gray-700 italic">Ready to process your file...</div>
                                     </div>
                                 </div>
                             </div>
@@ -615,6 +861,12 @@
 
     </main>
 
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Return to top">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
     <!-- Professional Section Divider -->
     <div class="accent-line"></div>
 
@@ -667,14 +919,12 @@
             <div class="border-t border-gray-200 pt-8">
                 <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
                     <p class="text-gray-500 text-sm">&copy; 2025 api<span class="font-bold">ui</span> Inc. All rights reserved.</p>
-                    <p class="text-gray-500 text-sm">Made with ❤️ for developers using AURABLOX AI</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -683,7 +933,6 @@
                 mobileMenu.classList.toggle('hidden');
             });
 
-            // Close mobile menu when clicking on a link
             mobileMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.add('hidden');
@@ -691,31 +940,26 @@
             });
         }
 
-        // Sign-in dropdown functionality
         const signinDropdownBtn = document.getElementById('signin-dropdown-btn');
         const signinDropdown = document.getElementById('signin-dropdown');
         const mobileSigninToggle = document.getElementById('mobile-signin-toggle');
         const mobileSigninOptions = document.getElementById('mobile-signin-options');
 
-        // Desktop dropdown toggle
         if (signinDropdownBtn && signinDropdown) {
             signinDropdownBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const isVisible = !signinDropdown.classList.contains('opacity-0');
 
                 if (isVisible) {
-                    // Hide dropdown
                     signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
                     signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
                 } else {
-                    // Show dropdown
                     signinDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
                     signinDropdown.classList.add('opacity-100', 'visible', 'scale-100');
                 }
             });
         }
 
-        // Mobile signin toggle
         if (mobileSigninToggle && mobileSigninOptions) {
             mobileSigninToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -723,40 +967,543 @@
             });
         }
 
-        // Close dropdowns when clicking outside
         document.addEventListener('click', (e) => {
-            // Close desktop dropdown
             if (signinDropdown && !signinDropdown.contains(e.target) && !signinDropdownBtn.contains(e.target)) {
                 signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
                 signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
             }
 
-            // Close mobile dropdown
             if (mobileSigninOptions && !mobileSigninOptions.contains(e.target) && !mobileSigninToggle.contains(e.target)) {
                 mobileSigninOptions.classList.add('hidden');
             }
         });
 
-        // Close mobile menu when clicking sign in options
         if (mobileSigninOptions) {
             mobileSigninOptions.addEventListener('click', (e) => {
-                // Only close if clicking on a button (not the container)
                 if (e.target.tagName === 'BUTTON') {
                     mobileMenu.classList.add('hidden');
                 }
             });
         }
 
-        // APIs UI elements
+
+const authProviderRoutes = {
+    github: '/auth/github/login',
+    google: '/auth/google/login',
+};
+
+const signinButtonLabel = document.getElementById('signin-button-label');
+const mobileSigninLabel = document.getElementById('mobile-signin-label');
+const signinProviderOptions = document.getElementById('signin-provider-options');
+const signedinDropdown = document.getElementById('signedin-dropdown');
+const signedinName = document.getElementById('signedin-name');
+const signedinEmail = document.getElementById('signedin-email');
+const signedinAvatar = document.getElementById('signedin-avatar');
+const signedinProfileLink = document.getElementById('signedin-profile-link');
+const mobileSignedoutOptions = document.getElementById('mobile-signedout-options');
+const mobileSignedinOptions = document.getElementById('mobile-signedin-options');
+const mobileSignedinName = document.getElementById('mobile-signedin-name');
+const mobileSignedinEmail = document.getElementById('mobile-signedin-email');
+const mobileSignedinAvatar = document.getElementById('mobile-signedin-avatar');
+const mobileSignedinProfileLink = document.getElementById('mobile-signedin-profile-link');
+const logoutButtons = document.querySelectorAll('[data-auth-action="logout"]');
+const authButtons = document.querySelectorAll('[data-auth-provider]');
+
+const getAuthBaseUrl = () => {
+    if (typeof window.apiuiGetBackendUrl === 'function') {
+        try {
+            const derived = window.apiuiGetBackendUrl();
+            if (derived) {
+                return derived;
+            }
+        } catch (error) {
+            // Ignore helper resolution errors
+        }
+    }
+
+    if (window.APIUI_AUTH_BASE_URL) {
+        return window.APIUI_AUTH_BASE_URL;
+    }
+
+    const attr = document.body?.dataset?.authBase;
+    if (attr) {
+        return attr;
+    }
+
+    try {
+        const stored = window.localStorage ? window.localStorage.getItem('apiui_backend_base_url') : null;
+        if (stored) {
+            return stored;
+        }
+    } catch (error) {
+        // Ignore storage access issues
+    }
+
+    return '';
+};
+
+const buildAuthUrl = (path) => {
+    if (!path) {
+        return '';
+    }
+
+    const isAbsolute = /^https?:\/\//i.test(path);
+    if (isAbsolute) {
+        return path;
+    }
+
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    const base = getAuthBaseUrl();
+
+    if (!base) {
+        return normalizedPath;
+    }
+
+    const trimmedBase = base.replace(/\/+$/, '');
+    return `${trimmedBase}${normalizedPath}`;
+};
+
+const resolveNextTarget = (button) => {
+    if (button?.dataset?.authNext) {
+        return button.dataset.authNext;
+    }
+
+    try {
+        const currentUrl = new URL(window.location.href);
+        if (currentUrl.protocol !== 'file:') {
+            return currentUrl.href;
+        }
+    } catch (error) {
+        // Fallback to origin
+    }
+
+    if (window.location.origin && window.location.origin !== 'null') {
+        return window.location.href || window.location.origin;
+    }
+
+    if (window.APIUI_APP_BASE_URL) {
+        return window.APIUI_APP_BASE_URL;
+    }
+
+    return '/';
+};
+
+const buildAuthRequestUrl = (route, nextTarget) => {
+    const baseUrl = buildAuthUrl(route);
+    const url = /^https?:\/\//i.test(baseUrl) ? new URL(baseUrl) : new URL(baseUrl, window.location.href);
+    url.searchParams.set('next', nextTarget);
+    return url.toString();
+};
+
+authButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        const provider = button.dataset.authProvider || 'github';
+        const route = authProviderRoutes[provider] || authProviderRoutes.github;
+        const nextTarget = resolveNextTarget(button);
+        const loginUrl = buildAuthRequestUrl(route, nextTarget);
+        window.location.href = loginUrl;
+    });
+});
+
+const clearImage = (imgEl) => {
+    if (!imgEl) {
+        return;
+    }
+    imgEl.classList.add('hidden');
+    imgEl.removeAttribute('src');
+};
+
+const setImage = (imgEl, src) => {
+    if (!imgEl) {
+        return;
+    }
+    if (src) {
+        imgEl.src = src;
+        imgEl.classList.remove('hidden');
+
+        // Add error handling for Google avatars
+        imgEl.onerror = function() {
+            console.log('Avatar failed to load:', src);
+            // Try to load a fallback avatar
+            if (src && src.includes('googleusercontent.com')) {
+                // Try different Google avatar sizes
+                const fallbackSizes = ['s96-c', 's64-c', 's32-c'];
+                for (const size of fallbackSizes) {
+                    if (!src.includes(size)) {
+                        const newSrc = src.replace(/=s\d+-c/, `=${size}`);
+                        if (newSrc !== src) {
+                            console.log('Trying fallback avatar:', newSrc);
+                            imgEl.src = newSrc;
+                            return;
+                        }
+                    }
+                }
+            }
+            // If all fallbacks fail, hide the image
+            clearImage(imgEl);
+        };
+    } else {
+        clearImage(imgEl);
+    }
+};
+
+const setProfileLink = (linkEl, url, label) => {
+    if (!linkEl) {
+        return;
+    }
+
+    if (url) {
+        linkEl.href = url;
+        const span = linkEl.querySelector('span');
+        if (span && label) {
+            span.textContent = label;
+        }
+        linkEl.classList.remove('hidden');
+    } else {
+        linkEl.classList.add('hidden');
+        linkEl.removeAttribute('href');
+    }
+};
+
+const applySignedOutUI = () => {
+    if (signinButtonLabel) {
+        signinButtonLabel.textContent = 'Sign In';
+    }
+    if (mobileSigninLabel) {
+        mobileSigninLabel.textContent = 'Sign In';
+    }
+    if (signinProviderOptions) {
+        signinProviderOptions.classList.remove('hidden');
+    }
+    if (signedinDropdown) {
+        signedinDropdown.classList.add('hidden');
+    }
+    if (mobileSignedoutOptions) {
+        mobileSignedoutOptions.classList.remove('hidden');
+    }
+    if (mobileSignedinOptions) {
+        mobileSignedinOptions.classList.add('hidden');
+    }
+    if (signedinName) {
+        signedinName.textContent = '';
+    }
+    if (signedinEmail) {
+        signedinEmail.textContent = '';
+        signedinEmail.classList.remove('hidden');
+    }
+    if (mobileSignedinName) {
+        mobileSignedinName.textContent = '';
+    }
+    if (mobileSignedinEmail) {
+        mobileSignedinEmail.textContent = '';
+        mobileSignedinEmail.classList.remove('hidden');
+    }
+    clearImage(signedinAvatar);
+    clearImage(mobileSignedinAvatar);
+    setProfileLink(signedinProfileLink, null);
+    setProfileLink(mobileSignedinProfileLink, null);
+};
+
+const applySignedInUI = (session) => {
+    if (!session || !session.user) {
+        applySignedOutUI();
+        return;
+    }
+
+    const user = session.user;
+    const provider = session.provider || 'account';
+    const displayName = user.name || user.login || (user.email ? user.email.split('@')[0] : '') || 'Account';
+    const email = user.email || '';
+    const avatar = user.avatar_url || user.picture || '';
+    const profileUrl = user.profile_url || user.html_url || '';
+    const providerLabel = provider === 'github' ? 'View on GitHub' : provider === 'google' ? 'Manage Google account' : 'View profile';
+
+    if (signinButtonLabel) {
+        signinButtonLabel.textContent = displayName;
+    }
+    if (mobileSigninLabel) {
+        mobileSigninLabel.textContent = displayName;
+    }
+    if (signinProviderOptions) {
+        signinProviderOptions.classList.add('hidden');
+    }
+    if (signedinDropdown) {
+        signedinDropdown.classList.remove('hidden');
+    }
+    if (mobileSignedoutOptions) {
+        mobileSignedoutOptions.classList.add('hidden');
+    }
+    if (mobileSignedinOptions) {
+        mobileSignedinOptions.classList.remove('hidden');
+    }
+    if (signedinName) {
+        signedinName.textContent = displayName;
+    }
+    if (signedinEmail) {
+        signedinEmail.textContent = email;
+        signedinEmail.classList.toggle('hidden', !email);
+    }
+    if (mobileSignedinName) {
+        mobileSignedinName.textContent = displayName;
+    }
+    if (mobileSignedinEmail) {
+        mobileSignedinEmail.textContent = email;
+        mobileSignedinEmail.classList.toggle('hidden', !email);
+    }
+
+    setImage(signedinAvatar, avatar);
+    setImage(mobileSignedinAvatar, avatar);
+    setProfileLink(signedinProfileLink, profileUrl, providerLabel);
+    setProfileLink(mobileSignedinProfileLink, profileUrl, providerLabel);
+};
+
+const fetchAuthSession = async () => {
+    const sessionUrl = buildAuthUrl('/auth/session');
+    try {
+        const response = await fetch(sessionUrl, { credentials: 'include' });
+        if (!response.ok) {
+            applySignedOutUI();
+            return;
+        }
+        const data = await response.json();
+        applySignedInUI(data);
+    } catch (error) {
+        applySignedOutUI();
+    }
+};
+
+logoutButtons.forEach(button => {
+    button.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const logoutUrl = buildAuthUrl('/auth/logout');
+        try {
+            await fetch(logoutUrl, { method: 'POST', credentials: 'include' });
+        } catch (error) {
+            // Ignore logout errors
+        }
+        applySignedOutUI();
+    });
+});
+
+applySignedOutUI();
+fetchAuthSession();
+
+        const backToTopBtn = document.getElementById('back-to-top');
+
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 600) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        const LOCAL_HOSTNAMES = ['localhost', '127.0.0.1', '::1'];
+        const isFileProtocol = window.location.protocol === 'file:';
+        const isLocalEnvironment = isFileProtocol || LOCAL_HOSTNAMES.includes(window.location.hostname);
+        const DEFAULT_CLOUD_RUN_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
+        const LOCAL_PORT_CANDIDATES = ['7777', '77777', '9999', '8000', '3000'];
+        const LOCAL_STORAGE_KEY = 'apiui_backend_base_url';
+
+        const backendUrlDisplay = document.getElementById('backend-url-display');
+        const backendStatusIndicator = document.getElementById('backend-status-indicator');
+        const changeBackendBtn = document.getElementById('change-backend-btn');
+
+        function normalizeBackendUrl(value) {
+            if (!value) return null;
+            let url = String(value).trim();
+            if (!url) return null;
+
+            // Allow specifying just a port for convenience (e.g. ?backend=77777)
+            if (/^\d+$/.test(url)) {
+                url = `http://localhost:${url}`;
+            }
+
+            if (!/^https?:\/\//i.test(url)) {
+                // Assume http for localhost-style values, https otherwise
+                const protocol = url.startsWith('localhost') || url.startsWith('127.0.0.1')
+                    ? 'http://'
+                    : 'https://';
+                url = `${protocol}${url}`;
+            }
+
+            return url.replace(/\/+$/, '');
+        }
+
+        async function isBackendReachable(baseUrl) {
+            if (!baseUrl) return false;
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+                const healthResponse = await fetch(`${baseUrl}/health`, {
+                    method: 'GET',
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+                return healthResponse.ok;
+            } catch (error) {
+                console.warn('[apiui] Backend health check failed for', baseUrl, error);
+                return false;
+            }
+        }
+
+        function updateBackendDisplay(url) {
+            if (backendUrlDisplay) {
+                backendUrlDisplay.textContent = url || 'Not connected';
+            }
+        }
+
+        function updateBackendStatus(status, label) {
+            if (!backendStatusIndicator) return;
+
+            const baseClasses = ['inline-flex', 'items-center', 'px-2.5', 'py-1', 'rounded-full', 'text-xs', 'font-medium'];
+            backendStatusIndicator.className = baseClasses.join(' ');
+
+            switch (status) {
+                case 'connected':
+                    backendStatusIndicator.classList.add('bg-green-100', 'text-green-700');
+                    break;
+                case 'error':
+                    backendStatusIndicator.classList.add('bg-red-100', 'text-red-700');
+                    break;
+                default:
+                    backendStatusIndicator.classList.add('bg-gray-200', 'text-gray-700');
+            }
+
+            backendStatusIndicator.textContent = label || 'Status';
+        }
+
+        function rememberBackendUrl(url) {
+            try {
+                if (url && isLocalEnvironment) {
+                    localStorage.setItem(LOCAL_STORAGE_KEY, url);
+                } else {
+                    localStorage.removeItem(LOCAL_STORAGE_KEY);
+                }
+            } catch (error) {
+                console.warn('[apiui] Unable to persist backend URL preference', error);
+            }
+        }
+
+        async function resolveBackendBaseUrl() {
+            updateBackendStatus('checking', 'Checking');
+            updateBackendDisplay('Detecting…');
+
+            const candidates = [];
+
+            const globalOverride = window.APIUI_BACKEND_URL ? normalizeBackendUrl(window.APIUI_BACKEND_URL) : null;
+            if (globalOverride) candidates.push(globalOverride);
+
+            const metaOverride = document.querySelector('meta[name="apiui-backend-url"]')?.content;
+            const normalizedMeta = normalizeBackendUrl(metaOverride);
+            if (normalizedMeta) candidates.push(normalizedMeta);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const paramOverride = normalizeBackendUrl(urlParams.get('backend'));
+            if (paramOverride) {
+                candidates.push(paramOverride);
+                rememberBackendUrl(paramOverride);
+            }
+
+            const storedOverride = isLocalEnvironment
+                ? normalizeBackendUrl(localStorage.getItem(LOCAL_STORAGE_KEY))
+                : null;
+            if (storedOverride) candidates.push(storedOverride);
+
+                // Prioritize Docker backend when running in containers
+            candidates.push(normalizeBackendUrl('http://localhost:9999'));
+            candidates.push(normalizeBackendUrl('http://apiui-backend:9999'));
+            candidates.push(normalizeBackendUrl('http://127.0.0.1:9999'));
+
+            if (isLocalEnvironment) {
+                if (window.location.port) {
+                    const samePortCandidate = normalizeBackendUrl(`localhost:${window.location.port}`);
+                    if (samePortCandidate) candidates.push(samePortCandidate);
+                }
+
+                LOCAL_PORT_CANDIDATES.forEach(port => {
+                    const candidate = normalizeBackendUrl(`localhost:${port}`);
+                    if (candidate) candidates.push(candidate);
+                });
+            }
+
+            candidates.push(DEFAULT_CLOUD_RUN_URL);
+
+            console.log('[apiui] Trying backend candidates:', candidates);
+
+            for (const candidate of [...new Set(candidates.filter(Boolean))]) {
+                console.log('[apiui] Testing candidate:', candidate);
+                const reachable = await isBackendReachable(candidate);
+                console.log('[apiui] Candidate reachable:', candidate, reachable);
+                if (reachable) {
+                    console.info('[apiui] Using backend base URL:', candidate);
+                    rememberBackendUrl(candidate);
+                    updateBackendStatus('connected', 'Connected');
+                    updateBackendDisplay(candidate);
+                    return candidate;
+                }
+            }
+
+            console.warn('[apiui] No backend candidates reachable, falling back to Cloud Run');
+            updateBackendStatus('error', 'Using Cloud Run');
+            updateBackendDisplay(DEFAULT_CLOUD_RUN_URL);
+            return DEFAULT_CLOUD_RUN_URL;
+        }
+
+        let BACKEND_BASE_URL = DEFAULT_CLOUD_RUN_URL;
+
+        window.apiuiGetBackendUrl = () => BACKEND_BASE_URL;
+        window.apiuiSetBackendUrl = async (url) => {
+            const normalized = normalizeBackendUrl(url);
+            if (!normalized) {
+                console.warn('[apiui] Invalid backend URL provided');
+                return BACKEND_BASE_URL;
+            }
+
+            if (await isBackendReachable(normalized)) {
+                BACKEND_BASE_URL = normalized;
+                rememberBackendUrl(normalized);
+                console.info('[apiui] Backend base URL updated to', normalized);
+                updateBackendStatus('connected', 'Connected');
+                updateBackendDisplay(normalized);
+                return normalized;
+            }
+
+            console.warn('[apiui] Provided backend URL is not reachable:', normalized);
+            updateBackendStatus('error', 'Unreachable');
+            return BACKEND_BASE_URL;
+        };
+
         const apisLoading = document.getElementById('apis-loading');
         const noApis = document.getElementById('no-apis');
         const apisList = document.getElementById('apis-list');
 
-        // File upload elements
         const fileInput = document.getElementById('file-input');
         const fileDropArea = document.getElementById('file-drop-area');
         const uploaderSection = document.getElementById('uploader-section');
+        const filePreviewSection = document.getElementById('file-preview-section');
         const statusSection = document.getElementById('status-section');
+
+        // File preview elements
+        const previewFileName = document.getElementById('preview-file-name');
+        const previewFileSize = document.getElementById('preview-file-size');
+        const previewFileType = document.getElementById('preview-file-type');
+        const previewRecordCount = document.getElementById('preview-record-count');
+        const previewTableHeaders = document.getElementById('preview-table-headers');
+        const previewTableBody = document.getElementById('preview-table-body');
+        const previewLoading = document.getElementById('preview-loading');
+        const changeFilePreviewBtn = document.getElementById('change-file-preview-btn');
+        const cancelPreviewBtn = document.getElementById('cancel-preview-btn');
+        const generateApiBtn = document.getElementById('generate-api-btn');
         const fileNameEl = document.getElementById('file-name');
         const changeFileBtn = document.getElementById('change-file-btn');
 
@@ -799,71 +1546,49 @@
         let pollingInterval = null;
         let displayedLogs = new Set(); // Track which logs we've already displayed
 
-        // Load APIs on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Force Docker backend URL for local development
+            const dockerUrl = 'http://apiui-backend:9999';
+            console.log('[apiui] Forcing Docker backend URL:', dockerUrl);
+
+            try {
+                const reachable = await isBackendReachable(dockerUrl);
+                if (reachable) {
+                    BACKEND_BASE_URL = dockerUrl;
+                    console.log('[apiui] Using Docker backend:', dockerUrl);
+                    updateBackendStatus('connected', 'Connected');
+                    updateBackendDisplay(dockerUrl);
+                } else {
+                    console.warn('[apiui] Docker backend not reachable, trying auto-resolution');
+                    BACKEND_BASE_URL = await resolveBackendBaseUrl();
+                }
+            } catch (error) {
+                console.error('[apiui] Error testing Docker backend:', error);
+                BACKEND_BASE_URL = await resolveBackendBaseUrl();
+            }
+
             loadApis();
         });
 
-        // Loading state management functions
-        function showUploadLoading() {
-            const normalState = document.getElementById('upload-normal-state');
-            const loadingState = document.getElementById('upload-loading-state');
-            if (normalState && loadingState) {
-                normalState.classList.add('hidden');
-                loadingState.classList.remove('hidden');
-            }
+        if (changeBackendBtn) {
+            changeBackendBtn.addEventListener('click', async () => {
+                const currentBackend = BACKEND_BASE_URL;
+                const newBackend = prompt('Enter backend base URL or port (e.g. 77777 or http://localhost:9999):', currentBackend);
+                if (!newBackend) {
+                    updateBackendStatus('connected', 'Connected');
+                    updateBackendDisplay(currentBackend);
+                    return;
+                }
+
+                updateBackendStatus('checking', 'Checking');
+                const resolved = await window.apiuiSetBackendUrl(newBackend);
+                if (resolved !== currentBackend) {
+                    loadApis();
+                    addLog(`Backend updated to ${resolved}`, 'info');
+                }
+            });
         }
 
-        function hideUploadLoading() {
-            const normalState = document.getElementById('upload-normal-state');
-            const loadingState = document.getElementById('upload-loading-state');
-            if (normalState && loadingState) {
-                loadingState.classList.add('hidden');
-                normalState.classList.remove('hidden');
-            }
-        }
-
-        function updateUploadProgress(percentage) {
-            const progressBar = document.getElementById('upload-progress-bar');
-            if (progressBar) {
-                progressBar.style.width = `${Math.min(percentage, 100)}%`;
-            }
-        }
-
-        // Connection status management
-        function updateConnectionStatus(connected, message = null) {
-            const indicator = document.getElementById('connection-indicator');
-            const text = document.getElementById('connection-text');
-
-            if (!indicator || !text) return;
-
-            if (connected) {
-                indicator.className = 'w-2 h-2 bg-green-500 rounded-full';
-                text.textContent = message || 'Connected';
-                text.className = 'text-gray-600';
-            } else {
-                indicator.className = 'w-2 h-2 bg-red-500 rounded-full animate-pulse';
-                text.textContent = message || 'Connection lost';
-                text.className = 'text-red-600';
-            }
-        }
-
-        function showReconnectButton() {
-            const statusDiv = document.getElementById('connection-status');
-            if (statusDiv && !document.getElementById('reconnect-btn')) {
-                const reconnectBtn = document.createElement('button');
-                reconnectBtn.id = 'reconnect-btn';
-                reconnectBtn.className = 'ml-4 px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors';
-                reconnectBtn.textContent = 'Retry';
-                reconnectBtn.onclick = function() {
-                    location.reload();
-                };
-                statusDiv.appendChild(reconnectBtn);
-            }
-        }
-
-        // Load APIs from backend
-        // LocalStorage helper functions for API persistence
         function storeApiLocally(api) {
             try {
                 const storedApis = getStoredApis();
@@ -914,13 +1639,11 @@
                 noApis.classList.add('hidden');
                 apisList.classList.add('hidden');
 
-                // Load APIs from localStorage first
                 const localApis = getStoredApis();
 
-                // Try to load from backend as well
                 let backendApis = [];
                 try {
-                    const response = await fetch('https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis');
+                    const response = await fetch(`${BACKEND_BASE_URL}/v1/apis`);
                     if (response.ok) {
                         const data = await response.json();
                         backendApis = data.apis || [];
@@ -940,6 +1663,8 @@
                     }
                 });
 
+                // Keep Cloud Run URLs for production deployment
+
                 if (mergedApis.length === 0) {
                     noApis.classList.remove('hidden');
                 } else {
@@ -950,7 +1675,6 @@
                 console.error('Failed to load APIs:', error);
                 apisLoading.classList.add('hidden');
 
-                // Try to load from localStorage as fallback
                 const localApis = getStoredApis();
                 if (localApis.length > 0) {
                     renderApisList(localApis);
@@ -1053,15 +1777,12 @@
                 </div>
             `;
 
-            // Add event listener to API docs button
             const docsBtn = row.querySelector('.api-docs-btn');
             docsBtn.addEventListener('click', () => showApiDocumentation(api.id, api));
 
-            // Add event listener to test button
             const testBtn = row.querySelector('.test-api-btn');
             testBtn.addEventListener('click', () => testApiInline(testBtn, api.id, api.api_url || api.url));
 
-            // Add event listener to delete button (only for locally stored APIs)
             const deleteBtn = row.querySelector('.delete-api-btn');
             if (deleteBtn) {
                 deleteBtn.addEventListener('click', () => {
@@ -1097,8 +1818,8 @@
                     // For locally stored APIs, use the api_url directly
                     testEndpoint = apiUrl;
                 } else {
-                    // For backend APIs, construct the URL
-                    testEndpoint = `https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis/${apiId}`;
+                    // For backend APIs, construct the absolute URL
+                    testEndpoint = `${BACKEND_BASE_URL}/v1/apis/${apiId}`;
                 }
 
                 // Remove trailing slash if present
@@ -1170,6 +1891,10 @@
 
         // Show API documentation
         function showApiDocumentation(apiId, api) {
+            // Get the API base URL
+            const defaultApiBaseUrl = `${BACKEND_BASE_URL}/v1/apis/${apiId}`;
+            const apiBaseUrl = api.url || api.api_url || defaultApiBaseUrl;
+
             // Create full-screen documentation overlay
             const docsModal = document.createElement('div');
             docsModal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
@@ -1220,7 +1945,7 @@
                                     <div class="p-4 border border-gray-200 rounded-lg">
                                         <div class="flex items-center justify-between mb-3">
                                             <h4 class="font-medium text-gray-900">cURL</h4>
-                                            <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${api.url || api.api_url}/data&quot;">
+                                            <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${apiBaseUrl}/data&quot;">
                                                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                                 </svg>
@@ -1228,7 +1953,7 @@
                                             </button>
                                         </div>
                                         <div class="bg-black text-green-400 p-4 rounded font-mono text-sm overflow-x-auto">
-                                            curl "${api.url || api.api_url}/data"
+                                            curl "${apiBaseUrl}/data"
                                         </div>
                                     </div>
 
@@ -1240,7 +1965,7 @@
                                                 <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="import requests
 
 response = requests.get(
-    '${api.url || api.api_url}/data'
+    '${apiBaseUrl}/data'
 )
 data = response.json()">
                                                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1252,7 +1977,7 @@ data = response.json()">
                                             <div class="bg-black text-green-400 p-4 rounded font-mono text-xs overflow-x-auto">
                                                 import requests<br><br>
                                                 response = requests.get(<br>
-                                                &nbsp;&nbsp;'${api.url || api.api_url}/data'<br>
+                                                &nbsp;&nbsp;'${apiBaseUrl}/data'<br>
                                                 )<br>
                                                 data = response.json()
                                             </div>
@@ -1261,7 +1986,7 @@ data = response.json()">
                                         <div class="p-4 border border-gray-200 rounded-lg">
                                             <div class="flex items-center justify-between mb-3">
                                                 <h4 class="font-medium text-gray-900">JavaScript</h4>
-                                                <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="fetch('${api.url || api.api_url}/data')
+                                                <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="fetch('${apiBaseUrl}/data')
     .then(response => response.json())
     .then(data => console.log(data))">
                                                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1271,7 +1996,7 @@ data = response.json()">
                                                 </button>
                                             </div>
                                             <div class="bg-black text-yellow-400 p-4 rounded font-mono text-xs overflow-x-auto">
-                                                fetch('${api.url || api.api_url}/data')<br>
+                                                fetch('${apiBaseUrl}/data')<br>
                                                 &nbsp;&nbsp;.then(response => response.json())<br>
                                                 &nbsp;&nbsp;.then(data => console.log(data))
                                             </div>
@@ -1290,7 +2015,7 @@ data = response.json()">
                                             <div class="p-3 border border-gray-200 rounded">
                                                 <div class="flex items-center justify-between mb-2">
                                                     <h5 class="text-sm font-medium text-gray-700">Filter Data</h5>
-                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${api.url || api.api_url}/data?column=value&quot;">
+                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${apiBaseUrl}/data?column=value&quot;">
                                                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                                         </svg>
@@ -1298,13 +2023,13 @@ data = response.json()">
                                                     </button>
                                                 </div>
                                                 <div class="bg-black text-green-400 p-3 rounded font-mono text-xs">
-                                                    curl "${api.url || api.api_url}/data?column=value"
+                                                    curl "${apiBaseUrl}/data?column=value"
                                                 </div>
                                             </div>
                                             <div class="p-3 border border-gray-200 rounded">
                                                 <div class="flex items-center justify-between mb-2">
                                                     <h5 class="text-sm font-medium text-gray-700">Sort Results</h5>
-                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${api.url || api.api_url}/data?sort_by=column&sort_order=desc&quot;">
+                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${apiBaseUrl}/data?sort_by=column&sort_order=desc&quot;">
                                                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                                         </svg>
@@ -1312,13 +2037,13 @@ data = response.json()">
                                                     </button>
                                                 </div>
                                                 <div class="bg-black text-green-400 p-3 rounded font-mono text-xs">
-                                                    curl "${api.url || api.api_url}/data?sort_by=column&sort_order=desc"
+                                                    curl "${apiBaseUrl}/data?sort_by=column&sort_order=desc"
                                                 </div>
                                             </div>
                                             <div class="p-3 border border-gray-200 rounded">
                                                 <div class="flex items-center justify-between mb-2">
                                                     <h5 class="text-sm font-medium text-gray-700">Pagination</h5>
-                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${api.url || api.api_url}/data?skip=10&limit=5&quot;">
+                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${apiBaseUrl}/data?skip=10&limit=5&quot;">
                                                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                                         </svg>
@@ -1326,7 +2051,7 @@ data = response.json()">
                                                     </button>
                                                 </div>
                                                 <div class="bg-black text-green-400 p-3 rounded font-mono text-xs">
-                                                    curl "${api.url || api.api_url}/data?skip=10&limit=5"
+                                                    curl "${apiBaseUrl}/data?skip=10&limit=5"
                                                 </div>
                                             </div>
                                         </div>
@@ -1432,7 +2157,7 @@ data = response.json()">
             fileDropArea.classList.remove('dragover');
             if (e.dataTransfer.files.length > 0) {
                 fileInput.files = e.dataTransfer.files;
-                handleFileSelect({ target: fileInput });
+                showFilePreview(e.dataTransfer.files[0]);
             }
         });
         fileInput.addEventListener('change', handleFileSelect);
@@ -1449,27 +2174,27 @@ data = response.json()">
             const logEntry = document.createElement('div');
             logEntry.className = 'mb-1';
 
-            // Monochrome styling - all messages in black
-            let prefix = '';
+            // Professional terminal styling with black text and accent colors
+            let prefixColor = '';
             let styleClass = 'font-normal'; // default
 
             if (level === 'error') {
-                prefix = '[ERROR] ';
+                prefixColor = 'text-red-600';
                 styleClass = 'font-bold';
             } else if (level === 'warning') {
-                prefix = '[WARN] ';
+                prefixColor = 'text-yellow-600';
                 styleClass = 'font-medium';
             } else if (level === 'info') {
-                prefix = '[INFO] ';
+                prefixColor = 'text-blue-600';
                 styleClass = 'font-normal';
             } else if (level === 'success') {
-                prefix = '[SUCCESS] ';
+                prefixColor = 'text-green-600';
                 styleClass = 'font-bold';
             }
 
             logEntry.innerHTML = `
                 <span class="text-gray-500 text-xs mr-2">${timestamp.slice(0, 8)}</span>
-                <span class="text-gray-900 ${styleClass}">${prefix}${message}</span>
+                <span class="text-gray-900 ${styleClass}"><span class="${prefixColor}">[${level.toUpperCase()}]</span> ${message}</span>
             `;
 
             // Remove the "Ready to process" message if it exists
@@ -1486,7 +2211,7 @@ data = response.json()">
             // Don't actually clear logs, just add a separator
             const separator = document.createElement('div');
             separator.className = 'border-t border-gray-300 my-3';
-            separator.innerHTML = '<span class="text-gray-500 text-xs">--- New Session ---</span>';
+            separator.innerHTML = '<span class="text-gray-600 text-xs">--- New Session ---</span>';
             logsContent.appendChild(separator);
             displayedLogs.clear();
         }
@@ -1511,14 +2236,11 @@ data = response.json()">
         // --- UI State Management ---
         function resetUI() {
             uploaderSection.classList.remove('hidden');
+            filePreviewSection.classList.add('hidden');
             statusSection.classList.add('hidden');
             progressTracker.classList.add('hidden');
             apiResultContainer.classList.add('hidden');
             fileInput.value = '';
-
-            // Reset upload loading state
-            hideUploadLoading();
-            updateUploadProgress(0);
 
             // Reset terminal height to normal
             const logContent = document.getElementById('logs-content');
@@ -1557,39 +2279,161 @@ data = response.json()">
 
         changeFileBtn.addEventListener('click', resetUI);
 
+        // File preview event handlers
+        changeFilePreviewBtn.addEventListener('click', hideFilePreview);
+        cancelPreviewBtn.addEventListener('click', hideFilePreview);
+        generateApiBtn.addEventListener('click', function() {
+            const file = fileInput.files[0];
+            if (file) {
+                // Hide uploader and preview, show status section
+                uploaderSection.classList.add('hidden');
+                filePreviewSection.classList.add('hidden');
+                startGenerationProcess(file);
+            }
+        });
+
         function handleFileSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            // Prevent multiple simultaneous uploads
-            if (currentJobId && !confirm('Another upload is in progress. Start a new one?')) {
-                event.target.value = ''; // Clear the file input
-                return;
-            }
+            showFilePreview(file);
+        }
 
+        // File preview function
+        async function showFilePreview(file) {
             // Validate file type
             const allowedExtensions = ['.csv', '.json', '.xlsx', '.xls', '.parquet', '.txt'];
             const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
             if (!allowedExtensions.includes(fileExtension)) {
                 alert('Unsupported file type. Please upload XLSX, CSV, Parquet, or TXT files.');
-                event.target.value = ''; // Clear the file input
                 return;
             }
 
-            // Show loading state
-            showUploadLoading();
-
+            // Show preview section and hide uploader
             uploaderSection.classList.add('hidden');
-            statusSection.classList.remove('hidden');
-            fileNameEl.textContent = file.name;
+            filePreviewSection.classList.remove('hidden');
+            previewLoading.classList.remove('hidden');
 
-            // Start new session but keep previous logs
-            clearLogs();
-            addLog(`File selected: ${file.name}`, 'info');
-            addLog(`File size: ${(file.size / 1024).toFixed(1)} KB`, 'info');
-            addLog(`Initializing upload process...`, 'info');
+            // Set basic file info
+            previewFileName.textContent = file.name;
+            previewFileSize.textContent = formatFileSize(file.size);
+            previewFileType.textContent = fileExtension.toUpperCase().replace('.', '');
 
-            startGenerationProcess(file);
+            try {
+                const previewData = await parseFileForPreview(file, fileExtension);
+                displayFilePreview(previewData);
+            } catch (error) {
+                console.error('Error parsing file:', error);
+                alert('Error reading file. Please try again.');
+                hideFilePreview();
+            }
+
+            previewLoading.classList.add('hidden');
+        }
+
+        // Parse file for preview
+        async function parseFileForPreview(file, fileExtension) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    try {
+                        const content = e.target.result;
+                        let data = [];
+                        let headers = [];
+
+                        if (fileExtension === '.csv') {
+                            const lines = content.split('\n').filter(line => line.trim());
+                            if (lines.length > 0) {
+                                headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+                                for (let i = 1; i < Math.min(lines.length, 6); i++) {
+                                    const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+                                    data.push(values);
+                                }
+                            }
+                        } else if (fileExtension === '.json') {
+                            const jsonData = JSON.parse(content);
+                            if (Array.isArray(jsonData) && jsonData.length > 0) {
+                                headers = Object.keys(jsonData[0]);
+                                data = jsonData.slice(0, 5).map(row => headers.map(h => row[h]));
+                            }
+                        } else if (fileExtension === '.xlsx' || fileExtension === '.xls') {
+                            // For Excel files, we'll use a simpler approach since we can't parse them client-side
+                            headers = ['Column 1', 'Column 2', 'Column 3'];
+                            data = [
+                                ['Sample data...', 'Preview not available', 'Upload to see full preview'],
+                                ['Please proceed to', 'generate the API to', 'see the data structure']
+                            ];
+                        }
+
+                        resolve({
+                            headers: headers,
+                            data: data,
+                            totalRecords: data.length,
+                            fileExtension: fileExtension
+                        });
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+
+                reader.onerror = () => reject(new Error('Failed to read file'));
+
+                if (fileExtension === '.xlsx' || fileExtension === '.xls') {
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    reader.readAsText(file);
+                }
+            });
+        }
+
+        // Display file preview
+        function displayFilePreview(previewData) {
+            // Set record count
+            previewRecordCount.textContent = previewData.totalRecords || 'Unknown';
+
+            // Clear existing table content
+            previewTableHeaders.innerHTML = '';
+            previewTableBody.innerHTML = '';
+
+            // Add headers
+            previewData.headers.forEach(header => {
+                const th = document.createElement('th');
+                th.className = 'px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider';
+                th.textContent = header;
+                previewTableHeaders.appendChild(th);
+            });
+
+            // Add data rows
+            previewData.data.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50';
+
+                row.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.className = 'px-4 py-3 text-sm text-gray-900 border-t border-gray-200';
+                    td.textContent = cell || '';
+                    tr.appendChild(td);
+                });
+
+                previewTableBody.appendChild(tr);
+            });
+        }
+
+        // Hide file preview
+        function hideFilePreview() {
+            filePreviewSection.classList.add('hidden');
+            uploaderSection.classList.remove('hidden');
+            fileInput.value = '';
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
         }
 
         function updateStep(step, status) {
@@ -1619,7 +2463,10 @@ data = response.json()">
 
         async function startGenerationProcess(file) {
             try {
+                // Show status section and progress tracker
+                statusSection.classList.remove('hidden');
                 initializeProgressTracker();
+
                 addLog('Establishing connection to apiui backend...', 'info');
                 addLog('Preparing file for upload...', 'info');
 
@@ -1630,10 +2477,17 @@ data = response.json()">
                 addLog('Uploading file to server...', 'info');
                 const uploadStartTime = Date.now();
 
-                const response = await fetch('https://apiui-backend-24bi767viq-uc.a.run.app/v1/generate', {
+                // Add timeout to upload request
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout for uploads
+
+                const response = await fetch(`${BACKEND_BASE_URL}/v1/generate`, {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    signal: controller.signal
                 });
+
+                clearTimeout(timeoutId);
 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -1643,38 +2497,25 @@ data = response.json()">
                 currentJobId = result.job_id;
 
                 const uploadTime = ((Date.now() - uploadStartTime) / 1000).toFixed(2);
+                addLog(`File uploaded successfully in ${uploadTime}s`, 'success');
+                addLog(`Job ID assigned: ${currentJobId}`, 'info');
+                addLog('Connecting to real-time status stream...', 'info');
 
-                if (result.status === 'already_exists') {
-                    addLog(`File uploaded successfully in ${uploadTime}s`, 'success');
-                    addLog(`📋 File '${file.name}' already processed - using existing API`, 'info');
-                    addLog(`🔄 Found existing job: ${currentJobId}`, 'info');
-                    addLog(`🌐 API URL: ${result.api_url}`, 'info');
-                    addLog(`🔑 API Key: ${result.api_key}`, 'info');
-
-                    // Show API result directly
-                    showApiResult({
-                        api_url: result.api_url,
-                        api_key: result.api_key,
-                        job_id: currentJobId,
-                        status: 'deployed'
-                    });
-
-                    // Update progress to completed
-                    updateProgress({ status: 'deployed', progress: { step: 4, total_steps: 4, description: 'API already available' } });
-                } else {
-                    addLog(`File uploaded successfully in ${uploadTime}s`, 'success');
-                    addLog(`Job ID assigned: ${currentJobId}`, 'info');
-                    addLog('Connecting to real-time status stream...', 'info');
-
-                    // Start polling for status
-                    startPolling();
-                }
+                // Start polling for status
+                startPolling();
 
             } catch (error) {
                 console.error('Upload error:', error);
-                addLog(`Upload failed: ${error.message}`, 'error');
-                addLog('Please check your internet connection and try again', 'warning');
-                alert('Upload failed: ' + error.message);
+
+                // Handle different types of errors
+                if (error.name === 'AbortError') {
+                    addLog('Upload timed out. Please check your internet connection and try again', 'error');
+                    alert('Upload timed out. Please check your internet connection and try again.');
+                } else {
+                    addLog(`Upload failed: ${error.message}`, 'error');
+                    addLog('Please check your internet connection and try again', 'warning');
+                    alert('Upload failed: ' + error.message);
+                }
                 resetUI();
             }
         }
@@ -1682,120 +2523,91 @@ data = response.json()">
         function startPolling() {
             let pollCount = 0;
             let consecutiveErrors = 0;
-            let currentInterval = 2000; // Start with 2 seconds
-            const maxInterval = 30000; // Maximum 30 seconds between polls
-            const maxPollDuration = 600000; // Maximum 10 minutes of polling
-            const maxConsecutiveErrors = 5; // Maximum consecutive errors before giving up
+            const maxConsecutiveErrors = 3;
 
-            const startTime = Date.now();
+            pollingInterval = setInterval(async () => {
+                try {
+                    pollCount++;
+                    // Only log polling every 5th attempt to reduce noise
+                    if (pollCount % 5 === 1) {
+                        addLog('📡 Monitoring API generation progress...', 'info');
+                    }
 
-            function scheduleNextPoll() {
-                if (Date.now() - startTime > maxPollDuration) {
-                    clearInterval(pollingInterval);
-                    addLog('⏰ Maximum polling time exceeded. The process may still be running.', 'warning');
-                    addLog('Please refresh the page and check your job status.', 'info');
-                    alert('Processing is taking longer than expected. Please refresh the page to check status.');
-                    resetUI();
-                    return;
-                }
+                    // Add timeout to polling requests
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout for polling
 
-                pollingInterval = setTimeout(async () => {
-                    try {
-                        pollCount++;
-                        // Only log polling every 10th attempt to reduce noise
-                        if (pollCount % 10 === 1) {
-                            addLog(`📡 Monitoring API generation progress... (${Math.floor((Date.now() - startTime) / 1000)}s elapsed)`, 'info');
+                    const response = await fetch(`${BACKEND_BASE_URL}/v1/generate/status/${currentJobId}`, {
+                        signal: controller.signal,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
                         }
+                    });
 
-                        // Add timeout to fetch request
-                        const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+                    clearTimeout(timeoutId);
 
-                        const response = await fetch(`https://apiui-backend-24bi767viq-uc.a.run.app/v1/generate/status/${currentJobId}`, {
-                            signal: controller.signal,
-                            headers: {
-                                'Cache-Control': 'no-cache'
-                            }
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const status = await response.json();
+
+                    // Reset consecutive errors on successful response
+                    consecutiveErrors = 0;
+
+                    // Display new logs from backend
+                    if (status.logs && Array.isArray(status.logs)) {
+                        status.logs.forEach(log => {
+                            const level = log.level || 'info';
+                            addLog(log.message, level);
                         });
+                    }
 
-                        clearTimeout(timeoutId);
+                    updateProgress(status);
 
-                        if (!response.ok) {
-                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                        }
+                    if (status.status === 'deployed') {
+                        clearInterval(pollingInterval);
+                        addLog('API generation completed successfully!', 'success');
+                        addLog('Your API is now ready to use', 'success');
+                        addLog(`Endpoint: ${status.api_url}`, 'info');
+                        showApiResult(status);
+                    } else if (status.status === 'failed') {
+                        clearInterval(pollingInterval);
+                        addLog(`Generation failed: ${status.error_message || 'Unknown error'}`, 'error');
+                        addLog('Please check your file format and try again', 'warning');
+                        alert('Generation failed: ' + (status.error_message || 'Unknown error'));
+                        resetUI();
+                    }
+                } catch (error) {
+                    consecutiveErrors++;
+                    console.error('Polling error:', error);
 
-                        const status = await response.json();
-
-                        // Reset error counter on successful response
-                        consecutiveErrors = 0;
-                        currentInterval = 2000; // Reset to base interval
-
-                        // Update connection status
-                        updateConnectionStatus(true);
-
-                        // Display new logs from backend
-                        if (status.logs && Array.isArray(status.logs)) {
-                            status.logs.forEach(log => {
-                                const level = log.level || 'info';
-                                addLog(log.message, level);
-                            });
-                        }
-
-                        updateProgress(status);
-
-                        if (status.status === 'deployed') {
-                            clearInterval(pollingInterval);
-                            addLog('API generation completed successfully!', 'success');
-                            addLog('Your API is now ready to use', 'success');
-                            addLog(`Endpoint: ${status.api_url}`, 'info');
-                            showApiResult(status);
-                            currentJobId = null; // Clear job ID when complete
-                        } else if (status.status === 'failed') {
-                            clearInterval(pollingInterval);
-                            addLog(`Generation failed: ${status.error_message || 'Unknown error'}`, 'error');
-                            addLog('Please check your file format and try again', 'warning');
-                            alert('Generation failed: ' + (status.error_message || 'Unknown error'));
-                            resetUI();
-                        } else {
-                            // Continue polling for other statuses
-                            scheduleNextPoll();
-                        }
-                    } catch (error) {
-                        consecutiveErrors++;
-                        console.error('Polling error:', error);
-
-                        // Update connection status
-                        updateConnectionStatus(false, 'Connection issues detected');
-
-                        if (error.name === 'AbortError') {
-                            addLog(`⏳ Request timed out (${consecutiveErrors}/${maxConsecutiveErrors})`, 'warning');
-                        } else {
-                            addLog(`Connection issue: ${error.message}`, 'warning');
-                        }
-
+                    // Handle different types of polling errors
+                    if (error.name === 'AbortError') {
+                        addLog('Connection timeout while checking status', 'error');
+                        addLog('The server might be busy processing your file', 'warning');
                         if (consecutiveErrors >= maxConsecutiveErrors) {
                             clearInterval(pollingInterval);
-                            updateConnectionStatus(false, 'Connection lost');
-                            addLog('🔄 Too many connection errors. The process may still be running on the server.', 'error');
-                            addLog('💡 Try refreshing the page in a few minutes to check the status.', 'info');
-                            showReconnectButton();
-                            alert('Connection lost. The process may still be running. Please refresh the page to check status.');
+                            alert('Connection timeout. The server might be busy processing your file. Please wait a moment and refresh the page.');
                             resetUI();
-                            return;
                         }
-
-                        // Exponential backoff: increase interval, but cap at maxInterval
-                        currentInterval = Math.min(currentInterval * 1.5, maxInterval);
-                        addLog(`⏰ Retrying in ${Math.round(currentInterval / 1000)} seconds...`, 'info');
-
-                        // Schedule next poll with backoff
-                        scheduleNextPoll();
+                    } else {
+                        addLog(`Connection lost: ${error.message}`, 'error');
+                        addLog('Please check your internet connection and refresh the page', 'warning');
+                        if (consecutiveErrors >= maxConsecutiveErrors) {
+                            clearInterval(pollingInterval);
+                            alert('Connection lost. Please check your internet and refresh the page.');
+                            resetUI();
+                        }
                     }
-                }, currentInterval);
-            }
 
-            // Start the first poll
-            scheduleNextPoll();
+                    // If we've had too many consecutive errors, stop polling
+                    if (consecutiveErrors >= maxConsecutiveErrors) {
+                        addLog(`Stopping polling after ${consecutiveErrors} consecutive errors`, 'error');
+                    }
+                }
+            }, 3000); // Poll every 3 seconds instead of 2 for better stability
         }
 
         function updateProgress(status) {
@@ -1821,32 +2633,6 @@ data = response.json()">
                         updateStep(step, 'pending');
                     }
                 });
-            }
-
-            // Update status text with more detailed information
-            const statusTextEl = document.getElementById('current-status');
-            if (statusTextEl) {
-                let statusText = '';
-                if (status.progress) {
-                    statusText = `${status.progress.description} (${status.progress.step}/${status.progress.total_steps})`;
-                } else {
-                    const statusTexts = {
-                        'analyzing': 'Analyzing your data file...',
-                        'generating_code': 'Generating API code with AI...',
-                        'building': 'Building Docker container...',
-                        'deployed': 'API deployed successfully!'
-                    };
-                    statusText = statusTexts[status.status] || 'Processing...';
-                }
-
-                // Add elapsed time if available
-                if (status.elapsed_seconds) {
-                    const minutes = Math.floor(status.elapsed_seconds / 60);
-                    const seconds = status.elapsed_seconds % 60;
-                    statusText += ` (${minutes}:${seconds.toString().padStart(2, '0')} elapsed)`;
-                }
-
-                statusTextEl.textContent = statusText;
             }
         }
 
@@ -1974,7 +2760,7 @@ data = response.json()">
         // Stop API
         async function stopApi(apiId) {
             try {
-                const response = await fetch(`https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis/${apiId}/stop`, {
+                const response = await fetch(`${BACKEND_BASE_URL}/v1/apis/${apiId}/stop`, {
                     method: 'POST'
                 });
 
@@ -2003,13 +2789,13 @@ data = response.json()">
                         <div class="w-3 h-3 bg-black rounded-full"></div>
                         <div class="w-3 h-3 bg-gray-600 rounded-full"></div>
                         <div class="w-3 h-3 bg-white border border-black rounded-full"></div>
-                        <span class="text-white font-mono text-sm ml-2">apiui-terminal - Starting API ${apiId}</span>
+                        <span class="text-white font-mono text-sm ml-2">apiui-terminal - Starting API ${apiId.slice(0, 8)}</span>
                     </div>
                     <button class="close-terminal text-gray-400 hover:text-white text-xl" title="Close Terminal">&times;</button>
                 </div>
                 <div class="flex-1 p-4 overflow-hidden">
                     <div class="bg-black text-white font-mono text-sm h-full overflow-y-auto p-4" id="terminal-content">
-                        <div class="text-gray-500 mb-2">$ apiui start --api ${apiId}</div>
+                        <div class="text-gray-500 mb-2">$ apiui start --api ${apiId.slice(0, 8)}</div>
                         <div class="text-gray-600 italic">Initializing API startup process...</div>
                     </div>
                 </div>
@@ -2055,7 +2841,7 @@ data = response.json()">
                     addTerminalLog('🚀 Sending startup request to backend...', 'info');
                     addTerminalLog(`📍 API ID: ${apiId}`, 'info');
 
-                    const response = await fetch(`https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis/${apiId}/start`, {
+                    const response = await fetch(`${BACKEND_BASE_URL}/v1/apis/${apiId}/start`, {
                         method: 'POST'
                     });
 
@@ -2074,7 +2860,7 @@ data = response.json()">
                     startupPolling = setInterval(async () => {
                         try {
                             pollCount++;
-                            const statusResponse = await fetch(`https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis/${apiId}/status`);
+                            const statusResponse = await fetch(`${BACKEND_BASE_URL}/v1/apis/${apiId}/status`);
 
                             if (!statusResponse.ok) {
                                 throw new Error(`Status check failed: ${statusResponse.status}`);
@@ -2155,7 +2941,7 @@ data = response.json()">
 
             try {
                 addLog('Sending test request to backend...', 'info');
-                const response = await fetch(`https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/${currentJobId}/run`, {
+                const response = await fetch(`${BACKEND_BASE_URL}/mock-api/${currentJobId}/run`, {
                     method: 'POST'
                 });
 
@@ -2394,4 +3180,3 @@ data = response.json()">
     </script>
 </body>
 </html>
-

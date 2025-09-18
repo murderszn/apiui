@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Data Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h1 {
+            color: #1a253c;
+            text-align: center;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        #searchInput {
+            width: 300px;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        #recordCount {
+            font-weight: bold;
+            color: #555;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        thead {
+            background-color: #1a253c;
+            color: #fff;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Employee Data Dashboard</h1>
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Search by name, job, or email...">
+            <div id="recordCount">Loading records...</div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Job Title</th>
+                    <th>Email Address</th>
+                </tr>
+            </thead>
+            <tbody id="dataTableBody">
+                </tbody>
+        </table>
+    </div>
+
+    <script>
+        // API Endpoint for the full dataset
+        const API_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/3802be0f-be9c-42a7-a791-704e477c53b3/data?limit=21';
+
+        // DOM Elements
+        const tableBody = document.getElementById('dataTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const recordCount = document.getElementById('recordCount');
+
+        let allRecords = []; // To store the fetched data
+
+        // --- 1. Fetch data from the API ---
+        async function fetchData() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const result = await response.json();
+                allRecords = result.data; // Store the array of records
+                renderTable(allRecords); // Initial render of the table
+            } catch (error) {
+                console.error("Could not fetch data:", error);
+                tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Failed to load data.</td></tr>`;
+            }
+        }
+
+        // --- 2. Render the table with given data ---
+        function renderTable(records) {
+            tableBody.innerHTML = ''; // Clear existing table rows
+
+            if (records.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No records found.</td></tr>`;
+                recordCount.textContent = '0 Records Found';
+                return;
+            }
+
+            records.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.ID}</td>
+                    <td>${record.FirstName}</td>
+                    <td>${record.LastName}</td>
+                    <td>${record['Job Title']}</td>
+                    <td>${record['Email Address']}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Update the record count display
+            if (allRecords.length === records.length) {
+                recordCount.textContent = `Total Records: ${allRecords.length}`;
+            } else {
+                recordCount.textContent = `Showing ${records.length} of ${allRecords.length} Records`;
+            }
+        }
+
+        // --- 3. Handle search input ---
+        searchInput.addEventListener('keyup', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            const filteredRecords = allRecords.filter(record => {
+                const firstName = record.FirstName.toLowerCase();
+                const lastName = record.LastName.toLowerCase();
+                const jobTitle = record['Job Title'].toLowerCase();
+                const email = record['Email Address'].toLowerCase();
+
+                return firstName.includes(searchTerm) || 
+                       lastName.includes(searchTerm) || 
+                       jobTitle.includes(searchTerm) ||
+                       email.includes(searchTerm);
+            });
+            
+            renderTable(filteredRecords);
+        });
+
+        // --- Initial Load ---
+        fetchData();
+    </script>
+
+</body>
+</html>

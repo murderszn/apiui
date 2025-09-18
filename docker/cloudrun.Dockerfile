@@ -20,6 +20,9 @@ COPY backend/ .
 # Create necessary directories
 RUN mkdir -p uploads generated_apis
 
+# Note: Google Cloud SDK is not installed in the container
+# Authentication is handled via service account key or metadata server in Cloud Run
+
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:9999/health || exit 1
