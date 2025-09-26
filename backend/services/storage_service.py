@@ -1,6 +1,6 @@
 """
-Storage Service for handling file persistence in Cloud Run
-Supports both local storage (for development) and Google Cloud Storage (for production)
+Storage Service for handling file persistence
+Supports Supabase Storage (primary), Google Cloud Storage, and local storage (fallback)
 """
 
 import os
@@ -17,15 +17,20 @@ except ImportError:  # pragma: no cover - optional dependency
         """Fallback NotFound when google cloud libraries are unavailable."""
         pass
 from core.config import settings
+from services.supabase_service import supabase_service
 
 
 class StorageService:
     def __init__(self):
+        self.use_supabase = supabase_service.connected
         self.use_gcs = settings.use_gcs_storage
         self.local_uploads_dir = settings.uploads_dir
         self.local_apis_dir = settings.generated_apis_dir
 
-        if self.use_gcs:
+        # Priority: Supabase > GCS > Local
+        if self.use_supabase:
+            print("✅ Using Supabase Storage as primary storage")
+        elif self.use_gcs:
             if storage is None:
                 raise RuntimeError("Google Cloud Storage requested but google-cloud-storage package is not installed")
             self.gcs_client = storage.Client(project=settings.gcs_project_id)
@@ -40,6 +45,24 @@ class StorageService:
     def save_upload_file(self, file_data: bytes, filename: str, job_id: str) -> str:
         """Save uploaded file with persistent storage"""
         file_path = f"uploads/{job_id}_{filename}"
+
+        if self.use_supabase:
+            # Use Supabase Storage for user-uploads bucket
+            import asyncio
+            try:
+                result = asyncio.run(supabase_service.upload_file(
+                    "user-uploads",
+                    file_path,
+                    file_data,
+                    self._get_content_type(filename)
+                ))
+                if result:
+                    print(f"📤 Uploaded to Supabase Storage: {file_path}")
+                    return file_path
+                else:
+                    print("❌ Supabase upload failed, falling back to GCS/local")
+            except Exception as e:
+                print(f"❌ Supabase upload error: {str(e)}, falling back to GCS/local")
 
         if self.use_gcs:
             blob = self.bucket.blob(file_path)
@@ -56,6 +79,12 @@ class StorageService:
     def get_upload_file(self, file_path: str) -> Optional[bytes]:
         """Retrieve uploaded file"""
         try:
+            if self.use_supabase:
+                import asyncio
+                result = asyncio.run(supabase_service.download_file("user-uploads", file_path))
+                if result:
+                    return result
+
             if self.use_gcs:
                 blob = self.bucket.blob(file_path)
                 return blob.download_as_bytes()
@@ -67,6 +96,19 @@ class StorageService:
         except (NotFound, FileNotFoundError):
             return None
         return None
+
+    def _get_content_type(self, filename: str) -> str:
+        """Get content type based on file extension"""
+        ext = os.path.splitext(filename)[1].lower()
+        content_types = {
+            '.csv': 'text/csv',
+            '.json': 'application/json',
+            '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            '.xls': 'application/vnd.ms-excel',
+            '.parquet': 'application/parquet',
+            '.txt': 'text/plain'
+        }
+        return content_types.get(ext, 'application/octet-stream')
 
     def save_generated_api(self, api_id: str, files: Dict[str, str]) -> bool:
         """Save generated API files"""
@@ -193,6 +235,24 @@ class StorageService:
             return True
         except Exception as e:
             print(f"❌ Failed to delete API {api_id}: {str(e)}")
+            return False
+
+    def clear_persistent_data(self, data_type: str) -> bool:
+        """Remove persisted data for the given type."""
+        try:
+            if self.use_gcs:
+                file_path = f"persistent/{data_type}.json"
+                blob = self.bucket.blob(file_path)
+                if blob.exists(client=self.gcs_client):
+                    blob.delete()
+            else:
+                local_file = getattr(settings, f"{data_type}_file", f"/Users/jahflyx/apiui/backend/{data_type}.json")
+                if os.path.exists(local_file):
+                    os.remove(local_file)
+            print(f"🧹 Cleared persistent data: {data_type}")
+            return True
+        except Exception as e:
+            print(f"❌ Failed to clear persistent data {data_type}: {str(e)}")
             return False
 
 

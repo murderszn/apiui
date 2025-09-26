@@ -24,19 +24,23 @@ This guide will help you deploy your apiui application to Google Cloud Run with 
 
 ### Step 1: Configure Your Settings
 
-1. Copy the configuration file:
-```bash
-cp .cloudrun.env cloudrun.env
-```
-
-2. Edit `cloudrun.env` with your actual values:
+1. Open `cloudrun.env` and update it with your project values. The deploy script reads this file automatically:
 ```bash
 # Required
 PROJECT_ID=your-actual-gcp-project-id
+REGION=us-central1
 OPENAI_API_KEY=your-openai-api-key
 
-# Optional
+# Storage (defaults to apiui-files-${PROJECT_ID})
+USE_GCS_STORAGE=True
+GCS_BUCKET_NAME=apiui-files-your-project
+
+# Optional data persistence
 MONGODB_URL=mongodb+srv://your-connection-string
+DATABASE_NAME=apiui
+
+# Optional custom domain override
+API_GATEWAY_URL=https://api.yourdomain.com
 ```
 
 ### Step 2: Authenticate with Google Cloud
@@ -63,11 +67,16 @@ chmod +x deploy-cloud-run.sh
 ./deploy-cloud-run.sh
 ```
 
+The script will:
+- Load values from `cloudrun.env` (or the current shell) for `PROJECT_ID`, secrets, and runtime settings
+- Build and push the container image via Cloud Build
+- Deploy to Cloud Run with the environment variables you configured (OpenAI key, MongoDB URL, OAuth settings, etc.)
+
 ## 🌐 Public URL & Access
 
 After deployment, Cloud Run will provide a public URL like:
 ```
-https://apiui-backend-xxxxxx.run.app
+https://apiui-backend-xxxxxxxxxx-uc.a.run.app
 ```
 
 Your API endpoints will be available at:
@@ -75,6 +84,8 @@ Your API endpoints will be available at:
 - **API List**: `https://your-service.run.app/v1/apis`
 - **File Upload**: `https://your-service.run.app/v1/generate` (POST)
 - **Generated APIs**: `https://your-service.run.app/mock-api/{job_id}/data`
+
+> The backend now inspects the incoming request and automatically builds fully qualified URLs in the job status responses. You no longer need to hard-code the Cloud Run domain in the code—whatever hostname hits `/v1/generate/status/{job_id}` is what will be returned for the generated API endpoints.
 
 ## 🎨 Frontend Deployment Options
 
@@ -183,6 +194,10 @@ PORT=8080
    - Files stored in container's `/app/uploads` and `/app/generated_apis`
    - **Warning**: Data will be lost when container restarts in Cloud Run
 
+### Custom Domains & Reverse Proxies
+
+If you front the backend with a custom domain (Cloud Run custom domains, Cloudflare, API Gateway, etc.), set `API_GATEWAY_URL=https://api.yourdomain.com` in `cloudrun.env`. The backend will prefer that value when building absolute URLs for generated APIs. If it is left blank, the service automatically uses the request host and protocol it receives.
+
 ### Database Options
 
 1. **MongoDB Atlas (Recommended)**:
@@ -266,4 +281,3 @@ gcloud run services describe apiui-backend --region=us-central1
 ```bash
 ./deploy-cloud-run.sh
 ```
-

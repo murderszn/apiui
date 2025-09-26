@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Backend is deployed to Cloud Run at: https://apiui-backend-24bi767viq-uc.a.run.app
+  # Backend is deployed to Cloud Run (see CLOUD_RUN_DEPLOYMENT.md for the live URL)
   # Uncomment below if you want to run backend locally for development
 
   apiui-backend:

@@ -13,7 +13,7 @@ import subprocess
 import signal
 import threading
 import secrets
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urljoin
 from typing import Optional
 
 import httpx
@@ -25,6 +25,8 @@ from core.config import settings
 from services.ai_service import AIService
 from services.storage_service import storage_service
 from services.database_service import db_service
+from services.deployment_service import DeploymentService
+from services.supabase_service import supabase_service
 
 app = Flask(__name__)
 app.secret_key = settings.secret_key
@@ -129,6 +131,32 @@ def _oauth_error_response(message: str, status_code: int = 400, provider: Option
     response = make_response(html, status_code)
     response.headers["Content-Type"] = "text/html; charset=utf-8"
     return response
+
+
+def _get_external_base_url() -> str:
+    """Determine the best base URL for building absolute links."""
+    if settings.api_gateway_url:
+        return settings.api_gateway_url.rstrip('/')
+
+    forwarded_host = request.headers.get('X-Forwarded-Host')
+    forwarded_proto = request.headers.get('X-Forwarded-Proto')
+
+    if forwarded_host:
+        scheme = (forwarded_proto or request.scheme or 'https').split(',')[0].strip()
+        host = forwarded_host.split(',')[0].strip()
+        return f"{scheme}://{host}".rstrip('/')
+
+    host_url = request.host_url.rstrip('/') if request.host_url else ''
+    return host_url
+
+
+def build_external_url(path: str) -> str:
+    """Construct an absolute URL for the provided path."""
+    base_url = _get_external_base_url()
+    if not base_url:
+        return path
+    normalized_path = path.lstrip('/')
+    return urljoin(f"{base_url}/", normalized_path)
 
 
 @app.route("/auth/github/login", methods=["GET"])
@@ -285,6 +313,13 @@ def github_me():
 
 @app.route("/auth/session", methods=["GET"])
 def auth_session():
+    # Check Supabase authentication first (new primary method)
+    if supabase_service.connected:
+        supabase_user = session.get('supabase_user')
+        if supabase_user:
+            return jsonify({"authenticated": True, "provider": "supabase", "user": supabase_user})
+
+    # Fallback to legacy OAuth (GitHub/Google)
     user_info = session.get('auth_user')
     provider = session.get('auth_provider')
 
@@ -431,69 +466,166 @@ def auth_logout():
     clear_authenticated_session()
     return jsonify({"success": True})
 
+
+# Supabase Authentication Routes
+@app.route("/auth/supabase/signup", methods=["POST"])
+def supabase_signup():
+    """Sign up a new user with Supabase"""
+    if not supabase_service.connected:
+        return jsonify({
+            "success": False,
+            "error": "Supabase authentication is not configured"
+        }), 503
+
+    data = request.get_json()
+    if not data or not data.get('email') or not data.get('password'):
+        return jsonify({"success": False, "error": "Email and password required"}), 400
+
+    try:
+        import asyncio
+        result = asyncio.run(supabase_service.sign_up(data['email'], data['password']))
+
+        if result["success"]:
+            # Store user info in session
+            user_info = result["user"]
+            session['supabase_user'] = user_info
+            session['supabase_access_token'] = result.get("session", {}).get("access_token")
+
+            return jsonify({
+                "success": True,
+                "user": user_info,
+                "message": "User created successfully"
+            })
+        else:
+            return jsonify({"success": False, "error": result["error"]}), 400
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/auth/supabase/signin", methods=["POST"])
+def supabase_signin():
+    """Sign in a user with Supabase"""
+    if not supabase_service.connected:
+        return jsonify({
+            "success": False,
+            "error": "Supabase authentication is not configured"
+        }), 503
+
+    data = request.get_json()
+    if not data or not data.get('email') or not data.get('password'):
+        return jsonify({"success": False, "error": "Email and password required"}), 400
+
+    try:
+        import asyncio
+        result = asyncio.run(supabase_service.sign_in(data['email'], data['password']))
+
+        if result["success"]:
+            # Store user info in session
+            user_info = result["user"]
+            session['supabase_user'] = user_info
+            session['supabase_access_token'] = result.get("session", {}).get("access_token")
+
+            return jsonify({
+                "success": True,
+                "user": user_info,
+                "message": "Signed in successfully"
+            })
+        else:
+            return jsonify({"success": False, "error": result["error"]}), 401
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/auth/supabase/signout", methods=["POST"])
+def supabase_signout():
+    """Sign out the current user"""
+    if not supabase_service.connected:
+        return jsonify({
+            "success": False,
+            "error": "Supabase authentication is not configured"
+        }), 503
+
+    try:
+        import asyncio
+        result = asyncio.run(supabase_service.sign_out())
+
+        # Clear session
+        session.pop('supabase_user', None)
+        session.pop('supabase_access_token', None)
+
+        return jsonify({"success": True, "message": "Signed out successfully"})
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/auth/supabase/me", methods=["GET"])
+def supabase_me():
+    """Get current user information"""
+    if not supabase_service.connected:
+        return jsonify({
+            "authenticated": False,
+            "error": "Supabase authentication is not configured"
+        }), 503
+
+    user_info = session.get('supabase_user')
+    if not user_info:
+        return jsonify({"authenticated": False}), 401
+
+    return jsonify({"authenticated": True, "user": user_info})
+
 # In-memory storage (will be backed by persistent storage)
 jobs = {}
 running_apis = {}
 running_servers = {}
 
-# Database and storage initialization
-db_connected = False
-
 async def save_job_async(job_id: str, job_data: dict):
     """Save job data persistently"""
-    global db_connected
-
-    if db_connected:
-        success = await db_service.save_job(job_id, job_data)
-        if not success:
-            # Fallback to storage service
-            storage_service.save_persistent_data("jobs", jobs)
-    else:
-        # Fallback to storage service
-        storage_service.save_persistent_data("jobs", jobs)
+    # Always use storage service for jobs (Supabase for APIs)
+    storage_service.save_persistent_data("jobs", jobs)
 
 async def save_api_states_async():
     """Save API states persistently"""
-    global db_connected
-
+    # Always use storage service for API states
     api_states = {
         'running_apis': running_apis,
         'running_servers': running_servers
     }
-
-    if db_connected:
-        success = await db_service.save_api_state(api_states)
-        if not success:
-            # Fallback to storage service
-            storage_service.save_persistent_data("api_states", api_states)
-    else:
-        # Fallback to storage service
-        storage_service.save_persistent_data("api_states", api_states)
+    storage_service.save_persistent_data("api_states", api_states)
 
 async def load_persistent_data():
     """Load all persistent data on startup"""
-    global jobs, running_apis, running_servers, db_connected
+    global jobs, running_apis, running_servers
 
     try:
-        # Try database first
-        if db_connected:
-            jobs = await db_service.load_all_jobs()
-            api_states = await db_service.load_api_state()
-            if api_states:
-                running_apis = api_states.get('running_apis', {})
-                running_servers = api_states.get('running_servers', {})
-        else:
-            # Fallback to storage service
-            jobs_data = storage_service.load_persistent_data("jobs")
-            if jobs_data:
-                jobs = jobs_data
+        # Load from storage service
+        jobs_data = storage_service.load_persistent_data("jobs")
+        if jobs_data:
+            jobs = jobs_data
 
-            api_states_data = storage_service.load_persistent_data("api_states")
-            if api_states_data:
-                running_apis = api_states_data.get('running_apis', {})
-                running_servers = api_states_data.get('running_servers', {})
+        api_states_data = storage_service.load_persistent_data("api_states")
+        if api_states_data:
+            running_apis = api_states_data.get('running_apis', {})
+            running_servers = api_states_data.get('running_servers', {})
 
         print(f"Loaded {len(jobs)} jobs and {len(running_apis)} running APIs from persistent storage")
+
+        # Automatically register deployed jobs in running_apis
+        for job_id, job_data in jobs.items():
+            if job_data.get('status') == 'deployed' and job_id not in running_apis:
+                running_apis[job_id] = {
+                    "id": job_id,
+                    "api_url": job_data.get("api_url"),
+                    "api_key": job_data.get("api_key"),
+                    "started_at": job_data.get("completed_at", job_data.get("created_at")),
+                    "port": None,  # Cloud Run doesn't use local ports
+                    "process": None  # Cloud Run manages the process
+                }
+                print(f"Auto-registered deployed API: {job_id}")
+
+        print(f"Total APIs after auto-registration: {len(running_apis)}")
 
     except Exception as e:
         print(f"Failed to load persistent data: {str(e)}")
@@ -502,25 +634,26 @@ async def load_persistent_data():
 # Initialize database and load persisted data on startup
 async def initialize_app():
     """Initialize database connection and load persistent data"""
-    global db_connected
-
-    # Try to connect to database
-    if settings.mongodb_url and settings.mongodb_url != "mongodb://localhost:27017":
-        try:
-            await db_service.connect()
-            db_connected = await db_service.health_check()
-            if db_connected:
-                print("Database connection established")
-            else:
-                print("Database connection failed, using storage service")
-        except Exception as e:
-            print(f"Database initialization failed: {str(e)}, using storage service")
+    # Connect to Supabase database
+    try:
+        await db_service.connect()
+        if db_service.connected:
+            print("✅ Supabase database connection established")
+        else:
+            print("❌ Supabase database connection failed")
+    except Exception as e:
+        print(f"❌ Database initialization failed: {str(e)}")
 
     # Load persistent data
     await load_persistent_data()
 
 # Initialize on startup
 asyncio.run(initialize_app())
+
+# Also initialize Supabase synchronously for health checks (only if not already connected)
+if settings.supabase_url and settings.supabase_anon_key and not supabase_service.connected:
+    supabase_service.connect()
+    print(f"Supabase initialized for health checks: {supabase_service.connected}")
 
 def save_job_background(job_id, job_data):
     """Save job data in background thread to handle Flask async issues"""
@@ -561,6 +694,7 @@ def add_log_entry(job_id, message, level="info"):
 
 # Initialize AI service
 ai_service = AIService()
+deployment_service = DeploymentService()
 
 def run_async_ai_generation(schema, job_id):
     """Run async AI generation in a new event loop"""
@@ -576,6 +710,114 @@ def run_async_ai_generation(schema, job_id):
         return result
     except Exception as e:
         return {"success": False, "error": f"AI generation failed: {str(e)}"}
+
+def run_async_deployment(job_id: str) -> dict:
+    """Run async deployment in a dedicated event loop"""
+    loop = None
+    try:
+        job = jobs.get(job_id)
+        if not job:
+            return {"success": False, "error": "Job not found"}
+
+        generated = job.get("generated_code")
+        if not generated:
+            return {"success": False, "error": "Generated code is missing"}
+
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        result = loop.run_until_complete(
+            deployment_service.deploy_api(
+                generated.get("main_py", ""),
+                generated.get("requirements_txt", ""),
+                generated.get("dockerfile", ""),
+                job_id
+            )
+        )
+        return result
+    except Exception as exc:
+        return {"success": False, "error": f"Deployment failed: {exc}"}
+    finally:
+        if loop:
+            loop.close()
+
+def trigger_deployment(job_id: str) -> None:
+    """Kick off deployment in a background thread if not already running"""
+    job = jobs.get(job_id)
+    if not job:
+        return
+
+    if job.get("deployment_started"):
+        return
+
+    job["deployment_started"] = True
+    job["deployment_started_at"] = datetime.utcnow().isoformat()
+    save_job_background(job_id, job)
+
+    def deployment_worker():
+        add_log_entry(job_id, "Starting deployment to Cloud Run...", "info")
+        job_ref = jobs.get(job_id)
+        if not job_ref:
+            return
+
+        job_ref["status"] = "deploying"
+        save_job_background(job_id, job_ref)
+
+        result = run_async_deployment(job_id)
+
+        job_ref = jobs.get(job_id)
+        if not job_ref:
+            return
+
+        if result.get("success"):
+            api_url = result.get("api_url") or build_external_url(f"/api/{job_id}")
+            job_ref["status"] = "deployed"
+            job_ref["api_url"] = api_url
+
+            job_ref["api_endpoints"] = result.get("api_endpoints") or {
+                "data": f"{api_url.rstrip('/')}/data",
+                "schema": f"{api_url.rstrip('/')}/schema",
+                "code": f"{api_url.rstrip('/')}/code"
+            }
+
+            job_ref["api_key"] = result.get("api_key")
+            job_ref["deployment_id"] = result.get("deployment_id")
+            if result.get("note"):
+                job_ref["deployment_note"] = result["note"]
+                add_log_entry(job_id, result["note"], "info")
+            job_ref["completed_at"] = datetime.utcnow().isoformat()
+
+            add_log_entry(job_id, "Deployment completed successfully!", "success")
+            add_log_entry(job_id, f"API available at: {job_ref['api_url']}")
+            if job_ref.get("api_key"):
+                add_log_entry(job_id, f"API Key: {job_ref['api_key']}")
+
+            # Register the deployed API in running_apis for Cloud Run deployments
+            running_apis[job_id] = {
+                "id": job_id,
+                "api_url": job_ref["api_url"],
+                "api_key": job_ref.get("api_key"),
+                "started_at": job_ref["completed_at"],
+                "port": None,  # Cloud Run doesn't use local ports
+                "process": None  # Cloud Run manages the process
+            }
+
+            # Save running_apis to persistent storage so it survives restarts
+            api_states = {
+                'running_apis': running_apis,
+                'running_servers': running_servers
+            }
+            storage_service.save_persistent_data("api_states", api_states)
+        else:
+            error_msg = result.get("error", "Deployment failed")
+            job_ref["status"] = "failed"
+            job_ref["error_message"] = error_msg
+            add_log_entry(job_id, f"Deployment failed: {error_msg}", "error")
+
+        save_job_background(job_id, job_ref)
+
+    thread = threading.Thread(target=deployment_worker)
+    thread.daemon = True
+    thread.start()
 
 def analyze_data_from_bytes(file_data: bytes, file_ext: str):
     """Analyze data from bytes and return schema - supports CSV, JSON, XLSX, Parquet"""
@@ -1235,8 +1477,12 @@ def generate_api():
             "completed_at": None,
             "api_url": None,
             "api_key": None,
+            "api_endpoints": None,
             "error_message": None,
-            "logs": []
+            "logs": [],
+            "deployment_started": False,
+            "deployment_id": None,
+            "deployment_note": None
         }
 
         add_log_entry(job_id, f"Job {job_id} created for file: {file.filename}")
@@ -1278,35 +1524,60 @@ def generate_api():
         for col in schema['columns'][:5]:  # Log first 5 columns
             add_log_entry(job_id, f"   Column: {col['name']} ({col['inferred_type']})")
 
-        # Generate AI code using OpenAI
+        # Start AI generation in background thread
         jobs[job_id]["status"] = "generating_code"
         save_job_background(job_id, jobs[job_id])
         add_log_entry(job_id, "Starting AI code generation with OpenAI GPT-4...")
         add_log_entry(job_id, "Preparing prompt for AI model...")
 
-        # Capture stdout and stderr to prevent Flask output issues
-        stdout_capture = io.StringIO()
-        stderr_capture = io.StringIO()
+        def ai_generation_worker():
+            """Background AI generation worker"""
+            try:
+                # Capture stdout and stderr to prevent Flask output issues
+                stdout_capture = io.StringIO()
+                stderr_capture = io.StringIO()
 
-        with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
-            ai_result = run_async_ai_generation(schema, job_id)
+                with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
+                    ai_result = run_async_ai_generation(schema, job_id)
 
-        if ai_result["success"]:
-            add_log_entry(job_id, "AI code generation successful!")
-            add_log_entry(job_id, f"Generated {len(ai_result['main_py'])} characters of FastAPI code")
-            req_lines = ai_result['requirements_txt'].split('\n')
-            add_log_entry(job_id, f"Generated requirements.txt with {len(req_lines)} packages")
-            jobs[job_id]["generated_code"] = {
-                "main_py": ai_result["main_py"],
-                "requirements_txt": ai_result["requirements_txt"],
-                "dockerfile": ai_result["dockerfile"]
-            }
-        else:
-            error_msg = ai_result.get("error", "AI generation failed")
-            add_log_entry(job_id, f"AI generation failed: {error_msg}", "error")
-            jobs[job_id]["error_message"] = error_msg
-            jobs[job_id]["status"] = "failed"
-            save_job_background(job_id, jobs[job_id])
+                job_ref = jobs.get(job_id)
+                if not job_ref:
+                    return
+
+                if ai_result["success"]:
+                    add_log_entry(job_id, "AI code generation successful!")
+                    add_log_entry(job_id, f"Generated {len(ai_result['main_py'])} characters of FastAPI code")
+                    req_lines = ai_result['requirements_txt'].split('\n')
+                    add_log_entry(job_id, f"Generated requirements.txt with {len(req_lines)} packages")
+                    job_ref["generated_code"] = {
+                        "main_py": ai_result["main_py"],
+                        "requirements_txt": ai_result["requirements_txt"],
+                        "dockerfile": ai_result["dockerfile"]
+                    }
+
+                    job_ref["status"] = "building"
+                    save_job_background(job_id, job_ref)
+                    add_log_entry(job_id, "Starting build process...")
+                    add_log_entry(job_id, "Preparing Docker container configuration...")
+                    trigger_deployment(job_id)
+                else:
+                    error_msg = ai_result.get("error", "AI generation failed")
+                    add_log_entry(job_id, f"AI generation failed: {error_msg}", "error")
+                    job_ref["error_message"] = error_msg
+                    job_ref["status"] = "failed"
+                    save_job_background(job_id, job_ref)
+
+            except Exception as e:
+                job_ref = jobs.get(job_id)
+                if job_ref:
+                    add_log_entry(job_id, f"AI generation worker failed: {str(e)}", "error")
+                    job_ref["error_message"] = f"AI generation failed: {str(e)}"
+                    job_ref["status"] = "failed"
+                    save_job_background(job_id, job_ref)
+
+        # Start AI generation in background thread
+        ai_thread = threading.Thread(target=ai_generation_worker, daemon=True)
+        ai_thread.start()
 
         return jsonify({
             "job_id": job_id,
@@ -1325,39 +1596,18 @@ def get_generation_status(job_id):
 
     job = jobs[job_id]
 
-    # Simulate progress through the steps
-    if job["status"] == "generating_code":
-        job["status"] = "building"
-        save_job_background(job_id, job)
-        add_log_entry(job_id, "Starting build process...")
-        add_log_entry(job_id, "Preparing Docker container configuration...")
-    elif job["status"] == "building":
-        job["status"] = "deployed"
-
-        # Detect if running locally or in Docker
-        port = os.environ.get('PORT', '9999')
-        if port == '9999' or os.environ.get('FLASK_ENV') == 'development':
-            # Use local URL for Docker/development
-            job["api_url"] = f"http://localhost:{port}/mock-api/{job_id}"
-        else:
-            # Use Cloud Run URL for production
-            job["api_url"] = f"https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/{job_id}"
-
-        job["api_key"] = f"api_key_{job_id[:8]}"
-        job["completed_at"] = datetime.utcnow().isoformat()
-        save_job_background(job_id, job)
-        add_log_entry(job_id, "Deployment completed successfully!")
-        add_log_entry(job_id, f"API available at: {job['api_url']}")
-        add_log_entry(job_id, f"API Key: {job['api_key']}")
-
     return jsonify({
         "job_id": job["id"],
         "status": job["status"],
         "api_url": job["api_url"],
+        "api_endpoints": job.get("api_endpoints"),
         "api_key": job["api_key"],
         "error_message": job["error_message"],
         "created_at": job["created_at"],
         "completed_at": job["completed_at"],
+        "deployment_id": job.get("deployment_id"),
+        "deployment_note": job.get("deployment_note"),
+        "deployment_started": job.get("deployment_started", False),
         "logs": job.get("logs", [])
     })
 
@@ -1446,6 +1696,35 @@ def list_generated_apis():
                     api_info["parse_error"] = str(e)
 
                 apis.append(api_info)
+
+        # Also include APIs from running_apis that don't have files in storage (Cloud Run APIs)
+        for api_id, api_info_running in running_apis.items():
+            # Skip if we already added this API from storage
+            if any(api['id'] == api_id for api in apis):
+                continue
+
+            # Add Cloud Run API info
+            api_info = {
+                "id": api_id,
+                "path": f"cloud-run://{api_id}",
+                "created_at": api_info_running.get("started_at", datetime.utcnow().isoformat()),
+                "has_main_py": False,  # Cloud Run APIs don't have local files
+                "has_data_csv": True,  # They serve data
+                "has_requirements": False,  # No local requirements file
+                "status": "running",  # Cloud Run APIs are always "running"
+                "url": api_info_running.get("api_url"),
+                "port": api_info_running.get("port"),
+                "started_at": api_info_running.get("started_at"),
+                "api_key": api_info_running.get("api_key"),
+                "title": f"Cloud Run API {api_id[:8]}...",
+                "models": ["DataModel"],  # Generic model info
+                "endpoints": [
+                    {"method": "GET", "path": "/data", "description": "Get data with optional filtering"},
+                    {"method": "GET", "path": "/schema", "description": "Get data schema"},
+                    {"method": "GET", "path": "/code", "description": "Get API code"}
+                ]
+            }
+            apis.append(api_info)
 
         return jsonify({
             "apis": apis,
@@ -1623,13 +1902,13 @@ def start_api(api_id):
                 "process": process,
                 "port": port,
                 "started_at": datetime.utcnow().isoformat(),
-                "url": f"http://localhost:{port}"
+                "url": build_external_url(f"/api/{api_id}")
             }
 
             return jsonify({
                 "message": "API started successfully",
                 "status": "running",
-                "url": f"http://localhost:{port}",
+                "url": build_external_url(f"/api/{api_id}"),
                 "port": port,
                 "started_at": running_apis[api_id]["started_at"]
             })
@@ -1673,6 +1952,63 @@ def stop_api(api_id):
             return jsonify({"error": f"Failed to stop API: {str(e)}"}), 500
 
     except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/v1/apis/<api_id>', methods=['DELETE'])
+def delete_api(api_id):
+    """Delete a specific API"""
+    try:
+        # Check if API exists in running_apis or storage
+        api_exists = False
+
+        # Check in running_apis first
+        if api_id in running_apis:
+            api_exists = True
+        else:
+            # Check using storage service as fallback
+            api_ids = storage_service.list_generated_apis()
+            if api_id in api_ids:
+                api_exists = True
+
+        if not api_exists:
+            return jsonify({"error": "API not found"}), 404
+
+        # Stop the API if it's running
+        if api_id in running_apis:
+            api_info = running_apis[api_id]
+            process = api_info["process"]
+
+            try:
+                # Terminate the process group
+                os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+
+                # Wait a bit for graceful shutdown
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    # Force kill if it doesn't respond
+                    os.killpg(os.getpgid(process.pid), signal.SIGKILL)
+                    process.wait()
+
+                del running_apis[api_id]
+                print(f"Stopped running API: {api_id}")
+
+            except Exception as e:
+                print(f"Warning: Failed to stop API process {api_id}: {str(e)}")
+                # Continue with deletion even if stopping fails
+
+        # Delete from storage service (works for both local and GCS)
+        storage_deleted = storage_service.delete_generated_api(api_id)
+
+        # Remove from running_apis if it still exists
+        if api_id in running_apis:
+            del running_apis[api_id]
+
+        print(f"Successfully deleted API: {api_id}")
+        return jsonify({"message": f"API {api_id} deleted successfully"}), 200
+
+    except Exception as e:
+        print(f"Error deleting API {api_id}: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 @app.route('/v1/apis/<api_id>/status', methods=['GET'])
@@ -1747,7 +2083,7 @@ def get_api_docs(api_id):
             },
             "servers": [
                 {
-                    "url": f"http://localhost:7777/v1/apis/{api_id}",
+                    "url": build_external_url(f"/v1/apis/{api_id}"),
                     "description": "Generated API server"
                 }
             ],
@@ -1836,6 +2172,19 @@ def get_api_docs(api_id):
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
+    # Determine database status
+    from core.config import settings as config_settings
+    if config_settings.supabase_url and config_settings.supabase_anon_key and db_service.connected:
+        database_status = {
+            "type": "Supabase",
+            "status": "connected"
+        }
+    else:
+        database_status = {
+            "type": "Supabase",
+            "status": "disconnected"
+        }
+
     health_status = {
         "status": "healthy",
         "timestamp": datetime.utcnow().isoformat(),
@@ -1843,10 +2192,7 @@ def health_check():
             "type": "GCS" if storage_service.use_gcs else "Local",
             "status": "available"
         },
-        "database": {
-            "type": "MongoDB" if db_connected else "None",
-            "status": "connected" if db_connected else "disconnected"
-        },
+        "database": database_status,
         "jobs_count": len(jobs),
         "apis_count": len(running_apis)
     }
@@ -1863,19 +2209,10 @@ def health_check():
         health_status["storage"]["status"] = f"error: {str(e)}"
         health_status["status"] = "degraded"
 
-    # Check database health
-    if db_connected:
-        try:
-            db_health = asyncio.run(db_service.health_check())
-            if not db_health:
-                health_status["database"]["status"] = "error"
-                health_status["status"] = "degraded"
-        except Exception as e:
-            health_status["database"]["status"] = f"error: {str(e)}"
-            health_status["status"] = "degraded"
-
     return jsonify(health_status)
 
+@app.route('/api/<job_id>', methods=['GET'])
+@app.route('/api/<job_id>/data', methods=['GET'])
 @app.route('/mock-api/<job_id>', methods=['GET'])
 @app.route('/mock-api/<job_id>/data', methods=['GET'])
 def mock_api_endpoint(job_id):
@@ -1953,10 +2290,11 @@ def mock_api_endpoint(job_id):
                 "message": f"AI-generated API for {job['filename']}",
                 "status": "AI-generated code ready",
                 "endpoints": [
-                    f"/mock-api/{job_id}/data",
-                    f"/mock-api/{job_id}/schema",
-                    f"/mock-api/{job_id}/code"
+                    f"/api/{job_id}/data",
+                    f"/api/{job_id}/schema",
+                    f"/api/{job_id}/code"
                 ],
+                "absolute_endpoints": job.get("api_endpoints"),
                 "total_records": len(file_data),
                 "generated_at": job.get("completed_at"),
                 "ai_provider": "OpenAI GPT-4"
@@ -1994,14 +2332,16 @@ def mock_api_endpoint(job_id):
         return jsonify({
             "message": f"Mock API for {job['filename']} (AI generation may have failed)",
             "endpoints": [
-                f"/mock-api/{job_id}/data",
-                f"/mock-api/{job_id}/schema"
+                f"/api/{job_id}/data",
+                f"/api/{job_id}/schema"
             ],
+            "absolute_endpoints": job.get("api_endpoints"),
             "schema": schema,
             "total_records": schema.get("row_count", 0),
             "status": "mock_mode"
         })
 
+@app.route('/api/<job_id>/schema', methods=['GET'])
 @app.route('/mock-api/<job_id>/schema', methods=['GET'])
 def mock_api_schema(job_id):
     """Return schema information for the mock API"""
@@ -2014,6 +2354,7 @@ def mock_api_schema(job_id):
 
     return jsonify(job["schema"])
 
+@app.route('/api/<job_id>/code', methods=['GET'])
 @app.route('/mock-api/<job_id>/code', methods=['GET'])
 def get_generated_code(job_id):
     """Return the AI-generated code files"""
@@ -2032,6 +2373,7 @@ def get_generated_code(job_id):
         "filename": job["filename"]
     })
 
+@app.route('/api/<job_id>/run', methods=['POST'])
 @app.route('/mock-api/<job_id>/run', methods=['POST'])
 def run_generated_api(job_id):
     """Test the generated API by returning the first few records"""
@@ -2043,11 +2385,31 @@ def run_generated_api(job_id):
     try:
         # Read the uploaded data file and return first few records
         file_path = job.get("file_path")
-        if not file_path or not os.path.exists(file_path):
+        if not file_path:
+            add_log_entry(job_id, "⚠️ Data file path missing when running API test", "error")
             return jsonify({"error": "Data file not found"}), 404
 
-        # Read data from the uploaded file (supports multiple formats)
-        file_data = read_data_file(file_path)
+        # Retrieve file bytes via storage service so the storage backend abstraction works everywhere
+        file_bytes = storage_service.get_upload_file(file_path)
+        if not file_bytes:
+            add_log_entry(job_id, f"⚠️ Data file unavailable in storage: {file_path}", "error")
+            return jsonify({"error": "Data file not found"}), 404
+
+        file_ext = os.path.splitext(file_path)[1].lower()
+
+        try:
+            file_data = read_data_from_bytes(file_bytes, file_ext)
+        except Exception as exc:
+            add_log_entry(job_id, f"⚠️ Failed reading uploaded data file: {exc}", "error")
+            return jsonify({"error": f"Failed to read data file: {exc}"}), 500
+
+        if isinstance(file_data, dict) and file_data.get("error"):
+            error_msg = file_data["error"]
+            add_log_entry(job_id, f"⚠️ Failed processing data file: {error_msg}", "error")
+            return jsonify({"error": error_msg}), 500
+
+        if not isinstance(file_data, list):
+            file_data = [file_data]
 
         # Return first 5 records to prove the API works
         sample_records = file_data[:5] if len(file_data) > 5 else file_data
@@ -2063,10 +2425,11 @@ def run_generated_api(job_id):
             "sample_records": sample_records,
             "columns": [col["name"] for col in columns],
             "api_endpoints": [
-                f"/mock-api/{job_id}/data",
-                f"/mock-api/{job_id}/schema",
-                f"/mock-api/{job_id}/code"
+                f"/api/{job_id}/data",
+                f"/api/{job_id}/schema",
+                f"/api/{job_id}/code"
             ],
+            "absolute_endpoints": job.get("api_endpoints"),
             "test_timestamp": datetime.utcnow().isoformat(),
             "status": "test_successful"
         })

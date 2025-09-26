@@ -566,7 +566,7 @@ def get_generation_status(job_id):
         add_log_entry(job_id, "📦 Preparing Docker container configuration...")
     elif job["status"] == "building":
         job["status"] = "deployed"
-        job["api_url"] = f"http://localhost:8000/mock-api/{job_id}"
+        job["api_url"] = f"http://localhost:8000/api/{job_id}"
         job["api_key"] = f"api_key_{job_id[:8]}"
         job["completed_at"] = datetime.utcnow().isoformat()
         save_jobs_to_file()
@@ -1071,8 +1071,8 @@ def health_check():
         "timestamp": datetime.utcnow().isoformat()
     })
 
-@app.route('/mock-api/<job_id>', methods=['GET'])
-@app.route('/mock-api/<job_id>/data', methods=['GET'])
+@app.route('/api/<job_id>', methods=['GET'])
+@app.route('/api/<job_id>/data', methods=['GET'])
 def mock_api_endpoint(job_id):
     """Mock API endpoint that simulates a generated API"""
     if job_id not in jobs:
@@ -1141,9 +1141,9 @@ def mock_api_endpoint(job_id):
                 "message": f"AI-generated API for {job['filename']}",
                 "status": "AI-generated code ready",
                 "endpoints": [
-                    f"/mock-api/{job_id}/data",
-                    f"/mock-api/{job_id}/schema",
-                    f"/mock-api/{job_id}/code"
+                    f"/api/{job_id}/data",
+                    f"/api/{job_id}/schema",
+                    f"/api/{job_id}/code"
                 ],
                 "total_records": len(file_data),
                 "generated_at": job.get("completed_at"),
@@ -1182,15 +1182,15 @@ def mock_api_endpoint(job_id):
         return jsonify({
             "message": f"Mock API for {job['filename']} (AI generation may have failed)",
             "endpoints": [
-                f"/mock-api/{job_id}/data",
-                f"/mock-api/{job_id}/schema"
+                f"/api/{job_id}/data",
+                f"/api/{job_id}/schema"
             ],
             "schema": schema,
             "total_records": schema.get("row_count", 0),
             "status": "mock_mode"
         })
 
-@app.route('/mock-api/<job_id>/schema', methods=['GET'])
+@app.route('/api/<job_id>/schema', methods=['GET'])
 def mock_api_schema(job_id):
     """Return schema information for the mock API"""
     if job_id not in jobs:
@@ -1202,7 +1202,7 @@ def mock_api_schema(job_id):
 
     return jsonify(job["schema"])
 
-@app.route('/mock-api/<job_id>/code', methods=['GET'])
+@app.route('/api/<job_id>/code', methods=['GET'])
 def get_generated_code(job_id):
     """Return the AI-generated code files"""
     if job_id not in jobs:
@@ -1220,7 +1220,7 @@ def get_generated_code(job_id):
         "filename": job["filename"]
     })
 
-@app.route('/mock-api/<job_id>/run', methods=['POST'])
+@app.route('/api/<job_id>/run', methods=['POST'])
 def run_generated_api(job_id):
     """Test the generated API by returning the first few records"""
     if job_id not in jobs:
@@ -1251,9 +1251,9 @@ def run_generated_api(job_id):
             "sample_records": sample_records,
             "columns": [col["name"] for col in columns],
             "api_endpoints": [
-                f"/mock-api/{job_id}/data",
-                f"/mock-api/{job_id}/schema",
-                f"/mock-api/{job_id}/code"
+                f"/api/{job_id}/data",
+                f"/api/{job_id}/schema",
+                f"/api/{job_id}/code"
             ],
             "test_timestamp": datetime.utcnow().isoformat(),
             "status": "test_successful"

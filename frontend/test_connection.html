@@ -16,9 +16,14 @@
             const errorDiv = document.getElementById('error');
 
             try {
-                resultDiv.innerHTML = 'Testing connection to backend...';
+                const params = new URLSearchParams(window.location.search);
+                const backendBase = params.get('backend') || 'https://your-cloud-run-service.run.app';
+                const normalizedBase = backendBase.replace(/\/+$/, '');
+                const targetUrl = `${normalizedBase}/v1/apis`;
 
-                const response = await fetch('https://apiui-backend-24bi767viq-uc.a.run.app/v1/apis', {
+                resultDiv.innerHTML = `Testing connection to backend at <code>${targetUrl}</code>...`;
+
+                const response = await fetch(targetUrl, {
                     headers: {
                         'Content-Type': 'application/json'
                     }

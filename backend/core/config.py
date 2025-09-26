@@ -2,23 +2,36 @@ from pydantic_settings import BaseSettings
 from typing import Optional
 
 class Settings(BaseSettings):
-    # MongoDB settings
-    mongodb_url: str = "mongodb://localhost:27017"
-    database_name: str = "apiui"
+    # Supabase settings
+    supabase_url: Optional[str] = None
+    supabase_anon_key: Optional[str] = None
+    supabase_service_role_key: Optional[str] = None
 
-    # Cloud Storage settings
-    gcs_bucket_name: str = "apiui-files"
+    # Storage settings
+    uploads_dir: str = "/Users/jahflyx/apiui/uploads"
+    generated_apis_dir: str = "/Users/jahflyx/apiui/generated_apis"
+    jobs_file: str = "/Users/jahflyx/apiui/backend/jobs.json"
+    apis_file: str = "/Users/jahflyx/apiui/backend/apis.json"
+    reset_state_on_start: bool = False
+    admin_state_reset_token: Optional[str] = None
+
+    # Google Cloud Storage settings
+    gcs_bucket_name: Optional[str] = None
     gcs_project_id: Optional[str] = None
-    use_gcs_storage: bool = False  # Set to True to use GCS instead of local storage
+
+    # Cloud Run Configuration
+    gcp_project_id: Optional[str] = None
+    gcp_region: Optional[str] = None
+
+    @property
+    def use_gcs_storage(self) -> bool:
+        """Check if GCS storage should be used"""
+        return bool(self.gcs_bucket_name and self.gcs_project_id)
 
     # AI Service settings
     openai_api_key: Optional[str] = None  # Must be set via OPENAI_API_KEY environment variable
 
-    # Cloud Run settings
-    gcp_project_id: Optional[str] = None
-    gcp_region: str = "us-central1"
-
-    # API Gateway settings
+    # API Gateway
     api_gateway_url: Optional[str] = None
 
     # Security
@@ -26,7 +39,7 @@ class Settings(BaseSettings):
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
 
-    # OAuth providers
+    # OAuth Providers
     github_client_id: Optional[str] = None
     github_client_secret: Optional[str] = None
     github_redirect_uri: Optional[str] = None
@@ -34,12 +47,6 @@ class Settings(BaseSettings):
     google_client_id: Optional[str] = None
     google_client_secret: Optional[str] = None
     google_redirect_uri: Optional[str] = None
-
-    # Storage settings
-    uploads_dir: str = "/Users/jahflyx/apiui/uploads"
-    generated_apis_dir: str = "/Users/jahflyx/apiui/generated_apis"
-    jobs_file: str = "/Users/jahflyx/apiui/backend/jobs.json"
-    apis_file: str = "/Users/jahflyx/apiui/backend/apis.json"
 
     class Config:
         env_file = ".env"

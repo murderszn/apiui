@@ -3,8 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Hub | apiui</title>
+    <title>apiUI API Hub | Curated APIs and Integrations</title>
+    <meta name="description" content="Browse the apiUI API Hub for curated third-party APIs, ready-to-use connectors, and inspiration for your next integration.">
+    <meta name="keywords" content="api directory, api marketplace, integration catalog, developer apis, apiui">
+    <meta name="author" content="apiUI">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="canonical" href="https://apiui.web.app/api-hub.html">
+    <link rel="icon" type="image/png" href="apiui-logo.png">
+    <link rel="apple-touch-icon" href="apiui-logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta property="og:site_name" content="apiUI">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="apiUI API Hub | Curated APIs and Integrations">
+    <meta property="og:description" content="Explore categories of popular APIs and integration ideas curated by apiUI.">
+    <meta property="og:url" content="https://apiui.web.app/api-hub.html">
+    <meta property="og:image" content="https://apiui.web.app/apiui-logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="apiUI API Hub | Curated APIs and Integrations">
+    <meta name="twitter:description" content="Discover ready-to-use APIs and workflows from the apiUI API Hub.">
+    <meta name="twitter:image" content="https://apiui.web.app/apiui-logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Configure backend URL for the frontend
+        window.APIUI_AUTH_BASE_URL = 'http://localhost:8000';
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "apiUI API Hub",
+        "description": "Browse the apiUI API Hub for curated third-party APIs, ready-to-use connectors, and inspiration for your next integration.",
+        "url": "https://apiui.web.app/api-hub.html",
+        "publisher": {
+            "@type": "Organization",
+            "name": "apiUI",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://apiui.web.app/apiui-logo.png"
+            }
+        }
+    }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -108,12 +150,10 @@
         .btn-primary {
             background: linear-gradient(135deg, #0f0f0f, #242424);
             color: #f5f5f5;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
         }
 
         .btn-primary:hover {
             transform: translateY(-1px);
-            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
         }
 
         .btn-outline-light {
@@ -144,17 +184,16 @@
             transform: translate(-50%, -50%);
             width: 80px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(30, 41, 59, 0.3), transparent);
+            background: #e5e7eb;
         }
 
         .icon-professional {
-            background: linear-gradient(135deg, rgba(129, 140, 248, 0.16), rgba(56, 189, 248, 0.12));
+            background: #f8fafc;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(99, 102, 241, 0.25);
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+            border: 1px solid #e5e7eb;
         }
 
         .icon-professional svg {
@@ -202,40 +241,19 @@
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, #22d3ee, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #2563eb;
+            font-weight: 600;
         }
 
         .professional-card {
             background: #ffffff;
-            border: 1px solid rgba(15, 23, 42, 0.06);
+            border: 1px solid #e5e7eb;
             border-radius: 14px;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .professional-card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(56, 189, 248, 0.12));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .professional-card:hover::before {
-            opacity: 1;
         }
 
         .professional-card:hover {
-            border-color: rgba(99, 102, 241, 0.28);
-            box-shadow: 0 18px 40px rgba(30, 41, 59, 0.24);
-            transform: translateY(-3px);
+            border-color: #d1d5db;
         }
 
         .professional-card > * {
@@ -253,56 +271,53 @@
 
         .api-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
         }
 
         .category-badge {
-            background: rgba(59, 130, 246, 0.12);
-            border: 1px solid rgba(59, 130, 246, 0.28);
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
             border-radius: 9999px;
             padding: 0.35rem 1.1rem;
             font-size: 0.875rem;
             font-weight: 500;
-            color: #1d4ed8;
+            color: #374151;
             transition: all 0.2s ease;
         }
 
         .category-badge:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.18);
+            background: #ffffff;
+            border-color: #d1d5db;
         }
 
         .category-badge.category-active {
-            background: linear-gradient(135deg, #22d3ee, #38bdf8, #818cf8);
-            border-color: transparent;
+            background: #1f2937;
+            border-color: #1f2937;
             color: #fff;
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.35);
         }
 
         .pricing-free {
-            background: rgba(34, 197, 94, 0.15);
-            color: #15803d;
-            border: 1px solid rgba(34, 197, 94, 0.3);
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
         }
 
         .pricing-paid {
-            background: rgba(56, 189, 248, 0.2);
-            color: #0ea5e9;
-            border: 1px solid rgba(56, 189, 248, 0.35);
+            background: #f0f9ff;
+            color: #0c4a6e;
+            border: 1px solid #bae6fd;
         }
 
         .pricing-enterprise {
-            background: rgba(129, 140, 248, 0.2);
-            color: #4f46e5;
-            border: 1px solid rgba(129, 140, 248, 0.35);
+            background: #faf5ff;
+            color: #581c87;
+            border: 1px solid #d8b4fe;
         }
 
         .category-section {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.02), rgba(59, 130, 246, 0.08));
-            border: 1px solid rgba(15, 23, 42, 0.08);
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 24px;
             padding: 2.5rem;
-            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
         }
 
         .category-section + .category-section {
@@ -317,17 +332,20 @@
             font-size: 0.875rem;
             padding: 0.35rem 1rem;
             border-radius: 9999px;
-            background: rgba(129, 140, 248, 0.18);
-            border: 1px solid rgba(129, 140, 248, 0.35);
-            color: #4338ca;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            color: #374151;
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
     <!-- Header -->
     <header class="border-b border-gray-200">
-        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-xl sm:text-2xl font-light tracking-widest lowercase text-slate-900">api<span class="font-bold">ui</span></a>
+        <nav aria-label="Primary navigation" class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="text-xl sm:text-2xl font-light tracking-widest text-slate-900">api<span class="font-black uppercase text-lg sm:text-xl">UI</span></a>
+                <span class="text-sm text-gray-800 font-medium">an AURABLOX company</span>
+            </div>
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-6">
                 <a href="index.html#features" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Features</a>
@@ -346,28 +364,52 @@
         </button>
 
         <!-- Dropdown Menu -->
-        <div id="signin-dropdown" class="absolute right-0 mt-2 w-64 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 ease-out z-50">
-            <div id="signin-provider-options" class="p-2">
-                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3 px-3">Sign in with</div>
+        <div id="signin-dropdown" class="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 ease-out z-50">
+            <!-- Email Auth Form -->
+            <div class="p-4">
+                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Sign in with Email</div>
 
-                <!-- GitHub Button -->
-                <button type="button" data-auth-provider="github" class="w-full mb-2 flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
-                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    <span class="text-sm font-medium">Continue with GitHub</span>
-                </button>
+                <!-- Sign In Form -->
+                <div id="signin-form">
+                    <form id="email-signin-form" class="space-y-3">
+                        <div>
+                            <input type="email" id="signin-email" placeholder="Email address" required
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <input type="password" id="signin-password" placeholder="Password" required
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                            Sign In
+                        </button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        <button id="show-signup" class="text-sm text-blue-600 hover:text-blue-800">Need an account? Sign up</button>
+                    </div>
+                </div>
 
-                <!-- Google Button -->
-                <button type="button" data-auth-provider="google" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
-                    <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    <span class="text-sm font-medium">Continue with Google</span>
-                </button>
+                <!-- Sign Up Form -->
+                <div id="signup-form" class="hidden">
+                    <form id="email-signup-form" class="space-y-3">
+                        <div>
+                            <input type="email" id="signup-email" placeholder="Email address" required
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <input type="password" id="signup-password" placeholder="Password" required
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-green-700 transition-colors">
+                            Sign Up
+                        </button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        <button id="show-signin" class="text-sm text-blue-600 hover:text-blue-800">Already have an account? Sign in</button>
+                    </div>
+                </div>
+
+                <div id="auth-message" class="mt-3 text-sm text-center hidden"></div>
             </div>
 
             <div id="signedin-dropdown" class="hidden">
@@ -474,89 +516,22 @@
     <!-- Hero -->
     <section class="hero-section-hub section-spacing">
         <div class="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <span class="hero-badge text-slate-100 mb-6">Curated Collections</span>
-                    <h1 class="hero-title text-4xl sm:text-6xl text-white mb-6">
-                        Discover APIs built with <span class="gradient-text">apiui</span>
-                    </h1>
-                    <p class="hero-subtitle text-lg sm:text-xl text-slate-200 leading-relaxed mb-8">
-                        Browse ready-to-launch endpoints for analytics, finance, ecommerce, and more. Each collection ships with documentation, SDK samples, and live testing links.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#featured" class="btn-professional btn-primary px-7 py-3 text-base text-center">Explore Featured APIs</a>
-                        <a href="#categories" class="btn-professional btn-outline-light px-7 py-3 text-base text-center">View Categories</a>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="professional-card bg-white/10 border border-white/15 text-left p-6">
-                        <p class="text-sm uppercase tracking-widest text-slate-200 mb-3">Live</p>
-                        <p class="text-3xl font-semibold text-white">72 curated endpoints</p>
-                    </div>
-                    <div class="professional-card bg-white/10 border border-white/15 text-left p-6">
-                        <p class="text-sm uppercase tracking-widest text-slate-200 mb-3">Samples</p>
-                        <p class="text-3xl font-semibold text-white">SDK snippets ready</p>
-                    </div>
-                    <div class="professional-card bg-white/10 border border-white/15 text-left p-6">
-                        <p class="text-sm uppercase tracking-widest text-slate-200 mb-3">Testing</p>
-                        <p class="text-3xl font-semibold text-white">Live playground URLs</p>
-                    </div>
-                    <div class="professional-card bg-white/10 border border-white/15 text-left p-6">
-                        <p class="text-sm uppercase tracking-widest text-slate-200 mb-3">Updates</p>
-                        <p class="text-3xl font-semibold text-white">Weekly drops</p>
-                    </div>
+            <div class="text-center">
+                <span class="hero-badge text-slate-100 mb-6">Curated Collections</span>
+                <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 max-w-4xl mx-auto">
+                    Discover APIs built with <span class="gradient-text">apiUI</span>
+                </h1>
+                <p class="hero-subtitle text-lg sm:text-xl text-slate-200 leading-relaxed mb-8 max-w-2xl mx-auto">
+                    Browse ready-to-launch endpoints for analytics, finance, ecommerce, and more. Each collection ships with documentation, SDK samples, and live testing links.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#featured" class="btn-professional btn-primary px-7 py-3 text-base text-center">Explore Featured APIs</a>
+                    <a href="#categories" class="btn-professional btn-outline-light px-7 py-3 text-base text-center">View Categories</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Library Intro -->
-    <section class="text-center min-h-screen flex items-center justify-center py-20 bg-slate-50">
-        <div class="container mx-auto px-4 sm:px-6 max-w-6xl">
-            <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-slate-900 max-w-5xl mx-auto mb-8">
-                Discover Powerful APIs for
-                <span class="block hero-subtitle text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-slate-500 mt-2">
-                    Your Data Applications
-                </span>
-            </h1>
-
-            <p class="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-12 px-4">
-                Explore our curated collection of free and premium APIs that supercharge your data workflows.
-                From analytics to machine learning, find the perfect tools for your projects.
-            </p>
-
-            <!-- Search Bar -->
-            <div class="max-w-2xl mx-auto mb-12 px-4">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </div>
-                    <input type="text" id="api-search" placeholder="Search APIs by name, category, or provider..."
-                           class="w-full pl-16 pr-4 py-4 border border-slate-200 rounded-xl text-lg focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all">
-                </div>
-            </div>
-
-            <!-- Category Filters -->
-            <div class="flex flex-wrap justify-center gap-3 px-4">
-                <button class="category-badge category-active" data-category="all">All APIs</button>
-                <button class="category-badge" data-category="data-processing">Data Processing</button>
-                <button class="category-badge" data-category="analytics">Analytics</button>
-                <button class="category-badge" data-category="ml-ai">ML/AI</button>
-                <button class="category-badge" data-category="visualization">Visualization</button>
-                <button class="category-badge" data-category="finance">Finance</button>
-                <button class="category-badge" data-category="communication">Communication</button>
-                <button class="category-badge" data-category="geospatial">Geospatial</button>
-                <button class="category-badge" data-category="weather">Weather</button>
-                <button class="category-badge" data-category="stock-market">Stock Market</button>
-                <button class="category-badge" data-category="e-commerce">E-commerce</button>
-                <button class="category-badge" data-category="social-media">Social Media</button>
-                <button class="category-badge" data-category="location">Location</button>
-            </div>
-        </div>
-    </section>
 
     <!-- Professional Section Divider -->
     <div class="accent-line"></div>
@@ -1541,7 +1516,7 @@
                     </div>
                 </div>
             </div>
-            <div id="api-empty-state" class="hidden mt-12 text-center bg-white/80 border border-sky-200 rounded-2xl py-12 px-6 shadow-xl">
+            <div id="api-empty-state" class="hidden mt-12 text-center bg-white/80 border border-sky-200 rounded-2xl py-12 px-6">
                 <span class="inline-flex items-center gap-2 px-4 py-2 mb-4 text-sm font-semibold text-sky-700 bg-sky-50 border border-sky-200 rounded-full">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
@@ -1550,28 +1525,60 @@
                 </span>
                 <h3 class="text-2xl font-semibold text-slate-900 mb-3">No APIs match your filters</h3>
                 <p class="text-slate-600 max-w-2xl mx-auto mb-6">
-                    Try adjusting your search keywords or switching categories to explore the rest of the apiui library.
+                    Try adjusting your search keywords or switching categories to explore the rest of the apiUI library.
                 </p>
                 <button id="reset-filters" class="btn-professional btn-outline-light text-slate-900 hover:text-white hover:bg-slate-900 px-6 py-3 text-sm">
                     Reset filters
                 </button>
             </div>
 
-            <!-- Bottom Section -->
-            <div class="border-t border-slate-200 pt-8">
-                <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-                    <p class="text-slate-500 text-sm">&copy; 2025 apiui Inc. All rights reserved.</p>
+            <!-- Footer -->
+            <footer class="bg-white border-t border-gray-200 py-16">
+                <div class="container mx-auto px-6 max-w-6xl">
+                    <div class="flex justify-between items-center mb-12">
+                        <div class="flex flex-col items-start">
+                            <div class="text-2xl font-bold text-black tracking-tight">
+                                api<span class="font-black uppercase text-lg">UI</span>
+                            </div>
+                            <span class="text-sm text-gray-800 font-medium mt-1">an AURABLOX company</span>
+                        </div>
+
+                        <!-- Links Section -->
+                        <div class="grid grid-cols-2 gap-12">
+                            <div>
+                                <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Product</h4>
+                                <ul class="space-y-3">
+                                    <li><a href="index.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Home</a></li>
+                                    <li><a href="docs.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Documentation</a></li>
+                                    <li><a href="app.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Create API</a></li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
+                                <ul class="space-y-3">
+                                    <li><a href="docs.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Help Center</a></li>
+                                    <li><a href="#" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="border-t border-gray-200 pt-8 mt-8">
+                        <div class="flex justify-end">
+                            <p class="text-gray-600 text-sm">&copy; 2025 api<span class="font-black uppercase text-xs">UI</span> Inc. All rights reserved.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    <button id="back-to-top" class="back-to-top" type="button" aria-label="Return to top">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-        </svg>
-    </button>
-    </footer>
+            </footer>
 
     <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://witlgqqqsusdfxbejoqb.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpdGxncXFxc3VzZGZ4YmVqb3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MjQ3MDUsImV4cCI6MjA3NDMwMDcwNX0.UN7qm7bGk_-BrL_th2auH7lwW1OjqAdxOLpzqgfdHw4';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -1918,7 +1925,31 @@ const applySignedInUI = (session) => {
 };
 
 const fetchAuthSession = async () => {
-    const sessionUrl = buildAuthUrl('/auth/session');
+    // Check Supabase auth first
+    try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (session && !error) {
+            // User is authenticated with Supabase
+            const user = session.user;
+            const userData = {
+                authenticated: true,
+                provider: 'supabase',
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
+                    avatar_url: user.user_metadata?.avatar_url
+                }
+            };
+            applySignedInUI(userData);
+            return;
+        }
+    } catch (error) {
+        // Supabase check failed, continue to backend check
+    }
+
+    // Fallback to backend session check
+    const sessionUrl = 'http://localhost:8000/auth/session';
     try {
         const response = await fetch(sessionUrl, { credentials: 'include' });
         if (!response.ok) {
@@ -1935,11 +1966,23 @@ const fetchAuthSession = async () => {
 logoutButtons.forEach(button => {
     button.addEventListener('click', async (event) => {
         event.preventDefault();
-        const logoutUrl = buildAuthUrl('/auth/logout');
+
+        // Try Supabase logout first
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (!error) {
+                sessionStorage.removeItem('supabase_session');
+            }
+        } catch (e) {
+            // Ignore Supabase logout errors
+        }
+
+        // Fallback to backend logout
+        const logoutUrl = 'http://localhost:8000/auth/logout';
         try {
             await fetch(logoutUrl, { method: 'POST', credentials: 'include' });
         } catch (error) {
-            // Ignore logout errors and reset UI
+            // Ignore logout errors
         }
         applySignedOutUI();
     });
@@ -1947,6 +1990,102 @@ logoutButtons.forEach(button => {
 
 applySignedOutUI();
 fetchAuthSession();
+
+// Email authentication handlers
+const emailSigninForm = document.getElementById('email-signin-form');
+const emailSignupForm = document.getElementById('email-signup-form');
+const showSignupBtn = document.getElementById('show-signup');
+const showSigninBtn = document.getElementById('show-signin');
+const signinForm = document.getElementById('signin-form');
+const signupForm = document.getElementById('signup-form');
+const authMessage = document.getElementById('auth-message');
+
+// Form switching
+if (showSignupBtn && signupForm && signinForm) {
+    showSignupBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        signupForm.classList.remove('hidden');
+        signinForm.classList.add('hidden');
+    });
+}
+
+if (showSigninBtn && signinForm && signupForm) {
+    showSigninBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        signinForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+    });
+}
+
+// Email authentication handlers
+if (emailSigninForm) {
+    emailSigninForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('signin-email').value;
+        const password = document.getElementById('signin-password').value;
+
+        showAuthMessage('Signing in...', 'text-blue-600');
+
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                showAuthMessage(error.message, 'text-red-600');
+            } else {
+                showAuthMessage('Signed in successfully!', 'text-green-600');
+            }
+        } catch (error) {
+            showAuthMessage('An error occurred during sign in', 'text-red-600');
+        }
+    });
+}
+
+if (emailSignupForm) {
+    emailSignupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+
+        showAuthMessage('Creating account...', 'text-blue-600');
+
+        try {
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                showAuthMessage(error.message, 'text-red-600');
+            } else {
+                showAuthMessage('Account created! Please check your email to verify.', 'text-green-600');
+            }
+        } catch (error) {
+            showAuthMessage('An error occurred during sign up', 'text-red-600');
+        }
+    });
+}
+
+// Auth message function
+function showAuthMessage(message, colorClass) {
+    if (authMessage) {
+        authMessage.textContent = message;
+        authMessage.className = `mt-3 text-sm text-center ${colorClass}`;
+        authMessage.classList.remove('hidden');
+    }
+}
+
+// Listen for auth state changes
+supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log('Supabase auth state changed:', event, session);
+    if (event === 'SIGNED_IN' && session) {
+        await fetchAuthSession();
+    } else if (event === 'SIGNED_OUT') {
+        applySignedOutUI();
+    }
+});
 
         const backToTopBtn = document.getElementById('back-to-top');
 
@@ -2051,7 +2190,7 @@ fetchAuthSession();
             });
         });
         // Set backend URL for authentication
-        window.APIUI_AUTH_BASE_URL = 'http://localhost:9999';
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
     </script>
 </body>
 </html>

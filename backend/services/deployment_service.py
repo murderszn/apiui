@@ -58,7 +58,8 @@ class DeploymentService:
                 # Build and deploy using gcloud CLI (would be done in CI/CD)
                 # For now, we'll simulate this process
 
-                api_url = f"https://{service_name}-{self.gcp_project_id}.{self.gcp_region}.run.app"
+                base_url = settings.api_gateway_url or f"https://{service_name}-{self.gcp_region}.run.app"
+                api_url = f"{base_url.rstrip('/')}/api/{job_id}"
                 api_key = str(uuid.uuid4())
 
                 return {
@@ -81,7 +82,8 @@ class DeploymentService:
         """Mock deployment for development/testing"""
         try:
             # Simulate deployment by creating a mock URL and API key
-            mock_url = f"https://apiui-backend-24bi767viq-uc.a.run.app/api/{job_id}"
+            base_url = (settings.api_gateway_url or "http://localhost:9999").rstrip('/')
+            mock_url = f"{base_url}/api/{job_id}"
             mock_api_key = str(uuid.uuid4())
 
             # In a real deployment, this would:

@@ -87,8 +87,11 @@
     </div>
 
     <script>
-        // API Endpoint for the full dataset
-        const API_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app/mock-api/3802be0f-be9c-42a7-a791-704e477c53b3/data?limit=21';
+        // API Endpoint for the dataset (update "job" query param or replace the default)
+        const testParams = new URLSearchParams(window.location.search);
+        const backendBase = (testParams.get('backend') || 'https://your-cloud-run-service.run.app').replace(/\/+$/, '');
+        const jobId = testParams.get('job') || 'replace-with-job-id';
+        const API_URL = `${backendBase}/mock-api/${jobId}/data?limit=21`;
 
         // DOM Elements
         const tableBody = document.getElementById('dataTableBody');
@@ -99,6 +102,12 @@
 
         // --- 1. Fetch data from the API ---
         async function fetchData() {
+            if (jobId === 'replace-with-job-id') {
+                tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Set the <code>job</code> query parameter to a valid job ID.</td></tr>`;
+                recordCount.textContent = 'Awaiting configuration';
+                return;
+            }
+
             try {
                 const response = await fetch(API_URL);
                 if (!response.ok) {

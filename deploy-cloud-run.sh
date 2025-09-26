@@ -7,11 +7,42 @@ set -e
 
 echo "🚀 Starting Cloud Run deployment for apiui..."
 
+# Load configuration from cloudrun.env if available
+ENV_FILE="cloudrun.env"
+if [[ -f "${ENV_FILE}" ]]; then
+    echo -e "${YELLOW}📄 Loading deployment configuration from ${ENV_FILE}${NC}"
+    set -o allexport
+    # shellcheck disable=SC1090
+    source "${ENV_FILE}"
+    set +o allexport
+else
+    echo -e "${YELLOW}⚠️  ${ENV_FILE} not found. Using current environment variables.${NC}"
+fi
+
 # Configuration
 PROJECT_ID=${PROJECT_ID:-"aurablox-ai"}
-SERVICE_NAME="apiui-backend"
+SERVICE_NAME=${SERVICE_NAME:-"apiui-backend"}
 REGION=${REGION:-"us-central1"}
-IMAGE_NAME="gcr.io/${PROJECT_ID}/${SERVICE_NAME}"
+IMAGE_NAME=${IMAGE_NAME:-"gcr.io/${PROJECT_ID}/${SERVICE_NAME}"}
+IMAGE_TAG=${IMAGE_TAG:-"latest"}
+
+if [[ -z "${PROJECT_ID}" ]]; then
+    echo -e "${RED}❌ PROJECT_ID is not set. Update ${ENV_FILE} or export PROJECT_ID first.${NC}"
+    exit 1
+fi
+
+if [[ -z "${REGION}" ]]; then
+    echo -e "${RED}❌ REGION is not set. Update ${ENV_FILE} or export REGION first.${NC}"
+    exit 1
+fi
+
+add_env_var() {
+    local key="$1"
+    local value="$2"
+    if [[ -n "${value}" ]]; then
+        ENV_VARS+=("${key}=${value}")
+    fi
+}
 
 # Colors for output
 RED='\033[0;31m'
@@ -47,10 +78,36 @@ gcloud services enable cloudbuild.googleapis.com
 echo -e "${YELLOW}🏗️  Building Docker image with Cloud Build...${NC}"
 gcloud builds submit --config cloudbuild.yaml --timeout=900 .
 
-# Deploy to Cloud Run
+# Build environment variable list
+declare -a ENV_VARS
+ENV_VARS+=("FLASK_DEBUG=False")
+ENV_VARS+=("USE_GCS_STORAGE=${USE_GCS_STORAGE:-True}")
+
+BUCKET_NAME=${GCS_BUCKET_NAME:-"apiui-files-${PROJECT_ID}"}
+ENV_VARS+=("GCS_BUCKET_NAME=${BUCKET_NAME}")
+ENV_VARS+=("GCS_PROJECT_ID=${GCS_PROJECT_ID:-${PROJECT_ID}}")
+
+add_env_var "OPENAI_API_KEY" "${OPENAI_API_KEY}"
+add_env_var "GOOGLE_AI_API_KEY" "${GOOGLE_AI_API_KEY}"
+add_env_var "MONGODB_URL" "${MONGODB_URL}"
+add_env_var "DATABASE_NAME" "${DATABASE_NAME}"
+add_env_var "SECRET_KEY" "${SECRET_KEY}"
+add_env_var "GCP_PROJECT_ID" "${GCP_PROJECT_ID:-${PROJECT_ID}}"
+add_env_var "GCP_REGION" "${GCP_REGION:-${REGION}}"
+add_env_var "API_GATEWAY_URL" "${API_GATEWAY_URL}"
+add_env_var "GITHUB_CLIENT_ID" "${GITHUB_CLIENT_ID}"
+add_env_var "GITHUB_CLIENT_SECRET" "${GITHUB_CLIENT_SECRET}"
+add_env_var "GITHUB_REDIRECT_URI" "${GITHUB_REDIRECT_URI}"
+add_env_var "GOOGLE_CLIENT_ID" "${GOOGLE_CLIENT_ID}"
+add_env_var "GOOGLE_CLIENT_SECRET" "${GOOGLE_CLIENT_SECRET}"
+add_env_var "GOOGLE_REDIRECT_URI" "${GOOGLE_REDIRECT_URI}"
+
+ENV_VARS_STRING=$(printf "%s," "${ENV_VARS[@]}")
+ENV_VARS_STRING=${ENV_VARS_STRING%,}
+
 echo -e "${YELLOW}🚀 Deploying to Cloud Run...${NC}"
 gcloud run deploy ${SERVICE_NAME} \
-    --image ${IMAGE_NAME}:latest \
+    --image ${IMAGE_NAME}:${IMAGE_TAG} \
     --platform managed \
     --region ${REGION} \
     --allow-unauthenticated \
@@ -60,7 +117,7 @@ gcloud run deploy ${SERVICE_NAME} \
     --max-instances 10 \
     --concurrency 80 \
     --timeout 300 \
-    --set-env-vars="FLASK_DEBUG=False,USE_GCS_STORAGE=True,GCS_BUCKET_NAME=apiui-files-${PROJECT_ID}"
+    --set-env-vars="${ENV_VARS_STRING}"
 
 # Get the service URL
 SERVICE_URL=$(gcloud run services describe ${SERVICE_NAME} --region=${REGION} --format="value(status.url)")
