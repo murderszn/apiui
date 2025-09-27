@@ -4,7 +4,7 @@ import uuid
 import os
 import json
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 import asyncio
 import sys
 import io
@@ -15,6 +15,8 @@ import threading
 import secrets
 from urllib.parse import urlencode, urljoin
 from typing import Optional
+from collections import defaultdict
+import time
 
 import httpx
 
@@ -37,6 +39,69 @@ cookie_secure = any(
 )
 app.config.setdefault("SESSION_COOKIE_SECURE", cookie_secure)
 CORS(app, supports_credentials=True)  # Enable CORS for all routes with credentials
+
+# Metrics collection system
+api_metrics = defaultdict(lambda: {
+    'requests': [],
+    'response_times': [],
+    'errors': [],
+    'last_updated': datetime.utcnow()
+})
+
+def record_api_request(job_id, method, status_code, response_time):
+    """Record an API request for metrics"""
+    now = datetime.utcnow()
+    metrics = api_metrics[job_id]
+
+    # Keep only last 24 hours of data
+    cutoff = now - timedelta(hours=24)
+    metrics['requests'] = [r for r in metrics['requests'] if r['timestamp'] > cutoff]
+    metrics['response_times'] = [rt for rt in metrics['response_times'] if rt['timestamp'] > cutoff]
+    metrics['errors'] = [e for e in metrics['errors'] if e['timestamp'] > cutoff]
+
+    # Record request
+    metrics['requests'].append({
+        'timestamp': now,
+        'method': method,
+        'status_code': status_code
+    })
+
+    # Record response time
+    metrics['response_times'].append({
+        'timestamp': now,
+        'response_time': response_time
+    })
+
+    # Record error if status >= 400
+    if status_code >= 400:
+        metrics['errors'].append({
+            'timestamp': now,
+            'status_code': status_code,
+            'method': method
+        })
+
+    metrics['last_updated'] = now
+
+@app.before_request
+def track_api_metrics():
+    """Middleware to track API requests for metrics"""
+    # Only track API endpoints, not admin/health endpoints
+    if request.path.startswith('/api/') or request.path.startswith('/mock-api/'):
+        request.start_time = time.time()
+
+@app.after_request
+def record_metrics(response):
+    """Record metrics after API requests"""
+    if hasattr(request, 'start_time') and (request.path.startswith('/api/') or request.path.startswith('/mock-api/')):
+        response_time = (time.time() - request.start_time) * 1000  # Convert to milliseconds
+
+        # Extract job_id from path
+        path_parts = request.path.strip('/').split('/')
+        if len(path_parts) >= 2 and path_parts[0] in ['api', 'mock-api']:
+            job_id = path_parts[1]
+            record_api_request(job_id, request.method, response.status_code, response_time)
+
+    return response
 
 GITHUB_AUTHORIZE_URL = "https://github.com/login/oauth/authorize"
 GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token"
@@ -611,6 +676,9 @@ async def load_persistent_data():
             running_servers = api_states_data.get('running_servers', {})
 
         print(f"Loaded {len(jobs)} jobs and {len(running_apis)} running APIs from persistent storage")
+        if jobs:
+            print(f"Sample job IDs: {list(jobs.keys())[:3]}")
+            print(f"Sample job statuses: {[jobs[jid].get('status') for jid in list(jobs.keys())[:3]]}")
 
         # Automatically register deployed jobs in running_apis
         for job_id, job_data in jobs.items():
@@ -1485,6 +1553,13 @@ def generate_api():
             "deployment_note": None
         }
 
+        # Immediately save the job to persistent storage synchronously
+        try:
+            storage_service.save_persistent_data("jobs", jobs)
+            add_log_entry(job_id, f"💾 Job saved persistently: {job_id}")
+        except Exception as e:
+            add_log_entry(job_id, f"⚠️ Failed to save job persistently: {str(e)}", "warning")
+
         add_log_entry(job_id, f"Job {job_id} created for file: {file.filename}")
         add_log_entry(job_id, f"File size: {len(file.read())} bytes")
         file.seek(0)  # Reset file pointer after reading size
@@ -1498,7 +1573,7 @@ def generate_api():
 
         add_log_entry(job_id, f"💾 File saved persistently: {file_path}")
 
-        # Save jobs after creation
+        # Save jobs after file operations (background for updates)
         save_job_background(job_id, jobs[job_id])
 
         # Process file (supports multiple formats)
@@ -1591,10 +1666,29 @@ def generate_api():
 @app.route('/v1/generate/status/<job_id>', methods=['GET'])
 def get_generation_status(job_id):
     """Get the status of an API generation job"""
-    if job_id not in jobs:
-        return jsonify({"error": "Job not found"}), 404
+    print(f"Status request for job_id: {job_id}")
+    print(f"Available jobs: {list(jobs.keys())[:5]}...")
+    print(f"Job exists in memory: {job_id in jobs}")
 
-    job = jobs[job_id]
+    job = None
+
+    # First check in-memory jobs
+    if job_id in jobs:
+        job = jobs[job_id]
+    else:
+        # If not in memory, try to load from persistent storage
+        try:
+            persisted_jobs = storage_service.load_persistent_data("jobs")
+            if persisted_jobs and job_id in persisted_jobs:
+                job = persisted_jobs[job_id]
+                # Restore to memory for future requests
+                jobs[job_id] = job
+                print(f"Job {job_id} restored from persistent storage")
+        except Exception as e:
+            print(f"Failed to load job from persistent storage: {str(e)}")
+
+    if not job:
+        return jsonify({"error": "Job not found"}), 404
 
     return jsonify({
         "job_id": job["id"],
@@ -2210,6 +2304,77 @@ def health_check():
         health_status["status"] = "degraded"
 
     return jsonify(health_status)
+
+@app.route('/v1/apis/<api_id>/metrics', methods=['GET'])
+def get_api_metrics(api_id):
+    """Get metrics data for an API for charting"""
+    if api_id not in api_metrics:
+        return jsonify({
+            'hourly_data': [],
+            'summary': {
+                'uptime_percentage': 100.0,
+                'avg_response_time': 0,
+                'total_requests': 0,
+                'error_rate': 0,
+                'last_updated': datetime.utcnow().isoformat()
+            }
+        })
+
+    metrics = api_metrics[api_id]
+    now = datetime.utcnow()
+
+    # Calculate metrics for the last 24 hours
+    last_24h = now - timedelta(hours=24)
+    recent_requests = [r for r in metrics['requests'] if r['timestamp'] > last_24h]
+    recent_response_times = [rt for rt in metrics['response_times'] if rt['timestamp'] > last_24h]
+    recent_errors = [e for e in metrics['errors'] if e['timestamp'] > last_24h]
+
+    # Calculate uptime (assuming API is up if we have recent requests)
+    uptime_percentage = 99.9  # Default high uptime
+    if recent_requests:
+        # Simple uptime calculation based on request distribution
+        hours_with_requests = len(set(r['timestamp'].hour for r in recent_requests))
+        uptime_percentage = min(99.9, (hours_with_requests / 24) * 100)
+
+    # Calculate average response time
+    avg_response_time = sum(rt['response_time'] for rt in recent_response_times) / len(recent_response_times) if recent_response_times else 0
+
+    # Calculate error rate
+    total_requests = len(recent_requests)
+    error_rate = (len(recent_errors) / total_requests * 100) if total_requests > 0 else 0
+
+    # Prepare chart data (hourly aggregation for the last 24 hours)
+    hourly_data = []
+    for hour in range(24):
+        hour_start = now.replace(hour=hour, minute=0, second=0, microsecond=0)
+        if hour_start > now:
+            hour_start = hour_start - timedelta(days=1)
+
+        hour_end = hour_start + timedelta(hours=1)
+
+        hour_requests = [r for r in recent_requests if hour_start <= r['timestamp'] < hour_end]
+        hour_response_times = [rt for rt in recent_response_times if hour_start <= rt['timestamp'] < hour_end]
+        hour_errors = [e for e in recent_errors if hour_start <= e['timestamp'] < hour_end]
+
+        avg_rt = sum(rt['response_time'] for rt in hour_response_times) / len(hour_response_times) if hour_response_times else 0
+
+        hourly_data.append({
+            'hour': hour_start.strftime('%H:00'),
+            'requests': len(hour_requests),
+            'avg_response_time': round(avg_rt, 2),
+            'errors': len(hour_errors)
+        })
+
+    return jsonify({
+        'hourly_data': hourly_data,
+        'summary': {
+            'uptime_percentage': round(uptime_percentage, 1),
+            'avg_response_time': round(avg_response_time, 2),
+            'total_requests': total_requests,
+            'error_rate': round(error_rate, 2),
+            'last_updated': metrics['last_updated'].isoformat()
+        }
+    })
 
 @app.route('/api/<job_id>', methods=['GET'])
 @app.route('/api/<job_id>/data', methods=['GET'])
