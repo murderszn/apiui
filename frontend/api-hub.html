@@ -3,26 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>apiUI API Hub | Curated APIs and Integrations</title>
-    <meta name="description" content="Browse the apiUI API Hub for curated third-party APIs, ready-to-use connectors, and inspiration for your next integration.">
-    <meta name="keywords" content="api directory, api marketplace, integration catalog, developer apis, apiui">
-    <meta name="author" content="apiUI">
-    <meta name="robots" content="index, follow">
+    <title>apiUI API Hub | Third-Party API Integrations</title>
+    <meta name="description" content="Connect your apiUI-generated APIs with popular third-party services. Explore curated APIs from leading businesses for seamless integration and comprehensive data workflows.">
+    <meta name="keywords" content="third party apis, api integration, api connectors, data workflows, apiui integrations, business apis, developer tools, api marketplace, integration hub">
+    <meta name="author" content="apiUI by AURABLOX">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
     <meta name="theme-color" content="#0f172a">
+    <meta name="language" content="English">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="United States">
+    <meta name="classification" content="Directory, Software, API Resources">
+    <meta name="rating" content="General">
+    <meta name="distribution" content="Global">
+    <meta name="revisit-after" content="7 days">
     <link rel="canonical" href="https://apiui.web.app/api-hub.html">
-    <link rel="icon" type="image/png" href="apiui-logo.png">
-    <link rel="apple-touch-icon" href="apiui-logo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <meta property="og:site_name" content="apiUI">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="apiUI API Hub | Curated APIs and Integrations">
-    <meta property="og:description" content="Explore categories of popular APIs and integration ideas curated by apiUI.">
+    <meta property="og:title" content="apiUI API Hub | Third-Party API Integrations">
+    <meta property="og:description" content="Connect your apiUI APIs with third-party services from leading businesses for powerful data workflows.">
     <meta property="og:url" content="https://apiui.web.app/api-hub.html">
     <meta property="og:image" content="https://apiui.web.app/apiui-logo.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="apiUI API Hub | Curated APIs and Integrations">
-    <meta name="twitter:description" content="Discover ready-to-use APIs and workflows from the apiUI API Hub.">
+    <meta name="twitter:title" content="apiUI API Hub | Third-Party API Integrations">
+    <meta name="twitter:description" content="Connect your apiUI APIs with third-party services for comprehensive data workflows.">
     <meta name="twitter:image" content="https://apiui.web.app/apiui-logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -35,7 +46,7 @@
         "@context": "https://schema.org",
         "@type": "CollectionPage",
         "name": "apiUI API Hub",
-        "description": "Browse the apiUI API Hub for curated third-party APIs, ready-to-use connectors, and inspiration for your next integration.",
+        "description": "Connect your apiUI-generated APIs with third-party services from leading businesses. Browse curated integrations for comprehensive data workflows.",
         "url": "https://apiui.web.app/api-hub.html",
         "publisher": {
             "@type": "Organization",
@@ -513,20 +524,46 @@
         </div>
     </header>
 
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb" class="bg-gray-50 border-b border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 py-3">
+            <ol class="flex items-center space-x-2 text-sm" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="index.html" class="text-gray-500 hover:text-gray-700 transition-colors">
+                        <span itemprop="name">
+                            <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            Home
+                        </span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <svg class="w-4 h-4 text-gray-400 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                    <span itemprop="name" class="text-gray-700 font-medium">API Hub</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </div>
+    </nav>
+
     <!-- Hero -->
     <section class="hero-section-hub section-spacing">
         <div class="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
             <div class="text-center">
                 <span class="hero-badge text-slate-100 mb-6">Curated Collections</span>
                 <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 max-w-4xl mx-auto">
-                    Discover APIs built with <span class="gradient-text">apiUI</span>
+                    Third-Party APIs for <span class="gradient-text">Integration</span>
                 </h1>
                 <p class="hero-subtitle text-lg sm:text-xl text-slate-200 leading-relaxed mb-8 max-w-2xl mx-auto">
-                    Browse ready-to-launch endpoints for analytics, finance, ecommerce, and more. Each collection ships with documentation, SDK samples, and live testing links.
+                    Connect your apiUI-generated APIs with popular third-party services. Browse curated APIs from leading businesses for analytics, finance, ecommerce, and more to build comprehensive data workflows.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#featured" class="btn-professional btn-primary px-7 py-3 text-base text-center">Explore Featured APIs</a>
-                    <a href="#categories" class="btn-professional btn-outline-light px-7 py-3 text-base text-center">View Categories</a>
+                    <a href="#featured" class="btn-professional btn-primary px-7 py-3 text-base text-center">Explore Third-Party APIs</a>
+                    <a href="#categories" class="btn-professional btn-outline-light px-7 py-3 text-base text-center">Browse Categories</a>
                 </div>
             </div>
         </div>
@@ -540,9 +577,9 @@
     <section id="featured-apis" class="section-spacing">
         <div class="container mx-auto px-6 max-w-7xl">
             <div class="text-center mb-16">
-                <h2 class="section-title text-4xl sm:text-5xl text-slate-900 mb-6">Featured APIs</h2>
+                <h2 class="section-title text-4xl sm:text-5xl text-slate-900 mb-6">Featured Third-Party APIs</h2>
                 <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                    Handpicked APIs that power thousands of data applications worldwide
+                    Popular APIs from leading businesses that integrate seamlessly with your apiUI-generated endpoints to create powerful data workflows
                 </p>
             </div>
 
@@ -1558,7 +1595,16 @@
                                 <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
                                 <ul class="space-y-3">
                                     <li><a href="docs.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Help Center</a></li>
-                                    <li><a href="#" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Contact</a></li>
+                                    <li>
+                                        <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer"
+                                           class="text-gray-700 hover:text-black transition-colors duration-200 text-sm inline-flex items-center gap-2"
+                                           aria-label="Follow us on X (formerly Twitter)">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                            </svg>
+                                            Follow on X
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

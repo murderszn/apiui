@@ -4,26 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>apiUI Documentation | How to Turn Data Into APIs</title>
-    <meta name="description" content="apiUI documentation: Upload data files, get AI-generated REST APIs instantly. CSV, Excel, JSON, Parquet support with authentication and deployment options.">
-    <meta name="keywords" content="apiui documentation, csv to api, excel to rest api, ai api generation, fastapi deployment, authentication, data api, production apis">
-    <meta name="author" content="apiUI">
-    <meta name="robots" content="index, follow">
+    <meta name="description" content="Complete apiUI documentation and guides. Learn how to upload CSV, Excel, Parquet, and JSON files to generate secure REST APIs with authentication, filtering, pagination, and analytics. Step-by-step tutorials and API reference.">
+    <meta name="keywords" content="apiui documentation, api documentation, csv api tutorial, excel to rest api guide, json api creation, parquet data api, rest api authentication, api deployment guide, data api documentation, fastapi tutorial, apiui docs">
+    <meta name="author" content="apiUI by AURABLOX">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
     <meta name="theme-color" content="#0f172a">
+    <meta name="language" content="English">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="United States">
+    <meta name="classification" content="Documentation, Software, API Development">
+    <meta name="rating" content="General">
+    <meta name="distribution" content="Global">
+    <meta name="revisit-after" content="7 days">
     <link rel="canonical" href="https://apiui.web.app/docs.html">
-    <link rel="icon" type="image/png" href="apiui-logo.png">
-    <link rel="apple-touch-icon" href="apiui-logo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Open Graph / Facebook -->
     <meta property="og:site_name" content="apiUI">
     <meta property="og:type" content="article">
     <meta property="og:title" content="apiUI Documentation | How to Turn Data Into APIs">
-    <meta property="og:description" content="Step-by-step guidance on uploading data sources, configuring endpoints, and managing API access with apiUI.">
+    <meta property="og:description" content="Complete apiUI documentation: Learn to upload data files and generate secure REST APIs with authentication, filtering, pagination, and deployment options. Step-by-step guides and API reference.">
     <meta property="og:url" content="https://apiui.web.app/docs.html">
     <meta property="og:image" content="https://apiui.web.app/apiui-logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="apiUI Documentation - API Creation Guide">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:author" content="apiUI by AURABLOX">
+    <meta property="article:publisher" content="https://apiui.web.app/">
+    <meta property="article:section" content="Documentation">
+    <meta property="article:tag" content="API Development">
+    <meta property="article:tag" content="REST APIs">
+    <meta property="article:tag" content="Data Transformation">
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@apiui">
+    <meta name="twitter:creator" content="@apiui">
     <meta name="twitter:title" content="apiUI Documentation | How to Turn Data Into APIs">
-    <meta name="twitter:description" content="Discover how apiUI turns spreadsheets into secure REST APIs with pagination, filters, and auth.">
+    <meta name="twitter:description" content="Master apiUI with comprehensive documentation. Learn to create secure REST APIs from CSV, Excel, Parquet, and JSON files with authentication and analytics.">
     <meta name="twitter:image" content="https://apiui.web.app/apiui-logo.png">
+    <meta name="twitter:image:alt" content="apiUI Documentation Portal">
+
+    <!-- LinkedIn -->
+    <meta property="og:image:secure_url" content="https://apiui.web.app/apiui-logo.png">
+
+    <!-- Additional Social Media -->
+    <meta name="pinterest" content="nopin">
+    <meta name="format-detection" content="telephone=no">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -33,26 +67,102 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "TechArticle",
-        "headline": "apiUI Documentation | How to Turn Data Into APIs",
-        "description": "Complete apiUI by AURABLOX documentation: AI-powered API generation from data files with authentication, deployment, and advanced querying features.",
-        "url": "https://apiui.web.app/docs.html",
-        "datePublished": "2025-09-19",
-        "dateModified": "2025-09-19",
-        "publisher": {
-            "@type": "Organization",
-            "name": "apiUI",
-            "legalName": "apiUI by AURABLOX",
-            "description": "AURABLOX company providing AI-powered API generation tools",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://apiui.web.app/apiui-logo.png"
+        "@graph": [
+            {
+                "@type": "TechArticle",
+                "headline": "apiUI Documentation | How to Turn Data Into APIs",
+                "description": "Complete apiUI by AURABLOX documentation: AI-powered API generation from data files with authentication, deployment, and advanced querying features. Step-by-step guides for developers.",
+                "url": "https://apiui.web.app/docs.html",
+                "datePublished": "2025-09-19",
+                "dateModified": "2025-09-19",
+                "inLanguage": "en-US",
+                "wordCount": "5000",
+                "timeRequired": "PT30M",
+                "mainEntity": {
+                    "@type": "SoftwareApplication",
+                    "name": "apiUI",
+                    "applicationCategory": "DeveloperApplication"
+                },
+                "about": [
+                    {
+                        "@type": "Thing",
+                        "name": "REST API Development"
+                    },
+                    {
+                        "@type": "Thing",
+                        "name": "Data Transformation"
+                    },
+                    {
+                        "@type": "Thing",
+                        "name": "No-Code API Generation"
+                    }
+                ],
+                "mentions": [
+                    "CSV files",
+                    "Excel spreadsheets",
+                    "Parquet files",
+                    "JSON data",
+                    "REST APIs",
+                    "Authentication",
+                    "API deployment"
+                ],
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "apiUI by AURABLOX",
+                    "legalName": "apiUI by AURABLOX",
+                    "description": "Leading provider of AI-powered API generation tools that transform data files into production-ready REST APIs",
+                    "url": "https://apiui.web.app/",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://apiui.web.app/apiui-logo.png",
+                        "width": 200,
+                        "height": 200
+                    },
+                    "foundingDate": "2024",
+                    "sameAs": [
+                        "https://github.com/apiui",
+                        "https://twitter.com/apiui"
+                    ]
+                },
+                "author": {
+                    "@type": "Organization",
+                    "name": "apiUI by AURABLOX",
+                    "url": "https://apiui.web.app/"
+                },
+                "breadcrumb": {
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Home",
+                            "item": "https://apiui.web.app/"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "Documentation",
+                            "item": "https://apiui.web.app/docs.html"
+                        }
+                    ]
+                }
+            },
+            {
+                "@type": "WebPage",
+                "name": "apiUI Documentation",
+                "url": "https://apiui.web.app/docs.html",
+                "description": "Complete documentation portal for apiUI - Learn how to create REST APIs from data files",
+                "isPartOf": {
+                    "@type": "WebSite",
+                    "name": "apiUI",
+                    "url": "https://apiui.web.app/"
+                },
+                "primaryImageOfPage": {
+                    "@type": "ImageObject",
+                    "url": "https://apiui.web.app/apiui-logo.png"
+                }
             }
-        },
-        "author": {
-            "@type": "Organization",
-            "name": "apiUI"
-        }
+        ]
     }
     </script>
     <style>
@@ -627,6 +737,32 @@
             </div>
         </div>
     </header>
+
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb" class="bg-gray-50 border-b border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 py-3">
+            <ol class="flex items-center space-x-2 text-sm" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="index.html" class="text-gray-500 hover:text-gray-700 transition-colors">
+                        <span itemprop="name">
+                            <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            Home
+                        </span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <svg class="w-4 h-4 text-gray-400 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                    <span itemprop="name" class="text-gray-700 font-medium">Documentation</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </div>
+    </nav>
 
     <!-- Main Content -->
     <main class="flex-grow">
@@ -1535,7 +1671,16 @@ curl "https://your-api-endpoint.com/data/schema"</code></pre>
                         <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
                         <ul class="space-y-3">
                             <li><a href="docs.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Help Center</a></li>
-                            <li><a href="#" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Contact</a></li>
+                            <li>
+                                <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer"
+                                   class="text-gray-700 hover:text-black transition-colors duration-200 text-sm inline-flex items-center gap-2"
+                                   aria-label="Follow us on X (formerly Twitter)">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                    </svg>
+                                    Follow on X
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
