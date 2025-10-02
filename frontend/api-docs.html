@@ -21,25 +21,27 @@
         window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
     </script>
     <style>
-        /* Pixel Theme CSS Variables */
+        /* Pixel-Inspired CSS Variables - Light Theme with Green Accents */
         :root {
-            --pixel-black: #000000;
-            --pixel-white: #ffffff;
-            --pixel-gray-50: #f9fafb;
-            --pixel-gray-100: #f3f4f6;
-            --pixel-gray-200: #e5e7eb;
-            --pixel-gray-300: #d1d5db;
-            --pixel-gray-400: #9ca3af;
-            --pixel-gray-500: #6b7280;
-            --pixel-gray-600: #4b5563;
-            --pixel-gray-700: #374151;
-            --pixel-gray-800: #1f2937;
-            --pixel-gray-900: #111827;
-            --pixel-pink-400: #f472b6;
-            --pixel-pink-500: #ec4899;
-            --pixel-blue-400: #60a5fa;
-            --pixel-blue-500: #3b82f6;
-            --pixel-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --pixel-green: #00FF00;  /* Vibrant Matrix-style green */
+            --pixel-green-subtle: #4CAF50;  /* More subtle green */
+            --pixel-blue: #2196F3;  /* Bright electric blue */
+            --pixel-black: #000000;  /* Black text */
+            --pixel-white: #ffffff;  /* White background */
+            --pixel-gray-100: #f8fafc;  /* Lightest gray */
+            --pixel-gray-200: #e2e8f0;  /* Very light gray */
+            --pixel-gray-300: #cbd5e1;  /* Light gray */
+            --pixel-gray-400: #94a3b8;  /* Medium light gray */
+            --pixel-gray-500: #64748b;  /* Medium gray */
+            --pixel-gray-600: #475569;  /* Medium dark gray */
+            --pixel-gray-700: #334155;  /* Dark gray */
+            --pixel-gray-800: #1e293b;  /* Darker gray */
+            --pixel-gray-900: #0f172a;  /* Darkest gray */
+
+            --pixel-border-radius: 4px;
+            --pixel-border-width: 2px;
+            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);
         }
 
         /* Regular Cursor for API Docs */
@@ -56,26 +58,103 @@
             min-height: 100vh;
         }
 
-        /* Pixel Typography */
+        /* Pixel Typography Classes */
         .pixel-title {
             font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.05em;
+            font-weight: 700;
+            letter-spacing: 0.03em;
             line-height: 1.1;
             text-transform: uppercase;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            text-shadow:
+                1px 1px 0px var(--pixel-gray-800),
+                2px 2px 2px rgba(0, 0, 0, 0.1);
         }
 
         .pixel-subtitle {
             font-family: 'Pixelify Sans', monospace;
-            font-weight: 500;
-            letter-spacing: 0.03em;
-            line-height: 1.2;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            opacity: 0.9;
+            line-height: 1.3;
+            text-shadow: 1px 1px 0px var(--pixel-gray-800);
         }
 
         .pixel-body {
             font-family: 'Inter', sans-serif;
             font-weight: 400;
             line-height: 1.6;
+        }
+
+        /* Arcade Text Effects */
+        .arcade-neon {
+            text-shadow:
+                0 0 5px var(--pixel-green),
+                0 0 10px var(--pixel-green),
+                0 0 15px var(--pixel-green);
+            animation: neon-pulse 2s ease-in-out infinite alternate;
+        }
+
+        .arcade-3d {
+            text-shadow:
+                2px 2px 0px var(--pixel-gray-800),
+                4px 4px 0px var(--pixel-gray-600),
+                6px 6px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .arcade-gradient {
+            background: linear-gradient(45deg, var(--pixel-green), var(--pixel-blue), var(--pixel-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .arcade-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-shadow:
+                2px 2px 0px var(--pixel-gray-800),
+                4px 4px 0px var(--pixel-gray-600),
+                0 0 10px var(--pixel-green),
+                0 0 20px var(--pixel-green),
+                0 0 30px var(--pixel-green);
+            animation: arcade-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes neon-pulse {
+            from { text-shadow:
+                0 0 5px var(--pixel-green),
+                0 0 10px var(--pixel-green);
+            }
+            to { text-shadow:
+                0 0 5px var(--pixel-green),
+                0 0 10px var(--pixel-green),
+                0 0 15px var(--pixel-green),
+                0 0 20px var(--pixel-green);
+            }
+        }
+
+        @keyframes arcade-glow {
+            from {
+                text-shadow:
+                    2px 2px 0px var(--pixel-gray-800),
+                    4px 4px 0px var(--pixel-gray-600),
+                    0 0 10px var(--pixel-green),
+                    0 0 20px var(--pixel-green);
+            }
+            to {
+                text-shadow:
+                    2px 2px 0px var(--pixel-gray-800),
+                    4px 4px 0px var(--pixel-gray-600),
+                    0 0 15px var(--pixel-green),
+                    0 0 25px var(--pixel-green),
+                    0 0 35px var(--pixel-green);
+            }
         }
 
         /* Pixel Cards */
@@ -118,8 +197,8 @@
         }
 
         .pixel-btn-primary:hover {
-            background: var(--pixel-pink-500);
-            border-color: var(--pixel-pink-500);
+            background: var(--pixel-green);
+            border-color: var(--pixel-green);
         }
 
         .pixel-btn-secondary {
@@ -245,10 +324,10 @@
             border: 1px solid var(--pixel-black);
         }
 
-        .method-badge.method-get { background: var(--pixel-blue-400); color: var(--pixel-white); }
-        .method-badge.method-post { background: var(--pixel-pink-400); color: var(--pixel-white); }
-        .method-badge.method-put { background: var(--pixel-blue-500); color: var(--pixel-white); }
-        .method-badge.method-delete { background: var(--pixel-pink-500); color: var(--pixel-white); }
+        .method-badge.method-get { background: var(--pixel-blue); color: var(--pixel-white); }
+        .method-badge.method-post { background: var(--pixel-green); color: var(--pixel-white); }
+        .method-badge.method-put { background: var(--pixel-blue); color: var(--pixel-white); }
+        .method-badge.method-delete { background: var(--pixel-green); color: var(--pixel-white); }
 
         /* Status indicators - Pixel themed */
         .status-online {
@@ -267,8 +346,8 @@
         }
 
         .status-indicator.status-live {
-            background: var(--pixel-pink-400);
-            box-shadow: 0 0 0 2px rgba(244, 114, 182, 0.3);
+            background: var(--pixel-green);
+            box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.3);
         }
 
         /* Chart containers */
@@ -308,6 +387,159 @@
             line-height: 1.2;
             text-transform: uppercase;
         }
+
+        /* Mobile Responsiveness for API Docs */
+        @media (max-width: 768px) {
+            /* General mobile improvements */
+            .pixel-container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .pixel-card {
+                margin-bottom: 1rem;
+                padding: 1rem;
+            }
+
+            /* Mobile button touch targets */
+            .pixel-btn {
+                min-height: 48px;
+                font-size: 1rem;
+                padding: 0.75rem 1.5rem;
+            }
+
+            /* Mobile typography */
+            .pixel-title {
+                font-size: 1.75rem;
+                line-height: 1.3;
+            }
+
+            .pixel-subtitle {
+                font-size: 1.25rem;
+                line-height: 1.4;
+            }
+
+            .pixel-body {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            /* Mobile grid layouts */
+            .grid {
+                gap: 1rem;
+            }
+
+            /* Force single column on mobile */
+            .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-4,
+            .grid-cols-1.lg\\:grid-cols-2,
+            .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+
+            /* Mobile navigation */
+            .navigation-container {
+                padding: 1rem;
+            }
+
+            /* Mobile code blocks */
+            .code-block {
+                font-size: 0.8rem;
+                padding: 0.75rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Mobile form elements */
+            input, textarea, select {
+                font-size: 16px; /* Prevent zoom on iOS */
+                padding: 0.75rem;
+            }
+
+            /* Mobile chart containers */
+            .chart-container {
+                height: 200px;
+                margin-bottom: 1rem;
+            }
+
+            /* Mobile table improvements */
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Mobile spacing adjustments */
+            .section-spacing {
+                padding: 2rem 0;
+            }
+
+            /* Mobile flex layouts */
+            .flex {
+                flex-direction: column;
+            }
+
+            .flex-col.sm\\:flex-row {
+                flex-direction: column;
+            }
+
+            /* Mobile spacing for buttons */
+            .space-x-3 > * + * {
+                margin-left: 0.75rem;
+            }
+
+            .space-x-4 > * + * {
+                margin-left: 1rem;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .pixel-section {
+                padding: 1.5rem 0;
+            }
+
+            .pixel-card {
+                padding: 0.875rem;
+            }
+
+            .pixel-title {
+                font-size: 1.5rem;
+            }
+
+            .pixel-subtitle {
+                font-size: 1.125rem;
+            }
+
+            .pixel-body {
+                font-size: 0.9rem;
+            }
+
+            .pixel-btn {
+                font-size: 0.95rem;
+                padding: 0.75rem 1.25rem;
+                min-height: 44px;
+            }
+
+            /* Very small screen optimizations */
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+
+            /* Stack everything vertically on very small screens */
+            .flex-col.sm\\:flex-row,
+            .flex-col.lg\\:flex-row {
+                flex-direction: column;
+            }
+
+            /* Reduce gaps on small screens */
+            .gap-6 {
+                gap: 1rem;
+            }
+
+            .gap-8 {
+                gap: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -315,15 +547,15 @@
     <header class="border-b-2 border-black bg-white">
         <nav aria-label="Primary navigation" class="pixel-container py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <a href="index.html" class="pixel-title text-xl sm:text-2xl text-black hover:text-pink-500 transition-colors">api<span class="text-blue-500">UI</span></a>
+                <a href="index.html" class="pixel-title text-xl sm:text-2xl text-black hover:text-green-500 transition-colors">api<span class="text-green-500">UI</span></a>
                 <span class="pixel-body text-gray-600">an AURABLOX company</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html#features" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Features</a>
-                <a href="index.html#pricing" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Pricing</a>
-                <a href="app.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">App</a>
-                <a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Docs</a>
-                <a href="api-hub.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">API Hub</a>
+                <a href="index.html#features" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Features</a>
+                <a href="index.html#pricing" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Pricing</a>
+                <a href="app.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">App</a>
+                <a href="docs.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Docs</a>
+                <a href="api-hub.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">API Hub</a>
                 <button id="delete-api-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-3 py-1.5 pixel-flicker-on-hover">
                     Delete API
                 </button>
@@ -335,7 +567,7 @@
     <div class="fixed top-16 right-6 z-40 flex flex-col space-y-3">
         <!-- Home Icon -->
         <a href="index.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Back to Home">
-            <svg class="w-5 h-5 text-white group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-white group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
             </svg>
         </a>
@@ -349,7 +581,7 @@
 
         <!-- API Hub Icon -->
         <a href="api-hub.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Browse API Hub">
-            <svg class="w-5 h-5 text-white group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-white group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
             </svg>
         </a>
@@ -367,7 +599,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h1 class="pixel-title text-3xl mb-1 text-pink-500" id="api-title">API Analytics Dashboard</h1>
+                        <h1 class="pixel-title text-3xl mb-1 text-black" id="api-title">API Analytics Dashboard</h1>
                         <p class="pixel-body text-gray-600 text-lg" id="api-description">Real-time monitoring and insights</p>
                         <div class="flex items-center mt-3 space-x-6">
                             <div class="flex items-center space-x-2">
@@ -444,7 +676,7 @@
                         <span class="pixel-badge">Live</span>
                     </div>
                     <div>
-                        <p class="pixel-title text-2xl text-pink-500">99.9%</p>
+                        <p class="pixel-title text-2xl text-green-400">99.9%</p>
                         <p class="pixel-body text-sm text-gray-600">Uptime (30 days)</p>
                     </div>
                     <div class="mt-4">
@@ -482,7 +714,7 @@
                         <span class="pixel-badge">24h</span>
                     </div>
                     <div>
-                        <p class="pixel-title text-2xl text-pink-500">2.4K</p>
+                        <p class="pixel-title text-2xl text-green-400">2.4K</p>
                         <p class="pixel-body text-sm text-gray-600">Total Requests</p>
                     </div>
                     <div class="mt-4">
@@ -515,7 +747,7 @@
                 <!-- Availability Chart -->
                 <div class="pixel-card p-6 pixel-fade-in delay-2">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="pixel-subtitle text-xl text-pink-500">API Availability</h3>
+                        <h3 class="pixel-subtitle text-xl text-green-400">API Availability</h3>
                         <div class="flex items-center space-x-2">
                             <div class="status-indicator status-live"></div>
                             <span class="pixel-body text-sm text-gray-600">99.9% uptime</span>
@@ -544,7 +776,7 @@
             <!-- Sample Data Section -->
             <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-pink-500">Sample Data Preview</h3>
+                    <h3 class="pixel-subtitle text-xl text-green-400">Sample Data Preview</h3>
                     <button id="view-raw-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-4 py-2 pixel-flicker-on-hover">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
@@ -592,7 +824,7 @@
             <!-- Code Examples Section -->
             <div class="pixel-card p-6 mb-8 pixel-fade-in delay-1">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-pink-500">Code Examples</h3>
+                    <h3 class="pixel-subtitle text-xl text-green-400">Code Examples</h3>
                     <div class="flex items-center space-x-2">
                         <div class="status-indicator status-live"></div>
                         <span class="pixel-body text-sm text-gray-600">Integration examples</span>
@@ -734,7 +966,7 @@ data = response.json()">
             <!-- Socket.io Real-time API Section -->
             <div class="pixel-card p-6 mb-8 pixel-slide-in-right">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-pink-500">Socket.io Real-time API</h3>
+                    <h3 class="pixel-subtitle text-xl text-green-400">Socket.io Real-time API</h3>
                     <div class="flex items-center space-x-2">
                         <div class="status-indicator status-live"></div>
                         <span class="pixel-body text-sm text-gray-600">Real-time enabled</span>

@@ -157,10 +157,11 @@
     <style>
         /* Pixel-Inspired CSS Variables */
         :root {
-            --pixel-pink: #ec4899;
-            --pixel-blue: #3b82f6;
-            --pixel-black: #000000;
-            --pixel-white: #ffffff;
+            --pixel-green: #00FF00;  /* Vibrant Matrix-style green */
+            --pixel-green-subtle: #4CAF50;  /* More subtle green */
+            --pixel-blue: #2196F3;  /* Bright electric blue */
+            --pixel-black: #000000;  /* Black text */
+            --pixel-white: #ffffff;  /* White background */
             --pixel-gray-100: #f8fafc;
             --pixel-gray-200: #e2e8f0;
             --pixel-gray-300: #cbd5e1;
@@ -200,27 +201,96 @@
         /* Pixel Typography Classes */
         .pixel-title {
             font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.02em;
+            font-weight: 700;
+            letter-spacing: 0.03em;
             line-height: 1.1;
             text-transform: uppercase;
             image-rendering: pixelated;
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
+            text-shadow:
+                1px 1px 0px var(--pixel-gray-800),
+                2px 2px 2px rgba(0, 0, 0, 0.1);
         }
 
         .pixel-subtitle {
             font-family: 'Pixelify Sans', monospace;
-            font-weight: 500;
-            letter-spacing: 0.01em;
+            font-weight: 600;
+            letter-spacing: 0.02em;
             opacity: 0.9;
             line-height: 1.3;
+            text-shadow: 1px 1px 0px var(--pixel-gray-800);
         }
 
         .pixel-body {
             font-family: 'Inter', sans-serif;
             font-weight: 400;
             line-height: 1.6;
+        }
+
+        /* Arcade Text Effects */
+        .arcade-neon {
+            text-shadow:
+                0 0 5px var(--pixel-green),
+                0 0 10px var(--pixel-green),
+                0 0 15px var(--pixel-green);
+            animation: neon-pulse 2s ease-in-out infinite alternate;
+        }
+
+        .arcade-3d {
+            text-shadow:
+                2px 2px 0px var(--pixel-gray-800),
+                4px 4px 0px var(--pixel-gray-600),
+                6px 6px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .arcade-gradient {
+            background: linear-gradient(45deg, var(--pixel-green), var(--pixel-blue), var(--pixel-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .arcade-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-shadow:
+                2px 2px 0px var(--pixel-gray-600),
+                0 0 8px var(--pixel-green);
+        }
+
+        @keyframes neon-pulse {
+            from { text-shadow:
+                0 0 5px var(--pixel-green),
+                0 0 10px var(--pixel-green);
+            }
+            to { text-shadow:
+                0 0 5px var(--pixel-green),
+                0 0 10px var(--pixel-green),
+                0 0 15px var(--pixel-green),
+                0 0 20px var(--pixel-green);
+            }
+        }
+
+        @keyframes arcade-glow {
+            from {
+                text-shadow:
+                    2px 2px 0px var(--pixel-gray-800),
+                    4px 4px 0px var(--pixel-gray-600),
+                    0 0 10px var(--pixel-green),
+                    0 0 20px var(--pixel-green);
+            }
+            to {
+                text-shadow:
+                    2px 2px 0px var(--pixel-gray-800),
+                    4px 4px 0px var(--pixel-gray-600),
+                    0 0 15px var(--pixel-green),
+                    0 0 25px var(--pixel-green),
+                    0 0 35px var(--pixel-green);
+            }
         }
 
         /* Pixel Card System */
@@ -312,8 +382,8 @@
         }
 
         .pixel-btn-primary:hover {
-            background: var(--pixel-pink);
-            border-color: var(--pixel-pink);
+            background: var(--pixel-green);
+            border-color: var(--pixel-green);
             color: var(--pixel-white);
         }
 
@@ -388,7 +458,7 @@
             transform: translateX(-50%);
             width: 8px;
             height: 4px;
-            background: var(--pixel-pink);
+            background: var(--pixel-green);
         }
 
         /* Pixel Badge */
@@ -457,9 +527,13 @@
         }
 
         .hero-gradient-text {
-            color: var(--pixel-blue);
+            background: linear-gradient(45deg, var(--pixel-green), var(--pixel-blue), var(--pixel-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-family: 'Pixelify Sans', monospace;
             font-weight: 700;
+            text-shadow: none;
         }
 
         /* Step Indicators */
@@ -500,7 +574,7 @@
         }
 
         .back-to-top:hover {
-            background: var(--pixel-pink);
+            background: var(--pixel-green);
             transform: translateY(14px);
         }
 
@@ -571,6 +645,79 @@
             .pixel-section {
                 padding: 3rem 0;
             }
+
+            /* Mobile hero optimizations */
+            .hero-section {
+                padding: 4rem 1rem;
+                min-height: auto;
+            }
+
+            /* Improve button touch targets on mobile */
+            .pixel-btn {
+                min-height: 48px; /* iOS recommended minimum touch target */
+                font-size: 1rem;
+                padding: 0.75rem 1.5rem;
+            }
+
+            /* Better mobile spacing for cards */
+            .pixel-card {
+                margin-bottom: 1rem;
+            }
+
+            /* Mobile typography adjustments */
+            .arcade-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+
+            /* Improve mobile grid layouts */
+            .grid {
+                gap: 1rem;
+            }
+
+            /* Mobile navigation improvements */
+            .pixel-container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            /* Better mobile pricing layout */
+            .pricing-grid {
+                gap: 2rem;
+            }
+
+            /* Mobile trust indicators */
+            .trust-indicators {
+                gap: 1.5rem;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .pixel-section {
+                padding: 2rem 0;
+            }
+
+            .hero-section {
+                padding: 3rem 1rem;
+            }
+
+            .arcade-title {
+                font-size: 1.75rem;
+                letter-spacing: 0.02em;
+            }
+
+            .pixel-btn {
+                font-size: 0.95rem;
+                padding: 0.875rem 1.25rem;
+            }
+
+            /* Single column layouts on very small screens */
+            .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3,
+            .grid-cols-1.md\\:grid-cols-3,
+            .grid-cols-1.lg\\:grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Scroll-triggered animations */
@@ -615,14 +762,14 @@
     <header class="border-b-2 border-black bg-white">
         <nav aria-label="Primary navigation" class="pixel-container py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <a href="index.html" class="text-xl sm:text-2xl pixel-title text-black hover:text-pink-500 transition-colors">api<span class="text-blue-500">UI</span></a>
+                <a href="index.html" class="text-xl sm:text-2xl pixel-title text-black hover:text-green-500 transition-colors">api<span class="text-green-500">UI</span></a>
                 <span class="pixel-body text-gray-600">an AURABLOX company</span>
             </div>
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#features" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Features</a>
-                <a href="#pricing" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Pricing</a>
-                <a href="app.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">App</a>
+                <a href="#features" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Features</a>
+                <a href="#pricing" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Pricing</a>
+                <a href="app.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">App</a>
 
     <!-- Sign In Dropdown -->
     <div class="relative">
@@ -804,52 +951,73 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero-section text-center min-h-screen flex items-center justify-center py-24">
-        <div class="pixel-container max-w-6xl relative z-10">
+    <section class="hero-section bg-gradient-to-b from-white via-gray-50/30 to-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
+        <!-- Subtle geometric pattern -->
+        <div class="absolute inset-0 opacity-[0.02]">
+            <div class="absolute top-20 left-10 w-96 h-96 border border-green-500/20 rounded-full"></div>
+            <div class="absolute top-40 right-20 w-64 h-64 border border-blue-600/20 rounded-full"></div>
+            <div class="absolute bottom-32 left-1/4 w-48 h-48 border border-green-500/20 rounded-full"></div>
+            <div class="absolute bottom-20 right-1/3 w-32 h-32 border border-blue-600/20 rounded-full"></div>
+        </div>
 
-            <h1 class="pixel-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto mb-8 pixel-fade-in">
-                Turn your data into <span class="text-black">production</span> <span class="hero-gradient-text">APIs</span> in seconds
-            </h1>
+        <div class="pixel-container max-w-6xl text-center relative z-10">
 
-            <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12 px-4 pixel-fade-in" style="animation-delay: 0.2s">
-                Upload your CSV, Excel, or Parquet files and instantly get a fully functional REST API—
-                <span class="font-semibold text-black">no engineering lift required.</span>
-            </p>
+            <!-- Main Headline -->
+            <div class="mb-8 pixel-fade-in">
+                <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
+                    Build live APIs from your data in <span class="arcade-neon">seconds</span>
+                </h1>
+            </div>
 
-            <div class="flex flex-col sm:flex-row gap-6 justify-center px-4 mb-16 pixel-fade-in" style="animation-delay: 0.4s">
-                <a href="app.html" class="pixel-btn pixel-btn-primary w-full sm:w-auto px-10 py-4 text-lg">
-                    Start Building APIs Free
+            <!-- Enhanced Subtitle -->
+            <div class="mb-12 pixel-fade-in" style="animation-delay: 0.2s">
+                <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
+                    Upload CSV, Excel, or Parquet files and get instant REST APIs with
+                    <span class="font-semibold text-gray-900">authentication, filtering, and analytics</span>—
+                    <span class="text-green-500 font-medium">no coding required.</span>
+                </p>
+            </div>
+
+            <!-- Premium CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 pixel-fade-in" style="animation-delay: 0.4s">
+                <a href="app.html" class="pixel-btn pixel-btn-primary px-10 py-4 text-lg">
+                    Start Building Free
                 </a>
-                <a href="api-hub.html" class="pixel-btn pixel-btn-secondary w-full sm:w-auto px-10 py-4 text-lg">
-                    Explore API Hub
+                <a href="#features" class="pixel-btn pixel-btn-secondary px-10 py-4 text-lg">
+                    Learn More
                 </a>
             </div>
 
             <!-- Pixel Trust Indicators -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-8 px-4 pixel-fade-in" style="animation-delay: 0.6s">
-                <div class="pixel-card p-4 flex items-center bg-white">
-                    <div class="pixel-icon w-8 h-8 mr-3 flex-shrink-0">
-                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto pixel-fade-in" style="animation-delay: 0.6s">
+                <div class="pixel-card p-6 text-center">
+                    <div class="pixel-icon w-10 h-10 flex items-center justify-center mb-6 mx-auto bg-green-500 text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </div>
-                    <span class="pixel-body font-medium text-gray-700">No credit card required</span>
+                    <h3 class="pixel-subtitle text-lg text-black mb-3">Free to Start</h3>
+                    <p class="pixel-body text-gray-600">No credit card required</p>
                 </div>
-                <div class="pixel-card p-4 flex items-center bg-white">
-                    <div class="pixel-icon w-8 h-8 mr-3 flex-shrink-0">
-                        <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <span class="pixel-body font-medium text-gray-700">Secure & Private</span>
-                </div>
-                <div class="pixel-card p-4 flex items-center bg-white">
-                    <div class="pixel-icon w-8 h-8 mr-3 flex-shrink-0">
-                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                <div class="pixel-card p-6 text-center">
+                    <div class="pixel-icon w-10 h-10 flex items-center justify-center mb-6 mx-auto bg-blue-600 text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <span class="pixel-body font-medium text-gray-700">Lightning Fast</span>
+                    <h3 class="pixel-subtitle text-lg text-black mb-3">Lightning Fast</h3>
+                    <p class="pixel-body text-gray-600">APIs ready in seconds</p>
+                </div>
+
+                <div class="pixel-card p-6 text-center">
+                    <div class="pixel-icon w-10 h-10 flex items-center justify-center mb-6 mx-auto bg-green-500 text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pixel-subtitle text-lg text-black mb-3">Enterprise Secure</h3>
+                    <p class="pixel-body text-gray-600">Bank-level encryption</p>
                 </div>
             </div>
         </div>
@@ -859,9 +1027,9 @@
     <div class="pixel-accent-line"></div>
 
     <!-- Features Section -->
-    <section id="features" class="pixel-section bg-white">
+    <section id="features" class="pixel-section bg-gray-50 py-20">
         <div class="pixel-container max-w-7xl">
-            <div class="text-center mb-20 pixel-fade-in">
+            <div class="text-center mb-16 pixel-fade-in">
                 <h2 class="pixel-title text-4xl sm:text-5xl text-black mb-6">Everything You Need to Build APIs</h2>
                 <p class="pixel-body text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                     Powerful features that make API development
@@ -869,75 +1037,75 @@
                 </p>
             </div>
 
-            <div class="pixel-grid">
-                <div class="pixel-card p-10 pixel-slide-in-left">
-                    <div class="pixel-icon w-14 h-14 mb-8 mx-auto">
-                        <svg class="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="pixel-card p-8 pixel-slide-in-left h-full">
+                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
+                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
                         </svg>
                     </div>
                     <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Universal File Support</h3>
-                    <p class="pixel-body text-gray-700 leading-relaxed text-center">
+                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
                         Upload CSV, Excel, Parquet, or JSON files. Automatic format detection and data type inference.
                     </p>
                 </div>
 
-                <div class="pixel-card p-10 pixel-fade-in" style="animation-delay: 0.2s">
-                    <div class="pixel-icon w-14 h-14 mb-8 mx-auto">
-                        <svg class="w-7 h-7 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="pixel-card p-8 pixel-fade-in h-full" style="animation-delay: 0.2s">
+                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
                     <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Instant Deployment</h3>
-                    <p class="pixel-body text-gray-700 leading-relaxed text-center">
+                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
                         Your API is live within seconds. No server setup, no configuration, just instant endpoints.
                     </p>
                 </div>
 
-                <div class="pixel-card p-10 pixel-slide-in-right">
-                    <div class="pixel-icon w-14 h-14 mb-8 mx-auto">
-                        <svg class="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="pixel-card p-8 pixel-slide-in-right h-full">
+                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
+                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
                     <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">RESTful Endpoints</h3>
-                    <p class="pixel-body text-gray-700 leading-relaxed text-center">
+                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
                         Full REST API with filtering, pagination, and query parameters. Industry-standard endpoints.
                     </p>
                 </div>
 
-                <div class="pixel-card p-10 pixel-slide-in-left" style="animation-delay: 0.1s">
-                    <div class="pixel-icon w-14 h-14 mb-8 mx-auto">
-                        <svg class="w-7 h-7 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="pixel-card p-8 pixel-slide-in-left h-full" style="animation-delay: 0.1s">
+                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
                     </div>
                     <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Secure & Private</h3>
-                    <p class="pixel-body text-gray-700 leading-relaxed text-center">
+                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
                         Enterprise-grade security with API keys, rate limiting, and data encryption.
                     </p>
                 </div>
 
-                <div class="pixel-card p-10 pixel-fade-in" style="animation-delay: 0.3s">
-                    <div class="pixel-icon w-14 h-14 mb-8 mx-auto">
-                        <svg class="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="pixel-card p-8 pixel-fade-in h-full" style="animation-delay: 0.3s">
+                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
+                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
                     </div>
                     <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Real-time Analytics</h3>
-                    <p class="pixel-body text-gray-700 leading-relaxed text-center">
+                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
                         Monitor API usage, performance metrics, and data access patterns in real-time.
                     </p>
                 </div>
 
-                <div class="pixel-card p-10 pixel-slide-in-right" style="animation-delay: 0.1s">
-                    <div class="pixel-icon w-14 h-14 mb-8 mx-auto">
-                        <svg class="w-7 h-7 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="pixel-card p-8 pixel-slide-in-right h-full" style="animation-delay: 0.1s">
+                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                         </svg>
                     </div>
                     <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Developer Friendly</h3>
-                    <p class="pixel-body text-gray-700 leading-relaxed text-center">
+                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
                         Comprehensive documentation, code examples, and SDKs for popular programming languages.
                     </p>
                 </div>
@@ -948,42 +1116,42 @@
         <div class="pixel-accent-line"></div>
 
         <!-- How It Works Section -->
-        <section class="pixel-section bg-gray-50">
-            <div class="pixel-container max-w-7xl">
-                <div class="text-center mb-12 sm:mb-16 pixel-fade-in">
-                    <h2 class="pixel-title text-3xl sm:text-4xl text-black mb-4">How It Works</h2>
-                    <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-                        Three simple steps to turn your data into a <span class="text-black">production-ready</span> <span class="hero-gradient-text">API</span>
+        <section class="pixel-section bg-white py-20">
+            <div class="pixel-container max-w-6xl">
+                <div class="text-center mb-16 pixel-fade-in">
+                    <h2 class="pixel-title text-3xl sm:text-4xl text-black mb-6">How It Works</h2>
+                    <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        Three simple steps to turn your data into a <span class="font-semibold text-black">production-ready</span> <span class="text-green-500">API</span>
                     </p>
                 </div>
 
-                <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mb-12">
-                    <div class="pixel-card p-8 text-center pixel-slide-in-left">
-                        <div class="pixel-step w-16 h-16 rounded-none flex items-center justify-center mx-auto mb-6">
-                            <span class="pixel-title text-xl">1</span>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="pixel-card p-8 text-center pixel-slide-in-left h-full">
+                        <div class="pixel-step w-16 h-16 bg-green-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
+                            <span class="pixel-title text-2xl">1</span>
                         </div>
                         <h3 class="pixel-subtitle text-xl text-black mb-4">Upload Your Data</h3>
-                        <p class="pixel-body text-gray-600">
+                        <p class="pixel-body text-gray-600 leading-relaxed">
                             Drag and drop your CSV, Excel, or Parquet file. We support all major data formats with automatic type detection.
                         </p>
                     </div>
 
-                    <div class="pixel-card p-8 text-center pixel-fade-in" style="animation-delay: 0.2s">
-                        <div class="pixel-step w-16 h-16 rounded-none flex items-center justify-center mx-auto mb-6">
-                            <span class="pixel-title text-xl">2</span>
+                    <div class="pixel-card p-8 text-center pixel-fade-in h-full" style="animation-delay: 0.2s">
+                        <div class="pixel-step w-16 h-16 bg-blue-600 text-white rounded-none flex items-center justify-center mx-auto mb-6">
+                            <span class="pixel-title text-2xl">2</span>
                         </div>
                         <h3 class="pixel-subtitle text-xl text-black mb-4">We Build Your API</h3>
-                        <p class="pixel-body text-gray-600">
+                        <p class="pixel-body text-gray-600 leading-relaxed">
                             Our AI analyzes your data structure and generates optimized FastAPI code with proper validation and endpoints.
                         </p>
                     </div>
 
-                    <div class="pixel-card p-8 text-center pixel-slide-in-right">
-                        <div class="pixel-step w-16 h-16 rounded-none flex items-center justify-center mx-auto mb-6">
-                            <span class="pixel-title text-xl">3</span>
+                    <div class="pixel-card p-8 text-center pixel-slide-in-right h-full">
+                        <div class="pixel-step w-16 h-16 bg-green-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
+                            <span class="pixel-title text-2xl">3</span>
                         </div>
                         <h3 class="pixel-subtitle text-xl text-black mb-4">Start Using Your API</h3>
-                        <p class="pixel-body text-gray-600">
+                        <p class="pixel-body text-gray-600 leading-relaxed">
                             Get instant access to your live API endpoint. Query, filter, and integrate with your applications immediately.
                         </p>
                     </div>
@@ -992,9 +1160,9 @@
 
             <!-- Live Demo Video -->
             <div class="demo-video-container mt-12 mb-8">
-                <div class="text-center mb-12">
-                    <h3 class="section-title text-2xl sm:text-3xl lg:text-4xl text-black mb-6">See It Live</h3>
-                    <p class="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                <div class="text-center mb-12 pixel-fade-in">
+                    <h3 class="pixel-title text-2xl sm:text-3xl lg:text-4xl text-black mb-6">See It Live</h3>
+                    <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
                         Watch the complete workflow in action—from file upload to live API endpoints
                     </p>
                 </div>
@@ -1056,11 +1224,11 @@
                 </div>
 
                 <!-- Video Description -->
-                <div class="text-center mt-8">
-                    <p class="text-gray-600 text-sm mb-2">
+                <div class="text-center mt-8 pixel-fade-in">
+                    <p class="pixel-body text-gray-600 text-sm mb-2">
                         Experience the complete workflow from file upload to API deployment
                     </p>
-                    <p class="text-gray-500 text-xs">
+                    <p class="pixel-body text-gray-500 text-xs">
                         Video autoplays muted • Click the speaker icon to enable sound
                     </p>
                 </div>
@@ -1071,8 +1239,8 @@
         <div class="pixel-accent-line"></div>
 
         <!-- Pricing Section -->
-        <section id="pricing" class="pixel-section bg-white">
-            <div class="pixel-container max-w-6xl relative z-10">
+        <section id="pricing" class="pixel-section bg-gray-50 py-20">
+            <div class="pixel-container max-w-6xl">
                 <div class="text-center mb-16 pixel-fade-in">
                     <h2 class="pixel-title text-4xl sm:text-5xl text-black mb-6">Simple, Transparent Pricing</h2>
                     <p class="pixel-body text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -1084,7 +1252,7 @@
                 <div class="grid sm:grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto pt-8">
                     <!-- Free Plan -->
                     <div class="pixel-card p-8 sm:p-10 relative transform scale-105 featured-plan pixel-slide-in-left">
-                        <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
+                        <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 z-50">
                             <span class="pixel-badge">
                                 Most Popular
                             </span>
@@ -1099,7 +1267,7 @@
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1107,7 +1275,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1115,7 +1283,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1123,7 +1291,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1147,7 +1315,7 @@
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1155,7 +1323,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1163,7 +1331,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1171,7 +1339,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1179,7 +1347,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1203,7 +1371,7 @@
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1211,7 +1379,7 @@
                             </li>
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1219,7 +1387,7 @@
                             </li>
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1227,7 +1395,7 @@
                             </li>
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1235,7 +1403,7 @@
                             </li>
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1249,26 +1417,26 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-12">
-                    <p class="text-gray-600 mb-4">All plans include:</p>
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-gray-600">
-                        <span class="flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="text-center mt-12 pixel-fade-in">
+                    <p class="pixel-body text-gray-600 mb-4 font-medium">All plans include:</p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm">
+                        <span class="flex items-center text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            99.9% uptime SLA
+                            <span class="pixel-body">99.9% uptime SLA</span>
                         </span>
-                        <span class="flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span class="flex items-center text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            GDPR compliant
+                            <span class="pixel-body">GDPR compliant</span>
                         </span>
-                        <span class="flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span class="flex items-center text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            24/7 monitoring
+                            <span class="pixel-body">24/7 monitoring</span>
                         </span>
                     </div>
                 </div>
@@ -1279,13 +1447,13 @@
         <div class="pixel-accent-line"></div>
 
     <!-- CTA Section -->
-    <section class="cta-section pixel-section pixel-fade-in">
-        <div class="pixel-container max-w-4xl text-center relative z-10">
-            <h2 class="pixel-title text-3xl sm:text-4xl lg:text-5xl text-black mb-8">Ready to Turn Your Data Into APIs?</h2>
-            <p class="pixel-body text-lg sm:text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-                Join teams shipping faster with apiUI—spin up <span class="text-black">production-ready</span> <span class="hero-gradient-text">endpoints</span> without waiting on engineering backlogs.
+    <section class="cta-section bg-gray-50 py-20 pixel-fade-in">
+        <div class="pixel-container max-w-4xl text-center">
+            <h2 class="pixel-title text-3xl sm:text-4xl lg:text-5xl text-black mb-6">Ready to Turn Your Data Into APIs?</h2>
+            <p class="pixel-body text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Join teams shipping faster with apiUI—spin up <span class="font-semibold text-black">production-ready</span> <span class="text-green-500">endpoints</span> without waiting on engineering backlogs.
             </p>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="app.html" class="pixel-btn pixel-btn-primary w-full sm:w-auto px-8 py-4 text-lg">
                     Start Building APIs Free
                 </a>
@@ -1314,7 +1482,7 @@
             <div class="flex justify-between items-center mb-12">
                 <div class="flex flex-col items-start">
                     <div class="pixel-title text-2xl text-black tracking-tight">
-                        api<span class="text-blue-500">UI</span>
+                        api<span class="text-green-500">UI</span>
                     </div>
                     <span class="pixel-body text-gray-600 mt-1">an AURABLOX company</span>
                 </div>
@@ -1324,19 +1492,19 @@
                     <div>
                         <h4 class="pixel-subtitle text-black mb-4 text-sm uppercase tracking-wider">Product</h4>
                         <ul class="space-y-3">
-                            <li><a href="index.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Home</a></li>
-                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Documentation</a></li>
-                            <li><a href="app.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Create API</a></li>
+                            <li><a href="index.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Home</a></li>
+                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Documentation</a></li>
+                            <li><a href="app.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Create API</a></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 class="pixel-subtitle text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
                         <ul class="space-y-3">
-                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Help Center</a></li>
+                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Help Center</a></li>
                             <li>
                                 <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer"
-                                   class="pixel-body text-gray-700 hover:text-pink-500 transition-colors inline-flex items-center gap-2"
+                                   class="pixel-body text-gray-700 hover:text-green-500 transition-colors inline-flex items-center gap-2"
                                    aria-label="Follow us on X (formerly Twitter)">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -1352,7 +1520,7 @@
             <!-- Bottom Section -->
             <div class="border-t-2 border-black pt-8 mt-8">
                 <div class="flex justify-end">
-                    <p class="pixel-body text-gray-600">&copy; 2025 api<span class="text-blue-500">UI</span> Inc. All rights reserved.</p>
+                    <p class="pixel-body text-gray-600">&copy; 2025 api<span class="text-blue-600">UI</span> Inc. All rights reserved.</p>
                 </div>
             </div>
         </div>
