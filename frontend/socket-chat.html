@@ -31,12 +31,54 @@
             : 'https://us-central1-ai-apiui.cloudfunctions.net/chat';
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
+
+        /* Pixel-Inspired CSS Variables */
+        :root {
+            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
+            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
+            --pixel-pink-light: #F472B6;  /* Light pink */
+            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
+            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
+            --pixel-black: #000000;  /* Black text */
+            --pixel-white: #ffffff;  /* White background */
+            --pixel-gray-100: #f8fafc;  /* Lightest gray */
+            --pixel-gray-200: #e2e8f0;  /* Very light gray */
+            --pixel-gray-300: #cbd5e1;  /* Light gray */
+        }
+
+        /* CTA Button with Layered Glow Effect */
+        .cta-glow {
+            position: relative;
+            background: var(--pixel-pink);
+            color: white;
+            box-shadow:
+                0 0 20px rgba(233, 30, 99, 0.6),
+                0 0 40px rgba(156, 39, 176, 0.4),
+                0 0 60px rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-glow:hover {
+            background: var(--pixel-pink-subtle);
+            box-shadow:
+                0 0 30px rgba(233, 30, 99, 0.8),
+                0 0 60px rgba(156, 39, 176, 0.6),
+                0 0 90px rgba(156, 39, 176, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cta-glow:active {
+            transform: translateY(0);
+            box-shadow:
+                0 0 15px rgba(233, 30, 99, 0.4),
+                0 0 30px rgba(156, 39, 176, 0.3);
+        }
 
         html, body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-            color: #000000;
+            background-color: var(--pixel-white);
+            color: var(--pixel-black);
             line-height: 1.6;
             height: 100vh;
             margin: 0;
@@ -53,10 +95,10 @@
         }
 
         .chat-message.user .message-bubble {
-            background: #000000;
-            color: #ffffff;
-            border: 1px solid #000000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
         }
 
         .chat-message.bot {
@@ -64,29 +106,30 @@
         }
 
         .chat-message.bot .message-bubble {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            color: #374151;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            background: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
+            color: var(--pixel-black);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
         }
 
         .message-bubble {
             padding: 1rem 1.25rem;
-            border-radius: 1rem;
+            border-radius: 0;
             max-width: 75%;
             word-wrap: break-word;
             line-height: 1.5;
             font-size: 0.95rem;
             position: relative;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         .message-bubble.user-bubble {
-            border-bottom-right-radius: 0.25rem;
+            border-bottom-right-radius: 0;
         }
 
         .message-bubble.bot-bubble {
-            border-bottom-left-radius: 0.25rem;
+            border-bottom-left-radius: 0;
         }
 
         .message-bubble:hover {
@@ -134,11 +177,11 @@
         }
 
         .code-block {
-            background: #f8fafc;
-            color: #1f2937;
-            border: 1px solid #e5e7eb;
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border: 2px solid var(--pixel-black);
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 0;
             font-family: 'Monaco', 'Consolas', monospace;
             font-size: 0.875rem;
             overflow-x: auto;
@@ -146,69 +189,78 @@
             white-space: pre-wrap;
         }
 
-        /* Modern button styling */
-        .btn-primary {
-            background-color: #000000;
-            color: #ffffff;
-            border: 2px solid #000000;
+        /* Pixel Button System */
+        .btn-primary, .btn-secondary {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
             padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--pixel-black);
+            border-radius: 0;
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border-color: var(--pixel-black);
         }
 
         .btn-primary:hover {
-            background-color: #1f2937;
-            border-color: #1f2937;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
+            color: var(--pixel-white);
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15);
         }
 
         .btn-secondary {
-            background-color: #ffffff;
-            color: #000000;
-            border: 2px solid #e5e7eb;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border-color: var(--pixel-pink);
         }
 
         .btn-secondary:hover {
-            border-color: #000000;
-            background-color: #f8fafc;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: var(--pixel-pink);
+            color: var(--pixel-white);
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
         }
 
-        /* Enhanced form inputs */
+        .btn-primary:active, .btn-secondary:active {
+            transform: translate(0, 0);
+            box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Pixel Form Inputs */
         input[type="text"], select {
-            border: 2px solid #e5e7eb;
-            background-color: #ffffff;
-            color: #000000;
-            border-radius: 0.75rem;
-            transition: all 0.2s ease;
+            border: 2px solid var(--pixel-gray-300);
+            background-color: var(--pixel-white);
+            color: var(--pixel-black);
+            border-radius: 0;
+            transition: all 0.15s ease;
             font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
         }
 
         input[type="text"]:focus, select:focus {
-            border-color: #000000;
+            border-color: var(--pixel-pink);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.2);
         }
 
         input[type="text"]:hover, select:hover {
-            border-color: #d1d5db;
+            border-color: var(--pixel-gray-400);
         }
 
         /* Smooth scrollbar for messages */
@@ -232,27 +284,70 @@
     </style>
 </head>
 <body class="bg-white">
+
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="pixel-card bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+
+                <!-- Dashboard -->
+                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
+
+                <!-- Docs -->
+                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+
+                <!-- API Hub -->
+                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </a>
+
+                <!-- Socket Chat -->
+                <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="bg-white shadow-sm border-b-2 border-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="index.html" class="flex items-center space-x-2">
                         <img src="apiui-logo.png" alt="apiUI Logo" class="h-8 w-8">
-                        <span class="text-xl sm:text-2xl font-light tracking-widest text-black">api<span class="font-black uppercase text-lg sm:text-xl">UI</span></span>
+                        <span class="text-xl sm:text-2xl font-light tracking-widest text-black">api<span class="font-black uppercase text-lg sm:text-xl text-pink-500">UI</span></span>
                     </a>
-                    <span class="ml-4 text-sm text-gray-500">Socket Chat</span>
+                    <span class="ml-4 text-sm text-gray-600">Socket Chat</span>
                 </div>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="docs.html" class="text-gray-700 hover:text-black font-medium transition-colors">Docs</a>
-                    <a href="api-hub.html" class="text-gray-700 hover:text-black font-medium transition-colors">API Hub</a>
-                    <a href="app.html" class="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</a>
+                    <a href="docs.html" class="text-gray-700 hover:text-pink-500 font-medium transition-colors">Docs</a>
+                    <a href="api-hub.html" class="text-gray-700 hover:text-pink-500 font-medium transition-colors">API Hub</a>
+                    <a href="app.html" class="text-gray-700 hover:text-pink-500 font-medium transition-colors">Dashboard</a>
 
                     <!-- Sign In Dropdown -->
                     <div class="relative">
-                        <button id="signin-dropdown-btn" class="px-4 py-2 border border-slate-800 rounded-md text-sm font-medium text-slate-800 hover:bg-slate-900 hover:text-white transition-colors flex items-center">
+                        <button id="signin-dropdown-btn" class="px-4 py-2 border-2 border-black text-sm font-medium text-black hover:bg-black hover:text-white transition-colors flex items-center">
                             <span id="signin-button-label">Sign In</span>
                             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -423,11 +518,11 @@
 
     <!-- Main Content -->
     <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 h-screen flex flex-col">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 flex-1">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
 
             <!-- API Selection Sidebar -->
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-lg shadow-lg border border-black p-8 flex-1 flex flex-col overflow-y-auto">
+                <div class="bg-white shadow-lg border-2 border-black p-8 flex-1 flex flex-col overflow-y-auto">
                     <h2 class="text-xl font-bold text-black mb-6">Select API</h2>
 
                     <div class="space-y-6">
@@ -507,7 +602,7 @@
 
             <!-- Chat Interface -->
             <div class="lg:col-span-2">
-                <div class="bg-white rounded-lg shadow-lg border border-black flex-1 flex flex-col overflow-hidden">
+                <div class="bg-white shadow-lg border-2 border-black flex-1 flex flex-col overflow-hidden">
 
                     <!-- Chat Header -->
                     <div class="px-8 py-6 border-b border-black bg-white">
@@ -536,13 +631,13 @@
                     </div>
 
                     <!-- Message Input -->
-                    <div class="px-8 py-6 border-t border-black bg-gray-50">
+                    <div class="px-8 py-6 border-t-2 border-black bg-gray-50">
                         <div class="flex space-x-3">
                             <input
                                 type="text"
                                 id="messageInput"
                                 placeholder="Ask a question about your data..."
-                                class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 bg-white"
+                                class="flex-1 px-4 py-3 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 bg-white"
                                 disabled
                             >
                             <button
@@ -932,7 +1027,7 @@
                     if (authMessage) {
                         authMessage.textContent = 'Sign in successful!';
                         authMessage.classList.remove('hidden', 'text-red-600');
-                        authMessage.classList.add('text-green-600');
+                        authMessage.classList.add('text-pink-600');
                     }
 
                     // Close dropdown after successful signin
@@ -946,7 +1041,7 @@
                     console.error('Sign in error:', error);
                     if (authMessage) {
                         authMessage.textContent = error.message || 'Sign in failed';
-                        authMessage.classList.remove('hidden', 'text-green-600');
+                        authMessage.classList.remove('hidden', 'text-pink-600');
                         authMessage.classList.add('text-red-600');
                     }
                 }
@@ -974,13 +1069,13 @@
                     if (authMessage) {
                         authMessage.textContent = 'Sign up successful! Please check your email to confirm your account.';
                         authMessage.classList.remove('hidden', 'text-red-600');
-                        authMessage.classList.add('text-green-600');
+                        authMessage.classList.add('text-pink-600');
                     }
                 } catch (error) {
                     console.error('Sign up error:', error);
                     if (authMessage) {
                         authMessage.textContent = error.message || 'Sign up failed';
-                        authMessage.classList.remove('hidden', 'text-green-600');
+                        authMessage.classList.remove('hidden', 'text-pink-600');
                         authMessage.classList.add('text-red-600');
                     }
                 }
@@ -1008,7 +1103,7 @@
                     if (mobileAuthMessage) {
                         mobileAuthMessage.textContent = 'Sign in successful!';
                         mobileAuthMessage.classList.remove('hidden', 'text-red-600');
-                        mobileAuthMessage.classList.add('text-green-600');
+                        mobileAuthMessage.classList.add('text-pink-600');
                     }
 
                     // Close mobile menu after successful signin
@@ -1019,7 +1114,7 @@
                     console.error('Mobile sign in error:', error);
                     if (mobileAuthMessage) {
                         mobileAuthMessage.textContent = error.message || 'Sign in failed';
-                        mobileAuthMessage.classList.remove('hidden', 'text-green-600');
+                        mobileAuthMessage.classList.remove('hidden', 'text-pink-600');
                         mobileAuthMessage.classList.add('text-red-600');
                     }
                 }
@@ -1047,13 +1142,13 @@
                     if (mobileAuthMessage) {
                         mobileAuthMessage.textContent = 'Sign up successful! Please check your email to confirm your account.';
                         mobileAuthMessage.classList.remove('hidden', 'text-red-600');
-                        mobileAuthMessage.classList.add('text-green-600');
+                        mobileAuthMessage.classList.add('text-pink-600');
                     }
                 } catch (error) {
                     console.error('Mobile sign up error:', error);
                     if (mobileAuthMessage) {
                         mobileAuthMessage.textContent = error.message || 'Sign up failed';
-                        mobileAuthMessage.classList.remove('hidden', 'text-green-600');
+                        mobileAuthMessage.classList.remove('hidden', 'text-pink-600');
                         mobileAuthMessage.classList.add('text-red-600');
                     }
                 }
@@ -1280,9 +1375,9 @@
             const statusSpan = connectionStatus.querySelector('span');
             if (connected) {
                 statusSpan.textContent = 'Connected';
-                statusSpan.className = 'text-green-500';
+                statusSpan.className = 'text-pink-500';
                 connectBtn.textContent = 'Disconnect';
-                connectBtn.className = connectBtn.className.replace('bg-blue-600', 'bg-red-600').replace('hover:bg-blue-700', 'hover:bg-red-700');
+                connectBtn.className = connectBtn.className.replace('bg-pink-600', 'bg-red-600').replace('hover:bg-pink-700', 'hover:bg-pink-700');
                 messageInput.disabled = false;
                 sendBtn.disabled = false;
                 quickActionBtns.forEach(btn => btn.disabled = false);
@@ -1290,7 +1385,7 @@
                 statusSpan.textContent = 'Disconnected';
                 statusSpan.className = 'text-red-500';
                 connectBtn.textContent = 'Connect to API';
-                connectBtn.className = connectBtn.className.replace('bg-red-600', 'bg-blue-600').replace('hover:bg-red-700', 'hover:bg-blue-700');
+                connectBtn.className = connectBtn.className.replace('bg-red-600', 'bg-pink-600').replace('hover:bg-pink-700', 'hover:bg-pink-700');
                 messageInput.disabled = true;
                 sendBtn.disabled = true;
                 quickActionBtns.forEach(btn => btn.disabled = true);

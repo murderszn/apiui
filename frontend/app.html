@@ -74,10 +74,10 @@
                 <div class="inline-block relative">
                     <div class="text-4xl arcade-title text-white mb-4">api<span class="arcade-neon">UI</span></div>
                     <div class="flex justify-center space-x-1">
-                        <div class="w-3 h-3 bg-green-400 animate-pulse"></div>
-                        <div class="w-3 h-3 bg-blue-400 animate-pulse" style="animation-delay: 0.2s"></div>
-                        <div class="w-3 h-3 bg-green-400 animate-pulse" style="animation-delay: 0.4s"></div>
-                        <div class="w-3 h-3 bg-blue-400 animate-pulse" style="animation-delay: 0.6s"></div>
+                        <div class="w-3 h-3 bg-pink-400 animate-pulse"></div>
+                        <div class="w-3 h-3 bg-pink-400 animate-pulse" style="animation-delay: 0.2s"></div>
+                        <div class="w-3 h-3 bg-pink-400 animate-pulse" style="animation-delay: 0.4s"></div>
+                        <div class="w-3 h-3 bg-pink-400 animate-pulse" style="animation-delay: 0.6s"></div>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
 
             <!-- Pixel Loading Bar -->
             <div class="w-64 h-4 bg-gray-800 border-2 border-white mx-auto relative overflow-hidden">
-                <div id="loading-bar" class="h-full bg-gradient-to-r from-pink-500 to-blue-500 transition-all duration-1000 ease-out" style="width: 0%"></div>
+                <div id="loading-bar" class="h-full bg-gradient-to-r from-pink-500 to-pink-600 transition-all duration-1000 ease-out" style="width: 0%"></div>
             </div>
 
             <!-- Fun Loading Messages -->
@@ -161,25 +161,44 @@
     <style>
         /* Pixel-Inspired CSS Variables - Digital Future Theme */
         :root {
-            --pixel-green: #00FF00;  /* Vibrant Matrix-style green */
-            --pixel-green-subtle: #4CAF50;  /* More subtle green */
-            --pixel-blue: #2196F3;  /* Bright electric blue */
+            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
+            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
+            --pixel-pink-light: #F472B6;  /* Light pink */
+            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
+            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
             --pixel-black: #ffffff;  /* Inverted: white text */
             --pixel-white: #000000;  /* Inverted: black background */
             --pixel-gray-100: #0f172a;  /* Inverted: darkest gray */
             --pixel-gray-200: #1e293b;  /* Inverted: dark gray */
             --pixel-gray-300: #334155;  /* Inverted: medium dark gray */
-            --pixel-gray-400: #475569;  /* Inverted: lighter dark gray */
-            --pixel-gray-500: #64748b;  /* Inverted: medium gray */
-            --pixel-gray-600: #94a3b8;  /* Inverted: light gray */
-            --pixel-gray-700: #cbd5e1;  /* Inverted: lighter gray */
-            --pixel-gray-800: #e2e8f0;  /* Inverted: very light gray */
-            --pixel-gray-900: #f8fafc;  /* Inverted: lightest gray */
+        }
 
-            --pixel-border-radius: 4px;
-            --pixel-border-width: 2px;
-            --pixel-shadow: 2px 2px 0px rgba(255, 255, 255, 0.1);  /* Inverted shadow */
-            --pixel-shadow-hover: 4px 4px 0px rgba(255, 255, 255, 0.15);  /* Inverted shadow */
+        /* CTA Button with Layered Glow Effect */
+        .cta-glow {
+            position: relative;
+            background: var(--pixel-pink);
+            color: white;
+            box-shadow:
+                0 0 20px rgba(233, 30, 99, 0.6),
+                0 0 40px rgba(156, 39, 176, 0.4),
+                0 0 60px rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-glow:hover {
+            background: var(--pixel-pink-subtle);
+            box-shadow:
+                0 0 30px rgba(233, 30, 99, 0.8),
+                0 0 60px rgba(156, 39, 176, 0.6),
+                0 0 90px rgba(156, 39, 176, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cta-glow:active {
+            transform: translateY(0);
+            box-shadow:
+                0 0 15px rgba(233, 30, 99, 0.4),
+                0 0 30px rgba(156, 39, 176, 0.3);
         }
 
         /* Regular Cursor */
@@ -235,12 +254,12 @@
         /* Arcade Text Effects */
         .arcade-neon {
             text-shadow:
-                0 0 5px var(--pixel-green),
-                0 0 10px var(--pixel-green),
-                0 0 15px var(--pixel-green),
-                0 0 20px var(--pixel-green),
-                0 0 35px var(--pixel-green),
-                0 0 40px var(--pixel-green);
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                0 0 20px var(--pixel-pink),
+                0 0 35px var(--pixel-pink),
+                0 0 40px var(--pixel-pink);
             animation: neon-pulse 2s ease-in-out infinite alternate;
         }
 
@@ -252,7 +271,7 @@
         }
 
         .arcade-gradient {
-            background: linear-gradient(45deg, var(--pixel-green), var(--pixel-blue), var(--pixel-green));
+            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -267,24 +286,24 @@
             text-shadow:
                 2px 2px 0px var(--pixel-black),
                 4px 4px 0px var(--pixel-gray-800),
-                0 0 10px var(--pixel-green),
-                0 0 20px var(--pixel-green),
-                0 0 30px var(--pixel-green);
+                0 0 10px var(--pixel-pink),
+                0 0 20px var(--pixel-pink),
+                0 0 30px var(--pixel-pink);
             animation: arcade-glow 3s ease-in-out infinite alternate;
         }
 
         @keyframes neon-pulse {
             from { text-shadow:
-                0 0 5px var(--pixel-green),
-                0 0 10px var(--pixel-green),
-                0 0 15px var(--pixel-green);
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink);
             }
             to { text-shadow:
-                0 0 5px var(--pixel-green),
-                0 0 10px var(--pixel-green),
-                0 0 15px var(--pixel-green),
-                0 0 20px var(--pixel-green),
-                0 0 30px var(--pixel-green);
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                0 0 20px var(--pixel-pink),
+                0 0 30px var(--pixel-pink);
             }
         }
 
@@ -293,17 +312,17 @@
                 text-shadow:
                     2px 2px 0px var(--pixel-black),
                     4px 4px 0px var(--pixel-gray-800),
-                    0 0 10px var(--pixel-green),
-                    0 0 20px var(--pixel-green);
+                    0 0 10px var(--pixel-pink),
+                    0 0 20px var(--pixel-pink);
             }
             to {
                 text-shadow:
                     2px 2px 0px var(--pixel-black),
                     4px 4px 0px var(--pixel-gray-800),
-                    0 0 15px var(--pixel-green),
-                    0 0 25px var(--pixel-green),
-                    0 0 35px var(--pixel-green),
-                    0 0 40px var(--pixel-green);
+                    0 0 15px var(--pixel-pink),
+                    0 0 25px var(--pixel-pink),
+                    0 0 35px var(--pixel-pink),
+                    0 0 40px var(--pixel-pink);
             }
         }
 
@@ -363,19 +382,19 @@
         }
 
         .pixel-btn-primary:hover {
-            background: var(--pixel-green);
-            border-color: var(--pixel-green);
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
             color: var(--pixel-white);
         }
 
         .pixel-btn-secondary {
             background: var(--pixel-white);  /* Black background */
             color: var(--pixel-black);  /* White text */
-            border-color: var(--pixel-blue);
+            border-color: var(--pixel-pink-subtle);
         }
 
         .pixel-btn-secondary:hover {
-            background: var(--pixel-blue);
+            background: var(--pixel-pink-subtle);
             color: var(--pixel-white);
         }
 
@@ -415,7 +434,7 @@
 
         /* Pixel Focus States */
         a:focus, button:focus {
-            outline: 2px solid var(--pixel-blue);
+            outline: 2px solid var(--pixel-pink-subtle);
             outline-offset: 2px;
         }
 
@@ -433,7 +452,7 @@
             height: 20px;
             border: 2px solid var(--pixel-gray-300);
             border-radius: 0;
-            border-top-color: var(--pixel-green);
+            border-top-color: var(--pixel-pink);
             animation: pixel-spin 1s ease-in-out infinite;
         }
 
@@ -474,7 +493,7 @@
         }
 
         .back-to-top:hover {
-            background: var(--pixel-green);
+            background: var(--pixel-pink);
             transform: translateY(14px);
         }
 
@@ -877,8 +896,8 @@
         .text-sky-500,
         .text-emerald-500,
         .text-fuchsia-500,
-        .text-green-600,
-        .text-blue-500 {
+        .text-pink-600,
+        .text-pink-500 {
             color: #ffffff !important;
         }
 
@@ -1132,29 +1151,47 @@
     </style>
 </head>
 
-    <!-- Navigation Icons -->
-    <div class="fixed top-16 right-6 z-40 flex flex-col space-y-3">
-        <!-- Home Icon -->
-        <a href="index.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Back to Home">
-            <svg class="w-5 h-5 text-white group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-            </svg>
-        </a>
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="pixel-card bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
 
-        <!-- Docs Icon -->
-        <a href="docs.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="View Documentation">
-            <svg class="w-5 h-5 text-white group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
-        </a>
+                <!-- Dashboard -->
+                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
 
-        <!-- API Hub Icon -->
-        <a href="api-hub.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Browse API Hub">
-            <svg class="w-5 h-5 text-white group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                            </svg>
-        </a>
+                <!-- Docs -->
+                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+
+                <!-- API Hub -->
+                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </a>
+
+                <!-- Socket Chat -->
+                <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </a>
+            </div>
         </div>
+    </div>
 
     <!-- Breadcrumb Navigation -->
     <nav aria-label="Breadcrumb" class="bg-gray-50 border-b border-gray-200">
@@ -1187,7 +1224,7 @@
         <div class="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10 py-8 sm:py-16">
             <div class="text-center mb-16">
                 <span class="pixel-badge pixel-fade-in mb-8">
-                    <span class="text-green-400">Upload</span> · <span class="text-blue-400">Generate</span> · <span class="text-green-400">Ship</span>
+                    <span class="text-pink-400">Upload</span> · <span class="text-pink-400">Generate</span> · <span class="text-pink-400">Ship</span>
                 </span>
                 <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white max-w-4xl mx-auto mb-6 pixel-fade-in">
                     Build live APIs from spreadsheets in <span class="arcade-neon">seconds</span>
@@ -1266,7 +1303,7 @@
                     <input type="file" id="file-input" class="hidden" accept=".xlsx,.xls,.csv,.parquet,.json,.txt">
                     <label for="file-input" id="file-drop-area" class="pixel-card w-full p-16 flex flex-col items-center justify-center cursor-pointer hover:bg-white hover:bg-opacity-5 transition-all pixel-fade-in" style="animation-delay: 0.6s">
                         <div class="pixel-icon w-16 h-16 mb-6">
-                            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
                             </svg>
                         </div>
@@ -1274,7 +1311,7 @@
                             Drag & drop your CSV, XLSX, Parquet, or JSON file here
                         </p>
                         <p class="pixel-body text-white">Or click to browse and select a file</p>
-                        <p class="pixel-body text-xs text-gray-300 mt-4">💡 Try the demo: <a href="sample-data.csv" download class="pixel-body underline hover:text-green-300 transition-colors">Download sample-data.csv</a></p>
+                        <p class="pixel-body text-xs text-gray-300 mt-4">💡 Try the demo: <a href="sample-data.csv" download class="pixel-body underline hover:text-pink-300 transition-colors">Download sample-data.csv</a></p>
                     </label>
                 </div>
 
@@ -1282,7 +1319,7 @@
                 <div id="upload-success-message" class="hidden pixel-card p-4 mb-6 pixel-fade-in">
                     <div class="flex items-center">
                         <div class="pixel-icon w-10 h-10 mr-4">
-                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                         </div>
@@ -1314,7 +1351,7 @@
                     <div class="flex items-center justify-between pb-6 border-b-2 border-black mb-6">
                         <div class="flex items-center space-x-4">
                             <div class="pixel-icon w-12 h-12 flex-shrink-0">
-                                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
@@ -1332,7 +1369,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                         <div class="pixel-card p-6 text-center">
                             <div class="pixel-icon w-8 h-8 mx-auto mb-3">
-                                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-9 0V1m10 3V1m0 3l1 1v16a2 2 0 01-2 2H6a2 2 0 01-2-2V5l1-1z"></path>
                                 </svg>
                         </div>
@@ -1341,7 +1378,7 @@
                         </div>
                         <div class="pixel-card p-6 text-center">
                             <div class="pixel-icon w-8 h-8 mx-auto mb-3">
-                                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
@@ -1350,7 +1387,7 @@
                         </div>
                         <div class="pixel-card p-6 text-center">
                             <div class="pixel-icon w-8 h-8 mx-auto mb-3">
-                                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
                                 </svg>
                             </div>
@@ -1402,7 +1439,7 @@
                     <div id="file-info" class="flex items-center justify-between pb-6 border-b-2 border-black mb-8">
                         <div class="flex items-center space-x-4">
                             <div class="pixel-icon w-12 h-12 flex-shrink-0">
-                                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
@@ -1467,13 +1504,13 @@
                                             <div class="flex space-x-1">
                                                 <div class="w-3 h-3 bg-red-500 rounded-full"></div>
                                                 <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                                <div class="w-3 h-3 bg-pink-500 rounded-full"></div>
                                             </div>
                                             <span class="font-mono text-sm font-medium text-white">apiUI terminal</span>
                                             <div class="flex items-center space-x-2 text-xs text-white">
                                                 <span>•</span>
                                                 <span>Process Monitor</span>
-                                                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                                <div class="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></div>
                                             </div>
                                         </div>
                                         <button id="minimize-logs-btn" class="text-white hover:text-gray-200 transition-colors">
@@ -1483,9 +1520,9 @@
                                         </button>
                                     </div>
                                     <div class="bg-black px-6 py-3 border-b border-white border-opacity-20 flex-shrink-0">
-                                        <span class="text-green-400 font-mono text-sm">$ apiui generate --file sample-data.csv</span>
+                                        <span class="text-pink-400 font-mono text-sm">$ apiui generate --file sample-data.csv</span>
                                     </div>
-                                    <div id="logs-content" class="p-6 overflow-y-auto font-mono text-sm bg-black text-green-400 leading-relaxed" style="height: 450px; max-height: 450px;">
+                                    <div id="logs-content" class="p-6 overflow-y-auto font-mono text-sm bg-black text-pink-400 leading-relaxed" style="height: 450px; max-height: 450px;">
                                         <div class="text-gray-400 italic">Ready to process your file...</div>
                                     </div>
                                 </div>
@@ -1575,7 +1612,7 @@
                                     </div>
                                     <div class="p-4">
                                         <div id="sample-records-content" class="bg-black border border-white border-opacity-20 rounded-lg p-3 max-h-64 overflow-y-auto">
-                                            <div class="text-xs text-green-400 font-mono space-y-4">
+                                            <div class="text-xs text-pink-400 font-mono space-y-4">
                                                 <!-- Sample records will be populated here -->
                                             </div>
                                         </div>
@@ -1595,32 +1632,32 @@
         <section class="pixel-section bg-black mb-16">
             <div class="pixel-container max-w-6xl">
                 <div class="text-center mb-16">
-                    <h2 class="pixel-title text-4xl sm:text-5xl text-white mb-6 pixel-fade-in">My <span class="text-blue-400">APIs</span></h2>
+                    <h2 class="pixel-title text-4xl sm:text-5xl text-white mb-6 pixel-fade-in">My <span class="text-pink-400">APIs</span></h2>
                     <p class="pixel-body text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed pixel-fade-in" style="animation-delay: 0.2s">Manage and interact with your generated APIs</p>
 
                     <!-- Stats cards with pixelated design -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 pixel-fade-in" style="animation-delay: 0.4s">
                         <div class="pixel-card p-6 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-pink-500/20">
                             <div class="pixel-icon w-12 h-12 mx-auto mb-4">
-                                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
                             </div>
                             <div class="pixel-title text-2xl text-white font-bold" id="total-apis-count">0</div>
                             <div class="pixel-body text-sm text-slate-400">Total APIs</div>
                         </div>
-                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-blue-500/20">
+                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-pink-500/20">
                             <div class="pixel-icon w-12 h-12 mx-auto mb-4">
-                                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                             </div>
                             <div class="pixel-title text-2xl text-white font-bold" id="active-apis-count">0</div>
                             <div class="pixel-body text-sm text-slate-400">Active APIs</div>
                         </div>
-                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-pink-500/10 to-blue-500/10 border-pink-500/20">
+                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-pink-500/20">
                             <div class="pixel-icon w-12 h-12 mx-auto mb-4">
-                                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                                 </svg>
                             </div>
@@ -1698,34 +1735,34 @@
     <div class="pixel-accent-line"></div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t-2 border-black py-16">
+    <footer class="bg-black border-t-2 border-white py-16">
         <div class="pixel-container max-w-6xl">
             <div class="flex justify-between items-center mb-12">
                 <div class="flex flex-col items-start">
-                    <div class="pixel-title text-2xl text-black tracking-tight">
-                        api<span style="color: #3b82f6;">UI</span>
+                    <div class="pixel-title text-2xl text-white tracking-tight">
+                        api<span class="text-pink-500">UI</span>
                     </div>
-                    <span class="pixel-body text-gray-600 mt-1">an AURABLOX company</span>
+                    <span class="pixel-body text-gray-400 mt-1">an AURABLOX company</span>
                 </div>
 
                 <!-- Links Section -->
                 <div class="grid grid-cols-2 gap-12">
                     <div>
-                        <h4 class="pixel-subtitle text-black mb-4 text-sm uppercase tracking-wider">Product</h4>
+                        <h4 class="pixel-subtitle text-white mb-4 text-sm uppercase tracking-wider">Product</h4>
                         <ul class="space-y-3">
-                            <li><a href="index.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Home</a></li>
-                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Documentation</a></li>
-                            <li><a href="app.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Create API</a></li>
+                            <li><a href="index.html" class="pixel-body text-gray-300 hover:text-pink-500 transition-colors">Home</a></li>
+                            <li><a href="docs.html" class="pixel-body text-gray-300 hover:text-pink-500 transition-colors">Documentation</a></li>
+                            <li><a href="app.html" class="pixel-body text-gray-300 hover:text-pink-500 transition-colors">Create API</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="pixel-subtitle text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
+                        <h4 class="pixel-subtitle text-white mb-4 text-sm uppercase tracking-wider">Support</h4>
                         <ul class="space-y-3">
-                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Help Center</a></li>
+                            <li><a href="docs.html" class="pixel-body text-gray-300 hover:text-pink-500 transition-colors">Help Center</a></li>
                             <li>
                                 <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer"
-                                   class="pixel-body text-gray-700 hover:text-green-500 transition-colors inline-flex items-center gap-2"
+                                   class="pixel-body text-gray-300 hover:text-pink-500 transition-colors inline-flex items-center gap-2"
                                    aria-label="Follow us on X (formerly Twitter)">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -1739,9 +1776,9 @@
             </div>
 
             <!-- Bottom Section -->
-            <div class="border-t-2 border-black pt-8 mt-8">
+            <div class="border-t-2 border-white pt-8 mt-8">
                 <div class="flex justify-end">
-                    <p class="pixel-body text-gray-600">&copy; 2025 api<span style="color: #3b82f6;">UI</span> Inc. All rights reserved.</p>
+                    <p class="pixel-body text-gray-400">&copy; 2025 api<span class="text-pink-500">UI</span> Inc. All rights reserved.</p>
                 </div>
             </div>
         </div>
@@ -2104,7 +2141,7 @@
 
             switch (status) {
                 case 'connected':
-                    backendStatusIndicator.classList.add('bg-green-100', 'text-green-700');
+                    backendStatusIndicator.classList.add('bg-pink-100', 'text-pink-700');
                     break;
                 case 'error':
                     backendStatusIndicator.classList.add('bg-red-100', 'text-red-700');
@@ -2700,7 +2737,7 @@
             const row = document.createElement('div');
             row.className = 'bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg p-4 hover:bg-white hover:bg-opacity-10 transition-colors';
 
-            const statusColor = api.status === 'running' ? 'text-green-400' : 'text-yellow-400';
+            const statusColor = api.status === 'running' ? 'text-pink-400' : 'text-yellow-400';
             const statusIcon = api.status === 'running' ? '●' : '○';
 
             row.innerHTML = `
@@ -2802,10 +2839,10 @@
                 prefixColor = 'text-yellow-400';
                 styleClass = 'font-medium';
             } else if (level === 'info') {
-                prefixColor = 'text-blue-400';
+                prefixColor = 'text-pink-400';
                 styleClass = 'font-normal';
             } else if (level === 'success') {
-                prefixColor = 'text-green-400';
+                prefixColor = 'text-pink-400';
                 styleClass = 'font-bold';
             }
 
@@ -2861,7 +2898,7 @@
             // Create retry button
             const retryBtn = document.createElement('button');
             retryBtn.id = 'retry-generate-btn';
-            retryBtn.className = 'px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors ml-3';
+            retryBtn.className = 'px-6 py-2 bg-pink-600 text-white rounded-lg text-sm font-medium hover:bg-pink-700 transition-colors ml-3';
             retryBtn.innerHTML = '🔄 Retry Generation';
 
             // Add it next to the generate button
@@ -3791,7 +3828,7 @@
                                     <option value="DELETE">DELETE</option>
                                 </select>
                                 <input id="request-url" type="text" class="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600" value="${serverUrl}/data/">
-                                <button id="send-request" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium">
+                                <button id="send-request" class="cta-glow text-white px-6 py-2 rounded font-medium">
                                     Send
                                 </button>
                             </div>
@@ -3813,7 +3850,7 @@
 
                             <!-- Response content -->
                             <div class="flex-1 bg-gray-900 p-4 overflow-auto">
-                                <pre id="response-content" class="text-green-400 font-mono text-sm whitespace-pre-wrap"></pre>
+                                <pre id="response-content" class="text-pink-400 font-mono text-sm whitespace-pre-wrap"></pre>
                             </div>
                         </div>
                     </div>
@@ -3853,8 +3890,8 @@
                     requestUrl.value = serverUrl + endpoint;
 
                     // Update active state
-                    endpointItems.forEach(i => i.classList.remove('bg-blue-600'));
-                    item.classList.add('bg-blue-600');
+                    endpointItems.forEach(i => i.classList.remove('bg-pink-600'));
+                    item.classList.add('bg-pink-600');
                 });
             });
 
@@ -3882,7 +3919,7 @@
 
                     // Update status
                     responseStatus.textContent = `Status: ${response.status} ${response.statusText}`;
-                    responseStatus.className = response.ok ? 'text-green-400' : 'text-red-400';
+                    responseStatus.className = response.ok ? 'text-pink-400' : 'text-red-400';
 
                     responseTime.textContent = `Time: ${responseTime}ms`;
                     responseSize.textContent = `Size: ${responseSize} bytes`;

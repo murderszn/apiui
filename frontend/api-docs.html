@@ -23,25 +23,44 @@
     <style>
         /* Pixel-Inspired CSS Variables - Light Theme with Green Accents */
         :root {
-            --pixel-green: #00FF00;  /* Vibrant Matrix-style green */
-            --pixel-green-subtle: #4CAF50;  /* More subtle green */
-            --pixel-blue: #2196F3;  /* Bright electric blue */
+            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
+            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
+            --pixel-pink-light: #F472B6;  /* Light pink */
+            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
+            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
             --pixel-black: #000000;  /* Black text */
             --pixel-white: #ffffff;  /* White background */
             --pixel-gray-100: #f8fafc;  /* Lightest gray */
             --pixel-gray-200: #e2e8f0;  /* Very light gray */
             --pixel-gray-300: #cbd5e1;  /* Light gray */
-            --pixel-gray-400: #94a3b8;  /* Medium light gray */
-            --pixel-gray-500: #64748b;  /* Medium gray */
-            --pixel-gray-600: #475569;  /* Medium dark gray */
-            --pixel-gray-700: #334155;  /* Dark gray */
-            --pixel-gray-800: #1e293b;  /* Darker gray */
-            --pixel-gray-900: #0f172a;  /* Darkest gray */
+        }
 
-            --pixel-border-radius: 4px;
-            --pixel-border-width: 2px;
-            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);
+        /* CTA Button with Layered Glow Effect */
+        .cta-glow {
+            position: relative;
+            background: var(--pixel-pink);
+            color: white;
+            box-shadow:
+                0 0 20px rgba(233, 30, 99, 0.6),
+                0 0 40px rgba(156, 39, 176, 0.4),
+                0 0 60px rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-glow:hover {
+            background: var(--pixel-pink-subtle);
+            box-shadow:
+                0 0 30px rgba(233, 30, 99, 0.8),
+                0 0 60px rgba(156, 39, 176, 0.6),
+                0 0 90px rgba(156, 39, 176, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cta-glow:active {
+            transform: translateY(0);
+            box-shadow:
+                0 0 15px rgba(233, 30, 99, 0.4),
+                0 0 30px rgba(156, 39, 176, 0.3);
         }
 
         /* Regular Cursor for API Docs */
@@ -91,9 +110,9 @@
         /* Arcade Text Effects */
         .arcade-neon {
             text-shadow:
-                0 0 5px var(--pixel-green),
-                0 0 10px var(--pixel-green),
-                0 0 15px var(--pixel-green);
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink);
             animation: neon-pulse 2s ease-in-out infinite alternate;
         }
 
@@ -105,7 +124,7 @@
         }
 
         .arcade-gradient {
-            background: linear-gradient(45deg, var(--pixel-green), var(--pixel-blue), var(--pixel-green));
+            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -120,22 +139,22 @@
             text-shadow:
                 2px 2px 0px var(--pixel-gray-800),
                 4px 4px 0px var(--pixel-gray-600),
-                0 0 10px var(--pixel-green),
-                0 0 20px var(--pixel-green),
-                0 0 30px var(--pixel-green);
+                0 0 10px var(--pixel-pink),
+                0 0 20px var(--pixel-pink),
+                0 0 30px var(--pixel-pink);
             animation: arcade-glow 3s ease-in-out infinite alternate;
         }
 
         @keyframes neon-pulse {
             from { text-shadow:
-                0 0 5px var(--pixel-green),
-                0 0 10px var(--pixel-green);
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink);
             }
             to { text-shadow:
-                0 0 5px var(--pixel-green),
-                0 0 10px var(--pixel-green),
-                0 0 15px var(--pixel-green),
-                0 0 20px var(--pixel-green);
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                0 0 20px var(--pixel-pink);
             }
         }
 
@@ -144,16 +163,16 @@
                 text-shadow:
                     2px 2px 0px var(--pixel-gray-800),
                     4px 4px 0px var(--pixel-gray-600),
-                    0 0 10px var(--pixel-green),
-                    0 0 20px var(--pixel-green);
+                    0 0 10px var(--pixel-pink),
+                    0 0 20px var(--pixel-pink);
             }
             to {
                 text-shadow:
                     2px 2px 0px var(--pixel-gray-800),
                     4px 4px 0px var(--pixel-gray-600),
-                    0 0 15px var(--pixel-green),
-                    0 0 25px var(--pixel-green),
-                    0 0 35px var(--pixel-green);
+                    0 0 15px var(--pixel-pink),
+                    0 0 25px var(--pixel-pink),
+                    0 0 35px var(--pixel-pink);
             }
         }
 
@@ -165,7 +184,7 @@
         }
 
         .pixel-card:hover {
-            border-color: var(--pixel-blue-500);
+            border-color: var(--pixel-pink-subtle);
             box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15);
         }
 
@@ -197,8 +216,8 @@
         }
 
         .pixel-btn-primary:hover {
-            background: var(--pixel-green);
-            border-color: var(--pixel-green);
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
         }
 
         .pixel-btn-secondary {
@@ -209,7 +228,7 @@
 
         .pixel-btn-secondary:hover {
             background: var(--pixel-gray-100);
-            border-color: var(--pixel-blue-500);
+            border-color: var(--pixel-pink-subtle);
         }
 
         /* Pixel Badges */
@@ -302,8 +321,8 @@
 
         /* Code blocks - Pixel themed */
         .code-block {
-            background: var(--pixel-gray-900);
-            color: var(--pixel-white);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
             border: 2px solid var(--pixel-black);
             padding: 1rem;
             font-family: 'Monaco', 'Consolas', monospace;
@@ -324,10 +343,10 @@
             border: 1px solid var(--pixel-black);
         }
 
-        .method-badge.method-get { background: var(--pixel-blue); color: var(--pixel-white); }
-        .method-badge.method-post { background: var(--pixel-green); color: var(--pixel-white); }
-        .method-badge.method-put { background: var(--pixel-blue); color: var(--pixel-white); }
-        .method-badge.method-delete { background: var(--pixel-green); color: var(--pixel-white); }
+        .method-badge.method-get { background: var(--pixel-pink-subtle); color: var(--pixel-white); }
+        .method-badge.method-post { background: var(--pixel-pink); color: var(--pixel-white); }
+        .method-badge.method-put { background: var(--pixel-pink-subtle); color: var(--pixel-white); }
+        .method-badge.method-delete { background: var(--pixel-pink); color: var(--pixel-white); }
 
         /* Status indicators - Pixel themed */
         .status-online {
@@ -346,7 +365,7 @@
         }
 
         .status-indicator.status-live {
-            background: var(--pixel-green);
+            background: var(--pixel-pink);
             box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.3);
         }
 
@@ -547,15 +566,15 @@
     <header class="border-b-2 border-black bg-white">
         <nav aria-label="Primary navigation" class="pixel-container py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <a href="index.html" class="pixel-title text-xl sm:text-2xl text-black hover:text-green-500 transition-colors">api<span class="text-green-500">UI</span></a>
+                <a href="index.html" class="pixel-title text-xl sm:text-2xl text-black hover:text-pink-500 transition-colors">api<span class="text-pink-500">UI</span></a>
                 <span class="pixel-body text-gray-600">an AURABLOX company</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html#features" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Features</a>
-                <a href="index.html#pricing" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Pricing</a>
-                <a href="app.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">App</a>
-                <a href="docs.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Docs</a>
-                <a href="api-hub.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">API Hub</a>
+                <a href="index.html#features" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Features</a>
+                <a href="index.html#pricing" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Pricing</a>
+                <a href="app.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">App</a>
+                <a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Docs</a>
+                <a href="api-hub.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">API Hub</a>
                 <button id="delete-api-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-3 py-1.5 pixel-flicker-on-hover">
                     Delete API
                 </button>
@@ -563,28 +582,46 @@
         </nav>
     </header>
 
-    <!-- Navigation Icons -->
-    <div class="fixed top-16 right-6 z-40 flex flex-col space-y-3">
-        <!-- Home Icon -->
-        <a href="index.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Back to Home">
-            <svg class="w-5 h-5 text-white group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-            </svg>
-        </a>
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="pixel-card bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
 
-        <!-- Docs Icon -->
-        <a href="docs.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="View Documentation">
-            <svg class="w-5 h-5 text-white group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-            </svg>
-        </a>
+                <!-- Dashboard -->
+                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
 
-        <!-- API Hub Icon -->
-        <a href="api-hub.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Browse API Hub">
-            <svg class="w-5 h-5 text-white group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-            </svg>
-        </a>
+                <!-- Docs -->
+                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+
+                <!-- API Hub -->
+                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </a>
+
+                <!-- Socket Chat -->
+                <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
     </div>
 
     <!-- Main Content -->
@@ -676,7 +713,7 @@
                         <span class="pixel-badge">Live</span>
                     </div>
                     <div>
-                        <p class="pixel-title text-2xl text-green-400">99.9%</p>
+                        <p class="pixel-title text-2xl text-pink-400">99.9%</p>
                         <p class="pixel-body text-sm text-gray-600">Uptime (30 days)</p>
                     </div>
                     <div class="mt-4">
@@ -695,7 +732,7 @@
                         <span class="pixel-badge">Avg</span>
                     </div>
                     <div>
-                        <p class="pixel-title text-2xl text-blue-500">127ms</p>
+                        <p class="pixel-title text-2xl text-pink-500">127ms</p>
                         <p class="pixel-body text-sm text-gray-600">Avg Response Time</p>
                     </div>
                     <div class="mt-4">
@@ -714,7 +751,7 @@
                         <span class="pixel-badge">24h</span>
                     </div>
                     <div>
-                        <p class="pixel-title text-2xl text-green-400">2.4K</p>
+                        <p class="pixel-title text-2xl text-pink-400">2.4K</p>
                         <p class="pixel-body text-sm text-gray-600">Total Requests</p>
                     </div>
                     <div class="mt-4">
@@ -733,7 +770,7 @@
                         <span class="pixel-badge">Size</span>
                     </div>
                     <div>
-                        <p class="pixel-title text-2xl text-blue-500">1.2GB</p>
+                        <p class="pixel-title text-2xl text-pink-500">1.2GB</p>
                         <p class="pixel-body text-sm text-gray-600">Data Processed</p>
                     </div>
                     <div class="mt-4">
@@ -747,7 +784,7 @@
                 <!-- Availability Chart -->
                 <div class="pixel-card p-6 pixel-fade-in delay-2">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="pixel-subtitle text-xl text-green-400">API Availability</h3>
+                        <h3 class="pixel-subtitle text-xl text-pink-400">API Availability</h3>
                         <div class="flex items-center space-x-2">
                             <div class="status-indicator status-live"></div>
                             <span class="pixel-body text-sm text-gray-600">99.9% uptime</span>
@@ -761,7 +798,7 @@
                 <!-- Response Time Chart -->
                 <div class="pixel-card p-6 pixel-fade-in delay-3">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="pixel-subtitle text-xl text-blue-500">Response Time Trends</h3>
+                        <h3 class="pixel-subtitle text-xl text-pink-500">Response Time Trends</h3>
                         <div class="flex items-center space-x-2">
                             <div class="status-indicator status-live"></div>
                             <span class="pixel-body text-sm text-gray-600">Last 24 hours</span>
@@ -776,7 +813,7 @@
             <!-- Sample Data Section -->
             <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-green-400">Sample Data Preview</h3>
+                    <h3 class="pixel-subtitle text-xl text-pink-400">Sample Data Preview</h3>
                     <button id="view-raw-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-4 py-2 pixel-flicker-on-hover">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
@@ -805,7 +842,7 @@
             <!-- API Endpoints Section -->
             <div class="pixel-card p-6 mb-8 pixel-slide-in-right">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-blue-500">API Endpoints</h3>
+                    <h3 class="pixel-subtitle text-xl text-pink-500">API Endpoints</h3>
                     <div class="flex items-center space-x-2">
                         <div class="status-indicator status-live"></div>
                         <span class="pixel-body text-sm text-gray-600">Available endpoints</span>
@@ -824,10 +861,10 @@
             <!-- Code Examples Section -->
             <div class="pixel-card p-6 mb-8 pixel-fade-in delay-1">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-green-400">Code Examples</h3>
+                    <h3 class="pixel-subtitle text-xl text-pink-400">Code Examples</h3>
                     <div class="flex items-center space-x-2">
                         <div class="status-indicator status-live"></div>
-                        <span class="pixel-body text-sm text-gray-600">Integration examples</span>
+                        <span class="pixel-body text-sm text-black">Integration examples</span>
                     </div>
                 </div>
 
@@ -900,7 +937,7 @@ data = response.json()">
             <!-- Interactive Testing Section -->
             <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-blue-500">Interactive API Testing</h3>
+                    <h3 class="pixel-subtitle text-xl text-pink-500">Interactive API Testing</h3>
                     <div class="flex items-center space-x-2">
                         <div class="status-indicator status-live"></div>
                         <span class="pixel-body text-sm text-gray-600">Ready to test</span>
@@ -966,15 +1003,15 @@ data = response.json()">
             <!-- Socket.io Real-time API Section -->
             <div class="pixel-card p-6 mb-8 pixel-slide-in-right">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-green-400">Socket.io Real-time API</h3>
+                    <h3 class="pixel-subtitle text-xl text-pink-400">Socket.io Real-time API</h3>
                     <div class="flex items-center space-x-2">
                         <div class="status-indicator status-live"></div>
-                        <span class="pixel-body text-sm text-gray-600">Real-time enabled</span>
+                        <span class="pixel-body text-sm text-black">Real-time enabled</span>
                     </div>
                 </div>
 
                 <div class="mb-6">
-                    <p class="pixel-body text-gray-700 mb-4">
+                    <p class="pixel-body text-black mb-4">
                         Connect to your APIs using Socket.io for real-time, chat-based interactions.
                         Ask natural language questions about your data and receive instant responses.
                     </p>
@@ -1310,7 +1347,7 @@ sio.wait()
 
                         <div class="flex items-center justify-between text-sm text-gray-500">
                             <span>ID: ${apiId?.slice(0, 8)}</span>
-                            <span class="text-blue-600 font-medium">View Docs →</span>
+                            <span class="text-pink-600 font-medium">View Docs →</span>
                         </div>
                     </div>
                 `;
@@ -2034,12 +2071,12 @@ data = response.json()`;
                             </svg>
                             Copied!
                         `;
-                        button.classList.add('text-green-600', 'border-green-300');
+                        button.classList.add('text-pink-600', 'border-pink-300');
                         button.classList.remove('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
 
                         setTimeout(() => {
                             button.innerHTML = originalText;
-                            button.classList.remove('text-green-600', 'border-green-300');
+                            button.classList.remove('text-pink-600', 'border-pink-300');
                             button.classList.add('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
                         }, 2000);
                     } catch (error) {

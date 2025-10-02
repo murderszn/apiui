@@ -64,24 +64,42 @@
     <style>
         /* Pixel-Inspired CSS Variables */
         :root {
-            --pixel-pink: #ec4899;
-            --pixel-blue: #3b82f6;
+            --pixel-pink: #E91E63;
+            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
+            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
             --pixel-black: #000000;
             --pixel-white: #ffffff;
             --pixel-gray-100: #f8fafc;
             --pixel-gray-200: #e2e8f0;
             --pixel-gray-300: #cbd5e1;
-            --pixel-gray-400: #94a3b8;
-            --pixel-gray-500: #64748b;
-            --pixel-gray-600: #475569;
-            --pixel-gray-700: #334155;
-            --pixel-gray-800: #1e293b;
-            --pixel-gray-900: #0f172a;
+        }
 
-            --pixel-border-radius: 4px;
-            --pixel-border-width: 2px;
-            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);
+        /* CTA Button with Layered Glow Effect */
+        .cta-glow {
+            position: relative;
+            background: var(--pixel-pink);
+            color: white;
+            box-shadow:
+                0 0 20px rgba(233, 30, 99, 0.6),
+                0 0 40px rgba(156, 39, 176, 0.4),
+                0 0 60px rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-glow:hover {
+            background: var(--pixel-pink-subtle);
+            box-shadow:
+                0 0 30px rgba(233, 30, 99, 0.8),
+                0 0 60px rgba(156, 39, 176, 0.6),
+                0 0 90px rgba(156, 39, 176, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cta-glow:active {
+            transform: translateY(0);
+            box-shadow:
+                0 0 15px rgba(233, 30, 99, 0.4),
+                0 0 30px rgba(156, 39, 176, 0.3);
         }
 
         /* Regular Cursor */
@@ -226,11 +244,11 @@
         .pixel-btn-secondary {
             background: var(--pixel-white);
             color: var(--pixel-black);
-            border-color: var(--pixel-blue);
+            border-color: var(--pixel-pink);
         }
 
         .pixel-btn-secondary:hover {
-            background: var(--pixel-blue);
+            background: var(--pixel-pink);
             color: var(--pixel-white);
         }
 
@@ -330,13 +348,13 @@
         .pricing-free {
             background: var(--pixel-gray-100);
             color: var(--pixel-gray-700);
-            border: var(--pixel-border-width) solid var(--pixel-green, #10b981);
+            border: var(--pixel-border-width) solid var(--pixel-pink);
         }
 
         .pricing-paid {
             background: var(--pixel-gray-100);
             color: var(--pixel-gray-700);
-            border: var(--pixel-border-width) solid var(--pixel-blue);
+            border: var(--pixel-border-width) solid var(--pixel-pink);
         }
 
         .pricing-enterprise {
@@ -377,7 +395,7 @@
 
         /* Pixel Focus States */
         a:focus, button:focus {
-            outline: 2px solid var(--pixel-blue);
+            outline: 2px solid var(--pixel-pink);
             outline-offset: 2px;
         }
 
@@ -413,11 +431,11 @@
         .hero-section-hub::after {
             bottom: -120px;
             right: -70px;
-            background: var(--pixel-blue);
+            background: var(--pixel-pink);
         }
 
         .hero-gradient-text {
-            color: var(--pixel-blue);
+            color: var(--pixel-pink);
             font-family: 'Pixelify Sans', monospace;
             font-weight: 700;
         }
@@ -575,28 +593,46 @@
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <!-- Navigation Icons -->
-    <div class="fixed top-24 right-6 z-40 flex flex-col space-y-3">
-        <!-- Home Icon -->
-        <a href="index.html" class="pixel-card p-3 hover:bg-gray-100 hover:bg-opacity-80 transition-all pixel-flicker-on-hover group" title="Back to Home">
-            <svg class="w-5 h-5 text-black group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-            </svg>
-        </a>
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="pixel-card bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
 
-        <!-- Docs Icon -->
-        <a href="docs.html" class="pixel-card p-3 hover:bg-gray-100 hover:bg-opacity-80 transition-all pixel-flicker-on-hover group" title="View Documentation">
-            <svg class="w-5 h-5 text-black group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-            </svg>
-        </a>
+                <!-- Dashboard -->
+                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
 
-        <!-- API Hub Icon -->
-        <a href="api-hub.html" class="pixel-card p-3 hover:bg-gray-100 hover:bg-opacity-80 transition-all pixel-flicker-on-hover group" title="Browse API Hub">
-            <svg class="w-5 h-5 text-black group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-            </svg>
-        </a>
+                <!-- Docs -->
+                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+
+                <!-- API Hub -->
+                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </a>
+
+                <!-- Socket Chat -->
+                <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
     </div>
     <!-- Header -->
 
@@ -671,7 +707,7 @@
                 <div class="category-section pixel-slide-in-left">
                     <div class="flex items-center mb-8">
                         <div class="pixel-icon w-10 h-10 mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                             </svg>
                         </div>
@@ -685,7 +721,7 @@
                         <div class="api-card p-8 pixel-fade-in" data-category="ml-ai">
                             <div class="flex justify-between items-start mb-6">
                                 <div class="pixel-icon w-12 h-12">
-                                    <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                                     </svg>
                                 </div>
@@ -1626,7 +1662,7 @@
                     <div class="flex justify-between items-center mb-12">
                         <div class="flex flex-col items-start">
                             <div class="pixel-title text-2xl text-black tracking-tight">
-                                api<span class="text-blue-500">UI</span>
+                                api<span class="text-pink-500">UI</span>
                             </div>
                             <span class="pixel-body text-gray-600 mt-1">an AURABLOX company</span>
                         </div>
@@ -1664,7 +1700,7 @@
                     <!-- Bottom Section -->
                     <div class="border-t-2 border-black pt-8 mt-8">
                         <div class="flex justify-end">
-                            <p class="pixel-body text-gray-600">&copy; 2025 api<span class="text-blue-500">UI</span> Inc. All rights reserved.</p>
+                            <p class="pixel-body text-gray-600">&copy; 2025 api<span class="text-pink-500">UI</span> Inc. All rights reserved.</p>
                         </div>
                     </div>
                 </div>
@@ -2057,7 +2093,7 @@ if (emailSigninForm) {
         const email = document.getElementById('signin-email').value;
         const password = document.getElementById('signin-password').value;
 
-        showAuthMessage('Signing in...', 'text-blue-600');
+        showAuthMessage('Signing in...', 'text-pink-600');
 
         try {
             const { data, error } = await supabase.auth.signInWithPassword({
@@ -2068,7 +2104,7 @@ if (emailSigninForm) {
             if (error) {
                 showAuthMessage(error.message, 'text-red-600');
             } else {
-                showAuthMessage('Signed in successfully!', 'text-green-600');
+                showAuthMessage('Signed in successfully!', 'text-pink-600');
             }
         } catch (error) {
             showAuthMessage('An error occurred during sign in', 'text-red-600');
@@ -2082,7 +2118,7 @@ if (emailSignupForm) {
         const email = document.getElementById('signup-email').value;
         const password = document.getElementById('signup-password').value;
 
-        showAuthMessage('Creating account...', 'text-blue-600');
+        showAuthMessage('Creating account...', 'text-pink-600');
 
         try {
             const { data, error } = await supabase.auth.signUp({
@@ -2093,7 +2129,7 @@ if (emailSignupForm) {
             if (error) {
                 showAuthMessage(error.message, 'text-red-600');
             } else {
-                showAuthMessage('Account created! Please check your email to verify.', 'text-green-600');
+                showAuthMessage('Account created! Please check your email to verify.', 'text-pink-600');
             }
         } catch (error) {
             showAuthMessage('An error occurred during sign up', 'text-red-600');

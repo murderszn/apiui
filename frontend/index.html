@@ -157,25 +157,44 @@
     <style>
         /* Pixel-Inspired CSS Variables */
         :root {
-            --pixel-green: #00FF00;  /* Vibrant Matrix-style green */
-            --pixel-green-subtle: #4CAF50;  /* More subtle green */
-            --pixel-blue: #2196F3;  /* Bright electric blue */
+            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
+            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
+            --pixel-pink-light: #F472B6;  /* Light pink */
+            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
+            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
             --pixel-black: #000000;  /* Black text */
             --pixel-white: #ffffff;  /* White background */
             --pixel-gray-100: #f8fafc;
             --pixel-gray-200: #e2e8f0;
             --pixel-gray-300: #cbd5e1;
-            --pixel-gray-400: #94a3b8;
-            --pixel-gray-500: #64748b;
-            --pixel-gray-600: #475569;
-            --pixel-gray-700: #334155;
-            --pixel-gray-800: #1e293b;
-            --pixel-gray-900: #0f172a;
+        }
 
-            --pixel-border-radius: 4px;
-            --pixel-border-width: 2px;
-            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);
+        /* CTA Button with Layered Glow Effect */
+        .cta-glow {
+            position: relative;
+            background: var(--pixel-pink);
+            color: white;
+            box-shadow:
+                0 0 20px rgba(233, 30, 99, 0.6),
+                0 0 40px rgba(156, 39, 176, 0.4),
+                0 0 60px rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-glow:hover {
+            background: var(--pixel-pink-subtle);
+            box-shadow:
+                0 0 30px rgba(233, 30, 99, 0.8),
+                0 0 60px rgba(156, 39, 176, 0.6),
+                0 0 90px rgba(156, 39, 176, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cta-glow:active {
+            transform: translateY(0);
+            box-shadow:
+                0 0 15px rgba(233, 30, 99, 0.4),
+                0 0 30px rgba(156, 39, 176, 0.3);
         }
 
         /* Regular Cursor */
@@ -231,9 +250,9 @@
         /* Arcade Text Effects */
         .arcade-neon {
             text-shadow:
-                0 0 5px var(--pixel-green),
-                0 0 10px var(--pixel-green),
-                0 0 15px var(--pixel-green);
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink);
             animation: neon-pulse 2s ease-in-out infinite alternate;
         }
 
@@ -245,7 +264,7 @@
         }
 
         .arcade-gradient {
-            background: linear-gradient(45deg, var(--pixel-green), var(--pixel-blue), var(--pixel-green));
+            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -259,19 +278,19 @@
             text-transform: uppercase;
             text-shadow:
                 2px 2px 0px var(--pixel-gray-600),
-                0 0 8px var(--pixel-green);
+                0 0 8px var(--pixel-pink);
         }
 
         @keyframes neon-pulse {
             from { text-shadow:
-                0 0 5px var(--pixel-green),
-                0 0 10px var(--pixel-green);
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink);
             }
             to { text-shadow:
-                0 0 5px var(--pixel-green),
-                0 0 10px var(--pixel-green),
-                0 0 15px var(--pixel-green),
-                0 0 20px var(--pixel-green);
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                0 0 20px var(--pixel-pink);
             }
         }
 
@@ -280,16 +299,16 @@
                 text-shadow:
                     2px 2px 0px var(--pixel-gray-800),
                     4px 4px 0px var(--pixel-gray-600),
-                    0 0 10px var(--pixel-green),
-                    0 0 20px var(--pixel-green);
+                    0 0 10px var(--pixel-pink),
+                    0 0 20px var(--pixel-pink);
             }
             to {
                 text-shadow:
                     2px 2px 0px var(--pixel-gray-800),
                     4px 4px 0px var(--pixel-gray-600),
-                    0 0 15px var(--pixel-green),
-                    0 0 25px var(--pixel-green),
-                    0 0 35px var(--pixel-green);
+                    0 0 15px var(--pixel-pink),
+                    0 0 25px var(--pixel-pink),
+                    0 0 35px var(--pixel-pink);
             }
         }
 
@@ -382,19 +401,19 @@
         }
 
         .pixel-btn-primary:hover {
-            background: var(--pixel-green);
-            border-color: var(--pixel-green);
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
             color: var(--pixel-white);
         }
 
         .pixel-btn-secondary {
             background: var(--pixel-white);
             color: var(--pixel-black);
-            border-color: var(--pixel-blue);
+            border-color: var(--pixel-pink-subtle);
         }
 
         .pixel-btn-secondary:hover {
-            background: var(--pixel-blue);
+            background: var(--pixel-pink-subtle);
             color: var(--pixel-white);
         }
 
@@ -458,7 +477,7 @@
             transform: translateX(-50%);
             width: 8px;
             height: 4px;
-            background: var(--pixel-green);
+            background: var(--pixel-pink);
         }
 
         /* Pixel Badge */
@@ -511,7 +530,7 @@
 
         /* Pixel Focus States */
         a:focus, button:focus {
-            outline: 2px solid var(--pixel-blue);
+            outline: 2px solid var(--pixel-pink-subtle);
             outline-offset: 2px;
         }
 
@@ -527,7 +546,7 @@
         }
 
         .hero-gradient-text {
-            background: linear-gradient(45deg, var(--pixel-green), var(--pixel-blue), var(--pixel-green));
+            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -574,7 +593,7 @@
         }
 
         .back-to-top:hover {
-            background: var(--pixel-green);
+            background: var(--pixel-pink);
             transform: translateY(14px);
         }
 
@@ -756,20 +775,62 @@
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
+
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="pixel-card bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+
+                <!-- Dashboard -->
+                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
+
+                <!-- Docs -->
+                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+
+                <!-- API Hub -->
+                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </a>
+
+                <!-- Socket Chat -->
+                <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
     <!-- Pixel Loading Screen -->
 
     <!-- Header -->
     <header class="border-b-2 border-black bg-white">
         <nav aria-label="Primary navigation" class="pixel-container py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <a href="index.html" class="text-xl sm:text-2xl pixel-title text-black hover:text-green-500 transition-colors">api<span class="text-green-500">UI</span></a>
+                <a href="index.html" class="text-xl sm:text-2xl pixel-title text-black hover:text-pink-500 transition-colors">api<span class="text-pink-500">UI</span></a>
                 <span class="pixel-body text-gray-600">an AURABLOX company</span>
             </div>
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#features" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Features</a>
-                <a href="#pricing" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Pricing</a>
-                <a href="app.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">App</a>
+                <a href="#features" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Features</a>
+                <a href="#pricing" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Pricing</a>
+                <a href="app.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">App</a>
 
     <!-- Sign In Dropdown -->
     <div class="relative">
@@ -791,18 +852,18 @@
                     <form id="email-signin-form" class="space-y-3">
                         <div>
                             <input type="email" id="signin-email" placeholder="Email address" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
                         </div>
                         <div>
                             <input type="password" id="signin-password" placeholder="Password" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
                         </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                        <button type="submit" class="w-full cta-glow text-white text-sm font-medium py-2 px-4 rounded-md">
                             Sign In
                         </button>
                     </form>
                     <div class="mt-3 text-center">
-                        <button id="show-signup" class="text-sm text-blue-600 hover:text-blue-800">Need an account? Sign up</button>
+                        <button id="show-signup" class="text-sm text-pink-600 hover:text-pink-800">Need an account? Sign up</button>
                     </div>
                 </div>
 
@@ -811,18 +872,18 @@
                     <form id="email-signup-form" class="space-y-3">
                         <div>
                             <input type="email" id="signup-email" placeholder="Email address" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
                         </div>
                         <div>
                             <input type="password" id="signup-password" placeholder="Password" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
                         </div>
-                        <button type="submit" class="w-full bg-green-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-green-700 transition-colors">
+                        <button type="submit" class="w-full cta-glow text-white text-sm font-medium py-2 px-4 rounded-md">
                             Sign Up
                         </button>
                     </form>
                     <div class="mt-3 text-center">
-                        <button id="show-signin" class="text-sm text-blue-600 hover:text-blue-800">Already have an account? Sign in</button>
+                        <button id="show-signin" class="text-sm text-pink-600 hover:text-pink-800">Already have an account? Sign in</button>
                     </div>
                 </div>
 
@@ -840,7 +901,7 @@
                     </div>
                 </div>
                 <div class="p-3 space-y-2">
-                    <a id="signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                    <a id="signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-pink-600 hover:text-pink-700 transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
                         </svg>
@@ -887,18 +948,18 @@
                                 <form id="mobile-email-signin-form" class="space-y-3">
                                     <div>
                                         <input type="email" id="mobile-signin-email" placeholder="Email address" required
-                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
                                     </div>
                                     <div>
                                         <input type="password" id="mobile-signin-password" placeholder="Password" required
-                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
                                     </div>
-                                    <button type="submit" class="w-full bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                                    <button type="submit" class="w-full cta-glow text-white text-sm font-medium py-2 px-4 rounded-md">
                                         Sign In
                                     </button>
                                 </form>
                                 <div class="mt-3 text-center">
-                                    <button id="mobile-show-signup" class="text-sm text-blue-600 hover:text-blue-800">Need an account? Sign up</button>
+                                    <button id="mobile-show-signup" class="text-sm text-pink-600 hover:text-pink-800">Need an account? Sign up</button>
                                 </div>
                             </div>
 
@@ -907,18 +968,18 @@
                                 <form id="mobile-email-signup-form" class="space-y-3">
                                     <div>
                                         <input type="email" id="mobile-signup-email" placeholder="Email address" required
-                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
                                     </div>
                                     <div>
                                         <input type="password" id="mobile-signup-password" placeholder="Password" required
-                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
                                     </div>
-                                    <button type="submit" class="w-full bg-green-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-green-700 transition-colors">
+                                    <button type="submit" class="w-full cta-glow text-white text-sm font-medium py-2 px-4 rounded-md">
                                         Sign Up
                                     </button>
                                 </form>
                                 <div class="mt-3 text-center">
-                                    <button id="mobile-show-signin" class="text-sm text-blue-600 hover:text-blue-800">Already have an account? Sign in</button>
+                                    <button id="mobile-show-signin" class="text-sm text-pink-600 hover:text-pink-800">Already have an account? Sign in</button>
                                 </div>
                             </div>
 
@@ -933,7 +994,7 @@
                                     <p id="mobile-signedin-email" class="text-xs text-gray-600"></p>
                                 </div>
                             </div>
-                            <a id="mobile-signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700">
+                            <a id="mobile-signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center gap-2 text-sm font-medium text-pink-600 hover:text-pink-700">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
                                 </svg>
@@ -954,10 +1015,10 @@
     <section class="hero-section bg-gradient-to-b from-white via-gray-50/30 to-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
         <!-- Subtle geometric pattern -->
         <div class="absolute inset-0 opacity-[0.02]">
-            <div class="absolute top-20 left-10 w-96 h-96 border border-green-500/20 rounded-full"></div>
-            <div class="absolute top-40 right-20 w-64 h-64 border border-blue-600/20 rounded-full"></div>
-            <div class="absolute bottom-32 left-1/4 w-48 h-48 border border-green-500/20 rounded-full"></div>
-            <div class="absolute bottom-20 right-1/3 w-32 h-32 border border-blue-600/20 rounded-full"></div>
+            <div class="absolute top-20 left-10 w-96 h-96 border border-pink-500/20 rounded-full"></div>
+            <div class="absolute top-40 right-20 w-64 h-64 border border-pink-600/20 rounded-full"></div>
+            <div class="absolute bottom-32 left-1/4 w-48 h-48 border border-pink-500/20 rounded-full"></div>
+            <div class="absolute bottom-20 right-1/3 w-32 h-32 border border-pink-600/20 rounded-full"></div>
         </div>
 
         <div class="pixel-container max-w-6xl text-center relative z-10">
@@ -974,7 +1035,7 @@
                 <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
                     Upload CSV, Excel, or Parquet files and get instant REST APIs with
                     <span class="font-semibold text-gray-900">authentication, filtering, and analytics</span>—
-                    <span class="text-green-500 font-medium">no coding required.</span>
+                    <span class="text-pink-500 font-medium">no coding required.</span>
                 </p>
             </div>
 
@@ -991,7 +1052,7 @@
             <!-- Pixel Trust Indicators -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto pixel-fade-in" style="animation-delay: 0.6s">
                 <div class="pixel-card p-6 text-center">
-                    <div class="pixel-icon w-10 h-10 flex items-center justify-center mb-6 mx-auto bg-green-500 text-white">
+                    <div class="pixel-icon w-10 h-10 flex items-center justify-center mb-6 mx-auto bg-pink-500 text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
@@ -1001,7 +1062,7 @@
                 </div>
 
                 <div class="pixel-card p-6 text-center">
-                    <div class="pixel-icon w-10 h-10 flex items-center justify-center mb-6 mx-auto bg-blue-600 text-white">
+                    <div class="pixel-icon w-10 h-10 flex items-center justify-center mb-6 mx-auto bg-pink-600 text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
@@ -1011,7 +1072,7 @@
                 </div>
 
                 <div class="pixel-card p-6 text-center">
-                    <div class="pixel-icon w-10 h-10 flex items-center justify-center mb-6 mx-auto bg-green-500 text-white">
+                    <div class="pixel-icon w-10 h-10 flex items-center justify-center mb-6 mx-auto bg-pink-500 text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
@@ -1040,7 +1101,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="pixel-card p-8 pixel-slide-in-left h-full">
                     <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
                         </svg>
                     </div>
@@ -1052,7 +1113,7 @@
 
                 <div class="pixel-card p-8 pixel-fade-in h-full" style="animation-delay: 0.2s">
                     <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
@@ -1064,7 +1125,7 @@
 
                 <div class="pixel-card p-8 pixel-slide-in-right h-full">
                     <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
@@ -1076,7 +1137,7 @@
 
                 <div class="pixel-card p-8 pixel-slide-in-left h-full" style="animation-delay: 0.1s">
                     <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
                     </div>
@@ -1088,7 +1149,7 @@
 
                 <div class="pixel-card p-8 pixel-fade-in h-full" style="animation-delay: 0.3s">
                     <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
                     </div>
@@ -1100,7 +1161,7 @@
 
                 <div class="pixel-card p-8 pixel-slide-in-right h-full" style="animation-delay: 0.1s">
                     <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                         </svg>
                     </div>
@@ -1121,13 +1182,13 @@
                 <div class="text-center mb-16 pixel-fade-in">
                     <h2 class="pixel-title text-3xl sm:text-4xl text-black mb-6">How It Works</h2>
                     <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        Three simple steps to turn your data into a <span class="font-semibold text-black">production-ready</span> <span class="text-green-500">API</span>
+                        Three simple steps to turn your data into a <span class="font-semibold text-black">production-ready</span> <span class="text-pink-500">API</span>
                     </p>
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="pixel-card p-8 text-center pixel-slide-in-left h-full">
-                        <div class="pixel-step w-16 h-16 bg-green-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
+                        <div class="pixel-step w-16 h-16 bg-pink-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
                             <span class="pixel-title text-2xl">1</span>
                         </div>
                         <h3 class="pixel-subtitle text-xl text-black mb-4">Upload Your Data</h3>
@@ -1137,7 +1198,7 @@
                     </div>
 
                     <div class="pixel-card p-8 text-center pixel-fade-in h-full" style="animation-delay: 0.2s">
-                        <div class="pixel-step w-16 h-16 bg-blue-600 text-white rounded-none flex items-center justify-center mx-auto mb-6">
+                        <div class="pixel-step w-16 h-16 bg-pink-600 text-white rounded-none flex items-center justify-center mx-auto mb-6">
                             <span class="pixel-title text-2xl">2</span>
                         </div>
                         <h3 class="pixel-subtitle text-xl text-black mb-4">We Build Your API</h3>
@@ -1147,7 +1208,7 @@
                     </div>
 
                     <div class="pixel-card p-8 text-center pixel-slide-in-right h-full">
-                        <div class="pixel-step w-16 h-16 bg-green-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
+                        <div class="pixel-step w-16 h-16 bg-pink-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
                             <span class="pixel-title text-2xl">3</span>
                         </div>
                         <h3 class="pixel-subtitle text-xl text-black mb-4">Start Using Your API</h3>
@@ -1176,7 +1237,7 @@
                             <div class="flex space-x-2">
                                 <div class="w-3 h-3 bg-red-500 rounded-full"></div>
                                 <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-pink-500 rounded-full"></div>
                             </div>
                             <div class="text-white text-xs font-mono">apiUI Demo</div>
                             <div class="w-16"></div>
@@ -1267,7 +1328,7 @@
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1275,7 +1336,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1283,7 +1344,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1291,7 +1352,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1315,7 +1376,7 @@
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1323,7 +1384,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1331,7 +1392,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1339,7 +1400,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1347,7 +1408,7 @@
                             </li>
                             <li class="flex items-center text-black">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1371,7 +1432,7 @@
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1379,7 +1440,7 @@
                             </li>
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1387,7 +1448,7 @@
                             </li>
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1395,7 +1456,7 @@
                             </li>
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1403,7 +1464,7 @@
                             </li>
                             <li class="flex items-center">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
@@ -1421,19 +1482,19 @@
                     <p class="pixel-body text-gray-600 mb-4 font-medium">All plans include:</p>
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm">
                         <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 mr-2 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <span class="pixel-body">99.9% uptime SLA</span>
                         </span>
                         <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 mr-2 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <span class="pixel-body">GDPR compliant</span>
                         </span>
                         <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 mr-2 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <span class="pixel-body">24/7 monitoring</span>
@@ -1451,7 +1512,7 @@
         <div class="pixel-container max-w-4xl text-center">
             <h2 class="pixel-title text-3xl sm:text-4xl lg:text-5xl text-black mb-6">Ready to Turn Your Data Into APIs?</h2>
             <p class="pixel-body text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Join teams shipping faster with apiUI—spin up <span class="font-semibold text-black">production-ready</span> <span class="text-green-500">endpoints</span> without waiting on engineering backlogs.
+                Join teams shipping faster with apiUI—spin up <span class="font-semibold text-black">production-ready</span> <span class="text-pink-500">endpoints</span> without waiting on engineering backlogs.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="app.html" class="pixel-btn pixel-btn-primary w-full sm:w-auto px-8 py-4 text-lg">
@@ -1482,7 +1543,7 @@
             <div class="flex justify-between items-center mb-12">
                 <div class="flex flex-col items-start">
                     <div class="pixel-title text-2xl text-black tracking-tight">
-                        api<span class="text-green-500">UI</span>
+                        api<span class="text-pink-500">UI</span>
                     </div>
                     <span class="pixel-body text-gray-600 mt-1">an AURABLOX company</span>
                 </div>
@@ -1492,19 +1553,19 @@
                     <div>
                         <h4 class="pixel-subtitle text-black mb-4 text-sm uppercase tracking-wider">Product</h4>
                         <ul class="space-y-3">
-                            <li><a href="index.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Home</a></li>
-                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Documentation</a></li>
-                            <li><a href="app.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Create API</a></li>
+                            <li><a href="index.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Home</a></li>
+                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Documentation</a></li>
+                            <li><a href="app.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Create API</a></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 class="pixel-subtitle text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
                         <ul class="space-y-3">
-                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-green-500 transition-colors">Help Center</a></li>
+                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Help Center</a></li>
                             <li>
                                 <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer"
-                                   class="pixel-body text-gray-700 hover:text-green-500 transition-colors inline-flex items-center gap-2"
+                                   class="pixel-body text-gray-700 hover:text-pink-500 transition-colors inline-flex items-center gap-2"
                                    aria-label="Follow us on X (formerly Twitter)">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -1520,7 +1581,7 @@
             <!-- Bottom Section -->
             <div class="border-t-2 border-black pt-8 mt-8">
                 <div class="flex justify-end">
-                    <p class="pixel-body text-gray-600">&copy; 2025 api<span class="text-blue-600">UI</span> Inc. All rights reserved.</p>
+                    <p class="pixel-body text-gray-600">&copy; 2025 api<span class="text-pink-600">UI</span> Inc. All rights reserved.</p>
                 </div>
             </div>
         </div>
@@ -2069,7 +2130,7 @@ if (emailSigninForm) {
         const email = document.getElementById('signin-email').value;
         const password = document.getElementById('signin-password').value;
 
-        showAuthMessage('Signing in...', 'text-blue-600');
+        showAuthMessage('Signing in...', 'text-pink-600');
 
         try {
             const { data, error } = await supabase.auth.signInWithPassword({
@@ -2080,7 +2141,7 @@ if (emailSigninForm) {
             if (error) {
                 showAuthMessage(error.message, 'text-red-600');
             } else {
-                showAuthMessage('Signed in successfully!', 'text-green-600');
+                showAuthMessage('Signed in successfully!', 'text-pink-600');
             }
         } catch (error) {
             showAuthMessage('An error occurred during sign in', 'text-red-600');
@@ -2094,7 +2155,7 @@ if (emailSignupForm) {
         const email = document.getElementById('signup-email').value;
         const password = document.getElementById('signup-password').value;
 
-        showAuthMessage('Creating account...', 'text-blue-600');
+        showAuthMessage('Creating account...', 'text-pink-600');
 
         try {
             const { data, error } = await supabase.auth.signUp({
@@ -2105,7 +2166,7 @@ if (emailSignupForm) {
             if (error) {
                 showAuthMessage(error.message, 'text-red-600');
             } else {
-                showAuthMessage('Account created! Please check your email to verify.', 'text-green-600');
+                showAuthMessage('Account created! Please check your email to verify.', 'text-pink-600');
             }
         } catch (error) {
             showAuthMessage('An error occurred during sign up', 'text-red-600');
@@ -2120,7 +2181,7 @@ if (mobileEmailSigninForm) {
         const email = document.getElementById('mobile-signin-email').value;
         const password = document.getElementById('mobile-signin-password').value;
 
-        showMobileAuthMessage('Signing in...', 'text-blue-600');
+        showMobileAuthMessage('Signing in...', 'text-pink-600');
 
         try {
             const { data, error } = await supabase.auth.signInWithPassword({
@@ -2131,7 +2192,7 @@ if (mobileEmailSigninForm) {
             if (error) {
                 showMobileAuthMessage(error.message, 'text-red-600');
             } else {
-                showMobileAuthMessage('Signed in successfully!', 'text-green-600');
+                showMobileAuthMessage('Signed in successfully!', 'text-pink-600');
             }
         } catch (error) {
             showMobileAuthMessage('An error occurred during sign in', 'text-red-600');
@@ -2145,7 +2206,7 @@ if (mobileEmailSignupForm) {
         const email = document.getElementById('mobile-signup-email').value;
         const password = document.getElementById('mobile-signup-password').value;
 
-        showMobileAuthMessage('Creating account...', 'text-blue-600');
+        showMobileAuthMessage('Creating account...', 'text-pink-600');
 
         try {
             const { data, error } = await supabase.auth.signUp({
@@ -2156,7 +2217,7 @@ if (mobileEmailSignupForm) {
             if (error) {
                 showMobileAuthMessage(error.message, 'text-red-600');
             } else {
-                showMobileAuthMessage('Account created! Please check your email to verify.', 'text-green-600');
+                showMobileAuthMessage('Account created! Please check your email to verify.', 'text-pink-600');
             }
         } catch (error) {
             showMobileAuthMessage('An error occurred during sign up', 'text-red-600');
@@ -2313,7 +2374,7 @@ if (demoVideo && playOverlay && playBtn && muteBtn) {
                 </svg>
                 <p class="text-sm mb-2">Video format not supported in this browser</p>
                 <p class="text-xs text-gray-400 mb-4">MOV files work best in Safari and Chrome</p>
-                <a href="apiUI-demo.mov" download class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-2 rounded transition-colors">
+                <a href="apiUI-demo.mov" download class="inline-flex items-center gap-2 cta-glow text-white text-xs px-3 py-2 rounded">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>

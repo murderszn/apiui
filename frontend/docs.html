@@ -171,24 +171,42 @@
     <style>
         /* Pixel-Inspired CSS Variables */
         :root {
-            --pixel-pink: #ec4899;
-            --pixel-blue: #3b82f6;
+            --pixel-pink: #E91E63;
+            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
+            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
             --pixel-black: #000000;
             --pixel-white: #ffffff;
             --pixel-gray-100: #f8fafc;
             --pixel-gray-200: #e2e8f0;
             --pixel-gray-300: #cbd5e1;
-            --pixel-gray-400: #94a3b8;
-            --pixel-gray-500: #64748b;
-            --pixel-gray-600: #475569;
-            --pixel-gray-700: #334155;
-            --pixel-gray-800: #1e293b;
-            --pixel-gray-900: #0f172a;
+        }
 
-            --pixel-border-radius: 4px;
-            --pixel-border-width: 2px;
-            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);
+        /* CTA Button with Layered Glow Effect */
+        .cta-glow {
+            position: relative;
+            background: var(--pixel-pink);
+            color: white;
+            box-shadow:
+                0 0 20px rgba(233, 30, 99, 0.6),
+                0 0 40px rgba(156, 39, 176, 0.4),
+                0 0 60px rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-glow:hover {
+            background: var(--pixel-pink-subtle);
+            box-shadow:
+                0 0 30px rgba(233, 30, 99, 0.8),
+                0 0 60px rgba(156, 39, 176, 0.6),
+                0 0 90px rgba(156, 39, 176, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cta-glow:active {
+            transform: translateY(0);
+            box-shadow:
+                0 0 15px rgba(233, 30, 99, 0.4),
+                0 0 30px rgba(156, 39, 176, 0.3);
         }
 
         /* Regular Cursor */
@@ -333,11 +351,11 @@
         .pixel-btn-secondary {
             background: var(--pixel-white);
             color: var(--pixel-black);
-            border-color: var(--pixel-blue);
+            border-color: var(--pixel-pink);
         }
 
         .pixel-btn-secondary:hover {
-            background: var(--pixel-blue);
+            background: var(--pixel-pink);
             color: var(--pixel-white);
         }
 
@@ -465,7 +483,7 @@
 
         /* Pixel Focus States */
         a:focus, button:focus {
-            outline: 2px solid var(--pixel-blue);
+            outline: 2px solid var(--pixel-pink);
             outline-offset: 2px;
         }
 
@@ -501,11 +519,11 @@
         .hero-section-docs::after {
             bottom: -120px;
             right: -70px;
-            background: var(--pixel-blue);
+            background: var(--pixel-pink);
         }
 
         .hero-gradient-text {
-            color: var(--pixel-blue);
+            color: var(--pixel-pink);
             font-family: 'Pixelify Sans', monospace;
             font-weight: 700;
         }
@@ -666,16 +684,16 @@
 
         /* Code Blocks */
         .code-block {
-            background: var(--pixel-black);
-            border: var(--pixel-border-width) solid var(--pixel-gray-400);
-            border-radius: var(--pixel-border-radius);
-            font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            padding: 1.5rem;
+            background: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
+            border-radius: 0;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.875rem;
+            line-height: 1.4;
+            padding: 1rem;
             overflow-x: auto;
-            color: var(--pixel-white);
-            box-shadow: var(--pixel-shadow);
+            color: var(--pixel-black);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
@@ -807,28 +825,46 @@
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <!-- Navigation Icons -->
-    <div class="fixed top-24 right-6 z-40 flex flex-col space-y-3">
-        <!-- Home Icon -->
-        <a href="index.html" class="pixel-card p-3 hover:bg-gray-100 hover:bg-opacity-80 transition-all pixel-flicker-on-hover group" title="Back to Home">
-            <svg class="w-5 h-5 text-black group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-            </svg>
-        </a>
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="pixel-card bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
 
-        <!-- Docs Icon -->
-        <a href="docs.html" class="pixel-card p-3 hover:bg-gray-100 hover:bg-opacity-80 transition-all pixel-flicker-on-hover group" title="View Documentation">
-            <svg class="w-5 h-5 text-black group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-            </svg>
-        </a>
+                <!-- Dashboard -->
+                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
 
-        <!-- API Hub Icon -->
-        <a href="api-hub.html" class="pixel-card p-3 hover:bg-gray-100 hover:bg-opacity-80 transition-all pixel-flicker-on-hover group" title="Browse API Hub">
-            <svg class="w-5 h-5 text-black group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-            </svg>
-        </a>
+                <!-- Docs -->
+                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+
+                <!-- API Hub -->
+                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </a>
+
+                <!-- Socket Chat -->
+                <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
     </div>
 
     <!-- Breadcrumb Navigation -->
@@ -1034,6 +1070,50 @@ Jane Smith,jane@example.com,Marketing,65000</code></pre>
             </div>
         </section>
 
+        <!-- System Requirements Section -->
+        <section id="requirements" class="doc-section py-16 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-8">System Requirements</h2>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-lg border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4">File Requirements</h3>
+                            <ul class="space-y-2 text-slate-600">
+                                <li>✅ Maximum file size: 100MB</li>
+                                <li>✅ First row must contain headers</li>
+                                <li>✅ UTF-8 encoding recommended</li>
+                                <li>✅ Consistent data types per column</li>
+                                <li>✅ No empty header names</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Data Quality</h3>
+                            <ul class="space-y-2 text-slate-600">
+                                <li>✅ Clean, consistent data</li>
+                                <li>✅ Proper date formats</li>
+                                <li>✅ Valid numeric values</li>
+                                <li>✅ No special characters in headers</li>
+                                <li>✅ Unique identifier column (recommended)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <h4 class="text-lg font-semibold text-slate-900 mb-3">Best Practices</h4>
+                        <ul class="space-y-2 text-slate-600">
+                            <li>• Use descriptive column names (e.g., "first_name" instead of "fn")</li>
+                            <li>• Include an ID column for record identification</li>
+                            <li>• Ensure consistent date formats across your data</li>
+                            <li>• Remove any unnecessary columns before uploading</li>
+                            <li>• Test your API with small datasets first</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- API Management Section -->
         <section id="api-management" class="doc-section py-16 bg-slate-50">
             <div class="container mx-auto px-6">
@@ -1123,285 +1203,6 @@ Jane Smith,jane@example.com,Marketing,65000</code></pre>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Advanced Features Section -->
-        <section id="advanced-features" class="doc-section py-16 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
-                    <h2 class="text-4xl font-bold text-slate-900 mb-8">Advanced Features</h2>
-
-                    <div class="space-y-8">
-                        <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">API Query Parameters</h3>
-                            <p class="text-slate-600 mb-4">
-                                Your APIs support advanced filtering, sorting, and pagination:
-                            </p>
-                            <div class="bg-white p-4 rounded-lg border border-slate-200 font-mono text-sm">
-                                <div class="grid md:grid-cols-3 gap-4">
-                                    <div><strong>Filtering:</strong> ?field=value, ?field__gt=100</div>
-                                    <div><strong>Sorting:</strong> ?order_by=field, ?order_by=-field</div>
-                                    <div><strong>Pagination:</strong> ?limit=10, ?offset=20</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Authentication</h3>
-                            <p class="text-slate-600 mb-4">
-                                Secure your APIs with multiple authentication methods: GitHub OAuth, Google OAuth, Supabase Auth, API Keys, and JWT tokens.
-                            </p>
-                        </div>
-
-                        <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Chat & AI Features</h3>
-                            <p class="text-slate-600 mb-4">
-                                Interact with your APIs using natural language through our integrated chat system powered by AI.
-                            </p>
-                            <div class="bg-white p-4 rounded-lg border border-slate-200">
-                                <h4 class="font-semibold text-slate-900 mb-3">Chat Capabilities:</h4>
-                                <ul class="text-slate-600 text-sm space-y-2">
-                                    <li>• <strong>Real-time Chat:</strong> Socket.io-powered real-time conversations</li>
-                                    <li>• <strong>AI-Powered Responses:</strong> OpenAI GPT integration for intelligent answers</li>
-                                    <li>• <strong>Data Queries:</strong> Ask questions about your data in natural language</li>
-                                    <li>• <strong>API Context:</strong> AI understands your API schema and provides relevant insights</li>
-                                    <li>• <strong>Multi-language Support:</strong> Chat in any language, get responses in your preferred language</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Deployment</h3>
-                            <p class="text-slate-600 mb-4">
-                                Deploy anywhere: Local servers, Docker containers, Google Cloud Run, Firebase Hosting, Vercel, or Netlify.
-                            </p>
-                            <div class="bg-white p-4 rounded-lg border border-slate-200">
-                                <h4 class="font-semibold text-slate-900 mb-3">Deployment Options:</h4>
-                                <ul class="text-slate-600 text-sm space-y-2">
-                                    <li>• <strong>Docker Compose:</strong> One-command local development environment</li>
-                                    <li>• <strong>Google Cloud Run:</strong> Serverless container deployment</li>
-                                    <li>• <strong>Firebase Hosting:</strong> Static frontend with Cloud Functions backend</li>
-                                    <li>• <strong>Local Development:</strong> Run everything on your machine</li>
-                                    <li>• <strong>Custom Deployments:</strong> Kubernetes, AWS, Azure, or any container platform</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Storage & Persistence</h3>
-                            <p class="text-slate-600 mb-4">
-                                Multiple storage backends ensure your APIs and data persist across deployments.
-                            </p>
-                            <div class="bg-white p-4 rounded-lg border border-slate-200">
-                                <h4 class="font-semibold text-slate-900 mb-3">Storage Options:</h4>
-                                <ul class="text-slate-600 text-sm space-y-2">
-                                    <li>• <strong>Google Cloud Storage:</strong> Production-ready persistent storage</li>
-                                    <li>• <strong>Supabase Storage:</strong> Integrated file storage with authentication</li>
-                                    <li>• <strong>Local Storage:</strong> Filesystem storage for development</li>
-                                    <li>• <strong>MongoDB Atlas:</strong> Metadata persistence and state management</li>
-                                    <li>• <strong>PostgreSQL:</strong> Alternative database backend via Supabase</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Monitoring & Analytics</h3>
-                            <p class="text-slate-600 mb-4">
-                                Built-in monitoring and analytics to track API usage and performance.
-                            </p>
-                            <div class="bg-white p-4 rounded-lg border border-slate-200">
-                                <h4 class="font-semibold text-slate-900 mb-3">Monitoring Features:</h4>
-                                <ul class="text-slate-600 text-sm space-y-2">
-                                    <li>• <strong>API Metrics:</strong> Request counts, response times, and error tracking</li>
-                                    <li>• <strong>Health Checks:</strong> System status and storage connectivity monitoring</li>
-                                    <li>• <strong>Real-time Status:</strong> Live API status and deployment information</li>
-                                    <li>• <strong>Usage Analytics:</strong> Track API consumption and popular endpoints</li>
-                                    <li>• <strong>Performance Monitoring:</strong> Response time analysis and optimization insights</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Chat & AI Features Section -->
-        <section id="chat-ai-features" class="doc-section py-16 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
-                    <h2 class="text-4xl font-bold text-slate-900 mb-8">Chat & AI Features</h2>
-
-                    <div class="space-y-8">
-                        <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Real-time Chat Interface</h3>
-                            <p class="text-slate-600 mb-4">
-                                Connect to your APIs through an intelligent chat interface powered by Socket.io and AI. Ask questions in natural language and get instant responses about your data.
-                            </p>
-                            <div class="bg-white p-6 rounded-lg border border-slate-200">
-                                <h4 class="font-semibold text-slate-900 mb-3">Chat Capabilities:</h4>
-                                <ul class="text-slate-600 text-sm space-y-2">
-                                    <li>• <strong>Natural Language Queries:</strong> Ask "How many records are there?" or "Show me sales by region"</li>
-                                    <li>• <strong>Real-time Responses:</strong> Instant answers powered by WebSocket connections</li>
-                                    <li>• <strong>Context Awareness:</strong> AI understands your API schema and data structure</li>
-                                    <li>• <strong>Multi-API Support:</strong> Chat with different APIs simultaneously</li>
-                                    <li>• <strong>Error Handling:</strong> Graceful fallbacks when AI services are unavailable</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">AI-Powered Code Generation</h3>
-                            <p class="text-slate-600 mb-4">
-                                Our advanced AI system analyzes your data and generates production-ready FastAPI applications with intelligent features.
-                            </p>
-                            <div class="bg-white p-6 rounded-lg border border-slate-200">
-                                <h4 class="font-semibold text-slate-900 mb-3">Generated API Features:</h4>
-                                <ul class="text-slate-600 text-sm space-y-2">
-                                    <li>• <strong>Automatic Schema Detection:</strong> Smart type inference for all data columns</li>
-                                    <li>• <strong>Pagination & Filtering:</strong> Built-in query parameters for large datasets</li>
-                                    <li>• <strong>Sorting Capabilities:</strong> Multi-column sorting with ascending/descending options</li>
-                                    <li>• <strong>Search Functionality:</strong> Full-text search across text fields</li>
-                                    <li>• <strong>Data Validation:</strong> Input validation and error handling</li>
-                                    <li>• <strong>CORS Support:</strong> Cross-origin resource sharing for web applications</li>
-                                    <li>• <strong>Docker Ready:</strong> Containerized deployments with optimized Dockerfiles</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Chat API Endpoints</h3>
-                            <p class="text-slate-600 mb-4">
-                                The chat system provides both WebSocket and HTTP endpoints for maximum compatibility.
-                            </p>
-
-                            <div class="space-y-4">
-                                <div class="bg-white p-6 rounded-lg border border-slate-200">
-                                    <div class="flex items-center mb-4">
-                                        <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium mr-3">WebSocket</span>
-                                        <h4 class="text-lg font-semibold text-slate-900">Real-time Chat Connection</h4>
-                                    </div>
-                                    <p class="text-slate-600 mb-4">Connect via Socket.io for real-time chat interactions</p>
-                                    <div class="code-block p-3 mb-4">
-                                        <pre><code>// Connect to chat server
-const socket = io('http://localhost:3001');
-
-// Join API chat room
-socket.emit('join_api', { api_id: 'your-api-id', user_id: 'user123' });
-
-// Send chat message
-socket.emit('chat_message', {
-  message: "How many records are there?",
-  api_id: "your-api-id",
-  user_id: "user123"
-});
-
-// Listen for responses
-socket.on('chat_response', (data) => {
-  console.log('AI Response:', data.message);
-});</code></pre>
-                                    </div>
-                                </div>
-
-                                <div class="bg-white p-6 rounded-lg border border-slate-200">
-                                    <div class="flex items-center mb-4">
-                                        <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium mr-3">POST</span>
-                                        <h4 class="text-lg font-semibold text-slate-900">/api/chat</h4>
-                                    </div>
-                                    <p class="text-slate-600 mb-4">HTTP fallback endpoint for chat messages</p>
-                                    <div class="code-block p-3 mb-4">
-                                        <pre><code>curl -X POST "http://localhost:3001/api/chat" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Show me the data schema",
-    "api_id": "your-api-id",
-    "user_id": "user123"
-  }'</code></pre>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Supported Formats Section -->
-        <section id="supported-formats" class="doc-section py-16">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
-                    <h2 class="text-4xl font-bold text-slate-900 mb-8">Supported File Formats</h2>
-
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-lg border border-slate-200">
-                            <h3 class="text-xl font-semibold text-slate-900 mb-4">CSV Files</h3>
-                            <ul class="space-y-2 text-slate-600">
-                                <li>✅ Comma-separated values (.csv)</li>
-                                <li>✅ Tab-separated values (.tsv)</li>
-                                <li>✅ Custom delimiters</li>
-                                <li>✅ Quoted fields</li>
-                                <li>✅ Header row detection</li>
-                                <li>✅ UTF-8 encoding support</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg border border-slate-200">
-                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Excel Files</h3>
-                            <ul class="space-y-2 text-slate-600">
-                                <li>✅ .xlsx (Excel 2007+)</li>
-                                <li>✅ .xls (Excel 97-2003)</li>
-                                <li>✅ First worksheet only</li>
-                                <li>✅ Data type preservation</li>
-                                <li>✅ Formula evaluation</li>
-                                <li>✅ Date/time conversion</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg border border-slate-200">
-                            <h3 class="text-xl font-semibold text-slate-900 mb-4">JSON Files</h3>
-                            <ul class="space-y-2 text-slate-600">
-                                <li>✅ Array of objects format</li>
-                                <li>✅ Automatic key detection</li>
-                                <li>✅ Nested object support</li>
-                                <li>✅ Type inference per field</li>
-                                <li>✅ Null value handling</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg border border-slate-200">
-                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Parquet Files</h3>
-                            <ul class="space-y-2 text-slate-600">
-                                <li>✅ Columnar storage format</li>
-                                <li>✅ Requires pyarrow library</li>
-                                <li>✅ Efficient for large datasets</li>
-                                <li>✅ Schema preservation</li>
-                                <li>✅ Type information maintained</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg border border-slate-200">
-                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Text Files</h3>
-                            <ul class="space-y-2 text-slate-600">
-                                <li>✅ Plain text (.txt)</li>
-                                <li>✅ Treated as CSV format</li>
-                                <li>✅ UTF-8 encoding</li>
-                                <li>✅ Header detection</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg border border-slate-200">
-                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Data Types</h3>
-                            <ul class="space-y-2 text-slate-600">
-                                <li>✅ Automatic type detection</li>
-                                <li>✅ String/text fields</li>
-                                <li>✅ Integer & float numbers</li>
-                                <li>✅ Date/time fields</li>
-                                <li>✅ Boolean fields</li>
-                                <li>✅ Null/empty value handling</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -1550,22 +1351,22 @@ print(data)</code></pre>
                         </div>
 
                         <div>
-                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">cURL</h3>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">cURL Commands</h3>
                             <div class="code-block p-4 mb-4">
                                 <pre><code># Get all data
-curl "https://your-api-endpoint.com/data"
+curl -X GET "https://your-api-endpoint.com/data"
 
 # Get data with pagination
-curl "https://your-api-endpoint.com/data?limit=10&offset=20"
+curl -X GET "https://your-api-endpoint.com/data?limit=10&offset=0"
 
-# Get data with filtering
-curl "https://your-api-endpoint.com/data?department=Engineering&salary[gte]=50000"
+# Filter data
+curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
+
+# Get schema
+curl -X GET "https://your-api-endpoint.com/schema"
 
 # Get specific record
-curl "https://your-api-endpoint.com/data/123"
-
-# Get schema information
-curl "https://your-api-endpoint.com/data/schema"</code></pre>
+curl -X GET "https://your-api-endpoint.com/data/123"</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1573,50 +1374,287 @@ curl "https://your-api-endpoint.com/data/schema"</code></pre>
             </div>
         </section>
 
-        <!-- Requirements Section -->
-        <section id="requirements" class="doc-section py-16 bg-slate-50">
+        <!-- Chat & AI Features Section -->
+        <section id="chat-ai-features" class="doc-section py-16 bg-slate-50">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl">
-                    <h2 class="text-4xl font-bold text-slate-900 mb-8">System Requirements</h2>
+                    <h2 class="text-4xl font-bold text-slate-900 mb-8">Chat & AI Features</h2>
 
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div class="bg-white p-6 rounded-lg border border-slate-200">
-                            <h3 class="text-xl font-semibold text-slate-900 mb-4">File Requirements</h3>
-                            <ul class="space-y-2 text-slate-600">
-                                <li>✅ Maximum file size: 100MB</li>
-                                <li>✅ First row must contain headers</li>
-                                <li>✅ UTF-8 encoding recommended</li>
-                                <li>✅ Consistent data types per column</li>
-                                <li>✅ No empty header names</li>
-                            </ul>
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Real-time Chat Interface</h3>
+                            <p class="text-slate-600 mb-4">
+                                Connect to your APIs through an intelligent chat interface powered by Socket.io and AI. Ask questions in natural language and get instant responses about your data.
+                            </p>
+                            <div class="bg-white p-6 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Chat Capabilities:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Natural Language Queries:</strong> Ask "How many records are there?" or "Show me sales by region"</li>
+                                    <li>• <strong>Real-time Responses:</strong> Instant answers powered by WebSocket connections</li>
+                                    <li>• <strong>Context Awareness:</strong> AI understands your API schema and data structure</li>
+                                    <li>• <strong>Multi-API Support:</strong> Chat with different APIs simultaneously</li>
+                                    <li>• <strong>Error Handling:</strong> Graceful fallbacks when AI services are unavailable</li>
+                                </ul>
+                            </div>
                         </div>
 
-                        <div class="bg-white p-6 rounded-lg border border-slate-200">
-                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Data Quality</h3>
-                            <ul class="space-y-2 text-slate-600">
-                                <li>✅ Clean, consistent data</li>
-                                <li>✅ Proper date formats</li>
-                                <li>✅ Valid numeric values</li>
-                                <li>✅ No special characters in headers</li>
-                                <li>✅ Unique identifier column (recommended)</li>
-                            </ul>
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">AI-Powered Code Generation</h3>
+                            <p class="text-slate-600 mb-4">
+                                Our advanced AI system analyzes your data and generates production-ready FastAPI applications with intelligent features.
+                            </p>
+                            <div class="bg-white p-6 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Generated API Features:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Automatic Schema Detection:</strong> Smart type inference for all data columns</li>
+                                    <li>• <strong>Pagination & Filtering:</strong> Built-in query parameters for large datasets</li>
+                                    <li>• <strong>Sorting Capabilities:</strong> Multi-column sorting with ascending/descending options</li>
+                                    <li>• <strong>Search Functionality:</strong> Full-text search across text fields</li>
+                                    <li>• <strong>Data Validation:</strong> Input validation and error handling</li>
+                                    <li>• <strong>CORS Support:</strong> Cross-origin resource sharing for web applications</li>
+                                    <li>• <strong>Docker Ready:</strong> Containerized deployments with optimized Dockerfiles</li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="mt-8 bg-slate-50 p-6 rounded-lg border border-slate-200">
-                        <h4 class="text-lg font-semibold text-slate-900 mb-3">Best Practices</h4>
-                        <ul class="space-y-2 text-slate-600">
-                            <li>• Use descriptive column names (e.g., "first_name" instead of "fn")</li>
-                            <li>• Include an ID column for record identification</li>
-                            <li>• Ensure consistent date formats across your data</li>
-                            <li>• Remove any unnecessary columns before uploading</li>
-                            <li>• Test your API with small datasets first</li>
-                        </ul>
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Chat API Endpoints</h3>
+                            <p class="text-slate-600 mb-4">
+                                The chat system provides both WebSocket and HTTP endpoints for maximum compatibility.
+                            </p>
+
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-lg border border-slate-200">
+                                    <div class="flex items-center mb-4">
+                                        <span class="bg-pink-600 text-white px-3 py-1 rounded-full text-sm font-medium mr-3">WebSocket</span>
+                                        <h4 class="text-lg font-semibold text-slate-900">Real-time Chat Connection</h4>
+                                    </div>
+                                    <p class="text-slate-600 mb-4">Connect via Socket.io for real-time chat interactions</p>
+                                    <div class="code-block p-3 mb-4">
+                                        <pre><code>// Connect to chat server
+const socket = io('http://localhost:3001');
+
+// Join API chat room
+socket.emit('join_api', { api_id: 'your-api-id', user_id: 'user123' });
+
+// Send chat message
+socket.emit('chat_message', {
+  message: "How many records are there?",
+  api_id: "your-api-id",
+  user_id: "user123"
+});
+
+// Listen for responses
+socket.on('chat_response', (data) => {
+  console.log('AI Response:', data.message);
+});</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-6 rounded-lg border border-slate-200">
+                                    <div class="flex items-center mb-4">
+                                        <span class="bg-pink-600 text-white px-3 py-1 rounded-full text-sm font-medium mr-3">POST</span>
+                                        <h4 class="text-lg font-semibold text-slate-900">/api/chat</h4>
+                                    </div>
+                                    <p class="text-slate-600 mb-4">HTTP fallback endpoint for chat messages</p>
+                                    <div class="code-block p-3 mb-4">
+                                        <pre><code>curl -X POST "http://localhost:3001/api/chat" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Show me the data schema",
+    "api_id": "your-api-id",
+    "user_id": "user123"
+  }'</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Advanced Features Section -->
+        <section id="advanced-features" class="doc-section py-16 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-8">Advanced Features</h2>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">API Query Parameters</h3>
+                            <p class="text-slate-600 mb-4">
+                                Your APIs support advanced filtering, sorting, and pagination:
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200 font-mono text-sm">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div><strong>Filtering:</strong> ?field=value, ?field__gt=100</div>
+                                    <div><strong>Sorting:</strong> ?order_by=field, ?order_by=-field</div>
+                                    <div><strong>Pagination:</strong> ?limit=10, ?offset=20</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Authentication</h3>
+                            <p class="text-slate-600 mb-4">
+                                Secure your APIs with multiple authentication methods: GitHub OAuth, Google OAuth, Supabase Auth, API Keys, and JWT tokens.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Chat & AI Features</h3>
+                            <p class="text-slate-600 mb-4">
+                                Interact with your APIs using natural language through our integrated chat system powered by AI.
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Chat Capabilities:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Real-time Chat:</strong> Socket.io-powered real-time conversations</li>
+                                    <li>• <strong>AI-Powered Responses:</strong> OpenAI GPT integration for intelligent answers</li>
+                                    <li>• <strong>Data Queries:</strong> Ask questions about your data in natural language</li>
+                                    <li>• <strong>API Context:</strong> AI understands your API schema and provides relevant insights</li>
+                                    <li>• <strong>Multi-language Support:</strong> Chat in any language, get responses in your preferred language</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Deployment</h3>
+                            <p class="text-slate-600 mb-4">
+                                Deploy anywhere: Local servers, Docker containers, Google Cloud Run, Firebase Hosting, Vercel, or Netlify.
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Deployment Options:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Docker Compose:</strong> One-command local development environment</li>
+                                    <li>• <strong>Google Cloud Run:</strong> Serverless container deployment</li>
+                                    <li>• <strong>Firebase Hosting:</strong> Static frontend with Cloud Functions backend</li>
+                                    <li>• <strong>Local Development:</strong> Run everything on your machine</li>
+                                    <li>• <strong>Custom Deployments:</strong> Kubernetes, AWS, Azure, or any container platform</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Storage & Persistence</h3>
+                            <p class="text-slate-600 mb-4">
+                                Multiple storage backends ensure your APIs and data persist across deployments.
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Storage Options:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Google Cloud Storage:</strong> Production-ready persistent storage</li>
+                                    <li>• <strong>Supabase Storage:</strong> Integrated file storage with authentication</li>
+                                    <li>• <strong>Local Storage:</strong> Filesystem storage for development</li>
+                                    <li>• <strong>MongoDB Atlas:</strong> Metadata persistence and state management</li>
+                                    <li>• <strong>PostgreSQL:</strong> Alternative database backend via Supabase</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Monitoring & Analytics</h3>
+                            <p class="text-slate-600 mb-4">
+                                Built-in monitoring and analytics to track API usage and performance.
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Monitoring Features:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>API Metrics:</strong> Request counts, response times, and error tracking</li>
+                                    <li>• <strong>Health Checks:</strong> System status and storage connectivity monitoring</li>
+                                    <li>• <strong>Real-time Status:</strong> Live API status and deployment information</li>
+                                    <li>• <strong>Usage Analytics:</strong> Track API consumption and popular endpoints</li>
+                                    <li>• <strong>Performance Monitoring:</strong> Response time analysis and optimization insights</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat & AI Features Section -->
+        <!-- Supported Formats Section -->
+        <section id="supported-formats" class="doc-section py-16">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-8">Supported File Formats</h2>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-lg border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4">CSV Files</h3>
+                            <ul class="space-y-2 text-slate-600">
+                                <li>✅ Comma-separated values (.csv)</li>
+                                <li>✅ Tab-separated values (.tsv)</li>
+                                <li>✅ Custom delimiters</li>
+                                <li>✅ Quoted fields</li>
+                                <li>✅ Header row detection</li>
+                                <li>✅ UTF-8 encoding support</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Excel Files</h3>
+                            <ul class="space-y-2 text-slate-600">
+                                <li>✅ .xlsx (Excel 2007+)</li>
+                                <li>✅ .xls (Excel 97-2003)</li>
+                                <li>✅ First worksheet only</li>
+                                <li>✅ Data type preservation</li>
+                                <li>✅ Formula evaluation</li>
+                                <li>✅ Date/time conversion</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4">JSON Files</h3>
+                            <ul class="space-y-2 text-slate-600">
+                                <li>✅ Array of objects format</li>
+                                <li>✅ Automatic key detection</li>
+                                <li>✅ Nested object support</li>
+                                <li>✅ Type inference per field</li>
+                                <li>✅ Null value handling</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Parquet Files</h3>
+                            <ul class="space-y-2 text-slate-600">
+                                <li>✅ Columnar storage format</li>
+                                <li>✅ Requires pyarrow library</li>
+                                <li>✅ Efficient for large datasets</li>
+                                <li>✅ Schema preservation</li>
+                                <li>✅ Type information maintained</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Text Files</h3>
+                            <ul class="space-y-2 text-slate-600">
+                                <li>✅ Plain text (.txt)</li>
+                                <li>✅ Treated as CSV format</li>
+                                <li>✅ UTF-8 encoding</li>
+                                <li>✅ Header detection</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4">Data Types</h3>
+                            <ul class="space-y-2 text-slate-600">
+                                <li>✅ Automatic type detection</li>
+                                <li>✅ String/text fields</li>
+                                <li>✅ Integer & float numbers</li>
+                                <li>✅ Date/time fields</li>
+                                <li>✅ Boolean fields</li>
+                                <li>✅ Null/empty value handling</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Requirements Section -->
         <!-- API Usage & Deployment Section -->
         <section id="api-usage-deployment" class="doc-section py-16 bg-slate-50">
             <div class="container mx-auto px-6">
