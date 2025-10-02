@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>apiUI App | Create and Manage APIs From Your Data</title>
+    <title>apiUI App | Create and Manage APIs From Your Data (v2.0)</title>
     <meta name="description" content="Manage your auto-generated REST APIs in the apiUI console. Upload data files, configure endpoints, deploy securely, and monitor analytics. Complete API management platform for CSV, Excel, Parquet, and JSON data sources.">
     <meta name="keywords" content="api management console, rest api dashboard, api deployment platform, data api monitoring, api analytics dashboard, csv api management, excel api workspace, json api console, apiui app, api administration">
     <meta name="author" content="apiUI by AURABLOX">
@@ -18,6 +18,9 @@
     <meta name="rating" content="General">
     <meta name="distribution" content="Global">
     <meta name="revisit-after" content="7 days">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <link rel="canonical" href="https://apiui.web.app/app.html">
     <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
@@ -25,6 +28,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance optimizations -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
     <!-- Open Graph / Facebook -->
     <meta property="og:site_name" content="apiUI">
     <meta property="og:type" content="website">
@@ -56,8 +62,38 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Default to hosted Cloud Run backend; override via query param for local testing
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
     </script>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Pixel Loading Screen -->
+    <div id="pixel-loading" class="fixed inset-0 bg-black z-50 flex items-center justify-center">
+        <div class="text-center">
+            <!-- Pixel Logo Animation -->
+            <div class="mb-8">
+                <div class="inline-block relative">
+                    <div class="text-4xl pixel-title text-white mb-4">api<span class="text-pink-500">UI</span></div>
+                    <div class="flex justify-center space-x-1">
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse"></div>
+                        <div class="w-3 h-3 bg-blue-500 animate-pulse" style="animation-delay: 0.2s"></div>
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.4s"></div>
+                        <div class="w-3 h-3 bg-blue-500 animate-pulse" style="animation-delay: 0.6s"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Text -->
+            <div class="pixel-subtitle text-white text-lg mb-4">LOADING API DASHBOARD...</div>
+
+            <!-- Pixel Loading Bar -->
+            <div class="w-64 h-4 bg-gray-800 border-2 border-white mx-auto relative overflow-hidden">
+                <div id="loading-bar" class="h-full bg-gradient-to-r from-pink-500 to-blue-500 transition-all duration-1000 ease-out" style="width: 0%"></div>
+            </div>
+
+            <!-- Fun Loading Messages -->
+            <div id="loading-message" class="pixel-body text-gray-400 text-sm mt-4">Initializing API workspace...</div>
+        </div>
+    </div>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -123,8 +159,329 @@
     }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        /* Pixel-Inspired CSS Variables - Dark Theme */
+        :root {
+            --pixel-pink: #ec4899;
+            --pixel-blue: #3b82f6;
+            --pixel-black: #ffffff;  /* Inverted: white text */
+            --pixel-white: #000000;  /* Inverted: black background */
+            --pixel-gray-100: #0f172a;  /* Inverted: darkest gray */
+            --pixel-gray-200: #1e293b;  /* Inverted: dark gray */
+            --pixel-gray-300: #334155;  /* Inverted: medium dark gray */
+            --pixel-gray-400: #475569;  /* Inverted: lighter dark gray */
+            --pixel-gray-500: #64748b;  /* Inverted: medium gray */
+            --pixel-gray-600: #94a3b8;  /* Inverted: light gray */
+            --pixel-gray-700: #cbd5e1;  /* Inverted: lighter gray */
+            --pixel-gray-800: #e2e8f0;  /* Inverted: very light gray */
+            --pixel-gray-900: #f8fafc;  /* Inverted: lightest gray */
 
+            --pixel-border-radius: 4px;
+            --pixel-border-width: 2px;
+            --pixel-shadow: 2px 2px 0px rgba(255, 255, 255, 0.1);  /* Inverted shadow */
+            --pixel-shadow-hover: 4px 4px 0px rgba(255, 255, 255, 0.15);  /* Inverted shadow */
+        }
+
+        /* Regular Cursor */
+        * {
+            cursor: auto;
+        }
+
+        button, a, [role="button"] {
+            cursor: pointer;
+        }
+
+        /* Base Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
+
+        /* Dark Theme Body */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--pixel-white);  /* Black background */
+            color: var(--pixel-black);  /* White text */
+            line-height: 1.6;
+        }
+
+        /* Pixel Typography Classes */
+        .pixel-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+            text-transform: uppercase;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-subtitle {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            opacity: 0.9;
+            line-height: 1.3;
+        }
+
+        .pixel-body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Pixel Button System - Dark Theme */
+        .pixel-btn {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            padding: 0.75rem 1.5rem;
+            border: var(--pixel-border-width) solid var(--pixel-black);  /* White border */
+            border-radius: var(--pixel-border-radius);
+            background: var(--pixel-white);  /* Black background */
+            color: var(--pixel-black);  /* White text */
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pixel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .pixel-btn:hover {
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
+            color: var(--pixel-black);
+        }
+
+        .pixel-btn:hover::before {
+            left: 100%;
+        }
+
+        .pixel-btn:active {
+            transform: translate(0, 0);
+            box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .pixel-btn-primary {
+            background: var(--pixel-black);  /* White background */
+            color: var(--pixel-white);  /* Black text */
+            border-color: var(--pixel-black);  /* White border */
+        }
+
+        .pixel-btn-primary:hover {
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
+            color: var(--pixel-white);
+        }
+
+        .pixel-btn-secondary {
+            background: var(--pixel-white);  /* Black background */
+            color: var(--pixel-black);  /* White text */
+            border-color: var(--pixel-blue);
+        }
+
+        .pixel-btn-secondary:hover {
+            background: var(--pixel-blue);
+            color: var(--pixel-white);
+        }
+
+        /* Pixel Card System - Dark Theme */
+        .pixel-card {
+            background: var(--pixel-white);  /* Black background */
+            border: var(--pixel-border-width) solid var(--pixel-black);  /* White border */
+            border-radius: var(--pixel-border-radius);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pixel-card:hover {
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
+        }
+
+        /* Pixel Badge - Dark Theme */
+        .pixel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            background: var(--pixel-gray-100);  /* Dark background */
+            border: var(--pixel-border-width) solid var(--pixel-gray-300);  /* Light border */
+            color: var(--pixel-gray-700);  /* Light text */
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            box-shadow: var(--pixel-shadow);
+        }
+
+        /* Pixel Focus States */
+        a:focus, button:focus {
+            outline: 2px solid var(--pixel-blue);
+            outline-offset: 2px;
+        }
+
+        /* Pixel Container */
+        .pixel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Pixel Loading Animation */
+        .pixel-loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--pixel-gray-300);
+            border-radius: 0;
+            border-top-color: var(--pixel-pink);
+            animation: pixel-spin 1s ease-in-out infinite;
+        }
+
+        @keyframes pixel-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Pixel Flicker Animation */
+        @keyframes pixel-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .pixel-flicker {
+            animation: pixel-flicker 0.1s ease-in-out;
+        }
+
+        /* Pixel Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0;
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--pixel-shadow);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(16px);
+            transition: all 0.15s ease;
+            z-index: 100;
+        }
+
+        .back-to-top:hover {
+            background: var(--pixel-pink);
+            transform: translateY(14px);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Scroll-triggered animations */
+        .pixel-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pixel-slide-in-left {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .pixel-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Pixel Flicker Animation */
+        @keyframes pixel-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .pixel-flicker {
+            animation: pixel-flicker 0.1s ease-in-out;
+        }
+
+        .pixel-flicker-on-hover:hover {
+            animation: pixel-flicker 0.1s ease-in-out;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 2px solid #000000;
+            background: #ffffff;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 2px solid #000000;
+            background: #ffffff;
+        }
+
+        /* Scroll-triggered animations */
+        .pixel-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Existing app styles */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #000000;
@@ -176,15 +533,18 @@
             color: #ffffff;
         }
 
+        /* Professional Typography - Inverted Montclaire (Dark Theme) */
         .hero-title {
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            line-height: 1.1;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
         }
 
         .hero-subtitle {
-            font-weight: 300;
-            letter-spacing: -0.01em;
+            font-weight: 400;
+            letter-spacing: -0.005em;
+            opacity: 0.85;
+            line-height: 1.4;
         }
 
         .hero-highlight {
@@ -194,39 +554,24 @@
         }
 
         .section-title {
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
+            font-weight: 500;
+            letter-spacing: -0.015em;
+            line-height: 1.15;
         }
 
+        /* Professional Cards - Inverted Montclaire (Dark Theme) */
         .professional-card {
             background: #000000;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .professional-card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.05));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .professional-card:hover::before {
-            opacity: 1;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
         }
 
         .professional-card:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
-            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            transform: translateY(-1px);
         }
 
         .professional-card > * {
@@ -280,13 +625,15 @@
             border-color: transparent;
         }
 
+        /* Professional Section Spacing - Inverted Montclaire */
         .section-spacing {
-            padding: 5rem 0;
+            padding: 4rem 0;
         }
 
+        /* Subtle Accent Lines - Inverted Montclaire (Dark Theme) */
         .accent-line {
             position: relative;
-            margin: 3rem 0;
+            margin: 2.5rem 0;
         }
 
         .accent-line::before {
@@ -295,18 +642,21 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px;
+            width: 60px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         }
 
+        /* Professional Icon Containers - Inverted Montclaire (Dark Theme) */
         .icon-professional {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #e2e8f0;
         }
 
         html {
@@ -451,187 +801,126 @@
         .text-blue-500 {
             color: #ffffff !important;
         }
+
+        /* API button sizing - prevent expansion */
+        .api-docs-btn,
+        .test-api-btn,
+        .delete-api-btn {
+            min-width: fit-content;
+            width: auto;
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
+
+        .api-docs-btn:active,
+        .test-api-btn:active,
+        .delete-api-btn:active,
+        .api-docs-btn:focus,
+        .test-api-btn:focus,
+        .delete-api-btn:focus {
+            transform: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Ensure consistent button sizing across all states */
+        .api-docs-btn,
+        .test-api-btn,
+        .delete-api-btn,
+        .api-docs-btn:hover,
+        .test-api-btn:hover,
+        .delete-api-btn:hover,
+        .api-docs-btn:active,
+        .test-api-btn:active,
+        .delete-api-btn:active,
+        .api-docs-btn:focus,
+        .test-api-btn:focus,
+        .delete-api-btn:focus {
+            padding: 0.375rem 0.75rem; /* px-3 py-1.5 */
+            font-size: 0.875rem; /* text-sm */
+            line-height: 1.25rem;
+        }
+
+        .delete-api-btn,
+        .delete-api-btn:hover,
+        .delete-api-btn:active,
+        .delete-api-btn:focus {
+            padding-left: 0.5rem; /* px-2 */
+            padding-right: 0.5rem; /* px-2 */
+        }
+
+        /* Mobile responsive button adjustments */
+        @media (max-width: 640px) {
+            .api-docs-btn,
+            .test-api-btn,
+            .delete-api-btn {
+                font-size: 0.75rem; /* text-xs */
+                padding: 0.25rem 0.5rem; /* px-2 py-1 */
+            }
+
+            .delete-api-btn {
+                min-width: 2rem; /* w-8 */
+                min-height: 2rem; /* h-8 */
+            }
+
+            /* Improve mobile spacing throughout the app - Inverted Montclaire */
+            .section-spacing {
+                padding: 2.5rem 0; /* Reduce section spacing on mobile */
+            }
+
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            /* Better mobile margins for cards and content */
+            .professional-card,
+            .bg-black.border.border-white {
+                margin-bottom: 1rem;
+            }
+
+            /* Improve text spacing on mobile - Inverted Montclaire */
+            h1, h2, h3 {
+                line-height: 1.15;
+                margin-bottom: 0.75rem;
+            }
+
+            /* Better button spacing in forms and sections */
+            .space-y-4 > * + * {
+                margin-top: 0.875rem;
+            }
+
+            /* Improve grid layouts on mobile */
+            .grid {
+                gap: 0.875rem;
+            }
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
-    <!-- Header -->
-    <header class="bg-white border-b border-gray-200">
-        <nav aria-label="Primary navigation" class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <a href="index.html" class="text-xl sm:text-2xl font-light tracking-widest text-black">api<span class="font-black uppercase text-lg sm:text-xl">UI</span></a>
-                <span class="text-sm text-gray-800 font-medium">an AURABLOX company</span>
-            </div>
-            <!-- Desktop Navigation -->
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Home</a>
-                <a href="index.html#features" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Features</a>
-                <a href="index.html#pricing" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Pricing</a>
-                <a href="app.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">App</a>
-                <a href="docs.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Docs</a>
-                <a href="api-hub.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">API Hub</a>
 
-    <!-- Sign In Dropdown -->
-    <div class="relative">
-        <button id="signin-dropdown-btn" class="px-4 py-2 border border-black rounded-md text-sm font-medium text-black hover:bg-black hover:text-white transition-colors flex items-center">
-            <span id="signin-button-label">Sign In</span>
-            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    <!-- Navigation Icons -->
+    <div class="fixed top-16 right-6 z-40 flex flex-col space-y-3">
+        <!-- Home Icon -->
+        <a href="index.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Back to Home">
+            <svg class="w-5 h-5 text-white group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
             </svg>
-        </button>
-
-        <!-- Dropdown Menu -->
-        <div id="signin-dropdown" class="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 ease-out z-50">
-            <!-- Email Auth Section -->
-
-            <!-- Email Auth Form -->
-            <div id="email-auth-section" class="p-4">
-                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Sign in with Email</div>
-
-                <!-- Sign In Form -->
-                <div id="signin-form">
-                    <form id="email-signin-form" class="space-y-3">
-                        <div>
-                            <input type="email" id="signin-email" placeholder="Email address" required
-                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <input type="password" id="signin-password" placeholder="Password" required
-                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
-                            Sign In
-                        </button>
-                    </form>
-                    <div class="mt-3 text-center">
-                        <button id="show-signup" class="text-sm text-blue-600 hover:text-blue-800">Need an account? Sign up</button>
-                    </div>
-                </div>
-
-                <!-- Sign Up Form -->
-                <div id="signup-form" class="hidden">
-                    <form id="email-signup-form" class="space-y-3">
-                        <div>
-                            <input type="email" id="signup-email" placeholder="Email address" required
-                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <input type="password" id="signup-password" placeholder="Password" required
-                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                        <button type="submit" class="w-full bg-green-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-green-700 transition-colors">
-                            Sign Up
-                        </button>
-                    </form>
-                    <div class="mt-3 text-center">
-                        <button id="show-signin" class="text-sm text-blue-600 hover:text-blue-800">Already have an account? Sign in</button>
-                    </div>
-                </div>
-
-                <div id="auth-message" class="mt-3 text-sm text-center hidden"></div>
-            </div>
-
-
-            <div id="signedin-dropdown" class="hidden">
-                <div class="px-4 py-3 border-b border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <img id="signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-slate-200">
-                        <div>
-                            <p id="signedin-name" class="text-sm font-semibold text-slate-900"></p>
-                            <p id="signedin-email" class="text-xs text-slate-500"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-3 space-y-2">
-                    <a id="signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-indigo-500 hover:text-indigo-600 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
-                        </svg>
-                        <span>View profile</span>
-                    </a>
-                    <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
-                        Sign out
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- Mobile Menu Button -->
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden p-2">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </nav>
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
-            <div class="container mx-auto px-4 py-4 space-y-4">
-                <a href="index.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Home</a>
-                <a href="index.html#features" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Features</a>
-                <a href="index.html#pricing" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Pricing</a>
-                <a href="app.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">App</a>
-                <a href="docs.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Docs</a>
-                <a href="api-hub.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">API Hub</a>
-                <!-- Mobile Sign In Section -->
-                <div class="space-y-2">
-                    <button id="mobile-signin-toggle" class="w-full text-left px-4 py-2 border border-black rounded-md text-sm font-medium hover:bg-black hover:text-white transition-colors flex items-center justify-between">
-                        <span id="mobile-signin-label">Sign In</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-
-
-<!-- Mobile Auth Options -->
-<div id="mobile-signin-options" class="hidden space-y-2 ml-4">
-    <div id="mobile-signedout-options" class="space-y-2">
-        <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">Sign in with</div>
-
-        <!-- GitHub Button -->
-        <button type="button" data-auth-provider="github" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
-            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-            <span class="text-sm font-medium">Continue with GitHub</span>
-        </button>
-
-        <!-- Google Button -->
-        <button type="button" data-auth-provider="google" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
-            <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            <span class="text-sm font-medium">Continue with Google</span>
-        </button>
-    </div>
-
-    <div id="mobile-signedin-options" class="hidden space-y-3 border border-slate-200 rounded-lg p-4 bg-slate-900/10">
-        <div class="flex items-center gap-3">
-            <img id="mobile-signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-slate-200">
-            <div>
-                <p id="mobile-signedin-name" class="text-sm font-semibold text-slate-900"></p>
-                <p id="mobile-signedin-email" class="text-xs text-slate-600"></p>
-            </div>
-        </div>
-        <a id="mobile-signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center gap-2 text-sm font-medium text-indigo-500 hover:text-indigo-600">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
-            </svg>
-            <span>View profile</span>
         </a>
-        <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
-            Sign out
-        </button>
-    </div>
-</div>
-            </div>
-                </div>
-            </div>
+
+        <!-- Docs Icon -->
+        <a href="docs.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="View Documentation">
+            <svg class="w-5 h-5 text-white group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+        </a>
+
+        <!-- API Hub Icon -->
+        <a href="api-hub.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Browse API Hub">
+            <svg class="w-5 h-5 text-white group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+        </a>
         </div>
-    </header>
 
     <!-- Breadcrumb Navigation -->
     <nav aria-label="Breadcrumb" class="bg-gray-50 border-b border-gray-200">
@@ -661,43 +950,50 @@
 
     <!-- Hero -->
     <section class="hero-section-app section-spacing">
-        <div class="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
+        <div class="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10 py-8 sm:py-16">
             <div class="text-center mb-16">
-                <span class="hero-badge text-slate-100 mb-8">Upload · Generate · Ship</span>
-                <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white max-w-4xl mx-auto mb-6">
-                    Build live APIs from spreadsheets in <span class="gradient-text">seconds</span>
+                <span class="pixel-badge pixel-fade-in mb-8">
+                    <span class="text-pink-400">Upload</span> · <span class="text-blue-400">Generate</span> · <span class="text-pink-400">Ship</span>
+                </span>
+                <h1 class="pixel-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white max-w-4xl mx-auto mb-6 pixel-fade-in">
+                    Build live APIs from spreadsheets in <span class="text-pink-400">seconds</span>
                 </h1>
-                <p class="hero-subtitle text-lg sm:text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed">
+                <p class="pixel-body text-lg sm:text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed mb-12 pixel-fade-in" style="animation-delay: 0.2s">
                     Drag in your data, watch apiUI orchestrate validation, code generation, and deployment—all without leaving the browser.
                 </p>
+
             </div>
 
         </div>
     </section>
 
+    <!-- Pixel Section Divider -->
+    <div class="pixel-accent-line"></div>
+
     <!-- Main Content -->
     <main class="flex-grow">
 
         <!-- Create API Section -->
-        <section class="section-spacing bg-black">
-            <div class="container mx-auto px-6 max-w-4xl text-center">
-                <h2 class="section-title text-4xl sm:text-5xl text-white mb-6">Create Your API</h2>
-                <p class="text-lg sm:text-xl text-white max-w-2xl mx-auto leading-relaxed mb-12">
+        <section class="pixel-section bg-black">
+            <div class="pixel-container max-w-4xl text-center mb-16">
+                <h2 class="pixel-title text-4xl sm:text-5xl text-white mb-6 pixel-fade-in">Create Your <span class="text-pink-400">API</span></h2>
+                <p class="pixel-body text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-12 pixel-fade-in" style="animation-delay: 0.2s">
                     Upload an Excel, CSV, or Parquet file. We'll instantly generate a secure, queryable REST API endpoint for your data.
                 </p>
+
             </div>
 
-            <div class="container mx-auto px-6 max-w-7xl">
+            <div class="pixel-container max-w-7xl mt-12">
 
             <div id="app-container" class="w-full">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 p-5 border border-white border-opacity-20 rounded-xl bg-black shadow-sm">
-                    <div>
-                        <p class="text-sm text-white uppercase tracking-wide">Connected to Cloud Run</p>
-                        <p id="backend-url-display" class="font-mono text-sm text-white break-all">https://apiui-backend-44565368406.us-central1.run.app</p>
+                <div class="pixel-card flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 p-6 space-y-4 sm:space-y-0 pixel-fade-in">
+                    <div class="min-w-0 flex-1">
+                        <p class="pixel-body text-sm text-white uppercase tracking-wide">Connected to Cloud Run</p>
+                        <p id="backend-url-display" class="font-mono text-xs sm:text-sm text-white break-all">https://apiui-backend-44565368406.us-central1.run.app</p>
                     </div>
-                    <div class="mt-3 sm:mt-0 flex items-center space-x-3">
-                        <span id="backend-status-indicator" class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-white text-black">Connected</span>
-                        <button id="test-backend-btn" class="inline-flex items-center px-3 py-2 bg-white text-black text-sm font-medium rounded-lg hover:bg-gray-100 transition-all duration-200">
+                    <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
+                        <span id="backend-status-indicator" class="pixel-badge w-full sm:w-auto text-center">Connected</span>
+                        <button id="test-backend-btn" class="pixel-btn pixel-btn-primary w-full sm:w-auto">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
@@ -707,25 +1003,25 @@
                 </div>
 
                 <!-- Step-by-Step Instructions -->
-                <div class="bg-black border border-white border-opacity-20 rounded-xl shadow-sm p-6 mb-6">
-                    <h3 class="text-lg font-semibold text-white mb-4">How to Create Your API</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="flex items-start space-x-3">
-                            <div class="flex-shrink-0 w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <span class="text-sm font-semibold text-white">1</span>
+                <div class="pixel-card p-6 mb-12 pixel-fade-in" style="animation-delay: 0.4s">
+                    <h3 class="pixel-subtitle text-xl text-white mb-6">How to Create Your API</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="pixel-icon w-12 h-12 flex items-center justify-center flex-shrink-0">
+                                <span class="pixel-title text-lg text-white">1</span>
                             </div>
                             <div>
-                                <h4 class="font-medium text-white">Upload Your File</h4>
-                                <p class="text-sm text-white">Drag & drop your CSV, XLSX, Parquet, or JSON file here</p>
+                                <h4 class="pixel-body text-lg text-white font-semibold mb-2">Upload Your File</h4>
+                                <p class="pixel-body text-sm text-gray-300">Drag & drop your CSV, XLSX, Parquet, or JSON file here</p>
                             </div>
                         </div>
-                        <div class="flex items-start space-x-3">
-                            <div class="flex-shrink-0 w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <span class="text-sm font-semibold text-white">2</span>
+                        <div class="flex items-start space-x-4">
+                            <div class="pixel-icon w-12 h-12 flex items-center justify-center flex-shrink-0">
+                                <span class="pixel-title text-lg text-white">2</span>
                             </div>
                             <div>
-                                <h4 class="font-medium text-white">Generate API</h4>
-                                <p class="text-sm text-white">We'll analyze your data and create a production-ready REST API</p>
+                                <h4 class="pixel-body text-lg text-white font-semibold mb-2">Generate API</h4>
+                                <p class="pixel-body text-sm text-gray-300">We'll analyze your data and create a production-ready REST API</p>
                             </div>
                         </div>
                     </div>
@@ -734,96 +1030,115 @@
                 <!-- Uploader -->
                 <div id="uploader-section">
                     <input type="file" id="file-input" class="hidden" accept=".xlsx,.xls,.csv,.parquet,.json,.txt">
-                    <label for="file-input" id="file-drop-area" class="file-drop-area w-full p-16 flex flex-col items-center justify-center cursor-pointer">
-                        <div class="w-16 h-16 icon-professional mb-6">
-                            <svg class="w-8 h-8 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <label for="file-input" id="file-drop-area" class="pixel-card w-full p-16 flex flex-col items-center justify-center cursor-pointer hover:bg-white hover:bg-opacity-5 transition-all pixel-fade-in" style="animation-delay: 0.6s">
+                        <div class="pixel-icon w-16 h-16 mb-6">
+                            <svg class="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
                             </svg>
                         </div>
-                        <p class="text-xl font-semibold text-white mb-2">
+                        <p class="pixel-subtitle text-xl text-white mb-4">
                             Drag & drop your CSV, XLSX, Parquet, or JSON file here
                         </p>
-                        <p class="text-white">Or click to browse and select a file</p>
-                        <p class="text-xs text-white mt-2">💡 Try the demo: <a href="sample-data.csv" download class="underline hover:text-gray-300">Download sample-data.csv</a></p>
+                        <p class="pixel-body text-white">Or click to browse and select a file</p>
+                        <p class="pixel-body text-xs text-gray-300 mt-4">💡 Try the demo: <a href="sample-data.csv" download class="pixel-body underline hover:text-pink-300 transition-colors">Download sample-data.csv</a></p>
                     </label>
                 </div>
 
                 <!-- File Upload Success Message -->
-                <div id="upload-success-message" class="hidden bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 mb-6">
+                <div id="upload-success-message" class="hidden pixel-card p-4 mb-6 pixel-fade-in">
                     <div class="flex items-center">
-                        <svg class="w-5 h-5 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="pixel-icon w-10 h-10 mr-4">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
+                        </div>
                         <div>
-                            <p class="text-sm font-medium text-white">Success!</p>
-                            <p id="upload-success-text" class="text-sm text-white"></p>
+                            <p class="pixel-body text-sm font-semibold text-white">Success!</p>
+                            <p id="upload-success-text" class="pixel-body text-sm text-gray-300"></p>
                         </div>
                     </div>
                 </div>
 
                 <!-- File Upload Error Message -->
-                <div id="upload-error-message" class="hidden bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-4 mb-6">
+                <div id="upload-error-message" class="hidden pixel-card p-4 mb-6 pixel-fade-in">
                     <div class="flex items-center">
-                        <svg class="w-5 h-5 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="pixel-icon w-10 h-10 mr-4">
+                            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                         </svg>
+                        </div>
                         <div>
-                            <p class="text-sm font-medium text-white">Invalid file type</p>
-                            <p id="upload-error-text" class="text-sm text-white">Please upload a CSV, Excel, Parquet, or JSON file.</p>
+                            <p class="pixel-body text-sm font-semibold text-white">Invalid file type</p>
+                            <p id="upload-error-text" class="pixel-body text-sm text-gray-300">Please upload a CSV, Excel, Parquet, or JSON file.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- File Preview -->
-                <div id="file-preview-section" class="hidden w-full bg-black border border-white border-opacity-20 rounded-xl shadow-lg/40 p-8">
+                <div id="file-preview-section" class="hidden w-full pixel-card p-8 pixel-fade-in">
                     <!-- File Info Header -->
-                    <div class="flex items-center justify-between pb-6 border-b border-white border-opacity-20 mb-6">
+                    <div class="flex items-center justify-between pb-6 border-b-2 border-black mb-6">
                         <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="pixel-icon w-12 h-12 flex-shrink-0">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
                             <div>
-                                <p class="font-medium text-white text-sm">File Preview:</p>
-                                <p id="preview-file-name" class="text-white font-medium"></p>
+                                <p class="pixel-body text-white text-sm">File Preview:</p>
+                                <p id="preview-file-name" class="pixel-title text-white"></p>
                             </div>
                         </div>
-                        <button id="change-file-preview-btn" class="btn-professional px-4 py-2 text-sm font-medium text-white hover:text-gray-200 border border-white border-opacity-30 rounded-lg hover:bg-white hover:bg-opacity-10 transition-colors">
+                        <button id="change-file-preview-btn" class="pixel-btn pixel-btn-secondary px-4 py-2 text-sm">
                             Change File
                         </button>
                     </div>
 
                     <!-- File Metadata -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div class="bg-white bg-opacity-10 rounded-lg p-4 border border-white border-opacity-20">
-                            <p class="text-xs text-white uppercase tracking-wider">File Size</p>
-                            <p id="preview-file-size" class="text-lg font-semibold text-white">-</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="pixel-card p-6 text-center">
+                            <div class="pixel-icon w-8 h-8 mx-auto mb-3">
+                                <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-9 0V1m10 3V1m0 3l1 1v16a2 2 0 01-2 2H6a2 2 0 01-2-2V5l1-1z"></path>
+                                </svg>
                         </div>
-                        <div class="bg-white bg-opacity-10 rounded-lg p-4 border border-white border-opacity-20">
-                            <p class="text-xs text-white uppercase tracking-wider">File Type</p>
-                            <p id="preview-file-type" class="text-lg font-semibold text-white">-</p>
+                            <p class="pixel-body text-sm text-slate-400 uppercase tracking-wider mb-2">File Size</p>
+                            <p id="preview-file-size" class="pixel-title text-white">-</p>
                         </div>
-                        <div class="bg-white bg-opacity-10 rounded-lg p-4 border border-white border-opacity-20">
-                            <p class="text-xs text-white uppercase tracking-wider">Records</p>
-                            <p id="preview-record-count" class="text-lg font-semibold text-white">-</p>
+                        <div class="pixel-card p-6 text-center">
+                            <div class="pixel-icon w-8 h-8 mx-auto mb-3">
+                                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <p class="pixel-body text-sm text-slate-400 uppercase tracking-wider mb-2">File Type</p>
+                            <p id="preview-file-type" class="pixel-title text-white">-</p>
+                        </div>
+                        <div class="pixel-card p-6 text-center">
+                            <div class="pixel-icon w-8 h-8 mx-auto mb-3">
+                                <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                                </svg>
+                            </div>
+                            <p class="pixel-body text-sm text-slate-400 uppercase tracking-wider mb-2">Records</p>
+                            <p id="preview-record-count" class="pixel-title text-white">-</p>
                         </div>
                     </div>
 
                     <!-- Data Preview -->
                     <div class="mb-6">
-                        <div class="flex items-center justify-between mb-3">
-                            <h4 class="text-sm font-medium text-white">Data Preview</h4>
-                            <span id="preview-records-shown" class="text-xs text-white">Showing first 5 records</span>
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="pixel-subtitle text-white">Data Preview</h4>
+                            <span id="preview-records-shown" class="pixel-body text-sm text-slate-400">Showing first 5 records</span>
                         </div>
-                        <div class="bg-white bg-opacity-5 border border-white border-opacity-20 rounded-lg overflow-x-auto">
-                            <table class="min-w-full divide-y divide-white divide-opacity-20">
-                                <thead class="bg-black">
-                                    <tr id="preview-table-headers">
+                        <div class="pixel-card p-4 overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead class="border-b-2 border-black">
+                                    <tr id="preview-table-headers" class="pixel-body text-sm text-slate-400 uppercase tracking-wider">
                                         <!-- Headers will be populated here -->
                                     </tr>
                                 </thead>
-                                <tbody class="bg-black text-white divide-y divide-white divide-opacity-10" id="preview-table-body">
+                                <tbody id="preview-table-body" class="divide-y divide-black divide-opacity-20">
                                     <!-- Data rows will be populated here -->
                                 </tbody>
                             </table>
@@ -831,16 +1146,16 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="flex items-center justify-between pt-6 border-t border-white border-opacity-20">
-                        <button id="cancel-preview-btn" class="px-4 py-2 text-sm font-medium text-white hover:text-gray-200 border border-white border-opacity-30 rounded-lg hover:bg-white hover:bg-opacity-10 transition-colors">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 border-t-2 border-black space-y-4 sm:space-y-0">
+                        <button id="cancel-preview-btn" class="pixel-btn pixel-btn-secondary w-full sm:w-auto">
                             Cancel
                         </button>
-                        <div class="flex items-center space-x-3">
-                            <div id="preview-loading" class="hidden flex items-center space-x-2 text-sm text-white">
-                                <div class="loader w-4 h-4"></div>
-                                <span>Analyzing file...</span>
+                        <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
+                            <div id="preview-loading" class="hidden flex items-center justify-center sm:justify-start space-x-2">
+                                <div class="pixel-loader"></div>
+                                <span class="pixel-body text-white">Analyzing file...</span>
                             </div>
-                            <button id="generate-api-btn" class="px-6 py-2 bg-white text-black rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                            <button id="generate-api-btn" class="pixel-btn pixel-btn-primary w-full sm:w-auto">
                                 Generate API
                             </button>
                         </div>
@@ -848,21 +1163,21 @@
                 </div>
 
                 <!-- Status & Result -->
-                <div id="status-section" class="hidden w-full bg-black border border-white border-opacity-20 rounded-xl shadow-sm p-8">
+                <div id="status-section" class="hidden w-full pixel-card p-8 mt-8 pixel-fade-in">
                     <!-- File Info -->
-                    <div id="file-info" class="flex items-center justify-between pb-6 border-b border-white border-opacity-20 mb-8">
+                    <div id="file-info" class="flex items-center justify-between pb-6 border-b-2 border-black mb-8">
                         <div class="flex items-center space-x-4">
-                            <div class="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="pixel-icon w-12 h-12 flex-shrink-0">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
                             <div>
-                                <p class="font-medium text-white text-sm">Processing File:</p>
-                                <p id="file-name" class="text-white font-medium"></p>
+                                <p class="pixel-body text-white text-sm">Processing File:</p>
+                                <p id="file-name" class="pixel-title text-white"></p>
                             </div>
                         </div>
-                        <button id="change-file-btn" class="px-4 py-2 text-sm font-medium text-white hover:text-gray-200 border border-white border-opacity-30 rounded-lg hover:bg-white hover:bg-opacity-10 transition-colors">
+                        <button id="change-file-btn" class="pixel-btn pixel-btn-secondary">
                             Change File
                         </button>
                     </div>
@@ -1043,33 +1358,64 @@
         <div class="accent-line"></div>
 
         <!-- My APIs Section -->
-        <section class="section-spacing bg-black">
-            <div class="container mx-auto px-6 max-w-6xl">
+        <section class="pixel-section bg-black mb-16">
+            <div class="pixel-container max-w-6xl">
                 <div class="text-center mb-16">
-                    <h2 class="section-title text-4xl sm:text-5xl text-white mb-6">My APIs</h2>
-                    <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">Manage and interact with your generated APIs</p>
+                    <h2 class="pixel-title text-4xl sm:text-5xl text-white mb-6 pixel-fade-in">My <span class="text-blue-400">APIs</span></h2>
+                    <p class="pixel-body text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed pixel-fade-in" style="animation-delay: 0.2s">Manage and interact with your generated APIs</p>
+
+                    <!-- Stats cards with pixelated design -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 pixel-fade-in" style="animation-delay: 0.4s">
+                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-pink-500/20">
+                            <div class="pixel-icon w-12 h-12 mx-auto mb-4">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div class="pixel-title text-2xl text-white font-bold" id="total-apis-count">0</div>
+                            <div class="pixel-body text-sm text-slate-400">Total APIs</div>
+                        </div>
+                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-blue-500/20">
+                            <div class="pixel-icon w-12 h-12 mx-auto mb-4">
+                                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="pixel-title text-2xl text-white font-bold" id="active-apis-count">0</div>
+                            <div class="pixel-body text-sm text-slate-400">Active APIs</div>
+                        </div>
+                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-pink-500/10 to-blue-500/10 border-pink-500/20">
+                            <div class="pixel-icon w-12 h-12 mx-auto mb-4">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <div class="pixel-title text-2xl text-white font-bold" id="total-requests">0</div>
+                            <div class="pixel-body text-sm text-slate-400">Total Requests</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="apis-container">
                     <!-- Loading state -->
-                    <div id="apis-loading" class="text-center py-20">
-                        <div class="inline-flex items-center space-x-4 professional-card px-10 py-8 shadow-lg">
-                            <div class="w-6 h-6 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin"></div>
-                            <span class="text-slate-700 font-medium text-lg">Loading your APIs...</span>
+                    <div id="apis-loading" class="text-center py-20 pixel-fade-in">
+                        <div class="pixel-card inline-flex items-center space-x-4 px-10 py-8">
+                            <div class="pixel-loader w-6 h-6"></div>
+                            <span class="pixel-body text-white font-semibold text-lg">Loading your APIs...</span>
                         </div>
                     </div>
 
                     <!-- No APIs state -->
-                    <div id="no-apis" class="hidden text-center py-20">
-                        <div class="professional-card p-16 max-w-2xl mx-auto shadow-lg">
-                            <div class="w-20 h-20 bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-8">
-                                <svg class="w-10 h-10 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div id="no-apis" class="hidden text-center py-20 pixel-fade-in">
+                        <div class="pixel-card p-16 max-w-2xl mx-auto">
+                            <div class="pixel-icon w-20 h-20 flex items-center justify-center mx-auto mb-8">
+                                <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-2xl font-bold text-slate-900 mb-4">No APIs yet</h3>
-                            <p class="text-lg text-slate-600 mb-8 leading-relaxed">Upload a CSV file above to create your first API and start building production-ready endpoints</p>
-                            <a href="#create-api" class="inline-flex items-center px-6 py-3 bg-slate-900 text-white font-medium rounded-xl hover:bg-slate-800 transition-all duration-200 transform hover:scale-105">
+                            <h3 class="pixel-title text-2xl text-white mb-6">No APIs yet</h3>
+                            <p class="pixel-body text-lg text-gray-300 mb-8 leading-relaxed">Upload a CSV file above to create your first API and start building production-ready endpoints</p>
+                            <a href="#create-api" class="pixel-btn pixel-btn-primary inline-flex items-center px-6 py-3">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg>
@@ -1080,24 +1426,21 @@
                 </div>
 
                 <!-- APIs List -->
-                <div id="apis-list" class="hidden">
-                    <div class="bg-black border border-white border-opacity-20 rounded-xl overflow-hidden">
+                <div id="apis-list" class="hidden pixel-fade-in" style="animation-delay: 0.4s">
+                    <div class="pixel-card overflow-hidden">
                         <div class="px-6 py-4 border-b border-white border-opacity-20 bg-white bg-opacity-5">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-xl font-bold text-white">Your APIs</h3>
-                                    <p class="text-white text-sm mt-1">Manage your deployed endpoints</p>
+                                    <h3 class="pixel-subtitle text-xl text-white">Your APIs</h3>
+                                    <p class="pixel-body text-white text-sm mt-1">Manage your deployed endpoints</p>
                                 </div>
                                 <div class="flex items-center space-x-3">
-                                    <button id="cleanup-apis-btn" class="inline-flex items-center px-3 py-2 bg-white bg-opacity-20 text-white text-sm font-medium rounded-lg hover:bg-white hover:bg-opacity-30 transition-all duration-200">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                        Cleanup
-                                    </button>
-                                    <div class="text-sm text-white">
+                                    <div class="pixel-body text-sm text-white">
                                         <span id="api-count">0 APIs</span>
                                     </div>
+                                    <button id="clear-cache-btn" class="pixel-btn pixel-btn-secondary px-3 py-1 text-xs">
+                                        Clear Cache
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1117,38 +1460,38 @@
         </svg>
     </button>
 
-    <!-- Professional Section Divider -->
-    <div class="accent-line"></div>
+    <!-- Pixel Section Divider -->
+    <div class="pixel-accent-line"></div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-16">
-        <div class="container mx-auto px-6 max-w-6xl">
+    <footer class="bg-white border-t-2 border-black py-16">
+        <div class="pixel-container max-w-6xl">
             <div class="flex justify-between items-center mb-12">
                 <div class="flex flex-col items-start">
-                    <div class="text-2xl font-bold text-black tracking-tight">
-                        api<span class="font-black uppercase text-lg">UI</span>
+                    <div class="pixel-title text-2xl text-black tracking-tight">
+                        api<span style="color: #3b82f6;">UI</span>
                     </div>
-                    <span class="text-sm text-gray-800 font-medium mt-1">an AURABLOX company</span>
+                    <span class="pixel-body text-gray-600 mt-1">an AURABLOX company</span>
                 </div>
 
                 <!-- Links Section -->
                 <div class="grid grid-cols-2 gap-12">
                     <div>
-                        <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Product</h4>
+                        <h4 class="pixel-subtitle text-black mb-4 text-sm uppercase tracking-wider">Product</h4>
                         <ul class="space-y-3">
-                            <li><a href="index.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Home</a></li>
-                            <li><a href="docs.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Documentation</a></li>
-                            <li><a href="#create-api" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Create API</a></li>
+                            <li><a href="index.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Home</a></li>
+                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Documentation</a></li>
+                            <li><a href="app.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Create API</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
+                        <h4 class="pixel-subtitle text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
                         <ul class="space-y-3">
-                            <li><a href="docs.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Help Center</a></li>
+                            <li><a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Help Center</a></li>
                             <li>
                                 <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer"
-                                   class="text-gray-700 hover:text-black transition-colors duration-200 text-sm inline-flex items-center gap-2"
+                                   class="pixel-body text-gray-700 hover:text-pink-500 transition-colors inline-flex items-center gap-2"
                                    aria-label="Follow us on X (formerly Twitter)">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -1162,503 +1505,72 @@
             </div>
 
             <!-- Bottom Section -->
-            <div class="border-t border-gray-200 pt-8 mt-8">
+            <div class="border-t-2 border-black pt-8 mt-8">
                 <div class="flex justify-end">
-                    <p class="text-gray-600 text-sm">&copy; 2025 api<span class="font-black uppercase text-xs">UI</span> Inc. All rights reserved.</p>
+                    <p class="pixel-body text-gray-600">&copy; 2025 api<span style="color: #3b82f6;">UI</span> Inc. All rights reserved.</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        console.log('App page loaded - starting initialization (v2.0 - navbar removed)');
+        console.log('All authentication code has been removed - only app functionality remains');
 
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+        // Pixel Loading Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('pixel-loading');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingMessage = document.getElementById('loading-message');
 
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-        }
+            const loadingMessages = [
+                'Initializing API workspace...',
+                'Loading pixel processors...',
+                'Calibrating data streams...',
+                'Booting up the API matrix...',
+                'Almost ready to build!'
+            ];
 
-        const signinDropdownBtn = document.getElementById('signin-dropdown-btn');
-        const signinDropdown = document.getElementById('signin-dropdown');
-        const mobileSigninToggle = document.getElementById('mobile-signin-toggle');
-        const mobileSigninOptions = document.getElementById('mobile-signin-options');
+            let messageIndex = 0;
+            let progress = 0;
 
-        if (signinDropdownBtn && signinDropdown) {
-            signinDropdownBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isVisible = !signinDropdown.classList.contains('opacity-0');
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
 
-                if (isVisible) {
-                    signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
-                    signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
-                } else {
-                    signinDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
-                    signinDropdown.classList.add('opacity-100', 'visible', 'scale-100');
+                loadingBar.style.width = progress + '%';
+
+                // Change message every 20% progress
+                const newMessageIndex = Math.floor(progress / 20);
+                if (newMessageIndex !== messageIndex && newMessageIndex < loadingMessages.length) {
+                    messageIndex = newMessageIndex;
+                    loadingMessage.textContent = loadingMessages[messageIndex];
                 }
-            });
-        }
 
-        if (mobileSigninToggle && mobileSigninOptions) {
-            mobileSigninToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                mobileSigninOptions.classList.toggle('hidden');
-            });
-        }
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    // Hide immediately for debugging
+                    loadingScreen.style.display = 'none';
+                    console.log('Loading screen hidden - content should be visible now');
+                }
+            }, 150);
 
-        document.addEventListener('click', (e) => {
-            if (signinDropdown && !signinDropdown.contains(e.target) && !signinDropdownBtn.contains(e.target)) {
-                signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
-                signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
-            }
-
-            if (mobileSigninOptions && !mobileSigninOptions.contains(e.target) && !mobileSigninToggle.contains(e.target)) {
-                mobileSigninOptions.classList.add('hidden');
-            }
+            // Fallback: hide loading screen after 3 seconds regardless
+            setTimeout(() => {
+                if (loadingScreen && loadingScreen.style.display !== 'none') {
+                    loadingScreen.style.display = 'none';
+                    console.log('Loading screen hidden via fallback timeout');
+                }
+            }, 3000);
         });
 
-        if (mobileSigninOptions) {
-            mobileSigninOptions.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON') {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        }
 
 
-// Initialize Supabase client
-const supabaseUrl = 'https://witlgqqqsusdfxbejoqb.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpdGxncXFxc3VzZGZ4YmVqb3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MjQ3MDUsImV4cCI6MjA3NDMwMDcwNX0.UN7qm7bGk_-BrL_th2auH7lwW1OjqAdxOLpzqgfdHw4';
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+// App functionality - authentication handled on landing page
 
-const authProviderRoutes = {
-    github: '/auth/github/login',
-    google: '/auth/google/login',
-};
+// Authentication is handled on the landing page - users are already authenticated when they reach the app
 
-const signinButtonLabel = document.getElementById('signin-button-label');
-const mobileSigninLabel = document.getElementById('mobile-signin-label');
-const signinProviderOptions = document.getElementById('signin-provider-options');
-const signedinDropdown = document.getElementById('signedin-dropdown');
-const signedinName = document.getElementById('signedin-name');
-const signedinEmail = document.getElementById('signedin-email');
-const signedinAvatar = document.getElementById('signedin-avatar');
-const signedinProfileLink = document.getElementById('signedin-profile-link');
-const mobileSignedoutOptions = document.getElementById('mobile-signedout-options');
-const mobileSignedinOptions = document.getElementById('mobile-signedin-options');
-const mobileSignedinName = document.getElementById('mobile-signedin-name');
-const mobileSignedinEmail = document.getElementById('mobile-signedin-email');
-const mobileSignedinAvatar = document.getElementById('mobile-signedin-avatar');
-const mobileSignedinProfileLink = document.getElementById('mobile-signedin-profile-link');
-const logoutButtons = document.querySelectorAll('[data-auth-action="logout"]');
-const authButtons = document.querySelectorAll('[data-auth-provider]');
-
-// Email auth elements
-const emailAuthSection = document.getElementById('email-auth-section');
-const signinForm = document.getElementById('signin-form');
-const signupForm = document.getElementById('signup-form');
-const showSignupBtn = document.getElementById('show-signup');
-const showSigninBtn = document.getElementById('show-signin');
-const emailSigninForm = document.getElementById('email-signin-form');
-const emailSignupForm = document.getElementById('email-signup-form');
-const authMessage = document.getElementById('auth-message');
-
-const getAuthBaseUrl = () => {
-    if (typeof window.apiuiGetBackendUrl === 'function') {
-        try {
-            const derived = window.apiuiGetBackendUrl();
-            if (derived) {
-                return derived;
-            }
-        } catch (error) {
-            // Ignore helper resolution errors
-        }
-    }
-
-    if (window.APIUI_AUTH_BASE_URL) {
-        return window.APIUI_AUTH_BASE_URL;
-    }
-
-    const attr = document.body?.dataset?.authBase;
-    if (attr) {
-        return attr;
-    }
-
-    try {
-        const stored = window.localStorage ? window.localStorage.getItem('apiui_backend_base_url') : null;
-        if (stored) {
-            return stored;
-        }
-    } catch (error) {
-        // Ignore storage access issues
-    }
-
-    return '';
-};
-
-const buildAuthUrl = (path) => {
-    if (!path) {
-        return '';
-    }
-
-    const isAbsolute = /^https?:\/\//i.test(path);
-    if (isAbsolute) {
-        return path;
-    }
-
-    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-    const base = getAuthBaseUrl();
-
-    if (!base) {
-        return normalizedPath;
-    }
-
-    const trimmedBase = base.replace(/\/+$/, '');
-    return `${trimmedBase}${normalizedPath}`;
-};
-
-const resolveNextTarget = (button) => {
-    if (button?.dataset?.authNext) {
-        return button.dataset.authNext;
-    }
-
-    try {
-        const currentUrl = new URL(window.location.href);
-        if (currentUrl.protocol !== 'file:') {
-            return currentUrl.href;
-        }
-    } catch (error) {
-        // Fallback to origin
-    }
-
-    if (window.location.origin && window.location.origin !== 'null') {
-        return window.location.href || window.location.origin;
-    }
-
-    if (window.APIUI_APP_BASE_URL) {
-        return window.APIUI_APP_BASE_URL;
-    }
-
-    return '/';
-};
-
-const buildAuthRequestUrl = (route, nextTarget) => {
-    const baseUrl = buildAuthUrl(route);
-    const url = /^https?:\/\//i.test(baseUrl) ? new URL(baseUrl) : new URL(baseUrl, window.location.href);
-    url.searchParams.set('next', nextTarget);
-    return url.toString();
-};
-
-// Remove old OAuth button handlers - we now use Supabase email auth
-// authButtons.forEach(button => { ... });
-
-const clearImage = (imgEl) => {
-    if (!imgEl) {
-        return;
-    }
-    imgEl.classList.add('hidden');
-    imgEl.removeAttribute('src');
-};
-
-const setImage = (imgEl, src) => {
-    if (!imgEl) {
-        return;
-    }
-    if (src) {
-        imgEl.src = src;
-        imgEl.classList.remove('hidden');
-
-        // Add error handling for Google avatars
-        imgEl.onerror = function() {
-            console.log('Avatar failed to load:', src);
-            // Try to load a fallback avatar
-            if (src && src.includes('googleusercontent.com')) {
-                // Try different Google avatar sizes
-                const fallbackSizes = ['s96-c', 's64-c', 's32-c'];
-                for (const size of fallbackSizes) {
-                    if (!src.includes(size)) {
-                        const newSrc = src.replace(/=s\d+-c/, `=${size}`);
-                        if (newSrc !== src) {
-                            console.log('Trying fallback avatar:', newSrc);
-                            imgEl.src = newSrc;
-                            return;
-                        }
-                    }
-                }
-            }
-            // If all fallbacks fail, hide the image
-            clearImage(imgEl);
-        };
-    } else {
-        clearImage(imgEl);
-    }
-};
-
-const setProfileLink = (linkEl, url, label) => {
-    if (!linkEl) {
-        return;
-    }
-
-    if (url) {
-        linkEl.href = url;
-        const span = linkEl.querySelector('span');
-        if (span && label) {
-            span.textContent = label;
-        }
-        linkEl.classList.remove('hidden');
-    } else {
-        linkEl.classList.add('hidden');
-        linkEl.removeAttribute('href');
-    }
-};
-
-const applySignedOutUI = () => {
-    if (signinButtonLabel) {
-        signinButtonLabel.textContent = 'Sign In';
-    }
-    if (mobileSigninLabel) {
-        mobileSigninLabel.textContent = 'Sign In';
-    }
-    if (signinProviderOptions) {
-        signinProviderOptions.classList.remove('hidden');
-    }
-    if (signedinDropdown) {
-        signedinDropdown.classList.add('hidden');
-    }
-    if (mobileSignedoutOptions) {
-        mobileSignedoutOptions.classList.remove('hidden');
-    }
-    if (mobileSignedinOptions) {
-        mobileSignedinOptions.classList.add('hidden');
-    }
-    if (signedinName) {
-        signedinName.textContent = '';
-    }
-    if (signedinEmail) {
-        signedinEmail.textContent = '';
-        signedinEmail.classList.remove('hidden');
-    }
-    if (mobileSignedinName) {
-        mobileSignedinName.textContent = '';
-    }
-    if (mobileSignedinEmail) {
-        mobileSignedinEmail.textContent = '';
-        mobileSignedinEmail.classList.remove('hidden');
-    }
-    clearImage(signedinAvatar);
-    clearImage(mobileSignedinAvatar);
-    setProfileLink(signedinProfileLink, null);
-    setProfileLink(mobileSignedinProfileLink, null);
-};
-
-const applySignedInUI = (session) => {
-    if (!session || !session.user) {
-        applySignedOutUI();
-        return;
-    }
-
-    const user = session.user;
-    const provider = session.provider || 'account';
-    const displayName = user.name || user.login || (user.email ? user.email.split('@')[0] : '') || 'Account';
-    const email = user.email || '';
-    const avatar = user.avatar_url || user.picture || '';
-    const profileUrl = user.profile_url || user.html_url || '';
-    const providerLabel = provider === 'github' ? 'View on GitHub' : provider === 'google' ? 'Manage Google account' : 'View profile';
-
-    if (signinButtonLabel) {
-        signinButtonLabel.textContent = displayName;
-    }
-    if (mobileSigninLabel) {
-        mobileSigninLabel.textContent = displayName;
-    }
-    if (signinProviderOptions) {
-        signinProviderOptions.classList.add('hidden');
-    }
-    if (signedinDropdown) {
-        signedinDropdown.classList.remove('hidden');
-    }
-    if (mobileSignedoutOptions) {
-        mobileSignedoutOptions.classList.add('hidden');
-    }
-    if (mobileSignedinOptions) {
-        mobileSignedinOptions.classList.remove('hidden');
-    }
-    if (signedinName) {
-        signedinName.textContent = displayName;
-    }
-    if (signedinEmail) {
-        signedinEmail.textContent = email;
-        signedinEmail.classList.toggle('hidden', !email);
-    }
-    if (mobileSignedinName) {
-        mobileSignedinName.textContent = displayName;
-    }
-    if (mobileSignedinEmail) {
-        mobileSignedinEmail.textContent = email;
-        mobileSignedinEmail.classList.toggle('hidden', !email);
-    }
-
-    setImage(signedinAvatar, avatar);
-    setImage(mobileSignedinAvatar, avatar);
-    setProfileLink(signedinProfileLink, profileUrl, providerLabel);
-    setProfileLink(mobileSignedinProfileLink, profileUrl, providerLabel);
-};
-
-const fetchAuthSession = async () => {
-    // Check Supabase auth first
-    try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (session && !error) {
-            // User is authenticated with Supabase
-            const user = session.user;
-            const userData = {
-                authenticated: true,
-                provider: 'supabase',
-                user: {
-                    id: user.id,
-                    email: user.email,
-                    name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
-                    avatar_url: user.user_metadata?.avatar_url
-                }
-            };
-            applySignedInUI(userData);
-            return;
-        }
-    } catch (error) {
-        // Supabase check failed, continue to backend check
-    }
-
-    // Fallback to backend session check
-    const sessionUrl = `${BACKEND_BASE_URL}/auth/session`;
-    try {
-        const response = await fetch(sessionUrl, { credentials: 'include' });
-        if (!response.ok) {
-            applySignedOutUI();
-            return;
-        }
-        const data = await response.json();
-        applySignedInUI(data);
-    } catch (error) {
-        applySignedOutUI();
-    }
-};
-
-// Email authentication is always active - no tab switching needed
-
-// Form switching logic
-showSignupBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    signinForm.classList.add('hidden');
-    signupForm.classList.remove('hidden');
-});
-
-showSigninBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    signupForm.classList.add('hidden');
-    signinForm.classList.remove('hidden');
-});
-
-// Email authentication handlers
-emailSigninForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('signin-email').value;
-    const password = document.getElementById('signin-password').value;
-
-    showAuthMessage('Signing in...', 'text-blue-600');
-
-    try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
-
-        if (error) {
-            showAuthMessage(error.message, 'text-red-600');
-        } else {
-            showAuthMessage('Signed in successfully!', 'text-green-600');
-            // Auth state change will be handled by the auth listener
-        }
-    } catch (error) {
-        showAuthMessage('An error occurred during sign in', 'text-red-600');
-    }
-});
-
-emailSignupForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-
-    showAuthMessage('Creating account...', 'text-blue-600');
-
-    try {
-        const { data, error } = await supabase.auth.signUp({
-            email: email,
-            password: password
-        });
-
-        if (error) {
-            showAuthMessage(error.message, 'text-red-600');
-        } else {
-            showAuthMessage('Account created! Please check your email to verify.', 'text-green-600');
-            // Auth state change will be handled by the auth listener
-        }
-    } catch (error) {
-        showAuthMessage('An error occurred during sign up', 'text-red-600');
-    }
-});
-
-// Listen for auth state changes
-supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log('Supabase auth state changed:', event, session);
-    if (event === 'SIGNED_IN' && session) {
-        await fetchAuthSession();
-    } else if (event === 'SIGNED_OUT') {
-        applySignedOutUI();
-    }
-});
-
-function showAuthMessage(message, colorClass) {
-    authMessage.textContent = message;
-    authMessage.className = `mt-3 text-sm text-center ${colorClass}`;
-    authMessage.classList.remove('hidden');
-}
-
-logoutButtons.forEach(button => {
-    button.addEventListener('click', async (event) => {
-        event.preventDefault();
-
-        // Try Supabase logout first
-        try {
-            const { error } = await supabase.auth.signOut();
-            if (!error) {
-                sessionStorage.removeItem('supabase_session');
-            }
-        } catch (e) {
-            // Ignore Supabase logout errors
-        }
-
-        // Fallback to backend logout
-        const logoutUrl = `${BACKEND_BASE_URL}/auth/logout`;
-        try {
-            await fetch(logoutUrl, { method: 'POST', credentials: 'include' });
-        } catch (error) {
-            // Ignore logout errors
-        }
-        applySignedOutUI();
-    });
-});
-
-// Email authentication is always active - no tab initialization needed
-
-applySignedOutUI();
-fetchAuthSession();
+// Backend connection and app functionality only
 
         const backToTopBtn = document.getElementById('back-to-top');
 
@@ -1685,11 +1597,33 @@ fetchAuthSession();
         })();
         let backendOverrides = [];
         let hasBackendOverride = false;
-        // Hardcoded Cloud Run backends - try newest first, fall back to previous deployments
-        const CLOUD_RUN_CANDIDATES = [
-            'https://apiui-backend-24bi767viq-uc.a.run.app',
+        // Check if we're running on Firebase Hosting
+        const isFirebaseHosting = window.location.hostname.includes('firebaseapp.com') ||
+                                  window.location.hostname.includes('web.app');
+
+        // Configure backends based on environment
+        let backendCandidates;
+        const CLOUD_RUN_DEFAULTS = [
+            window.APIUI_AUTH_BASE_URL,
+            ...(Array.isArray(window.APIUI_BACKEND_CANDIDATES) ? window.APIUI_BACKEND_CANDIDATES : []),
             'https://apiui-backend-44565368406.us-central1.run.app'
-        ];
+        ].filter(Boolean);
+
+        if (isFirebaseHosting) {
+            // When deployed to Firebase, prefer the production Cloud Run backends
+            backendCandidates = [
+                ...CLOUD_RUN_DEFAULTS,
+                'http://localhost:9999' // Fallback for development
+            ];
+        } else {
+            // Local development - try Cloud Run first, then local
+            backendCandidates = [
+                ...CLOUD_RUN_DEFAULTS,
+                'http://localhost:9999'
+            ];
+        }
+
+        const CLOUD_RUN_CANDIDATES = backendCandidates;
         const DEFAULT_CLOUD_RUN_URL = CLOUD_RUN_CANDIDATES[0];
         const LOCAL_STORAGE_KEY = 'apiui_backend_base_url';
 
@@ -1776,6 +1710,25 @@ fetchAuthSession();
 
             // Load APIs regardless of connection status
             loadApis();
+
+            // Set up clear cache button
+            const clearCacheBtn = document.getElementById('clear-cache-btn');
+            console.log('Clear cache button found:', !!clearCacheBtn);
+            if (clearCacheBtn) {
+                clearCacheBtn.addEventListener('click', (e) => {
+                    console.log('Clear cache button clicked');
+                    e.preventDefault();
+                    if (confirm('Clear all cached API data and reload from server?')) {
+                        sessionStorage.removeItem('apiui_apis');
+                        localStorage.removeItem('apiui_apis');
+                        console.log('Cache cleared, reloading APIs...');
+                        loadApis();
+                    }
+                });
+                console.log('Clear cache button event listener attached');
+            } else {
+                console.error('Clear cache button not found!');
+            }
         }
 
         // Test backend connection
@@ -1931,6 +1884,7 @@ fetchAuthSession();
 
         function rememberBackendUrl(url) {
             try {
+                const isLocalEnvironment = url && (url.includes('localhost') || url.includes('127.0.0.1'));
                 if (url && isLocalEnvironment) {
                     localStorage.setItem(LOCAL_STORAGE_KEY, url);
                 } else {
@@ -1999,8 +1953,8 @@ fetchAuthSession();
                 }
 
                 // If it's from the new backend, use the new backend URL
-                if (url.hostname.includes('apiui-backend-24bi767viq-uc.a.run.app')) {
-                    return 'https://apiui-backend-24bi767viq-uc.a.run.app';
+                if (url.hostname.includes('apiui-backend-44565368406.us-central1.run.app')) {
+                    return 'https://apiui-backend-44565368406.us-central1.run.app';
                 }
 
                 // Default to current backend
@@ -2132,11 +2086,11 @@ fetchAuthSession();
                 console.log('testBackendBtn not found!');
             }
 
-            // Add cleanup button event listener
-            const cleanupBtn = document.getElementById('cleanup-apis-btn');
-            if (cleanupBtn) {
-                cleanupBtn.addEventListener('click', () => cleanupOldApis(10));
-            }
+            // Set up periodic API list refresh (every 30 seconds)
+            setInterval(() => {
+                loadApis();
+            }, 30000);
+
         });
 
         function storeApiLocally(api) {
@@ -2281,63 +2235,6 @@ fetchAuthSession();
             return { status: 'error', message: 'Unknown error deleting the API.' };
         }
 
-        async function cleanupOldApis(keepCount = 10) {
-            try {
-                // Get current APIs from backend
-                const response = await fetch(`${BACKEND_BASE_URL}/v1/apis`);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch APIs: ${response.status}`);
-                }
-
-                const data = await response.json();
-                const allApis = data.apis || [];
-
-                if (allApis.length <= keepCount) {
-                    alert(`✅ You have ${allApis.length} APIs, which is within the limit of ${keepCount}. No cleanup needed.`);
-                    return;
-                }
-
-                // Sort by creation date (newest first) and keep only the most recent ones
-                const sortedApis = allApis.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-                const apisToKeep = sortedApis.slice(0, keepCount);
-                const apisToDelete = sortedApis.slice(keepCount);
-
-                if (!confirm(`⚠️ This will delete ${apisToDelete.length} old APIs, keeping only the ${keepCount} most recent ones.\n\nContinue?`)) {
-                    return;
-                }
-
-                let deletedCount = 0;
-                let errorCount = 0;
-
-                for (const api of apisToDelete) {
-                    try {
-                        const deleteResult = await deleteCloudRunApi(api);
-                        if (deleteResult.status === 'deleted') {
-                            deletedCount++;
-                            console.log(`Deleted API: ${api.id}`);
-                        } else if (deleteResult.status === 'missing') {
-                            deletedCount++; // Already gone, count as success
-                            console.log(`API already deleted: ${api.id}`);
-                        } else {
-                            errorCount++;
-                            console.error(`Failed to delete API ${api.id}:`, deleteResult.message);
-                        }
-                    } catch (error) {
-                        errorCount++;
-                        console.error(`Error deleting API ${api.id}:`, error);
-                    }
-                }
-
-                alert(`✅ Cleanup complete!\n\nDeleted: ${deletedCount} APIs\nErrors: ${errorCount} APIs\nKept: ${keepCount} most recent APIs`);
-
-                // Reload the API list
-                loadApis();
-
-            } catch (error) {
-                console.error('Cleanup error:', error);
-                alert(`❌ Failed to cleanup APIs: ${error.message}`);
-            }
-        }
 
         async function loadApis() {
             try {
@@ -2365,7 +2262,13 @@ fetchAuthSession();
 
                 // Clear local storage and replace with backend APIs only
                 try {
+                    // Get current count before clearing
+                    const oldCount = getStoredApis().length;
+                    // First clear any existing data
+                    sessionStorage.removeItem('apiui_apis');
+                    // Then set the fresh data
                     sessionStorage.setItem('apiui_apis', JSON.stringify(sortedBackendApis));
+                    console.log(`Updated sessionStorage with ${sortedBackendApis.length} APIs from backend (was ${oldCount} before)`);
                 } catch (error) {
                     console.error('Failed to sync local storage:', error);
                 }
@@ -2379,6 +2282,9 @@ fetchAuthSession();
                     renderApisList(sortedBackendApis);
                     apisList.classList.remove('hidden');
                 }
+
+                // Update stats based on API data
+                updateApiStats(sortedBackendApis);
             } catch (error) {
                 console.error('Failed to load APIs:', error);
                 apisLoading.classList.add('hidden');
@@ -2389,10 +2295,50 @@ fetchAuthSession();
                     currentPage = 1;
                     renderApisList(localApis.map(normalizeApiRecord));
                     apisList.classList.remove('hidden');
+                    // Update stats for local APIs
+                    updateApiStats(localApis.map(normalizeApiRecord));
                 } else {
                     noApis.classList.remove('hidden');
                     apisList.classList.add('hidden');
+                    // Reset stats to 0
+                    updateApiStats([]);
                 }
+            }
+        }
+
+        // Function to update API statistics
+        async function updateApiStats(apis) {
+            try {
+                // Calculate stats from API data
+                const totalApis = apis.length;
+                const activeApis = apis.filter(api => api.status === 'running').length;
+
+                // Update DOM elements
+                const totalApisEl = document.getElementById('total-apis-count');
+                const activeApisEl = document.getElementById('active-apis-count');
+                const totalRequestsEl = document.getElementById('total-requests');
+
+                if (totalApisEl) totalApisEl.textContent = totalApis;
+                if (activeApisEl) activeApisEl.textContent = activeApis;
+
+                // Try to fetch total requests from backend
+                try {
+                    const response = await fetch(`${BACKEND_BASE_URL}/v1/analytics/requests`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (totalRequestsEl && data.total_requests !== undefined) {
+                            totalRequestsEl.textContent = data.total_requests;
+                        }
+                    }
+                } catch (analyticsError) {
+                    console.log('Analytics endpoint not available, keeping requests as 0');
+                    // Keep total requests as 0 if endpoint doesn't exist
+                }
+
+                console.log(`Updated stats: ${totalApis} total APIs, ${activeApis} active APIs`);
+
+            } catch (error) {
+                console.error('Failed to update API stats:', error);
             }
         }
 
@@ -2535,428 +2481,38 @@ fetchAuthSession();
                         ` : ''}
                     </div>
 
-                    <div class="flex items-center space-x-2 ml-4">
-                        <button class="api-docs-btn inline-flex items-center px-3 py-1.5 bg-white bg-opacity-20 text-white text-sm font-medium rounded hover:bg-white hover:bg-opacity-30 transition-colors">
-                            Docs
-                        </button>
-                        <button class="test-api-btn inline-flex items-center px-3 py-1.5 bg-white bg-opacity-20 text-white text-sm font-medium rounded hover:bg-white hover:bg-opacity-30 transition-colors">
-                            Test
-                        </button>
-                        <button class="delete-api-btn inline-flex items-center px-2 py-1.5 bg-red-900 bg-opacity-50 text-red-300 text-sm font-medium rounded hover:bg-red-800 hover:text-red-200 transition-colors">
-                            ×
-                        </button>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0 space-y-2 ml-4 sm:ml-4 ml-0">
+                        <div class="flex items-center space-x-2">
+                            <button class="api-docs-btn inline-flex items-center px-3 py-1.5 border border-white text-white text-sm font-medium rounded hover:bg-white hover:text-gray-900 transition-colors">
+                                Docs
+                            </button>
+                            <button class="view-data-btn inline-flex items-center px-3 py-1.5 border border-white text-white text-sm font-medium rounded hover:bg-white hover:text-gray-900 transition-colors">
+                                View Data
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
 
             const docsBtn = row.querySelector('.api-docs-btn');
-            docsBtn.addEventListener('click', () => showApiDocumentation(api.id, api));
+            docsBtn.addEventListener('click', () => {
+                // Encode API data and pass it via URL parameters
+                const apiData = encodeURIComponent(JSON.stringify(api));
+                window.open(`api-docs.html?id=${api.id}&data=${apiData}`, '_blank');
+            });
 
-            const testBtn = row.querySelector('.test-api-btn');
-            testBtn.addEventListener('click', () => testApiInline(testBtn, api.id, api.api_url || api.url));
+            const viewDataBtn = row.querySelector('.view-data-btn');
+            viewDataBtn.addEventListener('click', () => {
+                // Encode API data and pass it via URL parameters
+                const apiData = encodeURIComponent(JSON.stringify(api));
+                window.open(`data-editor.html?id=${api.id}&data=${apiData}`, '_blank');
+            });
 
-            const deleteBtn = row.querySelector('.delete-api-btn');
-            if (deleteBtn) {
-                deleteBtn.addEventListener('click', async () => {
-                    const apiName = api.title || `API ${api.id.slice(0, 8)}`;
-                    const isCloudRun = api.path && api.path.startsWith('cloud-run://');
-
-                if (isCloudRun) {
-                    // Handle Cloud Run API deletion
-                    if (confirm(`Are you sure you want to delete the Cloud Run API "${apiName}"?\n\nThis will stop the API and remove it from the backend.`)) {
-                        try {
-                            const deleteResult = await deleteCloudRunApi(api);
-
-                            if (deleteResult.status === 'deleted') {
-                                alert(`✅ Cloud Run API "${apiName}" deleted successfully!`);
-                                loadApis();
-                                return;
-                            }
-
-                            if (deleteResult.status === 'missing') {
-                                alert(`⚠️ Cloud Run API "${apiName}" was not found on the backend. It may already be deleted. Removing it from your list.`);
-                                removeStoredApi(api.id);
-                                loadApis();
-                                return;
-                            }
-
-                            alert(`❌ Failed to delete API: ${deleteResult.message || 'Unknown error'}`);
-                        } catch (error) {
-                            console.error('Delete API error:', error);
-                            alert(`❌ Failed to delete API: ${error.message}`);
-                        }
-                    }
-                    } else {
-                        // Handle local API deletion
-                        if (confirm(`Are you sure you want to delete the API "${apiName}" from your local collection?`)) {
-                            removeStoredApi(api.id);
-                            loadApis(); // Refresh the list
-                        }
-                    }
-                });
-            }
 
             return row;
         }
 
-        // Test API inline
-        async function testApiInline(button, apiId, apiUrl) {
-            const originalContent = button.innerHTML;
-            const originalClasses = button.className;
 
-            // Show testing state
-            button.innerHTML = `
-                <svg class="w-4 h-4 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                </svg>
-                Testing...
-            `;
-            button.className = 'inline-flex items-center px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg cursor-not-allowed';
-            button.disabled = true;
-
-            try {
-                // Construct the test endpoint URL with better handling
-                let testEndpoint;
-                if (apiUrl) {
-                    // For APIs with direct URLs, use them but ensure correct path
-                    testEndpoint = normalizeApiHost(apiUrl) || apiUrl;
-
-                    // Fix old mock-api paths to new api paths
-                    if (testEndpoint.includes('/mock-api/')) {
-                        testEndpoint = testEndpoint.replace('/mock-api/', '/api/');
-                        console.log('Updated old mock-api URL to new api path:', testEndpoint);
-                    }
-                } else {
-                    // For backend APIs without direct URLs, construct the absolute URL
-                    testEndpoint = normalizeApiHost(`${BACKEND_BASE_URL}/api/${apiId}`) || `${BACKEND_BASE_URL}/api/${apiId}`;
-                }
-
-                // Remove trailing slash if present
-                testEndpoint = testEndpoint.replace(/\/$/, '');
-
-                console.log('Testing API endpoint:', `${testEndpoint}/data?limit=1`);
-
-                // Add timeout to prevent hanging
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-                const response = await fetch(`${testEndpoint}/data?limit=1`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    signal: controller.signal
-                });
-
-                clearTimeout(timeoutId);
-
-                if (response.ok) {
-                    const data = await response.json();
-
-                    // Success state with data preview
-                    button.innerHTML = `
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        ✅ Pass
-                    `;
-                    button.className = 'inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors';
-
-                    // Show success message with data preview
-                    console.log('✅ API test successful:', data);
-
-                    // Reset after 3 seconds
-                    setTimeout(() => {
-                        button.innerHTML = originalContent;
-                        button.className = originalClasses;
-                        button.disabled = false;
-                    }, 3000);
-
-                } else {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-            } catch (error) {
-                console.log('❌ API test failed:', error.message);
-
-                // Failure state
-                button.innerHTML = `
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                    ❌ Fail
-                `;
-                button.className = 'inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors';
-
-                // Reset after 3 seconds
-                setTimeout(() => {
-                    button.innerHTML = originalContent;
-                    button.className = originalClasses;
-                    button.disabled = false;
-                }, 3000);
-            }
-        }
-
-        // Show API documentation
-        function showApiDocumentation(apiId, api) {
-            // Get the API base URL and endpoints
-            const defaultApiBaseUrl = `${BACKEND_BASE_URL}/v1/apis/${apiId}`;
-            const apiBaseUrl = normalizeApiHost(api.url || api.api_url || defaultApiBaseUrl) || defaultApiBaseUrl;
-            const apiEndpoints = normalizeApiEndpoints(api.api_endpoints || {});
-
-            // Use the specific endpoint URLs if available and normalize fallbacks
-            const dataEndpoint = apiEndpoints.data || normalizeApiHost(`${apiBaseUrl}/data`) || `${apiBaseUrl}/data`;
-            const schemaEndpoint = apiEndpoints.schema || normalizeApiHost(`${apiBaseUrl}/schema`) || `${apiBaseUrl}/schema`;
-            const codeEndpoint = apiEndpoints.code || normalizeApiHost(`${apiBaseUrl}/code`) || `${apiBaseUrl}/code`;
-
-            // Create full-screen documentation overlay
-            const docsModal = document.createElement('div');
-            docsModal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
-            docsModal.innerHTML = `
-                <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-                    <div class="flex items-center justify-between p-6 border-b border-gray-200">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 bg-black rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h2 class="text-xl font-semibold text-gray-900">API Documentation</h2>
-                                <p class="text-sm text-gray-600">API ID: ${apiId.slice(0, 8)}</p>
-                            </div>
-                        </div>
-                        <button class="close-docs text-gray-400 hover:text-gray-600 text-2xl" title="Close">&times;</button>
-                    </div>
-
-                    <div class="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-                        <div class="space-y-8">
-                            <!-- Endpoints -->
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-900 mb-4">API Endpoints</h3>
-                                <div class="space-y-3">
-                                    ${api.endpoints && api.endpoints.length > 0 ? api.endpoints.map(endpoint => `
-                                        <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
-                                            <span class="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium ${
-                                                endpoint.method === 'GET' ? 'bg-black text-white' :
-                                                endpoint.method === 'POST' ? 'bg-black text-white' :
-                                                endpoint.method === 'PUT' ? 'bg-black text-white' :
-                                                'bg-black text-white'
-                                            }">
-                                                ${endpoint.method}
-                                            </span>
-                                            <span class="ml-4 text-sm font-mono text-gray-700">${endpoint.route}</span>
-                                        </div>
-                                    `).join('') : '<p class="text-sm text-gray-600 text-center py-8">No endpoints available</p>'}
-                                </div>
-                            </div>
-
-                            <!-- Code Examples -->
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-900 mb-4">Code Examples</h3>
-                                <div class="space-y-6">
-                                    <!-- Basic cURL -->
-                                    <div class="p-4 border border-gray-200 rounded-lg">
-                                        <div class="flex items-center justify-between mb-3">
-                                            <h4 class="font-medium text-gray-900">cURL</h4>
-                                            <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${dataEndpoint}&quot;">
-                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                                </svg>
-                                                Copy
-                                            </button>
-                                        </div>
-                                        <div class="bg-black text-green-400 p-4 rounded font-mono text-sm overflow-x-auto">
-                                            curl "${dataEndpoint}"
-                                        </div>
-                                    </div>
-
-                                    <!-- Language Examples -->
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-4 border border-gray-200 rounded-lg">
-                                            <div class="flex items-center justify-between mb-3">
-                                                <h4 class="font-medium text-gray-900">Python</h4>
-                                                <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="import requests
-
-response = requests.get(
-    '${dataEndpoint}'
-)
-data = response.json()">
-                                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                                    </svg>
-                                                    Copy
-                                                </button>
-                                            </div>
-                                            <div class="bg-black text-green-400 p-4 rounded font-mono text-xs overflow-x-auto">
-                                                import requests<br><br>
-                                                response = requests.get(<br>
-                                                &nbsp;&nbsp;'${dataEndpoint}'<br>
-                                                )<br>
-                                                data = response.json()
-                                            </div>
-                                        </div>
-
-                                        <div class="p-4 border border-gray-200 rounded-lg">
-                                            <div class="flex items-center justify-between mb-3">
-                                                <h4 class="font-medium text-gray-900">JavaScript</h4>
-                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="fetch('${dataEndpoint}')"
-    .then(response => response.json())
-    .then(data => console.log(data))">
-                                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                                    </svg>
-                                                    Copy
-                                                </button>
-                                            </div>
-                                            <div class="bg-black text-yellow-400 p-4 rounded font-mono text-xs overflow-x-auto">
-                                                fetch('${dataEndpoint}')<br>
-                                                &nbsp;&nbsp;.then(response => response.json())<br>
-                                                &nbsp;&nbsp;.then(data => console.log(data))
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Advanced Usage -->
-                                    <details class="group">
-                                        <summary class="cursor-pointer font-medium text-gray-700 hover:text-gray-900 flex items-center">
-                                            <span>Advanced Usage</span>
-                                            <svg class="ml-2 w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                            </svg>
-                                        </summary>
-                                        <div class="mt-4 space-y-3">
-                                            <div class="p-3 border border-gray-200 rounded">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <h5 class="text-sm font-medium text-gray-700">Filter Data</h5>
-                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${dataEndpoint}?column=value&quot;">
-                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                                        </svg>
-                                                        Copy
-                                                    </button>
-                                                </div>
-                                                <div class="bg-black text-green-400 p-3 rounded font-mono text-xs">
-                                                    curl "${dataEndpoint}?column=value"
-                                                </div>
-                                            </div>
-                                            <div class="p-3 border border-gray-200 rounded">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <h5 class="text-sm font-medium text-gray-700">Sort Results</h5>
-                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${dataEndpoint}?sort_by=column&sort_order=desc&quot;">
-                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                                        </svg>
-                                                        Copy
-                                                    </button>
-                                                </div>
-                                                <div class="bg-black text-green-400 p-3 rounded font-mono text-xs">
-                                                    curl "${dataEndpoint}?sort_by=column&sort_order=desc"
-                                                </div>
-                                            </div>
-                                            <div class="p-3 border border-gray-200 rounded">
-                                                <div class="flex items-center justify-between mb-2">
-                                                    <h5 class="text-sm font-medium text-gray-700">Pagination</h5>
-                                                    <button class="copy-btn inline-flex items-center px-2 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 transition-colors" data-code="curl &quot;${dataEndpoint}?skip=10&limit=5&quot;">
-                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                                        </svg>
-                                                        Copy
-                                                    </button>
-                                                </div>
-                                                <div class="bg-black text-green-400 p-3 rounded font-mono text-xs">
-                                                    curl "${dataEndpoint}?skip=10&limit=5"
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </details>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(docsModal);
-
-            // Copy button functionality
-            const copyButtons = docsModal.querySelectorAll('.copy-btn');
-            copyButtons.forEach(button => {
-                button.addEventListener('click', async (e) => {
-                    e.preventDefault();
-                    const code = button.getAttribute('data-code');
-
-                    try {
-                        await navigator.clipboard.writeText(code);
-
-                        // Visual feedback
-                        const originalText = button.innerHTML;
-                        button.innerHTML = `
-                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            Copied!
-                        `;
-                        button.classList.add('text-green-600', 'border-green-300');
-                        button.classList.remove('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
-
-                        // Reset after 2 seconds
-                        setTimeout(() => {
-                            button.innerHTML = originalText;
-                            button.classList.remove('text-green-600', 'border-green-300');
-                            button.classList.add('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
-                        }, 2000);
-                    } catch (err) {
-                        console.error('Failed to copy: ', err);
-                        // Fallback for older browsers
-                        const textArea = document.createElement('textarea');
-                        textArea.value = code;
-                        document.body.appendChild(textArea);
-                        textArea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textArea);
-
-                        // Visual feedback for fallback
-                        const originalText = button.innerHTML;
-                        button.innerHTML = `
-                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            Copied!
-                        `;
-                        button.classList.add('text-green-600', 'border-green-300');
-
-                        setTimeout(() => {
-                            button.innerHTML = originalText;
-                            button.classList.remove('text-green-600', 'border-green-300');
-                            button.classList.add('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
-                        }, 2000);
-                    }
-                });
-            });
-
-            // Close modal functionality
-            const closeBtn = docsModal.querySelector('.close-docs');
-            closeBtn.addEventListener('click', () => {
-                document.body.removeChild(docsModal);
-            });
-
-            // Close on background click
-            docsModal.addEventListener('click', (e) => {
-                if (e.target === docsModal) {
-                    document.body.removeChild(docsModal);
-                }
-            });
-
-            // Close on ESC key
-            document.addEventListener('keydown', function closeOnEscape(e) {
-                if (e.key === 'Escape') {
-                    document.body.removeChild(docsModal);
-                    document.removeEventListener('keydown', closeOnEscape);
-                }
-            });
-        }
 
         // --- Drag and Drop Logic ---
         fileDropArea.addEventListener('dragover', (e) => {
@@ -3307,7 +2863,7 @@ data = response.json()">
             if (previewData.headers && previewTableHeaders) {
                 previewData.headers.forEach(header => {
                     const th = document.createElement('th');
-                    th.className = 'px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider';
+                    th.className = 'px-4 py-3 text-left pixel-body text-slate-400 uppercase tracking-wider';
                     th.textContent = header;
                     previewTableHeaders.appendChild(th);
                 });
@@ -3321,7 +2877,7 @@ data = response.json()">
 
                     row.forEach(cell => {
                         const td = document.createElement('td');
-                        td.className = 'px-4 py-3 text-sm text-white border-t border-white border-opacity-10';
+                        td.className = 'px-4 py-3 pixel-body text-sm text-white';
                         td.textContent = cell || '';
                         tr.appendChild(td);
                     });
@@ -3651,6 +3207,9 @@ data = response.json()">
 
                 storeApiLocally(apiRecord);
                 addLog('API saved to your personal collection!', 'success');
+                
+                // Refresh the API list to show the new API immediately
+                loadApis();
             }
 
             // Check if this is AI-generated code
@@ -4120,8 +3679,44 @@ data = response.json()">
             }, 500);
         }
 
-        // Set backend URL for authentication
+        // Pixel Scroll-triggered Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all pixel animation elements
+            const animatedElements = document.querySelectorAll('.pixel-fade-in, .pixel-slide-in-left, .pixel-slide-in-right');
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Add pixel flicker effect on hover for buttons
+            const pixelButtons = document.querySelectorAll('.pixel-btn');
+            pixelButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.classList.add('pixel-flicker');
+                    setTimeout(() => {
+                        this.classList.remove('pixel-flicker');
+                    }, 100);
+                });
+            });
+        });
+
+        // Set backend URL for app functionality (authentication handled on landing page)
         window.APIUI_AUTH_BASE_URL = BACKEND_BASE_URL || DEFAULT_CLOUD_RUN_URL;
+
+        // Confirm all authentication code has been successfully removed
+        console.log('✅ App initialization complete - all authentication code removed, only app functionality remains');
     </script>
 </body>
 </html>

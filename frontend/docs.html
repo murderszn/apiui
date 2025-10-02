@@ -25,6 +25,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance optimizations -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
     <!-- Open Graph / Facebook -->
     <meta property="og:site_name" content="apiUI">
     <meta property="og:type" content="article">
@@ -62,7 +65,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Configure backend URL for the frontend
-        window.APIUI_AUTH_BASE_URL = 'http://localhost:8000';
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
     </script>
     <script type="application/ld+json">
     {
@@ -166,86 +169,355 @@
     }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        /* Pixel-Inspired CSS Variables */
+        :root {
+            --pixel-pink: #ec4899;
+            --pixel-blue: #3b82f6;
+            --pixel-black: #000000;
+            --pixel-white: #ffffff;
+            --pixel-gray-100: #f8fafc;
+            --pixel-gray-200: #e2e8f0;
+            --pixel-gray-300: #cbd5e1;
+            --pixel-gray-400: #94a3b8;
+            --pixel-gray-500: #64748b;
+            --pixel-gray-600: #475569;
+            --pixel-gray-700: #334155;
+            --pixel-gray-800: #1e293b;
+            --pixel-gray-900: #0f172a;
+
+            --pixel-border-radius: 4px;
+            --pixel-border-width: 2px;
+            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Regular Cursor */
+        * {
+            cursor: auto;
+        }
+
+        button, a, [role="button"] {
+            cursor: pointer;
+        }
+
+        /* Base Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #000000;
+            background-color: var(--pixel-white);
+            color: var(--pixel-black);
             line-height: 1.6;
         }
 
+        /* Pixel Typography Classes */
+        .pixel-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+            text-transform: uppercase;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-subtitle {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            opacity: 0.9;
+            line-height: 1.3;
+        }
+
+        .pixel-body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Pixel Card System */
+        .pixel-card {
+            background: var(--pixel-white);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pixel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .pixel-card:hover {
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
+        }
+
+        .pixel-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Pixel Button System */
+        .pixel-btn {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            padding: 0.75rem 1.5rem;
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pixel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .pixel-btn:hover {
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
+            color: var(--pixel-black);
+        }
+
+        .pixel-btn:hover::before {
+            left: 100%;
+        }
+
+        .pixel-btn:active {
+            transform: translate(0, 0);
+            box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .pixel-btn-primary {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border-color: var(--pixel-black);
+        }
+
+        .pixel-btn-primary:hover {
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
+            color: var(--pixel-white);
+        }
+
+        .pixel-btn-secondary {
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border-color: var(--pixel-blue);
+        }
+
+        .pixel-btn-secondary:hover {
+            background: var(--pixel-blue);
+            color: var(--pixel-white);
+        }
+
+        /* Pixel Icon Containers */
+        .pixel-icon {
+            background: var(--pixel-gray-100);
+            border: var(--pixel-border-width) solid var(--pixel-gray-300);
+            border-radius: var(--pixel-border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--pixel-shadow);
+            color: var(--pixel-gray-600);
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-icon svg {
+            color: inherit;
+            filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Pixel Grid System */
+        .pixel-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .pixel-section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .pixel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Pixel Accent Elements */
+        .pixel-accent-line {
+            position: relative;
+            margin: 3rem 0;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--pixel-black) 0px,
+                var(--pixel-black) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+        }
+
+        .pixel-accent-line::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 4px;
+            background: var(--pixel-pink);
+        }
+
+        /* Pixel Badge */
+        .pixel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            background: var(--pixel-gray-100);
+            border: var(--pixel-border-width) solid var(--pixel-gray-300);
+            color: var(--pixel-gray-700);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            box-shadow: var(--pixel-shadow);
+        }
+
+        .pixel-badge:hover {
+            background: var(--pixel-white);
+            border-color: var(--pixel-gray-400);
+        }
+
+        .pixel-badge.category-active {
+            background: var(--pixel-black);
+            border-color: var(--pixel-black);
+            color: var(--pixel-white);
+        }
+
+        /* Pixel Loading Animation */
+        .pixel-loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--pixel-gray-300);
+            border-radius: 0;
+            border-top-color: var(--pixel-pink);
+            animation: pixel-spin 1s ease-in-out infinite;
+        }
+
+        @keyframes pixel-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Pixel Flicker Animation */
+        @keyframes pixel-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .pixel-flicker {
+            animation: pixel-flicker 0.1s ease-in-out;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Pixel Focus States */
+        a:focus, button:focus {
+            outline: 2px solid var(--pixel-blue);
+            outline-offset: 2px;
+        }
+
+        /* Hero Section */
         .hero-section-docs {
             position: relative;
             overflow: hidden;
-            background: #050505;
-            color: #f5f5f5;
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
         }
 
         .hero-section-docs::before,
         .hero-section-docs::after {
             content: '';
             position: absolute;
-            width: 420px;
-            height: 420px;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.18;
+            width: 300px;
+            height: 300px;
+            border-radius: 0;
+            filter: blur(80px);
+            opacity: 0.15;
             pointer-events: none;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.12) 0%, transparent 75%);
+            background: var(--pixel-pink);
         }
 
         .hero-section-docs::before {
-            top: -140px;
-            left: -110px;
+            top: -100px;
+            left: -50px;
         }
 
         .hero-section-docs::after {
-            bottom: -180px;
-            right: -100px;
+            bottom: -120px;
+            right: -70px;
+            background: var(--pixel-blue);
         }
 
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(248, 250, 252, 0.4);
-            font-size: 0.875rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .hero-title {
+        .hero-gradient-text {
+            color: var(--pixel-blue);
+            font-family: 'Pixelify Sans', monospace;
             font-weight: 700;
-            letter-spacing: -0.025em;
-            line-height: 1.1;
         }
 
-        .hero-subtitle {
-            font-weight: 300;
-            letter-spacing: -0.01em;
-        }
-
-        .hero-highlight {
-            display: inline-flex;
-            align-items: baseline;
-            gap: 0.75rem;
-        }
-
-        .section-spacing {
-            padding: 4rem 0;
-        }
-
+        /* Documentation Layout */
         .doc-section {
             scroll-margin-top: 120px;
         }
 
         .docs-layout {
-            padding: 4rem 0;
-            background: #ffffff;
+            padding: 5rem 0;
+            background: var(--pixel-white);
         }
 
         .docs-wrapper {
@@ -255,7 +527,7 @@
 
         @media (min-width: 1024px) {
             .docs-wrapper {
-                grid-template-columns: 260px minmax(0, 1fr);
+                grid-template-columns: 280px minmax(0, 1fr);
                 align-items: start;
             }
         }
@@ -264,11 +536,11 @@
             position: sticky;
             top: 120px;
             align-self: start;
-            background: #ffffff;
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            border-radius: 14px;
+            background: var(--pixel-white);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
             padding: 1.75rem 1.5rem;
-            box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+            box-shadow: var(--pixel-shadow);
             max-height: calc(100vh - 140px);
             overflow-y: auto;
         }
@@ -286,11 +558,12 @@
         }
 
         .doc-sidebar-title {
+            font-family: 'Pixelify Sans', monospace;
             font-size: 0.75rem;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: #64748b;
+            color: var(--pixel-gray-600);
         }
 
         .doc-sidebar-links {
@@ -304,23 +577,24 @@
 
         .doc-sidebar-links a {
             display: block;
-            padding: 0.25rem 0 0.25rem 0.25rem;
-            color: #475569;
-            border-left: 2px solid transparent;
-            transition: color 0.2s ease, border-color 0.2s ease, padding-left 0.2s ease;
+            padding: 0.5rem 0 0.5rem 0.25rem;
+            color: var(--pixel-gray-600);
+            border-left: var(--pixel-border-width) solid transparent;
+            transition: all 0.15s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         .doc-sidebar-links a:hover {
-            color: #0f172a;
-            border-left-color: rgba(129, 140, 248, 0.4);
-            padding-left: 0.5rem;
+            color: var(--pixel-pink);
+            border-left-color: var(--pixel-pink);
+            padding-left: 0.75rem;
         }
 
         .doc-sidebar-links a.toc-link-active {
-            color: #000000;
+            color: var(--pixel-black);
             font-weight: 600;
-            border-left-color: #000000;
-            padding-left: 0.5rem;
+            border-left-color: var(--pixel-black);
+            padding-left: 0.75rem;
         }
 
         .doc-content {
@@ -347,10 +621,10 @@
         }
 
         .doc-mobile-nav__panel {
-            border: 1px solid rgba(148, 163, 184, 0.35);
-            border-radius: 14px;
-            background: #ffffff;
-            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            background: var(--pixel-white);
+            box-shadow: var(--pixel-shadow);
             overflow: hidden;
         }
 
@@ -359,8 +633,9 @@
             align-items: center;
             justify-content: space-between;
             padding: 1rem 1.25rem;
+            font-family: 'Pixelify Sans', monospace;
             font-weight: 600;
-            color: #0f172a;
+            color: var(--pixel-black);
             cursor: pointer;
         }
 
@@ -371,7 +646,7 @@
         .doc-mobile-nav__summary::after {
             content: '\25BC';
             font-size: 0.75rem;
-            color: #64748b;
+            color: var(--pixel-gray-600);
             transition: transform 0.2s ease;
         }
 
@@ -389,110 +664,18 @@
             gap: 0.5rem;
         }
 
-        .btn-professional {
-            font-weight: 500;
-            letter-spacing: 0.025em;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-professional::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn-professional:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #111111, #232323);
-            color: #f5f5f5;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
-        }
-
-        .btn-outline-light {
-            color: #f3f3f3;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-        }
-
-        .btn-outline-light:hover {
-            color: #0b0b0b;
-            background: rgba(255, 255, 255, 0.92);
-            border-color: transparent;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #ffffff, #d9d9d9);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .toc-link-active {
-            color: #000000;
-            font-weight: 600;
-        }
-
-        .professional-card {
-            background: #ffffff;
-            border: 1px solid rgba(79, 70, 229, 0.12);
-            border-radius: 14px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .professional-card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.07), rgba(168, 85, 247, 0.07));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .professional-card:hover::before {
-            opacity: 1;
-        }
-
-        .professional-card:hover {
-            border-color: rgba(129, 140, 248, 0.35);
-            box-shadow: 0 18px 40px rgba(79, 70, 229, 0.24);
-            transform: translateY(-3px);
-        }
-
-        .professional-card > * {
-            position: relative;
-            z-index: 1;
-        }
-
+        /* Code Blocks */
         .code-block {
-            background: #000000;
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            border-radius: 12px;
+            background: var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-gray-400);
+            border-radius: var(--pixel-border-radius);
             font-family: 'SF Mono', 'Monaco', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
             font-size: 14px;
             line-height: 1.5;
             padding: 1.5rem;
             overflow-x: auto;
-            color: #ffffff;
-            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+            color: var(--pixel-white);
+            box-shadow: var(--pixel-shadow);
             position: relative;
         }
 
@@ -504,54 +687,54 @@
             align-items: center;
             gap: 0.35rem;
             padding: 0.4rem 0.9rem;
-            border-radius: 9999px;
+            border-radius: 0;
+            font-family: 'Pixelify Sans', monospace;
             font-size: 0.75rem;
             font-weight: 600;
-            background: rgba(0, 0, 0, 0.05);
-            color: #000000;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            transition: all 0.2s ease;
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-gray-300);
+            transition: all 0.15s ease;
+            box-shadow: var(--pixel-shadow);
         }
 
         .copy-code-btn:hover {
-            background: rgba(0, 0, 0, 0.1);
-            color: #000;
+            background: var(--pixel-gray-100);
+            color: var(--pixel-black);
+            transform: translate(-1px, -1px);
         }
 
         .copy-code-btn.copied {
-            background: #000000;
-            color: #fff;
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+            background: var(--pixel-pink);
+            color: var(--pixel-white);
+            border-color: var(--pixel-pink);
         }
 
-        a:focus, button:focus {
-            outline: 2px solid rgba(0, 0, 0, 0.5);
-            outline-offset: 2px;
-        }
-
+        /* Back to Top */
         .back-to-top {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
             width: 3rem;
             height: 3rem;
-            border-radius: 9999px;
-            background: linear-gradient(135deg, #111827, #1f2937);
-            color: #ffffff;
+            border-radius: 0;
+            background: var(--pixel-black);
+            color: var(--pixel-white);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.35);
-            border: 1px solid rgba(15, 23, 42, 0.2);
+            box-shadow: var(--pixel-shadow);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             opacity: 0;
             pointer-events: none;
             transform: translateY(16px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: all 0.15s ease;
             z-index: 100;
         }
 
         .back-to-top:hover {
-            background: linear-gradient(135deg, #0f172a, #111827);
+            background: var(--pixel-pink);
+            transform: translateY(14px);
         }
 
         .back-to-top.show {
@@ -559,184 +742,94 @@
             pointer-events: auto;
             transform: translateY(0);
         }
+
+        /* Header */
+        header {
+            border-bottom: var(--pixel-border-width) solid var(--pixel-black);
+            background: var(--pixel-white);
+        }
+
+        /* Footer */
+        footer {
+            border-top: var(--pixel-border-width) solid var(--pixel-black);
+            background: var(--pixel-white);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .pixel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pixel-section {
+                padding: 3rem 0;
+            }
+
+            .doc-sidebar {
+                padding: 1rem;
+            }
+        }
+
+        /* Scroll-triggered animations */
+        .pixel-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pixel-slide-in-left {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .pixel-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
-    <!-- Navigation -->
-    <header class="border-b border-black">
-        <nav aria-label="Primary navigation" class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <a href="/" class="text-xl sm:text-2xl font-light tracking-widest text-slate-900">api<span class="font-black uppercase text-lg sm:text-xl">UI</span></a>
-                <span class="text-sm text-gray-800 font-medium">an AURABLOX company</span>
-            </div>
-            <!-- Desktop Navigation -->
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="/" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Home</a>
-                <a href="index.html#features" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Features</a>
-                <a href="index.html#pricing" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Pricing</a>
-                <a href="app.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">App</a>
-                <a href="docs.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Docs</a>
-                <a href="api-hub.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">API Hub</a>
 
-    <!-- Sign In Dropdown -->
-    <div class="relative">
-        <button id="signin-dropdown-btn" class="px-4 py-2 border border-slate-800 rounded-md text-sm font-medium text-slate-800 hover:bg-slate-900 hover:text-white transition-colors flex items-center">
-            <span id="signin-button-label">Sign In</span>
-            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    <!-- Navigation Icons -->
+    <div class="fixed top-24 right-6 z-40 flex flex-col space-y-3">
+        <!-- Home Icon -->
+        <a href="index.html" class="pixel-card p-3 hover:bg-gray-100 hover:bg-opacity-80 transition-all pixel-flicker-on-hover group" title="Back to Home">
+            <svg class="w-5 h-5 text-black group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
             </svg>
-        </button>
-
-        <!-- Dropdown Menu -->
-        <div id="signin-dropdown" class="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 ease-out z-50">
-            <!-- Email Auth Form -->
-            <div class="p-4">
-                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Sign in with Email</div>
-
-                <!-- Sign In Form -->
-                <div id="signin-form">
-                    <form id="email-signin-form" class="space-y-3">
-                        <div>
-                            <input type="email" id="signin-email" placeholder="Email address" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent">
-                        </div>
-                        <div>
-                            <input type="password" id="signin-password" placeholder="Password" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent">
-                        </div>
-                        <button type="submit" class="w-full bg-black text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-gray-800 transition-colors">
-                            Sign In
-                        </button>
-                    </form>
-                    <div class="mt-3 text-center">
-                        <button id="show-signup" class="text-sm text-black hover:text-gray-700">Need an account? Sign up</button>
-                    </div>
-                </div>
-
-                <!-- Sign Up Form -->
-                <div id="signup-form" class="hidden">
-                    <form id="email-signup-form" class="space-y-3">
-                        <div>
-                            <input type="email" id="signup-email" placeholder="Email address" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent">
-                        </div>
-                        <div>
-                            <input type="password" id="signup-password" placeholder="Password" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent">
-                        </div>
-                        <button type="submit" class="w-full bg-black text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-gray-800 transition-colors">
-                            Sign Up
-                        </button>
-                    </form>
-                    <div class="mt-3 text-center">
-                        <button id="show-signin" class="text-sm text-black hover:text-gray-700">Already have an account? Sign in</button>
-                    </div>
-                </div>
-
-                <div id="auth-message" class="mt-3 text-sm text-center hidden"></div>
-            </div>
-
-            <div id="signedin-dropdown" class="hidden">
-                <div class="px-4 py-3 border-b border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <img id="signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-slate-200">
-                        <div>
-                            <p id="signedin-name" class="text-sm font-semibold text-slate-900"></p>
-                            <p id="signedin-email" class="text-xs text-slate-500"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-3 space-y-2">
-                    <a id="signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-black hover:text-gray-700 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
-                        </svg>
-                        <span>View profile</span>
-                    </a>
-                    <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
-                        Sign out
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- Mobile Menu Button -->
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden p-2">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </nav>
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
-            <div class="container mx-auto px-4 py-4 space-y-4">
-                <a href="/" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Home</a>
-                <a href="index.html#features" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Features</a>
-                <a href="index.html#pricing" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Pricing</a>
-                <a href="app.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">App</a>
-                <a href="docs.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Docs</a>
-                <a href="api-hub.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">API Hub</a>
-                <!-- Mobile Sign In Section -->
-                <div class="space-y-2">
-                    <button id="mobile-signin-toggle" class="w-full text-left px-4 py-2 border border-slate-800 rounded-md text-sm font-medium text-slate-800 hover:bg-slate-900 hover:text-white transition-colors flex items-center justify-between">
-                        <span id="mobile-signin-label">Sign In</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-
-
-<!-- Mobile Auth Options -->
-<div id="mobile-signin-options" class="hidden space-y-2 ml-4">
-    <div id="mobile-signedout-options" class="space-y-2">
-        <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">Sign in with</div>
-
-        <!-- GitHub Button -->
-        <button type="button" data-auth-provider="github" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors group">
-            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-            <span class="text-sm font-medium">Continue with GitHub</span>
-        </button>
-
-        <!-- Google Button -->
-        <button type="button" data-auth-provider="google" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors group">
-            <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            <span class="text-sm font-medium">Continue with Google</span>
-        </button>
-    </div>
-
-    <div id="mobile-signedin-options" class="hidden space-y-3 border border-slate-200 rounded-lg p-4 bg-slate-50">
-        <div class="flex items-center gap-3">
-            <img id="mobile-signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-slate-200">
-            <div>
-                <p id="mobile-signedin-name" class="text-sm font-semibold text-slate-900"></p>
-                <p id="mobile-signedin-email" class="text-xs text-slate-600"></p>
-            </div>
-        </div>
-        <a id="mobile-signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center gap-2 text-sm font-medium text-black hover:text-gray-700">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
-            </svg>
-            <span>View profile</span>
         </a>
-        <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
-            Sign out
-        </button>
+
+        <!-- Docs Icon -->
+        <a href="docs.html" class="pixel-card p-3 hover:bg-gray-100 hover:bg-opacity-80 transition-all pixel-flicker-on-hover group" title="View Documentation">
+            <svg class="w-5 h-5 text-black group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+        </a>
+
+        <!-- API Hub Icon -->
+        <a href="api-hub.html" class="pixel-card p-3 hover:bg-gray-100 hover:bg-opacity-80 transition-all pixel-flicker-on-hover group" title="Browse API Hub">
+            <svg class="w-5 h-5 text-black group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+        </a>
     </div>
-</div>
-            </div>
-                </div>
-            </div>
-        </div>
-    </header>
 
     <!-- Breadcrumb Navigation -->
     <nav aria-label="Breadcrumb" class="bg-gray-50 border-b border-gray-200">
@@ -767,21 +860,28 @@
     <!-- Main Content -->
     <main class="flex-grow">
         <!-- Hero Section -->
-        <section class="hero-section-docs section-spacing">
-            <div class="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
-                <div class="text-center mb-14">
-                    <span class="hero-badge text-slate-100 mb-8">Guides · References · Playbooks</span>
-                    <h1 class="hero-title text-4xl sm:text-6xl text-white mb-6">
-                        Your <span class="gradient-text">apiUI</span> field manual
-                    </h1>
-                    <p class="hero-subtitle text-lg sm:text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed">
-                        Follow best practices, copy ready-made snippets, and master deployments with step-by-step walkthroughs tailored for builders.
-                    </p>
+        <section class="hero-section text-center min-h-screen flex items-center justify-center py-24">
+            <div class="pixel-container max-w-6xl relative z-10">
+
+                <span class="pixel-badge pixel-fade-in mb-8">Guides · References · Playbooks</span>
+
+                <h1 class="pixel-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto mb-8 pixel-fade-in">
+                    Your <span class="text-black">apiUI</span> field manual
+                </h1>
+
+                <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12 px-4 pixel-fade-in" style="animation-delay: 0.2s">
+                    Follow best practices, copy ready-made snippets, and master deployments with step-by-step walkthroughs tailored for builders.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-6 justify-center px-4 mb-16 pixel-fade-in" style="animation-delay: 0.4s">
+                    <a href="#getting-started" class="pixel-btn pixel-btn-primary w-full sm:w-auto px-10 py-4 text-lg">
+                        Start With Getting Started
+                    </a>
+                    <a href="index.html" class="pixel-btn pixel-btn-secondary w-full sm:w-auto px-10 py-4 text-lg">
+                        Return to Launchpad
+                    </a>
                 </div>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#getting-started" class="btn-professional btn-primary px-8 py-4 text-lg text-center">Start With Getting Started</a>
-                    <a href="index.html" class="btn-professional btn-outline-light px-8 py-4 text-lg text-center">Return to Launchpad</a>
-                </div>
+
             </div>
         </section>
 
@@ -796,7 +896,6 @@
                                 <ul class="doc-sidebar-links doc-toc">
                                     <li><a href="#overview">Overview</a></li>
                                     <li><a href="#quick-start">Quick Start</a></li>
-                                    <li><a href="#supported-formats">Supported File Formats</a></li>
                                     <li><a href="#requirements">System Requirements</a></li>
                                 </ul>
                             </div>
@@ -804,9 +903,12 @@
                                 <h3 class="doc-sidebar-title">API Features</h3>
                                 <ul class="doc-sidebar-links doc-toc">
                                     <li><a href="#api-management">API Management</a></li>
-                                    <li><a href="#api-endpoints">Mock & Generated APIs</a></li>
+                                    <li><a href="#api-endpoints">API Endpoints</a></li>
                                     <li><a href="#examples">Code Examples</a></li>
+                                    <li><a href="#chat-ai-features">Chat & AI Features</a></li>
                                     <li><a href="#advanced-features">Advanced Features</a></li>
+                                    <li><a href="#supported-formats">Supported File Formats</a></li>
+                                    <li><a href="#api-usage-deployment">API Usage & Deployment</a></li>
                                     <li><a href="#troubleshooting">Troubleshooting</a></li>
                                 </ul>
                             </div>
@@ -821,7 +923,6 @@
                                 <ul class="doc-sidebar-links doc-toc">
                                     <li><a href="#overview">Overview</a></li>
                                     <li><a href="#quick-start">Quick Start</a></li>
-                                    <li><a href="#supported-formats">Supported File Formats</a></li>
                                     <li><a href="#requirements">System Requirements</a></li>
                                 </ul>
                             </div>
@@ -829,9 +930,12 @@
                                 <h3 class="doc-sidebar-title">API Features</h3>
                                 <ul class="doc-sidebar-links doc-toc">
                                     <li><a href="#api-management">API Management</a></li>
-                                    <li><a href="#api-endpoints">Mock & Generated APIs</a></li>
+                                    <li><a href="#api-endpoints">API Endpoints</a></li>
                                     <li><a href="#examples">Code Examples</a></li>
+                                    <li><a href="#chat-ai-features">Chat & AI Features</a></li>
                                     <li><a href="#advanced-features">Advanced Features</a></li>
+                                    <li><a href="#supported-formats">Supported File Formats</a></li>
+                                    <li><a href="#api-usage-deployment">API Usage & Deployment</a></li>
                                     <li><a href="#troubleshooting">Troubleshooting</a></li>
                                 </ul>
                             </div>
@@ -843,34 +947,41 @@
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">Overview</h2>
-                    <div class="prose prose-lg max-w-none text-slate-600">
-                        <p class="mb-6">
-                            <strong class="text-slate-900">apiUI</strong> is an AI-powered platform by <strong class="text-slate-900">AURABLOX</strong> that transforms your data files into fully functional REST APIs. Upload CSV, Excel, JSON, Parquet, or text files and instantly get production-ready API endpoints with automatic data analysis, type inference, and FastAPI code generation.
-                        </p>
 
-                        <h3 class="text-2xl font-semibold text-slate-900 mb-4">How It Works</h3>
-                        <ol class="list-decimal list-inside space-y-3 mb-8">
-                            <li><strong>Upload Your Data:</strong> Drag and drop CSV, Excel, JSON, Parquet, or TXT files</li>
-                            <li><strong>Instant Preview:</strong> Automatic data analysis and type detection with immediate preview</li>
-                            <li><strong>AI Generation:</strong> OpenAI GPT-4 creates production-ready FastAPI code with Pydantic models</li>
-                            <li><strong>Live APIs:</strong> Working REST endpoints with filtering, sorting, and pagination</li>
-                            <li><strong>Deploy Anywhere:</strong> Download complete server packages for local or cloud deployment</li>
-                        </ol>
+                    <div class="space-y-8">
+                        <div>
+                            <p class="text-slate-600 mb-6">
+                                <strong class="text-slate-900">apiUI</strong> is an AI-powered platform by <strong class="text-slate-900">AURABLOX</strong> that transforms your data files into fully functional REST APIs. Upload CSV, Excel, JSON, Parquet, or text files and instantly get production-ready API endpoints with automatic data analysis, type inference, and FastAPI code generation.
+                            </p>
+                        </div>
 
-                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-8">
-                            <h4 class="text-lg font-semibold text-slate-900 mb-3">Key Features</h4>
-                            <ul class="grid md:grid-cols-2 gap-3 text-slate-600">
-                                <li>✅ Multi-format file support (CSV, Excel, JSON, Parquet, TXT)</li>
-                                <li>✅ AI-powered FastAPI code generation with OpenAI GPT-4</li>
-                                <li>✅ Automatic data type inference and schema analysis</li>
-                                <li>✅ Instant mock APIs while AI generation runs</li>
-                                <li>✅ RESTful API endpoints with full CRUD operations</li>
-                                <li>✅ Advanced filtering, sorting, and search capabilities</li>
-                                <li>✅ Pagination and real-time status monitoring</li>
-                                <li>✅ Pydantic model validation and error handling</li>
-                                <li>✅ Complete server deployment packages</li>
-                                <li>✅ Multiple authentication methods and API management</li>
-                            </ul>
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">How It Works</h3>
+                            <ol class="list-decimal list-inside space-y-3 mb-4 text-slate-600">
+                                <li><strong>Upload Your Data:</strong> Drag and drop CSV, Excel, JSON, Parquet, or TXT files</li>
+                                <li><strong>Instant Preview:</strong> Automatic data analysis and type detection with immediate preview</li>
+                                <li><strong>AI Generation:</strong> OpenAI GPT-4 creates production-ready FastAPI code with Pydantic models</li>
+                                <li><strong>Live APIs:</strong> Working REST endpoints with filtering, sorting, and pagination</li>
+                                <li><strong>Deploy Anywhere:</strong> Download complete server packages for local or cloud deployment</li>
+                            </ol>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Key Features</h3>
+                            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                <ul class="grid md:grid-cols-2 gap-3 text-slate-600">
+                                    <li>✅ Multi-format file support (CSV, Excel, JSON, Parquet, TXT)</li>
+                                    <li>✅ AI-powered FastAPI code generation with OpenAI GPT-4</li>
+                                    <li>✅ Automatic data type inference and schema analysis</li>
+                                    <li>✅ Instant mock APIs while AI generation runs</li>
+                                    <li>✅ RESTful API endpoints with full CRUD operations</li>
+                                    <li>✅ Advanced filtering, sorting, and search capabilities</li>
+                                    <li>✅ Pagination and real-time status monitoring</li>
+                                    <li>✅ Pydantic model validation and error handling</li>
+                                    <li>✅ Complete server deployment packages</li>
+                                    <li>✅ Multiple authentication methods and API management</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1047,10 +1158,171 @@ Jane Smith,jane@example.com,Marketing,65000</code></pre>
                         </div>
 
                         <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Chat & AI Features</h3>
+                            <p class="text-slate-600 mb-4">
+                                Interact with your APIs using natural language through our integrated chat system powered by AI.
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Chat Capabilities:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Real-time Chat:</strong> Socket.io-powered real-time conversations</li>
+                                    <li>• <strong>AI-Powered Responses:</strong> OpenAI GPT integration for intelligent answers</li>
+                                    <li>• <strong>Data Queries:</strong> Ask questions about your data in natural language</li>
+                                    <li>• <strong>API Context:</strong> AI understands your API schema and provides relevant insights</li>
+                                    <li>• <strong>Multi-language Support:</strong> Chat in any language, get responses in your preferred language</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
                             <h3 class="text-2xl font-semibold text-slate-900 mb-4">Deployment</h3>
                             <p class="text-slate-600 mb-4">
                                 Deploy anywhere: Local servers, Docker containers, Google Cloud Run, Firebase Hosting, Vercel, or Netlify.
                             </p>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Deployment Options:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Docker Compose:</strong> One-command local development environment</li>
+                                    <li>• <strong>Google Cloud Run:</strong> Serverless container deployment</li>
+                                    <li>• <strong>Firebase Hosting:</strong> Static frontend with Cloud Functions backend</li>
+                                    <li>• <strong>Local Development:</strong> Run everything on your machine</li>
+                                    <li>• <strong>Custom Deployments:</strong> Kubernetes, AWS, Azure, or any container platform</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Storage & Persistence</h3>
+                            <p class="text-slate-600 mb-4">
+                                Multiple storage backends ensure your APIs and data persist across deployments.
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Storage Options:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Google Cloud Storage:</strong> Production-ready persistent storage</li>
+                                    <li>• <strong>Supabase Storage:</strong> Integrated file storage with authentication</li>
+                                    <li>• <strong>Local Storage:</strong> Filesystem storage for development</li>
+                                    <li>• <strong>MongoDB Atlas:</strong> Metadata persistence and state management</li>
+                                    <li>• <strong>PostgreSQL:</strong> Alternative database backend via Supabase</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Monitoring & Analytics</h3>
+                            <p class="text-slate-600 mb-4">
+                                Built-in monitoring and analytics to track API usage and performance.
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Monitoring Features:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>API Metrics:</strong> Request counts, response times, and error tracking</li>
+                                    <li>• <strong>Health Checks:</strong> System status and storage connectivity monitoring</li>
+                                    <li>• <strong>Real-time Status:</strong> Live API status and deployment information</li>
+                                    <li>• <strong>Usage Analytics:</strong> Track API consumption and popular endpoints</li>
+                                    <li>• <strong>Performance Monitoring:</strong> Response time analysis and optimization insights</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat & AI Features Section -->
+        <section id="chat-ai-features" class="doc-section py-16 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-8">Chat & AI Features</h2>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Real-time Chat Interface</h3>
+                            <p class="text-slate-600 mb-4">
+                                Connect to your APIs through an intelligent chat interface powered by Socket.io and AI. Ask questions in natural language and get instant responses about your data.
+                            </p>
+                            <div class="bg-white p-6 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Chat Capabilities:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Natural Language Queries:</strong> Ask "How many records are there?" or "Show me sales by region"</li>
+                                    <li>• <strong>Real-time Responses:</strong> Instant answers powered by WebSocket connections</li>
+                                    <li>• <strong>Context Awareness:</strong> AI understands your API schema and data structure</li>
+                                    <li>• <strong>Multi-API Support:</strong> Chat with different APIs simultaneously</li>
+                                    <li>• <strong>Error Handling:</strong> Graceful fallbacks when AI services are unavailable</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">AI-Powered Code Generation</h3>
+                            <p class="text-slate-600 mb-4">
+                                Our advanced AI system analyzes your data and generates production-ready FastAPI applications with intelligent features.
+                            </p>
+                            <div class="bg-white p-6 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3">Generated API Features:</h4>
+                                <ul class="text-slate-600 text-sm space-y-2">
+                                    <li>• <strong>Automatic Schema Detection:</strong> Smart type inference for all data columns</li>
+                                    <li>• <strong>Pagination & Filtering:</strong> Built-in query parameters for large datasets</li>
+                                    <li>• <strong>Sorting Capabilities:</strong> Multi-column sorting with ascending/descending options</li>
+                                    <li>• <strong>Search Functionality:</strong> Full-text search across text fields</li>
+                                    <li>• <strong>Data Validation:</strong> Input validation and error handling</li>
+                                    <li>• <strong>CORS Support:</strong> Cross-origin resource sharing for web applications</li>
+                                    <li>• <strong>Docker Ready:</strong> Containerized deployments with optimized Dockerfiles</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-4">Chat API Endpoints</h3>
+                            <p class="text-slate-600 mb-4">
+                                The chat system provides both WebSocket and HTTP endpoints for maximum compatibility.
+                            </p>
+
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-lg border border-slate-200">
+                                    <div class="flex items-center mb-4">
+                                        <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium mr-3">WebSocket</span>
+                                        <h4 class="text-lg font-semibold text-slate-900">Real-time Chat Connection</h4>
+                                    </div>
+                                    <p class="text-slate-600 mb-4">Connect via Socket.io for real-time chat interactions</p>
+                                    <div class="code-block p-3 mb-4">
+                                        <pre><code>// Connect to chat server
+const socket = io('http://localhost:3001');
+
+// Join API chat room
+socket.emit('join_api', { api_id: 'your-api-id', user_id: 'user123' });
+
+// Send chat message
+socket.emit('chat_message', {
+  message: "How many records are there?",
+  api_id: "your-api-id",
+  user_id: "user123"
+});
+
+// Listen for responses
+socket.on('chat_response', (data) => {
+  console.log('AI Response:', data.message);
+});</code></pre>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-6 rounded-lg border border-slate-200">
+                                    <div class="flex items-center mb-4">
+                                        <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium mr-3">POST</span>
+                                        <h4 class="text-lg font-semibold text-slate-900">/api/chat</h4>
+                                    </div>
+                                    <p class="text-slate-600 mb-4">HTTP fallback endpoint for chat messages</p>
+                                    <div class="code-block p-3 mb-4">
+                                        <pre><code>curl -X POST "http://localhost:3001/api/chat" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Show me the data schema",
+    "api_id": "your-api-id",
+    "user_id": "user123"
+  }'</code></pre>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1345,11 +1617,11 @@ curl "https://your-api-endpoint.com/data/schema"</code></pre>
             </div>
         </section>
 
-        <!-- Advanced Features Section -->
-        <section id="advanced-features" class="doc-section py-16 bg-slate-50">
+        <!-- API Usage & Deployment Section -->
+        <section id="api-usage-deployment" class="doc-section py-16 bg-slate-50">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl">
-                    <h2 class="text-4xl font-bold text-slate-900 mb-8">Advanced Features</h2>
+                    <h2 class="text-4xl font-bold text-slate-900 mb-8">API Usage & Deployment</h2>
 
                     <div class="space-y-8">
                         <div>
@@ -1701,71 +1973,6 @@ curl "https://your-api-endpoint.com/data/schema"</code></pre>
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpdGxncXFxc3VzZGZ4YmVqb3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MjQ3MDUsImV4cCI6MjA3NDMwMDcwNX0.UN7qm7bGk_-BrL_th2auH7lwW1OjqAdxOLpzqgfdHw4';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const signinDropdownBtn = document.getElementById('signin-dropdown-btn');
-        const signinDropdown = document.getElementById('signin-dropdown');
-        const mobileSigninToggle = document.getElementById('mobile-signin-toggle');
-        const mobileSigninOptions = document.getElementById('mobile-signin-options');
-
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when clicking on a link
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-        }
-
-        // Desktop sign-in dropdown toggle
-        if (signinDropdownBtn && signinDropdown) {
-            signinDropdownBtn.addEventListener('click', (event) => {
-                event.stopPropagation();
-                const isVisible = !signinDropdown.classList.contains('opacity-0');
-
-                if (isVisible) {
-                    signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
-                    signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
-                } else {
-                    signinDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
-                    signinDropdown.classList.add('opacity-100', 'visible', 'scale-100');
-                }
-            });
-        }
-
-        // Mobile sign-in toggle
-        if (mobileSigninToggle && mobileSigninOptions) {
-            mobileSigninToggle.addEventListener('click', (event) => {
-                event.stopPropagation();
-                mobileSigninOptions.classList.toggle('hidden');
-            });
-        }
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (event) => {
-            if (signinDropdown && signinDropdownBtn && !signinDropdown.contains(event.target) && !signinDropdownBtn.contains(event.target)) {
-                signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
-                signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
-            }
-
-            if (mobileSigninOptions && mobileSigninToggle && !mobileSigninOptions.contains(event.target) && !mobileSigninToggle.contains(event.target)) {
-                mobileSigninOptions.classList.add('hidden');
-            }
-        });
-
-        // Close mobile menu when selecting a sign-in option
-        if (mobileSigninOptions && mobileMenu) {
-            mobileSigninOptions.addEventListener('click', (event) => {
-                if (event.target.tagName === 'BUTTON') {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        }
 
         
 const authProviderRoutes = {
@@ -2303,6 +2510,39 @@ supabase.auth.onAuthStateChange(async (event, session) => {
 
             block.appendChild(copyButton);
         });
+        // Pixel Scroll-triggered Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all pixel animation elements
+            const animatedElements = document.querySelectorAll('.pixel-fade-in, .pixel-slide-in-left, .pixel-slide-in-right');
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Add pixel flicker effect on hover for buttons
+            const pixelButtons = document.querySelectorAll('.pixel-btn');
+            pixelButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.classList.add('pixel-flicker');
+                    setTimeout(() => {
+                        this.classList.remove('pixel-flicker');
+                    }, 100);
+                });
+            });
+        });
+
         // Set backend URL for authentication
         window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
     </script>

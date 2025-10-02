@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket Chat | apiUI</title>
+    <meta name="description" content="Real-time chat interface for interacting with your generated APIs using Socket.io">
+    <meta name="author" content="apiUI by AURABLOX">
+    <link rel="canonical" href="https://apiui.web.app/socket-chat.html">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.7.5/dist/socket.io.min.js"></script>
+    <script>
+        // Configure backend URLs for the frontend
+        // Use localhost for development, production URLs for live site
+        const isLocalhost = window.location.hostname === 'localhost' ||
+                           window.location.hostname === '127.0.0.1' ||
+                           window.location.hostname === '';
+
+        // Flask backend for API operations
+        window.APIUI_AUTH_BASE_URL = isLocalhost
+            ? 'http://localhost:9999'
+            : 'https://apiui-backend-44565368406.us-central1.run.app';
+
+        // Firebase Functions chat server for communication
+        window.CHAT_SERVER_URL = isLocalhost
+            ? 'http://localhost:3001'
+            : 'https://us-central1-ai-apiui.cloudfunctions.net/chat';
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        html, body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+            color: #000000;
+            line-height: 1.6;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-message {
+            animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 1rem;
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+
+        .chat-message.user .message-bubble {
+            background: #000000;
+            color: #ffffff;
+            border: 1px solid #000000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-message.bot {
+            justify-content: flex-start;
+        }
+
+        .chat-message.bot .message-bubble {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .message-bubble {
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            max-width: 75%;
+            word-wrap: break-word;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .message-bubble.user-bubble {
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .message-bubble.bot-bubble {
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .message-bubble:hover {
+            transform: translateY(-1px);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 0.75rem 1rem;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            margin: 0.5rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .typing-indicator.show {
+            display: flex;
+        }
+
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .code-block {
+            background: #f8fafc;
+            color: #1f2937;
+            border: 1px solid #e5e7eb;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            line-height: 1.4;
+            white-space: pre-wrap;
+        }
+
+        /* Modern button styling */
+        .btn-primary {
+            background-color: #000000;
+            color: #ffffff;
+            border: 2px solid #000000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            background-color: #1f2937;
+            border-color: #1f2937;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #000000;
+            border: 2px solid #e5e7eb;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-secondary:hover {
+            border-color: #000000;
+            background-color: #f8fafc;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced form inputs */
+        input[type="text"], select {
+            border: 2px solid #e5e7eb;
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: #000000;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"]:hover, select:hover {
+            border-color: #d1d5db;
+        }
+
+        /* Smooth scrollbar for messages */
+        #messagesContainer::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #messagesContainer::-webkit-scrollbar-track {
+            background: #f8fafc;
+            border-radius: 3px;
+        }
+
+        #messagesContainer::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 3px;
+        }
+
+        #messagesContainer::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <img src="apiui-logo.png" alt="apiUI Logo" class="h-8 w-8">
+                        <span class="text-xl sm:text-2xl font-light tracking-widest text-black">api<span class="font-black uppercase text-lg sm:text-xl">UI</span></span>
+                    </a>
+                    <span class="ml-4 text-sm text-gray-500">Socket Chat</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="docs.html" class="text-gray-700 hover:text-black font-medium transition-colors">Docs</a>
+                    <a href="api-hub.html" class="text-gray-700 hover:text-black font-medium transition-colors">API Hub</a>
+                    <a href="app.html" class="text-gray-700 hover:text-black font-medium transition-colors">Dashboard</a>
+
+                    <!-- Sign In Dropdown -->
+                    <div class="relative">
+                        <button id="signin-dropdown-btn" class="px-4 py-2 border border-slate-800 rounded-md text-sm font-medium text-slate-800 hover:bg-slate-900 hover:text-white transition-colors flex items-center">
+                            <span id="signin-button-label">Sign In</span>
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div id="signin-dropdown" class="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 ease-out z-50">
+                            <!-- Sign In Form -->
+                            <div id="signin-form">
+                                <form id="email-signin-form" class="space-y-3 p-4">
+                                    <div>
+                                        <input type="email" id="signin-email" placeholder="Email address" required
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                                    </div>
+                                    <div>
+                                        <input type="password" id="signin-password" placeholder="Password" required
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                                    </div>
+                                    <button type="submit" class="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors font-medium">
+                                        Sign In
+                                    </button>
+                                    <button id="show-signup" class="text-sm text-black hover:text-gray-700 w-full text-center">Need an account? Sign up</button>
+                                </form>
+                            </div>
+
+                            <!-- Sign Up Form -->
+                            <div id="signup-form" class="hidden p-4">
+                                <form id="email-signup-form" class="space-y-3">
+                                    <div>
+                                        <input type="email" id="signup-email" placeholder="Email address" required
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                                    </div>
+                                    <div>
+                                        <input type="password" id="signup-password" placeholder="Password" required
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                                    </div>
+                                    <button type="submit" class="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors font-medium">
+                                        Sign Up
+                                    </button>
+                                    <button id="show-signin" class="text-sm text-black hover:text-gray-700 w-full text-center">Already have an account? Sign in</button>
+                                </form>
+                            </div>
+
+                            <div id="auth-message" class="mt-3 text-sm text-center hidden p-4"></div>
+                        </div>
+                    </div>
+
+                    <!-- Signed In User Dropdown -->
+                    <div id="signedin-dropdown" class="hidden relative">
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-black">
+                            <img id="signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-8 h-8 rounded-full object-cover border border-slate-200">
+                            <span id="signedin-name">Account</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div class="absolute right-0 mt-2 w-64 bg-white border border-slate-200 rounded-lg shadow-lg z-50">
+                            <div class="px-4 py-3 border-b border-slate-200">
+                                <p class="text-sm font-medium text-slate-900" id="signedin-email"></p>
+                            </div>
+                            <div class="py-1">
+                                <a id="signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <span>View Profile</span>
+                                </a>
+                                <button id="logout-btn" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Sign Out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="docs.html" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black hover:bg-gray-50">Docs</a>
+                <a href="api-hub.html" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black hover:bg-gray-50">API Hub</a>
+                <a href="app.html" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black hover:bg-gray-50">Dashboard</a>
+            </div>
+
+            <!-- Mobile Auth Options -->
+            <div id="mobile-signedout-options" class="hidden px-2 pt-2 pb-3 border-t border-gray-200">
+                <div class="space-y-2">
+                    <button id="mobile-signin-toggle" class="w-full text-left px-3 py-2 border border-slate-800 rounded-md text-sm font-medium text-slate-800 hover:bg-slate-900 hover:text-white transition-colors flex items-center justify-between">
+                        <span id="mobile-signin-label">Sign In</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-signin-options" class="hidden px-2 pt-2 pb-3 border-t border-gray-200">
+                <div class="space-y-3">
+                    <form id="mobile-email-signin-form" class="space-y-3">
+                        <div>
+                            <input type="email" id="mobile-signin-email" placeholder="Email address" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                        </div>
+                        <div>
+                            <input type="password" id="mobile-signin-password" placeholder="Password" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                        </div>
+                        <button type="submit" class="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors font-medium">
+                            Sign In
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <button id="mobile-show-signup" class="text-sm text-black hover:text-gray-700">Need an account? Sign up</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobile-signup-options" class="hidden px-2 pt-2 pb-3 border-t border-gray-200">
+                <div class="space-y-3">
+                    <form id="mobile-email-signup-form" class="space-y-3">
+                        <div>
+                            <input type="email" id="mobile-signup-email" placeholder="Email address" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                        </div>
+                        <div>
+                            <input type="password" id="mobile-signup-password" placeholder="Password" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                        </div>
+                        <button type="submit" class="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors font-medium">
+                            Sign Up
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <button id="mobile-show-signin" class="text-sm text-black hover:text-gray-700">Already have an account? Sign in</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobile-signedin-options" class="hidden px-2 pt-2 pb-3 border-t border-gray-200">
+                <div class="flex items-center px-3 py-2">
+                    <img id="mobile-signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-8 h-8 rounded-full object-cover border border-slate-200 mr-3">
+                    <div>
+                        <p id="mobile-signedin-name" class="text-sm font-medium text-slate-900">Account</p>
+                        <p id="mobile-signedin-email" class="text-xs text-slate-600"></p>
+                    </div>
+                </div>
+                <div class="px-3 py-2">
+                    <a id="mobile-signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden block text-sm text-gray-700 hover:text-black">
+                        View Profile
+                    </a>
+                    <button id="mobile-logout-btn" class="block w-full text-left text-sm text-gray-700 hover:text-black">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 h-screen flex flex-col">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 flex-1">
+
+            <!-- API Selection Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-lg border border-black p-8 flex-1 flex flex-col overflow-y-auto">
+                    <h2 class="text-xl font-bold text-black mb-6">Select API</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Choose an API</label>
+                            <select
+                                id="apiSelect"
+                                class="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors text-base"
+                            >
+                                <option value="">Select an API to start chatting...</option>
+                            </select>
+                            <input
+                                type="text"
+                                id="apiIdInput"
+                                placeholder="Or enter a custom API ID manually"
+                                class="mt-3 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors text-sm"
+                            >
+                        </div>
+
+                        <button
+                            id="connectBtn"
+                            class="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                        >
+                            Connect to API
+                        </button>
+
+                        <div id="connectionStatus" class="text-sm text-gray-600">
+                            Status: <span class="text-red-500">Disconnected</span>
+                        </div>
+                    </div>
+
+                    <!-- Connection Info -->
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <h3 class="text-sm font-medium text-gray-900 mb-2">Connection Info</h3>
+                        <div class="text-xs text-gray-600 space-y-1">
+                            <div>Socket URL: <code class="bg-gray-100 px-1 py-0.5 rounded">/api/{api_id}</code></div>
+                            <div>Events: chat_message, query_data, stream_data</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-lg border border-black p-8 mt-8">
+                    <h3 class="text-base font-bold text-black mb-6">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button
+                            id="sampleQueryBtn"
+                            class="btn-secondary w-full text-left disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            disabled
+                        >
+                            Show me a sample of the data
+                        </button>
+                        <button
+                            id="countQueryBtn"
+                            class="btn-secondary w-full text-left disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            disabled
+                        >
+                            How many records are there?
+                        </button>
+                        <button
+                            id="schemaQueryBtn"
+                            class="btn-secondary w-full text-left disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            disabled
+                        >
+                            What columns are available?
+                        </button>
+                        <button
+                            id="describeQueryBtn"
+                            class="btn-secondary w-full text-left disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            disabled
+                        >
+                            Describe the data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-lg border border-black flex-1 flex flex-col overflow-hidden">
+
+                    <!-- Chat Header -->
+                    <div class="px-8 py-6 border-b border-black bg-white">
+                        <h2 class="text-xl font-bold text-black">Chat with your API</h2>
+                        <p class="text-sm font-medium text-gray-600 mt-1" id="api-status">Ask questions about your data</p>
+                    </div>
+
+                    <!-- Messages Container -->
+                    <div id="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-2">
+                        <div class="text-center text-gray-500 py-4">
+                            <div class="text-lg font-medium text-black">Ready to chat</div>
+                            <p class="text-sm opacity-75">Select an API to get started</p>
+                        </div>
+                    </div>
+
+                    <!-- Typing Indicator -->
+                    <div id="typingIndicator" class="typing-indicator px-8 pb-4">
+                        <div class="flex items-center space-x-3 text-gray-500">
+                            <div class="flex space-x-1">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full pulse"></div>
+                                <div class="w-2 h-2 bg-gray-400 rounded-full pulse" style="animation-delay: 0.2s"></div>
+                                <div class="w-2 h-2 bg-gray-400 rounded-full pulse" style="animation-delay: 0.4s"></div>
+                            </div>
+                            <span class="text-sm">API is thinking...</span>
+                        </div>
+                    </div>
+
+                    <!-- Message Input -->
+                    <div class="px-8 py-6 border-t border-black bg-gray-50">
+                        <div class="flex space-x-3">
+                            <input
+                                type="text"
+                                id="messageInput"
+                                placeholder="Ask a question about your data..."
+                                class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 bg-white"
+                                disabled
+                            >
+                            <button
+                                id="sendBtn"
+                                class="btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                disabled
+                            >
+                                Send
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-3 opacity-75">
+                            Try: "Show me the first 5 records", "How many records are there?", "What columns do I have?"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication JavaScript -->
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://witlgqqqsusdfxbejoqb.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpdGxncXFxc3VzZGZ4YmVqb3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MjQ3MDUsImV4cCI6MjA3NDMwMDcwNX0.UN7qm7bGk_-BrL_th2auH7lwW1OjqAdxOLpzqgfdHw4';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Authentication UI elements
+        const signinDropdownBtn = document.getElementById('signin-dropdown-btn');
+        const signinDropdown = document.getElementById('signin-dropdown');
+        const signedinDropdown = document.getElementById('signedin-dropdown');
+        const signinButtonLabel = document.getElementById('signin-button-label');
+        const signedinName = document.getElementById('signedin-name');
+        const signedinEmail = document.getElementById('signedin-email');
+        const signedinAvatar = document.getElementById('signedin-avatar');
+        const signedinProfileLink = document.getElementById('signedin-profile-link');
+        const logoutButtons = document.querySelectorAll('#logout-btn, #mobile-logout-btn');
+
+        // Mobile elements
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileSigninToggle = document.getElementById('mobile-signin-toggle');
+        const mobileSigninOptions = document.getElementById('mobile-signin-options');
+        const mobileSignupOptions = document.getElementById('mobile-signup-options');
+        const mobileSignedinOptions = document.getElementById('mobile-signedin-options');
+        const mobileSignedoutOptions = document.getElementById('mobile-signedout-options');
+        const mobileSigninLabel = document.getElementById('mobile-signin-label');
+        const mobileSignedinName = document.getElementById('mobile-signedin-name');
+        const mobileSignedinEmail = document.getElementById('mobile-signedin-email');
+        const mobileSignedinAvatar = document.getElementById('mobile-signedin-avatar');
+        const mobileSignedinProfileLink = document.getElementById('mobile-signedin-profile-link');
+
+        // UI update functions
+        function clearImage(imgEl) {
+            if (!imgEl) return;
+            imgEl.classList.add('hidden');
+            imgEl.removeAttribute('src');
+        }
+
+        function setImage(imgEl, src) {
+            if (!imgEl) return;
+            if (src) {
+                imgEl.src = src;
+                imgEl.classList.remove('hidden');
+
+                // Add error handling for Google avatars
+                imgEl.onerror = function() {
+                    console.log('Avatar failed to load:', src);
+                    // Try to load a fallback avatar
+                    if (src && src.includes('googleusercontent.com')) {
+                        const fallbackSizes = ['s96-c', 's64-c', 's32-c'];
+                        for (const size of fallbackSizes) {
+                            if (!src.includes(size)) {
+                                const newSrc = src.replace(/=s\d+-c/, `=${size}`);
+                                if (newSrc !== src) {
+                                    console.log('Trying fallback avatar:', newSrc);
+                                    imgEl.src = newSrc;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    // If all fallbacks fail, hide the image
+                    clearImage(imgEl);
+                };
+            } else {
+                clearImage(imgEl);
+            }
+        }
+
+        function setProfileLink(linkEl, url, label) {
+            if (!linkEl) return;
+
+            if (url) {
+                linkEl.href = url;
+                const span = linkEl.querySelector('span');
+                if (span && label) {
+                    span.textContent = label;
+                }
+                linkEl.classList.remove('hidden');
+            } else {
+                linkEl.classList.add('hidden');
+                linkEl.removeAttribute('href');
+            }
+        }
+
+        function applySignedOutUI() {
+            if (signinButtonLabel) {
+                signinButtonLabel.textContent = 'Sign In';
+            }
+            if (mobileSigninLabel) {
+                mobileSigninLabel.textContent = 'Sign In';
+            }
+            if (signinDropdown) {
+                signinDropdown.classList.add('hidden');
+            }
+            if (signedinDropdown) {
+                signedinDropdown.classList.add('hidden');
+            }
+            if (mobileSignedoutOptions) {
+                mobileSignedoutOptions.classList.remove('hidden');
+            }
+            if (mobileSignedinOptions) {
+                mobileSignedinOptions.classList.add('hidden');
+            }
+            if (signedinName) {
+                signedinName.textContent = '';
+            }
+            if (signedinEmail) {
+                signedinEmail.textContent = '';
+                signedinEmail.classList.remove('hidden');
+            }
+            if (mobileSignedinName) {
+                mobileSignedinName.textContent = '';
+            }
+            if (mobileSignedinEmail) {
+                mobileSignedinEmail.textContent = '';
+                mobileSignedinEmail.classList.remove('hidden');
+            }
+            clearImage(signedinAvatar);
+            clearImage(mobileSignedinAvatar);
+            setProfileLink(signedinProfileLink, null);
+            setProfileLink(mobileSignedinProfileLink, null);
+        }
+
+        function applySignedInUI(session) {
+            if (!session || !session.user) {
+                applySignedOutUI();
+                return;
+            }
+
+            const user = session.user;
+            const provider = session.provider || 'account';
+            const displayName = user.name || user.login || (user.email ? user.email.split('@')[0] : '') || 'Account';
+            const email = user.email || '';
+            const avatar = user.avatar_url || user.picture || '';
+
+            // Update desktop UI
+            if (signinButtonLabel) {
+                signinButtonLabel.textContent = displayName;
+            }
+            if (signedinDropdown) {
+                signedinDropdown.classList.remove('hidden');
+            }
+            if (signinDropdown) {
+                signinDropdown.classList.add('hidden');
+            }
+
+            // Update mobile UI
+            if (mobileSignedinOptions) {
+                mobileSignedinOptions.classList.remove('hidden');
+            }
+            if (mobileSignedoutOptions) {
+                mobileSignedoutOptions.classList.add('hidden');
+            }
+
+            // Update user info
+            if (signedinName) signedinName.textContent = displayName;
+            if (signedinEmail) {
+                signedinEmail.textContent = email;
+                signedinEmail.classList.remove('hidden');
+            }
+            if (mobileSignedinName) mobileSignedinName.textContent = displayName;
+            if (mobileSignedinEmail) {
+                mobileSignedinEmail.textContent = email;
+                mobileSignedinEmail.classList.remove('hidden');
+            }
+
+            setImage(signedinAvatar, avatar);
+            setImage(mobileSignedinAvatar, avatar);
+            setProfileLink(signedinProfileLink, null);
+            setProfileLink(mobileSignedinProfileLink, null);
+        }
+
+        const fetchAuthSession = async () => {
+            // Check Supabase auth first
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (session && !error) {
+                    // User is authenticated with Supabase
+                    const user = session.user;
+                    const userData = {
+                        authenticated: true,
+                        provider: 'supabase',
+                        user: {
+                            id: user.id,
+                            email: user.email,
+                            name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
+                            avatar_url: user.user_metadata?.avatar_url
+                        }
+                    };
+                    applySignedInUI(session);
+                    return;
+                }
+            } catch (error) {
+                // Supabase check failed, continue to backend check
+            }
+
+            // Fallback to backend session check
+            const sessionUrl = 'http://localhost:8000/auth/session';
+            try {
+                const response = await fetch(sessionUrl, { credentials: 'include' });
+                if (!response.ok) {
+                    applySignedOutUI();
+                    return;
+                }
+                const data = await response.json();
+                applySignedInUI(data);
+            } catch (error) {
+                applySignedOutUI();
+            }
+        };
+
+        // Mobile menu toggle
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking on a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // Sign-in dropdown functionality
+        if (signinDropdownBtn && signinDropdown) {
+            signinDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isVisible = !signinDropdown.classList.contains('opacity-0');
+
+                if (isVisible) {
+                    // Hide dropdown
+                    signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                    signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+                } else {
+                    // Show dropdown
+                    signinDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
+                    signinDropdown.classList.add('opacity-100', 'visible', 'scale-100');
+                }
+            });
+        }
+
+        // Mobile signin toggle
+        if (mobileSigninToggle && mobileSigninOptions && mobileSignupOptions && mobileSignedinOptions) {
+            mobileSigninToggle.addEventListener('click', () => {
+                const isExpanded = !mobileSigninOptions.classList.contains('hidden');
+                if (isExpanded) {
+                    mobileSigninOptions.classList.add('hidden');
+                    mobileSignupOptions.classList.add('hidden');
+                } else {
+                    mobileSigninOptions.classList.remove('hidden');
+                    mobileSignupOptions.classList.add('hidden');
+                }
+            });
+        }
+
+        logoutButtons.forEach(button => {
+            button.addEventListener('click', async (event) => {
+                event.preventDefault();
+
+                // Try Supabase logout first
+                try {
+                    const { error } = await supabase.auth.signOut();
+                    if (!error) {
+                        sessionStorage.removeItem('supabase_session');
+                    }
+                } catch (e) {
+                    // Ignore Supabase logout errors
+                }
+
+                // Fallback to backend logout
+                const logoutUrl = 'http://localhost:8000/auth/logout';
+                try {
+                    await fetch(logoutUrl, { method: 'POST', credentials: 'include' });
+                } catch (error) {
+                    // Ignore logout errors
+                }
+                applySignedOutUI();
+            });
+        });
+
+        applySignedOutUI();
+        fetchAuthSession();
+
+        // Listen for auth state changes
+        supabase.auth.onAuthStateChange(async (event, session) => {
+            console.log('Supabase auth state changed:', event, session);
+            if (event === 'SIGNED_IN' && session) {
+                await fetchAuthSession();
+            } else if (event === 'SIGNED_OUT') {
+                applySignedOutUI();
+            }
+        });
+
+        // Email authentication handlers
+        const emailSigninForm = document.getElementById('email-signin-form');
+        const emailSignupForm = document.getElementById('email-signup-form');
+        const showSignupBtn = document.getElementById('show-signup');
+        const showSigninBtn = document.getElementById('show-signin');
+        const signinForm = document.getElementById('signin-form');
+        const signupForm = document.getElementById('signup-form');
+        const authMessage = document.getElementById('auth-message');
+
+        // Mobile forms
+        const mobileEmailSigninForm = document.getElementById('mobile-email-signin-form');
+        const mobileEmailSignupForm = document.getElementById('mobile-email-signup-form');
+        const mobileShowSignupBtn = document.getElementById('mobile-show-signup');
+        const mobileShowSigninBtn = document.getElementById('mobile-show-signin');
+        const mobileSigninForm = document.getElementById('mobile-signin-form');
+        const mobileSignupForm = document.getElementById('mobile-signup-form');
+        const mobileAuthMessage = document.getElementById('mobile-auth-message');
+
+        // Form switching
+        if (showSignupBtn && signupForm && signinForm) {
+            showSignupBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupForm.classList.remove('hidden');
+                signinForm.classList.add('hidden');
+            });
+        }
+
+        if (showSigninBtn && signinForm && signupForm) {
+            showSigninBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signinForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+            });
+        }
+
+        // Mobile form switching
+        if (mobileShowSignupBtn && mobileSigninOptions && mobileSignupOptions) {
+            mobileShowSignupBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                mobileSigninOptions.classList.add('hidden');
+                mobileSignupOptions.classList.remove('hidden');
+            });
+        }
+
+        if (mobileShowSigninBtn && mobileSigninOptions && mobileSignupOptions) {
+            mobileShowSigninBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                mobileSignupOptions.classList.add('hidden');
+                mobileSigninOptions.classList.remove('hidden');
+            });
+        }
+
+        // Email signin handler
+        if (emailSigninForm) {
+            emailSigninForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const email = formData.get('email');
+                const password = formData.get('password');
+
+                if (authMessage) authMessage.classList.add('hidden');
+
+                try {
+                    const { data, error } = await supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+
+                    if (error) throw error;
+
+                    if (authMessage) {
+                        authMessage.textContent = 'Sign in successful!';
+                        authMessage.classList.remove('hidden', 'text-red-600');
+                        authMessage.classList.add('text-green-600');
+                    }
+
+                    // Close dropdown after successful signin
+                    if (signinDropdown) {
+                        signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                        signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+                    }
+
+                    await fetchAuthSession();
+                } catch (error) {
+                    console.error('Sign in error:', error);
+                    if (authMessage) {
+                        authMessage.textContent = error.message || 'Sign in failed';
+                        authMessage.classList.remove('hidden', 'text-green-600');
+                        authMessage.classList.add('text-red-600');
+                    }
+                }
+            });
+        }
+
+        // Email signup handler
+        if (emailSignupForm) {
+            emailSignupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const email = formData.get('email');
+                const password = formData.get('password');
+
+                if (authMessage) authMessage.classList.add('hidden');
+
+                try {
+                    const { data, error } = await supabase.auth.signUp({
+                        email: email,
+                        password: password
+                    });
+
+                    if (error) throw error;
+
+                    if (authMessage) {
+                        authMessage.textContent = 'Sign up successful! Please check your email to confirm your account.';
+                        authMessage.classList.remove('hidden', 'text-red-600');
+                        authMessage.classList.add('text-green-600');
+                    }
+                } catch (error) {
+                    console.error('Sign up error:', error);
+                    if (authMessage) {
+                        authMessage.textContent = error.message || 'Sign up failed';
+                        authMessage.classList.remove('hidden', 'text-green-600');
+                        authMessage.classList.add('text-red-600');
+                    }
+                }
+            });
+        }
+
+        // Mobile email signin handler
+        if (mobileEmailSigninForm) {
+            mobileEmailSigninForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const email = formData.get('email');
+                const password = formData.get('password');
+
+                if (mobileAuthMessage) mobileAuthMessage.classList.add('hidden');
+
+                try {
+                    const { data, error } = await supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+
+                    if (error) throw error;
+
+                    if (mobileAuthMessage) {
+                        mobileAuthMessage.textContent = 'Sign in successful!';
+                        mobileAuthMessage.classList.remove('hidden', 'text-red-600');
+                        mobileAuthMessage.classList.add('text-green-600');
+                    }
+
+                    // Close mobile menu after successful signin
+                    if (mobileMenu) mobileMenu.classList.add('hidden');
+
+                    await fetchAuthSession();
+                } catch (error) {
+                    console.error('Mobile sign in error:', error);
+                    if (mobileAuthMessage) {
+                        mobileAuthMessage.textContent = error.message || 'Sign in failed';
+                        mobileAuthMessage.classList.remove('hidden', 'text-green-600');
+                        mobileAuthMessage.classList.add('text-red-600');
+                    }
+                }
+            });
+        }
+
+        // Mobile email signup handler
+        if (mobileEmailSignupForm) {
+            mobileEmailSignupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const email = formData.get('email');
+                const password = formData.get('password');
+
+                if (mobileAuthMessage) mobileAuthMessage.classList.add('hidden');
+
+                try {
+                    const { data, error } = await supabase.auth.signUp({
+                        email: email,
+                        password: password
+                    });
+
+                    if (error) throw error;
+
+                    if (mobileAuthMessage) {
+                        mobileAuthMessage.textContent = 'Sign up successful! Please check your email to confirm your account.';
+                        mobileAuthMessage.classList.remove('hidden', 'text-red-600');
+                        mobileAuthMessage.classList.add('text-green-600');
+                    }
+                } catch (error) {
+                    console.error('Mobile sign up error:', error);
+                    if (mobileAuthMessage) {
+                        mobileAuthMessage.textContent = error.message || 'Sign up failed';
+                        mobileAuthMessage.classList.remove('hidden', 'text-green-600');
+                        mobileAuthMessage.classList.add('text-red-600');
+                    }
+                }
+            });
+        }
+    </script>
+
+    <!-- Socket.io JavaScript -->
+    <script>
+        let socket = null;
+        let currentApiId = null;
+
+        // DOM Elements
+        const apiIdInput = document.getElementById('apiIdInput');
+        const apiSelect = document.getElementById('apiSelect');
+        const loadApisBtn = document.getElementById('loadApisBtn');
+        const connectBtn = document.getElementById('connectBtn');
+        const connectionStatus = document.getElementById('connectionStatus');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const quickActionBtns = [
+            document.getElementById('sampleQueryBtn'),
+            document.getElementById('countQueryBtn'),
+            document.getElementById('schemaQueryBtn'),
+            document.getElementById('describeQueryBtn')
+        ];
+
+        // State
+        let useHttpFallback = false;
+
+        // HTTP Fallback functions
+        function enableHttpFallback() {
+            useHttpFallback = true;
+            updateConnectionStatus(true); // Show as connected for HTTP mode
+            addSystemMessage('HTTP chat mode enabled - you can now send messages!');
+        }
+
+        async function sendMessageViaHttp(message) {
+            try {
+                console.log('Sending message via HTTP:', message);
+                const response = await fetch(`${window.CHAT_SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        api_id: currentApiId,
+                        user_id: 'web-user-' + Date.now(),
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP request failed: ${response.status}`);
+                }
+
+                const data = await response.json();
+                hideTypingIndicator();
+
+                if (data.type === 'success') {
+                    addBotMessage(data.message);
+                } else {
+                    addErrorMessage(data.message || 'Unknown error');
+                }
+
+            } catch (error) {
+                hideTypingIndicator();
+                console.error('HTTP chat error:', error);
+                addErrorMessage(`Failed to send message: ${error.message}`);
+            }
+        }
+
+        // Quick action messages
+        const quickActions = {
+            sampleQueryBtn: "Show me a sample of the data",
+            countQueryBtn: "How many records are there?",
+            schemaQueryBtn: "What columns are available?",
+            describeQueryBtn: "Describe the data"
+        };
+
+        // Connect to API
+        async function connectToAPI(apiId) {
+            if (!apiId.trim()) {
+                addErrorMessage('Please select an API from the dropdown or enter an API ID manually.');
+                return;
+            }
+
+            // For manual input, validate API ID against available APIs
+            if (!isValidApiId(apiId)) {
+                addErrorMessage(`Invalid API ID: ${apiId}. Please select a valid API from the dropdown or enter a valid ID.`);
+                return;
+            }
+
+            try {
+                console.log(`Connecting to chat server for API: ${apiId}`);
+                console.log(`Chat server URL: ${window.CHAT_SERVER_URL}`);
+
+                // Check if we're using Firebase Functions (production) which doesn't support WebSockets
+                const isFirebaseFunctions = window.CHAT_SERVER_URL.includes('cloudfunctions.net');
+
+                if (isFirebaseFunctions) {
+                    // Skip Socket.IO and go straight to HTTP mode for Firebase Functions
+                    console.log('Firebase Functions detected - using HTTP-only mode');
+                    enableHttpFallback();
+                    updateConnectionStatus(true);
+                    currentApiId = apiId;
+                    updateApiStatus(`Connected to API: ${apiId.substring(0, 8)}...`);
+                    addSystemMessage('Connected to API! You can now chat with your data.');
+                    return;
+                }
+
+                console.log('API verified, connecting to socket...');
+
+                // Disconnect existing socket if any
+                if (socket) {
+                    socket.disconnect();
+                }
+
+                // Connect to the Node.js chat server
+                socket = io(window.CHAT_SERVER_URL);
+
+                socket.on('connect', () => {
+                    console.log('Connected to API socket');
+                    updateConnectionStatus(true);
+                    currentApiId = apiId;
+                    updateApiStatus(`Connected to API: ${apiId.substring(0, 8)}...`);
+                    addSystemMessage('Connected to API! You can now chat with your data.');
+                });
+
+                socket.on('disconnect', (reason) => {
+                    console.log('Disconnected from API socket:', reason);
+                    updateConnectionStatus(false);
+                    currentApiId = null;
+                    updateApiStatus('Ask natural language questions about your data');
+                    if (reason === 'io server disconnect') {
+                        addErrorMessage('Disconnected by server. The API may not exist or be unavailable.');
+                    }
+                });
+
+                socket.on('connect_error', (error) => {
+                    console.log('Socket connection error:', error);
+                    updateConnectionStatus(false);
+                    addErrorMessage(`Socket connection failed. Falling back to HTTP mode.`);
+                    addSystemMessage('Switching to HTTP-based chat mode...');
+                    // Don't disconnect - let it try to reconnect, but also enable HTTP fallback
+                    enableHttpFallback();
+                });
+
+                socket.on('chat_response', (data) => {
+                    hideTypingIndicator();
+                    if (data.type === 'success') {
+                        addBotMessage(data.message);
+                    } else {
+                        addErrorMessage(data.message);
+                    }
+                });
+
+                socket.on('error', (error) => {
+                    hideTypingIndicator();
+                    addErrorMessage(error.message || 'An error occurred');
+                });
+
+                socket.on('query_result', (data) => {
+                    hideTypingIndicator();
+                    if (data.type === 'success') {
+                        addBotMessage(formatQueryResult(data));
+                    } else {
+                        addErrorMessage(data.message);
+                    }
+                });
+
+                socket.on('stream_chunk', (chunk) => {
+                    // Handle streaming data
+                    addStreamingMessage(chunk);
+                });
+
+                socket.on('stream_complete', (data) => {
+                    addSystemMessage(`Streaming complete! Received ${data.total_rows} records.`);
+                });
+
+            } catch (error) {
+                console.error('Connection error:', error);
+                addErrorMessage(`Failed to connect: ${error.message}`);
+                updateConnectionStatus(false);
+            }
+        }
+
+        // Send message
+        function sendMessage(message) {
+            if (!currentApiId) {
+                addErrorMessage('No API selected');
+                return;
+            }
+
+            if (!socket || !socket.connected) {
+                if (!useHttpFallback) {
+                    addErrorMessage('Not connected to socket and HTTP fallback not enabled');
+                    return;
+                }
+            }
+
+            addUserMessage(message);
+            showTypingIndicator();
+
+            if (useHttpFallback) {
+                // Use HTTP fallback
+                sendMessageViaHttp(message);
+            } else {
+                // Use SocketIO
+                socket.emit('chat_message', {
+                    message: message,
+                    api_id: currentApiId,
+                    user_id: 'web-user-' + Date.now(),
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+
+        // Update connection status UI
+        function updateConnectionStatus(connected) {
+            const statusSpan = connectionStatus.querySelector('span');
+            if (connected) {
+                statusSpan.textContent = 'Connected';
+                statusSpan.className = 'text-green-500';
+                connectBtn.textContent = 'Disconnect';
+                connectBtn.className = connectBtn.className.replace('bg-blue-600', 'bg-red-600').replace('hover:bg-blue-700', 'hover:bg-red-700');
+                messageInput.disabled = false;
+                sendBtn.disabled = false;
+                quickActionBtns.forEach(btn => btn.disabled = false);
+            } else {
+                statusSpan.textContent = 'Disconnected';
+                statusSpan.className = 'text-red-500';
+                connectBtn.textContent = 'Connect to API';
+                connectBtn.className = connectBtn.className.replace('bg-red-600', 'bg-blue-600').replace('hover:bg-red-700', 'hover:bg-blue-700');
+                messageInput.disabled = true;
+                sendBtn.disabled = true;
+                quickActionBtns.forEach(btn => btn.disabled = true);
+            }
+        }
+
+        // Add messages to chat
+        function addUserMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message user';
+            messageDiv.innerHTML = `
+                <div class="message-bubble user-bubble">
+                    ${escapeHtml(message)}
+                </div>
+            `;
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function addBotMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message bot';
+            messageDiv.innerHTML = `
+                <div class="message-bubble bot-bubble">
+                    ${formatMessage(message)}
+                </div>
+            `;
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function addErrorMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message bot';
+            messageDiv.innerHTML = `
+                <div class="message-bubble bot-bubble" style="border-color: #fca5a5; background-color: #fef2f2; color: #dc2626;">
+                    <strong>Error:</strong> ${escapeHtml(message)}
+                </div>
+            `;
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function addSystemMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'text-center text-gray-500 text-xs py-1';
+            messageDiv.innerHTML = `<span class="opacity-75">${escapeHtml(message)}</span>`;
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function updateApiStatus(message) {
+            const statusElement = document.getElementById('api-status');
+            if (statusElement) {
+                statusElement.textContent = message;
+            }
+        }
+
+        function addStreamingMessage(chunk) {
+            // For now, just log streaming chunks
+            console.log('Streaming chunk:', chunk);
+        }
+
+        // Format query results
+        function formatQueryResult(data) {
+            if (data.data && Array.isArray(data.data)) {
+                const sample = data.data.slice(0, 3);
+                return `<div class="code-block">${JSON.stringify(sample, null, 2)}</div>
+                        <p class="text-xs text-gray-600 mt-2">Showing ${sample.length} of ${data.total_count} records</p>`;
+            }
+            return JSON.stringify(data, null, 2);
+        }
+
+        // Format message content
+        function formatMessage(message) {
+            // If message looks like JSON, format it nicely
+            if (message.trim().startsWith('{') || message.trim().startsWith('[')) {
+                try {
+                    const parsed = JSON.parse(message);
+                    return `<div class="code-block">${JSON.stringify(parsed, null, 2)}</div>`;
+                } catch (e) {
+                    // Not valid JSON, return as is
+                }
+            }
+            return escapeHtml(message);
+        }
+
+        // Utility functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function scrollToBottom() {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            typingIndicator.classList.add('show');
+        }
+
+        function hideTypingIndicator() {
+            typingIndicator.classList.remove('show');
+        }
+
+        // Dynamic list of available APIs (fetched from backend)
+        let availableApis = [];
+
+        // Load available APIs from backend
+        async function loadAvailableAPIs() {
+            try {
+                console.log('Loading available APIs from backend...');
+                const response = await fetch(`${window.CHAT_SERVER_URL}/apis`);
+                if (!response.ok) {
+                    throw new Error(`Failed to load APIs: ${response.status}`);
+                }
+
+                const data = await response.json();
+                availableApis = data.apis || [];
+
+                // Clear existing options except the first one
+                apiSelect.innerHTML = '<option value="">Select an API...</option>';
+
+                // Add API options from the backend
+                availableApis.forEach(api => {
+                    const option = document.createElement('option');
+                    option.value = api.id;
+                    option.textContent = `${api.title}`;
+                    apiSelect.appendChild(option);
+                });
+
+                // Show the dropdown
+                apiSelect.classList.remove('hidden');
+                console.log(`Loaded ${availableApis.length} APIs from backend`);
+
+            } catch (error) {
+                console.error('Failed to load APIs from backend:', error);
+                addErrorMessage(`Failed to load available APIs: ${error.message}`);
+
+                // Fallback to empty list if backend fails
+                apiSelect.innerHTML = '<option value="">Unable to load APIs...</option>';
+                apiSelect.classList.remove('hidden');
+            }
+        }
+
+        // Validate if an API ID exists in the available APIs
+        function isValidApiId(apiId) {
+            return availableApis.some(api => api.id === apiId);
+        }
+
+        // Handle API selection from dropdown
+        apiSelect.addEventListener('change', () => {
+            const selectedId = apiSelect.value;
+            if (selectedId) {
+                apiIdInput.value = selectedId;
+                // Auto-connect when API is selected
+                setTimeout(() => {
+                    connectToAPI(selectedId);
+                }, 500);
+            } else {
+                apiIdInput.value = '';
+            }
+        });
+
+        // Event listeners
+
+        connectBtn.addEventListener('click', () => {
+            if (socket && socket.connected) {
+                socket.disconnect();
+                updateConnectionStatus(false);
+            } else {
+                connectToAPI(apiIdInput.value);
+            }
+        });
+
+        sendBtn.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                sendMessage(message);
+                messageInput.value = '';
+            }
+        });
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendBtn.click();
+            }
+        });
+
+        // Quick action buttons
+        Object.keys(quickActions).forEach(btnId => {
+            document.getElementById(btnId).addEventListener('click', () => {
+                sendMessage(quickActions[btnId]);
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Socket Chat interface loaded');
+            console.log('Backend URL:', window.APIUI_AUTH_BASE_URL);
+
+            // Load the fixed API list
+            loadAvailableAPIs();
+
+            // Add welcome message
+            addSystemMessage('Welcome! Select an API from the dropdown above to start chatting.');
+        });
+    </script>
+</body>
+</html>

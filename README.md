@@ -7,48 +7,110 @@ Generate REST APIs from CSV/Excel files with persistent storage and Cloud Run de
 ## 🎯 Key Features
 
 - **🔄 Persistent APIs**: APIs remain available after container restarts
-- **☁️ Cloud Storage**: Google Cloud Storage integration for file persistence
-- **🗄️ Database Support**: MongoDB Atlas integration for metadata persistence
-- **🤖 AI-Powered**: OpenAI GPT-4 integration for intelligent API generation
-- **🐳 Container Ready**: Optimized for Cloud Run deployment
-- **📊 Multi-Format Support**: CSV, JSON, Excel, Parquet files
+- **☁️ Cloud Storage**: Google Cloud Storage, Supabase Storage, and local storage options
+- **🗄️ Database Support**: MongoDB Atlas and Supabase PostgreSQL integration
+- **🤖 AI-Powered**: OpenAI GPT-4 integration for intelligent API generation and chat
+- **💬 Real-time Chat**: Socket.io-powered chat interface for natural language API queries
+- **🔐 Authentication**: GitHub OAuth, Google OAuth, and Supabase Auth integration
+- **🐳 Container Ready**: Optimized for Cloud Run, Docker Compose, and Kubernetes
+- **🚀 Multi-Platform Deployment**: Firebase, Vercel, Netlify, and custom deployments
+- **📊 Multi-Format Support**: CSV, JSON, Excel, Parquet, and text files
+- **📈 Monitoring & Analytics**: Built-in metrics, health checks, and performance monitoring
 
 ## 🏗️ Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │   Backend       │    │   Storage       │
-│   (HTML/JS)     │◄──►│   (Flask)       │◄──►│   (GCS/MongoDB) │
-│                 │    │                 │    │                 │
-│ • File Upload   │    │ • API Generation│    │ • File Storage  │
-│ • API Testing   │    │ • Job Management│    │ • Metadata      │
-│ • Documentation │    │ • Mock Endpoints│    │ • Persistence   │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend       │    │   Chat Server   │    │   Storage       │
+│   (HTML/JS)     │◄──►│   (FastAPI)     │◄──►│   (Node.js)     │◄──►│   (GCS/MongoDB)│
+│                 │    │                 │    │                 │    │                 │
+│ • File Upload   │    │ • API Generation│    │ • Real-time Chat│    │ • File Storage  │
+│ • API Testing   │    │ • Job Management│    │ • AI Responses  │    │ • Metadata      │
+│ • Chat Interface│    │ • Auth (OAuth)  │    │ • Socket.io     │    │ • Persistence   │
+│ • Documentation │    │ • Mock Endpoints│    │ • HTTP Fallback │    │ • Supabase      │
+└─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
 ## 🚀 Quick Start
 
 ### 1. Prerequisites
-- Google Cloud Account
-- OpenAI API Key
-- Docker (optional)
+- **Required**: OpenAI API Key (for AI features)
+- **Storage Options** (choose one):
+  - Google Cloud Account (for GCS storage)
+  - Supabase Account (for Supabase storage)
+  - Local development (filesystem storage)
+- **Database Options** (choose one):
+  - MongoDB Atlas account
+  - Supabase account (includes PostgreSQL)
+- **Deployment Options** (choose one):
+  - Docker and Docker Compose (recommended)
+  - Google Cloud Run
+  - Firebase Hosting + Cloud Functions
+  - Vercel/Netlify (static deployment)
+- **Authentication** (optional):
+  - GitHub OAuth App
+  - Google OAuth credentials
+  - Supabase project
 
-### 2. Setup GCP Resources
+### 2. Quick Setup with Docker Compose (Recommended)
+```bash
+# Clone and navigate to the project
+cd /Users/jahflyx/apiui
+
+# Set your OpenAI API key
+export OPENAI_API_KEY='your-openai-api-key-here'
+
+# Start all services (backend, chat server, MongoDB)
+docker-compose up -d
+
+# Access the application:
+# - Frontend: http://localhost:8080
+# - Backend API: http://localhost:8000
+# - Chat Server: http://localhost:3001
+# - API Documentation: http://localhost:8000/docs
+```
+
+### 3. Alternative Setup Options
+
+#### Google Cloud Run Deployment
 ```bash
 # Configure your project ID
 export PROJECT_ID=your-gcp-project-id
 
-# Run setup script
+# Run GCP setup script
 ./setup-gcp.sh
+
+# Deploy to Cloud Run
+./deploy-cloud-run.sh
 ```
 
-### 3. Deploy to Cloud Run
+#### Firebase Deployment
 ```bash
-# Set your OpenAI key
-export OPENAI_API_KEY=your-key-here
+# Set up Firebase project
+firebase login
+firebase init
 
-# Deploy
-./deploy-cloud-run.sh
+# Deploy frontend to Firebase Hosting
+./deploy-firebase.sh
+```
+
+#### Local Development
+```bash
+# Backend setup
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+
+# Chat server setup (in another terminal)
+cd chat-server
+npm install
+npm run chat-dev
+
+# Frontend (in another terminal)
+cd frontend
+python -m http.server 8080
 ```
 
 ## 🔧 Configuration
@@ -56,19 +118,40 @@ export OPENAI_API_KEY=your-key-here
 ### Environment Variables
 ```bash
 # Required
-OPENAI_API_KEY=your-openai-key
-PROJECT_ID=your-gcp-project-id
+OPENAI_API_KEY=your-openai-api-key
 
-# Storage (choose one)
-USE_GCS_STORAGE=True              # Use Google Cloud Storage
-GCS_BUCKET_NAME=your-bucket-name  # GCS bucket name
+# Storage Options (choose one)
+USE_GCS_STORAGE=True              # Google Cloud Storage (production)
+GCS_BUCKET_NAME=your-bucket-name
 
-# Database (recommended)
-MONGODB_URL=mongodb+srv://...     # MongoDB Atlas connection
+USE_SUPABASE_STORAGE=True         # Supabase Storage (alternative)
+SUPABASE_URL=your-supabase-url
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-key
 
-# Optional
-FLASK_DEBUG=False
-PORT=8080
+USE_LOCAL_STORAGE=True            # Local filesystem (development only)
+
+# Database Options (choose one)
+MONGODB_URL=mongodb+srv://...     # MongoDB Atlas
+DATABASE_NAME=apiui
+
+# Supabase Database (alternative to MongoDB)
+SUPABASE_DB_URL=postgresql://...  # If using Supabase PostgreSQL
+
+# Authentication (optional)
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-secret
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-secret
+
+# Chat Server Configuration
+CHAT_PORT=3001
+FLASK_BACKEND_URL=http://localhost:8000
+
+# Application Settings
+DEBUG=False
+PORT=8000
+SECRET_KEY=your-secret-key-here
 ```
 
 ### Storage Options
@@ -102,10 +185,38 @@ PORT=8080
 - `GET /v1/generate/status/<job_id>` - Check generation status
 - `GET /v1/apis` - List all generated APIs
 - `GET /v1/apis/<api_id>` - Get API details
-- `GET /mock-api/<job_id>/data` - Access generated API data
+- `GET /mock-api/<job_id>/data` - Access generated API data (immediate)
+- `GET /api/<job_id>/data` - Access deployed API data
+
+### API Management
+- `POST /v1/apis/<api_id>/start` - Start a stopped API
+- `POST /v1/apis/<api_id>/stop` - Stop a running API
+- `DELETE /v1/apis/<api_id>` - Delete an API
+- `GET /v1/apis/<api_id>/status` - Get API running status
+- `GET /v1/apis/<api_id>/docs` - Get API documentation
+- `GET /v1/apis/<api_id>/metrics` - Get API usage metrics
+
+### Chat & AI Features
+- `POST /v1/chat` - Send chat messages (HTTP fallback)
+- `WebSocket /socket.io/` - Real-time chat connection
+- `GET /v1/apis/chat-enabled` - List APIs available for chat
+
+### Authentication
+- `GET /auth/github/login` - GitHub OAuth login
+- `GET /auth/google/login` - Google OAuth login
+- `POST /auth/supabase/signup` - Supabase user registration
+- `POST /auth/supabase/signin` - Supabase user login
+- `GET /auth/session` - Check current session
+- `POST /auth/logout` - Logout user
 
 ### Health & Monitoring
-- `GET /health` - Health check with storage/database status
+- `GET /health` - Comprehensive health check with storage/database status
+
+### Chat Server Endpoints (Port 3001)
+- `GET /health` - Chat server health check
+- `GET /api/apis` - List available APIs (proxied from backend)
+- `POST /api/chat` - HTTP chat endpoint
+- `WebSocket /` - Real-time Socket.io chat connection
 
 ## 🔍 Troubleshooting
 
@@ -177,11 +288,28 @@ gcloud run deploy apiui-backend \
 ```
 
 ### Other Platforms
-The application can also be deployed to:
-- Google App Engine
-- Kubernetes
-- AWS Fargate
-- Azure Container Instances
+The application supports deployment to multiple platforms:
+
+#### Serverless & Cloud Platforms
+- **Google Cloud Run**: Containerized deployment with auto-scaling
+- **AWS Fargate**: Serverless container execution
+- **Azure Container Instances**: Container deployment in Azure
+- **Google App Engine**: Traditional PaaS deployment
+
+#### Static Hosting + Functions
+- **Firebase Hosting + Cloud Functions**: Frontend on Firebase, backend on Cloud Functions
+- **Vercel**: Serverless functions with static frontend hosting
+- **Netlify**: Static site hosting with serverless functions
+
+#### Container Orchestration
+- **Kubernetes**: Full container orchestration with Helm charts
+- **Docker Swarm**: Native Docker clustering
+- **Amazon ECS**: AWS container orchestration
+
+#### Traditional Hosting
+- **Heroku**: Git-based deployment
+- **DigitalOcean App Platform**: Cloud-native deployment
+- **Railway**: Infrastructure from code
 
 ## 📊 Monitoring
 
@@ -306,27 +434,53 @@ apiui is a platform that automatically generates secure, scalable REST APIs from
 
 ```
 apiui/
-├── backend/                 # FastAPI backend
-│   ├── main.py             # Main application
-│   ├── core/               # Core functionality
-│   │   ├── config.py       # Configuration management
-│   │   └── database.py     # Database connection
-│   ├── models/             # Pydantic models
-│   │   └── job.py          # Job status model
-│   ├── services/           # Business logic
-│   │   ├── file_service.py     # File processing
-│   │   ├── ai_service.py       # AI code generation
-│   │   └── deployment_service.py # Container deployment
-│   ├── requirements.txt    # Python dependencies
-│   └── env.example         # Environment template
-├── frontend/               # Web interface
-│   └── index.html          # Single-page application
-├── docker/                 # Docker configurations
-│   ├── backend.Dockerfile
-│   ├── frontend.Dockerfile
-│   └── nginx.conf
-├── docker-compose.yml      # Development environment
-└── README.md
+├── backend/                    # FastAPI backend
+│   ├── main.py                # Main application with all endpoints
+│   ├── app.py                 # Alternative FastAPI app entry point
+│   ├── core/                  # Core functionality
+│   │   ├── config.py          # Configuration management
+│   │   └── database.py        # Database connection
+│   ├── models/                # Pydantic models
+│   │   └── job.py             # Job status model
+│   ├── services/              # Business logic services
+│   │   ├── ai_service.py      # OpenAI integration for code generation
+│   │   ├── database_service.py # Database operations
+│   │   ├── deployment_service.py # Container deployment
+│   │   ├── file_service.py    # File processing and validation
+│   │   ├── storage_service.py # GCS, Supabase, and local storage
+│   │   ├── supabase_service.py # Supabase integration
+│   │   └── socket_service.py  # WebSocket services
+│   ├── requirements.txt       # Python dependencies
+│   ├── env.example           # Environment variables template
+│   └── venv/                 # Python virtual environment
+├── chat-server/              # Node.js chat server
+│   ├── server.js             # Socket.io chat server
+│   ├── README.md             # Chat server documentation
+│   └── package.json          # Node.js dependencies
+├── frontend/                 # Web interface
+│   ├── index.html            # Main application interface
+│   ├── docs.html             # Documentation page
+│   ├── api-hub.html          # API management interface
+│   ├── socket-chat.html      # Chat interface
+│   ├── api-docs.html         # API documentation viewer
+│   └── dist/                 # Built assets
+├── docker/                   # Docker configurations
+│   ├── backend.Dockerfile    # Backend container
+│   ├── cloudrun.Dockerfile   # Cloud Run optimized
+│   ├── frontend.Dockerfile   # Frontend container
+│   ├── nginx.conf           # Nginx configuration
+│   └── mongo-init/          # MongoDB initialization
+├── functions/                # Firebase Cloud Functions
+│   ├── index.js             # Cloud Functions code
+│   └── package.json         # Dependencies
+├── firebase.json            # Firebase configuration
+├── docker-compose.yml       # Multi-service development environment
+├── deploy-*.sh              # Deployment scripts for various platforms
+├── setup-gcp.sh            # GCP resource setup
+├── supabase-setup.sql      # Supabase database schema
+├── test_*.py               # Backend tests
+├── test_*.js               # Frontend tests
+└── README.md               # This file
 ```
 
 ## 🛠️ Architecture Overview
@@ -334,27 +488,40 @@ apiui/
 ### Core Components
 
 1. **File Processing Service**
-   - Supports CSV, JSON, Excel, and Parquet files
-   - Automatic schema inference with data type detection
-   - Sample data extraction for AI context
+   - Supports CSV, JSON, Excel, Parquet, and text files
+   - Automatic schema inference with intelligent data type detection
+   - Sample data extraction for AI context and validation
 
-2. **AI Code Generation**
-   - Integration with OpenAI GPT-4 or Google Gemini
-   - Generates complete FastAPI applications
-   - Includes pagination, filtering, and sorting
-   - Container-ready with Dockerfile
+2. **AI Code Generation & Chat**
+   - OpenAI GPT-4 integration for intelligent API code generation
+   - Real-time chat interface powered by Socket.io
+   - Natural language queries for data exploration
+   - Context-aware responses using API schemas and data
 
-3. **Deployment Pipeline**
-   - Docker containerization
-   - Cloud Run/Fargate deployment (configurable)
-   - API Gateway integration
-   - Automatic SSL and security configuration
+3. **Multi-Storage Backend**
+   - Google Cloud Storage for production persistence
+   - Supabase Storage as an alternative cloud storage
+   - Local filesystem storage for development
+   - MongoDB Atlas and Supabase PostgreSQL database options
 
-4. **Web Interface**
-   - Drag-and-drop file upload
-   - Real-time progress tracking
-   - Status polling with visual feedback
-   - API endpoint and key management
+4. **Authentication & Security**
+   - GitHub OAuth, Google OAuth, and Supabase Auth
+   - API key authentication for generated APIs
+   - JWT tokens and session management
+   - CORS protection and rate limiting
+
+5. **Deployment & Orchestration**
+   - Docker Compose for local development
+   - Cloud Run, Firebase, Vercel, and Netlify deployment
+   - Kubernetes and container orchestration support
+   - Multi-platform deployment scripts
+
+6. **Web Interface & API Hub**
+   - Drag-and-drop file upload with progress tracking
+   - Real-time status updates and API management
+   - Interactive chat interface for data exploration
+   - Comprehensive documentation and testing tools
+   - API metrics and monitoring dashboard
 
 ## 🔧 Configuration
 
@@ -450,30 +617,47 @@ curl "https://your-api.com/data?sort_by=age&sort_order=desc"
 
 ## 📈 Development Roadmap
 
-### Milestone 1: Core Backend & AI Generation ✅
-- File upload and processing
-- Schema inference
-- AI-powered code generation
-- Basic deployment simulation
+### ✅ Milestone 1: Core Backend & AI Generation (Completed)
+- File upload and processing (CSV, JSON, Excel, Parquet)
+- Intelligent schema inference and data type detection
+- AI-powered FastAPI code generation
+- Mock API endpoints for immediate testing
+- Container-ready deployments
 
-### Milestone 2: Automated Infrastructure & Deployment
-- Docker container builds
-- Cloud Run/Fargate integration
-- CI/CD pipeline
-- API Gateway configuration
+### ✅ Milestone 2: Real-time Chat & AI Interaction (Completed)
+- Socket.io-powered real-time chat interface
+- Natural language API queries and data exploration
+- Node.js chat server with OpenAI integration
+- Context-aware AI responses using API schemas
+- HTTP fallback endpoints for compatibility
 
-### Milestone 3: Frontend Integration & User Experience
-- Enhanced UI/UX
-- Real-time status updates
-- API testing interface
-- Error handling improvements
+### ✅ Milestone 3: Multi-Platform Authentication & Storage (Completed)
+- GitHub OAuth, Google OAuth, and Supabase Auth integration
+- Multiple storage backends (GCS, Supabase, Local)
+- Database options (MongoDB Atlas, Supabase PostgreSQL)
+- Session management and JWT tokens
+- Secure API key generation
 
-### Milestone 4: Production Readiness
-- User authentication (Firebase/Auth0)
-- Database integration for users/APIs
-- Billing integration (Stripe)
-- Monitoring and logging
-- Multi-tenant architecture
+### ✅ Milestone 4: Deployment & Orchestration (Completed)
+- Docker Compose for local development
+- Cloud Run, Firebase, and multi-platform deployment
+- Kubernetes-ready container configurations
+- Automated deployment scripts
+- Environment-based configuration management
+
+### 🔄 Milestone 5: Advanced Features & Production Optimization
+- Enhanced monitoring and analytics dashboard
+- API usage metrics and performance tracking
+- Advanced filtering and query capabilities
+- Webhook integrations and notifications
+- Batch processing and large dataset support
+
+### 🔮 Milestone 6: Enterprise Features (Future)
+- Multi-tenant architecture with user isolation
+- Billing integration and usage limits
+- Advanced security and compliance features
+- Team collaboration and API sharing
+- Custom domain support and white-labeling
 
 ## 🤝 Contributing
 

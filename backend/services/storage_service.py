@@ -22,13 +22,13 @@ from services.supabase_service import supabase_service
 
 class StorageService:
     def __init__(self):
-        self.use_supabase = supabase_service.connected
         self.use_gcs = settings.use_gcs_storage
         self.local_uploads_dir = settings.uploads_dir
         self.local_apis_dir = settings.generated_apis_dir
 
         # Priority: Supabase > GCS > Local
-        if self.use_supabase:
+        # Note: Supabase connection is checked dynamically, not cached
+        if supabase_service.connected:
             print("✅ Using Supabase Storage as primary storage")
         elif self.use_gcs:
             if storage is None:
@@ -46,7 +46,7 @@ class StorageService:
         """Save uploaded file with persistent storage"""
         file_path = f"uploads/{job_id}_{filename}"
 
-        if self.use_supabase:
+        if supabase_service.connected:
             # Use Supabase Storage for user-uploads bucket
             import asyncio
             try:
@@ -58,7 +58,7 @@ class StorageService:
                 ))
                 if result:
                     print(f"📤 Uploaded to Supabase Storage: {file_path}")
-                    return file_path
+                    return file_path  # Always return the storage path for downstream retrieval
                 else:
                     print("❌ Supabase upload failed, falling back to GCS/local")
             except Exception as e:
@@ -79,7 +79,7 @@ class StorageService:
     def get_upload_file(self, file_path: str) -> Optional[bytes]:
         """Retrieve uploaded file"""
         try:
-            if self.use_supabase:
+            if supabase_service.connected:
                 import asyncio
                 result = asyncio.run(supabase_service.download_file("user-uploads", file_path))
                 if result:

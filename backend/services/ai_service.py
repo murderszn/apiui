@@ -25,6 +25,156 @@ class AIService:
             print(f"AI generation failed: {str(e)}, falling back to mock")
             return await self._generate_mock_code(schema, job_id)
 
+    async def chat_with_data(self, message: str, schema: Dict[str, Any], sample_data: Optional[list] = None) -> str:
+        """
+        Chat with data using AI to answer natural language questions
+        """
+        try:
+            print(f"AI service: Received message '{message}'")
+            print(f"AI service: Schema has {len(schema.get('columns', []))} columns, {schema.get('row_count', 0)} rows")
+            print(f"AI service: Sample data has {len(sample_data) if sample_data else 0} records")
+            print(f"AI service: OpenAI key configured: {bool(self.openai_api_key and self.openai_api_key.strip() and self.openai_api_key != 'demo-key-placeholder')}")
+
+            if self.openai_api_key and self.openai_api_key.strip() and self.openai_api_key != "demo-key-placeholder":
+                result = await self._chat_with_openai(message, schema, sample_data)
+                print(f"AI service: Using OpenAI, response length: {len(result)}")
+                return result
+            else:
+                result = await self._chat_with_mock(message, schema, sample_data)
+                print(f"AI service: Using mock, response length: {len(result)}")
+                return result
+
+        except Exception as e:
+            print(f"AI chat failed: {str(e)}, falling back to mock")
+            return await self._chat_with_mock(message, schema, sample_data)
+
+    async def _chat_with_openai(self, message: str, schema: Dict[str, Any], sample_data: Optional[list] = None) -> str:
+        """Chat using OpenAI GPT API"""
+        try:
+            if not self.openai_api_key or self.openai_api_key == "demo-key-placeholder":
+                return await self._chat_with_mock(message, schema, sample_data)
+
+            # Build context about the data
+            data_info = self._build_data_context(schema, sample_data)
+
+            # Build sample data info for the prompt
+            sample_data_info = ""
+            if sample_data and len(sample_data) > 0:
+                sample_data_info = f"\nHere are {len(sample_data)} sample records from the dataset:\n" + "\n".join([f"- {json.dumps(record, default=str)}" for record in sample_data[:5]])  # Limit to 5 samples
+
+            async with httpx.AsyncClient() as client:
+                headers = {
+                    "Authorization": f"Bearer {self.openai_api_key}",
+                    "Content-Type": "application/json"
+                }
+
+                system_prompt = f"""You are a helpful data analyst assistant. You have access to a dataset with the following information:
+
+{data_info}
+
+{sample_data_info if sample_data else "No sample data is currently available."}
+
+Your role is to help users understand and analyze this data through natural language conversations. Be helpful, accurate, and provide insights when appropriate. If the user asks for specific data operations (like filtering, sorting, or calculations), explain what you can do and provide the results when possible.
+
+Keep your responses conversational but informative. If you need to show data, format it clearly and use the actual sample data provided when relevant."""
+
+                data = {
+                    "model": "gpt-4",
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": system_prompt
+                        },
+                        {
+                            "role": "user",
+                            "content": message
+                        }
+                    ],
+                    "max_tokens": 1000,
+                    "temperature": 0.7
+                }
+
+                response = await client.post(
+                    "https://api.openai.com/v1/chat/completions",
+                    headers=headers,
+                    json=data,
+                    timeout=30.0
+                )
+
+                if response.status_code != 200:
+                    print(f"OpenAI chat error: {response.status_code} - {response.text}")
+                    return await self._chat_with_mock(message, schema, sample_data)
+
+                result = response.json()
+                return result["choices"][0]["message"]["content"].strip()
+
+        except Exception as e:
+            print(f"OpenAI chat API error: {str(e)}")
+            return await self._chat_with_mock(message, schema, sample_data)
+
+    async def _chat_with_mock(self, message: str, schema: Dict[str, Any], sample_data: Optional[list] = None) -> str:
+        """Mock chat responses when no AI API is configured"""
+        message_lower = message.lower()
+
+        # Simple keyword-based responses
+        if 'count' in message_lower or 'how many' in message_lower:
+            row_count = schema.get('row_count', 'unknown')
+            return f"The dataset contains {row_count} records."
+
+        elif 'columns' in message_lower or 'fields' in message_lower:
+            columns = [col['name'] for col in schema.get('columns', [])]
+            return f"The dataset has {len(columns)} columns: {', '.join(columns)}."
+
+        elif 'sample' in message_lower or 'show me' in message_lower or 'examples' in message_lower:
+            if sample_data and len(sample_data) > 0:
+                sample = sample_data[:3]  # First 3 records
+                return f"Here are the first {len(sample)} records:\n" + json.dumps(sample, indent=2, default=str)
+            else:
+                return "I don't have access to sample data at the moment."
+
+        elif 'describe' in message_lower or 'summary' in message_lower:
+            columns = schema.get('columns', [])
+            summary = f"The dataset has {schema.get('row_count', 'unknown')} rows and {len(columns)} columns."
+            if columns:
+                numeric_cols = [col['name'] for col in columns if col.get('inferred_type') in ['integer', 'float']]
+                text_cols = [col['name'] for col in columns if col.get('inferred_type') == 'string']
+                if numeric_cols:
+                    summary += f"\nNumeric columns: {', '.join(numeric_cols)}"
+                if text_cols:
+                    summary += f"\nText columns: {', '.join(text_cols)}"
+            return summary
+
+        else:
+            return "I can help you with questions about your data! Try asking about the number of records, column names, sample data, or a summary of the dataset."
+
+    def _build_data_context(self, schema: Dict[str, Any], sample_data: Optional[list] = None) -> str:
+        """Build context string about the data for the AI"""
+        context_parts = []
+
+        # Basic info
+        row_count = schema.get('row_count', 'unknown')
+        context_parts.append(f"- Total records: {row_count}")
+
+        # Columns info
+        columns = schema.get('columns', [])
+        if columns:
+            context_parts.append(f"- Number of columns: {len(columns)}")
+            context_parts.append("- Columns:")
+
+            for col in columns[:10]:  # Limit to first 10 columns
+                col_type = col.get('inferred_type', 'unknown')
+                nullable = 'nullable' if col.get('nullable', False) else 'required'
+                context_parts.append(f"  - {col['name']}: {col_type} ({nullable})")
+
+            if len(columns) > 10:
+                context_parts.append(f"  ... and {len(columns) - 10} more columns")
+
+        # Sample data if available
+        if sample_data and len(sample_data) > 0:
+            context_parts.append(f"- Sample records available: {len(sample_data)} shown")
+
+        return "\n".join(context_parts)
+
     async def _generate_with_openai(self, schema: Dict[str, Any], job_id: str) -> Dict[str, Any]:
         """Generate code using OpenAI GPT API"""
         try:
@@ -114,13 +264,15 @@ The user has uploaded a data file with the following schema:
 TASK:
 Generate a complete, container-ready FastAPI application to serve this data. The application must:
 
-1. Read data from a CSV file mounted at /app/data.csv
-2. Support pagination (limit, offset parameters)
-3. Support basic filtering on all columns using query parameters
-4. Support sorting by any column (sort_by and sort_order parameters)
-5. Include proper error handling and validation
-6. Use Pydantic models for request/response validation
-7. Include comprehensive API documentation
+1. Read data from a CSV file mounted at /app/data.csv and support writing back changes
+2. Support full CRUD operations (Create, Read, Update, Delete)
+3. Support pagination (limit, offset parameters)
+4. Support basic filtering on all columns using query parameters
+5. Support sorting by any column (sort_by and sort_order parameters)
+6. Include proper error handling and validation
+7. Use Pydantic models for request/response validation
+8. Include comprehensive API documentation
+9. Persist data changes back to the CSV file
 
 OUTPUT FORMAT:
 You MUST return a single, minified JSON object with exactly three keys: main_py, requirements_txt, and dockerfile.
@@ -188,8 +340,25 @@ class DataFilter(BaseModel):
 {chr(10).join(model_fields)}
 """
 
+        # Generate DataItem model for create/update operations
+        create_model_fields = []
+        update_model_fields = []
+        for col in columns:
+            col_type = column_types[col]
+            create_model_fields.append(f"    {col}: Optional[{col_type}] = None")
+            update_model_fields.append(f"    {col}: Optional[{col_type}] = None")
+
+        data_item_model = f"""
+class DataItem(BaseModel):
+{chr(10).join(create_model_fields)}
+
+class DataItemUpdate(BaseModel):
+{chr(10).join(update_model_fields)}
+"""
+
         # Generate main FastAPI app
         main_py = f'''from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import pandas as pd
@@ -202,11 +371,22 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins for development
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+)
+
 class SortOrder(str, Enum):
     ASC = "asc"
     DESC = "desc"
 
 {filter_model}
+
+{data_item_model}
 
 # Load data on startup
 @app.on_event("startup")
@@ -222,7 +402,7 @@ async def load_data():
 
 @app.get("/")
 async def root():
-    return {{"message": "API is running", "endpoints": ["/data", "/data/{{id}}"]}}
+    return {{"message": "API is running", "endpoints": ["/data", "/data/{{id}}", "POST /data", "PUT /data/{{id}}", "PATCH /data/{{id}}", "DELETE /data/{{id}}"]}}
 
 @app.get("/data")
 async def get_data(
@@ -298,6 +478,139 @@ async def get_schema():
         "columns": schema_info,
         "total_rows": len(df)
     }}
+
+def save_data():
+    """Save the dataframe back to CSV file"""
+    global df
+    try:
+        data_path = os.getenv("DATA_PATH", "/app/data.csv")
+        df.to_csv(data_path, index=False)
+        print(f"Saved {{len(df)}} rows to {{data_path}}")
+    except Exception as e:
+        print(f"Error saving data: {{e}}")
+        raise HTTPException(status_code=500, detail=f"Failed to save data: {{str(e)}}")
+
+@app.post("/data")
+async def create_data_item(item: DataItem):
+    """Create a new data item"""
+    global df
+    try:
+        # Convert Pydantic model to dict, filter out None values
+        item_dict = {{k: v for k, v in item.dict().items() if v is not None}}
+
+        # Create new row
+        new_row = pd.DataFrame([item_dict])
+
+        # Ensure all columns exist (add missing columns with None)
+        for col in df.columns:
+            if col not in new_row.columns:
+                new_row[col] = None
+
+        # Reorder columns to match existing dataframe
+        new_row = new_row[df.columns]
+
+        # Append to dataframe
+        df = pd.concat([df, new_row], ignore_index=True)
+
+        # Save to file
+        save_data()
+
+        return {{
+            "message": "Item created successfully",
+            "id": len(df) - 1,
+            "item": item_dict
+        }}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/data/{{item_id}}")
+async def update_data_item(item_id: int, item: DataItem):
+    """Update an existing data item completely"""
+    global df
+    try:
+        if item_id < 0 or item_id >= len(df):
+            raise HTTPException(status_code=404, detail="Item not found")
+
+        # Convert Pydantic model to dict, filter out None values
+        item_dict = {{k: v for k, v in item.dict().items() if v is not None}}
+
+        # Update the row
+        for key, value in item_dict.items():
+            if key in df.columns:
+                df.at[item_id, key] = value
+
+        # Save to file
+        save_data()
+
+        return {{
+            "message": "Item updated successfully",
+            "id": item_id,
+            "item": df.iloc[item_id].to_dict()
+        }}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.patch("/data/{{item_id}}")
+async def patch_data_item(item_id: int, item: DataItemUpdate):
+    """Partially update an existing data item"""
+    global df
+    try:
+        if item_id < 0 or item_id >= len(df):
+            raise HTTPException(status_code=404, detail="Item not found")
+
+        # Convert Pydantic model to dict, filter out None values
+        item_dict = {{k: v for k, v in item.dict().items() if v is not None}}
+
+        # Update only provided fields
+        for key, value in item_dict.items():
+            if key in df.columns:
+                df.at[item_id, key] = value
+
+        # Save to file
+        save_data()
+
+        return {{
+            "message": "Item updated successfully",
+            "id": item_id,
+            "item": df.iloc[item_id].to_dict()
+        }}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/data/{{item_id}}")
+async def delete_data_item(item_id: int):
+    """Delete a data item"""
+    global df
+    try:
+        if item_id < 0 or item_id >= len(df):
+            raise HTTPException(status_code=404, detail="Item not found")
+
+        # Store the item before deletion for response
+        deleted_item = df.iloc[item_id].to_dict()
+
+        # Delete the row
+        df = df.drop(item_id).reset_index(drop=True)
+
+        # Save to file
+        save_data()
+
+        return {{
+            "message": "Item deleted successfully",
+            "id": item_id,
+            "deleted_item": deleted_item
+        }}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":

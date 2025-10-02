@@ -1,0 +1,30 @@
+{
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs18"
+  },
+  "hosting": {
+    "public": "frontend",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "**/backend/**",
+      "**/clean-docker/**",
+      "**/docker/**",
+      "**/temp-build/**",
+      "**/venv/**",
+      "**/__pycache__/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": "chat"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

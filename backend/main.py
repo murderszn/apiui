@@ -20,15 +20,29 @@ import time
 
 import httpx
 
+# SocketIO imports (commented out for now)
+# from flask_socketio import SocketIO
+
 # Add backend to path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from core.config import settings
+from services.supabase_service import supabase_service
+
+# Initialize Supabase connection BEFORE any other service imports
+# This ensures storage service can detect the connection
+print("🔌 Connecting to Supabase...")
+supabase_service.connect()
+if supabase_service.connected:
+    print("✅ Supabase connected successfully")
+else:
+    print("❌ Supabase connection failed")
+
 from services.ai_service import AIService
 from services.storage_service import storage_service
 from services.database_service import db_service
 from services.deployment_service import DeploymentService
-from services.supabase_service import supabase_service
+from services.socket_service import socket_service
 
 app = Flask(__name__)
 app.secret_key = settings.secret_key
@@ -39,6 +53,10 @@ cookie_secure = any(
 )
 app.config.setdefault("SESSION_COOKIE_SECURE", cookie_secure)
 CORS(app, supports_credentials=True)  # Enable CORS for all routes with credentials
+
+# Initialize SocketIO (commented out for testing)
+# socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
+socketio = None
 
 # Metrics collection system
 api_metrics = defaultdict(lambda: {
@@ -699,29 +717,39 @@ async def load_persistent_data():
         print(f"Failed to load persistent data: {str(e)}")
 
 
-# Initialize database and load persisted data on startup
-async def initialize_app():
-    """Initialize database connection and load persistent data"""
-    # Connect to Supabase database
-    try:
-        await db_service.connect()
-        if db_service.connected:
-            print("✅ Supabase database connection established")
-        else:
-            print("❌ Supabase database connection failed")
-    except Exception as e:
-        print(f"❌ Database initialization failed: {str(e)}")
+# Initialize database connection and load persisted data
+# We'll do this lazily when first needed to avoid asyncio issues
+_db_initialized = False
 
-    # Load persistent data
-    await load_persistent_data()
+async def ensure_db_initialized():
+    """Ensure database is initialized (call this before database operations)"""
+    global _db_initialized
+    if not _db_initialized:
+        try:
+            await db_service.connect()
+            if db_service.connected:
+                print("✅ Supabase database connection established")
+            else:
+                print("❌ Supabase database connection failed")
+        except Exception as e:
+            print(f"❌ Database initialization failed: {str(e)}")
 
-# Initialize on startup
-asyncio.run(initialize_app())
+        # Load persistent data
+        await load_persistent_data()
+        _db_initialized = True
 
-# Also initialize Supabase synchronously for health checks (only if not already connected)
+# Initialize Supabase synchronously for health checks
 if settings.supabase_url and settings.supabase_anon_key and not supabase_service.connected:
     supabase_service.connect()
     print(f"Supabase initialized for health checks: {supabase_service.connected}")
+
+async def save_api_to_db(api_record):
+    """Save API record to database with proper initialization"""
+    try:
+        await ensure_db_initialized()
+        await db_service.save_api_record(api_record)
+    except Exception as e:
+        print(f"Failed to save API to database: {str(e)}")
 
 def save_job_background(job_id, job_data):
     """Save job data in background thread to handle Flask async issues"""
@@ -853,9 +881,11 @@ def trigger_deployment(job_id: str) -> None:
                 job_ref["deployment_note"] = result["note"]
                 add_log_entry(job_id, result["note"], "info")
             job_ref["completed_at"] = datetime.utcnow().isoformat()
+            job_ref["socket_chat_enabled"] = True  # Enable socket chat for all deployed APIs
 
             add_log_entry(job_id, "Deployment completed successfully!", "success")
             add_log_entry(job_id, f"API available at: {job_ref['api_url']}")
+            add_log_entry(job_id, "Socket chat enabled for this API", "info")
             if job_ref.get("api_key"):
                 add_log_entry(job_id, f"API Key: {job_ref['api_key']}")
 
@@ -875,6 +905,24 @@ def trigger_deployment(job_id: str) -> None:
                 'running_servers': running_servers
             }
             storage_service.save_persistent_data("api_states", api_states)
+
+            # Save API record to Supabase database
+            api_record = {
+                "api_name": f"API {job_id[:8]}",
+                "endpoint_url": job_ref["api_url"],
+                "file_path": job_ref.get("file_path"),
+                "status": "active",
+                "deployment_metadata": {
+                    "deployment_id": job_ref.get("deployment_id"),
+                    "api_endpoints": job_ref.get("api_endpoints"),
+                    "api_key": job_ref.get("api_key"),
+                    "deployment_note": job_ref.get("deployment_note")
+                }
+            }
+
+            # Save to database asynchronously
+            import asyncio
+            asyncio.create_task(save_api_to_db(api_record))
         else:
             error_msg = result.get("error", "Deployment failed")
             job_ref["status"] = "failed"
@@ -1706,9 +1754,11 @@ def get_generation_status(job_id):
     })
 
 @app.route('/v1/apis', methods=['GET'])
-def list_generated_apis():
+async def list_generated_apis():
     """List all generated APIs"""
     try:
+        # Load persistent data first
+        await load_persistent_data()
         # Get API IDs from storage service
         api_ids = storage_service.list_generated_apis()
 
@@ -1820,9 +1870,69 @@ def list_generated_apis():
             }
             apis.append(api_info)
 
+        # Also include APIs from Supabase database
+        if db_service.connected:
+            try:
+                # Get current user and their APIs from database
+                user = supabase_service.get_current_user()
+                if user:
+                    await ensure_db_initialized()
+                    db_apis = await db_service.get_user_apis(user["id"])
+                    for db_api in db_apis:
+                        # Skip if we already have this API from local sources
+                        if not any(api['id'] == str(db_api.get('id', '')) for api in apis):
+                            api_info = {
+                                "id": str(db_api.get('id', '')),
+                                "api_name": db_api.get('api_name', f"API {str(db_api.get('id', ''))[:8]}"),
+                                "endpoint_url": db_api.get('endpoint_url'),
+                                "file_path": db_api.get('file_path'),
+                                "status": db_api.get('status', 'active'),
+                                "created_at": db_api.get('created_at'),
+                                "deployment_metadata": db_api.get('deployment_metadata', {}),
+                                "source": "database"  # Mark as coming from database
+                            }
+                            apis.append(api_info)
+            except Exception as e:
+                print(f"Warning: Failed to load APIs from database: {str(e)}")
+
         return jsonify({
             "apis": apis,
             "total": len(apis),
+            "timestamp": datetime.utcnow().isoformat()
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e), "apis": [], "total": 0})
+
+@app.route('/v1/apis/chat-enabled', methods=['GET'])
+def list_chat_enabled_apis():
+    """List all APIs that have socket chat enabled"""
+    try:
+        chat_enabled_apis = []
+
+        # Get APIs from jobs that have socket_chat_enabled
+        for job_id, job_data in jobs.items():
+            if job_data.get('socket_chat_enabled', False):
+                # Get API title from filename or generate one
+                filename = job_data.get('filename', '')
+                title = filename.replace('.csv', '').replace('.xlsx', '').replace('.json', '').replace('.parquet', '').replace('_', ' ').title()
+                if not title:
+                    title = f"API {job_id[:8]}"
+
+                api_info = {
+                    "id": job_id,
+                    "title": title,
+                    "status": job_data.get("status", "unknown"),
+                    "created_at": job_data.get("created_at"),
+                    "completed_at": job_data.get("completed_at"),
+                    "url": job_data.get("api_url"),
+                    "has_data": bool(job_data.get("schema"))
+                }
+                chat_enabled_apis.append(api_info)
+
+        return jsonify({
+            "apis": chat_enabled_apis,
+            "total": len(chat_enabled_apis),
             "timestamp": datetime.utcnow().isoformat()
         })
 
@@ -2049,7 +2159,7 @@ def stop_api(api_id):
         return jsonify({"error": str(e)}), 500
 
 @app.route('/v1/apis/<api_id>', methods=['DELETE'])
-def delete_api(api_id):
+async def delete_api(api_id):
     """Delete a specific API"""
     try:
         # Check if API exists in running_apis or storage
@@ -2091,12 +2201,60 @@ def delete_api(api_id):
                 print(f"Warning: Failed to stop API process {api_id}: {str(e)}")
                 # Continue with deletion even if stopping fails
 
+        # Check if this is a Cloud Run deployment
+        is_cloud_run = False
+        if api_id in running_apis:
+            api_info = running_apis[api_id]
+            is_cloud_run = api_info.get("path", "").startswith("cloud-run://")
+
+        # If it's a Cloud Run deployment, delete from Cloud Run
+        if is_cloud_run:
+            try:
+                cloud_run_deleted = asyncio.run(deployment_service.delete_deployment(api_id))
+                if cloud_run_deleted:
+                    print(f"Successfully deleted Cloud Run service: {api_id}")
+                else:
+                    print(f"Warning: Failed to delete Cloud Run service: {api_id}")
+            except Exception as e:
+                print(f"Warning: Failed to delete Cloud Run service {api_id}: {str(e)}")
+
         # Delete from storage service (works for both local and GCS)
         storage_deleted = storage_service.delete_generated_api(api_id)
 
         # Remove from running_apis if it still exists
         if api_id in running_apis:
             del running_apis[api_id]
+            # Save updated api_states to persistent storage
+            api_states = {
+                'running_apis': running_apis,
+                'running_servers': running_servers
+            }
+            storage_service.save_persistent_data("api_states", api_states)
+
+        # Update job status to prevent auto-registration on restart
+        if api_id in jobs:
+            jobs[api_id]["status"] = "deleted"
+            jobs[api_id]["deleted_at"] = datetime.utcnow().isoformat()
+            # Save updated jobs to persistent storage
+            storage_service.save_persistent_data("jobs", jobs)
+
+        # Try to delete from Supabase database (by endpoint URL since IDs don't match)
+        if db_service.connected:
+            try:
+                # Since Supabase uses auto-generated bigint IDs and we use UUIDs,
+                # we need to find and delete by endpoint URL
+                user = supabase_service.get_current_user()
+                if user:
+                    await ensure_db_initialized()
+                    db_apis = await db_service.get_user_apis(user["id"])
+                    for db_api in db_apis:
+                        # Check if this database record matches our API by endpoint URL
+                        if db_api.get('endpoint_url') and api_id in db_api['endpoint_url']:
+                            await db_service.delete_api_record(db_api['id'])
+                            print(f"Deleted API from Supabase database: {db_api['id']}")
+                            break
+            except Exception as e:
+                print(f"Warning: Failed to delete API from database: {str(e)}")
 
         print(f"Successfully deleted API: {api_id}")
         return jsonify({"message": f"API {api_id} deleted successfully"}), 200
@@ -2263,6 +2421,67 @@ def get_api_docs(api_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/v1/chat', methods=['POST'])
+def http_chat():
+    """Handle chat messages via HTTP (fallback for when SocketIO isn't working)"""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+
+        message = data.get('message', '')
+        api_id = data.get('api_id')
+        user_id = data.get('user_id', 'anonymous')
+
+        if not message:
+            return jsonify({"error": "No message provided"}), 400
+
+        if not api_id:
+            return jsonify({"error": "No api_id provided"}), 400
+
+        # Process the chat message using the socket service
+        response = socket_service._process_chat_message(api_id, message, user_id)
+
+        return jsonify(response), 200
+
+    except Exception as e:
+        print(f"HTTP chat error: {str(e)}")
+        return jsonify({
+            "type": "error",
+            "message": f"Chat processing failed: {str(e)}"
+        }), 500
+
+# Socket initialization is now handled automatically when clients connect
+# @app.route('/v1/apis/<api_id>/socket/init', methods=['POST'])
+# def initialize_api_socket(api_id):
+#     """Initialize socket namespace for a specific API"""
+#     print(f"DEBUG: Socket init called for API: {api_id}")
+#     try:
+#         # Initialize socket handlers for this API
+#         socket_service.initialize_job_socket(api_id, socketio)
+#         print(f"DEBUG: Socket handlers initialized for API: {api_id}")
+#
+#         response_data = {
+#             "status": "success",
+#             "message": f"Socket namespace initialized for API {api_id}",
+#             "socket_url": f"/api/{api_id}",
+#             "events": {
+#                 "chat_message": "Send chat messages for natural language queries",
+#                 "query_data": "Send structured data queries",
+#                 "stream_data": "Request data streaming",
+#                 "ping": "Keep connection alive"
+#             }
+#         }
+#         print(f"DEBUG: Returning success response: {response_data}")
+#         return jsonify(response_data), 200
+#
+#     except Exception as e:
+#         print(f"DEBUG: Socket init failed for API {api_id}: {str(e)}")
+#         return jsonify({
+#             "status": "error",
+#             "message": f"Failed to initialize socket: {str(e)}"
+#         }), 500
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
@@ -2381,7 +2600,7 @@ def get_api_metrics(api_id):
 @app.route('/mock-api/<job_id>', methods=['GET'])
 @app.route('/mock-api/<job_id>/data', methods=['GET'])
 def mock_api_endpoint(job_id):
-    """Mock API endpoint that simulates a generated API"""
+    """API endpoint that serves data from uploaded files"""
     if job_id not in jobs:
         return jsonify({"error": "API not found"}), 404
 
@@ -2391,82 +2610,31 @@ def mock_api_endpoint(job_id):
 
     schema = job["schema"]
 
-    # Check if we have AI-generated code
-    if job.get("generated_code"):
-        # If we have real generated code, return actual data from the uploaded file
-        generated = job["generated_code"]
-
-        # Read the original file data using storage service
-        file_data = []
-        try:
-            # Use the stored file path from the job
-            file_path = job.get("file_path")
-            if file_path:
-                # Try to get file data from storage service
-                file_bytes = storage_service.get_upload_file(file_path)
-                if file_bytes:
-                    # Parse the data based on file extension
-                    file_ext = os.path.splitext(file_path)[1].lower()
-                    file_data = read_data_from_bytes(file_bytes, file_ext)
-                    add_log_entry(job_id, f"✅ Loaded {len(file_data)} records from storage")
-                else:
-                    raise FileNotFoundError("File not found in storage")
+    # Always try to load real data from the uploaded file first
+    file_data = []
+    try:
+        # Use the stored file path from the job
+        file_path = job.get("file_path")
+        if not isinstance(file_path, str) or not file_path:
+            # Legacy jobs stored a boolean when Supabase uploads succeeded
+            reconstructed_path = f"uploads/{job_id}_{job.get('filename', 'data')}"
+            add_log_entry(job_id, f"ℹ️ Reconstructing file path for legacy job: {reconstructed_path}")
+            file_path = reconstructed_path
+        if file_path:
+            # Try to get file data from storage service
+            file_bytes = storage_service.get_upload_file(file_path)
+            if file_bytes:
+                # Parse the data based on file extension
+                file_ext = os.path.splitext(file_path)[1].lower()
+                file_data = read_data_from_bytes(file_bytes, file_ext)
+                add_log_entry(job_id, f"✅ Loaded {len(file_data)} records from storage")
             else:
-                raise FileNotFoundError("File path not found in job")
-        except Exception as e:
-            add_log_entry(job_id, f"⚠️ File not accessible ({str(e)}), using sample data")
-            # Fallback to sample data if file not found or unreadable
-            for i in range(min(10, schema.get("row_count", 10))):
-                row = {}
-                for col in schema["columns"]:
-                    col_name = col["name"]
-                    col_type = col.get("inferred_type", "string")
-
-                    if col_type == "integer":
-                        row[col_name] = i + 1
-                    elif col_type == "float":
-                        row[col_name] = float(i + 1) + 0.5
-                    elif col_type == "boolean":
-                        row[col_name] = i % 2 == 0
-                    else:
-                        row[col_name] = f"sample_{col_name}_{i+1}"
-
-                file_data.append(row)
-
-        if request.path.endswith('/data'):
-            # Parse query parameters for pagination
-            limit = int(request.args.get('limit', 10))
-            offset = int(request.args.get('offset', 0))
-
-            # Apply pagination
-            paginated_data = file_data[offset:offset + limit]
-
-            return jsonify({
-                "data": paginated_data,
-                "total_count": len(file_data),
-                "limit": limit,
-                "offset": offset,
-                "has_more": (offset + limit) < len(file_data),
-                "message": f"AI-generated API serving real data from {job['filename']}",
-                "ai_generated": True
-            })
+                raise FileNotFoundError("File not found in storage")
         else:
-            return jsonify({
-                "message": f"AI-generated API for {job['filename']}",
-                "status": "AI-generated code ready",
-                "endpoints": [
-                    f"/api/{job_id}/data",
-                    f"/api/{job_id}/schema",
-                    f"/api/{job_id}/code"
-                ],
-                "absolute_endpoints": job.get("api_endpoints"),
-                "total_records": len(file_data),
-                "generated_at": job.get("completed_at"),
-                "ai_provider": "OpenAI GPT-4"
-            })
-    else:
-        # Fall back to mock data generation
-        mock_data = []
+            raise FileNotFoundError("File path not found in job")
+    except Exception as e:
+        add_log_entry(job_id, f"⚠️ File not accessible ({str(e)}), using sample data")
+        # Fallback to sample data if file not found or unreadable
         for i in range(min(10, schema.get("row_count", 10))):
             row = {}
             for col in schema["columns"]:
@@ -2482,28 +2650,38 @@ def mock_api_endpoint(job_id):
                 else:
                     row[col_name] = f"sample_{col_name}_{i+1}"
 
-            mock_data.append(row)
+            file_data.append(row)
 
-        if request.path.endswith('/data'):
-            return jsonify({
-                "data": mock_data,
-                "total_count": schema.get("row_count", len(mock_data)),
-                "limit": len(mock_data),
-                "offset": 0,
-                "has_more": False,
-                "note": "Mock data - AI generation may have failed"
-            })
+    if request.path.endswith('/data'):
+        # Parse query parameters for pagination
+        limit = int(request.args.get('limit', 10))
+        offset = int(request.args.get('offset', 0))
+
+        # Apply pagination
+        paginated_data = file_data[offset:offset + limit]
 
         return jsonify({
-            "message": f"Mock API for {job['filename']} (AI generation may have failed)",
+            "data": paginated_data,
+            "total_count": len(file_data),
+            "limit": limit,
+            "offset": offset,
+            "has_more": (offset + limit) < len(file_data),
+            "message": f"API serving data from {job['filename']}",
+            "ai_generated": job.get("generated_code") is not None
+        })
+    else:
+        return jsonify({
+            "message": f"API for {job['filename']}",
+            "status": "ready",
             "endpoints": [
                 f"/api/{job_id}/data",
-                f"/api/{job_id}/schema"
+                f"/api/{job_id}/schema",
+                f"/api/{job_id}/code"
             ],
             "absolute_endpoints": job.get("api_endpoints"),
-            "schema": schema,
-            "total_records": schema.get("row_count", 0),
-            "status": "mock_mode"
+            "total_records": len(file_data),
+            "generated_at": job.get("completed_at"),
+            "ai_provider": "OpenAI GPT-4" if job.get("generated_code") else "Direct file access"
         })
 
 @app.route('/api/<job_id>/schema', methods=['GET'])
@@ -2550,6 +2728,11 @@ def run_generated_api(job_id):
     try:
         # Read the uploaded data file and return first few records
         file_path = job.get("file_path")
+        if not isinstance(file_path, str) or not file_path:
+            reconstructed_path = f"uploads/{job_id}_{job.get('filename', 'data')}"
+            add_log_entry(job_id, f"ℹ️ Reconstructing file path for legacy job: {reconstructed_path}")
+            file_path = reconstructed_path
+
         if not file_path:
             add_log_entry(job_id, "⚠️ Data file path missing when running API test", "error")
             return jsonify({"error": "Data file not found"}), 404
@@ -2605,8 +2788,46 @@ def run_generated_api(job_id):
             "status": "test_failed"
         }), 500
 
+# Initialize socket service with global handlers (only if SocketIO is enabled)
+if socketio:
+    socket_service.register_global_handlers(socketio)
+
+# Socket endpoints for API management (only if SocketIO is enabled)
+if socketio:
+    @socketio.on('get_connection_stats')
+    def handle_get_stats():
+        """Get real-time connection statistics"""
+        stats = socket_service.get_connection_stats()
+        emit('connection_stats', stats)
+
+    @socketio.on('cleanup_data')
+    def handle_cleanup():
+        """Trigger cleanup of old cached data"""
+        socket_service.cleanup_old_data()
+        emit('cleanup_complete', {'message': 'Data cleanup completed'})
+else:
+    # Dummy functions for when SocketIO is disabled
+    def handle_get_stats():
+        pass
+
+    def handle_cleanup():
+        pass
+
 if __name__ == '__main__':
     import os
     port = int(os.environ.get('PORT', 9999))  # Docker container port
     debug = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
-    app.run(host='0.0.0.0', port=port, debug=debug)
+
+    print(f"🚀 Starting ApiUI Backend Server...")
+    print(f"📡 Port: {port}")
+    print(f"🔧 Debug mode: {debug}")
+    print(f"🌐 Host: 0.0.0.0")
+
+    if socketio:
+        print("📡 Starting server with SocketIO support...")
+        print(f"✅ Server starting on http://0.0.0.0:{port}")
+        socketio.run(app, host='0.0.0.0', port=port, debug=debug)
+    else:
+        print("🌐 Starting server without SocketIO (HTTP-only mode)...")
+        print(f"✅ Server starting on http://0.0.0.0:{port}")
+        app.run(host='0.0.0.0', port=port, debug=debug)

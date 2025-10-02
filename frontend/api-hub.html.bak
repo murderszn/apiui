@@ -3,29 +3,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Hub | apiui</title>
+    <title>apiUI API Hub | Third-Party API Integrations</title>
+    <meta name="description" content="Connect your apiUI-generated APIs with popular third-party services. Explore curated APIs from leading businesses for seamless integration and comprehensive data workflows.">
+    <meta name="keywords" content="third party apis, api integration, api connectors, data workflows, apiui integrations, business apis, developer tools, api marketplace, integration hub">
+    <meta name="author" content="apiUI by AURABLOX">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="language" content="English">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="United States">
+    <meta name="classification" content="Directory, Software, API Resources">
+    <meta name="rating" content="General">
+    <meta name="distribution" content="Global">
+    <meta name="revisit-after" content="7 days">
+    <link rel="canonical" href="https://apiui.web.app/api-hub">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <meta property="og:site_name" content="apiUI">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="apiUI API Hub | Third-Party API Integrations">
+    <meta property="og:description" content="Connect your apiUI APIs with third-party services from leading businesses for powerful data workflows.">
+    <meta property="og:url" content="https://apiui.web.app/api-hub.html">
+    <meta property="og:image" content="https://apiui.web.app/apiui-logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="apiUI API Hub | Third-Party API Integrations">
+    <meta name="twitter:description" content="Connect your apiUI APIs with third-party services for comprehensive data workflows.">
+    <meta name="twitter:image" content="https://apiui.web.app/apiui-logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Configure backend URL for the frontend
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "apiUI API Hub",
+        "description": "Connect your apiUI-generated APIs with third-party services from leading businesses. Browse curated integrations for comprehensive data workflows.",
+        "url": "https://apiui.web.app/api-hub.html",
+        "publisher": {
+            "@type": "Organization",
+            "name": "apiUI",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://apiui.web.app/apiui-logo.png"
+            }
+        }
+    }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        /* Pixel-Inspired CSS Variables */
+        :root {
+            --pixel-pink: #ec4899;
+            --pixel-blue: #3b82f6;
+            --pixel-black: #000000;
+            --pixel-white: #ffffff;
+            --pixel-gray-100: #f8fafc;
+            --pixel-gray-200: #e2e8f0;
+            --pixel-gray-300: #cbd5e1;
+            --pixel-gray-400: #94a3b8;
+            --pixel-gray-500: #64748b;
+            --pixel-gray-600: #475569;
+            --pixel-gray-700: #334155;
+            --pixel-gray-800: #1e293b;
+            --pixel-gray-900: #0f172a;
+
+            --pixel-border-radius: 4px;
+            --pixel-border-width: 2px;
+            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Regular Cursor */
+        * {
+            cursor: auto;
+        }
+
+        button, a, [role="button"] {
+            cursor: pointer;
+        }
+
+        /* Base Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #000000;
+            background-color: var(--pixel-white);
+            color: var(--pixel-black);
+            line-height: 1.6;
+            cursor: inherit;
+        }
+
+        /* Pixel Typography Classes */
+        .pixel-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+            text-transform: uppercase;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-subtitle {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            opacity: 0.9;
+            line-height: 1.3;
+        }
+
+        .pixel-body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
             line-height: 1.6;
         }
 
-        /* Professional Typography */
-        .hero-title {
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            line-height: 1.1;
+        /* Pixel Card System */
+        .pixel-card {
+            background: var(--pixel-white);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero-subtitle {
-            font-weight: 300;
-            letter-spacing: -0.01em;
-            opacity: 0.8;
+        .pixel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .pixel-card:hover {
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
+        }
+
+        .pixel-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Pixel Button System */
+        .pixel-btn {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            padding: 0.75rem 1.5rem;
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pixel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .pixel-btn:hover {
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
+            color: var(--pixel-black);
+        }
+
+        .pixel-btn:hover::before {
+            left: 100%;
+        }
+
+        .pixel-btn:active {
+            transform: translate(0, 0);
+            box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .pixel-btn-primary {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border-color: var(--pixel-black);
+        }
+
+        .pixel-btn-primary:hover {
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
+            color: var(--pixel-white);
+        }
+
+        .pixel-btn-secondary {
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border-color: var(--pixel-blue);
+        }
+
+        .pixel-btn-secondary:hover {
+            background: var(--pixel-blue);
+            color: var(--pixel-white);
+        }
+
+        /* Pixel Icon Containers */
+        .pixel-icon {
+            background: var(--pixel-gray-100);
+            border: var(--pixel-border-width) solid var(--pixel-gray-300);
+            border-radius: var(--pixel-border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--pixel-shadow);
+            color: var(--pixel-gray-600);
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-icon svg {
+            color: inherit;
+            filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Pixel Grid System */
+        .pixel-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .pixel-section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .pixel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Pixel Accent Elements */
+        .pixel-accent-line {
+            position: relative;
+            margin: 3rem 0;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--pixel-black) 0px,
+                var(--pixel-black) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+        }
+
+        .pixel-accent-line::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 4px;
+            background: var(--pixel-pink);
+        }
+
+        /* Pixel Badge */
+        .pixel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            background: var(--pixel-gray-100);
+            border: var(--pixel-border-width) solid var(--pixel-gray-300);
+            color: var(--pixel-gray-700);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            box-shadow: var(--pixel-shadow);
+        }
+
+        /* Pixel Loading Animation */
+        .pixel-loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--pixel-gray-300);
+            border-radius: 0;
+            border-top-color: var(--pixel-pink);
+            animation: pixel-spin 1s ease-in-out infinite;
+        }
+
+        @keyframes pixel-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Pixel Flicker Animation */
+        @keyframes pixel-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .pixel-flicker {
+            animation: pixel-flicker 0.1s ease-in-out;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Pixel Focus States */
+        a:focus, button:focus {
+            outline: 2px solid var(--pixel-blue);
+            outline-offset: 2px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+            background: var(--pixel-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-gradient-text {
+            color: var(--pixel-blue);
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 700;
+        }
+
+        /* Step Indicators */
+        .pixel-step {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            background: var(--pixel-gray-100);
+            color: var(--pixel-black);
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0;
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--pixel-shadow);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(16px);
+            transition: all 0.15s ease;
+            z-index: 100;
+        }
+
+        .back-to-top:hover {
+            background: var(--pixel-pink);
+            transform: translateY(14px);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Demo Video Styles */
+        .laptop-mockup {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .laptop-screen {
+            transform: rotateX(-2deg);
+            transition: transform 0.3s ease;
+        }
+
+        .laptop-screen:hover {
+            transform: rotateX(0deg);
+        }
+
+        .demo-video-container video {
+            border-radius: 0;
+        }
+
+        .demo-video-container video::-webkit-media-controls-panel {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .demo-video-container #play-overlay {
+            backdrop-filter: blur(2px);
+        }
+
+        .demo-video-container #play-btn {
+            animation: pixel-pulse 2s infinite;
+        }
+
+        .demo-video-container #play-btn:hover {
+            animation: none;
+        }
+
+        @keyframes pixel-pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(236, 72, 153, 0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .laptop-screen {
+                transform: none;
+            }
+
+            .laptop-base {
+                display: none;
+            }
+
+            .pixel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pixel-section {
+                padding: 3rem 0;
+            }
+        }
+
+        /* Scroll-triggered animations */
+        .pixel-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pixel-slide-in-left {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .pixel-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+            font-weight: 500;
+            letter-spacing: -0.015em;
+            line-height: 1.15;
+        }
+
+        .hero-highlight {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.75rem;
         }
 
         .section-title {
@@ -34,27 +528,11 @@
             line-height: 1.2;
         }
 
-        /* Professional Cards */
-        .professional-card {
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .professional-card:hover {
-            border-color: rgba(0, 0, 0, 0.15);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            transform: translateY(-2px);
-        }
-
-        /* Professional Buttons */
         .btn-professional {
             font-weight: 500;
             letter-spacing: 0.025em;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 8px;
+            border-radius: 10px;
             position: relative;
             overflow: hidden;
         }
@@ -66,7 +544,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
             transition: left 0.5s ease;
         }
 
@@ -74,15 +552,35 @@
             left: 100%;
         }
 
-        /* Professional Section Spacing */
-        .section-spacing {
-            padding: 5rem 0;
+        .btn-primary {
+            background: linear-gradient(135deg, #0f0f0f, #242424);
+            color: #f5f5f5;
         }
 
-        /* Subtle Accent Lines */
+        .btn-primary:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-light {
+            color: #f2f2f2;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .btn-outline-light:hover {
+            color: #0b0b0b;
+            background: rgba(255, 255, 255, 0.92);
+            border-color: transparent;
+        }
+
+        /* Professional Section Spacing - Montclaire Inspired */
+        .section-spacing {
+            padding: 4rem 0;
+        }
+
+        /* Subtle Accent Lines - Montclaire Inspired */
         .accent-line {
             position: relative;
-            margin: 3rem 0;
+            margin: 2.5rem 0;
         }
 
         .accent-line::before {
@@ -91,81 +589,280 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px;
+            width: 60px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.3), transparent);
         }
 
-        /* Professional Icon Containers */
+        /* Professional Icon Containers - Montclaire Inspired */
         .icon-professional {
-            background: linear-gradient(135deg, rgba(0,0,0,0.05), rgba(0,0,0,0.1));
-            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(241, 245, 249, 1), rgba(241, 245, 249, 1));
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid rgba(226, 232, 240, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            color: #475569;
         }
 
-        /* Smooth Scrolling */
+        .icon-professional svg {
+            color: inherit;
+        }
+
+        .accent-line::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.3), transparent);
+        }
+
         html {
             scroll-behavior: smooth;
         }
 
-        /* Professional Focus States */
         a:focus, button:focus {
-            outline: 2px solid rgba(0,0,0,0.5);
+            outline: 2px solid rgba(99, 102, 241, 0.55);
             outline-offset: 2px;
         }
 
-        /* API Card Specific Styles */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #111827, #1f2937);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.35);
+            border: 1px solid rgba(15, 23, 42, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(16px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(135deg, #0f172a, #111827);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .gradient-text {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        /* Professional Cards - Montclaire Inspired */
+        .professional-card {
+            background: #ffffff;
+            border: 1px solid #f1f5f9;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .professional-card:hover {
+            border-color: #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transform: translateY(-1px);
+        }
+
+        .professional-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
         .api-card {
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            border-radius: 18px;
             transition: all 0.3s ease;
+            backdrop-filter: blur(6px);
         }
 
         .api-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
         }
 
         .category-badge {
-            background: rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 20px;
-            padding: 0.25rem 0.75rem;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 9999px;
+            padding: 0.35rem 1.1rem;
             font-size: 0.875rem;
             font-weight: 500;
+            color: #374151;
+            transition: all 0.2s ease;
         }
 
-            background: #dcfce7;
+        .category-badge:hover {
+            background: #ffffff;
+            border-color: #d1d5db;
+        }
+
+        .category-badge.category-active {
+            background: #1f2937;
+            border-color: #1f2937;
+            color: #fff;
+        }
+
+        .pricing-free {
+            background: #f0fdf4;
             color: #166534;
             border: 1px solid #bbf7d0;
         }
 
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid #fde68a;
+        .pricing-paid {
+            background: #f0f9ff;
+            color: #0c4a6e;
+            border: 1px solid #bae6fd;
         }
 
-            background: #e0e7ff;
-            color: #3730a3;
-            border: 1px solid #c7d2fe;
+        .pricing-enterprise {
+            background: #faf5ff;
+            color: #581c87;
+            border: 1px solid #d8b4fe;
+        }
+
+        .category-section {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            padding: 2.5rem;
+        }
+
+        .category-section + .category-section {
+            margin-top: 3rem;
+        }
+
+        .category-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            color: #374151;
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
     <!-- Header -->
-    <header class="border-b border-gray-400">
-        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl sm:text-2xl font-light tracking-widest lowercase text-black">api<span class="font-bold">ui</span></h1>
+    <header class="border-b border-gray-200">
+        <nav aria-label="Primary navigation" class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="text-xl sm:text-2xl font-light tracking-widest text-slate-900">api<span class="font-black uppercase text-lg sm:text-xl">UI</span></a>
+                <span class="text-sm text-gray-800 font-medium">an AURABLOX company</span>
+            </div>
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html#features" class="text-gray-700 hover:text-black font-medium transition-colors">Features</a>
-                <a href="index.html#pricing" class="text-gray-700 hover:text-black font-medium transition-colors">Pricing</a>
-                <a href="api-hub.html" class="text-gray-700 hover:text-black font-medium transition-colors">API Hub</a>
-                <a href="docs.html" class="text-gray-700 hover:text-black font-medium transition-colors">Docs</a>
-                <a href="app.html" class="text-gray-700 hover:text-black font-medium transition-colors">App</a>
-                <button class="px-4 py-2 border border-black rounded-md text-sm font-medium hover:bg-black hover:text-white transition-colors">
-                    Sign In
-                </button>
+                <a href="index#features" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Features</a>
+                <a href="index#pricing" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Pricing</a>
+                <a href="app.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">App</a>
+                <a href="docs.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">Docs</a>
+                <a href="api-hub.html" class="text-slate-700 hover:text-slate-900 font-medium transition-colors">API Hub</a>
+
+    <!-- Sign In Dropdown -->
+    <div class="relative">
+        <button id="signin-dropdown-btn" class="px-4 py-2 border border-black rounded-md text-sm font-medium hover:bg-black hover:text-white transition-colors flex items-center">
+            <span id="signin-button-label">Sign In</span>
+            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div id="signin-dropdown" class="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 ease-out z-50">
+            <!-- Email Auth Form -->
+            <div class="p-4">
+                <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Sign in with Email</div>
+
+                <!-- Sign In Form -->
+                <div id="signin-form">
+                    <form id="email-signin-form" class="space-y-3">
+                        <div>
+                            <input type="email" id="signin-email" placeholder="Email address" required
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <input type="password" id="signin-password" placeholder="Password" required
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                            Sign In
+                        </button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        <button id="show-signup" class="text-sm text-blue-600 hover:text-blue-800">Need an account? Sign up</button>
+                    </div>
+                </div>
+
+                <!-- Sign Up Form -->
+                <div id="signup-form" class="hidden">
+                    <form id="email-signup-form" class="space-y-3">
+                        <div>
+                            <input type="email" id="signup-email" placeholder="Email address" required
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <input type="password" id="signup-password" placeholder="Password" required
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-green-700 transition-colors">
+                            Sign Up
+                        </button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        <button id="show-signin" class="text-sm text-blue-600 hover:text-blue-800">Already have an account? Sign in</button>
+                    </div>
+                </div>
+
+                <div id="auth-message" class="mt-3 text-sm text-center hidden"></div>
             </div>
+
+            <div id="signedin-dropdown" class="hidden">
+                <div class="px-4 py-3 border-b border-slate-200">
+                    <div class="flex items-center gap-3">
+                        <img id="signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-slate-200">
+                        <div>
+                            <p id="signedin-name" class="text-sm font-semibold text-slate-900"></p>
+                            <p id="signedin-email" class="text-xs text-slate-500"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 space-y-2">
+                    <a id="signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
+                        </svg>
+                        <span>View profile</span>
+                    </a>
+                    <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
+                        Sign out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Mobile Menu Button -->
             <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="md:hidden p-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,66 +871,118 @@
             </button>
         </nav>
         <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
             <div class="container mx-auto px-4 py-4 space-y-4">
-                <a href="index.html#features" class="block text-gray-700 hover:text-black font-medium py-2">Features</a>
-                <a href="index.html#pricing" class="block text-gray-700 hover:text-black font-medium py-2">Pricing</a>
-                <a href="api-hub.html" class="block text-gray-700 hover:text-black font-medium py-2">API Hub</a>
-                <a href="docs.html" class="block text-gray-700 hover:text-black font-medium py-2">Docs</a>
-                <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
-                <button class="w-full text-left px-4 py-2 border border-black rounded-md text-sm font-medium hover:bg-black hover:text-white transition-colors">
-                    Sign In
-                </button>
+                <a href="index#features" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Features</a>
+                <a href="index#pricing" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Pricing</a>
+                <a href="app.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">App</a>
+                <a href="docs.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">Docs</a>
+                <a href="api-hub.html" class="block text-slate-700 hover:text-slate-900 font-medium py-2">API Hub</a>
+                <!-- Mobile Sign In Section -->
+                <div class="space-y-2">
+                    <button id="mobile-signin-toggle" class="w-full text-left px-4 py-2 border border-black rounded-md text-sm font-medium hover:bg-black hover:text-white transition-colors flex items-center justify-between">
+                        <span id="mobile-signin-label">Sign In</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+
+<!-- Mobile Auth Options -->
+<div id="mobile-signin-options" class="hidden space-y-2 ml-4">
+    <div id="mobile-signedout-options" class="space-y-2">
+        <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">Sign in with</div>
+
+        <!-- GitHub Button -->
+        <button type="button" data-auth-provider="github" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span class="text-sm font-medium">Continue with GitHub</span>
+        </button>
+
+        <!-- Google Button -->
+        <button type="button" data-auth-provider="google" class="w-full flex items-center px-4 py-3 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors group">
+            <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            <span class="text-sm font-medium">Continue with Google</span>
+        </button>
+    </div>
+
+    <div id="mobile-signedin-options" class="hidden space-y-3 border border-slate-200 rounded-lg p-4 bg-slate-50">
+        <div class="flex items-center gap-3">
+            <img id="mobile-signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-slate-200">
+            <div>
+                <p id="mobile-signedin-name" class="text-sm font-semibold text-slate-900"></p>
+                <p id="mobile-signedin-email" class="text-xs text-slate-600"></p>
+            </div>
+        </div>
+        <a id="mobile-signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
+            </svg>
+            <span>View profile</span>
+        </a>
+        <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
+            Sign out
+        </button>
+    </div>
+</div>
+            </div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="text-center section-spacing bg-gray-50">
-        <div class="container mx-auto px-4 sm:px-6 max-w-6xl">
-            <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto mb-8">
-                Discover Powerful APIs for
-                <span class="block hero-subtitle text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-gray-600 mt-2">
-                    Your Data Applications
-                </span>
-            </h1>
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb" class="bg-gray-50 border-b border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 py-3">
+            <ol class="flex items-center space-x-2 text-sm" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="index.html" class="text-gray-500 hover:text-gray-700 transition-colors">
+                        <span itemprop="name">
+                            <svg class="w-4 h-4 mr-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            Home
+                        </span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <svg class="w-4 h-4 text-gray-400 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                    <span itemprop="name" class="text-gray-700 font-medium">API Hub</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            </ol>
+        </div>
+    </nav>
 
-            <p class="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed mb-12 px-4">
-                Explore our curated collection of free and premium APIs that supercharge your data workflows.
-                From analytics to machine learning, find the perfect tools for your projects.
-            </p>
-
-            <!-- Search Bar -->
-            <div class="max-w-2xl mx-auto mb-12 px-4">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </div>
-                    <input type="text" id="api-search" placeholder="Search APIs by name, category, or provider..."
-                           class="w-full pl-16 pr-4 py-4 border border-gray-300 rounded-xl text-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all">
+    <!-- Hero -->
+    <section class="hero-section-hub section-spacing">
+        <div class="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
+            <div class="text-center">
+                <span class="hero-badge text-slate-100 mb-6">Curated Collections</span>
+                <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 max-w-4xl mx-auto">
+                    Third-Party APIs for <span class="gradient-text">Integration</span>
+                </h1>
+                <p class="hero-subtitle text-lg sm:text-xl text-slate-200 leading-relaxed mb-8 max-w-2xl mx-auto">
+                    Connect your apiUI-generated APIs with popular third-party services. Browse curated APIs from leading businesses for analytics, finance, ecommerce, and more to build comprehensive data workflows.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#featured" class="btn-professional btn-primary px-7 py-3 text-base text-center">Explore Third-Party APIs</a>
+                    <a href="#categories" class="btn-professional btn-outline-light px-7 py-3 text-base text-center">Browse Categories</a>
                 </div>
-            </div>
-
-            <!-- Category Filters -->
-            <div class="flex flex-wrap justify-center gap-3 px-4">
-                <button class="category-badge category-active" data-category="all">All APIs</button>
-                <button class="category-badge" data-category="data-processing">Data Processing</button>
-                <button class="category-badge" data-category="analytics">Analytics</button>
-                <button class="category-badge" data-category="ml-ai">ML/AI</button>
-                <button class="category-badge" data-category="visualization">Visualization</button>
-                <button class="category-badge" data-category="finance">Finance</button>
-                <button class="category-badge" data-category="communication">Communication</button>
-                <button class="category-badge" data-category="geospatial">Geospatial</button>
-                <button class="category-badge" data-category="weather">Weather</button>
-                <button class="category-badge" data-category="stock-market">Stock Market</button>
-                <button class="category-badge" data-category="e-commerce">E-commerce</button>
-                <button class="category-badge" data-category="social-media">Social Media</button>
-                <button class="category-badge" data-category="location">Location</button>
             </div>
         </div>
     </section>
+
 
     <!-- Professional Section Divider -->
     <div class="accent-line"></div>
@@ -242,9 +991,9 @@
     <section id="featured-apis" class="section-spacing">
         <div class="container mx-auto px-6 max-w-7xl">
             <div class="text-center mb-16">
-                <h2 class="section-title text-4xl sm:text-5xl text-black mb-6">Featured APIs</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                    Handpicked APIs that power thousands of data applications worldwide
+                <h2 class="section-title text-4xl sm:text-5xl text-slate-900 mb-6">Featured Third-Party APIs</h2>
+                <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                    Popular APIs from leading businesses that integrate seamlessly with your apiUI-generated endpoints to create powerful data workflows
                 </p>
             </div>
 
@@ -253,37 +1002,35 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">AI & Machine Learning</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">AI & Machine Learning</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">1 API</span>
+                            <span class="category-count">1 API</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- OpenAI API -->
-                        <div class="api-card professional-card p-6" data-category="ml-ai">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="ml-ai">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                                     </svg>
                                 </div>
-                                <div class="flex-1">
-                                    </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">OpenAI API</h3>
-                                    <p class="text-gray-600 text-sm mb-3 leading-relaxed">
-                                        Access GPT models for text generation, completion, and embeddings. Perfect for chatbots, content creation, and data analysis.
-                                    </p>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-xs text-gray-500">By OpenAI</span>
-                                        <a href="https://platform.openai.com/docs" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
-                                            View Docs
-                                        </a>
-                                    </div>
-                                </div>
+                                <span class="pricing-paid category-badge">Paid</span>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">OpenAI API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
+                                Access GPT models for text generation, completion, and embeddings. Perfect for chatbots, content creation, and data analysis.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-500">By OpenAI</span>
+                                <a href="https://platform.openai.com/docs" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
+                                    View Docs
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -293,37 +1040,34 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Analytics</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Analytics</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">1 API</span>
+                            <span class="category-count">1 API</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Google Analytics API -->
-                        <div class="api-card professional-card p-6" data-category="analytics">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="analytics">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                     </svg>
                                 </div>
-                                <div class="flex-1">
-                                    </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Google Analytics</h3>
-                                    <p class="text-gray-600 text-sm mb-3 leading-relaxed">
-                                        Extract website traffic data, user behavior analytics, and conversion metrics programmatically.
-                                    </p>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-xs text-gray-500">By Google</span>
-                                        <a href="https://developers.google.com/analytics" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
-                                            View Docs
-                                        </a>
-                                    </div>
-                                </div>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Google Analytics</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
+                                Extract website traffic data, user behavior analytics, and conversion metrics programmatically.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-500">By Google</span>
+                                <a href="https://developers.google.com/analytics" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
+                                    View Docs
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -333,79 +1077,75 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Data Processing</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Data Processing</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">3 APIs</span>
+                            <span class="category-count">3 APIs</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- NewsAPI -->
-                        <div class="api-card professional-card p-6" data-category="data-processing">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="data-processing">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
                                     </svg>
                                 </div>
-                                <div class="flex-1">
-                                    </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">NewsAPI</h3>
-                                    <p class="text-gray-600 text-sm mb-3 leading-relaxed">
-                                        Access news articles from thousands of sources. Search by keywords, sources, or categories for data analysis.
-                                    </p>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-xs text-gray-500">By NewsAPI</span>
-                                        <a href="https://newsapi.org/docs" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
-                                            View Docs
-                                        </a>
-                                    </div>
-                                </div>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">NewsAPI</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
+                                Access news articles from thousands of sources. Search by keywords, sources, or categories for data analysis.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-500">By NewsAPI</span>
+                                <a href="https://newsapi.org/docs" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
+                                    View Docs
+                                </a>
                             </div>
                         </div>
 
                         <!-- GitHub API -->
-                        <div class="api-card professional-card p-6" data-category="data-processing">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="data-processing">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">GitHub API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">GitHub API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access repository data, issues, pull requests, and user information. Perfect for developer analytics and CI/CD.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By GitHub</span>
-                                <a href="https://docs.github.com/en/rest" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By GitHub</span>
+                                <a href="https://docs.github.com/en/rest" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- AWS S3 API -->
-                        <div class="api-card professional-card p-6" data-category="data-processing">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="data-processing">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
                                     </svg>
                                 </div>
+                                <span class="pricing-paid category-badge">Pay-as-you-go</span>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">AWS S3</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">AWS S3</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Scalable object storage for data lakes, backups, and content distribution. RESTful API for file operations.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Amazon</span>
-                                <a href="https://docs.aws.amazon.com/s3/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Amazon</span>
+                                <a href="https://docs.aws.amazon.com/s3/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -417,33 +1157,32 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Visualization</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Visualization</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">1 API</span>
+                            <span class="category-count">1 API</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- QuickChart API -->
-                        <div class="api-card professional-card p-6" data-category="visualization">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="visualization">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">QuickChart</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">QuickChart</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Generate charts and graphs programmatically. Support for bar charts, line graphs, and custom visualizations.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By QuickChart</span>
-                                <a href="https://quickchart.io/documentation/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By QuickChart</span>
+                                <a href="https://quickchart.io/documentation/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -455,121 +1194,116 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Finance & Payments</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Finance & Payments</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">5 APIs</span>
+                            <span class="category-count">5 APIs</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Stripe API -->
-                        <div class="api-card professional-card p-6" data-category="finance">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="finance">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Stripe API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Stripe API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Process payments, manage subscriptions, and handle refunds. Complete payment solution for online businesses.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Stripe</span>
-                                <a href="https://stripe.com/docs/api" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Stripe</span>
+                                <a href="https://stripe.com/docs/api" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- PayPal API -->
-                        <div class="api-card professional-card p-6" data-category="finance">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="finance">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18l-3 9H6L3 4z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">PayPal API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">PayPal API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Process payments, manage subscriptions, and handle refunds. Complete payment solution for online businesses.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By PayPal</span>
-                                <a href="https://developer.paypal.com/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By PayPal</span>
+                                <a href="https://developer.paypal.com/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Square API -->
-                        <div class="api-card professional-card p-6" data-category="finance">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="finance">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Square API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Square API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Accept payments, manage inventory, and track sales. Complete POS solution for retail and restaurants.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Square</span>
-                                <a href="https://developer.squareup.com/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Square</span>
+                                <a href="https://developer.squareup.com/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Fixer.io API -->
-                        <div class="api-card professional-card p-6" data-category="finance">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="finance">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Fixer.io</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Fixer.io</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Real-time and historical exchange rates for 170+ world currencies. Perfect for international business.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Fixer</span>
-                                <a href="https://fixer.io/documentation" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Fixer</span>
+                                <a href="https://fixer.io/documentation" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- CoinGecko API -->
-                        <div class="api-card professional-card p-6" data-category="finance">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="finance">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">CoinGecko API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">CoinGecko API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Cryptocurrency data including prices, market caps, trading volumes, and exchange information for 10,000+ coins.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By CoinGecko</span>
-                                <a href="https://www.coingecko.com/en/api/documentation" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By CoinGecko</span>
+                                <a href="https://www.coingecko.com/en/api/documentation" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -581,33 +1315,33 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Communication</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Communication</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">1 API</span>
+                            <span class="category-count">1 API</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Twilio API -->
-                        <div class="api-card professional-card p-6" data-category="communication">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="communication">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                     </svg>
                                 </div>
+                                <span class="pricing-paid category-badge">Paid</span>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Twilio API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Twilio API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Cloud communications platform for SMS, voice, video, and email. Build communication workflows.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Twilio</span>
-                                <a href="https://www.twilio.com/docs" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Twilio</span>
+                                <a href="https://www.twilio.com/docs" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -619,35 +1353,34 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Geospatial</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Geospatial</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">1 API</span>
+                            <span class="category-count">1 API</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Mapbox API -->
-                        <div class="api-card professional-card p-6" data-category="geospatial">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="geospatial">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Mapbox API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Mapbox API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Location data platform with maps, geocoding, directions, and spatial analysis capabilities.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Mapbox</span>
-                                <a href="https://docs.mapbox.com/api/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Mapbox</span>
+                                <a href="https://docs.mapbox.com/api/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -659,55 +1392,53 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.9 5.002 5.002 0 00-9.9.1A4.001 4.001 0 003 15z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Weather</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Weather</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">2 APIs</span>
+                            <span class="category-count">2 APIs</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- OpenWeatherMap API -->
-                        <div class="api-card professional-card p-6" data-category="weather">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="weather">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.9 5.002 5.002 0 00-9.9.1A4.001 4.001 0 003 15z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">OpenWeatherMap</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">OpenWeatherMap</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Current weather, forecasts, and historical weather data. Includes temperature, humidity, wind speed, and precipitation.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By OpenWeather</span>
-                                <a href="https://openweathermap.org/api" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By OpenWeather</span>
+                                <a href="https://openweathermap.org/api" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- WeatherAPI -->
-                        <div class="api-card professional-card p-6" data-category="weather">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="weather">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">WeatherAPI</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">WeatherAPI</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Real-time weather data with 14-day forecasts. Includes air quality, astronomy data, and sports weather information.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By WeatherAPI</span>
-                                <a href="https://www.weatherapi.com/docs/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By WeatherAPI</span>
+                                <a href="https://www.weatherapi.com/docs/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -719,55 +1450,53 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Stock Market</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Stock Market</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">2 APIs</span>
+                            <span class="category-count">2 APIs</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Alpha Vantage API -->
-                        <div class="api-card professional-card p-6" data-category="stock-market">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="stock-market">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Alpha Vantage</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Alpha Vantage</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Stock market data including real-time and historical quotes, technical indicators, and fundamental data for global markets.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Alpha Vantage</span>
-                                <a href="https://www.alphavantage.co/documentation/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Alpha Vantage</span>
+                                <a href="https://www.alphavantage.co/documentation/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Yahoo Finance API -->
-                        <div class="api-card professional-card p-6" data-category="stock-market">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="stock-market">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Yahoo Finance</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Yahoo Finance</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Comprehensive stock market data including quotes, historical prices, options, and financial statements.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Yahoo</span>
-                                <a href="https://developer.yahoo.com/finance/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Yahoo</span>
+                                <a href="https://developer.yahoo.com/finance/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -779,166 +1508,159 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M8 11v6a2 2 0 002 2h4a2 2 0 002-2v-6M9 11h6"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">E-commerce</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">E-commerce</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">7 APIs</span>
+                            <span class="category-count">7 APIs</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Shopify API -->
-                        <div class="api-card professional-card p-6" data-category="e-commerce">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="e-commerce">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v16l7-3 7 3V4l-7-3-7 3z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Shopify Admin API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Shopify Admin API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access Shopify store data including products, orders, customers, and analytics. Perfect for e-commerce automation.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Shopify</span>
-                                <a href="https://shopify.dev/docs/admin-api" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Shopify</span>
+                                <a href="https://shopify.dev/docs/admin-api" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- eBay API -->
-                        <div class="api-card professional-card p-6" data-category="e-commerce">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="e-commerce">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18l-3 9H6l-3-9z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h12l-2 6H8l-2-6z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">eBay API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">eBay API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access eBay listings, prices, and seller data. Essential for marketplace analysis and competitive intelligence.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By eBay</span>
-                                <a href="https://developer.ebay.com/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By eBay</span>
+                                <a href="https://developer.ebay.com/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Amazon Product Advertising API -->
-                        <div class="api-card professional-card p-6" data-category="e-commerce">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="e-commerce">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Amazon Product Advertising</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Amazon Product Advertising</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access Amazon product data, prices, and reviews. Perfect for affiliate marketing and price comparison tools.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Amazon</span>
-                                <a href="https://affiliate-program.amazon.com/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Amazon</span>
+                                <a href="https://affiliate-program.amazon.com/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Walmart Open API -->
-                        <div class="api-card professional-card p-6" data-category="e-commerce">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="e-commerce">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M8 11v6a2 2 0 002 2h4a2 2 0 002-2v-6M9 11h6"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Walmart Open API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Walmart Open API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access Walmart's product catalog, pricing, and inventory data. Perfect for price comparison and product research.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Walmart</span>
-                                <a href="https://developer.walmart.com/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Walmart</span>
+                                <a href="https://developer.walmart.com/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Etsy API -->
-                        <div class="api-card professional-card p-6" data-category="e-commerce">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="e-commerce">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Etsy API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Etsy API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access handmade, vintage, and craft items from Etsy. Get product listings, shop data, and sales analytics.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Etsy</span>
-                                <a href="https://www.etsy.com/developers/documentation" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Etsy</span>
+                                <a href="https://www.etsy.com/developers/documentation" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- AliExpress API -->
-                        <div class="api-card professional-card p-6" data-category="e-commerce">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="e-commerce">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">AliExpress API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">AliExpress API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access millions of products from AliExpress. Get pricing, inventory, and product details for dropshipping and arbitrage.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By AliExpress</span>
-                                <a href="https://developers.aliexpress.com/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By AliExpress</span>
+                                <a href="https://developers.aliexpress.com/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- BigCommerce API -->
-                        <div class="api-card professional-card p-6" data-category="e-commerce">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="e-commerce">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">BigCommerce API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">BigCommerce API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access BigCommerce store data including products, orders, and customers. Excellent for e-commerce integrations.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By BigCommerce</span>
-                                <a href="https://developer.bigcommerce.com/api-docs/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By BigCommerce</span>
+                                <a href="https://developer.bigcommerce.com/api-docs/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -950,167 +1672,160 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Social Media</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Social Media</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">7 APIs</span>
+                            <span class="category-count">7 APIs</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Twitter API v2 -->
-                        <div class="api-card professional-card p-6" data-category="social-media">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="social-media">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Twitter API v2</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Twitter API v2</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access tweets, user data, and Twitter analytics. Perfect for social media monitoring, sentiment analysis, and content aggregation.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Twitter</span>
-                                <a href="https://developer.twitter.com/en/docs/twitter-api" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Twitter</span>
+                                <a href="https://developer.twitter.com/en/docs/twitter-api" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Instagram Basic Display API -->
-                        <div class="api-card professional-card p-6" data-category="social-media">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="social-media">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
                                         <path d="m12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Instagram Basic Display</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Instagram Basic Display</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access Instagram photos and videos from your account. Perfect for displaying user-generated content and social proof.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Meta</span>
-                                <a href="https://developers.facebook.com/docs/instagram-basic-display-api/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Meta</span>
+                                <a href="https://developers.facebook.com/docs/instagram-basic-display-api/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Facebook Graph API -->
-                        <div class="api-card professional-card p-6" data-category="social-media">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="social-media">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Facebook Graph API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Facebook Graph API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access Facebook pages, posts, events, and user data. Essential for social media management and audience analytics.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Meta</span>
-                                <a href="https://developers.facebook.com/docs/graph-api/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Meta</span>
+                                <a href="https://developers.facebook.com/docs/graph-api/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- YouTube Data API -->
-                        <div class="api-card professional-card p-6" data-category="social-media">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="social-media">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">YouTube Data API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">YouTube Data API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access YouTube videos, channels, playlists, and analytics data. Perfect for content creators and video platforms.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Google</span>
-                                <a href="https://developers.google.com/youtube/v3" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Google</span>
+                                <a href="https://developers.google.com/youtube/v3" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- LinkedIn Marketing API -->
-                        <div class="api-card professional-card p-6" data-category="social-media">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="social-media">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
                                         <circle cx="4" cy="4" r="2"></circle>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">LinkedIn Marketing API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">LinkedIn Marketing API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access LinkedIn company pages, posts, and advertising data. Essential for B2B marketing and professional networking.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By LinkedIn</span>
-                                <a href="https://docs.microsoft.com/en-us/linkedin/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By LinkedIn</span>
+                                <a href="https://docs.microsoft.com/en-us/linkedin/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- TikTok for Developers API -->
-                        <div class="api-card professional-card p-6" data-category="social-media">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="social-media">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.58 1.26.93 2.63.98 4.02.18 5.01-2.55 9.31-6.62 11.41-1.32.67-2.8.93-4.28.71C3.01 16.64-.29 13.74.09 8.91c.32-3.06 1.98-5.81 4.79-7.41C6.1.55 8.23.34 10.28.33c.87.01 1.74.02 2.61.02z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">TikTok for Developers</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">TikTok for Developers</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access TikTok videos, user data, and trending content. Perfect for social media analytics and content discovery.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By TikTok</span>
-                                <a href="https://developers.tiktok.com/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By TikTok</span>
+                                <a href="https://developers.tiktok.com/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Reddit API -->
-                        <div class="api-card professional-card p-6" data-category="social-media">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="social-media">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0 15c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Reddit API</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Reddit API</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Access Reddit posts, comments, and subreddit data. Excellent for community analysis and content aggregation.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Reddit</span>
-                                <a href="https://www.reddit.com/dev/api/" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Reddit</span>
+                                <a href="https://www.reddit.com/dev/api/" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -1122,101 +1837,97 @@
                 <div class="category-section">
                     <div class="flex items-center mb-8">
                         <div class="w-8 h-8 icon-professional mr-4 flex-shrink-0">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-2xl sm:text-3xl font-semibold text-black">Location</h3>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-slate-900">Location</h3>
                         <div class="ml-auto">
-                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">4 APIs</span>
+                            <span class="category-count">4 APIs</span>
                         </div>
                     </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- PositionStack API -->
-                        <div class="api-card professional-card p-6" data-category="location">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="location">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">PositionStack</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">PositionStack</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Forward and reverse geocoding API. Convert addresses to coordinates and vice versa with high accuracy.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By PositionStack</span>
-                                <a href="https://positionstack.com/documentation" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By PositionStack</span>
+                                <a href="https://positionstack.com/documentation" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- OpenCage Geocoding API -->
-                        <div class="api-card professional-card p-6" data-category="location">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="location">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">OpenCage Geocoding</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">OpenCage Geocoding</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Global geocoding service with support for 200+ countries. Forward and reverse geocoding with rich metadata.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By OpenCage</span>
-                                <a href="https://opencagedata.com/api" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By OpenCage</span>
+                                <a href="https://opencagedata.com/api" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Zipcodebase API -->
-                        <div class="api-card professional-card p-6" data-category="location">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="location">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Zipcodebase</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Zipcodebase</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 ZIP code and postal code data for global locations. Get city, state, country information from postal codes.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Zipcodebase</span>
-                                <a href="https://zipcodebase.com/documentation" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Zipcodebase</span>
+                                <a href="https://zipcodebase.com/documentation" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
                         </div>
 
                         <!-- Barcode Lookup API -->
-                        <div class="api-card professional-card p-6" data-category="location">
-                            <div class="flex items-start mb-4">
-                                <div class="w-10 h-10 icon-professional mr-3 flex-shrink-0">
-                                <div class="flex-1">                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="api-card professional-card p-8" data-category="location">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 icon-professional">
+                                    <svg class="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-9 0V1m10 3V1m0 3l1 1v16a2 2 0 01-2 2H6a2 2 0 01-2-2V5l1-1z"></path>
                                     </svg>
                                 </div>
                             </div>
-                            </div>
-                                    <h3 class="text-lg font-semibold text-black mb-2">Barcode Lookup</h3>
-                            <p class="text-gray-600 text-sm mb-3 leading-relaxed">
+                            <h3 class="text-2xl font-semibold text-slate-900 mb-3">Barcode Lookup</h3>
+                            <p class="text-slate-600 mb-4 leading-relaxed">
                                 Product information lookup by barcode. Get product details, images, and specifications for inventory management.
                             </p>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-500">By Barcode Lookup</span>
-                                <a href="https://www.barcodelookup.com/api" target="_blank" class="btn-professional bg-black text-white px-3 py-1.5 text-xs hover:bg-gray-800">
+                                <span class="text-sm text-slate-500">By Barcode Lookup</span>
+                                <a href="https://www.barcodelookup.com/api" target="_blank" class="btn-professional btn-primary px-4 py-2 text-sm">
                                     View Docs
                                 </a>
                             </div>
@@ -1224,18 +1935,78 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Bottom Section -->
-            <div class="border-t border-gray-200 pt-8">
-                <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-                    <p class="text-gray-500 text-sm">&copy; 2025 api<span class="font-bold">ui</span> Inc. All rights reserved.</p>
-                    <p class="text-gray-500 text-sm">Made with ❤️ for developers using AURABLOX AI</p>
-                </div>
+            <div id="api-empty-state" class="hidden mt-12 text-center bg-white/80 border border-sky-200 rounded-2xl py-12 px-6">
+                <span class="inline-flex items-center gap-2 px-4 py-2 mb-4 text-sm font-semibold text-sky-700 bg-sky-50 border border-sky-200 rounded-full">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                    </svg>
+                    No matches yet
+                </span>
+                <h3 class="text-2xl font-semibold text-slate-900 mb-3">No APIs match your filters</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto mb-6">
+                    Try adjusting your search keywords or switching categories to explore the rest of the apiUI library.
+                </p>
+                <button id="reset-filters" class="btn-professional btn-outline-light text-slate-900 hover:text-white hover:bg-slate-900 px-6 py-3 text-sm">
+                    Reset filters
+                </button>
             </div>
-        </div>
-    </footer>
+
+            <!-- Footer -->
+            <footer class="bg-white border-t border-gray-200 py-16">
+                <div class="container mx-auto px-6 max-w-6xl">
+                    <div class="flex justify-between items-center mb-12">
+                        <div class="flex flex-col items-start">
+                            <div class="text-2xl font-bold text-black tracking-tight">
+                                api<span class="font-black uppercase text-lg">UI</span>
+                            </div>
+                            <span class="text-sm text-gray-800 font-medium mt-1">an AURABLOX company</span>
+                        </div>
+
+                        <!-- Links Section -->
+                        <div class="grid grid-cols-2 gap-12">
+                            <div>
+                                <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Product</h4>
+                                <ul class="space-y-3">
+                                    <li><a href="index.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Home</a></li>
+                                    <li><a href="docs.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Documentation</a></li>
+                                    <li><a href="app.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Create API</a></li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 class="font-semibold text-black mb-4 text-sm uppercase tracking-wider">Support</h4>
+                                <ul class="space-y-3">
+                                    <li><a href="docs.html" class="text-gray-700 hover:text-black transition-colors duration-200 text-sm">Help Center</a></li>
+                                    <li>
+                                        <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer"
+                                           class="text-gray-700 hover:text-black transition-colors duration-200 text-sm inline-flex items-center gap-2"
+                                           aria-label="Follow us on X (formerly Twitter)">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                            </svg>
+                                            Follow on X
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Section -->
+                    <div class="border-t border-gray-200 pt-8 mt-8">
+                        <div class="flex justify-end">
+                            <p class="text-gray-600 text-sm">&copy; 2025 api<span class="font-black uppercase text-xs">UI</span> Inc. All rights reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
 
     <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://witlgqqqsusdfxbejoqb.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpdGxncXFxc3VzZGZ4YmVqb3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MjQ3MDUsImV4cCI6MjA3NDMwMDcwNX0.UN7qm7bGk_-BrL_th2auH7lwW1OjqAdxOLpzqgfdHw4';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -1253,10 +2024,520 @@
             });
         }
 
+        // Sign-in dropdown functionality
+        const signinDropdownBtn = document.getElementById('signin-dropdown-btn');
+        const signinDropdown = document.getElementById('signin-dropdown');
+        const mobileSigninToggle = document.getElementById('mobile-signin-toggle');
+        const mobileSigninOptions = document.getElementById('mobile-signin-options');
+
+        // Desktop dropdown toggle
+        if (signinDropdownBtn && signinDropdown) {
+            signinDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isVisible = !signinDropdown.classList.contains('opacity-0');
+
+                if (isVisible) {
+                    // Hide dropdown
+                    signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                    signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+                } else {
+                    // Show dropdown
+                    signinDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
+                    signinDropdown.classList.add('opacity-100', 'visible', 'scale-100');
+                }
+            });
+        }
+
+        // Mobile signin toggle
+        if (mobileSigninToggle && mobileSigninOptions) {
+            mobileSigninToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileSigninOptions.classList.toggle('hidden');
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            // Close desktop dropdown
+            if (signinDropdown && !signinDropdown.contains(e.target) && !signinDropdownBtn.contains(e.target)) {
+                signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+            }
+
+            // Close mobile dropdown
+            if (mobileSigninOptions && !mobileSigninOptions.contains(e.target) && !mobileSigninToggle.contains(e.target)) {
+                mobileSigninOptions.classList.add('hidden');
+            }
+        });
+
+        // Close mobile menu when clicking sign in options
+        if (mobileSigninOptions) {
+            mobileSigninOptions.addEventListener('click', (e) => {
+                // Only close if clicking on a button (not the container)
+                if (e.target.tagName === 'BUTTON') {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+
+
+const authProviderRoutes = {
+    github: '/auth/github/login',
+    google: '/auth/google/login',
+};
+
+const signinButtonLabel = document.getElementById('signin-button-label');
+const mobileSigninLabel = document.getElementById('mobile-signin-label');
+const signinProviderOptions = document.getElementById('signin-provider-options');
+const signedinDropdown = document.getElementById('signedin-dropdown');
+const signedinName = document.getElementById('signedin-name');
+const signedinEmail = document.getElementById('signedin-email');
+const signedinAvatar = document.getElementById('signedin-avatar');
+const signedinProfileLink = document.getElementById('signedin-profile-link');
+const mobileSignedoutOptions = document.getElementById('mobile-signedout-options');
+const mobileSignedinOptions = document.getElementById('mobile-signedin-options');
+const mobileSignedinName = document.getElementById('mobile-signedin-name');
+const mobileSignedinEmail = document.getElementById('mobile-signedin-email');
+const mobileSignedinAvatar = document.getElementById('mobile-signedin-avatar');
+const mobileSignedinProfileLink = document.getElementById('mobile-signedin-profile-link');
+const logoutButtons = document.querySelectorAll('[data-auth-action="logout"]');
+const authButtons = document.querySelectorAll('[data-auth-provider]');
+
+const getAuthBaseUrl = () => {
+    if (typeof window.apiuiGetBackendUrl === 'function') {
+        try {
+            const derived = window.apiuiGetBackendUrl();
+            if (derived) {
+                return derived;
+            }
+        } catch (error) {
+            // Ignore helper resolution errors
+        }
+    }
+
+    if (window.APIUI_AUTH_BASE_URL) {
+        return window.APIUI_AUTH_BASE_URL;
+    }
+
+    const attr = document.body?.dataset?.authBase;
+    if (attr) {
+        return attr;
+    }
+
+    try {
+        const stored = window.localStorage ? window.localStorage.getItem('apiui_backend_base_url') : null;
+        if (stored) {
+            return stored;
+        }
+    } catch (error) {
+        // Ignore storage access issues
+    }
+
+    return '';
+};
+
+const buildAuthUrl = (path) => {
+    if (!path) {
+        return '';
+    }
+
+    const isAbsolute = /^https?:\/\//i.test(path);
+    if (isAbsolute) {
+        return path;
+    }
+
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    const base = getAuthBaseUrl();
+
+    if (!base) {
+        return normalizedPath;
+    }
+
+    const trimmedBase = base.replace(/\/+$/, '');
+    return `${trimmedBase}${normalizedPath}`;
+};
+
+const resolveNextTarget = (button) => {
+    if (button?.dataset?.authNext) {
+        return button.dataset.authNext;
+    }
+
+    try {
+        const currentUrl = new URL(window.location.href);
+        if (currentUrl.protocol !== 'file:') {
+            return currentUrl.href;
+        }
+    } catch (error) {
+        // Fallback to origin or base url
+    }
+
+    if (window.location.origin && window.location.origin !== 'null') {
+        return window.location.href || window.location.origin;
+    }
+
+    if (window.APIUI_APP_BASE_URL) {
+        return window.APIUI_APP_BASE_URL;
+    }
+
+    return '/';
+};
+
+const buildAuthRequestUrl = (route, nextTarget) => {
+    const baseUrl = buildAuthUrl(route);
+    const url = /^https?:\/\//i.test(baseUrl) ? new URL(baseUrl) : new URL(baseUrl, window.location.href);
+    url.searchParams.set('next', nextTarget);
+    return url.toString();
+};
+
+authButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        const provider = button.dataset.authProvider || 'github';
+        const route = authProviderRoutes[provider] || authProviderRoutes.github;
+        const nextTarget = resolveNextTarget(button);
+        const loginUrl = buildAuthRequestUrl(route, nextTarget);
+        window.location.href = loginUrl;
+    });
+});
+
+const clearImage = (imgEl) => {
+    if (!imgEl) {
+        return;
+    }
+    imgEl.classList.add('hidden');
+    imgEl.removeAttribute('src');
+};
+
+const setImage = (imgEl, src) => {
+    if (!imgEl) {
+        return;
+    }
+    if (src) {
+        imgEl.src = src;
+        imgEl.classList.remove('hidden');
+
+        // Add error handling for Google avatars
+        imgEl.onerror = function() {
+            console.log('Avatar failed to load:', src);
+            // Try to load a fallback avatar
+            if (src && src.includes('googleusercontent.com')) {
+                // Try different Google avatar sizes
+                const fallbackSizes = ['s96-c', 's64-c', 's32-c'];
+                for (const size of fallbackSizes) {
+                    if (!src.includes(size)) {
+                        const newSrc = src.replace(/=s\d+-c/, `=${size}`);
+                        if (newSrc !== src) {
+                            console.log('Trying fallback avatar:', newSrc);
+                            imgEl.src = newSrc;
+                            return;
+                        }
+                    }
+                }
+            }
+            // If all fallbacks fail, hide the image
+            clearImage(imgEl);
+        };
+    } else {
+        clearImage(imgEl);
+    }
+};
+
+const setProfileLink = (linkEl, url, label) => {
+    if (!linkEl) {
+        return;
+    }
+
+    if (url) {
+        linkEl.href = url;
+        const span = linkEl.querySelector('span');
+        if (span && label) {
+            span.textContent = label;
+        }
+        linkEl.classList.remove('hidden');
+    } else {
+        linkEl.classList.add('hidden');
+        linkEl.removeAttribute('href');
+    }
+};
+
+const applySignedOutUI = () => {
+    if (signinButtonLabel) {
+        signinButtonLabel.textContent = 'Sign In';
+    }
+    if (mobileSigninLabel) {
+        mobileSigninLabel.textContent = 'Sign In';
+    }
+    if (signinProviderOptions) {
+        signinProviderOptions.classList.remove('hidden');
+    }
+    if (signedinDropdown) {
+        signedinDropdown.classList.add('hidden');
+    }
+    if (mobileSignedoutOptions) {
+        mobileSignedoutOptions.classList.remove('hidden');
+    }
+    if (mobileSignedinOptions) {
+        mobileSignedinOptions.classList.add('hidden');
+    }
+    if (signedinName) {
+        signedinName.textContent = '';
+    }
+    if (signedinEmail) {
+        signedinEmail.textContent = '';
+        signedinEmail.classList.remove('hidden');
+    }
+    if (mobileSignedinName) {
+        mobileSignedinName.textContent = '';
+    }
+    if (mobileSignedinEmail) {
+        mobileSignedinEmail.textContent = '';
+        mobileSignedinEmail.classList.remove('hidden');
+    }
+    clearImage(signedinAvatar);
+    clearImage(mobileSignedinAvatar);
+    setProfileLink(signedinProfileLink, null);
+    setProfileLink(mobileSignedinProfileLink, null);
+};
+
+const applySignedInUI = (session) => {
+    if (!session || !session.user) {
+        applySignedOutUI();
+        return;
+    }
+
+    const user = session.user;
+    const provider = session.provider || 'account';
+    const displayName = user.name || user.login || (user.email ? user.email.split('@')[0] : '') || 'Account';
+    const email = user.email || '';
+    const avatar = user.avatar_url || user.picture || '';
+    const profileUrl = user.profile_url || user.html_url || '';
+    const providerLabel = provider === 'github' ? 'View on GitHub' : provider === 'google' ? 'Manage Google account' : 'View profile';
+
+    if (signinButtonLabel) {
+        signinButtonLabel.textContent = displayName;
+    }
+    if (mobileSigninLabel) {
+        mobileSigninLabel.textContent = displayName;
+    }
+    if (signinProviderOptions) {
+        signinProviderOptions.classList.add('hidden');
+    }
+    if (signedinDropdown) {
+        signedinDropdown.classList.remove('hidden');
+    }
+    if (mobileSignedoutOptions) {
+        mobileSignedoutOptions.classList.add('hidden');
+    }
+    if (mobileSignedinOptions) {
+        mobileSignedinOptions.classList.remove('hidden');
+    }
+    if (signedinName) {
+        signedinName.textContent = displayName;
+    }
+    if (signedinEmail) {
+        signedinEmail.textContent = email;
+        signedinEmail.classList.toggle('hidden', !email);
+    }
+    if (mobileSignedinName) {
+        mobileSignedinName.textContent = displayName;
+    }
+    if (mobileSignedinEmail) {
+        mobileSignedinEmail.textContent = email;
+        mobileSignedinEmail.classList.toggle('hidden', !email);
+    }
+
+    setImage(signedinAvatar, avatar);
+    setImage(mobileSignedinAvatar, avatar);
+    setProfileLink(signedinProfileLink, profileUrl, providerLabel);
+    setProfileLink(mobileSignedinProfileLink, profileUrl, providerLabel);
+};
+
+const fetchAuthSession = async () => {
+    // Check Supabase auth first
+    try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (session && !error) {
+            // User is authenticated with Supabase
+            const user = session.user;
+            const userData = {
+                authenticated: true,
+                provider: 'supabase',
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
+                    avatar_url: user.user_metadata?.avatar_url
+                }
+            };
+            applySignedInUI(userData);
+            return;
+        }
+    } catch (error) {
+        // Supabase check failed, continue to backend check
+    }
+
+    // Fallback to backend session check
+    const sessionUrl = 'http://localhost:8000/auth/session';
+    try {
+        const response = await fetch(sessionUrl, { credentials: 'include' });
+        if (!response.ok) {
+            applySignedOutUI();
+            return;
+        }
+        const data = await response.json();
+        applySignedInUI(data);
+    } catch (error) {
+        applySignedOutUI();
+    }
+};
+
+logoutButtons.forEach(button => {
+    button.addEventListener('click', async (event) => {
+        event.preventDefault();
+
+        // Try Supabase logout first
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (!error) {
+                sessionStorage.removeItem('supabase_session');
+            }
+        } catch (e) {
+            // Ignore Supabase logout errors
+        }
+
+        // Fallback to backend logout
+        const logoutUrl = 'http://localhost:8000/auth/logout';
+        try {
+            await fetch(logoutUrl, { method: 'POST', credentials: 'include' });
+        } catch (error) {
+            // Ignore logout errors
+        }
+        applySignedOutUI();
+    });
+});
+
+applySignedOutUI();
+fetchAuthSession();
+
+// Email authentication handlers
+const emailSigninForm = document.getElementById('email-signin-form');
+const emailSignupForm = document.getElementById('email-signup-form');
+const showSignupBtn = document.getElementById('show-signup');
+const showSigninBtn = document.getElementById('show-signin');
+const signinForm = document.getElementById('signin-form');
+const signupForm = document.getElementById('signup-form');
+const authMessage = document.getElementById('auth-message');
+
+// Form switching
+if (showSignupBtn && signupForm && signinForm) {
+    showSignupBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        signupForm.classList.remove('hidden');
+        signinForm.classList.add('hidden');
+    });
+}
+
+if (showSigninBtn && signinForm && signupForm) {
+    showSigninBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        signinForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+    });
+}
+
+// Email authentication handlers
+if (emailSigninForm) {
+    emailSigninForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('signin-email').value;
+        const password = document.getElementById('signin-password').value;
+
+        showAuthMessage('Signing in...', 'text-blue-600');
+
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                showAuthMessage(error.message, 'text-red-600');
+            } else {
+                showAuthMessage('Signed in successfully!', 'text-green-600');
+            }
+        } catch (error) {
+            showAuthMessage('An error occurred during sign in', 'text-red-600');
+        }
+    });
+}
+
+if (emailSignupForm) {
+    emailSignupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+
+        showAuthMessage('Creating account...', 'text-blue-600');
+
+        try {
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                showAuthMessage(error.message, 'text-red-600');
+            } else {
+                showAuthMessage('Account created! Please check your email to verify.', 'text-green-600');
+            }
+        } catch (error) {
+            showAuthMessage('An error occurred during sign up', 'text-red-600');
+        }
+    });
+}
+
+// Auth message function
+function showAuthMessage(message, colorClass) {
+    if (authMessage) {
+        authMessage.textContent = message;
+        authMessage.className = `mt-3 text-sm text-center ${colorClass}`;
+        authMessage.classList.remove('hidden');
+    }
+}
+
+// Listen for auth state changes
+supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log('Supabase auth state changed:', event, session);
+    if (event === 'SIGNED_IN' && session) {
+        await fetchAuthSession();
+    } else if (event === 'SIGNED_OUT') {
+        applySignedOutUI();
+    }
+});
+
+        const backToTopBtn = document.getElementById('back-to-top');
+
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 600) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
         // Category filtering
         const categoryButtons = document.querySelectorAll('.category-badge');
         const apiCards = document.querySelectorAll('.api-card');
+        const categorySections = document.querySelectorAll('.category-section');
         const searchInput = document.getElementById('api-search');
+        const emptyState = document.getElementById('api-empty-state');
+        const resetFiltersBtn = document.getElementById('reset-filters');
 
         function filterAPIs() {
             const selectedCategory = document.querySelector('.category-active')?.dataset.category || 'all';
@@ -1275,6 +2556,24 @@
                     card.style.display = 'none';
                 }
             });
+
+            let visibleSectionCount = 0;
+
+            categorySections.forEach(section => {
+                const visibleCard = Array.from(section.querySelectorAll('.api-card')).some(card => card.style.display !== 'none');
+                section.style.display = visibleCard ? 'block' : 'none';
+                if (visibleCard) {
+                    visibleSectionCount += 1;
+                }
+            });
+
+            if (emptyState) {
+                if (visibleSectionCount === 0) {
+                    emptyState.classList.remove('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
+                }
+            }
         }
 
         // Category button clicks
@@ -1290,6 +2589,20 @@
 
         // Search functionality
         searchInput.addEventListener('input', filterAPIs);
+
+        if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', () => {
+                categoryButtons.forEach(btn => btn.classList.remove('category-active'));
+                const allButton = document.querySelector('.category-badge[data-category="all"]');
+                if (allButton) {
+                    allButton.classList.add('category-active');
+                }
+                searchInput.value = '';
+                filterAPIs();
+            });
+        }
+
+        filterAPIs();
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

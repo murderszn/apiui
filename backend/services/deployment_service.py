@@ -4,6 +4,8 @@ import os
 from pathlib import Path
 from typing import Dict, Any, Optional
 from core.config import settings
+from google.cloud import run_v2
+from google.api_core.exceptions import NotFound
 
 class DeploymentService:
     def __init__(self):
@@ -24,7 +26,8 @@ class DeploymentService:
             if self.gcp_project_id:
                 return await self._deploy_to_cloud_run(main_py, requirements_txt, dockerfile, job_id)
             else:
-                return await self._deploy_mock(main_py, requirements_txt, dockerfile, job_id)
+                # Use _deploy_to_cloud_run even for mock deployments to get Cloud Run URLs
+                return await self._deploy_to_cloud_run(main_py, requirements_txt, dockerfile, job_id)
 
         except Exception as e:
             return {"success": False, "error": f"Deployment failed: {str(e)}"}
@@ -81,8 +84,10 @@ class DeploymentService:
     ) -> Dict[str, Any]:
         """Mock deployment for development/testing"""
         try:
-            # Simulate deployment by creating a mock URL and API key
-            base_url = (settings.api_gateway_url or "http://localhost:9999").rstrip('/')
+            # Create Cloud Run-style URL instead of localhost
+            service_name = f"apiui-{job_id[:8]}"
+            region = getattr(settings, 'gcp_region', 'us-central1')
+            base_url = f"https://{service_name}-{region}.run.app"
             mock_url = f"{base_url}/api/{job_id}"
             mock_api_key = str(uuid.uuid4())
 
@@ -116,7 +121,24 @@ class DeploymentService:
     async def delete_deployment(self, deployment_id: str) -> bool:
         """Delete a deployment"""
         try:
-            # In production, this would delete the Cloud Run service
+            # Initialize Cloud Run client
+            client = run_v2.ServicesClient()
+
+            # Construct the service name
+            service_name = f"projects/{self.gcp_project_id}/locations/{self.gcp_region}/services/{deployment_id}"
+
+            # Delete the Cloud Run service
+            operation = client.delete_service(name=service_name)
+
+            # Wait for the operation to complete
+            operation.result(timeout=300)  # 5 minute timeout
+
+            print(f"Successfully deleted Cloud Run service: {deployment_id}")
             return True
-        except Exception:
+
+        except NotFound:
+            print(f"Cloud Run service {deployment_id} not found (may already be deleted)")
+            return True  # Consider it successful if already deleted
+        except Exception as e:
+            print(f"Failed to delete Cloud Run service {deployment_id}: {str(e)}")
             return False

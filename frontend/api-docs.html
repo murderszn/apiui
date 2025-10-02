@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation | apiUI</title>
+    <meta name="description" content="Professional API analytics dashboard with real-time monitoring, sample data, and comprehensive insights">
+    <meta name="author" content="apiUI by AURABLOX">
+    <link rel="canonical" href="https://apiui.web.app/api-docs.html">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Pixel Theme Fonts & Styles -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
+    <script>
+        // Configure backend URL for the frontend
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
+    </script>
+    <style>
+        /* Pixel Theme CSS Variables */
+        :root {
+            --pixel-black: #000000;
+            --pixel-white: #ffffff;
+            --pixel-gray-50: #f9fafb;
+            --pixel-gray-100: #f3f4f6;
+            --pixel-gray-200: #e5e7eb;
+            --pixel-gray-300: #d1d5db;
+            --pixel-gray-400: #9ca3af;
+            --pixel-gray-500: #6b7280;
+            --pixel-gray-600: #4b5563;
+            --pixel-gray-700: #374151;
+            --pixel-gray-800: #1f2937;
+            --pixel-gray-900: #111827;
+            --pixel-pink-400: #f472b6;
+            --pixel-pink-500: #ec4899;
+            --pixel-blue-400: #60a5fa;
+            --pixel-blue-500: #3b82f6;
+            --pixel-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Regular Cursor for API Docs */
+        * {
+            cursor: auto;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--pixel-white);
+            color: var(--pixel-black);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Pixel Typography */
+        .pixel-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .pixel-subtitle {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            line-height: 1.2;
+        }
+
+        .pixel-body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Pixel Cards */
+        .pixel-card {
+            background: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
+            box-shadow: var(--pixel-shadow);
+        }
+
+        .pixel-card:hover {
+            border-color: var(--pixel-blue-500);
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Pixel Buttons */
+        .pixel-btn {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 2px solid var(--pixel-black);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            transition: all 0.15s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pixel-btn:hover {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .pixel-btn-primary {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border-color: var(--pixel-black);
+        }
+
+        .pixel-btn-primary:hover {
+            background: var(--pixel-pink-500);
+            border-color: var(--pixel-pink-500);
+        }
+
+        .pixel-btn-secondary {
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border-color: var(--pixel-gray-300);
+        }
+
+        .pixel-btn-secondary:hover {
+            background: var(--pixel-gray-100);
+            border-color: var(--pixel-blue-500);
+        }
+
+        /* Pixel Badges */
+        .pixel-badge {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: var(--pixel-gray-100);
+            color: var(--pixel-black);
+            border: 1px solid var(--pixel-black);
+            padding: 0.25rem 0.75rem;
+            display: inline-block;
+        }
+
+        /* Pixel Icons */
+        .pixel-icon {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--pixel-black);
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+        }
+
+        /* Pixel Loading */
+        .pixel-loader {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid var(--pixel-gray-300);
+            border-radius: 0;
+            border-top-color: var(--pixel-black);
+            animation: pixel-spin 1s ease-in-out infinite;
+        }
+
+        @keyframes pixel-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Pixel Animations */
+        .pixel-fade-in {
+            opacity: 0;
+            animation: pixel-fade-in 0.6s ease-out forwards;
+        }
+
+        .pixel-fade-in.delay-1 { animation-delay: 0.1s; }
+        .pixel-fade-in.delay-2 { animation-delay: 0.2s; }
+        .pixel-fade-in.delay-3 { animation-delay: 0.3s; }
+
+        @keyframes pixel-fade-in {
+            to { opacity: 1; }
+        }
+
+        .pixel-slide-in-left {
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: pixel-slide-in-left 0.6s ease-out forwards;
+        }
+
+        @keyframes pixel-slide-in-left {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .pixel-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            animation: pixel-slide-in-right 0.6s ease-out forwards;
+        }
+
+        @keyframes pixel-slide-in-right {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .pixel-flicker-on-hover:hover {
+            animation: pixel-flicker 0.1s ease-in-out;
+        }
+
+        @keyframes pixel-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Code blocks - Pixel themed */
+        .code-block {
+            background: var(--pixel-gray-900);
+            color: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
+            padding: 1rem;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            line-height: 1.4;
+        }
+
+        /* Method badges - Pixel themed */
+        .method-badge {
+            font-family: 'Pixelify Sans', monospace;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: var(--pixel-gray-100);
+            color: var(--pixel-black);
+            border: 1px solid var(--pixel-black);
+        }
+
+        .method-badge.method-get { background: var(--pixel-blue-400); color: var(--pixel-white); }
+        .method-badge.method-post { background: var(--pixel-pink-400); color: var(--pixel-white); }
+        .method-badge.method-put { background: var(--pixel-blue-500); color: var(--pixel-white); }
+        .method-badge.method-delete { background: var(--pixel-pink-500); color: var(--pixel-white); }
+
+        /* Status indicators - Pixel themed */
+        .status-online {
+            color: var(--pixel-black);
+            font-weight: 500;
+            font-family: 'Pixelify Sans', monospace;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--pixel-gray-500);
+            display: inline-block;
+            margin-right: 0.5rem;
+            border: 1px solid var(--pixel-black);
+        }
+
+        .status-indicator.status-live {
+            background: var(--pixel-pink-400);
+            box-shadow: 0 0 0 2px rgba(244, 114, 182, 0.3);
+        }
+
+        /* Chart containers */
+        #availability-chart,
+        #response-time-chart,
+        #uptime-chart {
+            max-width: 100%;
+            height: auto !important;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+        }
+
+        /* Pixel Container for consistent spacing */
+        .pixel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Professional Typography - Pixel themed */
+        .hero-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <header class="border-b-2 border-black bg-white">
+        <nav aria-label="Primary navigation" class="pixel-container py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="pixel-title text-xl sm:text-2xl text-black hover:text-pink-500 transition-colors">api<span class="text-blue-500">UI</span></a>
+                <span class="pixel-body text-gray-600">an AURABLOX company</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html#features" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Features</a>
+                <a href="index.html#pricing" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Pricing</a>
+                <a href="app.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">App</a>
+                <a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Docs</a>
+                <a href="api-hub.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">API Hub</a>
+                <button id="delete-api-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-3 py-1.5 pixel-flicker-on-hover">
+                    Delete API
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Navigation Icons -->
+    <div class="fixed top-16 right-6 z-40 flex flex-col space-y-3">
+        <!-- Home Icon -->
+        <a href="index.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Back to Home">
+            <svg class="w-5 h-5 text-white group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+        </a>
+
+        <!-- Docs Icon -->
+        <a href="docs.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="View Documentation">
+            <svg class="w-5 h-5 text-white group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+        </a>
+
+        <!-- API Hub Icon -->
+        <a href="api-hub.html" class="pixel-card p-3 hover:bg-white hover:bg-opacity-10 transition-all pixel-flicker-on-hover group" title="Browse API Hub">
+            <svg class="w-5 h-5 text-white group-hover:text-pink-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="pixel-container py-6">
+        <!-- Hero Section -->
+        <div class="pixel-card p-8 mb-8 pixel-fade-in">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-4">
+                    <div class="pixel-card w-16 h-16 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="pixel-title text-3xl mb-1 text-pink-500" id="api-title">API Analytics Dashboard</h1>
+                        <p class="pixel-body text-gray-600 text-lg" id="api-description">Real-time monitoring and insights</p>
+                        <div class="flex items-center mt-3 space-x-6">
+                            <div class="flex items-center space-x-2">
+                                <div class="status-indicator"></div>
+                                <span class="pixel-body text-sm text-gray-600">API ID: <span id="api-id" class="font-mono font-medium"></span></span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="status-indicator"></div>
+                                <span class="pixel-body text-sm text-gray-600">Status: <span id="api-status" class="status-online">Online</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex space-x-3">
+                    <button id="test-api-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-6 py-3 pixel-flicker-on-hover">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        Test API
+                    </button>
+                    <a href="app.html" class="pixel-btn pixel-btn-primary inline-flex items-center px-6 py-3 pixel-flicker-on-hover">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Back to APIs
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="flex items-center justify-center py-20 pixel-fade-in">
+            <div class="pixel-loader mr-3"></div>
+            <span class="pixel-body text-gray-600">Loading API documentation...</span>
+        </div>
+
+        <!-- Manual Test Form (for debugging) -->
+        <div id="manual-test-form" class="pixel-card p-4 mb-8 hidden pixel-fade-in">
+            <h3 class="pixel-subtitle text-lg text-black mb-2">Manual Test</h3>
+            <p class="pixel-body text-gray-700 text-sm mb-4">Use this form to test the documentation page with a specific API ID:</p>
+            <div class="flex space-x-2">
+                <input type="text" id="test-api-id" placeholder="Enter API ID" class="pixel-body flex-1 px-3 py-2 border-2 border-black bg-white">
+                <button id="load-test-api" class="pixel-btn pixel-btn-primary px-4 py-2 pixel-flicker-on-hover">
+                    Load API
+                </button>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="hidden pixel-card p-6 pixel-fade-in">
+            <div class="flex items-center">
+                <svg class="w-6 h-6 text-red-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                    <h3 class="pixel-subtitle text-black">Failed to load API documentation</h3>
+                    <p class="pixel-body text-gray-600 text-sm mt-1" id="error-message">Please try again later.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Content -->
+        <div id="main-content" class="hidden pixel-fade-in">
+            <!-- Key Metrics Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Uptime Card -->
+                <div class="pixel-card p-6 pixel-slide-in-left">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="pixel-card w-10 h-10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="pixel-badge">Live</span>
+                    </div>
+                    <div>
+                        <p class="pixel-title text-2xl text-pink-500">99.9%</p>
+                        <p class="pixel-body text-sm text-gray-600">Uptime (30 days)</p>
+                    </div>
+                    <div class="mt-4">
+                        <canvas id="uptime-chart" width="200" height="64"></canvas>
+                    </div>
+                </div>
+
+                <!-- Response Time Card -->
+                <div class="pixel-card p-6 pixel-slide-in-left delay-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="pixel-card w-10 h-10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <span class="pixel-badge">Avg</span>
+                    </div>
+                    <div>
+                        <p class="pixel-title text-2xl text-blue-500">127ms</p>
+                        <p class="pixel-body text-sm text-gray-600">Avg Response Time</p>
+                    </div>
+                    <div class="mt-4">
+                        <canvas id="uptime-chart" width="200" height="64"></canvas>
+                    </div>
+                </div>
+
+                <!-- Requests Card -->
+                <div class="pixel-card p-6 pixel-slide-in-right">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="pixel-card w-10 h-10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <span class="pixel-badge">24h</span>
+                    </div>
+                    <div>
+                        <p class="pixel-title text-2xl text-pink-500">2.4K</p>
+                        <p class="pixel-body text-sm text-gray-600">Total Requests</p>
+                    </div>
+                    <div class="mt-4">
+                        <canvas id="uptime-chart" width="200" height="64"></canvas>
+                    </div>
+                </div>
+
+                <!-- Data Size Card -->
+                <div class="pixel-card p-6 pixel-slide-in-right delay-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="pixel-card w-10 h-10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                            </svg>
+                        </div>
+                        <span class="pixel-badge">Size</span>
+                    </div>
+                    <div>
+                        <p class="pixel-title text-2xl text-blue-500">1.2GB</p>
+                        <p class="pixel-body text-sm text-gray-600">Data Processed</p>
+                    </div>
+                    <div class="mt-4">
+                        <canvas id="uptime-chart" width="200" height="64"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Data Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Availability Chart -->
+                <div class="pixel-card p-6 pixel-fade-in delay-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="pixel-subtitle text-xl text-pink-500">API Availability</h3>
+                        <div class="flex items-center space-x-2">
+                            <div class="status-indicator status-live"></div>
+                            <span class="pixel-body text-sm text-gray-600">99.9% uptime</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="availability-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Response Time Chart -->
+                <div class="pixel-card p-6 pixel-fade-in delay-3">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="pixel-subtitle text-xl text-blue-500">Response Time Trends</h3>
+                        <div class="flex items-center space-x-2">
+                            <div class="status-indicator status-live"></div>
+                            <span class="pixel-body text-sm text-gray-600">Last 24 hours</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="response-time-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Data Section -->
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="pixel-subtitle text-xl text-pink-500">Sample Data Preview</h3>
+                    <button id="view-raw-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-4 py-2 pixel-flicker-on-hover">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                        View Full Dataset
+                    </button>
+                </div>
+
+                <!-- Data Preview Cards -->
+                <div id="sample-data-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Sample data will be loaded here -->
+                    <div class="pixel-card p-4 pixel-fade-in">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="pixel-body text-black">Loading sample data...</h4>
+                            <div class="pixel-loader"></div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="h-4 bg-gray-300 border border-gray-400 animate-pulse"></div>
+                            <div class="h-4 bg-gray-300 border border-gray-400 animate-pulse w-3/4"></div>
+                            <div class="h-4 bg-gray-300 border border-gray-400 animate-pulse w-1/2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Endpoints Section -->
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-right">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="pixel-subtitle text-xl text-blue-500">API Endpoints</h3>
+                    <div class="flex items-center space-x-2">
+                        <div class="status-indicator status-live"></div>
+                        <span class="pixel-body text-sm text-gray-600">Available endpoints</span>
+                    </div>
+                </div>
+
+                <!-- Endpoints List -->
+                <div id="endpoints-list" class="space-y-4">
+                    <!-- Endpoints will be dynamically loaded here -->
+                    <div class="pixel-card p-4 text-center pixel-fade-in">
+                        <span class="pixel-body text-gray-600">Loading endpoints...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Examples Section -->
+            <div class="pixel-card p-6 mb-8 pixel-fade-in delay-1">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="pixel-subtitle text-xl text-pink-500">Code Examples</h3>
+                    <div class="flex items-center space-x-2">
+                        <div class="status-indicator status-live"></div>
+                        <span class="pixel-body text-sm text-gray-600">Integration examples</span>
+                    </div>
+                </div>
+
+                <!-- Basic Examples -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="pixel-body text-black mb-3">cURL</h4>
+                        <div class="relative">
+                            <code id="curl-example" class="code-block block">curl "https://api.example.com/data"</code>
+                            <button class="pixel-btn pixel-btn-secondary absolute top-3 right-3 inline-flex items-center px-2 py-1 text-xs pixel-flicker-on-hover" data-code="curl &quot;https://api.example.com/data&quot;">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="pixel-body text-black mb-3">Python</h4>
+                        <div class="relative">
+                            <code id="python-example" class="code-block block">import requests
+
+response = requests.get(
+    'https://api.example.com/data'
+)
+data = response.json()</code>
+                            <button class="pixel-btn pixel-btn-secondary absolute top-3 right-3 inline-flex items-center px-2 py-1 text-xs pixel-flicker-on-hover" data-code="import requests
+
+response = requests.get(
+    'https://api.example.com/data'
+)
+data = response.json()">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Examples -->
+                <div>
+                    <h4 class="pixel-body text-black mb-3">Advanced Examples</h4>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="relative">
+                            <code id="advanced-example-1" class="code-block block">curl "https://api.example.com/data?sort_by=name&sort_order=desc&limit=50"</code>
+                            <button class="pixel-btn pixel-btn-secondary absolute top-3 right-3 inline-flex items-center px-2 py-1 text-xs pixel-flicker-on-hover" data-code="curl &quot;https://api.example.com/data?sort_by=name&sort_order=desc&limit=50&quot;">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+
+                        <div class="relative">
+                            <code id="advanced-example-2" class="code-block block">curl "https://api.example.com/data?skip=100&limit=50"</code>
+                            <button class="pixel-btn pixel-btn-secondary absolute top-3 right-3 inline-flex items-center px-2 py-1 text-xs pixel-flicker-on-hover" data-code="curl &quot;https://api.example.com/data?skip=100&limit=50&quot;">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Testing Section -->
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="pixel-subtitle text-xl text-blue-500">Interactive API Testing</h3>
+                    <div class="flex items-center space-x-2">
+                        <div class="status-indicator status-live"></div>
+                        <span class="pixel-body text-sm text-gray-600">Ready to test</span>
+                    </div>
+                </div>
+
+                <!-- Endpoint Selection -->
+                <div class="mb-6">
+                    <h4 class="pixel-body text-black mb-3">Select Endpoint</h4>
+                    <div id="endpoint-selector" class="space-y-2">
+                        <!-- Endpoints will be dynamically loaded here -->
+                    </div>
+                </div>
+
+                <!-- Request Builder -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="pixel-body text-black mb-3">Request Builder</h4>
+                        <div class="space-y-4">
+                            <div class="flex space-x-4">
+                                <select id="test-method" class="pixel-body flex-1 px-3 py-2 border-2 border-black bg-white">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                                <input id="test-url" type="text" class="pixel-body flex-3 px-3 py-2 border-2 border-black bg-white" placeholder="Enter API URL">
+                                <button id="send-test-request" class="pixel-btn pixel-btn-secondary px-6 py-2 pixel-flicker-on-hover">
+                                    Send Request
+                                </button>
+                            </div>
+
+                            <!-- Request Body -->
+                            <div id="request-config" class="hidden">
+                                <div class="pixel-card p-4">
+                                    <h5 class="pixel-body text-black mb-3">Request Body (JSON)</h5>
+                                    <textarea id="request-body" class="pixel-body w-full h-32 p-3 border-2 border-black font-mono text-sm bg-white" placeholder='{"key": "value"}'></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Response Display -->
+                    <div>
+                        <h4 class="pixel-body text-black mb-3">Response</h4>
+                        <div class="pixel-card">
+                            <div class="flex items-center justify-between p-3 border-b-2 border-black bg-gray-100">
+                                <span class="pixel-body text-black">Response</span>
+                                <div class="flex items-center space-x-4 text-xs text-gray-600">
+                                    <span id="test-status">Status: -</span>
+                                    <span id="test-time">Time: -</span>
+                                    <span id="test-size">Size: -</span>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <pre id="test-response" class="pixel-body text-sm text-gray-600 min-h-[200px] overflow-auto bg-gray-100 p-3 border border-black">Click "Send Request" to test the API</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Socket.io Real-time API Section -->
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-right">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="pixel-subtitle text-xl text-pink-500">Socket.io Real-time API</h3>
+                    <div class="flex items-center space-x-2">
+                        <div class="status-indicator status-live"></div>
+                        <span class="pixel-body text-sm text-gray-600">Real-time enabled</span>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <p class="pixel-body text-gray-700 mb-4">
+                        Connect to your APIs using Socket.io for real-time, chat-based interactions.
+                        Ask natural language questions about your data and receive instant responses.
+                    </p>
+                </div>
+
+                <!-- Socket Connection Setup -->
+                <div class="mb-6">
+                    <h4 class="pixel-body text-black mb-3">1. Initialize Socket Connection</h4>
+                    <div class="code-block">
+POST /v1/apis/{api_id}/socket/init
+Content-Type: application/json
+
+Response:
+{
+  "status": "success",
+  "message": "Socket namespace initialized for API abc123",
+  "socket_url": "/api/abc123",
+  "events": {
+    "chat_message": "Send chat messages for natural language queries",
+    "query_data": "Send structured data queries",
+    "stream_data": "Request data streaming",
+    "ping": "Keep connection alive"
+  }
+}
+                    </div>
+                </div>
+
+                <!-- Socket Events -->
+                <div class="mb-6">
+                    <h4 class="pixel-body text-black mb-3">2. Socket Events</h4>
+
+                    <!-- Chat Messages -->
+                    <div class="mb-4">
+                        <h5 class="pixel-body text-black mb-2">Chat Messages (Natural Language)</h5>
+                        <div class="code-block">
+// Send chat message
+socket.emit('chat_message', {
+  message: "How many records are there?",
+  user_id: "user123",
+  timestamp: "2024-01-01T12:00:00Z"
+});
+
+// Receive response
+socket.on('chat_response', (data) => {
+  if (data.type === 'success') {
+    console.log('Response:', data.message);
+  }
+});
+                        </div>
+                    </div>
+
+                    <!-- Data Queries -->
+                    <div class="mb-4">
+                        <h5 class="pixel-body text-black mb-2">Structured Data Queries</h5>
+                        <div class="code-block">
+// Send structured query
+socket.emit('query_data', {
+  query: {
+    filters: { status: "active" },
+    sort_by: "created_at",
+    sort_order: "desc",
+    limit: 10,
+    offset: 0
+  },
+  user_id: "user123"
+});
+
+// Receive results
+socket.on('query_result', (data) => {
+  if (data.type === 'success') {
+    console.log('Data:', data.data);
+    console.log('Total count:', data.total_count);
+  }
+});
+                        </div>
+                    </div>
+
+                    <!-- Data Streaming -->
+                    <div class="mb-4">
+                        <h5 class="pixel-body text-black mb-2">Data Streaming</h5>
+                        <div class="code-block">
+// Request data streaming
+socket.emit('stream_data', {
+  params: {
+    chunk_size: 100,
+    delay: 0.5  // seconds between chunks
+  },
+  user_id: "user123"
+});
+
+// Receive streaming chunks
+socket.on('stream_chunk', (chunk) => {
+  console.log('Chunk:', chunk.chunk_number);
+  console.log('Data:', chunk.data);
+  console.log('Progress:', chunk.progress + '%');
+});
+
+// Streaming complete
+socket.on('stream_complete', (data) => {
+  console.log('Streaming finished:', data.total_rows, 'records');
+});
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JavaScript Client Example -->
+                <div class="mb-6">
+                    <h4 class="pixel-body text-black mb-3">3. JavaScript Client Example</h4>
+                    <div class="code-block">
+// Initialize socket connection
+const apiId = 'your-api-id';
+const socket = io(`${window.APIUI_AUTH_BASE_URL}/api/${apiId}`);
+
+// Connection events
+socket.on('connect', () => {
+  console.log('Connected to API socket');
+});
+
+socket.on('disconnect', () => {
+  console.log('Disconnected from API socket');
+});
+
+// Chat with your data
+function askQuestion(question) {
+  socket.emit('chat_message', {
+    message: question,
+    user_id: 'web-user',
+    timestamp: new Date().toISOString()
+  });
+}
+
+// Listen for responses
+socket.on('chat_response', (data) => {
+  if (data.type === 'success') {
+    displayMessage(data.message);
+  } else {
+    displayError(data.message);
+  }
+});
+
+// Query data
+function queryData(filters) {
+  socket.emit('query_data', {
+    query: {
+      filters: filters,
+      limit: 10
+    },
+    user_id: 'web-user'
+  });
+}
+
+socket.on('query_result', (data) => {
+  if (data.type === 'success') {
+    displayData(data.data, data.total_count);
+  }
+});
+                    </div>
+                </div>
+
+                <!-- Python Client Example -->
+                <div class="mb-6">
+                    <h4 class="pixel-body text-black mb-3">4. Python Client Example</h4>
+                    <div class="code-block">
+import socketio
+import json
+
+# Create socket client
+sio = socketio.Client()
+
+@sio.event
+def connect():
+    print('Connected to API socket')
+
+@sio.event
+def disconnect():
+    print('Disconnected from API socket')
+
+@sio.on('chat_response')
+def on_chat_response(data):
+    if data['type'] == 'success':
+        print('API Response:', data['message'])
+    else:
+        print('Error:', data['message'])
+
+@sio.on('query_result')
+def on_query_result(data):
+    if data['type'] == 'success':
+        print(f"Received {len(data['data'])} records")
+        print(json.dumps(data['data'][:3], indent=2))  # First 3 records
+
+# Connect to your API
+api_id = 'your-api-id'
+backend_url = 'https://apiui-backend-44565368406.us-central1.run.app'
+
+# First initialize the socket endpoint
+import requests
+init_response = requests.post(f'{backend_url}/v1/apis/{api_id}/socket/init')
+print('Socket initialized:', init_response.json())
+
+# Connect to socket
+sio.connect(f'{backend_url}/api/{api_id}')
+
+# Ask questions
+sio.emit('chat_message', {
+  'message': 'Show me a sample of the data',
+  'user_id': 'python-client'
+})
+
+# Query with filters
+sio.emit('query_data', {
+  'query': {'limit': 5},
+  'user_id': 'python-client'
+})
+
+# Keep connection alive
+sio.wait()
+                    </div>
+                </div>
+
+                <!-- Interactive Chat Link -->
+                <div class="pixel-card p-4 bg-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="pixel-body text-black mb-1">Try the Interactive Chat</h4>
+                            <p class="pixel-body text-gray-600 text-sm">Experience real-time chat with your APIs using our web interface.</p>
+                        </div>
+                        <a id="open-chat-btn" href="#" class="pixel-btn pixel-btn-primary inline-flex items-center px-4 py-2 pixel-flicker-on-hover">
+                            Open Chat Interface
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('API Docs page loaded successfully');
+
+        // Get API ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const apiId = urlParams.get('id');
+        const apiDataParam = urlParams.get('data');
+
+        // Global API data
+        let currentApi = null;
+        let apiEndpoints = [];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await loadApiDocumentation();
+                setupEventListeners();
+            } catch (error) {
+                console.error('Page initialization error:', error);
+                showError('Failed to initialize page: ' + error.message);
+            }
+        });
+
+        // Load list of APIs from backend
+        async function loadApisFromBackend() {
+            try {
+                console.log('Fetching APIs from backend:', window.APIUI_AUTH_BASE_URL + '/v1/apis');
+
+                const response = await fetch(`${window.APIUI_AUTH_BASE_URL}/v1/apis`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch APIs: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log('Fetched API data:', data);
+
+                const apis = data.apis || [];
+                console.log('Extracted APIs:', apis);
+
+                if (!apis || apis.length === 0) {
+                    showError('No APIs found. Create an API first.');
+                    return;
+                }
+
+                // Store APIs in session storage for future use
+                sessionStorage.setItem('apiui_apis', JSON.stringify(apis));
+
+                // Show API selection interface
+                showApiSelection(apis);
+
+            } catch (error) {
+                console.error('Error fetching APIs from backend:', error);
+                throw error;
+            }
+        }
+
+        // Show API selection interface
+        function showApiSelection(apis) {
+            const mainContent = document.getElementById('main-content');
+
+            // Create API selection UI
+            let apiSelectionHtml = `
+                <div class="glass-card rounded-xl p-8 mb-8 shadow-xl">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Select an API</h2>
+                        <p class="text-gray-600">Choose an API to view its documentation and analytics</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            `;
+
+            apis.forEach(api => {
+                const apiId = api.id || api.job_id;
+                const apiTitle = api.title || api.name || `API ${apiId?.slice(0, 8)}`;
+                const apiDescription = api.description || 'Generated API';
+                const status = api.status || 'unknown';
+                const statusColor = status === 'running' ? 'bg-gray-100 text-gray-700' : 'bg-gray-100 text-gray-600';
+
+                apiSelectionHtml += `
+                    <div class="professional-card p-6 cursor-pointer border-2 border-transparent hover:border-gray-300" onclick="selectApi('${apiId}')">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200">
+                                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <span class="px-3 py-1 text-xs font-medium rounded-full ${statusColor}">${status}</span>
+                        </div>
+
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">${apiTitle}</h3>
+                        <p class="text-gray-600 text-sm mb-4">${apiDescription}</p>
+
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>ID: ${apiId?.slice(0, 8)}</span>
+                            <span class="text-blue-600 font-medium">View Docs →</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            apiSelectionHtml += `
+                    </div>
+                </div>
+            `;
+
+            mainContent.innerHTML = apiSelectionHtml;
+            mainContent.classList.remove('hidden');
+        }
+
+        // Select an API and load its documentation
+        async function selectApi(apiId) {
+            console.log('Selected API:', apiId);
+            // Update URL with API ID
+            const newUrl = `${window.location.pathname}?id=${encodeURIComponent(apiId)}`;
+            window.history.pushState({}, '', newUrl);
+
+            // Reload the page with the selected API
+            window.location.reload();
+        }
+
+        // Load metrics data and initialize charts
+        async function loadMetrics(api) {
+            try {
+                const apiId = api.id || api.job_id;
+                console.log('Loading metrics for API:', apiId);
+
+                const response = await fetch(`${window.APIUI_AUTH_BASE_URL}/v1/apis/${apiId}/metrics`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    console.warn('Failed to fetch metrics, using defaults');
+                    initializeChartsWithDefaults();
+                    return;
+                }
+
+                const metricsData = await response.json();
+                console.log('Metrics data:', metricsData);
+
+                // Update summary metrics
+                updateSummaryMetrics(metricsData.summary);
+
+                // Initialize charts with real data
+                initializeCharts(metricsData);
+
+            } catch (error) {
+                console.error('Error loading metrics:', error);
+                initializeChartsWithDefaults();
+            }
+        }
+
+        // Update summary metrics display
+        function updateSummaryMetrics(summary) {
+            // Update uptime percentage
+            const uptimeElements = document.querySelectorAll('[id*="uptime"], [id*="status"]');
+            uptimeElements.forEach(el => {
+                if (el.textContent.includes('%')) {
+                    el.textContent = `${summary.uptime_percentage}%`;
+                }
+            });
+
+            // Update response time
+            const responseTimeElements = document.querySelectorAll('[id*="response"], [id*="time"]');
+            responseTimeElements.forEach(el => {
+                if (el.textContent.includes('ms') && !el.textContent.includes('Status')) {
+                    el.textContent = `${summary.avg_response_time}ms`;
+                }
+            });
+
+            // Update request count
+            const requestElements = document.querySelectorAll('[id*="request"], [id*="total"]');
+            requestElements.forEach(el => {
+                if (el.textContent.includes('K') || el.textContent.match(/\d+/)) {
+                    const count = summary.total_requests;
+                    if (count >= 1000) {
+                        el.textContent = `${(count / 1000).toFixed(1)}K`;
+                    } else {
+                        el.textContent = count.toString();
+                    }
+                }
+            });
+        }
+
+        // Initialize charts with real data
+        function initializeCharts(metricsData) {
+            const hourlyData = metricsData.hourly_data;
+
+            // Availability/Uptime Chart (simple line chart)
+            const availabilityCtx = document.getElementById('availability-chart');
+            if (availabilityCtx) {
+                new Chart(availabilityCtx, {
+                    type: 'line',
+                    data: {
+                        labels: hourlyData.map(d => d.hour),
+                        datasets: [{
+                            label: 'Requests per Hour',
+                            data: hourlyData.map(d => d.requests),
+                            borderColor: '#374151',
+                            backgroundColor: 'rgba(55, 65, 81, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointHoverRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        aspectRatio: 3, // Make charts wider relative to height
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                top: 10,
+                                bottom: 10,
+                                left: 10,
+                                right: 10
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: '#f3f4f6',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#6b7280',
+                                    padding: 8,
+                                    font: {
+                                        size: 11
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: '#f3f4f6',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#6b7280',
+                                    padding: 8,
+                                    font: {
+                                        size: 11
+                                    },
+                                    maxRotation: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Response Time Chart
+            const responseTimeCtx = document.getElementById('response-time-chart');
+            if (responseTimeCtx) {
+                new Chart(responseTimeCtx, {
+                    type: 'line',
+                    data: {
+                        labels: hourlyData.map(d => d.hour),
+                        datasets: [{
+                            label: 'Avg Response Time (ms)',
+                            data: hourlyData.map(d => d.avg_response_time),
+                            borderColor: '#374151',
+                            backgroundColor: 'rgba(55, 65, 81, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointHoverRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        aspectRatio: 3, // Make charts wider relative to height
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        layout: {
+                            padding: {
+                                top: 10,
+                                bottom: 10,
+                                left: 10,
+                                right: 10
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: '#f3f4f6',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#6b7280',
+                                    padding: 8,
+                                    font: {
+                                        size: 11
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: '#f3f4f6',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#6b7280',
+                                    padding: 8,
+                                    font: {
+                                        size: 11
+                                    },
+                                    maxRotation: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Small uptime chart in metrics cards
+            const uptimeCtx = document.getElementById('uptime-chart');
+            if (uptimeCtx) {
+                new Chart(uptimeCtx, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [metricsData.summary.uptime_percentage, 100 - metricsData.summary.uptime_percentage],
+                            backgroundColor: ['#374151', '#f3f4f6'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: false
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize charts with default/placeholder data
+        function initializeChartsWithDefaults() {
+            // Default data for when metrics aren't available
+            const defaultHourlyData = Array.from({length: 24}, (_, i) => ({
+                hour: `${i.toString().padStart(2, '0')}:00`,
+                requests: Math.floor(Math.random() * 10),
+                avg_response_time: Math.floor(Math.random() * 100) + 50,
+                errors: Math.floor(Math.random() * 2)
+            }));
+
+            initializeCharts({
+                hourly_data: defaultHourlyData,
+                summary: {
+                    uptime_percentage: 99.9,
+                    avg_response_time: 127,
+                    total_requests: 2400,
+                    error_rate: 0.1
+                }
+            });
+        }
+
+        // Make selectApi globally accessible for onclick handlers
+        window.selectApi = selectApi;
+
+        // Load API documentation
+        async function loadApiDocumentation() {
+            try {
+                showLoading();
+
+                console.log('URL parameters:', window.location.search);
+                console.log('API ID from URL:', apiId);
+                console.log('API data from URL:', apiDataParam);
+
+                if (!apiId) {
+                    // Try to fetch list of APIs from backend when no API ID is provided
+                    try {
+                        console.log('No API ID provided, fetching list of APIs from backend...');
+                        await loadApisFromBackend();
+                        document.getElementById('loading-state').classList.add('hidden');
+                        return;
+                    } catch (error) {
+                        console.error('Failed to fetch APIs from backend:', error);
+                        // Show manual test form as fallback
+                        document.getElementById('manual-test-form').classList.remove('hidden');
+                        document.getElementById('loading-state').classList.add('hidden');
+                        return;
+                    }
+                }
+
+                console.log('Loading API documentation for ID:', apiId);
+
+                let api = null;
+
+                // Try to get API data from URL parameters first (passed from parent window)
+                if (apiDataParam) {
+                    try {
+                        api = JSON.parse(decodeURIComponent(apiDataParam));
+                        console.log('API data from URL parameters:', api);
+                    } catch (error) {
+                        console.error('Failed to parse API data from URL:', error);
+                    }
+                }
+
+                // Fallback to session storage if URL data is not available
+                if (!api) {
+                    const storedData = sessionStorage.getItem('apiui_apis');
+                    console.log('Stored APIs data:', storedData);
+
+                    if (storedData) {
+                        const storedApis = JSON.parse(storedData || '[]');
+                        console.log('Parsed APIs:', storedApis);
+
+                        api = storedApis.find(a => a.id === apiId);
+                        console.log('Found API:', api);
+                    }
+                }
+
+                if (!api) {
+                    // Show manual test form if no API data found
+                    document.getElementById('manual-test-form').classList.remove('hidden');
+                    document.getElementById('loading-state').classList.add('hidden');
+                    document.getElementById('error-state').classList.add('hidden');
+                    console.log('No API data found, showing manual test form');
+                    return;
+                }
+
+                currentApi = api;
+                console.log('Displaying API documentation for:', api);
+                await displayApiDocumentation(api);
+
+            } catch (error) {
+                console.error('Failed to load API documentation:', error);
+                showError(error.message + ' (Check console for details)');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Display API documentation
+        async function displayApiDocumentation(api) {
+            console.log('Starting to display API documentation for:', api);
+
+            try {
+                // Check if required DOM elements exist
+                const requiredElements = ['api-title', 'api-id', 'api-status', 'api-description', 'main-content'];
+                for (const elementId of requiredElements) {
+                    if (!document.getElementById(elementId)) {
+                        throw new Error(`Required DOM element '${elementId}' not found`);
+                    }
+                }
+
+                // Update header information
+                document.getElementById('api-title').textContent = api.title || api.name || 'API Analytics Dashboard';
+                document.getElementById('api-id').textContent = api.id?.slice(0, 8) || 'N/A';
+                document.getElementById('api-status').textContent = api.status || 'Active';
+                document.getElementById('api-description').textContent = api.description || 'Real-time monitoring and insights';
+
+                // Load sample data
+                await loadSampleData(api);
+
+                // Update code examples
+                const baseUrl = api.api_url || api.url || 'https://api.example.com';
+                updateCodeExamples(baseUrl);
+
+                // Load endpoints
+                await loadEndpoints(api);
+
+                // Load metrics and initialize charts
+                await loadMetrics(api);
+
+                // Show main content
+                document.getElementById('main-content').classList.remove('hidden');
+
+                console.log('API documentation displayed successfully');
+            } catch (error) {
+                console.error('Error displaying API documentation:', error);
+                showError('Failed to display API documentation: ' + error.message);
+            }
+        }
+
+        // Load sample data from the API
+        async function loadSampleData(api) {
+            try {
+                const baseUrl = api.api_url || api.url;
+                if (!baseUrl) {
+                    showSampleDataError('No API URL available');
+                    return;
+                }
+
+                // Show loading state
+                const sampleContainer = document.getElementById('sample-data-container');
+                sampleContainer.innerHTML = `
+                    <div class="data-preview rounded-lg p-4 border border-gray-200">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-medium text-gray-900">Loading sample data...</h4>
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                `;
+
+                // Try to fetch sample data from the API
+                const response = await fetch(`${baseUrl}/data?limit=5`);
+                if (response.ok) {
+                    const apiResponse = await response.json();
+                    // Extract the data array from the API response
+                    const data = apiResponse.data || apiResponse;
+                    displaySampleData(data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Error loading sample data:', error);
+                showSampleDataError('Failed to load sample data: ' + error.message);
+            }
+        }
+
+        // Display sample data in cards
+        function displaySampleData(data) {
+            const sampleContainer = document.getElementById('sample-data-container');
+
+            if (!data || !Array.isArray(data) || data.length === 0) {
+                sampleContainer.innerHTML = `
+                    <div class="col-span-full data-preview rounded-lg p-6 border border-gray-200 text-center">
+                        <svg class="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <p class="text-gray-500">No sample data available</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Get column names from the first record
+            const columns = Object.keys(data[0] || {});
+
+            let sampleCards = '';
+
+            // Create a card for each of the first 5 records
+            data.slice(0, 5).forEach((record, index) => {
+                sampleCards += `
+                    <div class="data-preview rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-medium text-gray-900">Record ${index + 1}</h4>
+                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">Row ${index + 1}</span>
+                        </div>
+                        <div class="space-y-2">
+                `;
+
+                // Add key-value pairs for each column
+                columns.forEach(column => {
+                    const value = record[column];
+                    const displayValue = typeof value === 'string' && value.length > 50
+                        ? value.substring(0, 50) + '...'
+                        : value;
+
+                    sampleCards += `
+                        <div class="flex justify-between items-start">
+                            <span class="text-sm font-medium text-gray-700 min-w-0 flex-shrink-0 mr-2">${column}:</span>
+                            <span class="text-sm text-gray-600 text-right break-words">${displayValue || 'null'}</span>
+                        </div>
+                    `;
+                });
+
+                sampleCards += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            sampleContainer.innerHTML = sampleCards;
+        }
+
+        // Show sample data error
+        function showSampleDataError(message) {
+            const sampleContainer = document.getElementById('sample-data-container');
+            sampleContainer.innerHTML = `
+                <div class="col-span-full data-preview rounded-lg p-6 border border-red-200 text-center">
+                    <svg class="w-12 h-12 text-red-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="text-red-600 font-medium">Sample Data Error</p>
+                    <p class="text-red-500 text-sm mt-1">${message}</p>
+                </div>
+            `;
+        }
+
+        // Load API endpoints
+        async function loadEndpoints(api) {
+            try {
+                const baseUrl = api.api_url || api.url;
+                if (!baseUrl) return;
+
+                // For Cloud Run APIs, use basic endpoints since they don't have schema endpoints
+                displayBasicEndpoints(baseUrl);
+
+            } catch (error) {
+                console.error('Error loading endpoints:', error);
+                displayBasicEndpoints(api.api_url || api.url);
+            }
+        }
+
+        // Display endpoints from schema
+        function displayEndpoints(schema) {
+            const endpointsList = document.getElementById('endpoints-list');
+            const endpointSelector = document.getElementById('endpoint-selector');
+
+            let endpointsHtml = '';
+            let selectorHtml = '';
+
+            if (schema.endpoints && schema.endpoints.length > 0) {
+                schema.endpoints.forEach(endpoint => {
+                    const methodClass = `method-${endpoint.method.toLowerCase()}`;
+
+                    endpointsHtml += `
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <span class="method-badge ${methodClass}">${endpoint.method}</span>
+                                    <span class="font-mono text-sm text-gray-900">${endpoint.route}</span>
+                                </div>
+                                <button class="copy-btn inline-flex items-center px-2 py-1 text-xs text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50" data-code="${endpoint.route}">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                            </div>
+                            <p class="text-gray-600 text-sm">${endpoint.description || 'No description available'}</p>
+                        </div>
+                    `;
+
+                    selectorHtml += `
+                        <div class="endpoint-option p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50" data-method="${endpoint.method}" data-url="${endpoint.route}">
+                            <div class="flex items-center space-x-2">
+                                <span class="method-badge ${methodClass}">${endpoint.method}</span>
+                                <span class="text-sm font-mono">${endpoint.route}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                endpointsHtml = '<p class="text-gray-600 text-center py-8">No endpoints available</p>';
+            }
+
+            endpointsList.innerHTML = endpointsHtml;
+            endpointSelector.innerHTML = selectorHtml;
+
+            // Add click handlers for endpoint selection
+            document.querySelectorAll('.endpoint-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const method = option.dataset.method;
+                    const url = option.dataset.url;
+                    document.getElementById('test-method').value = method;
+                    document.getElementById('test-url').value = url;
+                    updateRequestConfig();
+                });
+            });
+        }
+
+        // Display basic endpoints when schema is not available
+        function displayBasicEndpoints(baseUrl) {
+            const basicEndpoints = [
+                { method: 'GET', route: '/data', description: 'Retrieve all data records' },
+                { method: 'GET', route: '/data?limit=10', description: 'Retrieve first 10 records' },
+                { method: 'GET', route: '/data/{id}', description: 'Retrieve a specific record by ID' }
+            ];
+
+            const endpointsList = document.getElementById('endpoints-list');
+            const endpointSelector = document.getElementById('endpoint-selector');
+
+            let endpointsHtml = '';
+            let selectorHtml = '';
+
+            basicEndpoints.forEach(endpoint => {
+                const methodClass = `method-${endpoint.method.toLowerCase()}`;
+
+                endpointsHtml += `
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-3">
+                                <span class="method-badge ${methodClass}">${endpoint.method}</span>
+                                <span class="font-mono text-sm text-gray-900">${endpoint.route}</span>
+                            </div>
+                            <button class="copy-btn inline-flex items-center px-2 py-1 text-xs text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50" data-code="${baseUrl}${endpoint.route}">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                        <p class="text-gray-600 text-sm">${endpoint.description}</p>
+                    </div>
+                `;
+
+                selectorHtml += `
+                    <div class="endpoint-option p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50" data-method="${endpoint.method}" data-url="${baseUrl}${endpoint.route}">
+                        <div class="flex items-center space-x-2">
+                            <span class="method-badge ${methodClass}">${endpoint.method}</span>
+                            <span class="text-sm font-mono">${endpoint.route}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            endpointsList.innerHTML = endpointsHtml;
+            endpointSelector.innerHTML = selectorHtml;
+
+            // Add click handlers for endpoint selection
+            document.querySelectorAll('.endpoint-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const method = option.dataset.method;
+                    const url = option.dataset.url;
+                    document.getElementById('test-method').value = method;
+                    document.getElementById('test-url').value = url;
+                    updateRequestConfig();
+                });
+            });
+        }
+
+        // Update code examples
+        function updateCodeExamples(baseUrl) {
+            const curlCode = `curl "${baseUrl}/data"`;
+            const pythonCode = `import requests
+
+response = requests.get(
+    '${baseUrl}/data'
+)
+data = response.json()`;
+            const advancedCode1 = `curl "${baseUrl}/data?sort_by=name&sort_order=desc&limit=50"`;
+            const advancedCode2 = `curl "${baseUrl}/data?skip=100&limit=50"`;
+
+            document.getElementById('curl-example').textContent = curlCode;
+            document.getElementById('python-example').textContent = pythonCode;
+            document.getElementById('advanced-example-1').textContent = advancedCode1;
+            document.getElementById('advanced-example-2').textContent = advancedCode2;
+
+            // Update copy button data attributes
+            document.querySelector('[data-code*="curl"]').setAttribute('data-code', curlCode);
+            document.querySelector('[data-code*="import requests"]').setAttribute('data-code', pythonCode);
+            document.querySelector('[data-code*="sort_by=name"]').setAttribute('data-code', advancedCode1);
+            document.querySelector('[data-code*="skip=100"]').setAttribute('data-code', advancedCode2);
+        }
+
+        // Update request configuration based on method
+        function updateRequestConfig() {
+            const method = document.getElementById('test-method').value;
+            const requestConfig = document.getElementById('request-config');
+
+            if (method === 'GET') {
+                requestConfig.classList.add('hidden');
+            } else {
+                requestConfig.classList.remove('hidden');
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Manual test form
+            const testForm = document.getElementById('manual-test-form');
+            const testApiIdInput = document.getElementById('test-api-id');
+            const loadTestApiBtn = document.getElementById('load-test-api');
+
+            if (testForm && testApiIdInput && loadTestApiBtn) {
+                // Show the test form if no API ID is provided in URL
+                if (!apiId) {
+                    testForm.classList.remove('hidden');
+                }
+
+                loadTestApiBtn.addEventListener('click', async () => {
+                    const testId = testApiIdInput.value.trim();
+                    if (testId) {
+                        // Update URL without reloading page
+                        const newUrl = `${window.location.pathname}?id=${encodeURIComponent(testId)}`;
+                        window.history.pushState({}, '', newUrl);
+
+                        // Reload with new API ID
+                        apiId = testId;
+                        await loadApiDocumentation();
+                    }
+                });
+            }
+
+            // Copy buttons
+            document.addEventListener('click', async (e) => {
+                if (e.target.closest('.copy-btn')) {
+                    e.preventDefault();
+                    const button = e.target.closest('.copy-btn');
+                    const code = button.getAttribute('data-code');
+
+                    try {
+                        await navigator.clipboard.writeText(code);
+
+                        const originalText = button.innerHTML;
+                        button.innerHTML = `
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Copied!
+                        `;
+                        button.classList.add('text-green-600', 'border-green-300');
+                        button.classList.remove('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
+
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.classList.remove('text-green-600', 'border-green-300');
+                            button.classList.add('text-gray-600', 'hover:text-gray-900', 'border-gray-300', 'hover:bg-gray-50');
+                        }, 2000);
+                    } catch (error) {
+                        console.error('Failed to copy to clipboard:', error);
+                    }
+                }
+            });
+
+            // Method change handler
+            document.getElementById('test-method').addEventListener('change', updateRequestConfig);
+
+            // Send test request
+            document.getElementById('send-test-request').addEventListener('click', async () => {
+                const method = document.getElementById('test-method').value;
+                const url = document.getElementById('test-url').value;
+                const bodyElement = document.getElementById('request-body');
+                const body = bodyElement.value.trim();
+
+                if (!url) {
+                    alert('Please enter a URL');
+                    return;
+                }
+
+                const startTime = Date.now();
+
+                try {
+                    const options = {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    };
+
+                    if (body && (method === 'POST' || method === 'PUT')) {
+                        try {
+                            options.body = JSON.stringify(JSON.parse(body));
+                        } catch (error) {
+                            alert('Invalid JSON in request body');
+                            return;
+                        }
+                    }
+
+                    const response = await fetch(url, options);
+                    const endTime = Date.now();
+                    const responseTime = endTime - startTime;
+
+                    // Update status
+                    document.getElementById('test-status').textContent = `Status: ${response.status}`;
+                    document.getElementById('test-time').textContent = `Time: ${responseTime}ms`;
+                    document.getElementById('test-size').textContent = `Size: -`;
+
+                    let responseText;
+                    const contentType = response.headers.get('content-type');
+
+                    if (contentType && contentType.includes('application/json')) {
+                        const data = await response.json();
+                        responseText = JSON.stringify(data, null, 2);
+                    } else {
+                        responseText = await response.text();
+                    }
+
+                    document.getElementById('test-response').textContent = responseText;
+
+                } catch (error) {
+                    const endTime = Date.now();
+                    const responseTime = endTime - startTime;
+
+                    document.getElementById('test-status').textContent = 'Status: Error';
+                    document.getElementById('test-time').textContent = `Time: ${responseTime}ms`;
+                    document.getElementById('test-response').textContent = `Error: ${error.message}`;
+                }
+            });
+
+            // Test API button
+            document.getElementById('test-api-btn').addEventListener('click', () => {
+                // Scroll to the Interactive API Testing section
+                const testingSections = document.querySelectorAll('.professional-card h3');
+                for (const section of testingSections) {
+                    if (section.textContent.includes('Interactive API Testing')) {
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        return;
+                    }
+                }
+                // Fallback: scroll to the bottom of the page where testing is
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            });
+
+            // View raw button
+            document.getElementById('view-raw-btn').addEventListener('click', async () => {
+                if (!currentApi) return;
+
+                const baseUrl = currentApi.api_url || currentApi.url;
+                if (!baseUrl) return;
+
+                try {
+                    // Show loading state in the test response area
+                    document.getElementById('test-response').textContent = 'Loading full dataset...';
+
+                    const response = await fetch(`${baseUrl}/data?limit=100`);
+                    if (response.ok) {
+                        const apiResponse = await response.json();
+                        // Extract the data array for display
+                        const data = apiResponse.data || apiResponse;
+                        document.getElementById('test-response').textContent = JSON.stringify(data, null, 2);
+                        document.getElementById('test-status').textContent = `Status: ${response.status}`;
+                        document.getElementById('test-method').value = 'GET';
+                        document.getElementById('test-url').value = `${baseUrl}/data?limit=100`;
+                        updateRequestConfig();
+
+                        // Also show in a popup for better viewing
+                        const popup = window.open('', '_blank', 'width=800,height=600');
+                        popup.document.write(`
+                            <html>
+                                <head><title>Full Dataset - ${currentApi.title || 'API'}</title></head>
+                                <body style="font-family: monospace; padding: 20px; background: #f5f5f5;">
+                                    <h2>Full Dataset Preview</h2>
+                                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                                </body>
+                            </html>
+                        `);
+                    } else {
+                        document.getElementById('test-response').textContent = `Error: ${response.status} ${response.statusText}`;
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch raw data:', error);
+                    document.getElementById('test-response').textContent = `Error: ${error.message}`;
+                }
+            });
+
+            // Open Chat Interface button
+            const openChatBtn = document.getElementById('open-chat-btn');
+            if (openChatBtn) {
+                openChatBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (currentApi && currentApi.id) {
+                        // Open socket chat with the current API ID
+                        const chatUrl = `socket-chat.html?api_id=${encodeURIComponent(currentApi.id)}&connect=true`;
+                        window.open(chatUrl, '_blank');
+                    } else {
+                        alert('Please load an API first to open the chat interface.');
+                    }
+                });
+            }
+
+            // Delete API button
+            const deleteApiBtn = document.getElementById('delete-api-btn');
+            if (deleteApiBtn) {
+                deleteApiBtn.addEventListener('click', async () => {
+                    if (!currentApi) {
+                        alert('No API loaded to delete.');
+                        return;
+                    }
+
+                    const apiName = currentApi.title || `API ${currentApi.id.slice(0, 8)}`;
+                    const isCloudRun = currentApi.path && currentApi.path.startsWith('cloud-run://');
+
+                    if (isCloudRun) {
+                        // Handle Cloud Run API deletion
+                        if (confirm(`Are you sure you want to delete the Cloud Run API "${apiName}"?\n\nThis will stop the API and remove it from the backend.`)) {
+                            try {
+                                const deleteResult = await deleteCloudRunApi(currentApi);
+
+                                if (deleteResult.status === 'deleted') {
+                                    alert(`✅ Cloud Run API "${apiName}" deleted successfully!`);
+                                    // Redirect back to the main app
+                                    window.location.href = 'app.html';
+                                    return;
+                                }
+
+                                if (deleteResult.status === 'missing') {
+                                    alert(`⚠️ Cloud Run API "${apiName}" was not found on the backend. It may already be deleted.`);
+                                    window.location.href = 'app.html';
+                                    return;
+                                }
+
+                                alert(`❌ Failed to delete API: ${deleteResult.message || 'Unknown error'}`);
+                            } catch (error) {
+                                console.error('Delete API error:', error);
+                                alert(`❌ Failed to delete API: ${error.message}`);
+                            }
+                        }
+                    } else {
+                        alert(`This API (${apiName}) is not a Cloud Run deployment and cannot be deleted from here.`);
+                    }
+                });
+            }
+        }
+
+        // Delete API functionality
+        const BACKEND_BASE_URL = window.APIUI_AUTH_BASE_URL;
+
+        function normalizeApiHost(url) {
+            if (!url) return null;
+
+            console.log('[apiui] Normalizing API host:', url, 'Backend URL:', BACKEND_BASE_URL);
+
+            try {
+                const backendBase = new URL(BACKEND_BASE_URL);
+                const resolved = new URL(url, backendBase.origin);
+
+                // Ensure URL uses Cloud Run backend
+                resolved.protocol = backendBase.protocol;
+                resolved.host = backendBase.host;
+
+                const normalizedUrl = resolved.toString();
+                console.log('[apiui] Normalized URL:', normalizedUrl);
+                return normalizedUrl;
+            } catch (error) {
+                console.warn('[apiui] Unable to normalize API host for', url, error);
+                return url;
+            }
+        }
+
+        function getApiBackendUrl(apiUrl) {
+            if (!apiUrl) return BACKEND_BASE_URL;
+
+            try {
+                const url = new URL(apiUrl);
+
+                // If it's from the old backend, use the old backend URL
+                if (url.hostname.includes('apiui-backend-44565368406.us-central1.run.app')) {
+                    return 'https://apiui-backend-44565368406.us-central1.run.app';
+                }
+
+                // If it's from the new backend, use the new backend URL
+                if (url.hostname.includes('apiui-backend-44565368406.us-central1.run.app')) {
+                    return 'https://apiui-backend-44565368406.us-central1.run.app';
+                }
+
+                // Default to current backend
+                return BACKEND_BASE_URL;
+            } catch (error) {
+                console.warn('[apiui] Unable to determine backend URL for', apiUrl, error);
+                return BACKEND_BASE_URL;
+            }
+        }
+
+        function buildDeleteTargetsForApi(api, apiBackendUrl) {
+            const backendBase = (apiBackendUrl || BACKEND_BASE_URL || '').replace(/\/+$/, '');
+            const targets = [];
+            const seen = new Set();
+
+            const addTarget = (path, source) => {
+                if (!backendBase || !path) return;
+                const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+                const url = `${backendBase}${normalizedPath}`;
+                if (seen.has(url)) return;
+                seen.add(url);
+                targets.push({ url, source });
+            };
+
+            // Only try the DELETE endpoint that actually supports DELETE method
+            if (api && api.id) {
+                addTarget(`/v1/apis/${api.id}`, 'id');
+            }
+
+            // If we have an API URL, extract the ID and try the DELETE endpoint
+            const normalizedApiUrl = normalizeApiHost((api && (api.api_url || api.url)) || null);
+            if (normalizedApiUrl) {
+                try {
+                    const candidateUrl = new URL(normalizedApiUrl);
+                    const segments = candidateUrl.pathname.split('/').filter(Boolean);
+                    const lastSegment = segments[segments.length - 1];
+                    if (lastSegment) {
+                        addTarget(`/v1/apis/${lastSegment}`, 'api_url');
+                    }
+                } catch (error) {
+                    // Ignore URL parsing errors
+                }
+            }
+
+            return targets;
+        }
+
+        async function deleteCloudRunApi(api) {
+            const apiBackendUrl = getApiBackendUrl((api && (api.api_url || api.url)) || null);
+            const deleteTargets = buildDeleteTargetsForApi(api, apiBackendUrl);
+
+            if (!deleteTargets.length) {
+                return { status: 'error', message: 'No backend endpoint available for deletion.' };
+            }
+
+            console.log('[apiui] Delete candidates for API', api?.id, deleteTargets);
+
+            let notFoundCount = 0;
+            let networkErrorMessage = null;
+
+            for (const target of deleteTargets) {
+                try {
+                    console.log('[apiui] Attempting API delete via', target.url, `(source: ${target.source})`);
+                    const response = await fetch(target.url, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        return { status: 'deleted', url: target.url };
+                    }
+
+                    if (response.status === 404) {
+                        notFoundCount += 1;
+                        continue;
+                    }
+
+                    let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData && typeof errorData === 'object' && errorData.error) {
+                            errorMessage = errorData.error;
+                        }
+                    } catch (parseError) {
+                        // Ignore JSON parse errors for non-JSON responses
+                    }
+
+                    return { status: 'error', message: errorMessage };
+                } catch (networkError) {
+                    console.error('[apiui] Network error while deleting API:', networkError);
+                    networkErrorMessage = networkError.message;
+                }
+            }
+
+            if (notFoundCount === deleteTargets.length) {
+                return { status: 'missing' };
+            }
+
+            if (networkErrorMessage) {
+                return { status: 'error', message: networkErrorMessage };
+            }
+
+            return { status: 'error', message: 'Unknown error deleting the API.' };
+        }
+
+        // Utility functions
+        function showLoading() {
+            document.getElementById('loading-state').classList.remove('hidden');
+            document.getElementById('error-state').classList.add('hidden');
+            document.getElementById('main-content').classList.add('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading-state').classList.add('hidden');
+        }
+
+        function showError(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-state').classList.remove('hidden');
+            document.getElementById('main-content').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
