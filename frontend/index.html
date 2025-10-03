@@ -892,89 +892,7 @@
                 <a href="api-hub.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">API Hub</a>
                 <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Socket Chat</a>
             </div>
-            <div class="relative">
-                <button id="signin-dropdown-btn" class="px-4 py-2 border-2 border-black text-sm font-medium text-black hover:bg-black hover:text-white transition-colors flex items-center">
-                    <span id="signin-button-label">Sign In</span>
-                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-            </div>
 
-        <!-- Dropdown Menu -->
-
-        <!-- Dropdown Menu -->
-        <div id="signin-dropdown" class="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 ease-out z-50">
-            <!-- Email Auth Form -->
-            <div class="p-4">
-                <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-3">Sign in with Email</div>
-
-                <!-- Sign In Form -->
-                <div id="signin-form">
-                    <form id="email-signin-form" class="space-y-3">
-                        <div>
-                            <input type="email" id="signin-email" placeholder="Email address" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <input type="password" id="signin-password" placeholder="Password" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                        </div>
-                        <button type="submit" class="w-full cta-glow text-white text-sm font-medium py-2 px-4 rounded-md">
-                            Sign In
-                        </button>
-                    </form>
-                    <div class="mt-3 text-center">
-                        <button id="show-signup" class="text-sm text-pink-600 hover:text-pink-800">Need an account? Sign up</button>
-                    </div>
-                </div>
-
-                <!-- Sign Up Form -->
-                <div id="signup-form" class="hidden">
-                    <form id="email-signup-form" class="space-y-3">
-                        <div>
-                            <input type="email" id="signup-email" placeholder="Email address" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <input type="password" id="signup-password" placeholder="Password" required
-                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                        </div>
-                        <button type="submit" class="w-full cta-glow text-white text-sm font-medium py-2 px-4 rounded-md">
-                            Sign Up
-                        </button>
-                    </form>
-                    <div class="mt-3 text-center">
-                        <button id="show-signin" class="text-sm text-pink-600 hover:text-pink-800">Already have an account? Sign in</button>
-                    </div>
-                </div>
-
-                <div id="auth-message" class="mt-3 text-sm text-center hidden"></div>
-            </div>
-
-            <div id="signedin-dropdown" class="hidden">
-                <div class="px-4 py-3 border-b border-gray-200">
-                    <div class="flex items-center gap-3">
-                        <img id="signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-gray-200">
-                        <div>
-                            <p id="signedin-name" class="text-sm font-semibold text-gray-900"></p>
-                            <p id="signedin-email" class="text-xs text-gray-500"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-3 space-y-2">
-                    <a id="signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-pink-600 hover:text-pink-700 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
-                        </svg>
-                        <span>View profile</span>
-                    </a>
-                    <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-black rounded-lg hover:bg-gray-900 transition-colors">
-                        Sign out
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 
             <!-- Mobile Menu Button -->
@@ -990,84 +908,6 @@
                 <a href="#features" class="block text-gray-700 hover:text-black font-medium py-2">Features</a>
                 <a href="#pricing" class="block text-gray-700 hover:text-black font-medium py-2">Pricing</a>
                 <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
-                <!-- Mobile Sign In Section -->
-                <div class="space-y-2">
-                    <button id="mobile-signin-toggle" class="w-full text-left px-4 py-2 border border-black rounded-md text-sm font-medium hover:bg-black hover:text-white transition-colors flex items-center justify-between">
-                        <span id="mobile-signin-label">Sign In</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-
-
-                    <!-- Mobile Auth Options -->
-                    <div id="mobile-signin-options" class="hidden space-y-2 ml-4">
-                        <div id="mobile-signedout-options" class="space-y-2">
-                            <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-2">Sign in with Email</div>
-
-                            <!-- Mobile Sign In Form -->
-                            <div id="mobile-signin-form">
-                                <form id="mobile-email-signin-form" class="space-y-3">
-                                    <div>
-                                        <input type="email" id="mobile-signin-email" placeholder="Email address" required
-                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                                    </div>
-                                    <div>
-                                        <input type="password" id="mobile-signin-password" placeholder="Password" required
-                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                                    </div>
-                                    <button type="submit" class="w-full cta-glow text-white text-sm font-medium py-2 px-4 rounded-md">
-                                        Sign In
-                                    </button>
-                                </form>
-                                <div class="mt-3 text-center">
-                                    <button id="mobile-show-signup" class="text-sm text-pink-600 hover:text-pink-800">Need an account? Sign up</button>
-                                </div>
-                            </div>
-
-                            <!-- Mobile Sign Up Form -->
-                            <div id="mobile-signup-form" class="hidden space-y-3">
-                                <form id="mobile-email-signup-form" class="space-y-3">
-                                    <div>
-                                        <input type="email" id="mobile-signup-email" placeholder="Email address" required
-                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                                    </div>
-                                    <div>
-                                        <input type="password" id="mobile-signup-password" placeholder="Password" required
-                                               class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent">
-                                    </div>
-                                    <button type="submit" class="w-full cta-glow text-white text-sm font-medium py-2 px-4 rounded-md">
-                                        Sign Up
-                                    </button>
-                                </form>
-                                <div class="mt-3 text-center">
-                                    <button id="mobile-show-signin" class="text-sm text-pink-600 hover:text-pink-800">Already have an account? Sign in</button>
-                                </div>
-                            </div>
-
-                            <div id="mobile-auth-message" class="mt-3 text-sm text-center hidden"></div>
-                        </div>
-
-                        <div id="mobile-signedin-options" class="hidden space-y-3 border border-gray-200 rounded-lg p-4 bg-gray-50">
-                            <div class="flex items-center gap-3">
-                                <img id="mobile-signedin-avatar" src="" alt="Signed in user avatar" class="hidden w-10 h-10 rounded-full object-cover border border-gray-200">
-                                <div>
-                                    <p id="mobile-signedin-name" class="text-sm font-semibold text-gray-900"></p>
-                                    <p id="mobile-signedin-email" class="text-xs text-gray-600"></p>
-                                </div>
-                            </div>
-                            <a id="mobile-signedin-profile-link" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center gap-2 text-sm font-medium text-pink-600 hover:text-pink-700">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m-7 0l7-7m-7 7H5a2 2 0 01-2-2V5a2 2 0 012-2h7"></path>
-                                </svg>
-                                <span>View profile</span>
-                            </a>
-                            <button type="button" data-auth-action="logout" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-black rounded-lg hover:bg-gray-900 transition-colors">
-                                Sign out
-                            </button>
-                        </div>
-                    </div>
-            </div>
                 </div>
             </div>
         </div>
@@ -1678,61 +1518,6 @@
             });
         }
 
-        // Sign-in dropdown functionality
-        const signinDropdownBtn = document.getElementById('signin-dropdown-btn');
-        const signinDropdown = document.getElementById('signin-dropdown');
-        const mobileSigninToggle = document.getElementById('mobile-signin-toggle');
-        const mobileSigninOptions = document.getElementById('mobile-signin-options');
-
-        // Desktop dropdown toggle
-        if (signinDropdownBtn && signinDropdown) {
-            signinDropdownBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isVisible = !signinDropdown.classList.contains('opacity-0');
-
-                if (isVisible) {
-                    // Hide dropdown
-                    signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
-                    signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
-                } else {
-                    // Show dropdown
-                    signinDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
-                    signinDropdown.classList.add('opacity-100', 'visible', 'scale-100');
-                }
-            });
-        }
-
-        // Mobile signin toggle
-        if (mobileSigninToggle && mobileSigninOptions) {
-            mobileSigninToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                mobileSigninOptions.classList.toggle('hidden');
-            });
-        }
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-            // Close desktop dropdown
-            if (signinDropdown && !signinDropdown.contains(e.target) && !signinDropdownBtn.contains(e.target)) {
-                signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
-                signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
-            }
-
-            // Close mobile dropdown
-            if (mobileSigninOptions && !mobileSigninOptions.contains(e.target) && !mobileSigninToggle.contains(e.target)) {
-                mobileSigninOptions.classList.add('hidden');
-            }
-        });
-
-        // Close mobile menu when clicking sign in options
-        if (mobileSigninOptions) {
-            mobileSigninOptions.addEventListener('click', (e) => {
-                // Only close if clicking on a button (not the container)
-                if (e.target.tagName === 'BUTTON') {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-        }
 
         // Back to top button
         const backToTopBtn = document.getElementById('back-to-top');
@@ -1766,27 +1551,6 @@
         });
 
         
-const authProviderRoutes = {
-    github: '/auth/github/login',
-    google: '/auth/google/login',
-};
-
-const signinButtonLabel = document.getElementById('signin-button-label');
-const mobileSigninLabel = document.getElementById('mobile-signin-label');
-const signinProviderOptions = document.getElementById('signin-provider-options');
-const signedinDropdown = document.getElementById('signedin-dropdown');
-const signedinName = document.getElementById('signedin-name');
-const signedinEmail = document.getElementById('signedin-email');
-const signedinAvatar = document.getElementById('signedin-avatar');
-const signedinProfileLink = document.getElementById('signedin-profile-link');
-const mobileSignedoutOptions = document.getElementById('mobile-signedout-options');
-const mobileSignedinOptions = document.getElementById('mobile-signedin-options');
-const mobileSignedinName = document.getElementById('mobile-signedin-name');
-const mobileSignedinEmail = document.getElementById('mobile-signedin-email');
-const mobileSignedinAvatar = document.getElementById('mobile-signedin-avatar');
-const mobileSignedinProfileLink = document.getElementById('mobile-signedin-profile-link');
-const logoutButtons = document.querySelectorAll('[data-auth-action="logout"]');
-const authButtons = document.querySelectorAll('[data-auth-provider]');
 
 const getAuthBaseUrl = () => {
     if (typeof window.apiuiGetBackendUrl === 'function') {
