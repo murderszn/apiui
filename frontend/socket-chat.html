@@ -15,20 +15,16 @@
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.7.5/dist/socket.io.min.js"></script>
     <script>
         // Configure backend URLs for the frontend
-        // Use localhost for development, production URLs for live site
+        // Always use Cloud Run version for both development and production
         const isLocalhost = window.location.hostname === 'localhost' ||
                            window.location.hostname === '127.0.0.1' ||
                            window.location.hostname === '';
 
-        // Flask backend for API operations
-        window.APIUI_AUTH_BASE_URL = isLocalhost
-            ? 'http://localhost:9999'
-            : 'https://apiui-backend-44565368406.us-central1.run.app';
+        // Flask backend for API operations - Always use Cloud Run
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
 
-        // Firebase Functions chat server for communication
-        window.CHAT_SERVER_URL = isLocalhost
-            ? 'http://localhost:3001'
-            : 'https://us-central1-ai-apiui.cloudfunctions.net/chat';
+        // Firebase Functions chat server for communication - Always use Cloud Functions
+        window.CHAT_SERVER_URL = 'https://us-central1-ai-apiui.cloudfunctions.net/chat';
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
@@ -357,8 +353,6 @@
                 <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
                 <a href="api-hub.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">API Hub</a>
             </div>
-        </div>
-
             <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="md:hidden p-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -672,42 +666,36 @@
             if (mobileSignedoutOptions) {
                 mobileSignedoutOptions.classList.add('hidden');
             }
-
-            // Update user info
-            if (signedinName) signedinName.textContent = displayName;
-            if (signedinEmail) {
-                signedinEmail.textContent = email;
-                signedinEmail.classList.remove('hidden');
+            if (mobileSigninLabel) {
+                mobileSigninLabel.textContent = displayName;
             }
-            if (mobileSignedinName) mobileSignedinName.textContent = displayName;
+            if (mobileSignedinName) {
+                mobileSignedinName.textContent = displayName;
+            }
             if (mobileSignedinEmail) {
                 mobileSignedinEmail.textContent = email;
                 mobileSignedinEmail.classList.remove('hidden');
             }
-
-            setImage(signedinAvatar, avatar);
             setImage(mobileSignedinAvatar, avatar);
-            setProfileLink(signedinProfileLink, null);
-            setProfileLink(mobileSignedinProfileLink, null);
+            setProfileLink(mobileSignedinProfileLink, user.html_url || user.profile || null, 'View Profile');
+
+            // Update signed in elements
+            if (signedinName) {
+                signedinName.textContent = displayName;
+            }
+            if (signedinEmail) {
+                signedinEmail.textContent = email;
+                signedinEmail.classList.remove('hidden');
+            }
+            setImage(signedinAvatar, avatar);
+            setProfileLink(signedinProfileLink, user.html_url || user.profile || null, 'View Profile');
         }
 
-        const fetchAuthSession = async () => {
-            // Check Supabase auth first
+        async function fetchAuthSession() {
             try {
+                // Try Supabase first
                 const { data: { session }, error } = await supabase.auth.getSession();
-                if (session && !error) {
-                    // User is authenticated with Supabase
-                    const user = session.user;
-                    const userData = {
-                        authenticated: true,
-                        provider: 'supabase',
-                        user: {
-                            id: user.id,
-                            email: user.email,
-                            name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
-                            avatar_url: user.user_metadata?.avatar_url
-                        }
-                    };
+                if (!error && session) {
                     applySignedInUI(session);
                     return;
                 }
