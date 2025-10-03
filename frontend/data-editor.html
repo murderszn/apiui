@@ -20,28 +20,30 @@
     </script>
         <style>
         :root {
-            --editor-ink: #0f172a;
-            --editor-ink-soft: #1f2937;
-            --editor-subtle: #475569;
-            --editor-surface: #ffffff;
-            --editor-surface-alt: #f8fafc;
-            --editor-panel: #eef2ff;
-            --editor-border: rgba(15, 23, 42, 0.08);
-            --editor-border-strong: rgba(15, 23, 42, 0.16);
-            --editor-pink: #ec4899;
-            --editor-pink-soft: #f472b6;
-            --editor-purple: #7c3aed;
-            --editor-purple-soft: #a855f7;
-            --editor-success: #10b981;
-            --editor-warning: #f59e0b;
-            --editor-danger: #ef4444;
+            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
+            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
+            --pixel-pink-light: #F472B6;  /* Light pink */
+            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
+            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
+            --pixel-black: #000000;  /* Black text */
+            --pixel-white: #ffffff;  /* White background */
+            --pixel-gray-100: #f8fafc;
+            --pixel-gray-200: #e2e8f0;
+            --pixel-gray-300: #cbd5e1;
+            /* Hub Design System */
+            --hub-pink: #ec4899;
+            --hub-pink-soft: #f472b6;
+            --hub-ink: #0f172a;
+            --hub-ink-soft: #1f2937;
+            --hub-surface: #ffffff;
+            --hub-muted: #64748b;
+            --hub-border: rgba(15, 23, 42, 0.12);
         }
 
         body.editor-body {
             font-family: 'Inter', sans-serif;
-            color: var(--editor-ink);
-            background: radial-gradient(circle at top right, rgba(236, 72, 153, 0.12), transparent 45%),
-                linear-gradient(180deg, #f9fafb 0%, #f3f4f6 60%, #edf2f7 100%);
+            color: var(--pixel-black);
+            background: var(--pixel-white);
             min-height: 100vh;
             margin: 0;
             padding: 0;
@@ -52,10 +54,10 @@
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0.5;
+                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
             pointer-events: none;
             z-index: 0;
         }
@@ -63,9 +65,8 @@
         header.editor-header {
             position: relative;
             z-index: 2;
-            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
+            border-bottom: 2px solid var(--pixel-black);
+            background: var(--pixel-white);
         }
 
         .nav-shell {
@@ -82,12 +83,12 @@
             font-size: 1.25rem;
             letter-spacing: 0.24em;
             text-transform: uppercase;
-            color: var(--editor-ink);
+            color: var(--pixel-black);
             text-decoration: none;
         }
 
         .nav-shell a span {
-            color: var(--editor-pink);
+            color: var(--pixel-pink);
         }
 
         .nav-meta {
@@ -97,7 +98,7 @@
             font-size: 0.75rem;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--editor-subtle);
+            color: var(--pixel-black);
         }
 
         .pixel-container {
@@ -134,42 +135,38 @@
             align-items: center;
             gap: 0.75rem;
             padding: 0.85rem 1.1rem;
-            border-radius: 12px;
-            border: 1px solid var(--editor-border);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.9));
-            color: var(--editor-ink);
+            border: 2px solid var(--pixel-black);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
             font-size: 0.875rem;
-            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
         }
 
         .status-success {
-            border-color: rgba(16, 185, 129, 0.35);
-            color: var(--editor-success);
+            border-color: var(--pixel-black);
+            color: var(--pixel-black);
         }
 
         .status-error {
-            border-color: rgba(239, 68, 68, 0.35);
-            color: var(--editor-danger);
+            border-color: var(--pixel-black);
+            color: var(--pixel-black);
         }
 
         .status-warning {
-            border-color: rgba(245, 158, 11, 0.35);
-            color: var(--editor-warning);
+            border-color: var(--pixel-black);
+            color: var(--pixel-black);
         }
 
         .status-info {
-            border-color: rgba(124, 58, 237, 0.35);
-            color: var(--editor-purple);
+            border-color: var(--pixel-black);
+            color: var(--pixel-black);
         }
 
         .excel-app {
             position: relative;
             max-width: 1200px;
             margin: 0 auto;
-            background: var(--editor-surface);
-            border-radius: 20px;
-            border: 1px solid var(--editor-border);
-            box-shadow: 0 32px 70px rgba(15, 23, 42, 0.12);
+            background: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
             overflow: hidden;
         }
 
@@ -178,9 +175,8 @@
             flex-direction: column;
             gap: 2rem;
             padding: 2.75rem 3rem 2.5rem;
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), transparent 60%),
-                linear-gradient(0deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92));
-            border-bottom: 1px solid var(--editor-border);
+            background: var(--pixel-white);
+            border-bottom: 2px solid var(--pixel-black);
         }
 
         .sheet-eyebrow {
@@ -188,7 +184,7 @@
             font-size: 0.75rem;
             letter-spacing: 0.28em;
             text-transform: uppercase;
-            color: var(--editor-pink);
+            color: var(--pixel-pink);
             margin-bottom: 0.65rem;
         }
 
@@ -196,7 +192,7 @@
             font-size: clamp(1.75rem, 3vw, 2.6rem);
             font-weight: 600;
             letter-spacing: -0.01em;
-            color: var(--editor-ink);
+            color: var(--pixel-black);
             margin: 0;
         }
 
@@ -215,19 +211,17 @@
         }
 
         .metric-card {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(236, 72, 153, 0.08));
-            border-radius: 16px;
-            border: 1px solid rgba(124, 58, 237, 0.18);
+            background: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
             padding: 1.1rem 1.2rem;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
         }
 
         .metric-card:nth-child(2) {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(124, 58, 237, 0.08));
+            background: var(--pixel-gray-100);
         }
 
         .metric-card:nth-child(3) {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.06), rgba(124, 58, 237, 0.06));
+            background: var(--pixel-gray-200);
         }
 
         .metric-label {
@@ -242,7 +236,7 @@
         .metric-value {
             font-size: 1.25rem;
             font-weight: 600;
-            color: var(--editor-ink);
+            color: var(--pixel-black);
             margin-bottom: 0.25rem;
         }
 
@@ -267,10 +261,8 @@
             gap: 0.75rem;
             align-items: center;
             padding: 1rem 1.2rem;
-            border: 1px solid var(--editor-border);
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(243, 244, 255, 0.9));
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+            border: 2px solid var(--pixel-black);
+            background: var(--pixel-white);
         }
 
         .toolbar-group {
@@ -285,16 +277,14 @@
             align-items: center;
             gap: 0.55rem;
             padding: 0.55rem 1.1rem;
-            border-radius: 10px;
-            border: 1px solid var(--editor-border-strong);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
-            color: var(--editor-ink);
+            border: 2px solid var(--pixel-black);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, color 0.18s ease;
         }
 
         .toolbar-btn svg {
@@ -303,21 +293,18 @@
         }
 
         .toolbar-btn:hover:not(:disabled) {
-            transform: translate(-2px, -2px);
-            border-color: rgba(236, 72, 153, 0.65);
-            box-shadow: 4px 4px 0 rgba(236, 72, 153, 0.2);
+            background: var(--pixel-gray-100);
         }
 
         .toolbar-btn.primary {
-            background: linear-gradient(135deg, var(--editor-ink) 0%, var(--editor-purple) 45%, var(--editor-pink) 100%);
-            color: #fff;
-            border: 0;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset, 4px 4px 0 rgba(15, 23, 42, 0.4);
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
         }
 
         .toolbar-btn.primary:hover:not(:disabled) {
-            transform: translate(-3px, -3px);
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.55) inset, 6px 6px 0 rgba(124, 58, 237, 0.4), 0 10px 25px rgba(124, 58, 237, 0.32);
+            background: var(--pixel-pink);
+            color: var(--pixel-white);
         }
 
         .toolbar-btn:disabled {
@@ -332,8 +319,8 @@
             padding-right: 2.5rem;
             position: relative;
             background-image:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95)),
-                url('data:image/svg+xml,%3Csvg fill="none" stroke="%231f2937" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/%3E%3C/svg%3E');
+                var(--pixel-white),
+                url('data:image/svg+xml,%3Csvg fill="none" stroke="%23000000" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/%3E%3C/svg%3E');
             background-repeat: no-repeat;
             background-position: right 0.8rem center;
             background-size: 12px;
@@ -345,9 +332,8 @@
             align-items: center;
             gap: 1rem;
             padding: 0.85rem 1.2rem;
-            border: 1px solid var(--editor-border);
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(255, 255, 255, 0.95));
+            border: 2px solid var(--pixel-black);
+            background: var(--pixel-white);
         }
 
         .formula-label {
@@ -355,36 +341,31 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             font-size: 0.75rem;
-            background: rgba(236, 72, 153, 0.12);
-            border: 1px solid rgba(236, 72, 153, 0.35);
-            color: var(--editor-pink);
+            background: var(--pixel-pink);
+            border: 2px solid var(--pixel-black);
+            color: var(--pixel-white);
             padding: 0.5rem 1rem;
-            border-radius: 10px;
         }
 
         .formula-input {
             width: 100%;
-            border: 1px solid var(--editor-border-strong);
-            border-radius: 10px;
+            border: 2px solid var(--pixel-black);
             padding: 0.6rem 1rem;
             font-family: 'SF Mono', 'Roboto Mono', 'Monaco', monospace;
             font-size: 0.9rem;
-            background: var(--editor-surface);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background: var(--pixel-white);
         }
 
         .formula-input:focus {
             outline: none;
-            border-color: rgba(236, 72, 153, 0.6);
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.15);
+            border-color: var(--pixel-pink);
         }
 
         .spreadsheet-container {
             margin: 0 0 2rem;
-            border-radius: 18px;
-            border: 1px solid var(--editor-border);
+            border: 2px solid var(--pixel-black);
             overflow: hidden;
-            background: var(--editor-surface);
+            background: var(--pixel-white);
         }
 
         .spreadsheet-grid {
@@ -398,16 +379,15 @@
         }
 
         .spreadsheet-grid::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.04);
+            background: var(--pixel-gray-100);
         }
 
         .spreadsheet-grid::-webkit-scrollbar-thumb {
-            background: rgba(124, 58, 237, 0.35);
-            border-radius: 12px;
+            background: var(--pixel-black);
         }
 
         .spreadsheet-grid::-webkit-scrollbar-thumb:hover {
-            background: rgba(236, 72, 153, 0.45);
+            background: var(--pixel-pink);
         }
 
         .spreadsheet-table {
@@ -416,7 +396,7 @@
             border-spacing: 0;
             font-size: 0.85rem;
             line-height: 1.4;
-            color: var(--editor-ink);
+            color: var(--pixel-black);
         }
 
         .column-headers {
@@ -428,9 +408,9 @@
         .column-headers th {
             position: sticky;
             top: 0;
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.82));
-            color: #f8fafc;
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
             padding: 0.75rem 0.75rem;
             font-weight: 600;
             letter-spacing: 0.08em;
@@ -444,52 +424,49 @@
             position: sticky;
             left: 0;
             min-width: 70px;
-            background: rgba(15, 23, 42, 0.9);
+            background: var(--pixel-black);
             cursor: default;
         }
 
         .column-headers th:hover:not(:first-child) {
-            background: linear-gradient(180deg, rgba(124, 58, 237, 0.95), rgba(236, 72, 153, 0.9));
-            transform: translateY(-1px);
+            background: var(--pixel-pink);
+            color: var(--pixel-white);
         }
 
         tbody tr:nth-child(odd) .data-cell {
-            background: rgba(248, 250, 252, 0.9);
+            background: var(--pixel-gray-100);
         }
 
         .row-headers th {
             position: sticky;
             left: 0;
             z-index: 2;
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid var(--editor-border);
+            background: var(--pixel-gray-100);
+            border: 2px solid var(--pixel-black);
             padding: 0.6rem 0.75rem;
             font-size: 0.75rem;
             font-weight: 600;
-            color: var(--editor-subtle);
+            color: var(--pixel-black);
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
         .data-cell {
-            border: 1px solid var(--editor-border);
-            background: var(--editor-surface);
+            border: 2px solid var(--pixel-gray-200);
+            background: var(--pixel-white);
             min-width: 140px;
             height: 44px;
             position: relative;
-            transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
         }
 
         .data-cell:hover {
-            background: rgba(236, 72, 153, 0.05);
-            border-color: rgba(236, 72, 153, 0.25);
+            background: var(--pixel-gray-100);
         }
 
         .data-cell.selected,
         .data-cell:focus-within {
-            border-color: rgba(124, 58, 237, 0.8);
-            box-shadow: inset 0 0 0 1px rgba(236, 72, 153, 0.6), 0 0 0 3px rgba(236, 72, 153, 0.18);
-            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--pixel-pink);
+            background: var(--pixel-white);
         }
 
         .data-cell input,
@@ -502,7 +479,7 @@
             padding: 0.45rem 0.75rem;
             font-family: inherit;
             font-size: 0.85rem;
-            color: var(--editor-ink);
+            color: var(--pixel-black);
             outline: none;
         }
 
@@ -537,25 +514,24 @@
         .row-action-btn {
             width: 24px;
             height: 24px;
-            border-radius: 8px;
-            border: none;
+            border: 2px solid var(--pixel-black);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
             cursor: pointer;
-            background: rgba(15, 23, 42, 0.75);
-            color: #fff;
+            background: var(--pixel-white);
+            color: var(--pixel-black);
             transition: transform 0.18s ease, background 0.18s ease;
         }
 
         .row-action-btn.delete {
-            background: rgba(239, 68, 68, 0.85);
+            background: var(--pixel-black);
+            color: var(--pixel-white);
         }
 
         .row-action-btn.delete:hover {
-            transform: scale(1.1);
-            background: rgba(239, 68, 68, 1);
+            background: var(--pixel-pink);
         }
 
         .add-row-btn {
@@ -563,22 +539,18 @@
             align-items: center;
             gap: 0.6rem;
             padding: 0.6rem 1.25rem;
-            border-radius: 12px;
-            border: 0;
-            background: linear-gradient(135deg, var(--editor-ink) 0%, var(--editor-purple) 45%, var(--editor-pink) 100%);
-            color: #fff;
+            border: 2px solid var(--pixel-black);
+            background: var(--pixel-black);
+            color: var(--pixel-white);
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.35);
         }
 
         .add-row-btn:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0 rgba(124, 58, 237, 0.4);
+            background: var(--pixel-pink);
         }
 
         .pagination-container {
@@ -587,9 +559,8 @@
             justify-content: space-between;
             gap: 1rem;
             padding: 1rem 1.2rem;
-            border: 1px solid var(--editor-border);
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.92));
+            border: 2px solid var(--pixel-black);
+            background: var(--pixel-white);
         }
 
         .pagination-actions {
@@ -602,22 +573,18 @@
             align-items: center;
             gap: 0.4rem;
             padding: 0.55rem 1rem;
-            border-radius: 10px;
-            border: 1px solid var(--editor-border-strong);
-            background: #fff;
-            color: var(--editor-ink);
+            border: 2px solid var(--pixel-black);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
             font-weight: 600;
             font-size: 0.8rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
-            transition: transform 0.18s ease, box-shadow 0.18s ease;
         }
 
         .pagination-btn:hover:not(:disabled) {
-            transform: translate(-2px, -2px);
-            box-shadow: 3px 3px 0 rgba(236, 72, 153, 0.2);
-            border-color: rgba(236, 72, 153, 0.4);
+            background: var(--pixel-gray-100);
         }
 
         .pagination-btn:disabled {
@@ -638,16 +605,14 @@
             width: 32px;
             height: 32px;
             border: 3px solid rgba(236, 72, 153, 0.2);
-            border-top-color: var(--editor-pink);
+            border-top-color: var(--pixel-pink);
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
 
         .context-menu {
-            background: var(--editor-surface);
-            border: 1px solid var(--editor-border);
-            border-radius: 12px;
-            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+            background: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
             padding: 0.4rem 0;
             min-width: 160px;
             z-index: 20;
@@ -661,13 +626,13 @@
         }
 
         .context-menu-item:hover {
-            background: rgba(236, 72, 153, 0.12);
-            color: var(--editor-pink);
+            background: var(--pixel-gray-100);
+            color: var(--pixel-black);
         }
 
         .context-menu-separator {
-            height: 1px;
-            background: var(--editor-border);
+            height: 2px;
+            background: var(--pixel-black);
             margin: 0.4rem 0;
         }
 
