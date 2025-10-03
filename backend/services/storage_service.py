@@ -33,9 +33,18 @@ class StorageService:
         elif self.use_gcs:
             if storage is None:
                 raise RuntimeError("Google Cloud Storage requested but google-cloud-storage package is not installed")
-            self.gcs_client = storage.Client(project=settings.gcs_project_id)
-            self.bucket = self.gcs_client.bucket(settings.gcs_bucket_name)
-            print(f"✅ Using Google Cloud Storage: {settings.gcs_bucket_name}")
+            try:
+                self.gcs_client = storage.Client(project=settings.gcs_project_id)
+                self.bucket = self.gcs_client.bucket(settings.gcs_bucket_name)
+                print(f"✅ Using Google Cloud Storage: {settings.gcs_bucket_name}")
+            except Exception as e:
+                print(f"❌ GCS initialization failed: {e}")
+                print("🔄 Falling back to local storage")
+                self.use_gcs = False
+                # Ensure local directories exist
+                os.makedirs(self.local_uploads_dir, exist_ok=True)
+                os.makedirs(self.local_apis_dir, exist_ok=True)
+                print(f"✅ Using local storage: {self.local_uploads_dir}")
         else:
             # Ensure local directories exist
             os.makedirs(self.local_uploads_dir, exist_ok=True)

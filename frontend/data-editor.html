@@ -16,9 +16,10 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
     <script>
         // Configure backend URL for the frontend
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
     </script>
         <style>
+        /* Pixel-Inspired CSS Variables */
         :root {
             --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
             --pixel-pink-subtle: #EC4899;  /* More subtle pink */
@@ -30,79 +31,44 @@
             --pixel-gray-100: #f8fafc;
             --pixel-gray-200: #e2e8f0;
             --pixel-gray-300: #cbd5e1;
-            /* Hub Design System */
-            --hub-pink: #ec4899;
-            --hub-pink-soft: #f472b6;
-            --hub-ink: #0f172a;
-            --hub-ink-soft: #1f2937;
-            --hub-surface: #ffffff;
-            --hub-muted: #64748b;
-            --hub-border: rgba(15, 23, 42, 0.12);
-            --pixel-border-width: 2px;  /* Consistent hard border width */
-            --pixel-border-radius: 0px;  /* Rigid, no border radius */
-            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);  /* Subtle shadow for soft outer borders */
-            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);  /* Hover shadow */
+            --pixel-gray-600: #64748b;
+            --pixel-gray-800: #1f2937;
+            /* Pixel Design System */
+            --pixel-border-width: 2px;
+            --pixel-border-radius: 0;
+            --pixel-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+            --pixel-shadow-hover: 6px 6px 0 rgba(0, 0, 0, 0.3);
+            --pixel-success: #10b981;
+            --pixel-warning: #f59e0b;
+            --pixel-danger: #ef4444;
         }
 
-        body.editor-body {
+        body {
             font-family: 'Inter', sans-serif;
+            background-color: var(--pixel-white);
             color: var(--pixel-black);
-            background: var(--pixel-white);
+            line-height: 1.6;
+            cursor: inherit;
             min-height: 100vh;
             margin: 0;
             padding: 0;
         }
 
-        body.editor-body::before {
+        body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background-image:
-                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
-            opacity: 0.3;
             pointer-events: none;
+            opacity: 0.3;
+            background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
             z-index: 0;
-        }
-
-        /* Pixel Container for consistent spacing */
-        .pixel-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* Pixel Section for spacing between major sections */
-        .pixel-section {
-            padding: 2rem 0;
-        }
-
-        .pixel-section:first-child {
-            padding-top: 1rem;
-        }
-
-        .pixel-section:last-child {
-            padding-bottom: 4rem;
-        }
-
-        /* Professional card styling with soft outer borders */
-        .pixel-card {
-            background: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            box-shadow: var(--pixel-shadow);
-        }
-
-        .pixel-card:hover {
-            border-color: var(--pixel-pink-subtle);
-            box-shadow: var(--pixel-shadow-hover);
         }
 
         header.editor-header {
             position: relative;
             z-index: 2;
-            border-bottom: 2px solid var(--pixel-black);
+            border-bottom: var(--pixel-border-width) solid var(--pixel-black);
             background: var(--pixel-white);
         }
 
@@ -135,7 +101,7 @@
             font-size: 0.75rem;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--pixel-black);
+            color: var(--pixel-gray-600);
         }
 
         .pixel-container {
@@ -144,22 +110,185 @@
             padding: 0 1rem;
         }
 
-        .pixel-title {
+        /* Pixel Button System */
+        .pixel-btn {
             font-family: 'Pixelify Sans', monospace;
             font-weight: 600;
-            letter-spacing: 0.28em;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            padding: 0.75rem 1.5rem;
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            box-shadow: none;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pixel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .pixel-btn:hover {
+            box-shadow: none;
+            transform: translate(-1px, -1px);
+            color: var(--pixel-black);
+        }
+
+        .pixel-btn:hover::before {
+            left: 100%;
+        }
+
+        .pixel-btn:active {
+            transform: translate(0, 0);
+            box-shadow: none;
+        }
+
+        .pixel-btn-primary {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border-color: var(--pixel-black);
+        }
+
+        .pixel-btn-primary:hover {
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
+            color: var(--pixel-white);
+        }
+
+        .pixel-btn-secondary {
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border-color: var(--pixel-pink-subtle);
+        }
+
+        .pixel-btn-secondary:hover {
+            background: var(--pixel-pink-subtle);
+            color: var(--pixel-white);
+        }
+
+        /* Pixel Card System - Soft Interactive */
+        .pixel-card {
+            background: var(--pixel-white);
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem !important;
+        }
+
+        .pixel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .pixel-card:hover {
+            border-color: var(--pixel-pink);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .pixel-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Pixel Typography Classes */
+        .pixel-heading {
+            font-family: 'Pixelify Sans', monospace;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .pixel-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .pixel-subtitle {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 500;
+            letter-spacing: 0.03em;
             text-transform: uppercase;
         }
 
         .pixel-body {
             font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
         }
 
-        main.editor-main {
-            position: relative;
-            z-index: 1;
-            padding: 3rem 0 4rem;
+        /* Status indicator */
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--pixel-gray-500);
+            display: inline-block;
+            margin-right: 0.5rem;
+            border: 1px solid var(--pixel-black);
         }
+
+        .status-indicator.status-live {
+            background: var(--pixel-pink);
+            box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.3);
+        }
+
+        /* Pixel fade-in animation */
+        .pixel-fade-in {
+            animation: pixelFadeIn 0.6s ease-out;
+        }
+
+        @keyframes pixelFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Pixel flicker effect */
+        .pixel-flicker-on-hover {
+            transition: all 0.2s ease;
+        }
+
+        .pixel-flicker-on-hover:hover {
+            animation: pixelFlicker 0.3s ease-in-out;
+        }
+
+        @keyframes pixelFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
 
         #status-container {
             max-width: 1200px;
@@ -172,35 +301,48 @@
             align-items: center;
             gap: 0.75rem;
             padding: 0.85rem 1.1rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: 8px;
+            border: 1px solid rgba(15, 23, 42, 0.12);
             background: var(--pixel-white);
             color: var(--pixel-black);
             font-size: 0.875rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .status-message:hover {
+            border-color: var(--pixel-pink);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
         }
 
         .status-success {
-            border-color: var(--pixel-black);
-            color: var(--pixel-black);
+            border-color: var(--pixel-success);
+            color: var(--pixel-success);
         }
 
         .status-error {
-            border-color: var(--pixel-black);
-            color: var(--pixel-black);
+            border-color: var(--pixel-danger);
+            color: var(--pixel-danger);
         }
 
         .status-warning {
-            border-color: var(--pixel-black);
-            color: var(--pixel-black);
+            border-color: var(--pixel-warning);
+            color: var(--pixel-warning);
         }
 
         .status-info {
-            border-color: var(--pixel-black);
-            color: var(--pixel-black);
+            border-color: var(--pixel-pink);
+            color: var(--pixel-pink);
         }
 
         .excel-app {
             position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
             background: var(--pixel-white);
+            border-radius: var(--pixel-border-radius);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            box-shadow: var(--pixel-shadow);
             overflow: hidden;
         }
 
@@ -208,9 +350,6 @@
             display: flex;
             flex-direction: column;
             gap: 2rem;
-            padding: 2.75rem 3rem 2.5rem;
-            background: var(--pixel-white);
-            border-bottom: 2px solid var(--pixel-black);
         }
 
         .sheet-eyebrow {
@@ -233,7 +372,7 @@
         .sheet-subtitle {
             font-size: 1rem;
             line-height: 1.6;
-            color: rgba(15, 23, 42, 0.7);
+            color: var(--pixel-gray-600);
             max-width: 640px;
             margin: 0;
         }
@@ -246,16 +385,18 @@
 
         .metric-card {
             background: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            border: var(--pixel-border-width) solid var(--pixel-pink);
             padding: 1.1rem 1.2rem;
+            box-shadow: var(--pixel-shadow);
         }
 
         .metric-card:nth-child(2) {
-            background: var(--pixel-gray-100);
+            border-color: var(--pixel-pink-subtle);
         }
 
         .metric-card:nth-child(3) {
-            background: var(--pixel-gray-200);
+            border-color: var(--pixel-purple);
         }
 
         .metric-label {
@@ -263,7 +404,7 @@
             font-size: 0.7rem;
             letter-spacing: 0.24em;
             text-transform: uppercase;
-            color: rgba(15, 23, 42, 0.55);
+            color: var(--pixel-gray-600);
             margin-bottom: 0.35rem;
         }
 
@@ -277,13 +418,12 @@
         .metric-hint {
             display: block;
             font-size: 0.75rem;
-            color: rgba(15, 23, 42, 0.6);
+            color: var(--pixel-gray-600);
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
         .sheet-controls {
-            padding: 0 3rem 2.5rem;
             display: flex;
             flex-direction: column;
             gap: 1.25rem;
@@ -295,8 +435,16 @@
             gap: 0.75rem;
             align-items: center;
             padding: 1rem 1.2rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: 8px;
             background: var(--pixel-white);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .toolbar:hover {
+            border-color: var(--pixel-pink);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
         }
 
         .toolbar-group {
@@ -311,7 +459,8 @@
             align-items: center;
             gap: 0.55rem;
             padding: 0.55rem 1.1rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: 6px;
+            border: 1px solid rgba(15, 23, 42, 0.12);
             background: var(--pixel-white);
             color: var(--pixel-black);
             font-size: 0.85rem;
@@ -319,6 +468,7 @@
             letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .toolbar-btn svg {
@@ -327,18 +477,24 @@
         }
 
         .toolbar-btn:hover:not(:disabled) {
-            background: var(--pixel-gray-100);
+            transform: translateY(-1px);
+            border-color: var(--pixel-pink);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+            background: rgba(236, 72, 153, 0.05);
         }
 
         .toolbar-btn.primary {
             background: var(--pixel-black);
             color: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border: 1px solid var(--pixel-black);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .toolbar-btn.primary:hover:not(:disabled) {
+            transform: translateY(-2px);
             background: var(--pixel-pink);
-            color: var(--pixel-white);
+            border-color: var(--pixel-pink);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.25);
         }
 
         .toolbar-btn:disabled {
@@ -353,8 +509,8 @@
             padding-right: 2.5rem;
             position: relative;
             background-image:
-                var(--pixel-white),
-                url('data:image/svg+xml,%3Csvg fill="none" stroke="%23000000" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/%3E%3C/svg%3E');
+                linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95)),
+                url('data:image/svg+xml,%3Csvg fill="none" stroke="%231f2937" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/%3E%3C/svg%3E');
             background-repeat: no-repeat;
             background-position: right 0.8rem center;
             background-size: 12px;
@@ -366,8 +522,16 @@
             align-items: center;
             gap: 1rem;
             padding: 0.85rem 1.2rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: 8px;
             background: var(--pixel-white);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .formula-bar:hover {
+            border-color: var(--pixel-pink);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
         }
 
         .formula-label {
@@ -379,27 +543,39 @@
             border: var(--pixel-border-width) solid var(--pixel-black);
             color: var(--pixel-white);
             padding: 0.5rem 1rem;
+            border-radius: var(--pixel-border-radius);
         }
 
         .formula-input {
             width: 100%;
             border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
             padding: 0.6rem 1rem;
             font-family: 'SF Mono', 'Roboto Mono', 'Monaco', monospace;
             font-size: 0.9rem;
             background: var(--pixel-white);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .formula-input:focus {
             outline: none;
             border-color: var(--pixel-pink);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.15);
         }
 
         .spreadsheet-container {
             margin: 0 0 2rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: 8px;
+            border: 1px solid rgba(15, 23, 42, 0.12);
             overflow: hidden;
             background: var(--pixel-white);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .spreadsheet-container:hover {
+            border-color: var(--pixel-pink);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
         }
 
         .spreadsheet-grid {
@@ -413,15 +589,16 @@
         }
 
         .spreadsheet-grid::-webkit-scrollbar-track {
-            background: var(--pixel-gray-100);
+            background: rgba(15, 23, 42, 0.04);
         }
 
         .spreadsheet-grid::-webkit-scrollbar-thumb {
-            background: var(--pixel-black);
+            background: rgba(124, 58, 237, 0.35);
+            border-radius: 12px;
         }
 
         .spreadsheet-grid::-webkit-scrollbar-thumb:hover {
-            background: var(--pixel-pink);
+            background: rgba(236, 72, 153, 0.45);
         }
 
         .spreadsheet-table {
@@ -430,7 +607,7 @@
             border-spacing: 0;
             font-size: 0.85rem;
             line-height: 1.4;
-            color: var(--pixel-black);
+            color: var(--editor-ink);
         }
 
         .column-headers {
@@ -444,7 +621,7 @@
             top: 0;
             background: var(--pixel-black);
             color: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-white);
             padding: 0.75rem 0.75rem;
             font-weight: 600;
             letter-spacing: 0.08em;
@@ -464,42 +641,45 @@
 
         .column-headers th:hover:not(:first-child) {
             background: var(--pixel-pink);
-            color: var(--pixel-white);
+            transform: translateY(-1px);
         }
 
         tbody tr:nth-child(odd) .data-cell {
-            background: var(--pixel-gray-100);
+            background: rgba(248, 250, 252, 0.9);
         }
 
         .row-headers th {
             position: sticky;
             left: 0;
             z-index: 2;
-            background: var(--pixel-gray-100);
+            background: var(--pixel-white);
             border: var(--pixel-border-width) solid var(--pixel-black);
             padding: 0.6rem 0.75rem;
             font-size: 0.75rem;
             font-weight: 600;
-            color: var(--pixel-black);
+            color: var(--pixel-gray-600);
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
         .data-cell {
-            border: 1px solid var(--pixel-gray-300);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             background: var(--pixel-white);
             min-width: 140px;
             height: 44px;
             position: relative;
+            transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
         }
 
         .data-cell:hover {
-            background: var(--pixel-gray-100);
+            background: rgba(236, 72, 153, 0.05);
+            border-color: var(--pixel-pink);
         }
 
         .data-cell.selected,
         .data-cell:focus-within {
             border-color: var(--pixel-pink);
+            box-shadow: inset 0 0 0 1px var(--pixel-pink), 0 0 0 3px rgba(236, 72, 153, 0.18);
             background: var(--pixel-white);
         }
 
@@ -513,7 +693,7 @@
             padding: 0.45rem 0.75rem;
             font-family: inherit;
             font-size: 0.85rem;
-            color: var(--pixel-black);
+            color: var(--hub-ink);
             outline: none;
         }
 
@@ -548,24 +728,25 @@
         .row-action-btn {
             width: 24px;
             height: 24px;
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: 8px;
+            border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
             cursor: pointer;
-            background: var(--pixel-white);
-            color: var(--pixel-black);
+            background: var(--hub-ink);
+            color: #fff;
             transition: transform 0.18s ease, background 0.18s ease;
         }
 
         .row-action-btn.delete {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
+            background: rgba(239, 68, 68, 0.85);
         }
 
         .row-action-btn.delete:hover {
-            background: var(--pixel-pink);
+            transform: scale(1.1);
+            background: rgba(239, 68, 68, 1);
         }
 
         .add-row-btn {
@@ -573,18 +754,22 @@
             align-items: center;
             gap: 0.6rem;
             padding: 0.6rem 1.25rem;
+            border-radius: var(--pixel-border-radius);
             border: var(--pixel-border-width) solid var(--pixel-black);
-            background: var(--pixel-black);
+            background: var(--pixel-pink);
             color: var(--pixel-white);
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--pixel-shadow);
         }
 
         .add-row-btn:hover {
-            background: var(--pixel-pink);
+            transform: translate(-2px, -2px);
+            box-shadow: var(--pixel-shadow-hover);
         }
 
         .pagination-container {
@@ -593,8 +778,16 @@
             justify-content: space-between;
             gap: 1rem;
             padding: 1rem 1.2rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: 8px;
             background: var(--pixel-white);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .pagination-container:hover {
+            border-color: var(--pixel-pink);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
         }
 
         .pagination-actions {
@@ -607,7 +800,8 @@
             align-items: center;
             gap: 0.4rem;
             padding: 0.55rem 1rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: 6px;
+            border: 1px solid rgba(15, 23, 42, 0.12);
             background: var(--pixel-white);
             color: var(--pixel-black);
             font-weight: 600;
@@ -615,10 +809,14 @@
             letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .pagination-btn:hover:not(:disabled) {
-            background: var(--pixel-gray-100);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+            border-color: var(--pixel-pink);
+            background: rgba(236, 72, 153, 0.05);
         }
 
         .pagination-btn:disabled {
@@ -632,14 +830,14 @@
             font-size: 0.8rem;
             letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: rgba(15, 23, 42, 0.6);
+            color: var(--pixel-gray-600);
         }
 
         .loading-spinner {
             width: 32px;
             height: 32px;
             border: 3px solid rgba(236, 72, 153, 0.2);
-            border-top-color: var(--pixel-pink);
+            border-top-color: var(--editor-pink);
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
@@ -647,6 +845,8 @@
         .context-menu {
             background: var(--pixel-white);
             border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            box-shadow: var(--pixel-shadow-hover);
             padding: 0.4rem 0;
             min-width: 160px;
             z-index: 20;
@@ -660,12 +860,12 @@
         }
 
         .context-menu-item:hover {
-            background: var(--pixel-gray-100);
-            color: var(--pixel-black);
+            background: var(--pixel-pink);
+            color: var(--pixel-white);
         }
 
         .context-menu-separator {
-            height: 2px;
+            height: var(--pixel-border-width);
             background: var(--pixel-black);
             margin: 0.4rem 0;
         }
@@ -674,6 +874,31 @@
             to {
                 transform: rotate(360deg);
             }
+        }
+
+        /* Pixel Accent Elements */
+        .pixel-accent-line {
+            position: relative;
+            margin: 3rem 0;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--pixel-black) 0px,
+                var(--pixel-black) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+        }
+
+        .pixel-accent-line::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 4px;
+            background: var(--pixel-pink);
         }
 
         @media (max-width: 1024px) {
@@ -687,6 +912,13 @@
         }
 
         @media (max-width: 768px) {
+            /* Mobile layout adjustments for sidebar */
+
+            /* Hide floating sidebar on mobile */
+            .fixed.left-6 {
+                display: none;
+            }
+
             .nav-shell {
                 flex-direction: column;
                 gap: 0.75rem;
@@ -731,6 +963,27 @@
             .metric-card {
                 padding: 1rem;
             }
+
+            /* Mobile hero section adjustments */
+            .pixel-card.p-10 {
+                padding: 1.5rem;
+            }
+
+            .flex.items-start.space-x-6 {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .flex.space-x-3 {
+                flex-direction: column;
+                gap: 0.75rem;
+                width: 100%;
+            }
+
+            .flex.space-x-3 .pixel-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -744,48 +997,138 @@
     </style>
 
 </head>
-<body class="editor-body">
-    <header class="editor-header">
-        <nav aria-label="Primary navigation" class="nav-shell">
-            <a href="index.html">api<span>UI</span></a>
-            <div class="nav-meta">
-                <span>An AURABLOX Company</span>
-                <span>Data Command Center</span>
+<body>
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="pixel-card bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+
+                <!-- Dashboard -->
+                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
+
+                <!-- Docs -->
+                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+
+                <!-- API Hub -->
+                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </a>
+
+                <!-- Socket Chat -->
+                <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="bg-white">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
+                    api<span class="text-pink-500">UI</span>
+                </a>
+                <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="app.html" class="text-gray-700 hover:text-black font-medium">App</a>
+                <a href="docs.html" class="text-gray-700 hover:text-black font-medium">Docs</a>
+                <a href="api-hub.html" class="text-gray-700 hover:text-black font-medium">API Hub</a>
+                <a href="socket-chat.html" class="text-gray-700 hover:text-black font-medium">Socket Chat</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
         </nav>
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="pixel-container py-4 space-y-4">
+                <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
+                <a href="docs.html" class="block text-gray-700 hover:text-black font-medium py-2">Docs</a>
+                <a href="api-hub.html" class="block text-gray-700 hover:text-black font-medium py-2">API Hub</a>
+                <a href="socket-chat.html" class="block text-gray-700 hover:text-black font-medium py-2">Socket Chat</a>
+            </div>
+        </div>
     </header>
 
-    <main class="editor-main pixel-section">
-        <div class="pixel-container">
-            <div id="status-container" class="hidden">
-                <div id="status-message" class="status-message"></div>
-            </div>
+    <!-- Main Content -->
+    <div class="pixel-container py-6">
+        <div id="status-container" class="hidden">
+            <div id="status-message" class="status-message"></div>
+        </div>
 
-            <div class="excel-app pixel-card">
-            <div class="sheet-banner">
-                <div>
-                    <p class="sheet-eyebrow">Data Command Center</p>
-                    <h1 class="sheet-heading" id="api-title">Data Editor</h1>
-                    <p class="sheet-subtitle">Review, edit, and publish rows directly from your browser with live validation, pagination, and export tools.</p>
+        <!-- Hero Section -->
+        <div class="pixel-card p-10 mb-8 pixel-fade-in">
+            <div class="flex items-start justify-between mb-8">
+                <div class="flex items-start space-x-6 flex-1">
+                    <div class="pixel-card w-20 h-20 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <h1 class="pixel-title text-4xl mb-2 text-black" id="api-title">Data Editor</h1>
+                        <p class="pixel-body text-gray-600 text-xl mb-4" id="api-description">Review, edit, and publish rows directly from your browser with live validation, pagination, and export tools.</p>
+                        <div class="flex items-center space-x-8">
+                            <div class="flex items-center space-x-2">
+                                <div class="status-indicator"></div>
+                                <span class="pixel-body text-sm text-gray-600">Status: <span id="status-info" class="font-mono font-medium">Ready</span></span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="status-indicator"></div>
+                                <span class="pixel-body text-sm text-gray-600">Total Rows: <span id="total-rows" class="font-mono font-medium">0 rows</span></span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="status-indicator"></div>
+                                <span class="pixel-body text-sm text-gray-600">Modified: <span id="modified-rows" class="font-mono font-medium">0 modified</span></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="sheet-metrics">
-                    <div class="metric-card">
-                        <span class="metric-label">Status</span>
-                        <span class="metric-value" id="status-info">Ready</span>
-                        <span class="metric-hint" id="selection-info"></span>
-                    </div>
-                    <div class="metric-card">
-                        <span class="metric-label">Total Rows</span>
-                        <span class="metric-value" id="total-rows">0 rows</span>
-                    </div>
-                    <div class="metric-card">
-                        <span class="metric-label">Modified</span>
-                        <span class="metric-value" id="modified-rows">0 modified</span>
-                    </div>
+                <div class="flex space-x-3">
+                    <button id="test-api-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-6 py-3 pixel-flicker-on-hover">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        Export Data
+                    </button>
+                    <a href="app.html" class="pixel-btn pixel-btn-primary inline-flex items-center px-6 py-3 pixel-flicker-on-hover">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Back to APIs
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <div class="sheet-controls" style="margin-top: 2rem;">
+            <!-- Pixel Section Divider -->
+            <div class="pixel-accent-line"></div>
+
+            <div class="pixel-card p-8">
+                <div class="sheet-controls">
                 <div class="toolbar">
                     <div class="toolbar-group">
                         <button id="refresh-btn" class="toolbar-btn">
@@ -826,7 +1169,7 @@
                     <input id="formula-input" class="formula-input" placeholder="Enter value or formula..." readonly>
                 </div>
 
-                <div class="spreadsheet-container" style="margin-top: 1.5rem;">
+                <div class="spreadsheet-container">
                     <div class="spreadsheet-grid">
                         <table id="spreadsheet-table" class="spreadsheet-table">
                             <thead class="column-headers" id="column-headers">
@@ -847,7 +1190,7 @@
                     </div>
                 </div>
 
-                <div id="pagination-container" class="pagination-container hidden" style="margin-top: 1.5rem;">
+                <div id="pagination-container" class="pagination-container hidden">
                     <span id="page-info" class="page-info">Page 1 of 1</span>
                     <div class="pagination-actions">
                         <button type="button" id="prev-page" class="pagination-btn">Previous</button>
@@ -855,7 +1198,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </main>
 
@@ -912,14 +1254,26 @@
 
             try {
                 api = JSON.parse(decodeURIComponent(apiData));
-                if (apiTitle) apiTitle.textContent = `Data Editor - ${api.title || `API ${api.id.slice(0, 8)}`}`;
+                if (apiTitle) apiTitle.textContent = `Data Editor - ${api.custom_name || api.title || `API ${api.id.slice(0, 8)}`}`;
                 loadData();
             } catch (error) {
                 showError('Invalid API data: ' + error.message);
             }
 
             setupEventListeners();
+            setupMobileMenu();
         });
+
+        function setupMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        }
 
         function setupEventListeners() {
             saveBtn.addEventListener('click', saveChanges);
@@ -930,6 +1284,12 @@
             nextPageBtn.addEventListener('click', () => changePage(1));
             refreshBtn.addEventListener('click', loadData);
             formulaInput.addEventListener('input', updateCurrentCell);
+
+            // Export button in hero section
+            const testApiBtn = document.getElementById('test-api-btn');
+            if (testApiBtn) {
+                testApiBtn.addEventListener('click', exportToCsv);
+            }
 
             // Context menu
             document.addEventListener('contextmenu', handleContextMenu);
@@ -1277,7 +1637,7 @@
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
             link.setAttribute('href', url);
-            link.setAttribute('download', `${api.title || 'export'}.csv`);
+            link.setAttribute('download', `${api.custom_name || api.title || 'export'}.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();

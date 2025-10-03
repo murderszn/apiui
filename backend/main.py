@@ -663,6 +663,7 @@ def supabase_me():
 jobs = {}
 running_apis = {}
 running_servers = {}
+api_metadata = {}  # Store custom API names and metadata
 
 async def save_job_async(job_id: str, job_data: dict):
     """Save job data persistently"""
@@ -678,9 +679,13 @@ async def save_api_states_async():
     }
     storage_service.save_persistent_data("api_states", api_states)
 
+async def save_api_metadata_async():
+    """Save API metadata persistently"""
+    storage_service.save_persistent_data("api_metadata", api_metadata)
+
 async def load_persistent_data():
     """Load all persistent data on startup"""
-    global jobs, running_apis, running_servers
+    global jobs, running_apis, running_servers, api_metadata
 
     try:
         # Load from storage service
@@ -693,7 +698,11 @@ async def load_persistent_data():
             running_apis = api_states_data.get('running_apis', {})
             running_servers = api_states_data.get('running_servers', {})
 
-        print(f"Loaded {len(jobs)} jobs and {len(running_apis)} running APIs from persistent storage")
+        api_metadata_data = storage_service.load_persistent_data("api_metadata")
+        if api_metadata_data:
+            api_metadata = api_metadata_data
+
+        print(f"Loaded {len(jobs)} jobs, {len(running_apis)} running APIs, and {len(api_metadata)} API metadata entries from persistent storage")
         if jobs:
             print(f"Sample job IDs: {list(jobs.keys())[:3]}")
             print(f"Sample job statuses: {[jobs[jid].get('status') for jid in list(jobs.keys())[:3]]}")
@@ -1754,11 +1763,13 @@ def get_generation_status(job_id):
     })
 
 @app.route('/v1/apis', methods=['GET'])
-async def list_generated_apis():
+def list_generated_apis():
+    global api_metadata
     """List all generated APIs"""
     try:
-        # Load persistent data first
-        await load_persistent_data()
+        # Load persistent data first (run synchronously)
+        import asyncio
+        asyncio.run(load_persistent_data())
         # Get API IDs from storage service
         api_ids = storage_service.list_generated_apis()
 
@@ -1769,8 +1780,12 @@ async def list_generated_apis():
 
             if api_files and 'main.py' in api_files:
                 # Get basic info from the API files
+                # Get custom name from metadata if available
+                custom_name = api_metadata.get(api_id, {}).get('custom_name')
+
                 api_info = {
                     "id": api_id,
+                    "custom_name": custom_name,
                     "path": f"storage://generated_apis/{api_id}",
                     "created_at": datetime.utcnow().isoformat(),  # Storage doesn't preserve creation time
                     "has_main_py": 'main.py' in api_files,
@@ -1847,9 +1862,13 @@ async def list_generated_apis():
             if any(api['id'] == api_id for api in apis):
                 continue
 
+            # Get custom name from metadata if available
+            custom_name = api_metadata.get(api_id, {}).get('custom_name')
+
             # Add Cloud Run API info
             api_info = {
                 "id": api_id,
+                "custom_name": custom_name,
                 "path": f"cloud-run://{api_id}",
                 "created_at": api_info_running.get("started_at", datetime.utcnow().isoformat()),
                 "has_main_py": False,  # Cloud Run APIs don't have local files
@@ -1871,29 +1890,30 @@ async def list_generated_apis():
             apis.append(api_info)
 
         # Also include APIs from Supabase database
-        if db_service.connected:
-            try:
-                # Get current user and their APIs from database
-                user = supabase_service.get_current_user()
-                if user:
-                    await ensure_db_initialized()
-                    db_apis = await db_service.get_user_apis(user["id"])
-                    for db_api in db_apis:
-                        # Skip if we already have this API from local sources
-                        if not any(api['id'] == str(db_api.get('id', '')) for api in apis):
-                            api_info = {
-                                "id": str(db_api.get('id', '')),
-                                "api_name": db_api.get('api_name', f"API {str(db_api.get('id', ''))[:8]}"),
-                                "endpoint_url": db_api.get('endpoint_url'),
-                                "file_path": db_api.get('file_path'),
-                                "status": db_api.get('status', 'active'),
-                                "created_at": db_api.get('created_at'),
-                                "deployment_metadata": db_api.get('deployment_metadata', {}),
-                                "source": "database"  # Mark as coming from database
-                            }
-                            apis.append(api_info)
-            except Exception as e:
-                print(f"Warning: Failed to load APIs from database: {str(e)}")
+        # COMMENTED OUT FOR DEBUGGING
+        # if db_service.connected:
+        #     try:
+        #         # Get current user and their APIs from database
+        #         user = supabase_service.get_current_user()
+        #         if user:
+        #             await ensure_db_initialized()
+        #             db_apis = await db_service.get_user_apis(user["id"])
+        #             for db_api in db_apis:
+        #                 # Skip if we already have this API from local sources
+        #                 if not any(api['id'] == str(db_api.get('id', '')) for api in apis):
+        #                     api_info = {
+        #                         "id": str(db_api.get('id', '')),
+        #                         "api_name": db_api.get('api_name', f"API {str(db_api.get('id', ''))[:8]}"),
+        #                         "endpoint_url": db_api.get('endpoint_url'),
+        #                         "file_path": db_api.get('file_path'),
+        #                         "status": db_api.get('status', 'active'),
+        #                         "created_at": db_api.get('created_at'),
+        #                         "deployment_metadata": db_api.get('deployment_metadata', {}),
+        #                         "source": "database"  # Mark as coming from database
+        #                     }
+        #                     apis.append(api_info)
+        #     except Exception as e:
+        #         print(f"Warning: Failed to load APIs from database: {str(e)}")
 
         return jsonify({
             "apis": apis,
@@ -1954,8 +1974,12 @@ def get_api_details(api_id):
         if not os.path.exists(main_py_path):
             return jsonify({"error": "API main.py file not found"}), 404
 
+        # Get custom name from metadata if available
+        custom_name = api_metadata.get(api_id, {}).get('custom_name')
+
         api_info = {
             "id": api_id,
+            "custom_name": custom_name,
             "path": api_path,
             "created_at": datetime.fromtimestamp(os.path.getctime(api_path)).isoformat(),
             "files": {
@@ -2060,6 +2084,39 @@ def get_api_details(api_id):
                 api_info["data_error"] = str(e)
 
         return jsonify(api_info)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/v1/apis/<api_id>/name', methods=['PUT'])
+def update_api_name(api_id):
+    global api_metadata
+    """Update the custom name for a specific API"""
+    try:
+        data = request.get_json()
+        if not data or 'custom_name' not in data:
+            return jsonify({"error": "custom_name field is required"}), 400
+
+        custom_name = data['custom_name'].strip()
+        if not custom_name:
+            # If empty string, remove the custom name
+            if api_id in api_metadata:
+                del api_metadata[api_id]
+        else:
+            # Store the custom name
+            if api_id not in api_metadata:
+                api_metadata[api_id] = {}
+            api_metadata[api_id]['custom_name'] = custom_name
+
+        # Save metadata persistently
+        import asyncio
+        asyncio.run(save_api_metadata_async())
+
+        return jsonify({
+            "success": True,
+            "api_id": api_id,
+            "custom_name": custom_name if custom_name else None
+        })
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -2595,6 +2652,25 @@ def get_api_metrics(api_id):
         }
     })
 
+@app.route('/v1/analytics/requests', methods=['GET'])
+def get_analytics_requests():
+    """Get total request count across all APIs"""
+    try:
+        total_requests = 0
+
+        # Sum up requests from all API metrics
+        for api_id, metrics in api_metrics.items():
+            if 'requests' in metrics:
+                total_requests += len(metrics['requests'])
+
+        return jsonify({
+            'total_requests': total_requests,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/api/<job_id>', methods=['GET'])
 @app.route('/api/<job_id>/data', methods=['GET'])
 @app.route('/mock-api/<job_id>', methods=['GET'])
@@ -2787,6 +2863,63 @@ def run_generated_api(job_id):
             "error": f"Failed to test API: {str(e)}",
             "status": "test_failed"
         }), 500
+
+@app.route('/api/<job_id>/original-file', methods=['GET'])
+@app.route('/mock-api/<job_id>/original-file', methods=['GET'])
+def download_original_file(job_id):
+    """Download the original uploaded file that was used to generate the API"""
+    if job_id not in jobs:
+        return jsonify({"error": "API not found"}), 404
+
+    job = jobs[job_id]
+
+    try:
+        # Get the original file path
+        file_path = job.get("file_path")
+        if not isinstance(file_path, str) or not file_path:
+            reconstructed_path = f"uploads/{job_id}_{job.get('filename', 'data')}"
+            add_log_entry(job_id, f"ℹ️ Reconstructing file path for legacy job: {reconstructed_path}")
+            file_path = reconstructed_path
+
+        if not file_path:
+            add_log_entry(job_id, "⚠️ Original file path missing", "error")
+            return jsonify({"error": "Original file not found"}), 404
+
+        # Retrieve file bytes via storage service
+        file_bytes = storage_service.get_upload_file(file_path)
+        if not file_bytes:
+            add_log_entry(job_id, f"⚠️ Original file unavailable in storage: {file_path}", "error")
+            return jsonify({"error": "Original file not found"}), 404
+
+        # Get original filename
+        original_filename = job.get("filename", f"api_{job_id}_data")
+        if not original_filename:
+            # Try to extract filename from file_path
+            original_filename = os.path.basename(file_path)
+
+        # Determine MIME type based on file extension
+        file_ext = os.path.splitext(original_filename)[1].lower()
+        mime_types = {
+            '.csv': 'text/csv',
+            '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            '.xls': 'application/vnd.ms-excel',
+            '.json': 'application/json',
+            '.parquet': 'application/octet-stream',
+            '.txt': 'text/plain'
+        }
+        mime_type = mime_types.get(file_ext, 'application/octet-stream')
+
+        # Return the file as a download
+        response = make_response(file_bytes)
+        response.headers['Content-Type'] = mime_type
+        response.headers['Content-Disposition'] = f'attachment; filename="{original_filename}"'
+        response.headers['Content-Length'] = len(file_bytes)
+
+        return response
+
+    except Exception as e:
+        add_log_entry(job_id, f"⚠️ Failed to download original file: {e}", "error")
+        return jsonify({"error": f"Failed to download original file: {str(e)}"}), 500
 
 # Initialize socket service with global handlers (only if SocketIO is enabled)
 if socketio:
