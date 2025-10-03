@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API Detail Page</title>
+</head>
+<body>
+    <h1>Test API Detail Navigation</h1>
+    <p>Click the button below to test the API detail page with mock data:</p>
+
+    <button onclick="testApiDetail()">Test API Detail Page</button>
+
+    <script>
+        function testApiDetail() {
+            // Mock API data
+            const mockApiData = {
+                id: "test123",
+                title: "Sample User Dataset",
+                api_url: "http://localhost:9999/api/test123",
+                created_at: "2025-10-03T00:00:00.000Z",
+                status: "running",
+                endpoints: [
+                    { method: "GET", route: "/data", function: "get_all_records" },
+                    { method: "POST", route: "/data", function: "create_record" },
+                    { method: "GET", route: "/data/{id}", function: "get_record_by_id" }
+                ]
+            };
+
+            // Encode and navigate
+            const apiDataEncoded = encodeURIComponent(JSON.stringify(mockApiData));
+            const url = `http://localhost:8080/api-detail.html?id=${mockApiData.id}&data=${apiDataEncoded}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

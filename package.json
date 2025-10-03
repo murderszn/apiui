@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "python3 backend/main.py",
-    "start": "python3 backend/main.py",
+    "start": "npm run frontend-server",
+    "frontend-server": "node server.js",
     "chat-server": "node chat-server/server.js",
     "chat-dev": "nodemon chat-server/server.js",
     "build": "echo 'Static files ready for deployment'",

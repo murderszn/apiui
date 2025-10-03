@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test URL Parsing</title>
+</head>
+<body>
+    <h1>URL Parsing Test</h1>
+    <div id="result"></div>
+
+    <script>
+        // Simulate the URL parsing logic from api-detail.html
+        const urlParams = new URLSearchParams(window.location.search);
+        const apiId = urlParams.get('id');
+        const apiDataParam = urlParams.get('data');
+
+        let result = '<h2>URL Parameters:</h2>';
+        result += '<p>API ID: ' + (apiId || 'null') + '</p>';
+        result += '<p>API Data Param: ' + (apiDataParam ? 'present' : 'null') + '</p>';
+
+        if (apiDataParam) {
+            try {
+                const apiData = JSON.parse(decodeURIComponent(apiDataParam));
+                result += '<h3>Parsed API Data:</h3>';
+                result += '<pre>' + JSON.stringify(apiData, null, 2) + '</pre>';
+            } catch (error) {
+                result += '<p style="color: red;">Error parsing API data: ' + error.message + '</p>';
+            }
+        }
+
+        document.getElementById('result').innerHTML = result;
+    </script>
+</body>
+</html>
+

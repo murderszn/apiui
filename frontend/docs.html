@@ -422,27 +422,30 @@
             background: var(--pixel-pink);
         }
 
-        /* Pixel Badge */
+        /* Pixel Badge - Consistent Pink Styling */
         .pixel-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
             border-radius: 0;
-            background: var(--pixel-gray-100);
-            border: var(--pixel-border-width) solid var(--pixel-gray-300);
-            color: var(--pixel-gray-700);
+            background: var(--pixel-pink);
+            border: 2px solid var(--pixel-black);
+            color: var(--pixel-white);
             font-family: 'Pixelify Sans', monospace;
             font-size: 0.75rem;
             font-weight: 600;
             letter-spacing: 0.02em;
             text-transform: uppercase;
             box-shadow: var(--pixel-shadow);
+            transition: all 0.2s ease;
         }
 
         .pixel-badge:hover {
-            background: var(--pixel-white);
-            border-color: var(--pixel-gray-400);
+            background: var(--pixel-pink-subtle);
+            border-color: var(--pixel-black);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
         }
 
         .pixel-badge.category-active {
@@ -868,8 +871,8 @@
     </div>
 
     <!-- Breadcrumb Navigation -->
-    <nav aria-label="Breadcrumb" class="bg-gray-50 border-b border-gray-200">
-        <div class="container mx-auto px-4 sm:px-6 py-3">
+    <nav aria-label="Breadcrumb" class="bg-gray-50">
+        <div class="pixel-container py-3">
             <ol class="flex items-center space-x-2 text-sm" itemscope itemtype="https://schema.org/BreadcrumbList">
                 <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                     <a itemprop="item" href="index.html" class="text-gray-500 hover:text-gray-700 transition-colors">
@@ -922,7 +925,7 @@
         </section>
 
         <section class="docs-layout">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="pixel-container">
                 <div class="doc-mobile-nav lg:hidden mb-10">
                     <details class="doc-mobile-nav__panel">
                         <summary class="doc-mobile-nav__summary">Browse documentation</summary>
@@ -980,8 +983,8 @@
                     <div class="doc-content">
         <!-- Overview Section -->
         <section id="overview" class="doc-section py-16">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">Overview</h2>
 
                     <div class="space-y-8">
@@ -1028,8 +1031,8 @@
 
         <!-- Quick Start Section -->
         <section id="quick-start" class="doc-section py-16 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">Quick Start</h2>
 
                     <div class="space-y-8">
@@ -1072,8 +1075,8 @@ Jane Smith,jane@example.com,Marketing,65000</code></pre>
 
         <!-- System Requirements Section -->
         <section id="requirements" class="doc-section py-16 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">System Requirements</h2>
 
                     <div class="grid md:grid-cols-2 gap-8">
@@ -1116,8 +1119,8 @@ Jane Smith,jane@example.com,Marketing,65000</code></pre>
 
         <!-- API Management Section -->
         <section id="api-management" class="doc-section py-16 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">API Management</h2>
 
                     <div class="space-y-8">
@@ -1211,8 +1214,8 @@ Jane Smith,jane@example.com,Marketing,65000</code></pre>
 
         <!-- API Endpoints Section -->
         <section id="api-endpoints" class="doc-section py-16 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">API Endpoints</h2>
 
                     <div class="space-y-8">
@@ -1302,8 +1305,8 @@ Jane Smith,jane@example.com,Marketing,65000</code></pre>
 
         <!-- Examples Section -->
         <section id="examples" class="doc-section py-16">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">Code Examples</h2>
 
                     <div class="space-y-8">
@@ -1376,8 +1379,8 @@ curl -X GET "https://your-api-endpoint.com/data/123"</code></pre>
 
         <!-- Chat & AI Features Section -->
         <section id="chat-ai-features" class="doc-section py-16 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">Chat & AI Features</h2>
 
                     <div class="space-y-8">
@@ -1476,8 +1479,8 @@ socket.on('chat_response', (data) => {
 
         <!-- Advanced Features Section -->
         <section id="advanced-features" class="doc-section py-16 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">Advanced Features</h2>
 
                     <div class="space-y-8">
@@ -1577,8 +1580,8 @@ socket.on('chat_response', (data) => {
         <!-- Chat & AI Features Section -->
         <!-- Supported Formats Section -->
         <section id="supported-formats" class="doc-section py-16">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">Supported File Formats</h2>
 
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1657,8 +1660,8 @@ socket.on('chat_response', (data) => {
         <!-- Requirements Section -->
         <!-- API Usage & Deployment Section -->
         <section id="api-usage-deployment" class="doc-section py-16 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">API Usage & Deployment</h2>
 
                     <div class="space-y-8">
@@ -1868,8 +1871,8 @@ socket.on('chat_response', (data) => {
 
         <!-- Troubleshooting Section -->
         <section id="troubleshooting" class="doc-section py-16">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl">
+            <div class="pixel-container">
+                <div class="pixel-card p-8">
                     <h2 class="text-4xl font-bold text-slate-900 mb-8">Troubleshooting</h2>
 
                     <div class="space-y-6">
@@ -1956,8 +1959,8 @@ socket.on('chat_response', (data) => {
 
     <!-- Footer -->
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-16">
-        <div class="container mx-auto px-6 max-w-6xl">
+    <footer class="bg-white border-t-2 border-black py-16">
+        <div class="pixel-container">
             <div class="flex justify-between items-center mb-12">
                 <div class="flex flex-col items-start">
                     <div class="text-2xl font-bold text-black tracking-tight">

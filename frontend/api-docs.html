@@ -33,35 +33,21 @@
             --pixel-gray-100: #f8fafc;  /* Lightest gray */
             --pixel-gray-200: #e2e8f0;  /* Very light gray */
             --pixel-gray-300: #cbd5e1;  /* Light gray */
+            /* Hub Design System */
+            --hub-pink: #ec4899;
+            --hub-pink-soft: #f472b6;
+            --hub-ink: #0f172a;
+            --hub-ink-soft: #1f2937;
+            --hub-surface: #ffffff;
+            --hub-muted: #64748b;
+            --hub-border: rgba(15, 23, 42, 0.12);
+        }
+            --pixel-border-width: 1px;  /* Consistent border width */
+            --pixel-border-radius: 4px;  /* Consistent border radius */
+            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);  /* Hover shadow */
         }
 
-        /* CTA Button with Layered Glow Effect */
-        .cta-glow {
-            position: relative;
-            background: var(--pixel-pink);
-            color: white;
-            box-shadow:
-                0 0 20px rgba(233, 30, 99, 0.6),
-                0 0 40px rgba(156, 39, 176, 0.4),
-                0 0 60px rgba(156, 39, 176, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .cta-glow:hover {
-            background: var(--pixel-pink-subtle);
-            box-shadow:
-                0 0 30px rgba(233, 30, 99, 0.8),
-                0 0 60px rgba(156, 39, 176, 0.6),
-                0 0 90px rgba(156, 39, 176, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .cta-glow:active {
-            transform: translateY(0);
-            box-shadow:
-                0 0 15px rgba(233, 30, 99, 0.4),
-                0 0 30px rgba(156, 39, 176, 0.3);
-        }
 
         /* Regular Cursor for API Docs */
         * {
@@ -78,33 +64,72 @@
         }
 
         /* Pixel Typography Classes */
-        .pixel-title {
+        .pixel-heading {
             font-family: 'Pixelify Sans', monospace;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            line-height: 1.1;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-            text-shadow:
-                1px 1px 0px var(--pixel-gray-800),
-                2px 2px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .pixel-subtitle {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            opacity: 0.9;
-            line-height: 1.3;
-            text-shadow: 1px 1px 0px var(--pixel-gray-800);
         }
 
         .pixel-body {
             font-family: 'Inter', sans-serif;
             font-weight: 400;
             line-height: 1.6;
+        }
+
+        /* Hub Button System */
+        .hub-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border: 1px solid var(--hub-ink);
+            border-radius: 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .hub-btn:focus {
+            outline: 2px solid var(--hub-pink);
+            outline-offset: 3px;
+        }
+
+        .hub-btn-primary {
+            background-color: var(--hub-ink);
+            color: #fff;
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.4);
+        }
+
+        .hub-btn-primary:hover {
+            background-color: var(--hub-pink);
+            border-color: var(--hub-pink);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.45);
+        }
+
+        .hub-btn-secondary {
+            background-color: transparent;
+            color: var(--hub-ink);
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+        }
+
+        .hub-btn-secondary:hover {
+            background-color: var(--hub-pink-soft);
+            border-color: var(--hub-pink-soft);
+            color: #fff;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 rgba(236, 72, 153, 0.35);
+        }
+
+        /* Pixel Elements */
+        .pixel-dot {
+            width: 12px;
+            height: 12px;
+            background-image: repeating-linear-gradient(90deg, var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px);
+            image-rendering: pixelated;
         }
 
         /* Arcade Text Effects */
@@ -179,13 +204,16 @@
         /* Pixel Cards */
         .pixel-card {
             background: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
+            border: 1px solid var(--pixel-gray-200);
+            border-radius: var(--pixel-border-radius);
             box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .pixel-card:hover {
             border-color: var(--pixel-pink-subtle);
-            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
         }
 
         /* Pixel Buttons */
@@ -194,12 +222,13 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            border: 2px solid var(--pixel-black);
+            border: 1px solid var(--pixel-gray-300);
             background: var(--pixel-white);
             color: var(--pixel-black);
             transition: all 0.15s ease;
             position: relative;
             overflow: hidden;
+            border-radius: 0;
         }
 
         .pixel-btn:hover {
@@ -218,6 +247,7 @@
         .pixel-btn-primary:hover {
             background: var(--pixel-pink);
             border-color: var(--pixel-pink);
+            box-shadow: none;
         }
 
         .pixel-btn-secondary {
@@ -228,20 +258,33 @@
 
         .pixel-btn-secondary:hover {
             background: var(--pixel-gray-100);
-            border-color: var(--pixel-pink-subtle);
+            border-color: var(--pixel-gray-300);
         }
 
-        /* Pixel Badges */
+        /* Pixel Badges - Consistent Pink Styling */
         .pixel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            background: var(--pixel-pink);
+            border: 2px solid var(--pixel-black);
+            color: var(--pixel-white);
             font-family: 'Pixelify Sans', monospace;
-            font-weight: 500;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            background: var(--pixel-gray-100);
-            color: var(--pixel-black);
-            border: 1px solid var(--pixel-black);
-            padding: 0.25rem 0.75rem;
-            display: inline-block;
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.2s ease;
+        }
+
+        .pixel-badge:hover {
+            background: var(--pixel-pink-subtle);
+            border-color: var(--pixel-black);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
         }
 
         /* Pixel Icons */
@@ -331,22 +374,43 @@
             line-height: 1.4;
         }
 
-        /* Method badges - Pixel themed */
+        /* Method badges - Consistent Pink Styling */
         .method-badge {
             font-family: 'Pixelify Sans', monospace;
-            padding: 0.25rem 0.75rem;
+            padding: 0.5rem 1rem;
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
-            background: var(--pixel-gray-100);
-            color: var(--pixel-black);
-            border: 1px solid var(--pixel-black);
+            border-radius: 0;
+            border: 2px solid var(--pixel-black);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
-        .method-badge.method-get { background: var(--pixel-pink-subtle); color: var(--pixel-white); }
-        .method-badge.method-post { background: var(--pixel-pink); color: var(--pixel-white); }
-        .method-badge.method-put { background: var(--pixel-pink-subtle); color: var(--pixel-white); }
-        .method-badge.method-delete { background: var(--pixel-pink); color: var(--pixel-white); }
+        .method-badge.method-get { 
+            background: var(--pixel-pink-subtle); 
+            color: var(--pixel-white); 
+        }
+        .method-badge.method-post { 
+            background: var(--pixel-pink); 
+            color: var(--pixel-white); 
+        }
+        .method-badge.method-put { 
+            background: var(--pixel-pink-subtle); 
+            color: var(--pixel-white); 
+        }
+        .method-badge.method-delete { 
+            background: var(--pixel-pink); 
+            color: var(--pixel-white); 
+        }
+
+        .method-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
+        }
 
         /* Status indicators - Pixel themed */
         .status-online {
@@ -559,25 +623,26 @@
                 gap: 1.25rem;
             }
         }
+
     </style>
 </head>
 <body class="min-h-screen">
+    <div class="fixed inset-0 pointer-events-none opacity-20" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 28px 28px; z-index: 0;"></div>
     <!-- Navigation -->
-    <header class="border-b-2 border-black bg-white">
-        <nav aria-label="Primary navigation" class="pixel-container py-4 flex justify-between items-center">
+    <header class="bg-white">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <a href="index.html" class="pixel-title text-xl sm:text-2xl text-black hover:text-pink-500 transition-colors">api<span class="text-pink-500">UI</span></a>
-                <span class="pixel-body text-gray-600">an AURABLOX company</span>
+                <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
+                    api<span class="text-pink-500">UI</span>
+                </a>
+                <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html#features" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Features</a>
-                <a href="index.html#pricing" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Pricing</a>
-                <a href="app.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">App</a>
-                <a href="docs.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">Docs</a>
-                <a href="api-hub.html" class="pixel-body text-gray-700 hover:text-pink-500 transition-colors">API Hub</a>
-                <button id="delete-api-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-3 py-1.5 pixel-flicker-on-hover">
-                    Delete API
-                </button>
+                <a href="index.html#features" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Features</a>
+                <a href="index.html#pricing" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Pricing</a>
+                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
+                <a href="api-hub.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">API Hub</a>
             </div>
         </nav>
     </header>
@@ -700,121 +765,144 @@
 
         <!-- Main Dashboard Content -->
         <div id="main-content" class="hidden pixel-fade-in">
-            <!-- Key Metrics Row -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <!-- Uptime Card -->
-                <div class="pixel-card p-6 pixel-slide-in-left">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="pixel-card w-10 h-10 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <span class="pixel-badge">Live</span>
+
+            <!-- Dataset Overview & Information Section -->
+            <div class="pixel-card p-8 mb-8 pixel-slide-in-left">
+                <h3 class="pixel-subtitle text-2xl text-pink-400 mb-8 text-center">Dataset Overview & Information</h3>
+                
+                <!-- Key Statistics Row -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                    <div class="text-center">
+                        <div class="pixel-title text-3xl text-pink-500" id="dataset-records">-</div>
+                        <div class="pixel-body text-sm text-gray-600">Records</div>
                     </div>
-                    <div>
-                        <p class="pixel-title text-2xl text-pink-400">99.9%</p>
-                        <p class="pixel-body text-sm text-gray-600">Uptime (30 days)</p>
+                    <div class="text-center">
+                        <div class="pixel-title text-3xl text-pink-500" id="dataset-columns">-</div>
+                        <div class="pixel-body text-sm text-gray-600">Columns</div>
                     </div>
-                    <div class="mt-4">
-                        <canvas id="uptime-chart" width="200" height="64"></canvas>
+                    <div class="text-center">
+                        <div class="pixel-title text-3xl text-pink-500" id="dataset-size">-</div>
+                        <div class="pixel-body text-sm text-gray-600">Size</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="pixel-title text-3xl text-pink-500" id="dataset-format">JSON</div>
+                        <div class="pixel-body text-sm text-gray-600">Format</div>
                     </div>
                 </div>
 
-                <!-- Response Time Card -->
-                <div class="pixel-card p-6 pixel-slide-in-left delay-1">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="pixel-card w-10 h-10 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
+                <!-- Information Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <!-- Metadata -->
+                    <div class="pixel-card p-4">
+                        <h4 class="pixel-subtitle text-lg text-black mb-4">Metadata</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="pixel-body text-gray-600">Created:</span>
+                                <span class="pixel-body text-black" id="dataset-created">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="pixel-body text-gray-600">Updated:</span>
+                                <span class="pixel-body text-black" id="dataset-updated">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="pixel-body text-gray-600">License:</span>
+                                <span class="pixel-body text-black">Open Source</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="pixel-body text-gray-600">Tags:</span>
+                                <span class="pixel-body text-black" id="dataset-tags">-</span>
+                            </div>
                         </div>
-                        <span class="pixel-badge">Avg</span>
                     </div>
-                    <div>
-                        <p class="pixel-title text-2xl text-pink-500">127ms</p>
-                        <p class="pixel-body text-sm text-gray-600">Avg Response Time</p>
-                    </div>
-                    <div class="mt-4">
-                        <canvas id="uptime-chart" width="200" height="64"></canvas>
+
+                    <!-- Quality Metrics -->
+                    <div class="pixel-card p-4">
+                        <h4 class="pixel-subtitle text-lg text-black mb-4">Quality Metrics</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="pixel-body text-gray-600">Completeness:</span>
+                                <span class="pixel-body text-pink-500" id="dataset-completeness">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="pixel-body text-gray-600">Accuracy:</span>
+                                <span class="pixel-body text-pink-500" id="dataset-accuracy">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="pixel-body text-gray-600">Consistency:</span>
+                                <span class="pixel-body text-pink-500" id="dataset-consistency">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="pixel-body text-gray-600">Freshness:</span>
+                                <span class="pixel-body text-pink-500" id="dataset-freshness">-</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Requests Card -->
-                <div class="pixel-card p-6 pixel-slide-in-right">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="pixel-card w-10 h-10 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                            </svg>
-                        </div>
-                        <span class="pixel-badge">24h</span>
-                    </div>
-                    <div>
-                        <p class="pixel-title text-2xl text-pink-400">2.4K</p>
-                        <p class="pixel-body text-sm text-gray-600">Total Requests</p>
-                    </div>
-                    <div class="mt-4">
-                        <canvas id="uptime-chart" width="200" height="64"></canvas>
-                    </div>
+                <!-- Download Actions -->
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button id="download-json" class="pixel-btn pixel-btn-primary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Download JSON
+                    </button>
+                    <button id="download-csv" class="pixel-btn pixel-btn-secondary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Download CSV
+                    </button>
+                    <button id="refresh-data" class="pixel-btn pixel-btn-secondary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Refresh Data
+                    </button>
                 </div>
+            </div>
 
-                <!-- Data Size Card -->
-                <div class="pixel-card p-6 pixel-slide-in-right delay-1">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="pixel-card w-10 h-10 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
-                            </svg>
-                        </div>
-                        <span class="pixel-badge">Size</span>
-                    </div>
-                    <div>
-                        <p class="pixel-title text-2xl text-pink-500">1.2GB</p>
-                        <p class="pixel-body text-sm text-gray-600">Data Processed</p>
-                    </div>
-                    <div class="mt-4">
-                        <canvas id="uptime-chart" width="200" height="64"></canvas>
+            <!-- Community Features Section -->
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
+                <h3 class="pixel-subtitle text-xl text-pink-400 mb-6">Community & Sharing</h3>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button class="pixel-btn pixel-btn-primary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                        </svg>
+                        Share Dataset
+                    </button>
+                    <button class="pixel-btn pixel-btn-secondary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Export Notebook
+                    </button>
+                    <button class="pixel-btn pixel-btn-secondary flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Report Issue
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Schema Section -->
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
+                <h3 class="pixel-subtitle text-xl text-pink-400 mb-6">Data Schema</h3>
+                <div id="schema-table-container">
+                    <div class="text-center py-8">
+                        <div class="pixel-loader w-8 h-8 mx-auto mb-4"></div>
+                        <p class="pixel-body text-gray-600">Loading schema information...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Charts and Data Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <!-- Availability Chart -->
-                <div class="pixel-card p-6 pixel-fade-in delay-2">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="pixel-subtitle text-xl text-pink-400">API Availability</h3>
-                        <div class="flex items-center space-x-2">
-                            <div class="status-indicator status-live"></div>
-                            <span class="pixel-body text-sm text-gray-600">99.9% uptime</span>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="availability-chart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Response Time Chart -->
-                <div class="pixel-card p-6 pixel-fade-in delay-3">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="pixel-subtitle text-xl text-pink-500">Response Time Trends</h3>
-                        <div class="flex items-center space-x-2">
-                            <div class="status-indicator status-live"></div>
-                            <span class="pixel-body text-sm text-gray-600">Last 24 hours</span>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="response-time-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sample Data Section -->
+            <!-- Data Preview Section -->
             <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-pink-400">Sample Data Preview</h3>
-                    <button id="view-raw-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-4 py-2 pixel-flicker-on-hover">
+                    <h3 class="pixel-subtitle text-xl text-pink-400">Data Preview</h3>
+                    <button id="view-raw-btn" class="pixel-btn pixel-btn-secondary">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                         </svg>
@@ -822,51 +910,28 @@
                     </button>
                 </div>
 
-                <!-- Data Preview Cards -->
-                <div id="sample-data-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Sample data will be loaded here -->
-                    <div class="pixel-card p-4 pixel-fade-in">
-                        <div class="flex items-center justify-between mb-3">
-                            <h4 class="pixel-body text-black">Loading sample data...</h4>
-                            <div class="pixel-loader"></div>
-                        </div>
-                        <div class="space-y-2">
-                            <div class="h-4 bg-gray-300 border border-gray-400 animate-pulse"></div>
-                            <div class="h-4 bg-gray-300 border border-gray-400 animate-pulse w-3/4"></div>
-                            <div class="h-4 bg-gray-300 border border-gray-400 animate-pulse w-1/2"></div>
-                        </div>
+                <div id="sample-data-container">
+                    <div class="text-center py-8">
+                        <div class="pixel-loader w-8 h-8 mx-auto mb-4"></div>
+                        <p class="pixel-body text-gray-600">Loading data preview...</p>
                     </div>
                 </div>
             </div>
 
             <!-- API Endpoints Section -->
-            <div class="pixel-card p-6 mb-8 pixel-slide-in-right">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-pink-500">API Endpoints</h3>
-                    <div class="flex items-center space-x-2">
-                        <div class="status-indicator status-live"></div>
-                        <span class="pixel-body text-sm text-gray-600">Available endpoints</span>
-                    </div>
-                </div>
-
-                <!-- Endpoints List -->
-                <div id="endpoints-list" class="space-y-4">
-                    <!-- Endpoints will be dynamically loaded here -->
-                    <div class="pixel-card p-4 text-center pixel-fade-in">
-                        <span class="pixel-body text-gray-600">Loading endpoints...</span>
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
+                <h3 class="pixel-subtitle text-xl text-pink-400 mb-6">API Endpoints</h3>
+                <div id="endpoints-list">
+                    <div class="text-center py-8">
+                        <div class="pixel-loader w-8 h-8 mx-auto mb-4"></div>
+                        <p class="pixel-body text-gray-600">Loading endpoints...</p>
                     </div>
                 </div>
             </div>
 
             <!-- Code Examples Section -->
-            <div class="pixel-card p-6 mb-8 pixel-fade-in delay-1">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-pink-400">Code Examples</h3>
-                    <div class="flex items-center space-x-2">
-                        <div class="status-indicator status-live"></div>
-                        <span class="pixel-body text-sm text-black">Integration examples</span>
-                    </div>
-                </div>
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
+                <h3 class="pixel-subtitle text-xl text-pink-400 mb-6">Code Examples</h3>
 
                 <!-- Basic Examples -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -936,13 +1001,7 @@ data = response.json()">
 
             <!-- Interactive Testing Section -->
             <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-pink-500">Interactive API Testing</h3>
-                    <div class="flex items-center space-x-2">
-                        <div class="status-indicator status-live"></div>
-                        <span class="pixel-body text-sm text-gray-600">Ready to test</span>
-                    </div>
-                </div>
+                <h3 class="pixel-subtitle text-xl text-pink-400 mb-6">Interactive API Testing</h3>
 
                 <!-- Endpoint Selection -->
                 <div class="mb-6">
@@ -1001,14 +1060,8 @@ data = response.json()">
             </div>
 
             <!-- Socket.io Real-time API Section -->
-            <div class="pixel-card p-6 mb-8 pixel-slide-in-right">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="pixel-subtitle text-xl text-pink-400">Socket.io Real-time API</h3>
-                    <div class="flex items-center space-x-2">
-                        <div class="status-indicator status-live"></div>
-                        <span class="pixel-body text-sm text-black">Real-time enabled</span>
-                    </div>
-                </div>
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
+                <h3 class="pixel-subtitle text-xl text-pink-400 mb-6">Socket.io Real-time API</h3>
 
                 <div class="mb-6">
                     <p class="pixel-body text-black mb-4">
@@ -1244,6 +1297,122 @@ sio.wait()
                     </div>
                 </div>
             </div>
+
+            <!-- API Performance Metrics Section -->
+            <div class="pixel-card p-6 mb-8 pixel-slide-in-left">
+                <h3 class="pixel-subtitle text-xl text-pink-400 mb-6">API Performance Metrics</h3>
+                
+                <!-- Key Metrics Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <!-- Uptime Card -->
+                    <div class="pixel-card p-6 pixel-slide-in-left">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="pixel-card w-10 h-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <span class="pixel-badge">Live</span>
+                        </div>
+                        <div>
+                            <p class="pixel-title text-2xl text-pink-400">99.9%</p>
+                            <p class="pixel-body text-sm text-gray-600">Uptime (30 days)</p>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="uptime-chart" width="200" height="64"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Response Time Card -->
+                    <div class="pixel-card p-6 pixel-slide-in-left delay-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="pixel-card w-10 h-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <span class="pixel-badge">Avg</span>
+                        </div>
+                        <div>
+                            <p class="pixel-title text-2xl text-pink-500">127ms</p>
+                            <p class="pixel-body text-sm text-gray-600">Avg Response Time</p>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="uptime-chart" width="200" height="64"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Requests Card -->
+                    <div class="pixel-card p-6 pixel-slide-in-right">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="pixel-card w-10 h-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <span class="pixel-badge">24h</span>
+                        </div>
+                        <div>
+                            <p class="pixel-title text-2xl text-pink-400">2.4K</p>
+                            <p class="pixel-body text-sm text-gray-600">Total Requests</p>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="uptime-chart" width="200" height="64"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Data Size Card -->
+                    <div class="pixel-card p-6 pixel-slide-in-right delay-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="pixel-card w-10 h-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                                </svg>
+                            </div>
+                            <span class="pixel-badge">Size</span>
+                        </div>
+                        <div>
+                            <p class="pixel-title text-2xl text-pink-500">1.2GB</p>
+                            <p class="pixel-body text-sm text-gray-600">Data Processed</p>
+                        </div>
+                        <div class="mt-4">
+                            <canvas id="uptime-chart" width="200" height="64"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Data Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Availability Chart -->
+                    <div class="pixel-card p-6 pixel-fade-in delay-2">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="pixel-subtitle text-xl text-pink-400">API Availability</h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="status-indicator status-live"></div>
+                                <span class="pixel-body text-sm text-gray-600">99.9% uptime</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="availability-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Response Time Chart -->
+                    <div class="pixel-card p-6 pixel-fade-in delay-3">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="pixel-subtitle text-xl text-pink-500">Response Time Trends</h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="status-indicator status-live"></div>
+                                <span class="pixel-body text-sm text-gray-600">Last 24 hours</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="response-time-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -1788,7 +1957,7 @@ sio.wait()
             }
         }
 
-        // Display sample data in cards
+        // Display sample data in table format (Kaggle-style)
         function displaySampleData(data) {
             const sampleContainer = document.getElementById('sample-data-container');
 
@@ -1804,44 +1973,168 @@ sio.wait()
                 return;
             }
 
-            // Get column names from the first record
-            const columns = Object.keys(data[0] || {});
+            // Update dataset overview stats
+            updateDatasetStats(data);
 
-            let sampleCards = '';
+            // Display data as a table for better Kaggle-like experience
+            const columns = Object.keys(data[0]);
+            let tableHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-300">
+                                ${columns.map(col => `<th class="text-left py-3 px-4 text-gray-600 font-medium">${col}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
 
-            // Create a card for each of the first 5 records
-            data.slice(0, 5).forEach((record, index) => {
-                sampleCards += `
-                    <div class="data-preview rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-3">
-                            <h4 class="font-medium text-gray-900">Record ${index + 1}</h4>
-                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">Row ${index + 1}</span>
-                        </div>
-                        <div class="space-y-2">
-                `;
-
-                // Add key-value pairs for each column
-                columns.forEach(column => {
-                    const value = record[column];
-                    const displayValue = typeof value === 'string' && value.length > 50
-                        ? value.substring(0, 50) + '...'
-                        : value;
-
-                    sampleCards += `
-                        <div class="flex justify-between items-start">
-                            <span class="text-sm font-medium text-gray-700 min-w-0 flex-shrink-0 mr-2">${column}:</span>
-                            <span class="text-sm text-gray-600 text-right break-words">${displayValue || 'null'}</span>
-                        </div>
-                    `;
-                });
-
-                sampleCards += `
-                        </div>
-                    </div>
+            // Show first 10 records
+            data.slice(0, 10).forEach((record, index) => {
+                tableHTML += `
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        ${columns.map(col => {
+                            const value = record[col];
+                            const displayValue = value === null || value === undefined ? '-' : 
+                                               typeof value === 'object' ? JSON.stringify(value) : 
+                                               String(value);
+                            return `<td class="py-3 px-4 text-gray-800">${displayValue}</td>`;
+                        }).join('')}
+                    </tr>
                 `;
             });
 
-            sampleContainer.innerHTML = sampleCards;
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            if (data.length > 10) {
+                tableHTML += `
+                    <div class="mt-4 text-center text-gray-500">
+                        <p class="pixel-body text-sm">Showing first 10 of ${data.length} records</p>
+                    </div>
+                `;
+            }
+
+            sampleContainer.innerHTML = tableHTML;
+
+            // Update schema information
+            updateSchemaInfo(data);
+        }
+
+        function updateDatasetStats(data) {
+            const records = data.length;
+            const columns = data.length > 0 ? Object.keys(data[0]).length : 0;
+            const estimatedSize = JSON.stringify(data).length;
+            const sizeKB = Math.round(estimatedSize / 1024);
+
+            document.getElementById('dataset-records').textContent = records.toLocaleString();
+            document.getElementById('dataset-columns').textContent = columns;
+            document.getElementById('dataset-size').textContent = `${sizeKB} KB`;
+
+            // Update metadata
+            const now = new Date();
+            document.getElementById('dataset-created').textContent = now.toLocaleDateString();
+            document.getElementById('dataset-updated').textContent = now.toLocaleDateString();
+            document.getElementById('dataset-tags').textContent = 'api, data, json';
+
+            // Update quality metrics (mock data for now)
+            document.getElementById('dataset-completeness').textContent = '98%';
+            document.getElementById('dataset-accuracy').textContent = '95%';
+            document.getElementById('dataset-consistency').textContent = '92%';
+            document.getElementById('dataset-freshness').textContent = '100%';
+        }
+
+        function updateSchemaInfo(data) {
+            const schemaContainer = document.getElementById('schema-table-container');
+            
+            if (!data || data.length === 0) {
+                schemaContainer.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <p class="pixel-body">No schema information available</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const columns = Object.keys(data[0]);
+            const sampleRecord = data[0];
+
+            let schemaHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-300">
+                                <th class="text-left py-3 px-4 text-gray-600 font-medium">Column</th>
+                                <th class="text-left py-3 px-4 text-gray-600 font-medium">Type</th>
+                                <th class="text-left py-3 px-4 text-gray-600 font-medium">Sample Value</th>
+                                <th class="text-left py-3 px-4 text-gray-600 font-medium">Null Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            columns.forEach(col => {
+                const value = sampleRecord[col];
+                const type = value === null || value === undefined ? 'null' : 
+                            typeof value === 'number' ? 'number' :
+                            typeof value === 'boolean' ? 'boolean' :
+                            typeof value === 'object' ? 'object' : 'string';
+                
+                const nullCount = data.filter(record => record[col] === null || record[col] === undefined).length;
+                const nullPercentage = Math.round((nullCount / data.length) * 100);
+
+                schemaHTML += `
+                    <tr class="border-b border-gray-200">
+                        <td class="py-3 px-4 text-gray-800 font-medium">${col}</td>
+                        <td class="py-3 px-4 text-gray-600">${type}</td>
+                        <td class="py-3 px-4 text-gray-600">${value !== null && value !== undefined ? String(value).substring(0, 50) + (String(value).length > 50 ? '...' : '') : '-'}</td>
+                        <td class="py-3 px-4 text-gray-600">${nullCount} (${nullPercentage}%)</td>
+                    </tr>
+                `;
+            });
+
+            schemaHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            schemaContainer.innerHTML = schemaHTML;
+        }
+
+        // Convert JSON data to CSV format
+        function convertToCSV(data) {
+            if (!data || !Array.isArray(data) || data.length === 0) {
+                return '';
+            }
+
+            const columns = Object.keys(data[0]);
+            const csvRows = [];
+
+            // Add header row
+            csvRows.push(columns.join(','));
+
+            // Add data rows
+            data.forEach(row => {
+                const values = columns.map(column => {
+                    const value = row[column];
+                    // Escape commas and quotes in CSV
+                    if (value === null || value === undefined) {
+                        return '';
+                    }
+                    const stringValue = String(value);
+                    if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+                        return `"${stringValue.replace(/"/g, '""')}"`;
+                    }
+                    return stringValue;
+                });
+                csvRows.push(values.join(','));
+            });
+
+            return csvRows.join('\n');
         }
 
         // Show sample data error
@@ -2153,15 +2446,24 @@ data = response.json()`;
             // Test API button
             document.getElementById('test-api-btn').addEventListener('click', () => {
                 // Scroll to the Interactive API Testing section
-                const testingSections = document.querySelectorAll('.professional-card h3');
-                for (const section of testingSections) {
+                const testingSection = document.querySelector('.pixel-card h3.pixel-subtitle');
+                if (testingSection && testingSection.textContent.includes('Interactive API Testing')) {
+                    testingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    return;
+                }
+                // Fallback: look for any h3 with Interactive API Testing text
+                const allH3Elements = document.querySelectorAll('h3');
+                for (const section of allH3Elements) {
                     if (section.textContent.includes('Interactive API Testing')) {
                         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         return;
                     }
                 }
-                // Fallback: scroll to the bottom of the page where testing is
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                // Final fallback: scroll to a reasonable position (not the very bottom)
+                const testingCard = document.querySelector('.pixel-card:has(h3.pixel-subtitle)');
+                if (testingCard) {
+                    testingCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
 
             // View raw button
@@ -2220,6 +2522,73 @@ data = response.json()`;
                     }
                 });
             }
+
+            // Download buttons
+            document.getElementById('download-json').addEventListener('click', async () => {
+                if (!currentApi) return;
+
+                const baseUrl = currentApi.api_url || currentApi.url;
+                if (!baseUrl) return;
+
+                try {
+                    const response = await fetch(`${baseUrl}/data`);
+                    const data = await response.json();
+                    
+                    const dataStr = JSON.stringify(data, null, 2);
+                    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(dataBlob);
+                    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `${currentApi.title || 'dataset'}_data.json`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                } catch (error) {
+                    console.error('Error downloading JSON:', error);
+                    alert('Failed to download data');
+                }
+            });
+
+            document.getElementById('download-csv').addEventListener('click', async () => {
+                if (!currentApi) return;
+
+                const baseUrl = currentApi.api_url || currentApi.url;
+                if (!baseUrl) return;
+
+                try {
+                    const response = await fetch(`${baseUrl}/data`);
+                    const data = await response.json();
+                    
+                    // Convert JSON to CSV
+                    const csv = convertToCSV(data.data || data);
+                    const dataBlob = new Blob([csv], { type: 'text/csv' });
+                    const url = URL.createObjectURL(dataBlob);
+                    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `${currentApi.title || 'dataset'}_data.csv`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                } catch (error) {
+                    console.error('Error downloading CSV:', error);
+                    alert('Failed to download data');
+                }
+            });
+
+            document.getElementById('refresh-data').addEventListener('click', async () => {
+                if (!currentApi) return;
+
+                try {
+                    await loadSampleData(currentApi);
+                } catch (error) {
+                    console.error('Error refreshing data:', error);
+                    alert('Failed to refresh data');
+                }
+            });
 
             // Delete API button
             const deleteApiBtn = document.getElementById('delete-api-btn');
@@ -2427,6 +2796,31 @@ data = response.json()`;
             document.getElementById('error-state').classList.remove('hidden');
             document.getElementById('main-content').classList.add('hidden');
         }
+
+        // Add pixelated background to the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // The pixelated background is already added to the body in the HTML
+        });
     </script>
+
+    <footer class="bg-white border-t border-slate-200/70 py-12 relative">
+        <div class="absolute inset-0 pointer-events-none opacity-8" style="background-image: linear-gradient(rgba(236, 72, 153, 0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.01) 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div>
+                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
+                    <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
+                </div>
+                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
+                    <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
+                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
+                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
+                    <a href="api-hub.html" class="hover:text-pink-500 transition-colors">API Hub</a>
+                </div>
+            </div>
+            <div class="hub-divider mt-8"></div>
+            <div class="mt-6 text-right pixel-heading text-xs uppercase tracking-[0.28em] text-slate-500">&copy; 2025 apiUI Inc. All rights reserved.</div>
+        </div>
+    </footer>
 </body>
 </html>
