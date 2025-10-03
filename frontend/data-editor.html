@@ -38,6 +38,10 @@
             --hub-surface: #ffffff;
             --hub-muted: #64748b;
             --hub-border: rgba(15, 23, 42, 0.12);
+            --pixel-border-width: 2px;  /* Consistent hard border width */
+            --pixel-border-radius: 0px;  /* Rigid, no border radius */
+            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);  /* Subtle shadow for soft outer borders */
+            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);  /* Hover shadow */
         }
 
         body.editor-body {
@@ -60,6 +64,39 @@
             opacity: 0.3;
             pointer-events: none;
             z-index: 0;
+        }
+
+        /* Pixel Container for consistent spacing */
+        .pixel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Pixel Section for spacing between major sections */
+        .pixel-section {
+            padding: 2rem 0;
+        }
+
+        .pixel-section:first-child {
+            padding-top: 1rem;
+        }
+
+        .pixel-section:last-child {
+            padding-bottom: 4rem;
+        }
+
+        /* Professional card styling with soft outer borders */
+        .pixel-card {
+            background: var(--pixel-white);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            box-shadow: var(--pixel-shadow);
+        }
+
+        .pixel-card:hover {
+            border-color: var(--pixel-pink-subtle);
+            box-shadow: var(--pixel-shadow-hover);
         }
 
         header.editor-header {
@@ -135,7 +172,7 @@
             align-items: center;
             gap: 0.75rem;
             padding: 0.85rem 1.1rem;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             background: var(--pixel-white);
             color: var(--pixel-black);
             font-size: 0.875rem;
@@ -163,10 +200,7 @@
 
         .excel-app {
             position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
             background: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
             overflow: hidden;
         }
 
@@ -212,7 +246,7 @@
 
         .metric-card {
             background: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             padding: 1.1rem 1.2rem;
         }
 
@@ -261,7 +295,7 @@
             gap: 0.75rem;
             align-items: center;
             padding: 1rem 1.2rem;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             background: var(--pixel-white);
         }
 
@@ -277,7 +311,7 @@
             align-items: center;
             gap: 0.55rem;
             padding: 0.55rem 1.1rem;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             background: var(--pixel-white);
             color: var(--pixel-black);
             font-size: 0.85rem;
@@ -299,7 +333,7 @@
         .toolbar-btn.primary {
             background: var(--pixel-black);
             color: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
         }
 
         .toolbar-btn.primary:hover:not(:disabled) {
@@ -332,7 +366,7 @@
             align-items: center;
             gap: 1rem;
             padding: 0.85rem 1.2rem;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             background: var(--pixel-white);
         }
 
@@ -342,14 +376,14 @@
             text-transform: uppercase;
             font-size: 0.75rem;
             background: var(--pixel-pink);
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             color: var(--pixel-white);
             padding: 0.5rem 1rem;
         }
 
         .formula-input {
             width: 100%;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             padding: 0.6rem 1rem;
             font-family: 'SF Mono', 'Roboto Mono', 'Monaco', monospace;
             font-size: 0.9rem;
@@ -363,7 +397,7 @@
 
         .spreadsheet-container {
             margin: 0 0 2rem;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             overflow: hidden;
             background: var(--pixel-white);
         }
@@ -410,7 +444,7 @@
             top: 0;
             background: var(--pixel-black);
             color: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             padding: 0.75rem 0.75rem;
             font-weight: 600;
             letter-spacing: 0.08em;
@@ -442,7 +476,7 @@
             left: 0;
             z-index: 2;
             background: var(--pixel-gray-100);
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             padding: 0.6rem 0.75rem;
             font-size: 0.75rem;
             font-weight: 600;
@@ -452,7 +486,7 @@
         }
 
         .data-cell {
-            border: 2px solid var(--pixel-gray-200);
+            border: 1px solid var(--pixel-gray-300);
             background: var(--pixel-white);
             min-width: 140px;
             height: 44px;
@@ -514,7 +548,7 @@
         .row-action-btn {
             width: 24px;
             height: 24px;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -539,7 +573,7 @@
             align-items: center;
             gap: 0.6rem;
             padding: 0.6rem 1.25rem;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             background: var(--pixel-black);
             color: var(--pixel-white);
             font-size: 0.85rem;
@@ -559,7 +593,7 @@
             justify-content: space-between;
             gap: 1rem;
             padding: 1rem 1.2rem;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             background: var(--pixel-white);
         }
 
@@ -573,7 +607,7 @@
             align-items: center;
             gap: 0.4rem;
             padding: 0.55rem 1rem;
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             background: var(--pixel-white);
             color: var(--pixel-black);
             font-weight: 600;
@@ -612,7 +646,7 @@
 
         .context-menu {
             background: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-black);
             padding: 0.4rem 0;
             min-width: 160px;
             z-index: 20;
@@ -721,12 +755,13 @@
         </nav>
     </header>
 
-    <main class="editor-main">
-        <div id="status-container" class="hidden">
-            <div id="status-message" class="status-message"></div>
-        </div>
+    <main class="editor-main pixel-section">
+        <div class="pixel-container">
+            <div id="status-container" class="hidden">
+                <div id="status-message" class="status-message"></div>
+            </div>
 
-        <div class="excel-app">
+            <div class="excel-app pixel-card">
             <div class="sheet-banner">
                 <div>
                     <p class="sheet-eyebrow">Data Command Center</p>
@@ -820,6 +855,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </main>
 
