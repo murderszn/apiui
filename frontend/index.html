@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>apiUI | Turn Data Into<br>Production APIs Instantly</title>
-    <meta name="description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics. No-code API builder for developers and businesses.">
-    <meta name="keywords" content="csv to api, excel to rest api, parquet api generator, json api builder, no-code api platform, data api creation, rest api generator, api automation, data transformation api, fast api deployment, apiui, data to api converter">
+    <title>apiUI | Connect APIs, Build Integrations</title>
+    <meta name="description" content="Connect your apiUI APIs with curated third-party services and community-built integrations. Explore featured APIs, filter by use case, and publish your own endpoints to the hub.">
+    <meta name="keywords" content="third party apis, api integration, api connectors, data workflows, apiui integrations, developer tools, api marketplace, integration hub">
     <meta name="author" content="apiUI by AURABLOX">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
@@ -14,162 +14,107 @@
     <meta name="language" content="English">
     <meta name="geo.region" content="US">
     <meta name="geo.placename" content="United States">
-    <meta name="classification" content="Software, API Development, Data Tools">
+    <meta name="classification" content="Directory, Software, API Resources">
     <meta name="rating" content="General">
     <meta name="distribution" content="Global">
     <meta name="revisit-after" content="7 days">
-    <link rel="canonical" href="https://apiui.web.app/">
-    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
+    <link rel="canonical" href="https://apiui.web.app/api-hub">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <!-- Performance optimizations -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
-    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" as="script">
-    <link rel="modulepreload" href="https://cdn.tailwindcss.com">
-    <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-    <!-- Open Graph / Facebook -->
     <meta property="og:site_name" content="apiUI">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="apiUI | Turn Data Into Production APIs Instantly">
-    <meta property="og:description" content="Transform CSV, Excel, Parquet, and JSON files into secure REST APIs with authentication, filtering, pagination, and analytics. No-code API builder for developers.">
-    <meta property="og:url" content="https://apiui.web.app/">
-    <meta property="og:image" content="https://apiui.web.app/apiui-logo.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="apiUI Logo - Turn Data Into APIs Instantly">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:determiner" content="the">
-
-    <!-- Twitter -->
+    <meta property="og:title" content="apiUI API Hub | Third-Party API Integrations">
+    <meta property="og:description" content="Connect your apiUI APIs with curated third-party services and community-built integrations.">
+    <meta property="og:url" content="https://apiui.web.app/api-hub.html">
+    <meta property="og:image" content="https://apiui.web.app/favicon.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@apiui">
-    <meta name="twitter:creator" content="@apiui">
-    <meta name="twitter:title" content="apiUI | Turn Data Into Production APIs Instantly">
-    <meta name="twitter:description" content="Launch secure REST APIs from CSV, Excel, Parquet, or JSON files in seconds. No-code API generation with built-in authentication and analytics.">
-    <meta name="twitter:image" content="https://apiui.web.app/apiui-logo.png">
-    <meta name="twitter:image:alt" content="apiUI Logo - Data to API Converter">
-
-    <!-- LinkedIn -->
-    <meta property="og:image:secure_url" content="https://apiui.web.app/apiui-logo.png">
-
-    <!-- Additional Social Media -->
-    <meta name="pinterest" content="nopin">
-    <meta name="format-detection" content="telephone=no">
-
-
-
+    <meta name="twitter:title" content="apiUI API Hub | Third-Party API Integrations">
+    <meta name="twitter:description" content="Browse featured APIs, filter by use case, and publish your own apiUI integrations.">
+    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Configure backend URL for the frontend
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
     </script>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareApplication",
-                "name": "apiUI",
-                "url": "https://apiui.web.app/",
-                "logo": "https://apiui.web.app/apiui-logo.png",
-                "image": "https://apiui.web.app/apiui-logo.png",
-                "description": "Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics. No-code API builder for developers and businesses.",
-                "applicationCategory": "DeveloperApplication",
-                "operatingSystem": "Any",
-                "softwareVersion": "1.0.0",
-                "fileSize": "",
-                "downloadUrl": "",
-                "screenshot": "",
-                "featureList": [
-                    "CSV to REST API conversion",
-                    "Excel file API generation",
-                    "Parquet data API creation",
-                    "JSON file API transformation",
-                    "Authentication and security",
-                    "API filtering and pagination",
-                    "Real-time analytics",
-                    "No-code API development"
-                ],
-                "author": {
-                    "@type": "Organization",
-                    "name": "apiUI by AURABLOX",
-                    "url": "https://apiui.web.app/",
-                    "logo": "https://apiui.web.app/apiui-logo.png"
-                },
+        "@type": "CollectionPage",
+        "name": "apiUI API Hub",
+        "description": "Connect your apiUI-generated APIs with third-party services from leading businesses. Browse curated integrations and community contributions for comprehensive data workflows.",
+        "url": "https://apiui.web.app/api-hub.html",
                 "publisher": {
                     "@type": "Organization",
-                    "name": "apiUI by AURABLOX",
-                    "url": "https://apiui.web.app/"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD",
-                    "priceValidUntil": "2026-12-31",
-                    "availability": "https://schema.org/InStock",
-                    "validFrom": "2025-01-01"
-                },
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "4.8",
-                    "ratingCount": "150",
-                    "bestRating": "5",
-                    "worstRating": "1"
-                },
-                "applicationSubCategory": "API Development Tools"
-            },
-            {
-                "@type": "WebSite",
-                "name": "apiUI",
-                "url": "https://apiui.web.app/",
-                "description": "Turn your data into APIs instantly - No-code API generation from CSV, Excel, Parquet, and JSON files",
-                "publisher": {
-                    "@type": "Organization",
-                    "name": "apiUI by AURABLOX"
-                },
-                "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": "https://apiui.web.app/search?q={search_term_string}",
-                    "query-input": "required name=search_term_string"
-                }
-            },
-            {
-                "@type": "Organization",
-                "name": "apiUI by AURABLOX",
-                "url": "https://apiui.web.app/",
-                "logo": "https://apiui.web.app/apiui-logo.png",
-                "description": "Leading provider of no-code API generation tools that transform data files into production-ready REST APIs",
-                "foundingDate": "2024",
-                "sameAs": [
-                    "https://github.com/apiui",
-                    "https://twitter.com/apiui"
-                ]
+            "name": "apiUI",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://apiui.web.app/favicon.png"
             }
-        ]
+        },
+        "mainEntity": {
+            "@type": "ItemList",
+            "name": "Featured APIs",
+            "description": "Curated third-party API integrations for apiUI",
+            "itemListElement": [
+                {
+                    "@type": "SoftwareApplication",
+                    "name": "OpenAI API",
+                    "description": "Access GPT models for text generation, embeddings, and moderation",
+                    "applicationCategory": "AI/ML API"
+                },
+                {
+                    "@type": "SoftwareApplication", 
+                    "name": "Airtable API",
+                    "description": "Sync tabular data, metadata, and automations with Airtable bases",
+                    "applicationCategory": "Data API"
+                },
+                {
+                    "@type": "SoftwareApplication",
+                    "name": "Twilio API", 
+                    "description": "Programmable SMS, voice, and verification with global reach",
+                    "applicationCategory": "Communication API"
+                },
+                {
+                    "@type": "SoftwareApplication",
+                    "name": "Stripe API",
+                    "description": "Comprehensive payments, billing, and subscription tooling",
+                    "applicationCategory": "Payment API"
+                }
+            ]
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://apiui.web.app/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "API Hub",
+                    "item": "https://apiui.web.app/api-hub.html"
+                }
+            ]
+        }
     }
     </script>
     <style>
-        /* Pixel-Inspired CSS Variables */
         :root {
-            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
-            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
-            --pixel-pink-light: #F472B6;  /* Light pink */
-            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
-            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
-            --pixel-black: #000000;  /* Black text */
-            --pixel-white: #ffffff;  /* White background */
-            --pixel-gray-100: #f8fafc;
-            --pixel-gray-200: #e2e8f0;
-            --pixel-gray-300: #cbd5e1;
-            /* Hub Design System */
             --hub-pink: #ec4899;
             --hub-pink-soft: #f472b6;
+            --hub-purple: #7c3aed;
+            --hub-purple-soft: #a855f7;
             --hub-ink: #0f172a;
             --hub-ink-soft: #1f2937;
             --hub-surface: #ffffff;
@@ -177,81 +122,36 @@
             --hub-border: rgba(15, 23, 42, 0.12);
         }
 
-        /* CTA Button with Layered Glow Effect */
-        .cta-glow {
-            position: relative;
-            background: var(--pixel-pink);
-            color: white;
-            box-shadow:
-                0 0 20px rgba(233, 30, 99, 0.6),
-                0 0 40px rgba(156, 39, 176, 0.4),
-                0 0 60px rgba(156, 39, 176, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .cta-glow:hover {
-            background: var(--pixel-pink-subtle);
-            box-shadow:
-                0 0 30px rgba(233, 30, 99, 0.8),
-                0 0 60px rgba(156, 39, 176, 0.6),
-                0 0 90px rgba(156, 39, 176, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .cta-glow:active {
-            transform: translateY(0);
-            box-shadow:
-                0 0 15px rgba(233, 30, 99, 0.4),
-                0 0 30px rgba(156, 39, 176, 0.3);
-        }
-
-        /* Regular Cursor */
-        * {
-            cursor: auto;
-        }
-
-        button, a, [role="button"] {
-            cursor: pointer;
-        }
-
-        /* Base Typography */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
-
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--pixel-white);
-            color: var(--pixel-black);
+            background-color: var(--hub-surface);
+            color: var(--hub-ink);
             line-height: 1.6;
-            cursor: inherit;
+            scroll-behavior: smooth;
         }
 
-        /* Pixel Typography Classes */
         .pixel-heading {
             font-family: 'Pixelify Sans', monospace;
             letter-spacing: 0.14em;
             text-transform: uppercase;
         }
 
-        .pixel-body {
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        /* Hub Button System */
         .hub-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
             padding: 0.75rem 1.75rem;
-            border: 1px solid var(--hub-ink);
+            border: 2px solid var(--hub-ink);
             border-radius: 0;
             font-size: 0.875rem;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease, color 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, color 0.25s ease;
         }
 
         .hub-btn:focus {
@@ -260,33 +160,108 @@
         }
 
         .hub-btn-primary {
-            background-color: var(--hub-ink);
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 48%, var(--hub-purple) 100%);
             color: #fff;
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.4);
+            box-shadow: 0 0 0 2px #ffffff inset, 4px 4px 0 rgba(15, 23, 42, 0.45);
+        }
+
+        .hub-btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+        .hub-btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent 65%);
+            mix-blend-mode: screen;
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
         .hub-btn-primary:hover {
-            background-color: var(--hub-pink);
-            border-color: var(--hub-pink);
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.45);
+            transform: translate(-3px, -3px);
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-purple) 45%, var(--hub-pink-soft) 85%);
+            box-shadow: 0 0 0 2px #ffffff inset, 6px 6px 0 rgba(124, 58, 237, 0.45), 0 0 18px rgba(124, 58, 237, 0.35);
+        }
+
+        .hub-btn-primary:hover::before {
+            opacity: 0.75;
         }
 
         .hub-btn-secondary {
-            background-color: transparent;
+            border: 2px solid transparent;
             color: var(--hub-ink);
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+            background: linear-gradient(var(--hub-surface), var(--hub-surface)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 3px 3px 0 rgba(15, 23, 42, 0.25);
         }
 
         .hub-btn-secondary:hover {
-            background-color: var(--hub-pink-soft);
-            border-color: var(--hub-pink-soft);
+            transform: translate(-3px, -3px);
             color: #fff;
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(236, 72, 153, 0.35);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple-soft) 45%, var(--hub-ink) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7) inset, 5px 5px 0 rgba(236, 72, 153, 0.4), 0 0 16px rgba(236, 72, 153, 0.3);
         }
 
-        /* Pixel Elements */
+        .category-tab {
+            border: 1px solid rgba(15, 23, 42, 0.18);
+            background-color: rgba(148, 163, 184, 0.12);
+            color: var(--hub-ink-soft);
+            padding: 0.5rem 1.25rem;
+            border-radius: 0;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.18s ease, border-color 0.2s ease;
+            font-family: 'Pixelify Sans', monospace;
+        }
+
+        .category-tab[aria-selected="true"] {
+            background-color: var(--hub-ink);
+            border-color: var(--hub-ink);
+            color: #fff;
+            transform: translate(-2px, -2px);
+        }
+
+        .category-tab:focus {
+            outline: 2px solid var(--hub-pink);
+            outline-offset: 2px;
+        }
+
+        .api-card {
+            position: relative;
+            background-color: var(--hub-surface);
+            border: 1px solid var(--hub-border);
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .api-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
+            border-color: rgba(236, 72, 153, 0.45);
+        }
+
+        .api-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-image: linear-gradient(90deg, var(--hub-pink) 50%, transparent 50%), linear-gradient(180deg, var(--hub-pink) 50%, transparent 50%);
+            background-size: 4px 4px;
+            opacity: 0.65;
+        }
+
         .pixel-dot {
             width: 12px;
             height: 12px;
@@ -294,543 +269,87 @@
             image-rendering: pixelated;
         }
 
-        /* Arcade Text Effects */
-        .arcade-neon {
-            text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink);
-            animation: neon-pulse 2s ease-in-out infinite alternate;
-        }
-
-        .arcade-3d {
-            text-shadow:
-                2px 2px 0px var(--pixel-gray-800),
-                4px 4px 0px var(--pixel-gray-600),
-                6px 6px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .arcade-gradient {
-            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: none;
-        }
-
-        .arcade-title {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            text-shadow:
-                2px 2px 0px var(--pixel-gray-600),
-                0 0 8px var(--pixel-pink);
-        }
-
-        @keyframes neon-pulse {
-            from { text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink);
-            }
-            to { text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink),
-                0 0 20px var(--pixel-pink);
-            }
-        }
-
-        @keyframes arcade-glow {
-            from {
-                text-shadow:
-                    2px 2px 0px var(--pixel-gray-800),
-                    4px 4px 0px var(--pixel-gray-600),
-                    0 0 10px var(--pixel-pink),
-                    0 0 20px var(--pixel-pink);
-            }
-            to {
-                text-shadow:
-                    2px 2px 0px var(--pixel-gray-800),
-                    4px 4px 0px var(--pixel-gray-600),
-                    0 0 15px var(--pixel-pink),
-                    0 0 25px var(--pixel-pink),
-                    0 0 35px var(--pixel-pink);
-            }
-        }
-
-        /* Pixel Card System */
-        .pixel-card {
-            background: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pixel-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .pixel-card:hover {
-            box-shadow: var(--pixel-shadow-hover);
-            transform: translate(-1px, -1px);
-        }
-
-        .pixel-card:hover::before {
-            opacity: 1;
-        }
-
-        /* Pixel Button System */
-        .pixel-btn {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-            padding: 0.75rem 1.5rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            box-shadow: none;
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .pixel-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        .hub-divider {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            transition: left 0.3s ease;
+            height: 1px;
+            background-image: linear-gradient(90deg, var(--hub-border) 0, transparent 50%, var(--hub-border) 100%);
+            background-size: 24px 1px;
+            opacity: 0.75;
         }
 
-        .pixel-btn:hover {
-            box-shadow: none;
-            transform: translate(-1px, -1px);
-            color: var(--pixel-black);
-        }
-
-        .pixel-btn:hover::before {
-            left: 100%;
-        }
-
-        .pixel-btn:active {
-            transform: translate(0, 0);
-            box-shadow: none;
-        }
-
-        .pixel-btn-primary {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            border-color: var(--pixel-black);
-        }
-
-        .pixel-btn-primary:hover {
-            background: var(--pixel-pink);
-            border-color: var(--pixel-pink);
-            color: var(--pixel-white);
-        }
-
-        .pixel-btn-secondary {
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            border-color: var(--pixel-pink-subtle);
-        }
-
-        .pixel-btn-secondary:hover {
-            background: var(--pixel-pink-subtle);
-            color: var(--pixel-white);
-        }
-
-        /* Pixel Icon Containers */
-        .pixel-icon {
-            background: var(--pixel-gray-100);
-            border: var(--pixel-border-width) solid var(--pixel-gray-300);
-            border-radius: var(--pixel-border-radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--pixel-shadow);
-            color: var(--pixel-gray-600);
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        .pixel-icon svg {
-            color: inherit;
-            filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.1));
-        }
-
-        /* Pixel Grid System */
-        .pixel-grid {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .pixel-section {
-            padding: 5rem 0;
-            position: relative;
-        }
-
-        .pixel-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* Pixel Accent Elements */
-        .pixel-accent-line {
-            position: relative;
-            margin: 3rem 0;
-            height: 2px;
-            background: repeating-linear-gradient(
-                90deg,
-                var(--pixel-black) 0px,
-                var(--pixel-black) 2px,
-                transparent 2px,
-                transparent 4px
-            );
-        }
-
-        .pixel-accent-line::before {
-            content: '';
+        .shadow-grid {
+            pointer-events: none;
             position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 4px;
-            background: var(--pixel-pink);
+            inset: 0;
+            background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.08) 1px, transparent 1px);
+            background-size: 32px 32px;
         }
 
-        /* Pixel Badge - Consistent Pink Styling */
-        .pixel-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
+        .search-field {
+            border: 1px solid rgba(15, 23, 42, 0.18);
             border-radius: 0;
-            background: var(--pixel-pink);
-            border: 2px solid var(--pixel-black);
-            color: var(--pixel-white);
-            font-family: 'Pixelify Sans', monospace;
+            background-color: #fff;
+            padding: 0.85rem 1rem 0.85rem 3rem;
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-field:focus {
+            border-color: var(--hub-pink);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--hub-muted);
+        }
+
+        .eyebrow {
+            letter-spacing: 0.32em;
             font-size: 0.75rem;
             font-weight: 600;
-            letter-spacing: 0.02em;
+        }
+
+        .hub-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid rgba(236, 72, 153, 0.45);
+            background-color: rgba(236, 72, 153, 0.08);
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.2s ease;
         }
 
-        .pixel-badge:hover {
-            background: var(--pixel-pink-subtle);
-            border-color: var(--pixel-black);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
-        }
-
-        /* Pixel Loading Animation */
-        .pixel-loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--pixel-gray-300);
-            border-radius: 0;
-            border-top-color: var(--pixel-pink);
-            animation: pixel-spin 1s ease-in-out infinite;
-        }
-
-        @keyframes pixel-spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Pixel Flicker Animation */
-        @keyframes pixel-flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        .pixel-flicker {
-            animation: pixel-flicker 0.1s ease-in-out;
-        }
-
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Pixel Focus States */
-        a:focus, button:focus {
-            outline: 2px solid var(--pixel-pink-subtle);
-            outline-offset: 2px;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            position: relative;
-            overflow: hidden;
-            background: var(--pixel-white);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-gradient-text {
-            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 700;
-            text-shadow: none;
-        }
-
-        /* Step Indicators */
-        .pixel-step {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            position: relative;
-            background: var(--pixel-gray-100);
-            color: var(--pixel-black);
-        }
-
-        /* Back to Top */
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 3rem;
-            height: 3rem;
-            border-radius: 0;
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--pixel-shadow);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(16px);
-            transition: all 0.15s ease;
-            z-index: 100;
-        }
-
-        .back-to-top:hover {
-            background: var(--pixel-pink);
-            transform: translateY(14px);
-        }
-
-        .back-to-top.show {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        /* Demo Video Styles */
-        .laptop-mockup {
-            perspective: 1000px;
-            transform-style: preserve-3d;
-        }
-
-        .laptop-screen {
-            transform: rotateX(-2deg);
-            transition: transform 0.3s ease;
-        }
-
-        .laptop-screen:hover {
-            transform: rotateX(0deg);
-        }
-
-        .demo-video-container video {
-            border-radius: 0;
-        }
-
-        .demo-video-container video::-webkit-media-controls-panel {
-            background: rgba(0, 0, 0, 0.7);
-        }
-
-        .demo-video-container #play-overlay {
-            backdrop-filter: blur(2px);
-        }
-
-        .demo-video-container #play-btn {
-            animation: pixel-pulse 2s infinite;
-        }
-
-        .demo-video-container #play-btn:hover {
-            animation: none;
-        }
-
-        @keyframes pixel-pulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
-            }
-            50% {
-                box-shadow: 0 0 0 8px rgba(236, 72, 153, 0);
-            }
-        }
-
-        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .laptop-screen {
-                transform: none;
+            .hub-btn {
+                width: 100%;
+                justify-content: center;
             }
 
-            .laptop-base {
-                display: none;
-            }
-
-            .pixel-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pixel-section {
-                padding: 3rem 0;
-            }
-
-            /* Mobile hero optimizations */
-            .hero-section {
-                padding: 4rem 1rem;
-                min-height: auto;
-            }
-
-            /* Improve button touch targets on mobile */
-            .pixel-btn {
-                min-height: 48px; /* iOS recommended minimum touch target */
-                font-size: 1rem;
-                padding: 0.75rem 1.5rem;
-            }
-
-            /* Better mobile spacing for cards */
-            .pixel-card {
-                margin-bottom: 1rem;
-            }
-
-            /* Mobile typography adjustments */
-            .arcade-title {
-                font-size: 2rem;
-                line-height: 1.2;
-            }
-
-            /* Improve mobile grid layouts */
-            .grid {
-                gap: 1rem;
-            }
-
-            /* Mobile navigation improvements */
-            .pixel-container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-
-            /* Better mobile pricing layout */
-            .pricing-grid {
-                gap: 2rem;
-            }
-
-            /* Mobile trust indicators */
-            .trust-indicators {
-                gap: 1.5rem;
+            .category-tab {
+                flex: 1 1 auto;
+                text-align: center;
             }
         }
 
-        /* Extra small screens */
-        @media (max-width: 480px) {
-            .pixel-section {
-                padding: 2rem 0;
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
             }
-
-            .hero-section {
-                padding: 3rem 1rem;
-            }
-
-            .arcade-title {
-                font-size: 1.75rem;
-                letter-spacing: 0.02em;
-            }
-
-            .pixel-btn {
-                font-size: 0.95rem;
-                padding: 0.875rem 1.25rem;
-            }
-
-            /* Single column layouts on very small screens */
-            .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3,
-            .grid-cols-1.md\\:grid-cols-3,
-            .grid-cols-1.lg\\:grid-cols-2 {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Scroll-triggered animations */
-        .pixel-fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .pixel-fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .pixel-slide-in-left {
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .pixel-slide-in-left.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .pixel-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .pixel-slide-in-right.visible {
-            opacity: 1;
-            transform: translateX(0);
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
-    <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+<body class="bg-white text-slate-900 flex flex-col min-h-screen">
+    <div class="shadow-grid"></div>
 
     <!-- Floating Navigation Sidebar -->
     <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
@@ -857,10 +376,11 @@
                     </svg>
                 </a>
 
-                <!-- API Hub -->
-                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+
+                <!-- MCP Server -->
+                <a href="mcp.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                     </svg>
                 </a>
 
@@ -873,10 +393,8 @@
             </div>
         </div>
     </div>
-    <!-- Pixel Loading Screen -->
 
-    <!-- Header -->
-    <header class="bg-white">
+    <header class="bg-white border-b border-slate-200/70 relative z-10">
         <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
@@ -885,574 +403,382 @@
                 <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#features" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Features</a>
-                <a href="#pricing" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Pricing</a>
                 <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
+                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Sock chat</a>
                 <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="api-hub.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">API Hub</a>
-                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Socket Chat</a>
+                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
             </div>
-
-    </div>
-
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden p-2">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
         </nav>
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
-            <div class="pixel-container py-4 space-y-4">
-                <a href="#features" class="block text-gray-700 hover:text-black font-medium py-2">Features</a>
-                <a href="#pricing" class="block text-gray-700 hover:text-black font-medium py-2">Pricing</a>
-                <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
-                </div>
-            </div>
-        </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section bg-gradient-to-b from-white via-gray-50/30 to-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
-        <!-- Subtle geometric pattern -->
-        <div class="absolute inset-0 opacity-[0.02]">
-            <div class="absolute top-20 left-10 w-96 h-96 border border-pink-500/20 rounded-full"></div>
-            <div class="absolute top-40 right-20 w-64 h-64 border border-pink-600/20 rounded-full"></div>
-            <div class="absolute bottom-32 left-1/4 w-48 h-48 border border-pink-500/20 rounded-full"></div>
-            <div class="absolute bottom-20 right-1/3 w-32 h-32 border border-pink-600/20 rounded-full"></div>
+    <main class="flex-1 relative z-10">
+        <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+        <section class="bg-white text-slate-900 overflow-hidden relative">
+            <!-- Hero Background Image -->
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <img src="images/cube-pyramid.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+            </div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-24 relative z-10">
+                <div class="grid gap-16 md:grid-cols-[1.05fr_minmax(0,0.95fr)] items-center">
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading eyebrow text-pink-500 tracking-[0.36em]">API HUB</p>
         </div>
-
-        <div class="pixel-container max-w-6xl text-center relative z-10">
-
-            <!-- Main Headline -->
-            <div class="mb-8 pixel-fade-in">
-                <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
-                    Build <span class="arcade-neon">live APIs</span> from your data <span class="arcade-neon">in</span> <span class="arcade-neon">seconds</span>
+                        <h1 class="pixel-heading text-3xl sm:text-4xl md:text-5xl leading-tight text-slate-900 tracking-[0.18em]">
+                            Discover integrations that power your projects
                 </h1>
+                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl">
+                            Connect your apiUI-generated APIs with industry-leading services. Browse integrations for AI, data processing, payments, communication, and more. Each API comes with documentation, examples, and seamless integration paths.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+                            <a href="#featured" class="hub-btn hub-btn-primary">Browse Featured APIs</a>
+                            <a href="app.html" class="hub-btn hub-btn-secondary">Publish Your API</a>
             </div>
-
-            <!-- Enhanced Subtitle -->
-            <div class="mb-12 pixel-fade-in" style="animation-delay: 0.2s">
-                <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
-                    Upload CSV, Excel, or Parquet files and get instant REST APIs with
-                    <span class="font-semibold text-gray-900">authentication, filtering, and analytics</span>—
-                    <span class="text-pink-500 font-medium">no coding required.</span>
-                </p>
             </div>
-
-            <!-- Premium CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 pixel-fade-in" style="animation-delay: 0.4s">
-                <a href="app.html" class="pixel-btn pixel-btn-primary px-10 py-4 text-lg">
-                    Start Building Free
-                </a>
-                <a href="#features" class="pixel-btn pixel-btn-secondary px-10 py-4 text-lg">
-                    Learn More
-                </a>
-            </div>
-
-            <!-- Pixel Trust Indicators -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto pixel-fade-in" style="animation-delay: 0.6s">
-                <div class="pixel-card p-8 text-center h-full flex flex-col items-center justify-center">
-                    <div class="pixel-icon w-12 h-12 flex items-center justify-center mb-6 mx-auto bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-lg">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                        </svg>
+                <div class="relative">
+                        <div class="relative border border-slate-200 bg-white p-8 overflow-hidden api-card">
+                            <div class="absolute inset-0 opacity-5" aria-hidden="true">
+                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(236, 72, 153, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.1) 1px, transparent 1px); background-size: 28px 28px;"></div>
                     </div>
-                    <h3 class="pixel-subtitle text-lg text-black mb-3 font-semibold">Free to Start</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed">No credit card required</p>
+                            <div class="relative space-y-6">
+                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-500">apiUI MCP Server</p>
+                                <h2 class="text-2xl font-semibold text-slate-900">Model Context Protocol</h2>
+                                <p class="text-sm text-slate-600 leading-6">
+                                    Connect AI models to your data through the apiUI MCP Server. Access uploaded files, execute queries, and provide contextual information to enhance AI responses with your personal data.
+                                </p>
+                                <div class="space-y-4 text-xs uppercase tracking-[0.28em] text-slate-500">
+                                    <div class="flex items-center justify-between">
+                                        <span>File Access</span>
+                                        <span class="hub-pill">Direct</span>
                 </div>
-
-                <div class="pixel-card p-8 text-center h-full flex flex-col items-center justify-center">
-                    <div class="pixel-icon w-12 h-12 flex items-center justify-center mb-6 mx-auto bg-gradient-to-br from-pink-600 to-pink-700 text-white shadow-lg">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
+                                    <div class="flex items-center justify-between">
+                                        <span>Data Queries</span>
+                                        <span class="hub-pill">Live</span>
                     </div>
-                    <h3 class="pixel-subtitle text-lg text-black mb-3 font-semibold">Lightning Fast</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed">APIs ready in seconds</p>
+                                    <div class="flex items-center justify-between">
+                                        <span>AI Integration</span>
+                                        <span class="hub-pill">Seamless</span>
                 </div>
-
-                <div class="pixel-card p-8 text-center h-full flex flex-col items-center justify-center">
-                    <div class="pixel-icon w-12 h-12 flex items-center justify-center mb-6 mx-auto bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-lg">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                        </svg>
                     </div>
-                    <h3 class="pixel-subtitle text-lg text-black mb-3 font-semibold">Enterprise Secure</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed">Bank-level encryption</p>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pixel Section Divider -->
-    <div class="pixel-accent-line"></div>
-
-    <!-- Features Section -->
-    <section id="features" class="pixel-section bg-gray-50 py-20">
-        <div class="pixel-container max-w-7xl">
-            <div class="text-center mb-16 pixel-fade-in">
-                <h2 class="pixel-title text-4xl sm:text-5xl text-black mb-6">Everything You Need to Build APIs</h2>
-                <p class="pixel-body text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                    Powerful features that make API development
-                    <span class="font-semibold text-black">effortless</span>
+        <section id="catalog" class="bg-white border-b border-slate-200/70 relative">
+            <div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 24px 24px;"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-10 relative">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading eyebrow text-pink-500">Browse</p>
+                        </div>
+                        <h2 class="text-3xl font-semibold tracking-tight">Filter the hub by use case</h2>
+                        <p class="text-base text-slate-600 max-w-2xl">
+                            Find the perfect API for your project with our organized categories. Search by name, filter by use case, and discover integrations that seamlessly connect with your apiUI-generated endpoints.
                 </p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="pixel-card p-8 pixel-slide-in-left h-full">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
-                        </svg>
+                    <div class="text-sm text-slate-500 max-w-sm">
+                        Each API includes documentation, usage examples, and direct integration paths to accelerate your development workflow.
                     </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Universal File Support</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Upload CSV, Excel, Parquet, or JSON files. Automatic format detection and data type inference.
-                    </p>
                 </div>
 
-                <div class="pixel-card p-8 pixel-fade-in h-full" style="animation-delay: 0.2s">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                <div class="flex flex-col gap-6 lg:flex-row lg:items-center">
+                    <div class="relative w-full lg:max-w-md">
+                        <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z"></path>
                         </svg>
+                        <input id="api-search" type="search" class="search-field w-full" placeholder="Search by API name or capability" aria-label="Search APIs by name or capability">
                     </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Instant Deployment</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Your API is live within seconds. No server setup, no configuration, just instant endpoints.
+                    <div class="flex flex-wrap gap-3" role="tablist" aria-label="Filter APIs by category">
+                        <button type="button" class="category-tab" data-filter="all" role="tab" aria-selected="true">All APIs</button>
+                        <button type="button" class="category-tab" data-filter="ai" role="tab" aria-selected="false">AI</button>
+                        <button type="button" class="category-tab" data-filter="data" role="tab" aria-selected="false">Data</button>
+                        <button type="button" class="category-tab" data-filter="communication" role="tab" aria-selected="false">Communication</button>
+                        <button type="button" class="category-tab" data-filter="payment" role="tab" aria-selected="false">Payments</button>
+                        <button type="button" class="category-tab" data-filter="productivity" role="tab" aria-selected="false">Productivity</button>
+                        <button type="button" class="category-tab" data-filter="community" role="tab" aria-selected="false">Community</button>
+                </div>
+                    </div>
+                </div>
+    </section>
+
+        <section id="featured" class="bg-gray-50/70 relative">
+            <div class="absolute inset-0 pointer-events-none opacity-15" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 28px 28px;"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-12 relative">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <span class="pixel-dot"></span>
+                        <p class="pixel-heading eyebrow text-pink-500">Featured</p>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                        <div class="space-y-2 max-w-3xl">
+                            <h2 class="text-3xl font-semibold tracking-tight">Curated third-party integrations</h2>
+                            <p class="text-base text-slate-600">
+                                Hand-picked APIs from leading providers, tested for reliability and performance. Each integration comes with comprehensive documentation and example implementations to get you started quickly.
                     </p>
+                </div>
+                        <div class="text-xs uppercase tracking-[0.32em] text-slate-500">
+                            Updated weekly
+                    </div>
+                    </div>
                 </div>
 
-                <div class="pixel-card p-8 pixel-slide-in-right h-full">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                <div id="featured-grid" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3" data-api-collection data-empty-target="featured-empty">
+                    <article class="api-card p-6 flex flex-col gap-6" data-api-card data-category="ai" data-name="OpenAI API" data-description="Access GPT models for text generation, embeddings, and moderation." data-tags="language models, chatbots, ai">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <span class="pixel-dot"></span>
+                                <div>
+                                    <p class="pixel-heading text-xs text-pink-500">AI</p>
+                                    <h3 class="text-xl font-semibold text-slate-900">OpenAI API</h3>
+                                    <p class="text-sm text-slate-500">By OpenAI</p>
                     </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">RESTful Endpoints</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Full REST API with filtering, pagination, and query parameters. Industry-standard endpoints.
-                    </p>
                 </div>
-
-                <div class="pixel-card p-8 pixel-slide-in-left h-full" style="animation-delay: 0.1s">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Secure & Private</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Enterprise-grade security with API keys, rate limiting, and data encryption.
-                    </p>
-                </div>
-
-                <div class="pixel-card p-8 pixel-fade-in h-full" style="animation-delay: 0.3s">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Real-time Analytics</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Monitor API usage, performance metrics, and data access patterns in real-time.
-                    </p>
-                </div>
-
-                <div class="pixel-card p-8 pixel-slide-in-right h-full" style="animation-delay: 0.1s">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Developer Friendly</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Comprehensive documentation, code examples, and SDKs for popular programming languages.
-                    </p>
-                </div>
+                            <span class="hub-pill">Docs Ready</span>
             </div>
-        </section>
-
-        <!-- Pixel Section Divider -->
-        <div class="pixel-accent-line"></div>
-
-        <!-- How It Works Section -->
-        <section class="pixel-section bg-white py-20">
-            <div class="pixel-container max-w-6xl">
-                <div class="text-center mb-16 pixel-fade-in">
-                    <h2 class="pixel-title text-3xl sm:text-4xl text-black mb-6">How It Works</h2>
-                    <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        Three simple steps to turn your data into a <span class="font-semibold text-black">production-ready</span> <span class="text-pink-500">API</span>
-                    </p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="pixel-card p-8 text-center pixel-slide-in-left h-full">
-                        <div class="pixel-step w-16 h-16 bg-pink-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
-                            <span class="pixel-title text-2xl">1</span>
-                        </div>
-                        <h3 class="pixel-subtitle text-xl text-black mb-4">Upload Your Data</h3>
-                        <p class="pixel-body text-gray-600 leading-relaxed">
-                            Drag and drop your CSV, Excel, or Parquet file. We support all major data formats with automatic type detection.
+                        <p class="text-sm text-slate-600 leading-6">
+                            Access GPT models for content generation, Q&A, structured outputs, and embeddings. Ideal for intelligent assistants and creative automations.
                         </p>
-                    </div>
-
-                    <div class="pixel-card p-8 text-center pixel-fade-in h-full" style="animation-delay: 0.2s">
-                        <div class="pixel-step w-16 h-16 bg-pink-600 text-white rounded-none flex items-center justify-center mx-auto mb-6">
-                            <span class="pixel-title text-2xl">2</span>
-                        </div>
-                        <h3 class="pixel-subtitle text-xl text-black mb-4">We Build Your API</h3>
-                        <p class="pixel-body text-gray-600 leading-relaxed">
-                            Our AI analyzes your data structure and generates optimized FastAPI code with proper validation and endpoints.
-                        </p>
-                    </div>
-
-                    <div class="pixel-card p-8 text-center pixel-slide-in-right h-full">
-                        <div class="pixel-step w-16 h-16 bg-pink-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
-                            <span class="pixel-title text-2xl">3</span>
-                        </div>
-                        <h3 class="pixel-subtitle text-xl text-black mb-4">Start Using Your API</h3>
-                        <p class="pixel-body text-gray-600 leading-relaxed">
-                            Get instant access to your live API endpoint. Query, filter, and integrate with your applications immediately.
-                        </p>
-                    </div>
+                        <div class="flex flex-wrap gap-2 text-xs text-slate-500 uppercase tracking-[0.24em]">
+                            <span class="px-2 py-1 bg-pink-100 text-pink-600">Chat</span>
+                            <span class="px-2 py-1 bg-slate-100">Embeddings</span>
+                            <span class="px-2 py-1 bg-slate-100">Moderation</span>
                 </div>
-            </div>
+                        <div class="hub-divider"></div>
+                            <div class="flex items-center justify-between">
+                            <a href="https://platform.openai.com/docs" target="_blank" rel="noreferrer" class="text-sm font-semibold text-pink-500 uppercase tracking-[0.22em]">View Docs</a>
+                    </div>
+                    </article>
 
-            <!-- Live Demo Video -->
-            <div class="demo-video-container mt-12 mb-8">
-                <div class="text-center mb-12 pixel-fade-in">
-                    <h3 class="pixel-title text-2xl sm:text-3xl lg:text-4xl text-black mb-6">See It Live</h3>
-                    <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        Watch the complete workflow in action—from file upload to live API endpoints
-                    </p>
+                    <article class="api-card p-6 flex flex-col gap-6" data-api-card data-category="data" data-name="Airtable API" data-description="Sync tabular data, metadata, and automations with Airtable bases." data-tags="tables, automation, data">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <span class="pixel-dot"></span>
+                                <div>
+                                    <p class="pixel-heading text-xs text-pink-500">Data</p>
+                                    <h3 class="text-xl font-semibold text-slate-900">Airtable API</h3>
+                                    <p class="text-sm text-slate-500">By Airtable</p>
+                        </div>
+                    </div>
+                            <span class="hub-pill">JSON</span>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-6">
+                            Sync tabular data, formulas, and views directly into apiUI projects. Great for operational dashboards, content pipelines, and editable datasets.
+                        </p>
+                        <div class="flex flex-wrap gap-2 text-xs text-slate-500 uppercase tracking-[0.24em]">
+                            <span class="px-2 py-1 bg-slate-100">CRUD</span>
+                            <span class="px-2 py-1 bg-slate-100">Automations</span>
+                            <span class="px-2 py-1 bg-pink-100 text-pink-600">Connected Tables</span>
+                    </div>
+                        <div class="hub-divider"></div>
+                            <div class="flex items-center justify-between">
+                            <a href="https://airtable.com/developers/web/api/introduction" target="_blank" rel="noreferrer" class="text-sm font-semibold text-pink-500 uppercase tracking-[0.22em]">View Docs</a>
+                    </div>
+                    </article>
+
+                    <article class="api-card p-6 flex flex-col gap-6" data-api-card data-category="communication" data-name="Twilio API" data-description="Programmable SMS, voice, and verification with global reach." data-tags="sms, voice, messaging">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <span class="pixel-dot"></span>
+                                <div>
+                                    <p class="pixel-heading text-xs text-pink-500">Comms</p>
+                                    <h3 class="text-xl font-semibold text-slate-900">Twilio API</h3>
+                                    <p class="text-sm text-slate-500">By Twilio</p>
+                        </div>
+                    </div>
+                            <span class="hub-pill">Global</span>
                 </div>
-
-                <!-- Laptop Mockup -->
-                <div class="relative max-w-4xl mx-auto">
-                    <!-- Laptop Screen -->
-                    <div class="relative bg-gray-900 rounded-t-2xl overflow-hidden shadow-2xl">
-                        <!-- Laptop Header -->
-                        <div class="bg-gray-800 px-4 py-2 flex items-center justify-between">
-                            <div class="flex space-x-2">
-                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                <div class="w-3 h-3 bg-pink-500 rounded-full"></div>
+                        <p class="text-sm text-slate-600 leading-6">
+                            Add reliable SMS, voice calls, and phone verification. Pixel-border hover states highlight call-to-action buttons without straying from the rigid system.
+                        </p>
+                        <div class="flex flex-wrap gap-2 text-xs text-slate-500 uppercase tracking-[0.24em]">
+                            <span class="px-2 py-1 bg-slate-100">SMS</span>
+                            <span class="px-2 py-1 bg-slate-100">Voice</span>
+                            <span class="px-2 py-1 bg-pink-100 text-pink-600">2FA</span>
+                </div>
+                        <div class="hub-divider"></div>
+                            <div class="flex items-center justify-between">
+                            <a href="https://www.twilio.com/docs" target="_blank" rel="noreferrer" class="text-sm font-semibold text-pink-500 uppercase tracking-[0.22em]">View Docs</a>
                             </div>
-                            <div class="text-white text-xs font-mono">apiUI Demo</div>
-                            <div class="w-16"></div>
-                        </div>
+                    </article>
 
-                        <!-- Video Container -->
-                        <div class="relative aspect-video bg-black">
-                            <video
-                                id="demo-video"
-                                class="w-full h-full object-cover"
-                                autoplay
-                                muted
-                                loop
-                                playsinline
-                                preload="metadata"
-                                poster="apiui-logo.png"
-                            >
-                                <source src="apiUI-demo.mov" type="video/quicktime">
-                                <source src="apiUI-demo.mov" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-
-                            <!-- Play Button Overlay (when paused) -->
-                            <div id="play-overlay" class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 transition-opacity duration-300">
-                                <div class="flex items-center gap-4">
-                                    <button id="play-btn" class="bg-white bg-opacity-90 hover:bg-opacity-100 text-black rounded-full p-4 transition-all duration-200 transform hover:scale-110">
-                                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z"/>
-                                        </svg>
-                                    </button>
-                                    <button id="mute-btn" class="bg-white bg-opacity-90 hover:bg-opacity-100 text-black rounded-full p-3 transition-all duration-200 transform hover:scale-110">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>
-                                        </svg>
-                                    </button>
+                    <article class="api-card p-6 flex flex-col gap-6" data-api-card data-category="payment" data-name="Stripe API" data-description="Comprehensive payments, billing, and subscription tooling." data-tags="payments, billing, finance">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <span class="pixel-dot"></span>
+                                <div>
+                                    <p class="pixel-heading text-xs text-pink-500">Payments</p>
+                                    <h3 class="text-xl font-semibold text-slate-900">Stripe API</h3>
+                                    <p class="text-sm text-slate-500">By Stripe</p>
                                 </div>
                             </div>
+                            <span class="hub-pill">PCI Ready</span>
                         </div>
+                        <p class="text-sm text-slate-600 leading-6">
+                            Accept payments, manage subscriptions, and monitor revenue. Cards keep the rigid rectangular frame while the hover state flashes a thin pixel border accent.
+                        </p>
+                        <div class="flex flex-wrap gap-2 text-xs text-slate-500 uppercase tracking-[0.24em]">
+                            <span class="px-2 py-1 bg-slate-100">Billing</span>
+                            <span class="px-2 py-1 bg-slate-100">Invoices</span>
+                            <span class="px-2 py-1 bg-pink-100 text-pink-600">Subscriptions</span>
                     </div>
-
-                    <!-- Laptop Base -->
-                    <div class="bg-gray-700 h-4 rounded-b-lg mx-auto" style="width: 60%;"></div>
-                    <div class="bg-gray-800 h-2 rounded-b-lg mx-auto mt-1" style="width: 40%;"></div>
+                        <div class="hub-divider"></div>
+                            <div class="flex items-center justify-between">
+                            <a href="https://stripe.com/docs/api" target="_blank" rel="noreferrer" class="text-sm font-semibold text-pink-500 uppercase tracking-[0.22em]">View Docs</a>
                 </div>
+                    </article>
 
-                <!-- Video Description -->
-                <div class="text-center mt-8 pixel-fade-in">
-                    <p class="pixel-body text-gray-600 text-sm mb-2">
-                        Experience the complete workflow from file upload to API deployment
-                    </p>
-                    <p class="pixel-body text-gray-500 text-xs">
-                        Video autoplays muted • Click the speaker icon to enable sound
-                    </p>
+                    <article class="api-card p-6 flex flex-col gap-6" data-api-card data-category="productivity" data-name="Notion API" data-description="Secure access to Notion workspaces, pages, and structured content." data-tags="workspace, notes, automation">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <span class="pixel-dot"></span>
+                                <div>
+                                    <p class="pixel-heading text-xs text-pink-500">Productivity</p>
+                                    <h3 class="text-xl font-semibold text-slate-900">Notion API</h3>
+                                    <p class="text-sm text-slate-500">By Notion</p>
                 </div>
             </div>
+                            <span class="hub-pill">JSON</span>
+            </div>
+                        <p class="text-sm text-slate-600 leading-6">
+                            Connect databases, pages, and blocks from Notion. Pixel markers add subtle nostalgia while the layout stays professional and minimal.
+                        </p>
+                        <div class="flex flex-wrap gap-2 text-xs text-slate-500 uppercase tracking-[0.24em]">
+                            <span class="px-2 py-1 bg-slate-100">Databases</span>
+                            <span class="px-2 py-1 bg-slate-100">Automation</span>
+                            <span class="px-2 py-1 bg-pink-100 text-pink-600">Docs</span>
+                </div>
+                        <div class="hub-divider"></div>
+                        <div class="flex items-center justify-between">
+                            <a href="https://developers.notion.com/" target="_blank" rel="noreferrer" class="text-sm font-semibold text-pink-500 uppercase tracking-[0.22em]">View Docs</a>
+                        </div>
+                    </article>
+
+                    <article class="api-card p-6 flex flex-col gap-6" data-api-card data-category="data" data-name="Snowflake API" data-description="Query, transform, and schedule data jobs across Snowflake warehouses." data-tags="warehousing, sql, analytics">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <span class="pixel-dot"></span>
+                                <div>
+                                    <p class="pixel-heading text-xs text-pink-500">Data</p>
+                                    <h3 class="text-xl font-semibold text-slate-900">Snowflake API</h3>
+                                    <p class="text-sm text-slate-500">By Snowflake</p>
+                        </div>
+                                </div>
+                            <span class="hub-pill">Enterprise</span>
+                                </div>
+                        <p class="text-sm text-slate-600 leading-6">
+                            Run SQL queries, materialize views, and orchestrate data pipelines. API cards remain clean with crisp typography and pixel-flavored borders.
+                        </p>
+                        <div class="flex flex-wrap gap-2 text-xs text-slate-500 uppercase tracking-[0.24em]">
+                            <span class="px-2 py-1 bg-slate-100">SQL</span>
+                            <span class="px-2 py-1 bg-slate-100">Pipelines</span>
+                            <span class="px-2 py-1 bg-pink-100 text-pink-600">Warehousing</span>
+                                </div>
+                        <div class="hub-divider"></div>
+                            <div class="flex items-center justify-between">
+                            <a href="https://docs.snowflake.com/en/developer-guide" target="_blank" rel="noreferrer" class="text-sm font-semibold text-pink-500 uppercase tracking-[0.22em]">View Docs</a>
+                                </div>
+                    </article>
+                    </div>
+                <p id="featured-empty" class="hidden text-sm text-slate-500">No featured APIs match your filters yet. Try a different category.</p>
+                        </div>
+        </section>
+
+        <section id="community" class="bg-white border-t border-slate-200/70 relative">
+            <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 32px 32px;"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-12 relative">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading eyebrow text-pink-500">Community</p>
+                                </div>
+                        <h2 class="text-3xl font-semibold tracking-tight">Published APIs from the community <span class="text-pink-500" id="community-count">0</span></h2>
+                        <p class="text-base text-slate-600 max-w-3xl">
+                            Discover APIs built and shared by the apiUI community. These integrations are created by developers like you, tested in real-world scenarios, and ready to enhance your projects with proven functionality.
+                        </p>
+                                </div>
+                                </div>
+
+                <div id="community-grid" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3" data-api-collection data-empty-target="community-empty">
+                    <div class="col-span-full text-sm text-slate-500" data-placeholder>Loading community APIs…</div>
+                    </div>
+                <p id="community-empty" class="hidden text-sm text-slate-500">No community APIs available yet. Publish yours to see it here.</p>
+                        </div>
+        </section>
+
+        <section id="your-apis" class="bg-gray-50/70 border-t border-slate-200/70 relative">
+            <!-- Section Background Image -->
+            <div class="absolute inset-0 opacity-15 pointer-events-none">
+                <img src="images/cube-stacks.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+            </div>
+            <div class="absolute inset-0 pointer-events-none opacity-12" style="background-image: linear-gradient(rgba(236, 72, 153, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.025) 1px, transparent 1px); background-size: 26px 26px;"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-12 relative z-10">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading eyebrow text-pink-500">Your Workspace</p>
+                                </div>
+                        <h2 class="text-3xl font-semibold tracking-tight">APIs you've published <span class="text-pink-500" id="user-count">0</span></h2>
+                        <p class="text-base text-slate-600 max-w-3xl">
+                            Manage and monitor your published APIs. Track usage, update documentation, and see how the community is using your integrations to build amazing applications.
+                        </p>
+                                </div>
+                    <a href="app.html" class="hub-btn hub-btn-secondary self-start">Open API Console</a>
+                                </div>
+
+                <div id="user-grid" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3" data-api-collection data-empty-target="user-empty">
+                    <div class="col-span-full text-sm text-slate-500" data-placeholder>Syncing your published APIs…</div>
+                    </div>
+                <p id="user-empty" class="hidden text-sm text-slate-500">You have not published any APIs yet. Deploy one from the console to feature it here.</p>
             </div>
         </section>
 
-        <!-- Pixel Section Divider -->
-        <div class="pixel-accent-line"></div>
-
-        <!-- Pricing Section -->
-        <section id="pricing" class="pixel-section bg-gray-50 py-20">
-            <div class="pixel-container max-w-6xl">
-                <div class="text-center mb-16 pixel-fade-in">
-                    <h2 class="pixel-title text-4xl sm:text-5xl text-black mb-6">Simple, Transparent Pricing</h2>
-                    <p class="pixel-body text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        Start free, scale as you grow.
-                        <span class="font-semibold text-black">No hidden fees, no surprises.</span>
+        <section class="bg-white text-slate-900 relative">
+            <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 36px 36px;"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20 flex flex-col gap-10 md:flex-row md:items-center md:justify-between relative">
+                <div class="space-y-4 max-w-3xl">
+                    <div class="flex items-center gap-3">
+                        <span class="pixel-dot"></span>
+                        <p class="pixel-heading eyebrow text-pink-500">Next Steps</p>
+                            </div>
+                    <h2 class="text-3xl md:text-4xl font-semibold text-slate-900">
+                        Extend your apiUI projects with curated integrations and community contributions
+                    </h2>
+                    <p class="text-base text-slate-600">
+                        Transform your data into powerful APIs and connect them with industry-leading services. From AI and machine learning to payments and communication, build comprehensive solutions that scale with your business.
                     </p>
-                </div>
-
-                <div class="grid sm:grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto pt-8">
-                    <!-- Free Plan -->
-                    <div class="pixel-card p-8 sm:p-10 relative transform scale-105 featured-plan pixel-slide-in-left">
-                        <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 z-50">
-                            <span class="pixel-badge">
-                                Most Popular
-                            </span>
                         </div>
-
-                        <div class="text-center mb-8">
-                            <h3 class="pixel-subtitle text-2xl text-black mb-3">Free</h3>
-                            <div class="pixel-title text-5xl text-black mb-6">$0<span class="pixel-body text-xl text-gray-600 ml-1">/month</span></div>
-                            <p class="pixel-body text-gray-600 font-medium">Perfect for getting started</p>
-                        </div>
-
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Up to 5 APIs</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">100 requests/day</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Basic analytics</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Community support</span>
-                            </li>
-                        </ul>
-
-                        <a href="app.html" class="pixel-btn pixel-btn-primary w-full py-3">
-                            Get Started Free
-                        </a>
-                    </div>
-
-                    <!-- Pro Plan -->
-                    <div class="pixel-card p-8 sm:p-10 pixel-fade-in" style="animation-delay: 0.2s">
-                        <div class="text-center mb-8">
-                            <h3 class="pixel-subtitle text-2xl text-black mb-3">Pro</h3>
-                            <div class="pixel-title text-5xl text-black mb-6">$29<span class="pixel-body text-xl text-gray-600 ml-1">/month</span></div>
-                            <p class="pixel-body text-gray-600 font-medium">For growing businesses</p>
-                        </div>
-
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Unlimited APIs</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">10,000 requests/day</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Advanced analytics</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Priority support</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Custom domains</span>
-                            </li>
-                        </ul>
-
-                        <button class="pixel-btn pixel-btn-primary w-full py-3">
-                            Start Free Trial
-                        </button>
-                    </div>
-
-                    <!-- Enterprise Plan -->
-                    <div class="pixel-card p-8 sm:p-10 pixel-slide-in-right">
-                        <div class="text-center mb-8">
-                            <h3 class="pixel-subtitle text-2xl text-black mb-3">Enterprise</h3>
-                            <div class="pixel-title text-5xl text-black mb-6">Custom<span class="pixel-body text-xl text-gray-600 ml-1 block">pricing</span></div>
-                            <p class="pixel-body text-gray-600 font-medium">For large organizations</p>
-                        </div>
-
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-gray-700">Everything in Pro</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-gray-700">Unlimited requests</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-gray-700">Dedicated support</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-gray-700">SLA guarantees</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-gray-700">Custom integrations</span>
-                            </li>
-                        </ul>
-
-                        <button class="pixel-btn pixel-btn-secondary w-full py-3">
-                            Contact Sales
-                        </button>
-                    </div>
-                </div>
-
-                <div class="text-center mt-12 pixel-fade-in">
-                    <p class="pixel-body text-gray-600 mb-4 font-medium">All plans include:</p>
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm">
-                        <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="pixel-body">99.9% uptime SLA</span>
-                        </span>
-                        <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="pixel-body">GDPR compliant</span>
-                        </span>
-                        <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="pixel-body">24/7 monitoring</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pixel Section Divider -->
-        <div class="pixel-accent-line"></div>
-
-    <!-- CTA Section -->
-    <section class="cta-section bg-gray-50 py-20 pixel-fade-in">
-        <div class="pixel-container max-w-4xl text-center">
-            <h2 class="pixel-title text-3xl sm:text-4xl lg:text-5xl text-black mb-6">Ready to Turn Your Data Into APIs?</h2>
-            <p class="pixel-body text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Join teams shipping faster with apiUI—spin up <span class="font-semibold text-black">production-ready</span> <span class="text-pink-500">endpoints</span> without waiting on engineering backlogs.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="app.html" class="pixel-btn pixel-btn-primary w-full sm:w-auto px-8 py-4 text-lg">
-                    Start Building APIs Free
-                </a>
-                <a href="docs.html" class="pixel-btn pixel-btn-secondary w-full sm:w-auto px-8 py-4 text-lg">
-                    Read Documentation
-                </a>
-                <a href="api-hub.html" class="pixel-btn pixel-btn-secondary w-full sm:w-auto px-8 py-4 text-lg">
-                    Explore API Hub
-                </a>
+                <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+                    <a href="app.html" class="hub-btn hub-btn-primary">Launch Console</a>
+                    <a href="docs.html" class="hub-btn hub-btn-secondary">Integration Docs</a>
             </div>
         </div>
     </section>
-
-    <!-- Pixel Section Divider -->
-    <div class="pixel-accent-line"></div>
-
     </main>
-    <button id="back-to-top" class="back-to-top" type="button" aria-label="Return to top">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-        </svg>
-    </button>
-    <!-- Footer -->
-    <footer class="bg-white border-t-2 border-black py-16">
-        <div class="pixel-container max-w-6xl">
+
+    <footer class="bg-white border-t border-slate-200/70 py-12 relative">
+        <div class="absolute inset-0 pointer-events-none opacity-8" style="background-image: linear-gradient(rgba(236, 72, 153, 0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.01) 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
                     <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
                     <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
                 </div>
                 <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
-                    <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
-                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
                     <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
-                    <a href="api-hub.html" class="hover:text-pink-500 transition-colors">API Hub</a>
+                    <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
+                    <a href="socket-chat.html" class="hover:text-pink-500 transition-colors">Sock chat</a>
+                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
+                    <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
+                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
                     <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -1471,109 +797,7 @@
     </footer>
 
     <script>
-
-        // Pixel Scroll-triggered Animations
-        document.addEventListener('DOMContentLoaded', function() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all pixel animation elements
-            const animatedElements = document.querySelectorAll('.pixel-fade-in, .pixel-slide-in-left, .pixel-slide-in-right');
-            animatedElements.forEach(element => {
-                observer.observe(element);
-            });
-
-            // Add pixel flicker effect on hover for buttons
-            const pixelButtons = document.querySelectorAll('.pixel-btn');
-            pixelButtons.forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.classList.add('pixel-flicker');
-                    setTimeout(() => {
-                        this.classList.remove('pixel-flicker');
-                    }, 100);
-                });
-            });
-
-        });
-
-        // Initialize Supabase client
-        const supabaseUrl = 'https://witlgqqqsusdfxbejoqb.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpdGxncXFxc3VzZGZ4YmVqb3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MjQ3MDUsImV4cCI6MjA3NDMwMDcwNX0.UN7qm7bGk_-BrL_th2auH7lwW1OjqAdxOLpzqgfdHw4';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when clicking on a link
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-        }
-
-
-        // Back to top button
-        const backToTopBtn = document.getElementById('back-to-top');
-
-        if (backToTopBtn) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 600) {
-                    backToTopBtn.classList.add('show');
-                } else {
-                    backToTopBtn.classList.remove('show');
-                }
-            });
-
-            backToTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-            e.preventDefault();
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        
-
-const getAuthBaseUrl = () => {
-    if (typeof window.apiuiGetBackendUrl === 'function') {
-        try {
-            const derived = window.apiuiGetBackendUrl();
-            if (derived) {
-                return derived;
-            }
-        } catch (error) {
-            // Ignore errors and fallback to other options
-        }
-    }
-
+        function getBackendUrl() {
     if (window.APIUI_AUTH_BASE_URL) {
         return window.APIUI_AUTH_BASE_URL;
     }
@@ -1583,616 +807,252 @@ const getAuthBaseUrl = () => {
         return attr;
     }
 
-    try {
-        const stored = window.localStorage ? window.localStorage.getItem('apiui_backend_base_url') : null;
-        if (stored) {
-            return stored;
-        }
-    } catch (error) {
-        // Ignore storage access issues
-    }
-
-    return '';
-};
-
-const buildAuthUrl = (path) => {
-    if (!path) {
-        return '';
-    }
-
-    const isAbsolute = /^https?:\/\//i.test(path);
-    if (isAbsolute) {
-        return path;
-    }
-
-    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-    const base = getAuthBaseUrl();
-
-    if (!base) {
-        return normalizedPath;
-    }
-
-    const trimmedBase = base.replace(/\/+$/, '');
-    return `${trimmedBase}${normalizedPath}`;
-};
-
-const resolveNextTarget = (button) => {
-    if (button?.dataset?.authNext) {
-        return button.dataset.authNext;
-    }
-
-    try {
-        const currentUrl = new URL(window.location.href);
-        if (currentUrl.protocol !== 'file:') {
-            return currentUrl.href;
-        }
-    } catch (error) {
-        // Ignore error and use fallback values
-    }
-
-    if (window.location.origin && window.location.origin !== 'null') {
-        return window.location.href || window.location.origin;
-    }
-
-    if (window.APIUI_APP_BASE_URL) {
-        return window.APIUI_APP_BASE_URL;
-    }
-
-    return '/';
-};
-
-const buildAuthRequestUrl = (route, nextTarget) => {
-    const baseUrl = buildAuthUrl(route);
-    const url = /^https?:\/\//i.test(baseUrl) ? new URL(baseUrl) : new URL(baseUrl, window.location.href);
-    url.searchParams.set('next', nextTarget);
-    return url.toString();
-};
-
-authButtons.forEach(button => {
-    button.addEventListener('click', (event) => {
-        event.preventDefault();
-        const provider = button.dataset.authProvider || 'github';
-        const route = authProviderRoutes[provider] || authProviderRoutes.github;
-        const nextTarget = resolveNextTarget(button);
-        const loginUrl = buildAuthRequestUrl(route, nextTarget);
-        window.location.href = loginUrl;
-    });
-});
-
-const clearImage = (imgEl) => {
-    if (!imgEl) {
-        return;
-    }
-    imgEl.classList.add('hidden');
-    imgEl.removeAttribute('src');
-};
-
-const setImage = (imgEl, src) => {
-    if (!imgEl) {
-        return;
-    }
-    if (src) {
-        imgEl.src = src;
-        imgEl.classList.remove('hidden');
-
-        // Add error handling for Google avatars
-        imgEl.onerror = function() {
-            console.log('Avatar failed to load:', src);
-            // Try to load a fallback avatar
-            if (src && src.includes('googleusercontent.com')) {
-                // Try different Google avatar sizes
-                const fallbackSizes = ['s96-c', 's64-c', 's32-c'];
-                for (const size of fallbackSizes) {
-                    if (!src.includes(size)) {
-                        const newSrc = src.replace(/=s\d+-c/, `=${size}`);
-                        if (newSrc !== src) {
-                            console.log('Trying fallback avatar:', newSrc);
-                            imgEl.src = newSrc;
-                            return;
-                        }
-                    }
-                }
-            }
-            // If all fallbacks fail, hide the image
-            clearImage(imgEl);
-        };
-    } else {
-        clearImage(imgEl);
-    }
-};
-
-const setProfileLink = (linkEl, url, label) => {
-    if (!linkEl) {
-        return;
-    }
-
-    if (url) {
-        linkEl.href = url;
-        const labelSpan = linkEl.querySelector('span');
-        if (labelSpan && label) {
-            labelSpan.textContent = label;
-        }
-        linkEl.classList.remove('hidden');
-    } else {
-        linkEl.classList.add('hidden');
-        linkEl.removeAttribute('href');
-    }
-};
-
-const applySignedOutUI = () => {
-    if (signinButtonLabel) {
-        signinButtonLabel.textContent = 'Sign In';
-    }
-    if (mobileSigninLabel) {
-        mobileSigninLabel.textContent = 'Sign In';
-    }
-    if (signinProviderOptions) {
-        signinProviderOptions.classList.remove('hidden');
-    }
-    if (signedinDropdown) {
-        signedinDropdown.classList.add('hidden');
-    }
-    if (mobileSignedoutOptions) {
-        mobileSignedoutOptions.classList.remove('hidden');
-    }
-    if (mobileSignedinOptions) {
-        mobileSignedinOptions.classList.add('hidden');
-    }
-    if (signedinName) {
-        signedinName.textContent = '';
-    }
-    if (signedinEmail) {
-        signedinEmail.textContent = '';
-        signedinEmail.classList.remove('hidden');
-    }
-    if (mobileSignedinName) {
-        mobileSignedinName.textContent = '';
-    }
-    if (mobileSignedinEmail) {
-        mobileSignedinEmail.textContent = '';
-        mobileSignedinEmail.classList.remove('hidden');
-    }
-    clearImage(signedinAvatar);
-    clearImage(mobileSignedinAvatar);
-    setProfileLink(signedinProfileLink, null);
-    setProfileLink(mobileSignedinProfileLink, null);
-};
-
-const applySignedInUI = (session) => {
-    if (!session || !session.user) {
-        applySignedOutUI();
-        return;
-    }
-
-    const user = session.user;
-    const provider = session.provider || 'account';
-    const displayName = user.name || user.login || (user.email ? user.email.split('@')[0] : '') || 'Account';
-    const email = user.email || '';
-    const avatar = user.avatar_url || user.picture || '';
-    const profileUrl = user.profile_url || user.html_url || '';
-    const providerLabel = provider === 'github' ? 'View on GitHub' : provider === 'google' ? 'Manage Google account' : 'View profile';
-
-    if (signinButtonLabel) {
-        signinButtonLabel.textContent = displayName;
-    }
-    if (mobileSigninLabel) {
-        mobileSigninLabel.textContent = displayName;
-    }
-    if (signinProviderOptions) {
-        signinProviderOptions.classList.add('hidden');
-    }
-    if (signedinDropdown) {
-        signedinDropdown.classList.remove('hidden');
-    }
-    if (mobileSignedoutOptions) {
-        mobileSignedoutOptions.classList.add('hidden');
-    }
-    if (mobileSignedinOptions) {
-        mobileSignedinOptions.classList.remove('hidden');
-    }
-    if (signedinName) {
-        signedinName.textContent = displayName;
-    }
-    if (signedinEmail) {
-        signedinEmail.textContent = email;
-        signedinEmail.classList.toggle('hidden', !email);
-    }
-    if (mobileSignedinName) {
-        mobileSignedinName.textContent = displayName;
-    }
-    if (mobileSignedinEmail) {
-        mobileSignedinEmail.textContent = email;
-        mobileSignedinEmail.classList.toggle('hidden', !email);
-    }
-
-    setImage(signedinAvatar, avatar);
-    setImage(mobileSignedinAvatar, avatar);
-    setProfileLink(signedinProfileLink, profileUrl, providerLabel);
-    setProfileLink(mobileSignedinProfileLink, profileUrl, providerLabel);
-};
-
-const fetchAuthSession = async () => {
-    // Check Supabase auth first
-    try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (session && !error) {
-            // User is authenticated with Supabase
-            const user = session.user;
-            const userData = {
-                authenticated: true,
-                provider: 'supabase',
-                user: {
-                    id: user.id,
-                    email: user.email,
-                    name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
-                    avatar_url: user.user_metadata?.avatar_url
-                }
-            };
-            applySignedInUI(userData);
-            return;
-        }
-    } catch (error) {
-        // Supabase check failed, continue to backend check
-    }
-
-    // Fallback to backend session check
-    const sessionUrl = 'http://localhost:8000/auth/session';
-    try {
-        const response = await fetch(sessionUrl, { credentials: 'include' });
-        if (!response.ok) {
-            applySignedOutUI();
-            return;
-        }
-        const data = await response.json();
-        applySignedInUI(data);
-    } catch (error) {
-        applySignedOutUI();
-    }
-};
-
-logoutButtons.forEach(button => {
-    button.addEventListener('click', async (event) => {
-        event.preventDefault();
-
-        // Try Supabase logout first
-        try {
-            const { error } = await supabase.auth.signOut();
-            if (!error) {
-                sessionStorage.removeItem('supabase_session');
-            }
-        } catch (e) {
-            // Ignore Supabase logout errors
+            return 'https://apiui-backend-44565368406.us-central1.run.app';
         }
 
-        // Fallback to backend logout
-        const logoutUrl = 'http://localhost:8000/auth/logout';
-        try {
-            await fetch(logoutUrl, { method: 'POST', credentials: 'include' });
-        } catch (error) {
-            // Ignore logout errors
-        }
-        applySignedOutUI();
-    });
-});
-
-applySignedOutUI();
-fetchAuthSession();
-
-// Email authentication handlers
-const emailSigninForm = document.getElementById('email-signin-form');
-const emailSignupForm = document.getElementById('email-signup-form');
-const showSignupBtn = document.getElementById('show-signup');
-const showSigninBtn = document.getElementById('show-signin');
-const signinForm = document.getElementById('signin-form');
-const signupForm = document.getElementById('signup-form');
-const authMessage = document.getElementById('auth-message');
-
-// Mobile forms
-const mobileEmailSigninForm = document.getElementById('mobile-email-signin-form');
-const mobileEmailSignupForm = document.getElementById('mobile-email-signup-form');
-const mobileShowSignupBtn = document.getElementById('mobile-show-signup');
-const mobileShowSigninBtn = document.getElementById('mobile-show-signin');
-const mobileSigninForm = document.getElementById('mobile-signin-form');
-const mobileSignupForm = document.getElementById('mobile-signup-form');
-const mobileAuthMessage = document.getElementById('mobile-auth-message');
-
-// Form switching
-if (showSignupBtn && signupForm && signinForm) {
-    showSignupBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        signupForm.classList.remove('hidden');
-        signinForm.classList.add('hidden');
-    });
-}
-
-if (showSigninBtn && signinForm && signupForm) {
-    showSigninBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        signinForm.classList.remove('hidden');
-        signupForm.classList.add('hidden');
-    });
-}
-
-// Mobile form switching
-if (mobileShowSignupBtn && mobileSignupForm && mobileSigninForm) {
-    mobileShowSignupBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        mobileSignupForm.classList.remove('hidden');
-        mobileSigninForm.classList.add('hidden');
-    });
-}
-
-if (mobileShowSigninBtn && mobileSigninForm && mobileSignupForm) {
-    mobileShowSigninBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        mobileSigninForm.classList.remove('hidden');
-        mobileSignupForm.classList.add('hidden');
-    });
-}
-
-// Email authentication handlers
-if (emailSigninForm) {
-    emailSigninForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('signin-email').value;
-        const password = document.getElementById('signin-password').value;
-
-        showAuthMessage('Signing in...', 'text-pink-600');
-
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, function(match) {
+                const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+                return map[match];
             });
+        }
 
-            if (error) {
-                showAuthMessage(error.message, 'text-red-600');
-            } else {
-                showAuthMessage('Signed in successfully!', 'text-pink-600');
+        function installAPI(node) {
+            if (!node) return;
+
+            const target = node.hasAttribute('data-install') ? node : node.closest('[data-install]');
+            if (!target) return;
+
+            const originalLabel = target.dataset.originalLabel || target.textContent.trim();
+            target.dataset.originalLabel = originalLabel;
+
+            if (!target.dataset.originalStyle) {
+                target.dataset.originalStyle = target.getAttribute('style') || '';
             }
-        } catch (error) {
-            showAuthMessage('An error occurred during sign in', 'text-red-600');
+
+            target.disabled = true;
+            target.textContent = 'Installing…';
+            target.classList.add('opacity-80');
+
+            setTimeout(() => {
+                target.textContent = 'Installed';
+                target.classList.remove('opacity-80');
+                target.style.backgroundColor = '#059669';
+                target.style.borderColor = '#059669';
+                target.style.color = '#ffffff';
+
+                setTimeout(() => {
+                    target.disabled = false;
+                    target.textContent = target.dataset.originalLabel;
+                    target.setAttribute('style', target.dataset.originalStyle || '');
+                }, 2400);
+            }, 1100);
         }
-    });
-}
 
-if (emailSignupForm) {
-    emailSignupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('signup-password').value;
+        async function loadPublishedAPIs() {
+            const communityGrid = document.getElementById('community-grid');
+            const userGrid = document.getElementById('user-grid');
+            const communityCount = document.getElementById('community-count');
+            const userCount = document.getElementById('user-count');
 
-        showAuthMessage('Creating account...', 'text-pink-600');
-
-        try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                showAuthMessage(error.message, 'text-red-600');
-            } else {
-                showAuthMessage('Account created! Please check your email to verify.', 'text-pink-600');
-            }
-        } catch (error) {
-            showAuthMessage('An error occurred during sign up', 'text-red-600');
-        }
-    });
-}
-
-// Mobile email authentication handlers
-if (mobileEmailSigninForm) {
-    mobileEmailSigninForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('mobile-signin-email').value;
-        const password = document.getElementById('mobile-signin-password').value;
-
-        showMobileAuthMessage('Signing in...', 'text-pink-600');
-
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                showMobileAuthMessage(error.message, 'text-red-600');
-            } else {
-                showMobileAuthMessage('Signed in successfully!', 'text-pink-600');
-            }
-        } catch (error) {
-            showMobileAuthMessage('An error occurred during sign in', 'text-red-600');
-        }
-    });
-}
-
-if (mobileEmailSignupForm) {
-    mobileEmailSignupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('mobile-signup-email').value;
-        const password = document.getElementById('mobile-signup-password').value;
-
-        showMobileAuthMessage('Creating account...', 'text-pink-600');
-
-        try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                showMobileAuthMessage(error.message, 'text-red-600');
-            } else {
-                showMobileAuthMessage('Account created! Please check your email to verify.', 'text-pink-600');
-            }
-        } catch (error) {
-            showMobileAuthMessage('An error occurred during sign up', 'text-red-600');
-        }
-    });
-}
-
-// Auth message functions
-function showAuthMessage(message, colorClass) {
-    if (authMessage) {
-        authMessage.textContent = message;
-        authMessage.className = `mt-3 text-sm text-center ${colorClass}`;
-        authMessage.classList.remove('hidden');
-    }
-}
-
-function showMobileAuthMessage(message, colorClass) {
-    if (mobileAuthMessage) {
-        mobileAuthMessage.textContent = message;
-        mobileAuthMessage.className = `mt-3 text-sm text-center ${colorClass}`;
-        mobileAuthMessage.classList.remove('hidden');
-    }
-}
-
-// Listen for auth state changes
-supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log('Supabase auth state changed:', event, session);
-    if (event === 'SIGNED_IN' && session) {
-        await fetchAuthSession();
-    } else if (event === 'SIGNED_OUT') {
-        applySignedOutUI();
-    }
-});
-
-// Demo Video Functionality
-const demoVideo = document.getElementById('demo-video');
-const playOverlay = document.getElementById('play-overlay');
-const playBtn = document.getElementById('play-btn');
-const muteBtn = document.getElementById('mute-btn');
-
-if (demoVideo && playOverlay && playBtn && muteBtn) {
-    // Show play overlay when video is paused or hasn't started
-    const showPlayOverlay = () => {
-        playOverlay.style.opacity = '1';
-    };
-
-    // Hide play overlay when video is playing
-    const hidePlayOverlay = () => {
-        playOverlay.style.opacity = '0';
-    };
-
-    // Update play button icon based on video state
-    const updatePlayButtonIcon = () => {
-        const playIcon = playBtn.querySelector('svg');
-        if (demoVideo.paused) {
-            // Show play icon
-            playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-        } else {
-            // Show pause icon
-            playIcon.innerHTML = '<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>';
-        }
-    };
-
-    // Update mute button icon based on mute state
-    const updateMuteButtonIcon = () => {
-        const muteIcon = muteBtn.querySelector('svg');
-        if (demoVideo.muted) {
-            // Show muted icon
-            muteIcon.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>
-            `;
-        } else {
-            // Show unmuted icon
-            muteIcon.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-            `;
-        }
-    };
-
-    // Initial state - hide overlay since video autoplays
-    hidePlayOverlay();
-    updatePlayButtonIcon();
-    updateMuteButtonIcon();
-
-    // Video event listeners
-    demoVideo.addEventListener('play', () => {
-        hidePlayOverlay();
-        updatePlayButtonIcon();
-    });
-    demoVideo.addEventListener('pause', () => {
-        showPlayOverlay();
-        updatePlayButtonIcon();
-    });
-    demoVideo.addEventListener('ended', () => {
-        showPlayOverlay();
-        updatePlayButtonIcon();
-    });
-    demoVideo.addEventListener('volumechange', updateMuteButtonIcon);
-    demoVideo.addEventListener('loadedmetadata', () => {
-        // Video is ready to play
-        console.log('Demo video loaded successfully');
-        updateMuteButtonIcon();
-    });
-
-    // Play button click handler
-    playBtn.addEventListener('click', async (e) => {
-        e.stopPropagation();
-        try {
-            if (demoVideo.paused) {
-                await demoVideo.play();
-            } else {
-                demoVideo.pause();
-            }
-        } catch (error) {
-            console.log('Video play error:', error);
-            // Fallback for browsers that require user interaction
-            alert('Please click the video controls to start playback.');
-        }
-    });
-
-    // Mute button click handler
-    muteBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        demoVideo.muted = !demoVideo.muted;
-        updateMuteButtonIcon();
-    });
-
-    // Click on overlay to play/pause (avoid triggering when buttons are clicked)
-    playOverlay.addEventListener('click', async (e) => {
-        if (e.target === playOverlay) {
             try {
-                if (demoVideo.paused) {
-                    await demoVideo.play();
-                } else {
-                    demoVideo.pause();
+                const response = await fetch(`${getBackendUrl()}/v1/apis`);
+                if (!response.ok) {
+                    throw new Error(`Request failed with ${response.status}`);
                 }
-            } catch (error) {
-                console.log('Video overlay click error:', error);
+
+                const payload = await response.json();
+                const apis = Array.isArray(payload.apis) ? payload.apis : [];
+
+                const communityAPIs = apis.filter(api => api.path && api.path.startsWith('cloud-run://'))
+                    .sort((a, b) => new Date(b.created_at || b.updated_at || 0) - new Date(a.created_at || a.updated_at || 0));
+                const userAPIs = apis.filter(api =>
+                    (api.path && api.path.startsWith('storage://')) ||
+                    api.source === 'database' ||
+                    (api.status === 'running' && !(api.path || '').startsWith('cloud-run://'))
+                ).sort((a, b) => new Date(b.created_at || b.updated_at || 0) - new Date(a.created_at || a.updated_at || 0));
+
+                renderAPIList(communityGrid, communityAPIs, {
+                    emptyMessageId: 'community-empty',
+                    placeholder: 'community',
+                    category: 'community',
+                    subtitle: 'Published by community'
+                });
+
+                renderAPIList(userGrid, userAPIs, {
+                    emptyMessageId: 'user-empty',
+                    placeholder: 'user',
+                    category: 'community',
+                    subtitle: 'Published by you'
+                });
+
+                if (communityCount) {
+                    communityCount.textContent = communityAPIs.length.toString();
+                }
+                if (userCount) {
+                    userCount.textContent = userAPIs.length.toString();
+                }
+
+                if (typeof window.__apiHubApplyFilters === 'function') {
+                    window.__apiHubApplyFilters();
+            }
+        } catch (error) {
+                console.error('Error loading APIs:', error);
+                if (communityGrid) {
+                    communityGrid.innerHTML = `<div class=\"col-span-full api-card p-6 text-sm text-slate-600\">Unable to load community APIs right now. Please try again soon.</div>`;
+                }
+                if (userGrid) {
+                    userGrid.innerHTML = `<div class=\"col-span-full api-card p-6 text-sm text-slate-600\">Unable to load your published APIs. Refresh to try again.</div>`;
+                }
             }
         }
-    });
 
-    // Handle video loading errors
-    demoVideo.addEventListener('error', (e) => {
-        console.error('Video loading error:', e);
-        const errorMsg = document.createElement('div');
-        errorMsg.className = 'absolute inset-0 flex items-center justify-center bg-gray-900 text-white text-center p-4';
-        errorMsg.innerHTML = `
-            <div>
-                <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                </svg>
-                <p class="text-sm mb-2">Video format not supported in this browser</p>
-                <p class="text-xs text-gray-400 mb-4">MOV files work best in Safari and Chrome</p>
-                <a href="apiUI-demo.mov" download class="inline-flex items-center gap-2 cta-glow text-white text-xs px-3 py-2 rounded">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    Download Demo Video
-                </a>
-            </div>
-        `;
-        demoVideo.parentElement.appendChild(errorMsg);
-        playOverlay.style.display = 'none';
-    });
-}
+        function renderAPIList(container, apis, options) {
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            if (!apis.length) {
+                const emptyMessage = document.getElementById(options.emptyMessageId);
+                if (emptyMessage) {
+                    emptyMessage.classList.remove('hidden');
+                }
+        return;
+    }
+
+            const cards = apis.map(api => {
+                const title = escapeHtml(api.custom_name || api.title || api.api_name || `API ${String(api.id).slice(0, 8)}`);
+                const description = escapeHtml(api.description || 'Published API with endpoints available through apiUI.');
+                const identifier = encodeURIComponent(api.id || '');
+                const apiData = encodeURIComponent(JSON.stringify(api));
+
+                return `
+                    <article class=\"api-card p-6 flex flex-col gap-6\" data-api-card data-category=\"${options.category}\" data-name=\"${title}\" data-description=\"${description}\" data-tags=\"community\">
+                        <div class=\"flex items-start justify-between gap-4\">
+                            <div class=\"flex items-center gap-3\">
+                                <span class=\"pixel-dot\"></span>
+                                <div>
+                                    <p class=\"pixel-heading text-xs text-pink-500\">Community</p>
+                                    <h3 class=\"text-lg font-semibold text-slate-900\">${title}</h3>
+                                    <p class=\"text-sm text-slate-500\">${escapeHtml(options.subtitle)}</p>
+                        </div>
+                    </div>
+                            <span class=\"hub-pill\">Live</span>
+                    </div>
+                        <p class=\"text-sm text-slate-600 leading-6\">${description}</p>
+                        <div class=\"hub-divider\"></div>
+                        <div class=\"flex items-center justify-between\">
+                            <span class=\"text-xs uppercase tracking-[0.24em] text-slate-500\">${escapeHtml(options.subtitle)}</span>
+                            <a href=\"api-docs.html?id=${identifier}&data=${apiData}\" class=\"hub-btn hub-btn-secondary text-xs\" target=\"_blank\" rel=\"noopener noreferrer\">View Docs</a>
+                </div>
+                    </article>
+                `;
+            }).join('');
+
+            container.innerHTML = cards;
+
+            const emptyMessage = document.getElementById(options.emptyMessageId);
+            if (emptyMessage) {
+                emptyMessage.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('api-search');
+            const categoryButtons = Array.from(document.querySelectorAll('[data-filter]'));
+            let activeFilter = 'all';
+
+            function updateActiveFilter(button) {
+                categoryButtons.forEach(btn => {
+                    const isActive = btn === button;
+                    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    if (isActive) {
+                        btn.classList.add('bg-slate-900', 'text-white', 'border-slate-900');
+                    } else {
+                        btn.classList.remove('bg-slate-900', 'text-white', 'border-slate-900');
+                    }
+                });
+            }
+
+            function updateEmptyStates() {
+                document.querySelectorAll('[data-api-collection]').forEach(collection => {
+                    const emptyTargetId = collection.dataset.emptyTarget;
+                    if (!emptyTargetId) return;
+                    const emptyNode = document.getElementById(emptyTargetId);
+                    if (!emptyNode) return;
+                    const visibleCards = Array.from(collection.querySelectorAll('[data-api-card]')).filter(card => !card.classList.contains('hidden'));
+                    emptyNode.classList.toggle('hidden', visibleCards.length > 0);
+                });
+            }
+
+            function applyFilters() {
+                const term = (searchInput?.value || '').trim().toLowerCase();
+                const cards = Array.from(document.querySelectorAll('[data-api-card]'));
+
+                cards.forEach(card => {
+                    const category = card.dataset.category || 'all';
+                    const matchesCategory = activeFilter === 'all' || category === activeFilter;
+                    const searchableText = `${card.dataset.name || ''} ${card.dataset.description || ''} ${card.dataset.tags || ''}`.toLowerCase();
+                    const matchesSearch = !term || searchableText.includes(term);
+
+                    if (matchesCategory && matchesSearch) {
+                        card.classList.remove('hidden');
+            } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                updateEmptyStates();
+            }
+
+            window.__apiHubApplyFilters = applyFilters;
+
+            categoryButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    activeFilter = button.dataset.filter || 'all';
+                    updateActiveFilter(button);
+                    applyFilters();
+                });
+
+                button.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        button.click();
+                    }
+                    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                        event.preventDefault();
+                        const next = categoryButtons[(index + 1) % categoryButtons.length];
+                        next.focus();
+                    }
+                    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                        event.preventDefault();
+                        const previous = categoryButtons[(index - 1 + categoryButtons.length) % categoryButtons.length];
+                        previous.focus();
+                    }
+                });
+            });
+
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    applyFilters();
+                });
+            }
+
+            updateActiveFilter(categoryButtons[0]);
+            applyFilters();
+
+            document.addEventListener('click', event => {
+                const target = event.target.closest('[data-install]');
+                if (!target) return;
+                event.preventDefault();
+                installAPI(target);
+            });
+
+            loadPublishedAPIs();
+        });
     </script>
+
+    <!-- Cookie Consent Modal -->
+    <script src="cookie-consent.js"></script>
 </body>
 </html>

@@ -8,24 +8,24 @@
   <!-- Homepage -->
   <url>
     <loc>https://apiui.web.app/</loc>
-    <lastmod>2025-09-26</lastmod>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://apiui.web.app/apiui-logo.png</image:loc>
+      <image:loc>https://apiui.web.app/favicon.png</image:loc>
       <image:title>apiUI - Turn Data Into APIs Instantly</image:title>
-      <image:caption>apiUI logo and branding</image:caption>
+      <image:caption>apiUI pink square favicon and branding</image:caption>
     </image:image>
   </url>
 
   <!-- Documentation -->
   <url>
     <loc>https://apiui.web.app/docs.html</loc>
-    <lastmod>2025-09-26</lastmod>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
-      <image:loc>https://apiui.web.app/apiui-logo.png</image:loc>
+      <image:loc>https://apiui.web.app/favicon.png</image:loc>
       <image:title>apiUI Documentation</image:title>
       <image:caption>Complete apiUI documentation and guides</image:caption>
     </image:image>
@@ -34,11 +34,11 @@
   <!-- App/Dashboard -->
   <url>
     <loc>https://apiui.web.app/app.html</loc>
-    <lastmod>2025-09-26</lastmod>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://apiui.web.app/apiui-logo.png</image:loc>
+      <image:loc>https://apiui.web.app/favicon.png</image:loc>
       <image:title>apiUI App Dashboard</image:title>
       <image:caption>API management console and dashboard</image:caption>
     </image:image>
@@ -47,13 +47,65 @@
   <!-- API Hub -->
   <url>
     <loc>https://apiui.web.app/api-hub.html</loc>
-    <lastmod>2025-09-26</lastmod>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://apiui.web.app/apiui-logo.png</image:loc>
+      <image:loc>https://apiui.web.app/favicon.png</image:loc>
       <image:title>apiUI API Hub</image:title>
       <image:caption>Curated APIs and integration resources</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Socket Chat -->
+  <url>
+    <loc>https://apiui.web.app/socket-chat.html</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://apiui.web.app/favicon.png</image:loc>
+      <image:title>Socket Chat - Natural Language API Interface</image:title>
+      <image:caption>Real-time chat interface for API interaction</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Data Editor -->
+  <url>
+    <loc>https://apiui.web.app/data-editor.html</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://apiui.web.app/favicon.png</image:loc>
+      <image:title>Data Editor - Excel-like Interface</image:title>
+      <image:caption>Excel-like interface for editing API data</image:caption>
+    </image:image>
+  </url>
+
+  <!-- API Analytics -->
+  <url>
+    <loc>https://apiui.web.app/api-analytics.html</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://apiui.web.app/favicon.png</image:loc>
+      <image:title>API Analytics Dashboard</image:title>
+      <image:caption>Monitor API performance and usage metrics</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Cookie Policy -->
+  <url>
+    <loc>https://apiui.web.app/cookie-policy.html</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <image:image>
+      <image:loc>https://apiui.web.app/favicon.png</image:loc>
+      <image:title>Cookie Policy</image:title>
+      <image:caption>apiUI cookie usage and privacy policy</image:caption>
     </image:image>
   </url>
 

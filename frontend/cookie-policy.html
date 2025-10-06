@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Policy | apiUI</title>
+    <meta name="description" content="apiUI cookie policy - Learn how we use cookies and similar technologies to improve your experience with our API platform.">
+    <meta name="keywords" content="cookie policy, privacy policy, data privacy, apiUI cookies, website tracking">
+    <meta name="author" content="apiUI by AURABLOX">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="canonical" href="https://apiui.web.app/cookie-policy.html">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance optimizations -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" as="script">
+    <link rel="modulepreload" href="https://cdn.tailwindcss.com">
+    <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Configure backend URL for the frontend
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
+    </script>
+    <style>
+        /* Pixel-Inspired CSS Variables */
+        :root {
+            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
+            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
+            --pixel-pink-light: #F472B6;  /* Light pink */
+            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
+            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
+            --pixel-black: #000000;  /* Black text */
+            --pixel-white: #ffffff;  /* White background */
+            --pixel-gray-100: #f8fafc;
+            --pixel-gray-200: #e2e8f0;
+            --pixel-gray-300: #cbd5e1;
+            /* Hub Design System */
+            --hub-pink: #ec4899;
+            --hub-pink-soft: #f472b6;
+            --hub-ink: #0f172a;
+            --hub-ink-soft: #1f2937;
+            --hub-surface: #ffffff;
+            --hub-muted: #64748b;
+            --hub-border: rgba(15, 23, 42, 0.12);
+        }
+
+        /* CTA Button with Layered Glow Effect */
+        .cta-glow {
+            position: relative;
+            background: var(--pixel-pink);
+            color: white;
+            box-shadow:
+                0 0 20px rgba(233, 30, 99, 0.6),
+                0 0 40px rgba(156, 39, 176, 0.4),
+                0 0 60px rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-glow:hover {
+            background: var(--pixel-pink-subtle);
+            box-shadow:
+                0 0 30px rgba(233, 30, 99, 0.8),
+                0 0 60px rgba(156, 39, 176, 0.6),
+                0 0 90px rgba(156, 39, 176, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cta-glow:active {
+            transform: translateY(0);
+            box-shadow:
+                0 0 15px rgba(233, 30, 99, 0.4),
+                0 0 30px rgba(156, 39, 176, 0.3);
+        }
+
+        /* Regular Cursor */
+        * {
+            cursor: auto;
+        }
+
+        button, a, [role="button"] {
+            cursor: pointer;
+        }
+
+        /* Base Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--pixel-white);
+            color: var(--pixel-black);
+            line-height: 1.6;
+            cursor: inherit;
+        }
+
+        /* Pixel Typography Classes */
+        .pixel-heading {
+            font-family: 'Pixelify Sans', monospace;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .pixel-body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Hub Button System */
+        .hub-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border: 1px solid var(--hub-ink);
+            border-radius: 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .hub-btn:focus {
+            outline: 2px solid var(--hub-pink);
+            outline-offset: 3px;
+        }
+
+        .hub-btn-primary {
+            background-color: var(--hub-ink);
+            color: #fff;
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.4);
+        }
+
+        .hub-btn-primary:hover {
+            background-color: var(--hub-pink);
+            border-color: var(--hub-pink);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.45);
+        }
+
+        .hub-btn-secondary {
+            background-color: transparent;
+            color: var(--hub-ink);
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+        }
+
+        .hub-btn-secondary:hover {
+            background-color: var(--hub-pink-soft);
+            border-color: var(--hub-pink-soft);
+            color: #fff;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 rgba(236, 72, 153, 0.35);
+        }
+
+        /* Pixel Elements */
+        .pixel-dot {
+            width: 12px;
+            height: 12px;
+            background-image: repeating-linear-gradient(90deg, var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px);
+            image-rendering: pixelated;
+        }
+
+        /* Arcade Text Effects */
+        .arcade-neon {
+            text-shadow:
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink);
+            animation: neon-pulse 2s ease-in-out infinite alternate;
+        }
+
+        .arcade-3d {
+            text-shadow:
+                2px 2px 0px var(--pixel-gray-800),
+                4px 4px 0px var(--pixel-gray-600),
+                6px 6px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .arcade-gradient {
+            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .arcade-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-shadow:
+                /* Deep 3D layers for depth */
+                1px 1px 0px var(--pixel-black),
+                2px 2px 0px var(--pixel-gray-800),
+                3px 3px 0px var(--pixel-gray-700),
+                4px 4px 0px var(--pixel-gray-600),
+                5px 5px 5px rgba(0, 0, 0, 0.3),
+                /* Inner glow effect */
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                /* Outer neon glow */
+                0 0 20px var(--pixel-pink-subtle),
+                0 0 30px var(--pixel-pink-subtle),
+                0 0 40px rgba(233, 30, 99, 0.5);
+            animation: arcade-glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes neon-pulse {
+            from { text-shadow:
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink);
+            }
+            to { text-shadow:
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                0 0 20px var(--pixel-pink);
+            }
+        }
+
+        @keyframes arcade-glow-pulse {
+            from {
+                text-shadow:
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Inner glow effect */
+                    0 0 5px var(--pixel-pink),
+                    0 0 10px var(--pixel-pink),
+                    0 0 15px var(--pixel-pink),
+                    /* Outer neon glow */
+                    0 0 20px var(--pixel-pink-subtle),
+                    0 0 30px var(--pixel-pink-subtle),
+                    0 0 40px rgba(233, 30, 99, 0.5);
+            }
+            to {
+                text-shadow:
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Enhanced inner glow effect */
+                    0 0 8px var(--pixel-pink),
+                    0 0 16px var(--pixel-pink),
+                    0 0 24px var(--pixel-pink),
+                    /* Enhanced outer neon glow */
+                    0 0 32px var(--pixel-pink-subtle),
+                    0 0 48px var(--pixel-pink-subtle),
+                    0 0 64px rgba(233, 30, 99, 0.7);
+            }
+        }
+
+        /* Pixel Card System */
+        .pixel-card {
+            background: var(--pixel-white);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pixel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .pixel-card:hover {
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
+        }
+
+        .pixel-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Pixel Button System */
+        .pixel-btn {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            padding: 0.75rem 1.5rem;
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            box-shadow: none;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pixel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .pixel-btn:hover {
+            box-shadow: none;
+            transform: translate(-1px, -1px);
+            color: var(--pixel-black);
+        }
+
+        .pixel-btn:hover::before {
+            left: 100%;
+        }
+
+        .pixel-btn:active {
+            transform: translate(0, 0);
+            box-shadow: none;
+        }
+
+        .pixel-btn-primary {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border-color: var(--pixel-black);
+        }
+
+        .pixel-btn-primary:hover {
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
+            color: var(--pixel-white);
+        }
+
+        .pixel-btn-secondary {
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border-color: var(--pixel-pink-subtle);
+        }
+
+        .pixel-btn-secondary:hover {
+            background: var(--pixel-pink-subtle);
+            color: var(--pixel-white);
+        }
+
+        /* Pixel Icon Containers */
+        .pixel-icon {
+            background: var(--pixel-gray-100);
+            border: var(--pixel-border-width) solid var(--pixel-gray-300);
+            border-radius: var(--pixel-border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--pixel-shadow);
+            color: var(--pixel-gray-600);
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-icon svg {
+            color: inherit;
+            filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Pixel Grid System */
+        .pixel-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .pixel-section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .pixel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Pixel Accent Elements */
+        .pixel-accent-line {
+            position: relative;
+            margin: 3rem 0;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--pixel-black) 0px,
+                var(--pixel-black) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+        }
+
+        .pixel-accent-line::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 4px;
+            background: var(--pixel-pink);
+        }
+
+        /* Pixel Badge - Consistent Pink Styling */
+        .pixel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            background: var(--pixel-pink);
+            border: 2px solid var(--pixel-black);
+            color: var(--pixel-white);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.2s ease;
+        }
+
+        .pixel-badge:hover {
+            background: var(--pixel-pink-subtle);
+            border-color: var(--pixel-black);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
+        }
+
+        /* Pixel Loading Animation */
+        .pixel-loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--pixel-gray-300);
+            border-radius: 0;
+            border-top-color: var(--pixel-pink);
+            animation: pixel-spin 1s ease-in-out infinite;
+        }
+
+        @keyframes pixel-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Pixel Flicker Animation */
+        @keyframes pixel-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .pixel-flicker {
+            animation: pixel-flicker 0.1s ease-in-out;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Pixel Focus States */
+        a:focus, button:focus {
+            outline: 2px solid var(--pixel-pink-subtle);
+            outline-offset: 2px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+            background: var(--pixel-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-gradient-text {
+            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 700;
+            text-shadow: none;
+        }
+
+        /* Step Indicators */
+        .pixel-step {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            background: var(--pixel-gray-100);
+            color: var(--pixel-black);
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0;
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--pixel-shadow);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(16px);
+            transition: all 0.15s ease;
+            z-index: 100;
+        }
+
+        .back-to-top:hover {
+            background: var(--pixel-pink);
+            transform: translateY(14px);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .laptop-screen {
+                transform: none;
+            }
+
+            .laptop-base {
+                display: none;
+            }
+
+            .pixel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pixel-section {
+                padding: 3rem 0;
+            }
+
+            /* Mobile hero optimizations */
+            .hero-section {
+                padding: 4rem 1rem;
+                min-height: auto;
+            }
+
+            /* Improve button touch targets on mobile */
+            .pixel-btn {
+                min-height: 48px; /* iOS recommended minimum touch target */
+                font-size: 1rem;
+                padding: 0.75rem 1.5rem;
+            }
+
+            /* Better mobile spacing for cards */
+            .pixel-card {
+                margin-bottom: 1rem;
+            }
+
+            /* Mobile typography adjustments */
+            .arcade-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+
+            /* Improve mobile grid layouts */
+            .grid {
+                gap: 1rem;
+            }
+
+            /* Mobile navigation improvements */
+            .pixel-container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            /* Better mobile pricing layout */
+            .pricing-grid {
+                gap: 2rem;
+            }
+
+            /* Mobile trust indicators */
+            .trust-indicators {
+                gap: 1.5rem;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .pixel-section {
+                padding: 2rem 0;
+            }
+
+            .hero-section {
+                padding: 3rem 1rem;
+            }
+
+            .arcade-title {
+                font-size: 1.75rem;
+                letter-spacing: 0.02em;
+            }
+
+            .pixel-btn {
+                font-size: 0.95rem;
+                padding: 0.875rem 1.25rem;
+            }
+
+            /* Single column layouts on very small screens */
+            .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3,
+            .grid-cols-1.md\\:grid-cols-3,
+            .grid-cols-1.lg\\:grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll-triggered animations */
+        .pixel-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pixel-slide-in-left {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .pixel-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="pixel-card bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+
+                <!-- Dashboard -->
+                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
+
+                <!-- Docs -->
+                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+
+                <!-- API Hub -->
+                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </a>
+
+                <!-- MCP Server -->
+                <a href="mcp.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                    </svg>
+                </a>
+
+                <!-- Socket Chat -->
+                <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
+                    api<span class="text-pink-500">UI</span>
+                </a>
+                <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Home</a>
+                <a href="#features" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Features</a>
+                <a href="#pricing" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Pricing</a>
+                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
+                <a href="api-hub.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">API Hub</a>
+                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Socket Chat</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="pixel-container py-4 space-y-4">
+                <a href="index.html" class="block text-gray-700 hover:text-black font-medium py-2">Home</a>
+                <a href="#features" class="block text-gray-700 hover:text-black font-medium py-2">Features</a>
+                <a href="#pricing" class="block text-gray-700 hover:text-black font-medium py-2">Pricing</a>
+                <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
+                <a href="docs.html" class="block text-gray-700 hover:text-black font-medium py-2">Docs</a>
+                <a href="api-hub.html" class="block text-gray-700 hover:text-black font-medium py-2">API Hub</a>
+                <a href="socket-chat.html" class="block text-gray-700 hover:text-black font-medium py-2">Socket Chat</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+        <!-- Hero Section -->
+        <section class="pixel-section bg-gradient-to-b from-white via-gray-50/30 to-white">
+            <div class="pixel-container max-w-4xl">
+                <div class="text-center mb-12 pixel-fade-in">
+                    <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl text-black max-w-4xl mx-auto leading-tight mb-6">
+                        Cookie <span class="arcade-neon">Policy</span>
+                    </h1>
+                    <p class="pixel-body text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Learn how we use cookies and similar technologies to enhance your experience on apiUI.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Policy Content Section -->
+        <section class="pixel-section bg-gray-50">
+            <div class="pixel-container max-w-4xl">
+                <div class="pixel-card p-8 md:p-12">
+                    <div class="prose prose-lg max-w-none">
+
+                        <h2 class="arcade-title text-2xl text-black mb-6">What Are Cookies</h2>
+                        <p class="pixel-body text-gray-700 mb-6 leading-relaxed">
+                            Cookies are small text files that are stored on your computer or mobile device when you visit our website. They help us provide you with a better browsing experience by remembering your preferences and understanding how you use our site.
+                        </p>
+
+                        <h2 class="arcade-title text-2xl text-black mb-6">How We Use Cookies</h2>
+                        <p class="pixel-body text-gray-700 mb-6 leading-relaxed">
+                            We use cookies for several purposes:
+                        </p>
+                        <ul class="pixel-body text-gray-700 mb-6 space-y-2">
+                            <li><strong>Essential Cookies:</strong> Required for the website to function properly, including authentication and security features.</li>
+                            <li><strong>Analytics Cookies:</strong> Help us understand how visitors interact with our website by collecting anonymous information.</li>
+                            <li><strong>Functional Cookies:</strong> Remember your preferences and settings to improve your experience.</li>
+                            <li><strong>Marketing Cookies:</strong> Used to deliver relevant advertisements and track the effectiveness of our marketing campaigns.</li>
+                        </ul>
+
+                        <h2 class="arcade-title text-2xl text-black mb-6">Types of Cookies We Use</h2>
+
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold text-black mb-4">Essential Cookies</h3>
+                            <p class="pixel-body text-gray-700 mb-4">
+                                These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services.
+                            </p>
+                            <div class="bg-gray-100 p-4 rounded mb-4">
+                                <strong>Purpose:</strong> Authentication, security, and basic website functionality<br>
+                                <strong>Duration:</strong> Session or up to 30 days<br>
+                                <strong>Provider:</strong> apiUI
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold text-black mb-4">Analytics Cookies</h3>
+                            <p class="pixel-body text-gray-700 mb-4">
+                                These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us know which pages are the most and least popular.
+                            </p>
+                            <div class="bg-gray-100 p-4 rounded mb-4">
+                                <strong>Purpose:</strong> Website analytics and performance monitoring<br>
+                                <strong>Duration:</strong> Up to 2 years<br>
+                                <strong>Provider:</strong> Google Analytics, apiUI
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold text-black mb-4">Functional Cookies</h3>
+                            <p class="pixel-body text-gray-700 mb-4">
+                                These cookies enable the website to provide enhanced functionality and personalization. They may be set by us or by third-party providers whose services we have added to our pages.
+                            </p>
+                            <div class="bg-gray-100 p-4 rounded mb-4">
+                                <strong>Purpose:</strong> Remember your preferences and settings<br>
+                                <strong>Duration:</strong> Up to 1 year<br>
+                                <strong>Provider:</strong> apiUI
+                            </div>
+                        </div>
+
+                        <h2 class="arcade-title text-2xl text-black mb-6">Third-Party Cookies</h2>
+                        <p class="pixel-body text-gray-700 mb-6 leading-relaxed">
+                            We may also use third-party services that set their own cookies. These include:
+                        </p>
+                        <ul class="pixel-body text-gray-700 mb-6 space-y-2">
+                            <li><strong>Supabase:</strong> For authentication and database services</li>
+                            <li><strong>Google Analytics:</strong> For website analytics and performance tracking</li>
+                            <li><strong>Firebase:</strong> For hosting and additional analytics</li>
+                        </ul>
+
+                        <h2 class="arcade-title text-2xl text-black mb-6">Managing Your Cookie Preferences</h2>
+                        <p class="pixel-body text-gray-700 mb-6 leading-relaxed">
+                            You have the right to decide whether to accept or reject cookies. You can exercise your cookie rights by setting your preferences in the cookie consent banner that appears when you first visit our site.
+                        </p>
+                        <p class="pixel-body text-gray-700 mb-6 leading-relaxed">
+                            You can also control cookies through your browser settings. Most browsers allow you to:
+                        </p>
+                        <ul class="pixel-body text-gray-700 mb-6 space-y-2">
+                            <li>View what cookies are stored and delete them individually</li>
+                            <li>Block third-party cookies</li>
+                            <li>Block cookies from particular sites</li>
+                            <li>Block all cookies from being placed</li>
+                            <li>Delete all cookies when you close your browser</li>
+                        </ul>
+
+                        <h2 class="arcade-title text-2xl text-black mb-6">Updates to This Policy</h2>
+                        <p class="pixel-body text-gray-700 mb-6 leading-relaxed">
+                            We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. We will notify you of any material changes by posting the updated policy on this page.
+                        </p>
+
+                        <h2 class="arcade-title text-2xl text-black mb-6">Contact Us</h2>
+                        <p class="pixel-body text-gray-700 mb-6 leading-relaxed">
+                            If you have any questions about our use of cookies or this Cookie Policy, please contact us at:
+                        </p>
+                        <div class="bg-gray-100 p-4 rounded mb-6">
+                            <strong>Email:</strong> privacy@apiui.com<br>
+                            <strong>Subject:</strong> Cookie Policy Inquiry
+                        </div>
+
+                        <div class="pixel-accent-line"></div>
+
+                        <p class="pixel-body text-sm text-gray-500 mt-8">
+                            <em>Last updated: October 5, 2025</em>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Return to top">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/70 py-16">
+        <div class="pixel-container max-w-6xl">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div>
+                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
+                    <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
+                </div>
+                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
+                    <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
+                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
+                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
+                    <a href="api-hub.html" class="hover:text-pink-500 transition-colors">API Hub</a>
+                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
+                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="hub-divider mt-8"></div>
+            <div class="mt-6 flex justify-between items-center">
+                <div class="pixel-heading text-xs uppercase tracking-[0.28em] text-slate-500">&copy; 2025 apiUI Inc. All rights reserved.</div>
+                <div class="opacity-60 hover:opacity-100 transition-opacity">
+                    <a href="https://hits.sh/ai-apiup.web.app/" target="_blank" rel="noopener noreferrer">
+                        <img alt="Hits" src="https://hits.sh/ai-apiup.web.app.svg?color=df1bac&labelColor=000000" class="h-4"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Pixel Scroll-triggered Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all pixel animation elements
+            const animatedElements = document.querySelectorAll('.pixel-fade-in, .pixel-slide-in-left, .pixel-slide-in-right');
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Add pixel flicker effect on hover for buttons
+            const pixelButtons = document.querySelectorAll('.pixel-btn');
+            pixelButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.classList.add('pixel-flicker');
+                    setTimeout(() => {
+                        this.classList.remove('pixel-flicker');
+                    }, 100);
+                });
+            });
+
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking on a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // Back to top button
+        const backToTopBtn = document.getElementById('back-to-top');
+
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 600) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

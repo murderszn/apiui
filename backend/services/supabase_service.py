@@ -126,4 +126,21 @@ class SupabaseService:
             print(f"❌ Failed to upload file {file_path} to {bucket_name}: {str(e)}")
             return False
 
+    async def list_files(self, bucket_name: str, path: str = "") -> Optional[list]:
+        """List files in a Supabase Storage bucket"""
+        try:
+            if not self.client:
+                return None
+
+            # List files from the bucket
+            response = self.client.storage.from_(bucket_name).list(path=path)
+
+            if response:
+                return response
+            return []
+
+        except Exception as e:
+            print(f"❌ Failed to list files in {bucket_name}: {str(e)}")
+            return []
+
 supabase_service = SupabaseService()

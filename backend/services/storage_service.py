@@ -227,6 +227,57 @@ class StorageService:
             print(f"❌ Failed to load persistent data {data_type}: {str(e)}")
             return None
 
+    def list_uploaded_files(self) -> List[Dict[str, Any]]:
+        """List all uploaded files with metadata"""
+        try:
+            files = []
+
+            if supabase_service.connected:
+                import asyncio
+                # Get list of files from Supabase storage
+                file_list = asyncio.run(supabase_service.list_files("user-uploads"))
+                if file_list:
+                    for file_info in file_list:
+                        files.append({
+                            'name': os.path.basename(file_info.get('name', '')),
+                            'path': file_info.get('name', ''),
+                            'size': file_info.get('size', 0),
+                            'last_modified': file_info.get('updated_at', datetime.now().isoformat()),
+                            'storage': 'supabase'
+                        })
+
+            elif self.use_gcs:
+                blobs = self.bucket.list_blobs(prefix="uploads/")
+                for blob in blobs:
+                    if blob.name.startswith("uploads/"):
+                        filename = os.path.basename(blob.name)
+                        files.append({
+                            'name': filename,
+                            'path': blob.name,
+                            'size': blob.size or 0,
+                            'last_modified': blob.updated.isoformat() if blob.updated else datetime.now().isoformat(),
+                            'storage': 'gcs'
+                        })
+            else:
+                # Local storage
+                if os.path.exists(self.local_uploads_dir):
+                    for filename in os.listdir(self.local_uploads_dir):
+                        file_path = os.path.join(self.local_uploads_dir, filename)
+                        if os.path.isfile(file_path):
+                            stat = os.stat(file_path)
+                            files.append({
+                                'name': filename,
+                                'path': file_path,
+                                'size': stat.st_size,
+                                'last_modified': datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                                'storage': 'local'
+                            })
+
+            return files
+        except Exception as e:
+            print(f"❌ Failed to list uploaded files: {str(e)}")
+            return []
+
     def delete_generated_api(self, api_id: str) -> bool:
         """Delete a generated API"""
         try:

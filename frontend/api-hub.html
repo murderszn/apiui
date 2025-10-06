@@ -19,8 +19,11 @@
     <meta name="distribution" content="Global">
     <meta name="revisit-after" content="7 days">
     <link rel="canonical" href="https://apiui.web.app/api-hub">
-    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -32,11 +35,11 @@
     <meta property="og:title" content="apiUI API Hub | Third-Party API Integrations">
     <meta property="og:description" content="Connect your apiUI APIs with curated third-party services and community-built integrations.">
     <meta property="og:url" content="https://apiui.web.app/api-hub.html">
-    <meta property="og:image" content="https://apiui.web.app/apiui-logo.png">
+    <meta property="og:image" content="https://apiui.web.app/favicon.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="apiUI API Hub | Third-Party API Integrations">
     <meta name="twitter:description" content="Browse featured APIs, filter by use case, and publish your own apiUI integrations.">
-    <meta name="twitter:image" content="https://apiui.web.app/apiui-logo.png">
+    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
@@ -53,8 +56,56 @@
             "name": "apiUI",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://apiui.web.app/apiui-logo.png"
+                "url": "https://apiui.web.app/favicon.png"
             }
+        },
+        "mainEntity": {
+            "@type": "ItemList",
+            "name": "Featured APIs",
+            "description": "Curated third-party API integrations for apiUI",
+            "itemListElement": [
+                {
+                    "@type": "SoftwareApplication",
+                    "name": "OpenAI API",
+                    "description": "Access GPT models for text generation, embeddings, and moderation",
+                    "applicationCategory": "AI/ML API"
+                },
+                {
+                    "@type": "SoftwareApplication", 
+                    "name": "Airtable API",
+                    "description": "Sync tabular data, metadata, and automations with Airtable bases",
+                    "applicationCategory": "Data API"
+                },
+                {
+                    "@type": "SoftwareApplication",
+                    "name": "Twilio API", 
+                    "description": "Programmable SMS, voice, and verification with global reach",
+                    "applicationCategory": "Communication API"
+                },
+                {
+                    "@type": "SoftwareApplication",
+                    "name": "Stripe API",
+                    "description": "Comprehensive payments, billing, and subscription tooling",
+                    "applicationCategory": "Payment API"
+                }
+            ]
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://apiui.web.app/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "API Hub",
+                    "item": "https://apiui.web.app/api-hub.html"
+                }
+            ]
         }
     }
     </script>
@@ -332,6 +383,13 @@
                     </svg>
                 </a>
 
+                <!-- MCP Server -->
+                <a href="mcp.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                    </svg>
+                </a>
+
                 <!-- Socket Chat -->
                 <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -351,65 +409,50 @@
                 <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Home</a>
                 <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
                 <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
+                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Socket Chat</a>
         </div>
     </nav>
     </header>
 
     <main class="flex-1 relative z-10">
         <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
-        <section class="bg-slate-950 text-white overflow-hidden relative">
+        <section class="bg-white text-slate-900 overflow-hidden relative">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-24">
                 <div class="grid gap-16 md:grid-cols-[1.05fr_minmax(0,0.95fr)] items-center">
                     <div class="space-y-8">
                         <div class="flex items-center gap-3">
                             <span class="pixel-dot"></span>
-                            <p class="pixel-heading eyebrow text-pink-300 tracking-[0.36em]">API HUB</p>
+                            <p class="pixel-heading eyebrow text-pink-500 tracking-[0.36em]">API HUB</p>
         </div>
-                        <h1 class="pixel-heading text-3xl sm:text-4xl md:text-5xl leading-tight text-white tracking-[0.18em]">
+                        <h1 class="pixel-heading text-3xl sm:text-4xl md:text-5xl leading-tight text-slate-900 tracking-[0.18em]">
                             Discover integrations that power your apiUI projects
             </h1>
-                        <p class="text-base sm:text-lg text-slate-200/90 max-w-2xl">
-                            Browse a curated library of AI, data, communication, and finance APIs. Each card follows the
-                            same rigid design language as the apiUI platform, with subtle pixel accents and performance-focused components.
+                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl">
+                            Connect your apiUI-generated APIs with industry-leading services. Browse integrations for AI, data processing, payments, communication, and more. Each API comes with documentation, examples, and seamless integration paths.
                         </p>
                         <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
-                            <a href="#featured" class="hub-btn hub-btn-primary bg-white text-slate-900 border-white hover:bg-slate-100 shadow-lg">Browse Featured APIs</a>
-                            <a href="app.html" class="hub-btn hub-btn-secondary bg-white text-slate-900 border-white hover:bg-slate-100 shadow-lg">Publish Your API</a>
+                            <a href="#featured" class="hub-btn hub-btn-primary">Browse Featured APIs</a>
+                            <a href="app.html" class="hub-btn hub-btn-secondary">Publish Your API</a>
             </div>
-                        <div class="flex flex-wrap gap-6 text-xs md:text-sm text-slate-200/80 uppercase tracking-[0.35em]">
-                            <div class="flex items-center gap-2">
-                                <span class="pixel-dot"></span>
-                                <span>Curated Integrations</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="pixel-dot"></span>
-                                <span>Community APIs</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="pixel-dot"></span>
-                                <span>Install In Seconds</span>
-                            </div>
-                        </div>
                     </div>
                 <div class="relative">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-pink-500/25 via-transparent to-pink-400/10 blur-3xl"></div>
-                        <div class="relative border border-white/20 bg-white/5 backdrop-blur-md p-8 overflow-hidden api-card text-white">
-                            <div class="absolute inset-0 opacity-10" aria-hidden="true">
-                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 28px 28px;"></div>
+                        <div class="relative border border-slate-200 bg-white p-8 overflow-hidden api-card">
+                            <div class="absolute inset-0 opacity-5" aria-hidden="true">
+                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(236, 72, 153, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.1) 1px, transparent 1px); background-size: 28px 28px;"></div>
                     </div>
                             <div class="relative space-y-6">
-                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-200">Quick Snapshot</p>
-                                <h2 class="text-2xl font-semibold">Pixel-precise catalog</h2>
-                                <p class="text-sm text-slate-200/90 leading-6">
-                                    Categories, tags, and install actions inherit the disciplined grid from apiUI.
-                                    Hover effects use crisp border highlights to honor the pixel-inspired aesthetic without overwhelming the layout.
+                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-500">Quick Snapshot</p>
+                                <h2 class="text-2xl font-semibold text-slate-900">Pixel-precise catalog</h2>
+                                <p class="text-sm text-slate-600 leading-6">
+                                    Our API hub features real-time status monitoring, comprehensive documentation coverage, and automatic synchronization with community contributions. Every integration is tested and verified for production use.
                                 </p>
-                                <div class="space-y-4 text-xs uppercase tracking-[0.28em]">
+                                <div class="space-y-4 text-xs uppercase tracking-[0.28em] text-slate-500">
                                     <div class="flex items-center justify-between">
                                         <span>Latency Checks</span>
-                                        <span class="hub-pill text-pink-100 border-white/40">Live</span>
+                                        <span class="hub-pill">Live</span>
                 </div>
                                     <div class="flex items-center justify-between">
                                         <span>Docs Coverage</span>
@@ -438,12 +481,11 @@
                         </div>
                         <h2 class="text-3xl font-semibold tracking-tight">Filter the hub by use case</h2>
                         <p class="text-base text-slate-600 max-w-2xl">
-                            Keep the navigation disciplined: structured filters, search, and hard-edged containers mirror the app store experience.
-                            Categories use the pixel font while descriptions stay in Inter for clarity.
+                            Find the perfect API for your project with our organized categories. Search by name, filter by use case, and discover integrations that seamlessly connect with your apiUI-generated endpoints.
                         </p>
                 </div>
                     <div class="text-sm text-slate-500 max-w-sm">
-                        Responsive layout follows the same grid rhythm as the index page. Cards lock to a 24px baseline with crisp hover states.
+                        Each API includes documentation, usage examples, and direct integration paths to accelerate your development workflow.
             </div>
                         </div>
 
@@ -479,7 +521,7 @@
                         <div class="space-y-2 max-w-3xl">
                             <h2 class="text-3xl font-semibold tracking-tight">Curated third-party integrations</h2>
                             <p class="text-base text-slate-600">
-                                Every featured card keeps the layout strict—rectangular containers, bold CTAs, and subtle pixel borders. Hover animations use slight lifts and border highlights inspired by the arcade touches on the home page.
+                                Hand-picked APIs from leading providers, tested for reliability and performance. Each integration comes with comprehensive documentation and example implementations to get you started quickly.
                             </p>
                         </div>
                         <div class="text-xs uppercase tracking-[0.32em] text-slate-500">
@@ -660,13 +702,9 @@
                                 </div>
                         <h2 class="text-3xl font-semibold tracking-tight">Published APIs from the community <span class="text-pink-500" id="community-count">0</span></h2>
                         <p class="text-base text-slate-600 max-w-3xl">
-                            Community listings inherit the same rigid cards, ensuring user-generated content still feels at home within the apiUI design system.
-                            Pixel accents stay subtle: small markers, gentle border flashes, and crisp typography.
+                            Discover APIs built and shared by the apiUI community. These integrations are created by developers like you, tested in real-world scenarios, and ready to enhance your projects with proven functionality.
                         </p>
                             </div>
-                    <div class="text-sm text-slate-500 max-w-sm">
-                        Want your API here? Publish from the app console and mark it as public. Listings update automatically.
-                    </div>
                 </div>
 
                 <div id="community-grid" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3" data-api-collection data-empty-target="community-empty">
@@ -687,7 +725,7 @@
                         </div>
                         <h2 class="text-3xl font-semibold tracking-tight">APIs you've published <span class="text-pink-500" id="user-count">0</span></h2>
                         <p class="text-base text-slate-600 max-w-3xl">
-                            Keep tabs on what you've shared with the community. Cards reuse the same grid and animation language, so everything feels consistent across the experience.
+                            Manage and monitor your published APIs. Track usage, update documentation, and see how the community is using your integrations to build amazing applications.
                         </p>
                             </div>
                     <a href="app.html" class="hub-btn hub-btn-secondary self-start">Open API Console</a>
@@ -700,25 +738,24 @@
                 </div>
     </section>
 
-        <section class="bg-slate-950 text-white relative">
-            <div class="absolute inset-0 pointer-events-none opacity-25" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 36px 36px;"></div>
+        <section class="bg-white text-slate-900 relative">
+            <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 36px 36px;"></div>
             <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20 flex flex-col gap-10 md:flex-row md:items-center md:justify-between relative">
                 <div class="space-y-4 max-w-3xl">
                     <div class="flex items-center gap-3">
                         <span class="pixel-dot"></span>
-                        <p class="pixel-heading eyebrow text-pink-300">Next Steps</p>
+                        <p class="pixel-heading eyebrow text-pink-500">Next Steps</p>
                             </div>
-                    <h2 class="text-3xl md:text-4xl font-semibold">
+                    <h2 class="text-3xl md:text-4xl font-semibold text-slate-900">
                         Extend your apiUI projects with curated integrations and community contributions
                     </h2>
-                    <p class="text-base text-slate-200/90">
-                        Rigid containers, bold CTAs, and carefully placed pixel accents keep everything consistent with the apiUI design system.
-                        Publish your own APIs, explore third-party connectors, and build faster.
+                    <p class="text-base text-slate-600">
+                        Transform your data into powerful APIs and connect them with industry-leading services. From AI and machine learning to payments and communication, build comprehensive solutions that scale with your business.
                     </p>
                         </div>
                 <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
-                    <a href="app.html" class="hub-btn hub-btn-primary bg-white text-slate-900 border-white hover:bg-slate-100 shadow-lg">Launch Console</a>
-                    <a href="docs.html" class="hub-btn hub-btn-secondary bg-white/10 border-white/30 text-white hover:bg-white hover:text-slate-900 shadow-lg text-sm backdrop-blur-sm">Integration Docs</a>
+                    <a href="app.html" class="hub-btn hub-btn-primary">Launch Console</a>
+                    <a href="docs.html" class="hub-btn hub-btn-secondary">Integration Docs</a>
                         </div>
                     </div>
         </section>
@@ -737,6 +774,7 @@
                     <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
                     <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
                     <a href="api-hub.html" class="hover:text-pink-500 transition-colors">API Hub</a>
+                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
                     <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -822,12 +860,13 @@
                 const payload = await response.json();
                 const apis = Array.isArray(payload.apis) ? payload.apis : [];
 
-                const communityAPIs = apis.filter(api => api.path && api.path.startsWith('cloud-run://'));
+                const communityAPIs = apis.filter(api => api.path && api.path.startsWith('cloud-run://'))
+                    .sort((a, b) => new Date(b.created_at || b.updated_at || 0) - new Date(a.created_at || a.updated_at || 0));
                 const userAPIs = apis.filter(api =>
                     (api.path && api.path.startsWith('storage://')) ||
                     api.source === 'database' ||
                     (api.status === 'running' && !(api.path || '').startsWith('cloud-run://'))
-                );
+                ).sort((a, b) => new Date(b.created_at || b.updated_at || 0) - new Date(a.created_at || a.updated_at || 0));
 
                 renderAPIList(communityGrid, communityAPIs, {
                     emptyMessageId: 'community-empty',
@@ -1007,5 +1046,8 @@
             loadPublishedAPIs();
         });
     </script>
+
+    <!-- Cookie Consent Modal -->
+    <script src="cookie-consent.js"></script>
 </body>
 </html>

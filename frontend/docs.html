@@ -6,7 +6,35 @@
     <title>apiUI Documentation</title>
     <meta name="description" content="Learn how to use apiUI to turn your data files into REST APIs. Upload CSV, Excel, JSON, or Parquet files and get instant APIs with filtering, sorting, and pagination.">
     <link rel="canonical" href="https://apiui.web.app/docs.html">
-    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:site_name" content="apiUI">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="apiUI Documentation | Turn Data Into APIs">
+    <meta property="og:description" content="Complete guide to using apiUI. Upload CSV, Excel, JSON, or Parquet files and get instant REST APIs with filtering, sorting, and pagination.">
+    <meta property="og:url" content="https://apiui.web.app/docs.html">
+    <meta property="og:image" content="https://apiui.web.app/favicon.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="apiUI Documentation - Data to API Guide">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@apiui">
+    <meta name="twitter:creator" content="@apiui">
+    <meta name="twitter:title" content="apiUI Documentation | Turn Data Into APIs">
+    <meta name="twitter:description" content="Learn how to transform your data files into production-ready REST APIs with apiUI. Step-by-step documentation and examples.">
+    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
+    <meta name="twitter:image:alt" content="apiUI Documentation - Data to API Guide">
+
+    <!-- LinkedIn -->
+    <meta property="og:image:secure_url" content="https://apiui.web.app/favicon.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -22,6 +50,55 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "name": "apiUI Documentation",
+        "description": "Learn how to use apiUI to turn your data files into REST APIs. Upload CSV, Excel, JSON, or Parquet files and get instant APIs with filtering, sorting, and pagination.",
+        "url": "https://apiui.web.app/docs.html",
+        "author": {
+            "@type": "Organization",
+            "name": "apiUI by AURABLOX"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "apiUI by AURABLOX",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://apiui.web.app/favicon.png"
+            }
+        },
+        "datePublished": "2024-01-01",
+        "dateModified": "2025-01-27",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://apiui.web.app/docs.html"
+        },
+        "about": {
+            "@type": "SoftwareApplication",
+            "name": "apiUI",
+            "description": "No-code API generation platform"
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://apiui.web.app/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Documentation",
+                    "item": "https://apiui.web.app/docs.html"
+                }
+            ]
+        }
+    }
     </script>
     <style>
         body {
@@ -434,8 +511,21 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
             text-shadow:
-                2px 2px 0px var(--pixel-gray-600),
-                0 0 8px var(--pixel-pink);
+                /* Deep 3D layers for depth */
+                1px 1px 0px var(--pixel-black),
+                2px 2px 0px var(--pixel-gray-800),
+                3px 3px 0px var(--pixel-gray-700),
+                4px 4px 0px var(--pixel-gray-600),
+                5px 5px 5px rgba(0, 0, 0, 0.3),
+                /* Inner glow effect */
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                /* Outer neon glow */
+                0 0 20px var(--pixel-pink-subtle),
+                0 0 30px var(--pixel-pink-subtle),
+                0 0 40px rgba(233, 30, 99, 0.5);
+            animation: arcade-glow-pulse 3s ease-in-out infinite alternate;
         }
 
         @keyframes neon-pulse {
@@ -451,9 +541,63 @@
             }
         }
 
+        @keyframes arcade-glow-pulse {
+            from {
+                text-shadow:
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Inner glow effect */
+                    0 0 5px var(--pixel-pink),
+                    0 0 10px var(--pixel-pink),
+                    0 0 15px var(--pixel-pink),
+                    /* Outer neon glow */
+                    0 0 20px var(--pixel-pink-subtle),
+                    0 0 30px var(--pixel-pink-subtle),
+                    0 0 40px rgba(233, 30, 99, 0.5);
+            }
+            to {
+                text-shadow:
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Enhanced inner glow effect */
+                    0 0 8px var(--pixel-pink),
+                    0 0 16px var(--pixel-pink),
+                    0 0 24px var(--pixel-pink),
+                    /* Enhanced outer neon glow */
+                    0 0 32px var(--pixel-pink-subtle),
+                    0 0 48px var(--pixel-pink-subtle),
+                    0 0 64px rgba(233, 30, 99, 0.7);
+            }
+        }
+
         /* Smooth Scrolling */
         html {
             scroll-behavior: smooth;
+        }
+
+        /* Floating Sidebar Icon Override - No Borders */
+        .floating-sidebar-icon {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .floating-sidebar-icon:hover {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Floating Sidebar Container Override - No Borders */
+        .floating-sidebar-container {
+            border: none !important;
+            box-shadow: none !important;
         }
 
         /* Pixel Focus States */
@@ -724,13 +868,12 @@
 
         /* Header */
         header {
-            border-bottom: var(--pixel-border-width) solid var(--pixel-black);
             background: #ffffff !important;
         }
 
         /* Footer */
         footer {
-            border-top: var(--pixel-border-width) solid var(--pixel-black);
+            border-top: 1px solid rgba(15, 23, 42, 0.12);
             background: var(--pixel-white);
         }
 
@@ -785,40 +928,70 @@
     </style>
 </head>
 <body>
+    <!-- Pixel Loading Screen -->
+    <div id="pixel-loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <!-- Pixel Logo Animation -->
+            <div class="mb-8">
+                <div class="inline-block relative">
+                    <div class="text-4xl arcade-title text-black mb-4">api<span class="arcade-neon">UI</span></div>
+                    <div class="flex justify-center space-x-1">
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse"></div>
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.2s"></div>
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.4s"></div>
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.6s"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Text -->
+            <div class="pixel-subtitle text-black text-lg mb-4">LOADING DOCUMENTATION...</div>
+
+            <!-- Pixel Loading Bar -->
+            <div class="w-64 h-4 bg-gray-200 border-2 border-gray-400 mx-auto relative overflow-hidden">
+                <div id="loading-bar" class="h-full bg-gradient-to-r from-pink-500 to-pink-600 transition-all duration-1000 ease-out" style="width: 0%"></div>
+            </div>
+
+            <!-- Fun Loading Messages -->
+            <div id="loading-message" class="pixel-body text-gray-600 text-sm mt-4">Preparing documentation...</div>
+        </div>
+    </div>
+
     <!-- Floating Navigation Sidebar -->
     <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
-        <div class="bg-white p-2 shadow-lg rounded-lg">
-            <div class="flex flex-col space-y-1">
+        <div class="floating-sidebar-container bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
                 <!-- Home -->
-                <a href="index.html" class="floating-nav-btn tooltip" title="Home">
+                <a href="index.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                     </svg>
                 </a>
 
                 <!-- Dashboard -->
-                <a href="app.html" class="floating-nav-btn tooltip" title="Dashboard">
+                <a href="app.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                     </svg>
                 </a>
 
                 <!-- Docs -->
-                <a href="docs.html" class="floating-nav-btn tooltip" title="Documentation">
+                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
                 </a>
 
-                <!-- API Hub -->
-                <a href="api-hub.html" class="floating-nav-btn tooltip" title="API Hub">
+
+                <!-- MCP Server -->
+                <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                     </svg>
                 </a>
 
                 <!-- Socket Chat -->
-                <a href="socket-chat.html" class="floating-nav-btn tooltip" title="Socket Chat">
+                <a href="socket-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                     </svg>
@@ -838,9 +1011,10 @@
             </div>
             <div class="hidden md:flex items-center space-x-6">
                 <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
+                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Sock chat</a>
                 <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="api-hub.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">API Hub</a>
-                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Socket Chat</a>
+                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -854,9 +1028,10 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
             <div class="pixel-container py-4 space-y-4">
                 <a href="app.html" class="block text-black hover:text-pink-500 font-medium py-2">App</a>
+                <a href="mcp.html" class="block text-black hover:text-pink-500 font-medium py-2">MCP</a>
+                <a href="socket-chat.html" class="block text-black hover:text-pink-500 font-medium py-2">Sock chat</a>
                 <a href="docs.html" class="block text-black hover:text-pink-500 font-medium py-2">Docs</a>
-                <a href="api-hub.html" class="block text-black hover:text-pink-500 font-medium py-2">API Hub</a>
-                <a href="socket-chat.html" class="block text-black hover:text-pink-500 font-medium py-2">Socket Chat</a>
+                <a href="learn-more.html" class="block text-black hover:text-pink-500 font-medium py-2">Learn more</a>
             </div>
         </div>
     </header>
@@ -868,7 +1043,7 @@
             <!-- Main Headline -->
             <div class="mb-8 pixel-fade-in">
                 <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
-                    Master <span class="arcade-neon">apiUI</span> and build <span class="arcade-neon">APIs</span> like a <span class="arcade-neon">pro</span>
+                    Master <span class="arcade-neon">apiUI</span> and build APIs <span class="arcade-neon">like a pro</span>
                 </h1>
             </div>
 
@@ -927,23 +1102,53 @@
                 <div class="space-y-6">
                     <div>
                         <h3 class="text-xl font-semibold mb-2">1. Upload Your Data</h3>
-                        <p class="mb-3">Upload CSV, Excel, JSON, Parquet, or text files to the platform.</p>
+                        <p class="mb-3">Upload CSV, Excel, JSON, Parquet, or text files to the platform. The system automatically detects and validates your file format.</p>
                         <div class="code-block">Supported formats: .csv, .xlsx, .xls, .json, .parquet, .txt</div>
+                        <p class="text-sm text-gray-600 mt-2">File size limit: 50MB. Data validation occurs during upload to ensure data integrity.</p>
                     </div>
 
                     <div>
                         <h3 class="text-xl font-semibold mb-2">2. Preview Your Data</h3>
-                        <p class="mb-3">See your data structure, column types, and sample records before generating the API.</p>
+                        <p class="mb-3">Review your data structure, column types, and sample records before generating the API. Check for data quality issues and column type detection.</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li>Automatic column type detection (string, number, date, boolean)</li>
+                            <li>Data quality indicators and validation warnings</li>
+                            <li>Sample record preview (first 100 rows)</li>
+                            <li>Memory usage estimation for API performance</li>
+                        </ul>
                     </div>
 
                     <div>
                         <h3 class="text-xl font-semibold mb-2">3. Generate API</h3>
-                        <p class="mb-3">Click "Generate API" to create your REST endpoints with filtering, sorting, and pagination.</p>
+                        <p class="mb-3">Click "Generate API" to create your REST endpoints with full CRUD operations, filtering, sorting, and pagination. The process typically takes 30-60 seconds.</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li>Automatic REST endpoint creation (GET, POST, PUT, DELETE)</li>
+                            <li>Advanced query parameters for filtering and sorting</li>
+                            <li>Pagination support with configurable page sizes</li>
+                            <li>CORS-enabled for cross-origin requests</li>
+                        </ul>
                     </div>
 
                     <div>
                         <h3 class="text-xl font-semibold mb-2">4. Use Your API</h3>
-                        <p class="mb-3">Test your API, view documentation, and download deployment files.</p>
+                        <p class="mb-3">Test your API endpoints, view interactive documentation, and download deployment files for production use.</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li>Interactive API documentation with live testing</li>
+                            <li>Code examples in JavaScript, Python, and cURL</li>
+                            <li>Download deployment packages (Docker, Cloud Run)</li>
+                            <li>Analytics dashboard for API usage monitoring</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">5. Advanced Features (Optional)</h3>
+                        <p class="mb-3">Explore additional tools for data management and interaction:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li><strong>Data Editor:</strong> Excel-like interface for real-time data editing</li>
+                            <li><strong>Socket Chat:</strong> Natural language queries to interact with your API</li>
+                            <li><strong>API Analytics:</strong> Monitor performance, usage, and error rates</li>
+                            <li><strong>Deployment:</strong> One-click deployment to Google Cloud Run</li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -971,6 +1176,346 @@
                             <li><code>sort_order</code> - asc/desc</li>
                             <li>Column filters - filter by any column value</li>
                         </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="data-editor" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">Data Editor</h2>
+                <p class="mb-6">The Data Editor provides an Excel-like spreadsheet interface for viewing, editing, and managing your API data in real-time.</p>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Key Features</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Real-time Editing</h4>
+                                <p class="pixel-body text-black text-sm">Edit cells directly in the spreadsheet interface with automatic type detection and validation.</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Formula Bar</h4>
+                                <p class="pixel-body text-black text-sm">View and edit cell values in a dedicated formula bar with cell reference display (A1, B2, etc.).</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">CRUD Operations</h4>
+                                <p class="pixel-body text-black text-sm">Create, read, update, and delete records with one-click actions and bulk operations.</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Data Validation</h4>
+                                <p class="pixel-body text-black text-sm">Automatic data type validation with visual indicators for errors and warnings.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Toolbar Functions</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li><strong>Refresh:</strong> Reload data from the API to see latest changes</li>
+                            <li><strong>Save Changes:</strong> Commit all modifications to the database</li>
+                            <li><strong>Add Row:</strong> Insert new records with default values</li>
+                            <li><strong>Export CSV:</strong> Download current data as CSV file</li>
+                            <li><strong>Pagination:</strong> Navigate through large datasets (50, 100, 250, or 500 rows per page)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">How to Use</h3>
+                        <ol class="list-decimal list-inside text-sm text-gray-600 space-y-2">
+                            <li>Navigate to the Data Editor from your API dashboard</li>
+                            <li>Select an API from the dropdown or enter an API ID manually</li>
+                            <li>Click cells to edit values directly or use the formula bar</li>
+                            <li>Right-click cells for context menu options (copy, paste, clear)</li>
+                            <li>Use toolbar buttons to add rows, refresh data, or export to CSV</li>
+                            <li>Click "Save Changes" to persist all modifications</li>
+                        </ol>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Data Types Supported</h3>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="pixel-card p-3">
+                                <h4 class="pixel-subtitle text-black mb-1">Text</h4>
+                                <p class="pixel-body text-black text-xs">String values with multi-line support</p>
+                            </div>
+                            <div class="pixel-card p-3">
+                                <h4 class="pixel-subtitle text-black mb-1">Numbers</h4>
+                                <p class="pixel-body text-black text-xs">Integer and decimal values with right alignment</p>
+                            </div>
+                            <div class="pixel-card p-3">
+                                <h4 class="pixel-subtitle text-black mb-1">Booleans</h4>
+                                <p class="pixel-body text-black text-xs">True/false values with checkbox display</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="socket-chat" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">Socket Chat</h2>
+                <p class="mb-6">The Socket Chat feature provides a natural language interface for interacting with your APIs using real-time chat.</p>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Natural Language Queries</h3>
+                        <p class="mb-3">Ask questions about your data in plain English and get instant responses:</p>
+                        <div class="code-block">
+"Show me the first 5 records"<br>
+"How many records are there?"<br>
+"What columns do I have?"<br>
+"Find all records where department is Engineering"
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Quick Actions</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Sample Query</h4>
+                                <p class="pixel-body text-black text-sm">Get a preview of your data structure and sample records.</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Count Records</h4>
+                                <p class="pixel-body text-black text-sm">Get the total number of records in your dataset.</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Show Columns</h4>
+                                <p class="pixel-body text-black text-sm">View all available column names and their data types.</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Describe Data</h4>
+                                <p class="pixel-body text-black text-sm">Get statistical summaries and data insights.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Real-time Communication</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li><strong>WebSocket Support:</strong> Real-time bidirectional communication</li>
+                            <li><strong>HTTP Fallback:</strong> Automatic fallback for environments without WebSocket support</li>
+                            <li><strong>Typing Indicators:</strong> Visual feedback when the API is processing your query</li>
+                            <li><strong>Chat History:</strong> Persistent conversation history during your session</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">How to Use</h3>
+                        <ol class="list-decimal list-inside text-sm text-gray-600 space-y-2">
+                            <li>Select an API from the dropdown menu or enter an API ID manually</li>
+                            <li>Click "Connect to API" to establish the chat connection</li>
+                            <li>Use quick action buttons for common queries or type custom questions</li>
+                            <li>View responses in the chat interface with formatted JSON output</li>
+                            <li>Ask follow-up questions to explore your data further</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mcp-server" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">MCP Server</h2>
+                <p class="mb-6">The Model Context Protocol (MCP) server enables AI models and tools to access your flat files through a standardized protocol.</p>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">What is MCP?</h3>
+                        <p class="mb-4">The Model Context Protocol (MCP) is a standardized way for AI models and tools to access external data sources and APIs. It provides a consistent interface for connecting various data providers to AI applications.</p>
+
+                        <div class="pixel-card p-6 mb-6">
+                            <h4 class="pixel-subtitle text-lg text-black mb-4">Key Benefits</h4>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
+                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h5 class="pixel-body text-black font-medium mb-1">Standardized Interface</h5>
+                                            <p class="pixel-body text-black text-sm">Consistent way to access different data sources</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
+                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h5 class="pixel-body text-black font-medium mb-1">Secure Access</h5>
+                                            <p class="pixel-body text-black text-sm">Controlled access to your data with proper authentication</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
+                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h5 class="pixel-body text-black font-medium mb-1">Multiple Formats</h5>
+                                            <p class="pixel-body text-black text-sm">Support for CSV, JSON, Parquet, and other file formats</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
+                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h5 class="pixel-body text-black font-medium mb-1">Real-time Updates</h5>
+                                            <p class="pixel-body text-black text-sm">Live access to your changing data</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">How to Connect</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-lg font-medium mb-2">For MCP Clients</h4>
+                                <p class="mb-3">Configure your MCP-compatible AI client to connect to the apiUI MCP server:</p>
+                                <div class="code-block">
+{
+  "mcpServers": {
+    "apiui": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/your/files"],
+      "env": {
+        "APIUI_BASE_URL": "https://apiui-backend-44565368406.us-central1.run.app"
+      }
+    }
+  }
+}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 class="text-lg font-medium mb-2">Direct API Access</h4>
+                                <p class="mb-3">You can also access the MCP server directly via HTTP APIs:</p>
+                                <div class="space-y-3">
+                                    <div class="pixel-card p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <code class="pixel-body text-sm bg-gray-100 px-2 py-1 rounded">GET /mcp/resources</code>
+                                            <span class="pixel-badge">List Files</span>
+                                        </div>
+                                        <p class="pixel-body text-black text-sm">Retrieve a list of all available files with metadata</p>
+                                    </div>
+                                    <div class="pixel-card p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <code class="pixel-body text-sm bg-gray-100 px-2 py-1 rounded">POST /mcp</code>
+                                            <span class="pixel-badge">MCP Protocol</span>
+                                        </div>
+                                        <p class="pixel-body text-black text-sm">Send MCP protocol requests (resources/list, resources/read)</p>
+                                    </div>
+                                    <div class="pixel-card p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <code class="pixel-body text-sm bg-gray-100 px-2 py-1 rounded">GET /mcp/resources/{filename}</code>
+                                            <span class="pixel-badge">Read File</span>
+                                        </div>
+                                        <p class="pixel-body text-black text-sm">Direct access to read specific file content</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">File Browser</h3>
+                        <p class="mb-4">Browse and access all files available through your MCP server. Files uploaded to apiUI are automatically made available via MCP.</p>
+
+                        <div class="pixel-card p-6">
+                            <h4 class="pixel-subtitle text-lg text-black mb-4">Supported File Formats</h4>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div class="pixel-card p-3">
+                                    <h5 class="pixel-subtitle text-black mb-1">CSV Files</h5>
+                                    <p class="pixel-body text-black text-xs">Comma-separated values with headers</p>
+                                </div>
+                                <div class="pixel-card p-3">
+                                    <h5 class="pixel-subtitle text-black mb-1">JSON Files</h5>
+                                    <p class="pixel-body text-black text-xs">Array of objects format</p>
+                                </div>
+                                <div class="pixel-card p-3">
+                                    <h5 class="pixel-subtitle text-black mb-1">Parquet Files</h5>
+                                    <p class="pixel-body text-black text-xs">Columnar storage format</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="api-documentation" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">API Documentation</h2>
+                <p class="mb-6">Interactive API documentation with live testing, code examples, and comprehensive endpoint information.</p>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Interactive Testing</h3>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li><strong>Live API Testing:</strong> Test endpoints directly from the documentation</li>
+                            <li><strong>Parameter Input:</strong> Interactive forms for query parameters and request bodies</li>
+                            <li><strong>Response Viewer:</strong> Formatted JSON responses with syntax highlighting</li>
+                            <li><strong>Authentication:</strong> Built-in support for API key authentication</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Code Examples</h3>
+                        <p class="mb-3">Ready-to-use code snippets in multiple programming languages:</p>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="pixel-card p-3">
+                                <h4 class="pixel-subtitle text-black mb-1">JavaScript</h4>
+                                <p class="pixel-body text-black text-xs">Fetch API and Axios examples</p>
+                            </div>
+                            <div class="pixel-card p-3">
+                                <h4 class="pixel-subtitle text-black mb-1">Python</h4>
+                                <p class="pixel-body text-black text-xs">Requests library examples</p>
+                            </div>
+                            <div class="pixel-card p-3">
+                                <h4 class="pixel-subtitle text-black mb-1">cURL</h4>
+                                <p class="pixel-body text-black text-xs">Command-line examples</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Endpoint Information</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Dataset Overview</h4>
+                                <p class="pixel-body text-black text-sm">Complete information about your data structure, record count, and column details.</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Data Preview</h4>
+                                <p class="pixel-body text-black text-sm">Sample records and data validation information.</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">API Endpoints</h4>
+                                <p class="pixel-body text-black text-sm">Detailed documentation for all REST endpoints with parameters and examples.</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <h4 class="pixel-subtitle text-black mb-2">Analytics</h4>
+                                <p class="pixel-body text-black text-sm">Usage statistics, performance metrics, and error tracking.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">How to Use</h3>
+                        <ol class="list-decimal list-inside text-sm text-gray-600 space-y-2">
+                            <li>Select an API from your dashboard to view its documentation</li>
+                            <li>Browse endpoint details and parameter requirements</li>
+                            <li>Use the interactive testing forms to try API calls</li>
+                            <li>Copy code examples for integration into your applications</li>
+                            <li>Monitor API performance through the analytics dashboard</li>
+                        </ol>
                     </div>
                 </div>
             </section>
@@ -1061,23 +1606,35 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
                 </a>
                 <a href="app.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
                     <h4 class="pixel-subtitle text-black mb-2">My APIs</h4>
-                    <p class="pixel-body text-black text-sm">Manage your generated APIs</p>
+                    <p class="pixel-body text-black text-sm">Manage and generate APIs</p>
+                </a>
+                <a href="data-editor.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">Data Editor</h4>
+                    <p class="pixel-body text-black text-sm">Excel-like interface for editing API data</p>
+                </a>
+                <a href="socket-chat.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">Socket Chat</h4>
+                    <p class="pixel-body text-black text-sm">Natural language queries for your APIs</p>
+                </a>
+                <a href="api-docs.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">API Docs</h4>
+                    <p class="pixel-body text-black text-sm">Interactive API documentation and testing</p>
                 </a>
                 <a href="api-hub.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
                     <h4 class="pixel-subtitle text-black mb-2">API Hub</h4>
                     <p class="pixel-body text-black text-sm">Browse available API integrations</p>
                 </a>
+                <a href="mcp.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">MCP Server</h4>
+                    <p class="pixel-body text-black text-sm">Model Context Protocol file access</p>
+                </a>
                 <a href="api-analytics.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
                     <h4 class="pixel-subtitle text-black mb-2">Analytics</h4>
                     <p class="pixel-body text-black text-sm">Monitor API performance and usage</p>
                 </a>
-                <a href="socket-chat.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
-                    <h4 class="pixel-subtitle text-black mb-2">Chat</h4>
-                    <p class="pixel-body text-black text-sm">Real-time chat with your APIs</p>
-                </a>
                 <a href="docs.html" class="pixel-card p-4 bg-pink-50 border-pink-500 transition-colors">
                     <h4 class="pixel-subtitle text-black mb-2">Documentation</h4>
-                    <p class="pixel-body text-black text-sm">This documentation page</p>
+                    <p class="pixel-body text-black text-sm">Complete platform documentation</p>
                 </a>
                 </div>
             </section>
@@ -1093,7 +1650,7 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
     </button>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-black py-16">
+    <footer class="bg-white py-16">
         <div class="pixel-container max-w-6xl">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
@@ -1102,9 +1659,12 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
                 </div>
                 <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
                     <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
-                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
                     <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
-                    <a href="api-hub.html" class="hover:text-pink-500 transition-colors">API Hub</a>
+                    <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
+                    <a href="socket-chat.html" class="hover:text-pink-500 transition-colors">Sock chat</a>
+                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
+                    <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
+                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
                     <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -1171,6 +1731,53 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
             });
         });
 
+        // Pixel Loading Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('pixel-loading');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingMessage = document.getElementById('loading-message');
+
+            const loadingMessages = [
+                'Preparing documentation...',
+                'Loading API guides...',
+                'Setting up examples...',
+                'Initializing tutorials...',
+                'Documentation ready!'
+            ];
+
+            let messageIndex = 0;
+            let progress = 0;
+
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+
+                loadingBar.style.width = progress + '%';
+
+                // Change message every 20% progress
+                const newMessageIndex = Math.floor(progress / 20);
+                if (newMessageIndex !== messageIndex && newMessageIndex < loadingMessages.length) {
+                    messageIndex = newMessageIndex;
+                    loadingMessage.textContent = loadingMessages[messageIndex];
+                }
+
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    // Hide immediately for debugging
+                    loadingScreen.style.display = 'none';
+                    console.log('Documentation loading screen hidden - content should be visible now');
+                }
+            }, 150);
+
+            // Fallback: hide loading screen after 3 seconds regardless
+            setTimeout(() => {
+                if (loadingScreen && loadingScreen.style.display !== 'none') {
+                    loadingScreen.style.display = 'none';
+                    console.log('Documentation loading screen hidden via fallback timeout');
+                }
+            }, 3000);
+        });
+
         // Pixel Scroll-triggered Animations
         document.addEventListener('DOMContentLoaded', function() {
             const observerOptions = {
@@ -1204,5 +1811,8 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
             });
         });
     </script>
+
+    <!-- Cookie Consent Modal -->
+    <script src="cookie-consent.js"></script>
 </body>
 </html>

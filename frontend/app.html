@@ -22,8 +22,11 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <link rel="canonical" href="https://apiui.web.app/app.html">
-    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -37,7 +40,7 @@
     <meta property="og:title" content="apiUI App | Create and Manage APIs From Your Data">
     <meta property="og:description" content="Complete API management console for auto-generated REST APIs. Upload data, configure endpoints, deploy securely, and monitor performance with built-in analytics.">
     <meta property="og:url" content="https://apiui.web.app/app.html">
-    <meta property="og:image" content="https://apiui.web.app/apiui-logo.png">
+    <meta property="og:image" content="https://apiui.web.app/favicon.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="apiUI App - API Management Console">
@@ -49,11 +52,11 @@
     <meta name="twitter:creator" content="@apiui">
     <meta name="twitter:title" content="apiUI App | Create and Manage APIs From Your Data">
     <meta name="twitter:description" content="Manage your auto-generated REST APIs with the complete apiUI console. Deploy, monitor, and scale your data APIs with enterprise-grade features.">
-    <meta name="twitter:image" content="https://apiui.web.app/apiui-logo.png">
+    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
     <meta name="twitter:image:alt" content="apiUI App Dashboard">
 
     <!-- LinkedIn -->
-    <meta property="og:image:secure_url" content="https://apiui.web.app/apiui-logo.png">
+    <meta property="og:image:secure_url" content="https://apiui.web.app/favicon.png">
 
     <!-- Additional Social Media -->
     <meta name="pinterest" content="nopin">
@@ -102,8 +105,8 @@
                 "@type": "WebApplication",
                 "name": "apiUI App",
                 "url": "https://apiui.web.app/app.html",
-                "logo": "https://apiui.web.app/apiui-logo.png",
-                "image": "https://apiui.web.app/apiui-logo.png",
+                "logo": "https://apiui.web.app/favicon.png",
+                "image": "https://apiui.web.app/favicon.png",
                 "description": "Complete API management console for auto-generated REST APIs. Upload data files, configure endpoints, deploy securely, and monitor analytics. Manage CSV, Excel, Parquet, and JSON APIs with enterprise features.",
                 "applicationCategory": "DeveloperApplication",
                 "operatingSystem": "Any",
@@ -122,7 +125,7 @@
                     "@type": "Organization",
                     "name": "apiUI by AURABLOX",
                     "url": "https://apiui.web.app/",
-                    "logo": "https://apiui.web.app/apiui-logo.png"
+                    "logo": "https://apiui.web.app/favicon.png"
                 },
                 "publisher": {
                     "@type": "Organization",
@@ -152,7 +155,7 @@
                 },
                 "primaryImageOfPage": {
                     "@type": "ImageObject",
-                    "url": "https://apiui.web.app/apiui-logo.png"
+                    "url": "https://apiui.web.app/favicon.png"
                 }
             }
         ]
@@ -332,12 +335,21 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
             text-shadow:
-                2px 2px 0px var(--pixel-black),
-                4px 4px 0px var(--pixel-gray-800),
+                /* Deep 3D layers for depth */
+                1px 1px 0px var(--pixel-black),
+                2px 2px 0px var(--pixel-gray-800),
+                3px 3px 0px var(--pixel-gray-700),
+                4px 4px 0px var(--pixel-gray-600),
+                5px 5px 5px rgba(0, 0, 0, 0.3),
+                /* Inner glow effect */
+                0 0 5px var(--pixel-pink),
                 0 0 10px var(--pixel-pink),
-                0 0 20px var(--pixel-pink),
-                0 0 30px var(--pixel-pink);
-            animation: arcade-glow 3s ease-in-out infinite alternate;
+                0 0 15px var(--pixel-pink),
+                /* Outer neon glow */
+                0 0 20px var(--pixel-pink-subtle),
+                0 0 30px var(--pixel-pink-subtle),
+                0 0 40px rgba(233, 30, 99, 0.5);
+            animation: arcade-glow-pulse 3s ease-in-out infinite alternate;
         }
 
         @keyframes neon-pulse {
@@ -355,22 +367,40 @@
             }
         }
 
-        @keyframes arcade-glow {
+        @keyframes arcade-glow-pulse {
             from {
                 text-shadow:
-                    2px 2px 0px var(--pixel-black),
-                    4px 4px 0px var(--pixel-gray-800),
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Inner glow effect */
+                    0 0 5px var(--pixel-pink),
                     0 0 10px var(--pixel-pink),
-                    0 0 20px var(--pixel-pink);
+                    0 0 15px var(--pixel-pink),
+                    /* Outer neon glow */
+                    0 0 20px var(--pixel-pink-subtle),
+                    0 0 30px var(--pixel-pink-subtle),
+                    0 0 40px rgba(233, 30, 99, 0.5);
             }
             to {
                 text-shadow:
-                    2px 2px 0px var(--pixel-black),
-                    4px 4px 0px var(--pixel-gray-800),
-                    0 0 15px var(--pixel-pink),
-                    0 0 25px var(--pixel-pink),
-                    0 0 35px var(--pixel-pink),
-                    0 0 40px var(--pixel-pink);
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Enhanced inner glow effect */
+                    0 0 8px var(--pixel-pink),
+                    0 0 16px var(--pixel-pink),
+                    0 0 24px var(--pixel-pink),
+                    /* Enhanced outer neon glow */
+                    0 0 32px var(--pixel-pink-subtle),
+                    0 0 48px var(--pixel-pink-subtle),
+                    0 0 64px rgba(233, 30, 99, 0.7);
             }
         }
 
@@ -444,6 +474,11 @@
         .pixel-btn-secondary:hover {
             background: var(--pixel-pink-subtle);
             color: var(--pixel-white);
+        }
+
+        /* Sidebar buttons should be square */
+        .pixel-btn.p-3 {
+            padding: 0.75rem !important;
         }
 
         /* Pixel Card System - Dark Theme */
@@ -1233,10 +1268,11 @@
                     </svg>
                 </a>
 
-                <!-- API Hub -->
-                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+
+                <!-- MCP Server -->
+                <a href="mcp.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                     </svg>
                 </a>
 
@@ -1255,9 +1291,9 @@
     <section class="hero-section-app section-spacing">
         <div class="pixel-container max-w-6xl relative z-10 py-8 sm:py-16">
             <div class="text-center mb-16">
-                <span class="pixel-badge pixel-fade-in mb-8">
-                    <span class="text-white">Monitor</span> · <span class="text-white">Scale</span> · <span class="text-white">Deploy</span>
-                </span>
+                <div class="pixel-fade-in mb-8 flex items-center justify-center">
+                    <span class="pixel-heading text-3xl tracking-[0.32em] text-white">api<span class="text-pink-500">UI</span></span>
+                </div>
                 <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white max-w-4xl mx-auto mb-6 pixel-fade-in">
                     Command your <span class="arcade-neon">API empire</span> from one dashboard
                 </h1>
@@ -1779,9 +1815,12 @@
                 </div>
                 <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-400">
                     <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
-                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
                     <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
-                    <a href="api-hub.html" class="hover:text-pink-500 transition-colors">API Hub</a>
+                    <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
+                    <a href="socket-chat.html" class="hover:text-pink-500 transition-colors">Sock chat</a>
+                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
+                    <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
+                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
                     <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -4019,5 +4058,10 @@
         // Confirm all authentication code has been successfully removed
         console.log('✅ App initialization complete - all authentication code removed, only app functionality remains');
     </script>
+
+    <!-- Cookie Consent Modal -->
+    <script src="cookie-consent.js"></script>
 </body>
 </html>
+
+

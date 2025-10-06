@@ -13,8 +13,8 @@
     <meta name="theme-color" content="#0f172a">
     <meta name="language" content="English">
     <link rel="canonical" href="https://apiui.web.app/api-analytics.html">
-    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -279,8 +279,21 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
             text-shadow:
-                2px 2px 0px var(--pixel-gray-600),
-                0 0 8px var(--pixel-pink);
+                /* Deep 3D layers for depth */
+                1px 1px 0px var(--pixel-black),
+                2px 2px 0px var(--pixel-gray-800),
+                3px 3px 0px var(--pixel-gray-700),
+                4px 4px 0px var(--pixel-gray-600),
+                5px 5px 5px rgba(0, 0, 0, 0.3),
+                /* Inner glow effect */
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                /* Outer neon glow */
+                0 0 20px var(--pixel-pink-subtle),
+                0 0 30px var(--pixel-pink-subtle),
+                0 0 40px rgba(233, 30, 99, 0.5);
+            animation: arcade-glow-pulse 3s ease-in-out infinite alternate;
         }
 
         @keyframes neon-pulse {
@@ -293,6 +306,43 @@
                 0 0 10px var(--pixel-pink),
                 0 0 15px var(--pixel-pink),
                 0 0 20px var(--pixel-pink);
+            }
+        }
+
+        @keyframes arcade-glow-pulse {
+            from {
+                text-shadow:
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Inner glow effect */
+                    0 0 5px var(--pixel-pink),
+                    0 0 10px var(--pixel-pink),
+                    0 0 15px var(--pixel-pink),
+                    /* Outer neon glow */
+                    0 0 20px var(--pixel-pink-subtle),
+                    0 0 30px var(--pixel-pink-subtle),
+                    0 0 40px rgba(233, 30, 99, 0.5);
+            }
+            to {
+                text-shadow:
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Enhanced inner glow effect */
+                    0 0 8px var(--pixel-pink),
+                    0 0 16px var(--pixel-pink),
+                    0 0 24px var(--pixel-pink),
+                    /* Enhanced outer neon glow */
+                    0 0 32px var(--pixel-pink-subtle),
+                    0 0 48px var(--pixel-pink-subtle),
+                    0 0 64px rgba(233, 30, 99, 0.7);
             }
         }
 

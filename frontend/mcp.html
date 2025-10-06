@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Server | apiUI</title>
+    <meta name="description" content="Connect to apiUI's MCP (Model Context Protocol) server to access and manage flat files.">
+    <meta name="author" content="apiUI by AURABLOX">
+    <link rel="canonical" href="https://apiui.web.app/mcp.html">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance optimizations -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" as="script">
+    <link rel="modulepreload" href="https://cdn.tailwindcss.com">
+    <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Configure backend URLs for the frontend
+        // Always use Cloud Run version for both development and production
+        const isLocalhost = window.location.hostname === 'localhost' ||
+                           window.location.hostname === '127.0.0.1' ||
+                           window.location.hostname === '';
+
+        // Flask backend for API operations - Always use Cloud Run
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
+    </script>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            color: black;
+            line-height: 1.6;
+        }
+        .nav-link { color: black; text-decoration: none; }
+        .nav-link:hover { text-decoration: underline; }
+        .code-block {
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+    </style>
+    <style>
+        /* Pixel-Inspired CSS Variables */
+        :root {
+            --pixel-pink: #E91E63;
+            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
+            --pixel-pink-light: #F472B6;  /* Light pink */
+            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
+            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
+            --pixel-black: #000000;
+            --pixel-white: #ffffff;
+            --pixel-gray-100: #f8fafc;
+            --pixel-gray-200: #e2e8f0;
+            --pixel-gray-300: #cbd5e1;
+            --pixel-gray-600: #64748b;
+            --pixel-gray-800: #1f2937;
+            /* Pixel Design System */
+            --pixel-border-width: 2px;
+            --pixel-border-radius: 0px;
+            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        /* CTA Button with Layered Glow Effect */
+        .cta-glow {
+            position: relative;
+            background: var(--pixel-pink);
+            color: white;
+            box-shadow:
+                0 0 20px rgba(233, 30, 99, 0.6),
+                0 0 40px rgba(156, 39, 176, 0.4),
+                0 0 60px rgba(156, 39, 176, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-glow:hover {
+            background: var(--pixel-pink-subtle);
+            box-shadow:
+                0 0 30px rgba(233, 30, 99, 0.8),
+                0 0 60px rgba(156, 39, 176, 0.6),
+                0 0 90px rgba(156, 39, 176, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cta-glow:active {
+            transform: translateY(0);
+            box-shadow:
+                0 0 15px rgba(233, 30, 99, 0.4),
+                0 0 30px rgba(156, 39, 176, 0.3);
+        }
+
+        /* Regular Cursor */
+        * {
+            cursor: auto;
+        }
+
+        button, a, [role="button"] {
+            cursor: pointer;
+        }
+
+        /* Base Typography */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--pixel-white);
+            color: var(--pixel-black);
+            line-height: 1.6;
+        }
+
+        /* Pixel Typography Classes */
+        .pixel-heading {
+            font-family: 'Pixelify Sans', monospace;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .pixel-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+            text-transform: uppercase;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-subtitle {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            opacity: 0.9;
+            line-height: 1.3;
+        }
+
+        .pixel-body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Hub Design System */
+        .hub-divider {
+            height: 1px;
+            background: var(--pixel-gray-200);
+        }
+
+        /* Pixel Card System */
+        .pixel-card {
+            background: var(--pixel-white);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pixel-card-borderless {
+            background: var(--pixel-white);
+            border: none;
+            border-radius: var(--pixel-border-radius);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pixel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .pixel-card:hover {
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
+        }
+
+        .pixel-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Pixel Button System */
+        .pixel-btn {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            padding: 0.75rem 1.5rem;
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pixel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .pixel-btn:hover {
+            box-shadow: var(--pixel-shadow-hover);
+            transform: translate(-1px, -1px);
+            color: var(--pixel-black);
+        }
+
+        .pixel-btn:hover::before {
+            left: 100%;
+        }
+
+        .pixel-btn:active {
+            transform: translate(0, 0);
+            box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .pixel-btn-primary {
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            border-color: var(--pixel-black);
+        }
+
+        .pixel-btn-primary:hover {
+            background: var(--pixel-pink);
+            border-color: var(--pixel-pink);
+            color: var(--pixel-white);
+        }
+
+        .pixel-btn-secondary {
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border-color: var(--pixel-pink);
+        }
+
+        .pixel-btn-secondary:hover {
+            background: var(--pixel-pink);
+            color: var(--pixel-white);
+        }
+
+        .floating-nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background: transparent;
+            color: var(--pixel-gray-600);
+            transition: all 0.15s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .floating-nav-btn:hover {
+            background: var(--pixel-pink);
+            color: var(--pixel-white);
+            transform: translateY(-1px);
+        }
+
+        /* Pixel Icon Containers */
+        .pixel-icon {
+            background: var(--pixel-gray-100);
+            border: var(--pixel-border-width) solid var(--pixel-gray-300);
+            border-radius: var(--pixel-border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--pixel-shadow);
+            color: var(--pixel-gray-600);
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        .pixel-icon svg {
+            color: inherit;
+            filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Pixel Grid System */
+        .pixel-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .pixel-section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .pixel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Pixel Accent Elements */
+        .pixel-accent-line {
+            position: relative;
+            margin: 3rem 0;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--pixel-black) 0px,
+                var(--pixel-black) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pixel-accent-line:hover {
+            background: repeating-linear-gradient(
+                90deg,
+                var(--pixel-pink) 0px,
+                var(--pixel-pink) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+        }
+
+        .pixel-accent-line::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 4px;
+            background: var(--pixel-pink);
+            transition: all 0.3s ease;
+        }
+
+        .pixel-accent-line:hover::before {
+            background: var(--pixel-black);
+            width: 12px;
+            height: 6px;
+        }
+
+        /* Pixel Badge - Consistent Pink Styling */
+        .pixel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            background: var(--pixel-pink);
+            border: 2px solid var(--pixel-black);
+            color: var(--pixel-white);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            box-shadow: var(--pixel-shadow);
+            transition: all 0.2s ease;
+        }
+
+        .pixel-badge:hover {
+            background: var(--pixel-pink-subtle);
+            border-color: var(--pixel-black);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
+        }
+
+        .pixel-badge.category-active {
+            background: var(--pixel-black);
+            border-color: var(--pixel-black);
+            color: var(--pixel-white);
+        }
+
+        /* Pixel Loading Animation */
+        .pixel-loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--pixel-gray-300);
+            border-radius: 0;
+            border-top-color: var(--pixel-pink);
+            animation: pixel-spin 1s ease-in-out infinite;
+        }
+
+        @keyframes pixel-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Pixel Flicker Animation */
+        @keyframes pixel-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .pixel-flicker {
+            animation: pixel-flicker 0.1s ease-in-out;
+        }
+
+        /* Arcade Text Effects */
+        .arcade-neon {
+            text-shadow:
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink);
+            animation: neon-pulse 2s ease-in-out infinite alternate;
+        }
+
+        .arcade-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-shadow:
+                /* Deep 3D layers for depth */
+                1px 1px 0px var(--pixel-black),
+                2px 2px 0px var(--pixel-gray-800),
+                3px 3px 0px var(--pixel-gray-700),
+                4px 4px 0px var(--pixel-gray-600),
+                5px 5px 5px rgba(0, 0, 0, 0.3),
+                /* Inner glow effect */
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                /* Outer neon glow */
+                0 0 20px var(--pixel-pink-subtle),
+                0 0 30px var(--pixel-pink-subtle),
+                0 0 40px rgba(233, 30, 99, 0.5);
+            animation: arcade-glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes neon-pulse {
+            from { text-shadow:
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink);
+            }
+            to { text-shadow:
+                0 0 5px var(--pixel-pink),
+                0 0 10px var(--pixel-pink),
+                0 0 15px var(--pixel-pink),
+                0 0 20px var(--pixel-pink);
+            }
+        }
+
+        @keyframes arcade-glow-pulse {
+            from {
+                text-shadow:
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Inner glow effect */
+                    0 0 5px var(--pixel-pink),
+                    0 0 10px var(--pixel-pink),
+                    0 0 15px var(--pixel-pink),
+                    /* Outer neon glow */
+                    0 0 20px var(--pixel-pink-subtle),
+                    0 0 30px var(--pixel-pink-subtle),
+                    0 0 40px rgba(233, 30, 99, 0.5);
+            }
+            to {
+                text-shadow:
+                    /* Deep 3D layers for depth */
+                    1px 1px 0px var(--pixel-black),
+                    2px 2px 0px var(--pixel-gray-800),
+                    3px 3px 0px var(--pixel-gray-700),
+                    4px 4px 0px var(--pixel-gray-600),
+                    5px 5px 5px rgba(0, 0, 0, 0.3),
+                    /* Enhanced inner glow effect */
+                    0 0 8px var(--pixel-pink),
+                    0 0 16px var(--pixel-pink),
+                    0 0 24px var(--pixel-pink),
+                    /* Enhanced outer neon glow */
+                    0 0 32px var(--pixel-pink-subtle),
+                    0 0 48px var(--pixel-pink-subtle),
+                    0 0 64px rgba(233, 30, 99, 0.7);
+            }
+        }
+
+        /* Hero Section */
+        .hero-section-docs {
+            position: relative;
+            overflow: hidden;
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Documentation Layout */
+        .doc-section {
+            scroll-margin-top: 120px;
+        }
+
+        .docs-layout {
+            padding: 5rem 0;
+            background: var(--pixel-white);
+        }
+
+        .docs-wrapper {
+            display: grid;
+            gap: 2.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .docs-wrapper {
+                grid-template-columns: 280px minmax(0, 1fr);
+                align-items: start;
+            }
+        }
+
+        .doc-sidebar {
+            position: sticky;
+            top: 120px;
+            align-self: start;
+            background: var(--pixel-white);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            padding: 1.75rem 1.5rem;
+            box-shadow: var(--pixel-shadow);
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+        }
+
+        .doc-sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .doc-sidebar-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .doc-sidebar-title {
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--pixel-gray-600);
+        }
+
+        .doc-sidebar-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .doc-sidebar-links a {
+            display: block;
+            padding: 0.5rem 0 0.5rem 0.25rem;
+            color: var(--pixel-gray-600);
+            border-left: var(--pixel-border-width) solid transparent;
+            transition: all 0.15s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .doc-sidebar-links a:hover {
+            color: var(--pixel-pink);
+            border-left-color: var(--pixel-pink);
+            padding-left: 0.75rem;
+        }
+
+        .doc-sidebar-links a.toc-link-active {
+            color: var(--pixel-black);
+            font-weight: 600;
+            border-left-color: var(--pixel-black);
+            padding-left: 0.75rem;
+        }
+
+        .doc-page-shell {
+            margin-left: 0;
+        }
+
+        .doc-content {
+            width: 100%;
+            max-width: 60rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .doc-content .pixel-container {
+            max-width: 60rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.75rem;
+            padding-right: 1.75rem;
+        }
+
+        @media (min-width: 1280px) {
+            .doc-content {
+                max-width: 64rem;
+            }
+
+            .doc-content .pixel-container {
+                max-width: 64rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .doc-content .pixel-container {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+        }
+
+        .doc-mobile-nav__panel {
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            border-radius: var(--pixel-border-radius);
+            background: var(--pixel-white);
+            box-shadow: var(--pixel-shadow);
+            overflow: hidden;
+        }
+
+        .doc-mobile-nav__summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            color: var(--pixel-black);
+            cursor: pointer;
+        }
+
+        .doc-mobile-nav__summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .doc-mobile-nav__summary::after {
+            content: '\25BC';
+            font-size: 0.75rem;
+            color: var(--pixel-gray-600);
+            transition: transform 0.2s ease;
+        }
+
+        .doc-mobile-nav__panel[open] .doc-mobile-nav__summary::after {
+            transform: rotate(-180deg);
+        }
+
+        .doc-mobile-nav__content {
+            padding: 0 1.25rem 1.25rem;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .doc-mobile-nav__content .doc-sidebar-group {
+            gap: 0.5rem;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: var(--pixel-white);
+            border: 2px solid var(--pixel-black);
+            border-radius: 0;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.875rem;
+            line-height: 1.4;
+            padding: 1rem;
+            overflow-x: auto;
+            color: var(--pixel-black);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .copy-code-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 0;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--pixel-white);
+            color: var(--pixel-black);
+            border: var(--pixel-border-width) solid var(--pixel-gray-300);
+            transition: all 0.15s ease;
+            box-shadow: var(--pixel-shadow);
+        }
+
+        .copy-code-btn:hover {
+            background: var(--pixel-gray-100);
+            color: var(--pixel-black);
+            transform: translate(-1px, -1px);
+        }
+
+        .copy-code-btn.copied {
+            background: var(--pixel-pink);
+            color: var(--pixel-white);
+            border-color: var(--pixel-pink);
+        }
+
+        /* Connection status */
+        .connection-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .connection-status.connected {
+            background: #10b981;
+            color: white;
+            border: 2px solid #059669;
+        }
+
+        .connection-status.disconnected {
+            background: #ef4444;
+            color: white;
+            border: 2px solid #dc2626;
+        }
+
+        /* MCP specific styles */
+        .resource-item {
+            background: var(--pixel-white);
+            border: 2px solid var(--pixel-gray-300);
+            border-radius: 0;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .resource-item:hover {
+            border-color: var(--pixel-pink);
+            box-shadow: 0 0 8px rgba(236, 72, 153, 0.2);
+        }
+
+        .resource-name {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            color: var(--pixel-black);
+        }
+
+        .resource-meta {
+            font-size: 0.875rem;
+            color: var(--pixel-gray-600);
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0;
+            background: var(--pixel-black);
+            color: var(--pixel-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--pixel-shadow);
+            border: var(--pixel-border-width) solid var(--pixel-black);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(16px);
+            transition: all 0.15s ease;
+            z-index: 100;
+        }
+
+        .back-to-top:hover {
+            background: var(--pixel-pink);
+            transform: translateY(14px);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        header {
+            background: #ffffff !important;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(15, 23, 42, 0.12);
+            background: var(--pixel-white);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .pixel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pixel-section {
+                padding: 3rem 0;
+            }
+
+            .doc-sidebar {
+                padding: 1rem;
+            }
+        }
+
+        /* Scroll-triggered animations */
+        .pixel-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pixel-slide-in-left {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .pixel-slide-in-right {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .pixel-slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Floating Sidebar Icon Override - No Borders */
+        .floating-sidebar-icon {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .floating-sidebar-icon:hover {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Floating Sidebar Container Override - No Borders */
+        .floating-sidebar-container {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Pixel Focus States */
+        a:focus, button:focus {
+            outline: 2px solid var(--pixel-pink);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pixel Loading Screen -->
+    <div id="pixel-loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <!-- Pixel Logo Animation -->
+            <div class="mb-8">
+                <div class="inline-block relative">
+                    <div class="text-4xl arcade-title text-black mb-4">api<span class="arcade-neon">UI</span></div>
+                    <div class="flex justify-center space-x-1">
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse"></div>
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.2s"></div>
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.4s"></div>
+                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.6s"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Text -->
+            <div class="pixel-subtitle text-black text-lg mb-4">CONNECTING TO MCP SERVER...</div>
+
+            <!-- Pixel Loading Bar -->
+            <div class="w-64 h-4 bg-gray-200 border-2 border-gray-400 mx-auto relative overflow-hidden">
+                <div id="loading-bar" class="h-full bg-gradient-to-r from-pink-500 to-pink-600 transition-all duration-1000 ease-out" style="width: 0%"></div>
+            </div>
+
+            <!-- Fun Loading Messages -->
+            <div id="loading-message" class="pixel-body text-gray-600 text-sm mt-4">Initializing MCP connection...</div>
+        </div>
+    </div>
+
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="floating-sidebar-container bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+
+                <!-- Dashboard -->
+                <a href="app.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
+
+                <!-- Docs -->
+                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+
+
+                <!-- MCP Server -->
+                <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                    </svg>
+                </a>
+
+                <!-- Socket Chat -->
+                <a href="socket-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
+                    api<span class="text-pink-500">UI</span>
+                </a>
+                <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">MCP Server</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
+                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Sock chat</a>
+                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
+                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
+            <div class="pixel-container py-4 space-y-4">
+                <a href="app.html" class="block text-black hover:text-pink-500 font-medium py-2">App</a>
+                <a href="mcp.html" class="block text-black hover:text-pink-500 font-medium py-2">MCP</a>
+                <a href="socket-chat.html" class="block text-black hover:text-pink-500 font-medium py-2">Sock chat</a>
+                <a href="docs.html" class="block text-black hover:text-pink-500 font-medium py-2">Docs</a>
+                <a href="learn-more.html" class="block text-black hover:text-pink-500 font-medium py-2">Learn more</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section for MCP -->
+    <section class="hero-section-docs bg-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
+
+        <div class="pixel-container max-w-6xl text-center relative z-10">
+            <!-- Main Headline -->
+            <div class="mb-8 pixel-fade-in">
+                <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
+                    Model Context Protocol Server
+                </h1>
+            </div>
+
+            <!-- Enhanced Subtitle -->
+            <div class="mb-12 pixel-fade-in" style="animation-delay: 0.2s">
+                <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
+                    Connect AI models and tools to your flat files through the
+                    <span class="font-semibold text-gray-900">Model Context Protocol (MCP)</span>.
+                    Access CSV, JSON, and other data files seamlessly.
+                </p>
+            </div>
+
+            <!-- Navigation Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto pixel-fade-in" style="animation-delay: 0.4s">
+                <a href="#mcp-overview" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
+                    <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
+                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pixel-subtitle text-lg text-black mb-2">What is MCP?</h3>
+                    <p class="pixel-body text-black text-sm">Learn about the Model Context Protocol and how it works</p>
+                </a>
+
+                <a href="#connecting" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
+                    <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
+                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pixel-subtitle text-lg text-black mb-2">How to Connect</h3>
+                    <p class="pixel-body text-black text-sm">Step-by-step guide to connect MCP clients to your server</p>
+                </a>
+
+                <a href="#file-browser" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
+                    <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
+                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pixel-subtitle text-lg text-black mb-2">File Browser</h3>
+                    <p class="pixel-body text-black text-sm">Browse and access all available files via MCP</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pixel Section Divider -->
+    <div class="pixel-accent-line"></div>
+
+    <div class="max-w-4xl mx-auto px-4 py-8">
+
+        <main>
+            <section id="mcp-overview" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">What is MCP?</h2>
+                <div class="space-y-6">
+                    <div>
+                        <p class="mb-4">The Model Context Protocol (MCP) is a standardized way for AI models and tools to access external data sources and APIs. It provides a consistent interface for connecting various data providers to AI applications.</p>
+
+                        <div class="pixel-card p-6 mb-6">
+                            <h3 class="pixel-subtitle text-lg text-black mb-4">Key Benefits</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
+                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="pixel-body text-black font-medium mb-1">Standardized Interface</h4>
+                                            <p class="pixel-body text-black text-sm">Consistent way to access different data sources</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
+                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="pixel-body text-black font-medium mb-1">Secure Access</h4>
+                                            <p class="pixel-body text-black text-sm">Controlled access to your data with proper authentication</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
+                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="pixel-body text-black font-medium mb-1">Multiple Formats</h4>
+                                            <p class="pixel-body text-black text-sm">Support for CSV, JSON, Parquet, and other file formats</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
+                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="pixel-body text-black font-medium mb-1">Real-time Updates</h4>
+                                            <p class="pixel-body text-black text-sm">Live access to your changing data</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="connecting" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">How to Connect</h2>
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">For MCP Clients</h3>
+                        <p class="mb-4">Configure your MCP-compatible AI client to connect to the apiUI MCP server:</p>
+                        <div class="code-block">
+{
+  "mcpServers": {
+    "apiui": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/your/files"],
+      "env": {
+        "APIUI_BASE_URL": "https://apiui-backend-44565368406.us-central1.run.app"
+      }
+    }
+  }
+}
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Replace <code>/path/to/your/files</code> with the actual path to your local MCP client configuration.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Direct API Access</h3>
+                        <p class="mb-4">You can also access the MCP server directly via HTTP APIs:</p>
+                        <div class="space-y-4">
+                            <div class="pixel-card p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <code class="pixel-body text-sm bg-gray-100 px-2 py-1 rounded">GET /mcp/resources</code>
+                                    <span class="pixel-badge">List Files</span>
+                                </div>
+                                <p class="pixel-body text-black text-sm">Retrieve a list of all available files with metadata</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <code class="pixel-body text-sm bg-gray-100 px-2 py-1 rounded">POST /mcp</code>
+                                    <span class="pixel-badge">MCP Protocol</span>
+                                </div>
+                                <p class="pixel-body text-black text-sm">Send MCP protocol requests (resources/list, resources/read)</p>
+                            </div>
+                            <div class="pixel-card p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <code class="pixel-body text-sm bg-gray-100 px-2 py-1 rounded">GET /mcp/resources/{filename}</code>
+                                    <span class="pixel-badge">Read File</span>
+                                </div>
+                                <p class="pixel-body text-black text-sm">Direct access to read specific file content</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="file-browser" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">File Browser</h2>
+                <p class="mb-6">Browse and access all files available through your MCP server. Files uploaded to apiUI are automatically made available via MCP.</p>
+
+                <!-- File Browser -->
+                <section class="pixel-card p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="pixel-heading text-2xl text-black">Available Files</h2>
+                        <div class="flex items-center gap-4">
+                            <div id="connection-status" class="connection-status">
+                                <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+                                <span>Checking...</span>
+                            </div>
+                            <button id="refresh-files" class="pixel-btn pixel-btn-primary">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                </svg>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="files-container" class="space-y-4">
+                        <div class="text-center py-12">
+                            <div class="pixel-loader w-8 h-8 mx-auto mb-4"></div>
+                            <p class="pixel-body text-gray-600">Loading available files...</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">Navigation</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <a href="index.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">Home</h4>
+                    <p class="pixel-body text-black text-sm">Landing page and overview</p>
+                </a>
+                <a href="app.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">My APIs</h4>
+                    <p class="pixel-body text-black text-sm">Manage and generate APIs</p>
+                </a>
+                <a href="data-editor.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">Data Editor</h4>
+                    <p class="pixel-body text-black text-sm">Excel-like interface for editing API data</p>
+                </a>
+                <a href="socket-chat.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">Socket Chat</h4>
+                    <p class="pixel-body text-black text-sm">Natural language queries for your APIs</p>
+                </a>
+                <a href="api-docs.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">API Docs</h4>
+                    <p class="pixel-body text-black text-sm">Interactive API documentation and testing</p>
+                </a>
+                <a href="api-hub.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">API Hub</h4>
+                    <p class="pixel-body text-black text-sm">Browse available API integrations</p>
+                </a>
+                <a href="api-analytics.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">Analytics</h4>
+                    <p class="pixel-body text-black text-sm">Monitor API performance and usage</p>
+                </a>
+                <a href="docs.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">Documentation</h4>
+                    <p class="pixel-body text-black text-sm">Complete platform documentation</p>
+                </a>
+                <a href="mcp.html" class="pixel-card p-4 bg-pink-50 border-pink-500 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">MCP Server</h4>
+                    <p class="pixel-body text-black text-sm">Model Context Protocol file access</p>
+                </a>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Return to top">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="bg-white py-16">
+        <div class="pixel-container max-w-6xl">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div>
+                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
+                    <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">MCP Server</p>
+                </div>
+                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
+                    <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
+                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
+                    <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
+                    <a href="socket-chat.html" class="hover:text-pink-500 transition-colors">Sock chat</a>
+                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
+                    <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
+                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
+                </div>
+            </div>
+            <div class="hub-divider mt-8"></div>
+            <div class="mt-6 text-right pixel-heading text-xs uppercase tracking-[0.28em] text-slate-500">&copy; 2025 apiUI Inc. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking on a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // Back to top button
+        const backToTopBtn = document.getElementById('back-to-top');
+
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 600) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Pixel Loading Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('pixel-loading');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingMessage = document.getElementById('loading-message');
+
+            const loadingMessages = [
+                'Initializing MCP connection...',
+                'Setting up file access...',
+                'Loading resource manifest...',
+                'Preparing file browser...',
+                'MCP server ready!'
+            ];
+
+            let messageIndex = 0;
+            let progress = 0;
+
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+
+                loadingBar.style.width = progress + '%';
+
+                // Change message every 20% progress
+                const newMessageIndex = Math.floor(progress / 20);
+                if (newMessageIndex !== messageIndex && newMessageIndex < loadingMessages.length) {
+                    messageIndex = newMessageIndex;
+                    loadingMessage.textContent = loadingMessages[messageIndex];
+                }
+
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    // Hide immediately for debugging
+                    loadingScreen.style.display = 'none';
+                    console.log('MCP page loading screen hidden - content should be visible now');
+
+                    // Now load the actual files
+                    loadFiles();
+                }
+            }, 150);
+
+            // Fallback: hide loading screen after 3 seconds regardless
+            setTimeout(() => {
+                if (loadingScreen && loadingScreen.style.display !== 'none') {
+                    loadingScreen.style.display = 'none';
+                    console.log('MCP page loading screen hidden via fallback timeout');
+                    loadFiles();
+                }
+            }, 3000);
+        });
+
+        // Pixel Scroll-triggered Animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all pixel animation elements
+            const animatedElements = document.querySelectorAll('.pixel-fade-in, .pixel-slide-in-left, .pixel-slide-in-right');
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Add pixel flicker effect on hover for buttons
+            const pixelButtons = document.querySelectorAll('.pixel-btn');
+            pixelButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.classList.add('pixel-flicker');
+                    setTimeout(() => {
+                        this.classList.remove('pixel-flicker');
+                    }, 100);
+                });
+            });
+        });
+
+        // Load available files
+        async function loadFiles() {
+            const filesContainer = document.getElementById('files-container');
+            const connectionStatus = document.getElementById('connection-status');
+
+            try {
+                const response = await fetch(`${window.APIUI_AUTH_BASE_URL}/mcp/resources`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                connectionStatus.className = 'connection-status connected';
+                connectionStatus.innerHTML = '<div class="w-2 h-2 bg-current rounded-full"></div><span>Connected</span>';
+
+                if (data.resources && data.resources.length > 0) {
+                    filesContainer.innerHTML = data.resources.map(resource => `
+                        <div class="resource-item">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <div class="resource-name">${resource.name}</div>
+                                    <div class="resource-meta">
+                                        ${resource.description} • ${(resource.size / 1024).toFixed(1)} KB • Modified: ${new Date(resource.lastModified).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                <button onclick="viewFile('${resource.name}')" class="pixel-btn pixel-btn-primary text-sm">
+                                    View Content
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    filesContainer.innerHTML = `
+                        <div class="text-center py-12">
+                            <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <p class="pixel-body text-gray-600">No files available</p>
+                            <p class="pixel-body text-gray-500 text-sm mt-2">Upload files through the apiUI dashboard to make them available via MCP</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading files:', error);
+                connectionStatus.className = 'connection-status disconnected';
+                connectionStatus.innerHTML = '<div class="w-2 h-2 bg-current rounded-full animate-pulse"></div><span>Error</span>';
+
+                filesContainer.innerHTML = `
+                    <div class="text-center py-12">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="pixel-body text-red-600">Failed to connect to MCP server</p>
+                        <p class="pixel-body text-gray-500 text-sm mt-2">${error.message}</p>
+                        <button onclick="loadFiles()" class="pixel-btn pixel-btn-primary mt-4">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // View file content
+        async function viewFile(filename) {
+            try {
+                const response = await fetch(`${window.APIUI_AUTH_BASE_URL}/mcp/resources/${filename}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Create modal to show file content
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="pixel-card bg-white max-w-4xl w-full max-h-[80vh] overflow-hidden">
+                        <div class="p-6 border-b-2 border-black flex items-center justify-between">
+                            <h3 class="pixel-heading text-xl text-black">${filename}</h3>
+                            <button onclick="this.closest('.fixed').remove()" class="pixel-btn pixel-btn-secondary">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="p-6 overflow-auto max-h-96">
+                            <pre class="code-block whitespace-pre-wrap">${data.content || 'No content available'}</pre>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+
+                // Close modal when clicking outside
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+
+            } catch (error) {
+                alert(`Error loading file: ${error.message}`);
+            }
+        }
+
+        // Refresh files button
+        document.getElementById('refresh-files').addEventListener('click', () => {
+            const filesContainer = document.getElementById('files-container');
+            filesContainer.innerHTML = `
+                <div class="text-center py-12">
+                    <div class="pixel-loader w-8 h-8 mx-auto mb-4"></div>
+                    <p class="pixel-body text-gray-600">Refreshing files...</p>
+                </div>
+            `;
+            loadFiles();
+        });
+    </script>
+
+    <!-- Cookie Consent Modal -->
+    <script src="cookie-consent.js"></script>
+</body>
+</html></contents>
+</xai:function_call:-write>
+<parameter name="file_path">/Users/jahflyx/apiui/frontend/mcp.html
