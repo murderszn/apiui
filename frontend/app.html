@@ -1354,6 +1354,15 @@
                 margin-bottom: 0.5rem;
             }
 
+            /* Hide desktop user info on mobile - only show mobile version in hamburger menu */
+            #user-info-container {
+                display: none !important;
+            }
+
+            #user-info-container.md\\:flex {
+                display: flex !important;
+            }
+
             /* Mobile hero section */
             .hero-section-app {
                 padding: 3rem 1rem;
