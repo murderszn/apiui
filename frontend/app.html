@@ -94,6 +94,41 @@
             <div id="loading-message" class="pixel-body text-gray-400 text-sm mt-4">Initializing API workspace...</div>
         </div>
     </div>
+
+    <!-- Password Lock Screen -->
+    <div id="password-lock-screen" class="fixed inset-0 bg-black z-40 flex items-center justify-center">
+        <div class="pixel-card p-8 max-w-md w-full mx-4">
+            <div class="text-center mb-8">
+                <div class="mb-6">
+                    <span class="pixel-heading text-3xl tracking-[0.32em] text-white">api<span class="text-pink-500">UI</span></span>
+                </div>
+                <h2 class="pixel-subtitle text-xl text-white mb-2">Access Required</h2>
+                <p class="pixel-body text-gray-300 text-sm">Please enter your credentials to access the API management console.</p>
+            </div>
+
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="username" class="block pixel-body text-sm text-white mb-2">Username</label>
+                    <input type="text" id="username" name="username" class="w-full bg-gray-800 border border-gray-600 text-white px-4 py-3 rounded focus:outline-none focus:border-pink-500 transition-colors" placeholder="Enter username" autocomplete="username">
+                </div>
+
+                <div>
+                    <label for="password" class="block pixel-body text-sm text-white mb-2">Password</label>
+                    <input type="password" id="password" name="password" class="w-full bg-gray-800 border border-gray-600 text-white px-4 py-3 rounded focus:outline-none focus:border-pink-500 transition-colors" placeholder="Enter password" autocomplete="current-password">
+                </div>
+
+                <div id="login-error" class="hidden pixel-body text-sm text-red-400 text-center"></div>
+
+                <button type="submit" class="w-full pixel-btn pixel-btn-primary">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                    </svg>
+                    Access Console
+                </button>
+            </form>
+        </div>
+    </div>
+
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -1983,7 +2018,80 @@
             }, 3000);
         });
 
+        // Password Authentication System
+        document.addEventListener('DOMContentLoaded', function() {
+            const lockScreen = document.getElementById('password-lock-screen');
+            const loginForm = document.getElementById('login-form');
+            const loginError = document.getElementById('login-error');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
 
+            // Check if user is already authenticated
+            const isAuthenticated = sessionStorage.getItem('apiui_authenticated') === 'true';
+
+            if (isAuthenticated) {
+                // User is already authenticated, hide lock screen
+                if (lockScreen) {
+                    lockScreen.style.display = 'none';
+                }
+                console.log('User already authenticated, skipping login screen');
+                return;
+            }
+
+            // Show lock screen if not authenticated
+            if (lockScreen) {
+                lockScreen.style.display = 'flex';
+                console.log('Showing password lock screen');
+            }
+
+            // Handle login form submission
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const username = usernameInput.value.trim();
+                    const password = passwordInput.value.trim();
+
+                    // Check credentials
+                    if (username === 'admin' && password === 'apiui123') {
+                        // Successful login
+                        sessionStorage.setItem('apiui_authenticated', 'true');
+                        lockScreen.style.display = 'none';
+                        console.log('Authentication successful');
+
+                        // Clear form
+                        usernameInput.value = '';
+                        passwordInput.value = '';
+                    } else {
+                        // Failed login
+                        loginError.textContent = 'Invalid username or password';
+                        loginError.classList.remove('hidden');
+                        console.log('Authentication failed');
+
+                        // Clear password field
+                        passwordInput.value = '';
+                        passwordInput.focus();
+
+                        // Hide error after 3 seconds
+                        setTimeout(() => {
+                            loginError.classList.add('hidden');
+                        }, 3000);
+                    }
+                });
+            }
+
+            // Add keyboard shortcuts for testing (Ctrl+Shift+A for auto-login)
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                    e.preventDefault();
+                    console.log('Auto-login shortcut activated');
+                    sessionStorage.setItem('apiui_authenticated', 'true');
+                    if (lockScreen) {
+                        lockScreen.style.display = 'none';
+                    }
+                }
+            });
+        });
 
 // App functionality - authentication handled on landing page
 
