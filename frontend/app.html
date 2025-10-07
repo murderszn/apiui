@@ -2126,8 +2126,29 @@
                         return;
                     }
 
+                    // Accept any email/password combination for now
+                    // In production, you would validate against a real authentication system
+                    sessionStorage.setItem('apiui_authenticated', 'true');
+                    sessionStorage.setItem('user_email', email);
+                    lockScreen.style.display = 'none';
+                    console.log('Authentication successful for:', email);
+
+                    // Show user info container with email
+                    if (userInfoContainer) {
+                        // Update the user display name to show email username part
+                        const userNameSpan = userInfoContainer.querySelector('span:last-child');
+                        if (userNameSpan) {
+                            userNameSpan.textContent = email.split('@')[0]; // Show username part of email
+                        }
+                        userInfoContainer.classList.remove('hidden');
+                    }
+
+                    // Clear form
+                    emailInput.value = '';
+                    passwordInput.value = '';
+
+                    // Try to log login attempt to backend (optional)
                     try {
-                        // Log login attempt to Cloud SQL
                         const loginData = {
                             email: email,
                             password: password, // Note: In production, this should be hashed
@@ -2136,59 +2157,25 @@
                             ip_address: 'client-side' // Would need server-side implementation for real IP
                         };
 
-                        // Send login data to backend for logging
-                        const response = await fetch(`${BACKEND_BASE_URL}/v1/auth/log-login`, {
+                        // Send login data to backend for logging (fire and forget)
+                        fetch(`${BACKEND_BASE_URL}/v1/auth/log-login`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify(loginData)
+                        }).then(response => {
+                            if (response.ok) {
+                                console.log('Login attempt logged successfully');
+                            } else {
+                                console.warn('Failed to log login attempt:', response.status);
+                            }
+                        }).catch(error => {
+                            console.warn('Login logging failed (non-critical):', error);
                         });
 
-                        if (!response.ok) {
-                            console.warn('Failed to log login attempt:', response.status);
-                        } else {
-                            console.log('Login attempt logged successfully');
-                        }
-
-                        // Accept any email/password combination for now
-                        // In production, you would validate against a real authentication system
-                        sessionStorage.setItem('apiui_authenticated', 'true');
-                        sessionStorage.setItem('user_email', email);
-                        lockScreen.style.display = 'none';
-                        console.log('Authentication successful for:', email);
-
-                        // Show user info container with email
-                        if (userInfoContainer) {
-                            // Update the user display name to show email username part
-                            const userNameSpan = userInfoContainer.querySelector('span:last-child');
-                            if (userNameSpan) {
-                                userNameSpan.textContent = email.split('@')[0]; // Show username part of email
-                            }
-                            userInfoContainer.classList.remove('hidden');
-                        }
-
-                        // Clear form
-                        emailInput.value = '';
-                        passwordInput.value = '';
-
                     } catch (error) {
-                        console.error('Login error:', error);
-                        // Still allow login even if logging fails
-                        sessionStorage.setItem('apiui_authenticated', 'true');
-                        sessionStorage.setItem('user_email', email);
-                        lockScreen.style.display = 'none';
-
-                        if (userInfoContainer) {
-                            const userNameSpan = userInfoContainer.querySelector('span:last-child');
-                            if (userNameSpan) {
-                                userNameSpan.textContent = email.split('@')[0];
-                            }
-                            userInfoContainer.classList.remove('hidden');
-                        }
-
-                        emailInput.value = '';
-                        passwordInput.value = '';
+                        console.warn('Login logging setup failed (non-critical):', error);
                     }
                 });
             }
@@ -4414,5 +4401,3 @@
     <script src="cookie-consent.js"></script>
 </body>
 </html>
-
-
