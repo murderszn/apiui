@@ -52,7 +52,12 @@ cookie_secure = any(
     for url in (settings.github_redirect_uri, settings.google_redirect_uri)
 )
 app.config.setdefault("SESSION_COOKIE_SECURE", cookie_secure)
-CORS(app, supports_credentials=True)  # Enable CORS for all routes with credentials
+CORS(app,
+     origins=["http://localhost:8080", "http://localhost:3000", "https://apiui.web.app", "https://ai-apiui.web.app", "https://localhost:8080", "https://localhost:3000"],
+     supports_credentials=True,
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     allow_headers=["Content-Type", "Authorization", "X-Requested-With"]
+)
 
 # Initialize SocketIO (commented out for testing)
 # socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
@@ -1819,10 +1824,12 @@ def list_generated_apis():
                 # Get basic info from the API files
                 # Get custom name from metadata if available
                 custom_name = api_metadata.get(api_id, {}).get('custom_name')
+                summary = api_metadata.get(api_id, {}).get('summary')
 
                 api_info = {
                     "id": api_id,
                     "custom_name": custom_name,
+                    "summary": summary,
                     "path": f"storage://generated_apis/{api_id}",
                     "created_at": datetime.utcnow().isoformat(),  # Storage doesn't preserve creation time
                     "has_main_py": 'main.py' in api_files,
@@ -1901,11 +1908,13 @@ def list_generated_apis():
 
             # Get custom name from metadata if available
             custom_name = api_metadata.get(api_id, {}).get('custom_name')
+            summary = api_metadata.get(api_id, {}).get('summary')
 
             # Add Cloud Run API info
             api_info = {
                 "id": api_id,
                 "custom_name": custom_name,
+                "summary": summary,
                 "path": f"cloud-run://{api_id}",
                 "created_at": api_info_running.get("started_at", datetime.utcnow().isoformat()),
                 "has_main_py": False,  # Cloud Run APIs don't have local files
@@ -2013,10 +2022,12 @@ def get_api_details(api_id):
 
         # Get custom name from metadata if available
         custom_name = api_metadata.get(api_id, {}).get('custom_name')
+        summary = api_metadata.get(api_id, {}).get('summary')
 
         api_info = {
             "id": api_id,
             "custom_name": custom_name,
+            "summary": summary,
             "path": api_path,
             "created_at": datetime.fromtimestamp(os.path.getctime(api_path)).isoformat(),
             "files": {
@@ -2156,7 +2167,43 @@ def update_api_name(api_id):
         })
 
     except Exception as e:
+        print(f"Error updating API name: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
+@app.route('/v1/apis/<api_id>/summary', methods=['PUT'])
+def update_api_summary(api_id):
+    global api_metadata
+    """Update the custom summary for a specific API"""
+    try:
+        data = request.get_json()
+        if not data or 'summary' not in data:
+            return jsonify({"error": "summary field is required"}), 400
+
+        summary = data['summary'].strip()
+        if not summary:
+            # If empty string, remove the custom summary
+            if api_id in api_metadata and 'summary' in api_metadata[api_id]:
+                del api_metadata[api_id]['summary']
+        else:
+            # Store the custom summary
+            if api_id not in api_metadata:
+                api_metadata[api_id] = {}
+            api_metadata[api_id]['summary'] = summary
+
+        # Save metadata persistently
+        import asyncio
+        asyncio.run(save_api_metadata_async())
+
+        return jsonify({
+            "success": True,
+            "api_id": api_id,
+            "summary": summary if summary else None
+        })
+
+    except Exception as e:
+        print(f"Error updating API summary: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route('/v1/apis/<api_id>/start', methods=['POST'])
 def start_api(api_id):
