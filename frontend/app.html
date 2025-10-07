@@ -22,11 +22,8 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <link rel="canonical" href="https://apiui.web.app/app.html">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -40,7 +37,7 @@
     <meta property="og:title" content="apiUI App | Create and Manage APIs From Your Data">
     <meta property="og:description" content="Complete API management console for auto-generated REST APIs. Upload data, configure endpoints, deploy securely, and monitor performance with built-in analytics.">
     <meta property="og:url" content="https://apiui.web.app/app.html">
-    <meta property="og:image" content="https://apiui.web.app/favicon.png">
+    <meta property="og:image" content="https://apiui.web.app/apiui-logo.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="apiUI App - API Management Console">
@@ -52,11 +49,11 @@
     <meta name="twitter:creator" content="@apiui">
     <meta name="twitter:title" content="apiUI App | Create and Manage APIs From Your Data">
     <meta name="twitter:description" content="Manage your auto-generated REST APIs with the complete apiUI console. Deploy, monitor, and scale your data APIs with enterprise-grade features.">
-    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
+    <meta name="twitter:image" content="https://apiui.web.app/apiui-logo.png">
     <meta name="twitter:image:alt" content="apiUI App Dashboard">
 
     <!-- LinkedIn -->
-    <meta property="og:image:secure_url" content="https://apiui.web.app/favicon.png">
+    <meta property="og:image:secure_url" content="https://apiui.web.app/apiui-logo.png">
 
     <!-- Additional Social Media -->
     <meta name="pinterest" content="nopin">
@@ -105,8 +102,8 @@
                 "@type": "WebApplication",
                 "name": "apiUI App",
                 "url": "https://apiui.web.app/app.html",
-                "logo": "https://apiui.web.app/favicon.png",
-                "image": "https://apiui.web.app/favicon.png",
+                "logo": "https://apiui.web.app/apiui-logo.png",
+                "image": "https://apiui.web.app/apiui-logo.png",
                 "description": "Complete API management console for auto-generated REST APIs. Upload data files, configure endpoints, deploy securely, and monitor analytics. Manage CSV, Excel, Parquet, and JSON APIs with enterprise features.",
                 "applicationCategory": "DeveloperApplication",
                 "operatingSystem": "Any",
@@ -125,7 +122,7 @@
                     "@type": "Organization",
                     "name": "apiUI by AURABLOX",
                     "url": "https://apiui.web.app/",
-                    "logo": "https://apiui.web.app/favicon.png"
+                    "logo": "https://apiui.web.app/apiui-logo.png"
                 },
                 "publisher": {
                     "@type": "Organization",
@@ -155,7 +152,7 @@
                 },
                 "primaryImageOfPage": {
                     "@type": "ImageObject",
-                    "url": "https://apiui.web.app/favicon.png"
+                    "url": "https://apiui.web.app/apiui-logo.png"
                 }
             }
         ]
@@ -335,21 +332,12 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
             text-shadow:
-                /* Deep 3D layers for depth */
-                1px 1px 0px var(--pixel-black),
-                2px 2px 0px var(--pixel-gray-800),
-                3px 3px 0px var(--pixel-gray-700),
-                4px 4px 0px var(--pixel-gray-600),
-                5px 5px 5px rgba(0, 0, 0, 0.3),
-                /* Inner glow effect */
-                0 0 5px var(--pixel-pink),
+                2px 2px 0px var(--pixel-black),
+                4px 4px 0px var(--pixel-gray-800),
                 0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink),
-                /* Outer neon glow */
-                0 0 20px var(--pixel-pink-subtle),
-                0 0 30px var(--pixel-pink-subtle),
-                0 0 40px rgba(233, 30, 99, 0.5);
-            animation: arcade-glow-pulse 3s ease-in-out infinite alternate;
+                0 0 20px var(--pixel-pink),
+                0 0 30px var(--pixel-pink);
+            animation: arcade-glow 3s ease-in-out infinite alternate;
         }
 
         @keyframes neon-pulse {
@@ -367,40 +355,22 @@
             }
         }
 
-        @keyframes arcade-glow-pulse {
+        @keyframes arcade-glow {
             from {
                 text-shadow:
-                    /* Deep 3D layers for depth */
-                    1px 1px 0px var(--pixel-black),
-                    2px 2px 0px var(--pixel-gray-800),
-                    3px 3px 0px var(--pixel-gray-700),
-                    4px 4px 0px var(--pixel-gray-600),
-                    5px 5px 5px rgba(0, 0, 0, 0.3),
-                    /* Inner glow effect */
-                    0 0 5px var(--pixel-pink),
+                    2px 2px 0px var(--pixel-black),
+                    4px 4px 0px var(--pixel-gray-800),
                     0 0 10px var(--pixel-pink),
-                    0 0 15px var(--pixel-pink),
-                    /* Outer neon glow */
-                    0 0 20px var(--pixel-pink-subtle),
-                    0 0 30px var(--pixel-pink-subtle),
-                    0 0 40px rgba(233, 30, 99, 0.5);
+                    0 0 20px var(--pixel-pink);
             }
             to {
                 text-shadow:
-                    /* Deep 3D layers for depth */
-                    1px 1px 0px var(--pixel-black),
-                    2px 2px 0px var(--pixel-gray-800),
-                    3px 3px 0px var(--pixel-gray-700),
-                    4px 4px 0px var(--pixel-gray-600),
-                    5px 5px 5px rgba(0, 0, 0, 0.3),
-                    /* Enhanced inner glow effect */
-                    0 0 8px var(--pixel-pink),
-                    0 0 16px var(--pixel-pink),
-                    0 0 24px var(--pixel-pink),
-                    /* Enhanced outer neon glow */
-                    0 0 32px var(--pixel-pink-subtle),
-                    0 0 48px var(--pixel-pink-subtle),
-                    0 0 64px rgba(233, 30, 99, 0.7);
+                    2px 2px 0px var(--pixel-black),
+                    4px 4px 0px var(--pixel-gray-800),
+                    0 0 15px var(--pixel-pink),
+                    0 0 25px var(--pixel-pink),
+                    0 0 35px var(--pixel-pink),
+                    0 0 40px var(--pixel-pink);
             }
         }
 
@@ -411,7 +381,9 @@
             letter-spacing: 0.02em;
             text-transform: uppercase;
             font-size: 0.875rem;
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem;
+            width: 3rem;
+            height: 3rem;
             border: var(--pixel-border-width) solid var(--pixel-black);  /* White border */
             border-radius: var(--pixel-border-radius);
             background: var(--pixel-white);  /* Black background */
@@ -476,11 +448,6 @@
             color: var(--pixel-white);
         }
 
-        /* Sidebar buttons should be square */
-        .pixel-btn.p-3 {
-            padding: 0.75rem !important;
-        }
-
         /* Pixel Card System - Dark Theme */
         .pixel-card {
             background: var(--pixel-white);  /* Black background */
@@ -522,6 +489,61 @@
             color: var(--pixel-white);
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
+        }
+
+        /* API Card System - Dark theme with index.html hover effects */
+        .api-card {
+            position: relative;
+            background-color: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .api-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
+            border-color: rgba(236, 72, 153, 0.45);
+        }
+
+        .api-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-image: linear-gradient(90deg, var(--hub-pink) 50%, transparent 50%), linear-gradient(180deg, var(--hub-pink) 50%, transparent 50%);
+            background-size: 4px 4px;
+            opacity: 0.65;
+        }
+
+        .pixel-dot {
+            width: 12px;
+            height: 12px;
+            background-image: repeating-linear-gradient(90deg, var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px);
+            image-rendering: pixelated;
+        }
+
+        .hub-divider {
+            width: 100%;
+            height: 1px;
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0, transparent 50%, rgba(255, 255, 255, 0.2) 100%);
+            background-size: 24px 1px;
+            opacity: 0.75;
+        }
+
+        .hub-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid rgba(236, 72, 153, 0.6);
+            background-color: rgba(236, 72, 153, 0.15);
+            color: #ffffff;
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
         }
 
         /* Pixel Focus States */
@@ -1074,6 +1096,75 @@
                 min-height: 44px;
             }
 
+            /* Fix API cards on mobile */
+            .api-card {
+                min-height: auto;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                width: 100%;
+                box-sizing: border-box;
+                overflow: hidden;
+            }
+
+            /* Ensure API card buttons are visible on mobile */
+            .api-card .flex.items-center.justify-between:last-child {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+
+            .api-card .flex.items-center.justify-between:last-child .flex.items-center.space-x-2 {
+                width: 100%;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .api-card .flex.items-center.justify-between:last-child .flex.items-center.space-x-2 button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Hide the "Click to view details" text on mobile since buttons are now full-width */
+            .api-card .flex.items-center.justify-between:last-child span:first-child {
+                display: none;
+            }
+
+            /* Better spacing for API card content on mobile */
+            .api-card .flex.flex-col.gap-6 {
+                gap: 1rem;
+            }
+
+            /* Ensure API card text doesn't overflow */
+            .api-card h3 {
+                word-break: break-word;
+                hyphens: auto;
+            }
+
+            .api-card p {
+                word-break: break-word;
+                hyphens: auto;
+            }
+
+            /* Keep upload box properly sized and centered on mobile */
+            #file-drop-area {
+                padding: 3rem 1rem !important;
+                text-align: center;
+            }
+
+            #file-drop-area .pixel-icon {
+                margin-bottom: 1.5rem;
+            }
+
+            #file-drop-area .pixel-subtitle {
+                font-size: 1.125rem;
+                margin-bottom: 1rem;
+            }
+
+            #file-drop-area .pixel-body {
+                font-size: 0.875rem;
+                margin-bottom: 0.5rem;
+            }
+
             /* Mobile typography */
             .arcade-title {
                 font-size: 2rem;
@@ -1197,7 +1288,6 @@
 
             .pixel-btn {
                 font-size: 0.95rem;
-                padding: 0.75rem 1.25rem;
                 min-height: 44px;
             }
 
@@ -1240,6 +1330,13 @@
                 font-size: 0.875rem;
             }
         }
+
+        /* Hide floating sidebar on mobile devices */
+        @media (max-width: 768px) {
+            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
@@ -1268,11 +1365,10 @@
                     </svg>
                 </a>
 
-
-                <!-- MCP Server -->
-                <a href="mcp.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
+                <!-- API Hub -->
+                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                     </svg>
                 </a>
 
@@ -1292,7 +1388,7 @@
         <div class="pixel-container max-w-6xl relative z-10 py-8 sm:py-16">
             <div class="text-center mb-16">
                 <div class="pixel-fade-in mb-8 flex items-center justify-center">
-                    <span class="pixel-heading text-3xl tracking-[0.32em] text-white">api<span class="text-pink-500">UI</span></span>
+                    <a href="index.html" class="pixel-heading text-3xl tracking-[0.32em] text-white hover:text-pink-300 transition-colors">api<span class="text-pink-500">UI</span></a>
                 </div>
                 <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white max-w-4xl mx-auto mb-6 pixel-fade-in">
                     Command your <span class="arcade-neon">API empire</span> from one dashboard
@@ -1333,7 +1429,7 @@
                     </div>
                     <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
                         <span id="backend-status-indicator" class="pixel-badge w-full sm:w-auto text-center">Connected</span>
-                        <button id="test-backend-btn" class="pixel-btn pixel-btn-primary w-full sm:w-auto">
+                        <button id="test-backend-btn" class="inline-flex items-center px-4 py-2 border border-white border-opacity-30 text-white text-sm font-medium hover:bg-white hover:bg-opacity-10 transition-colors w-full sm:w-auto">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
@@ -1370,7 +1466,7 @@
                 <!-- Uploader -->
                 <div id="uploader-section">
                     <input type="file" id="file-input" class="hidden" accept=".xlsx,.xls,.csv,.parquet,.json,.txt">
-                    <label for="file-input" id="file-drop-area" class="pixel-card w-full p-16 flex flex-col items-center justify-center cursor-pointer hover:bg-white hover:bg-opacity-5 transition-all pixel-fade-in" style="animation-delay: 0.6s">
+                    <label for="file-input" id="file-drop-area" class="api-card w-full p-16 flex flex-col items-center justify-center cursor-pointer pixel-fade-in" style="animation-delay: 0.6s">
                         <div class="pixel-icon w-16 h-16 mb-6">
                             <svg class="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
@@ -1385,7 +1481,7 @@
                 </div>
 
                 <!-- File Upload Success Message -->
-                <div id="upload-success-message" class="hidden pixel-card p-4 mb-6 pixel-fade-in">
+                <div id="upload-success-message" class="hidden api-card p-4 mb-6 pixel-fade-in">
                     <div class="flex items-center">
                         <div class="pixel-icon w-10 h-10 mr-4">
                             <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1400,7 +1496,7 @@
                 </div>
 
                 <!-- File Upload Error Message -->
-                <div id="upload-error-message" class="hidden pixel-card p-4 mb-6 pixel-fade-in">
+                <div id="upload-error-message" class="hidden api-card p-4 mb-6 pixel-fade-in">
                     <div class="flex items-center">
                         <div class="pixel-icon w-10 h-10 mr-4">
                             <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1503,7 +1599,7 @@
                 </div>
 
                 <!-- Status & Result -->
-                <div id="status-section" class="hidden w-full pixel-card p-8 mt-8 pixel-fade-in">
+                <div id="status-section" class="hidden w-full api-card p-8 mt-8 pixel-fade-in">
                     <!-- File Info -->
                     <div id="file-info" class="flex items-center justify-between pb-6 border-b-2 border-black mb-8">
                         <div class="flex items-center space-x-4">
@@ -1784,7 +1880,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="apis-table-body" class="p-4 space-y-3">
+                        <div id="apis-table-body" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 p-6">
                             <!-- API rows will be populated here -->
                         </div>
                     </div>
@@ -1815,11 +1911,9 @@
                 </div>
                 <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-400">
                     <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
-                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
-                    <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
-                    <a href="socket-chat.html" class="hover:text-pink-500 transition-colors">Sock chat</a>
                     <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
-                    <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
+                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
+                    <a href="api-hub.html" class="hover:text-pink-500 transition-colors">API Hub</a>
                     <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
                     <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -2789,34 +2883,40 @@
         // Create API row element
         function createApiRow(api) {
             const row = document.createElement('div');
-            row.className = 'bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg p-4 hover:bg-white hover:bg-opacity-10 transition-colors cursor-pointer';
+            row.className = 'api-card p-6 flex flex-col gap-6 cursor-pointer';
             row.style.cursor = 'pointer';
 
             const statusColor = api.status === 'running' ? 'text-pink-400' : 'text-yellow-400';
             const statusIcon = api.status === 'running' ? '●' : '○';
 
             row.innerHTML = `
-                <div class="flex items-center justify-between">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center space-x-3 mb-2">
-                            <h3 class="text-lg font-semibold text-white truncate">${api.custom_name || api.title || `API ${api.id.slice(0, 8)}`}</h3>
-                            <span class="${statusColor} text-sm font-medium">${statusIcon} ${api.status}</span>
+                <div class="flex items-start justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <span class="pixel-dot"></span>
+                        <div>
+                            <p class="pixel-heading text-xs text-pink-400">API</p>
+                            <h3 class="text-xl font-semibold text-white">${api.custom_name || api.title || `API ${api.id.slice(0, 8)}`}</h3>
+                            <p class="text-sm text-gray-300">${api.status === 'running' ? 'Running' : 'Stopped'}</p>
                         </div>
-                        ${(api.api_url || api.url) ? `
-                            <div class="text-sm text-gray-300 font-mono truncate">${api.api_url || api.url}</div>
-                        ` : ''}
-                        <div class="text-xs text-gray-400 mt-1">Click to view details and connect</div>
                     </div>
-
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0 space-y-2 ml-4 sm:ml-4 ml-0">
-                        <div class="flex items-center space-x-2">
-                            <button class="api-docs-btn inline-flex items-center px-3 py-1.5 border border-white text-white text-sm font-medium rounded hover:bg-white hover:text-gray-900 transition-colors">
-                                Docs
-                            </button>
-                            <button class="view-data-btn inline-flex items-center px-3 py-1.5 border border-white text-white text-sm font-medium rounded hover:bg-white hover:text-gray-900 transition-colors">
-                                View Data
-                            </button>
-                        </div>
+                    <span class="hub-pill">${api.status === 'running' ? 'Live' : 'Stopped'}</span>
+                </div>
+                <p class="text-sm text-gray-300 leading-6">
+                    ${api.description || 'Generated API with endpoints available through apiUI.'}
+                </p>
+                ${(api.api_url || api.url) ? `
+                    <div class="text-xs text-gray-400 font-mono truncate">${api.api_url || api.url}</div>
+                ` : ''}
+                <div class="hub-divider"></div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs uppercase tracking-[0.24em] text-gray-400">Click to view details</span>
+                    <div class="flex items-center space-x-2">
+                        <button class="api-docs-btn inline-flex items-center px-3 py-1.5 border border-white border-opacity-30 text-white text-sm font-medium hover:bg-white hover:bg-opacity-10 transition-colors">
+                            Docs
+                        </button>
+                        <button class="view-data-btn inline-flex items-center px-3 py-1.5 border border-white border-opacity-30 text-white text-sm font-medium hover:bg-white hover:bg-opacity-10 transition-colors">
+                            View Data
+                        </button>
                     </div>
                 </div>
             `;

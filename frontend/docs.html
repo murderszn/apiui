@@ -600,6 +600,13 @@
             box-shadow: none !important;
         }
 
+        /* Hide floating sidebar on mobile devices */
+        @media (max-width: 768px) {
+            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
+                display: none !important;
+            }
+        }
+
         /* Pixel Focus States */
         a:focus, button:focus {
             outline: 2px solid var(--pixel-pink);

@@ -690,6 +690,13 @@
             opacity: 1;
             transform: translateX(0);
         }
+
+        /* Hide floating sidebar on mobile devices */
+        @media (max-width: 768px) {
+            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
