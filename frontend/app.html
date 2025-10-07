@@ -108,8 +108,8 @@
 
             <form id="login-form" class="space-y-6">
                 <div>
-                    <label for="username" class="block pixel-body text-sm text-white mb-2">Username</label>
-                    <input type="text" id="username" name="username" class="w-full bg-gray-800 border border-gray-600 text-white px-4 py-3 rounded focus:outline-none focus:border-pink-500 transition-colors" placeholder="Enter username" autocomplete="username">
+                    <label for="email" class="block pixel-body text-sm text-white mb-2">Email</label>
+                    <input type="email" id="email" name="email" class="w-full bg-gray-800 border border-gray-600 text-white px-4 py-3 rounded focus:outline-none focus:border-pink-500 transition-colors" placeholder="Enter email address" autocomplete="email">
                 </div>
 
                 <div>
@@ -2076,7 +2076,7 @@
             const lockScreen = document.getElementById('password-lock-screen');
             const loginForm = document.getElementById('login-form');
             const loginError = document.getElementById('login-error');
-            const usernameInput = document.getElementById('username');
+            const emailInput = document.getElementById('email');
             const passwordInput = document.getElementById('password');
 
             // Check if user is already authenticated
@@ -2089,6 +2089,14 @@
                     lockScreen.style.display = 'none';
                 }
                 if (userInfoContainer) {
+                    // Restore user's email display
+                    const userEmail = sessionStorage.getItem('user_email');
+                    if (userEmail) {
+                        const userNameSpan = userInfoContainer.querySelector('span:last-child');
+                        if (userNameSpan) {
+                            userNameSpan.textContent = userEmail.split('@')[0];
+                        }
+                    }
                     userInfoContainer.classList.remove('hidden');
                 }
                 console.log('User already authenticated, skipping login screen');
@@ -2102,41 +2110,85 @@
 
             // Handle login form submission
             if (loginForm) {
-                loginForm.addEventListener('submit', function(e) {
+                loginForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
 
-                    const username = usernameInput.value.trim();
+                    const email = emailInput.value.trim();
                     const password = passwordInput.value.trim();
 
-                    // Check credentials
-                    if (username === 'admin' && password === 'apiui123') {
-                        // Successful login
-                        sessionStorage.setItem('apiui_authenticated', 'true');
-                        lockScreen.style.display = 'none';
-                        console.log('Authentication successful');
+                    // Basic validation
+                    if (!email || !password) {
+                        loginError.textContent = 'Please enter both email and password';
+                        loginError.classList.remove('hidden');
+                        setTimeout(() => {
+                            loginError.classList.add('hidden');
+                        }, 3000);
+                        return;
+                    }
 
-                        // Show user info container
+                    try {
+                        // Log login attempt to Cloud SQL
+                        const loginData = {
+                            email: email,
+                            password: password, // Note: In production, this should be hashed
+                            login_time: new Date().toISOString(),
+                            user_agent: navigator.userAgent,
+                            ip_address: 'client-side' // Would need server-side implementation for real IP
+                        };
+
+                        // Send login data to backend for logging
+                        const response = await fetch(`${BACKEND_BASE_URL}/v1/auth/log-login`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(loginData)
+                        });
+
+                        if (!response.ok) {
+                            console.warn('Failed to log login attempt:', response.status);
+                        } else {
+                            console.log('Login attempt logged successfully');
+                        }
+
+                        // Accept any email/password combination for now
+                        // In production, you would validate against a real authentication system
+                        sessionStorage.setItem('apiui_authenticated', 'true');
+                        sessionStorage.setItem('user_email', email);
+                        lockScreen.style.display = 'none';
+                        console.log('Authentication successful for:', email);
+
+                        // Show user info container with email
                         if (userInfoContainer) {
+                            // Update the user display name to show email username part
+                            const userNameSpan = userInfoContainer.querySelector('span:last-child');
+                            if (userNameSpan) {
+                                userNameSpan.textContent = email.split('@')[0]; // Show username part of email
+                            }
                             userInfoContainer.classList.remove('hidden');
                         }
 
                         // Clear form
-                        usernameInput.value = '';
+                        emailInput.value = '';
                         passwordInput.value = '';
-                    } else {
-                        // Failed login
-                        loginError.textContent = 'Invalid username or password';
-                        loginError.classList.remove('hidden');
-                        console.log('Authentication failed');
 
-                        // Clear password field
+                    } catch (error) {
+                        console.error('Login error:', error);
+                        // Still allow login even if logging fails
+                        sessionStorage.setItem('apiui_authenticated', 'true');
+                        sessionStorage.setItem('user_email', email);
+                        lockScreen.style.display = 'none';
+
+                        if (userInfoContainer) {
+                            const userNameSpan = userInfoContainer.querySelector('span:last-child');
+                            if (userNameSpan) {
+                                userNameSpan.textContent = email.split('@')[0];
+                            }
+                            userInfoContainer.classList.remove('hidden');
+                        }
+
+                        emailInput.value = '';
                         passwordInput.value = '';
-                        passwordInput.focus();
-
-                        // Hide error after 3 seconds
-                        setTimeout(() => {
-                            loginError.classList.add('hidden');
-                        }, 3000);
                     }
                 });
             }
@@ -2153,6 +2205,7 @@
             function handleLogout() {
                 // Clear authentication
                 sessionStorage.removeItem('apiui_authenticated');
+                sessionStorage.removeItem('user_email');
 
                 // Hide user info container
                 if (userInfoContainer) {

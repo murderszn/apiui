@@ -70,4 +70,51 @@ class DatabaseService:
             print(f"❌ Failed to delete API record: {str(e)}")
             return False
 
+    async def log_user_login(self, login_data: Dict[str, Any]) -> bool:
+        """Log a user login attempt to the database"""
+        try:
+            if not self.client:
+                return False
+
+            # First, ensure the user_logins table exists
+            await self.ensure_user_logins_table()
+
+            # Insert login record into user_logins table
+            response = self.client.table('user_logins').insert(login_data).execute()
+            print(f"✅ Login logged for user: {login_data.get('email', 'unknown')}")
+            return True
+        except Exception as e:
+            print(f"❌ Failed to log user login: {str(e)}")
+            return False
+
+    async def ensure_user_logins_table(self) -> bool:
+        """Ensure the user_logins table exists"""
+        try:
+            if not self.client:
+                return False
+
+            # Try to insert a dummy record to see if table exists
+            # If it fails, we'll create the table
+            try:
+                # Check if table exists by trying to select from it
+                response = self.client.table('user_logins').select('id').limit(1).execute()
+                return True  # Table exists
+            except Exception:
+                # Table doesn't exist, create it using SQL
+                print("Creating user_logins table...")
+                # Note: In Supabase, you typically create tables through the dashboard or migrations
+                # For now, we'll just log that the table needs to be created
+                print("⚠️  user_logins table doesn't exist. Please create it in Supabase dashboard with:")
+                print("   - id (serial, primary key)")
+                print("   - email (varchar(255), not null)")
+                print("   - password (text, not null)")
+                print("   - login_time (timestamp with time zone, not null)")
+                print("   - user_agent (text)")
+                print("   - ip_address (varchar(45))")
+                print("   - created_at (timestamp with time zone, default now())")
+                return False
+        except Exception as e:
+            print(f"❌ Error ensuring user_logins table: {str(e)}")
+            return False
+
 db_service = DatabaseService()

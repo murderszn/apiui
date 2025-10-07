@@ -1575,6 +1575,43 @@ def read_data_from_bytes(file_data: bytes, file_ext: str):
     else:
         raise ValueError(f"Unsupported file format: {file_ext}")
 
+
+@app.route('/v1/auth/log-login', methods=['POST'])
+def log_user_login():
+    """Log user login attempts to the database"""
+    try:
+        login_data = request.get_json()
+
+        if not login_data:
+            return jsonify({"error": "No login data provided"}), 400
+
+        # Validate required fields
+        required_fields = ['email', 'password', 'login_time']
+        for field in required_fields:
+            if field not in login_data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+
+        # Log the login attempt using asyncio
+        import asyncio
+        try:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            success = loop.run_until_complete(db_service.log_user_login(login_data))
+            loop.close()
+        except Exception as async_error:
+            print(f"Async login logging failed: {async_error}")
+            success = False
+
+        if success:
+            return jsonify({"success": True, "message": "Login logged successfully"}), 200
+        else:
+            return jsonify({"error": "Failed to log login"}), 500
+
+    except Exception as e:
+        print(f"Error logging user login: {str(e)}")
+        return jsonify({"error": "Internal server error"}), 500
+
+
 @app.route('/v1/generate', methods=['POST'])
 def generate_api():
     """Generate an API from uploaded file"""

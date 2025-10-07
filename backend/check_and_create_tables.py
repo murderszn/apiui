@@ -10,12 +10,11 @@ from pathlib import Path
 backend_dir = Path(__file__).parent
 sys.path.insert(0, str(backend_dir))
 
-from core.postgresql_db import init_postgresql_db, get_postgresql_session, APIMetadata
-from sqlalchemy import text, inspect, Column, Integer, String, Text, DateTime, Boolean, Float, JSON
-from sqlalchemy.ext.declarative import declarative_base
 from core.config import settings
+from services.database_service import db_service
 import json
 import logging
+import asyncio
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -137,6 +136,32 @@ def check_and_create_all_tables():
     finally:
         session.close()
 
+async def create_user_logins_table():
+    """Ensure the user_logins table exists"""
+    try:
+        # Connect to Supabase
+        await db_service.connect()
+
+        if not db_service.connected:
+            logger.error("❌ Cannot check user_logins table - Supabase not connected")
+            return False
+
+        logger.info("Checking user_logins table...")
+
+        # Use the database service method to ensure table exists
+        success = await db_service.ensure_user_logins_table()
+
+        if success:
+            logger.info("✅ user_logins table exists and is ready")
+        else:
+            logger.info("⚠️  user_logins table needs to be created manually in Supabase dashboard")
+
+        return success
+
+    except Exception as e:
+        logger.error(f"❌ Failed to check user_logins table: {str(e)}")
+        return False
+
 def migrate_legacy_apis_if_needed():
     """Check if we need to run migration for legacy APIs"""
     print("\n🔄 Checking for legacy APIs that need migration...")
@@ -188,6 +213,18 @@ if __name__ == "__main__":
 
     if success:
         migrate_legacy_apis_if_needed()
+
+        # Create user_logins table if it doesn't exist
+        print("\n🔐 Checking user_logins table...")
+        try:
+            import asyncio
+            success = asyncio.run(create_user_logins_table())
+            if success:
+                print("✅ User logins table is ready!")
+            else:
+                print("⚠️  User logins table needs manual creation in Supabase dashboard")
+        except Exception as e:
+            print(f"❌ Error checking user logins table: {e}")
 
     print("\n" + "=" * 60)
     if success:
