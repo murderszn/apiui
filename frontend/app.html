@@ -1372,6 +1372,42 @@
                 display: none !important;
             }
         }
+
+        /* Password Lock Screen Styling */
+        #password-lock-screen .pixel-card {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            box-shadow:
+                0 0 20px rgba(236, 72, 153, 0.1),
+                0 0 40px rgba(236, 72, 153, 0.05),
+                inset 0 1px 0 rgba(236, 72, 153, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #password-lock-screen .pixel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.6), transparent);
+        }
+
+        #password-lock-screen .pixel-card:hover {
+            box-shadow:
+                0 0 20px rgba(236, 72, 153, 0.1),
+                0 0 40px rgba(236, 72, 153, 0.05),
+                inset 0 1px 0 rgba(236, 72, 153, 0.1);
+            transform: none !important;
+        }
+
+        /* Input focus effects with pink accent */
+        #password-lock-screen input:focus {
+            border-color: rgba(236, 72, 153, 0.8) !important;
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+        }
     </style>
 </head>
 
