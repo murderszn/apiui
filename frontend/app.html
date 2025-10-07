@@ -1355,12 +1355,10 @@
             }
 
             /* Hide desktop user info on mobile - only show mobile version in hamburger menu */
-            #user-info-container {
-                display: none !important;
-            }
-
-            #user-info-container.md\\:flex {
-                display: flex !important;
+            @media (max-width: 767px) {
+                #user-info-container {
+                    display: none !important;
+                }
             }
 
             /* Mobile hero section */
