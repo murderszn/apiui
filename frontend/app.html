@@ -1455,7 +1455,17 @@
 
 
     <!-- Hero -->
-    <section class="hero-section-app section-spacing">
+    <section class="hero-section-app section-spacing relative">
+        <!-- Logout Button -->
+        <div id="logout-container" class="absolute top-6 right-6 z-20 hidden">
+            <button id="logout-btn" class="inline-flex items-center px-4 py-2 border border-white border-opacity-30 text-white text-sm font-medium hover:bg-white hover:bg-opacity-10 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                Logout
+            </button>
+        </div>
+
         <div class="pixel-container max-w-6xl relative z-10 py-8 sm:py-16">
             <div class="text-center mb-16">
                 <div class="pixel-fade-in mb-8 flex items-center justify-center">
@@ -2093,6 +2103,12 @@
                         // Successful login
                         sessionStorage.setItem('apiui_authenticated', 'true');
                         lockScreen.style.display = 'none';
+
+                        // Show logout button
+                        if (logoutContainer) {
+                            logoutContainer.classList.remove('hidden');
+                        }
+
                         console.log('Authentication successful');
 
                         // Clear form
@@ -2114,6 +2130,40 @@
                         }, 3000);
                     }
                 });
+            }
+
+            // Handle logout functionality
+            const logoutContainer = document.getElementById('logout-container');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    // Clear authentication
+                    sessionStorage.removeItem('apiui_authenticated');
+
+                    // Hide logout button
+                    if (logoutContainer) {
+                        logoutContainer.classList.add('hidden');
+                    }
+
+                    // Show login screen
+                    if (lockScreen) {
+                        lockScreen.style.display = 'flex';
+                    }
+
+                    console.log('User logged out');
+                });
+            }
+
+            // Show/hide logout button based on authentication status
+            if (isAuthenticated) {
+                if (logoutContainer) {
+                    logoutContainer.classList.remove('hidden');
+                }
+            } else {
+                if (logoutContainer) {
+                    logoutContainer.classList.add('hidden');
+                }
             }
 
             // Add keyboard shortcuts for testing (Ctrl+Shift+A for auto-login)
