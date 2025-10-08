@@ -3,15 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCP Server | apiUI</title>
-    <meta name="description" content="Connect to apiUI's MCP (Model Context Protocol) server to access and manage flat files.">
-    <meta name="author" content="apiUI by AURABLOX">
+    <title>MCP Server | APIUI</title>
+    <meta name="description" content="Connect to APIUI's MCP (Model Context Protocol) server to access and manage flat files.">
+    <meta name="author" content="APIUI by AURABLOX">
     <link rel="canonical" href="https://apiui.web.app/mcp.html">
+    
+    <!-- Favicon and Icons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
     <link rel="shortcut icon" href="favicon.ico">
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:site_name" content="APIUI">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MCP Server | APIUI">
+    <meta property="og:description" content="Connect to APIUI's MCP (Model Context Protocol) server to access and manage flat files.">
+    <meta property="og:url" content="https://apiui.web.app/mcp.html">
+    <meta property="og:image" content="https://apiui.web.app/favicon.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="APIUI - MCP Server">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="MCP Server | APIUI">
+    <meta name="twitter:description" content="Connect to APIUI's MCP (Model Context Protocol) server to access and manage flat files.">
+    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
+    <meta name="twitter:image:alt" content="APIUI - MCP Server">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -828,7 +848,6 @@
 
         /* Footer */
         footer {
-            border-top: 1px solid rgba(15, 23, 42, 0.12);
             background: var(--pixel-white);
         }
 
@@ -881,6 +900,58 @@
             transform: translateX(0);
         }
 
+        /* Kisuke-style ASCII Block Text */
+        .kisuke-ascii {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            line-height: 0.8;
+            letter-spacing: 1px;
+            color: var(--pixel-black);
+            text-shadow:
+                2px 2px 0px rgba(0, 0, 0, 0.1),
+                -1px -1px 0px rgba(255, 255, 255, 0.1);
+        }
+
+        .kisuke-ascii .ascii-line {
+            display: block;
+            white-space: pre;
+            font-size: 0.6rem;
+            margin-bottom: 2px;
+        }
+
+        .kisuke-ascii.large {
+            font-size: 2rem;
+        }
+
+        .kisuke-ascii.large .ascii-line {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        /* Retro terminal glow effect */
+        .kisuke-glow {
+            text-shadow:
+                0 0 5px rgba(236, 72, 153, 0.3),
+                0 0 10px rgba(236, 72, 153, 0.2),
+                0 0 15px rgba(236, 72, 153, 0.1);
+            animation: kisuke-glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes kisuke-glow-pulse {
+            from {
+                text-shadow:
+                    0 0 5px rgba(236, 72, 153, 0.3),
+                    0 0 10px rgba(236, 72, 153, 0.2),
+                    0 0 15px rgba(236, 72, 153, 0.1);
+            }
+            to {
+                text-shadow:
+                    0 0 8px rgba(236, 72, 153, 0.5),
+                    0 0 15px rgba(236, 72, 153, 0.3),
+                    0 0 25px rgba(236, 72, 153, 0.2);
+            }
+        }
+
         /* Smooth Scrolling */
         html {
             scroll-behavior: smooth;
@@ -908,6 +979,54 @@
             .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
                 display: none !important;
             }
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--pixel-gray-200);
+        }
+
+        .pagination-info {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .pagination-page-info {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--pixel-black);
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            background: var(--pixel-gray-100);
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--pixel-gray-300);
+            border-radius: 0;
+            box-shadow: var(--pixel-shadow);
+        }
+
+        .pagination-controls .pixel-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: var(--pixel-gray-200);
+            border-color: var(--pixel-gray-300);
+            color: var(--pixel-gray-600);
+        }
+
+        .pagination-controls .pixel-btn:disabled:hover {
+            transform: none;
+            background: var(--pixel-gray-200);
+            border-color: var(--pixel-gray-300);
         }
 
         /* Pixel Focus States */
@@ -1002,7 +1121,6 @@
             <div class="hidden md:flex items-center space-x-6">
                 <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
                 <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
-                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Sock chat</a>
                 <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
                 <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
             </div>
@@ -1029,11 +1147,25 @@
     <!-- Hero Section for MCP -->
     <section class="hero-section-docs bg-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
 
-        <div class="pixel-container max-w-6xl text-center relative z-10">
+        <div class="pixel-container max-w-7xl text-center relative z-10">
             <!-- Main Headline -->
             <div class="mb-8 pixel-fade-in">
                 <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
-                    Model Context Protocol Server
+                    <div class="kisuke-ascii large kisuke-glow">
+                        <div class="ascii-line">███╗   ███╗ ██████╗ ██████╗ </div>
+                        <div class="ascii-line">████╗ ████║██╔════╝██╔══██╗ </div>
+                        <div class="ascii-line">██╔████╔██║██║     ██████╔╝ </div>
+                        <div class="ascii-line">██║╚██╔╝██║██║     ██╔═══╝  </div>
+                        <div class="ascii-line">██║ ╚═╝ ██║╚██████╗██║      </div>
+                        <div class="ascii-line">╚═╝     ╚═╝ ╚═════╝╚═╝      </div>
+                        <div class="ascii-line">                            </div>
+                        <div class="ascii-line"> ██╗  ██╗██╗   ██╗██████╗   </div>
+                        <div class="ascii-line"> ██║  ██║██║   ██║██╔══██╗  </div>
+                        <div class="ascii-line"> ███████║██║   ██║██████╔╝  </div>
+                        <div class="ascii-line"> ██╔══██║██║   ██║██╔══██╗  </div>
+                        <div class="ascii-line"> ██║  ██║╚██████╔╝██████╔╝  </div>
+                        <div class="ascii-line"> ╚═╝  ╚═╝ ╚═════╝ ╚═════╝   </div>
+                    </div>
                 </h1>
             </div>
 
@@ -1084,11 +1216,16 @@
     <!-- Pixel Section Divider -->
     <div class="pixel-accent-line"></div>
 
-    <div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="pixel-container max-w-7xl mx-auto px-4 py-8">
 
         <main>
-            <section id="mcp-overview" class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">What is MCP?</h2>
+            <section id="mcp-overview" class="mb-12 relative">
+                <!-- Background Image -->
+                <div class="absolute inset-0 opacity-15 pointer-events-none">
+                    <img src="images/cube-columns.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+                </div>
+                <div class="relative z-10">
+                    <h2 class="text-2xl font-bold mb-4">What is MCP?</h2>
                 <div class="space-y-6">
                     <div>
                         <p class="mb-4">The Model Context Protocol (MCP) is a standardized way for AI models and tools to access external data sources and APIs. It provides a consistent interface for connecting various data providers to AI applications.</p>
@@ -1148,10 +1285,16 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </section>
 
-            <section id="connecting" class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">How to Connect</h2>
+            <section id="connecting" class="mb-12 relative">
+                <!-- Background Image -->
+                <div class="absolute inset-0 opacity-15 pointer-events-none">
+                    <img src="images/cube-card.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+                </div>
+                <div class="relative z-10">
+                    <h2 class="text-2xl font-bold mb-4">How to Connect</h2>
                 <div class="space-y-8">
                     <div>
                         <h3 class="text-xl font-semibold mb-2">For MCP Clients</h3>
@@ -1199,6 +1342,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </section>
 
@@ -1256,10 +1400,6 @@
                     <h4 class="pixel-subtitle text-black mb-2">API Docs</h4>
                     <p class="pixel-body text-black text-sm">Interactive API documentation and testing</p>
                 </a>
-                <a href="api-hub.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
-                    <h4 class="pixel-subtitle text-black mb-2">API Hub</h4>
-                    <p class="pixel-body text-black text-sm">Browse available API integrations</p>
-                </a>
                 <a href="api-analytics.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
                     <h4 class="pixel-subtitle text-black mb-2">Analytics</h4>
                     <p class="pixel-body text-black text-sm">Monitor API performance and usage</p>
@@ -1287,7 +1427,7 @@
 
     <!-- Footer -->
     <footer class="bg-white py-16">
-        <div class="pixel-container max-w-6xl">
+        <div class="pixel-container max-w-7xl">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
                     <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
@@ -1297,7 +1437,6 @@
                     <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
                     <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
                     <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
-                    <a href="socket-chat.html" class="hover:text-pink-500 transition-colors">Sock chat</a>
                     <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
                     <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
                     <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
@@ -1398,14 +1537,14 @@
                 }
             }, 150);
 
-            // Fallback: hide loading screen after 3 seconds regardless
+            // Fallback: hide loading screen after 1.5 seconds regardless
             setTimeout(() => {
                 if (loadingScreen && loadingScreen.style.display !== 'none') {
                     loadingScreen.style.display = 'none';
                     console.log('MCP page loading screen hidden via fallback timeout');
                     loadFiles();
                 }
-            }, 3000);
+            }, 1500);
         });
 
         // Pixel Scroll-triggered Animations
@@ -1441,6 +1580,11 @@
             });
         });
 
+        // Global variables for pagination
+        let allResources = [];
+        let currentPage = 1;
+        const itemsPerPage = 30;
+
         // Load available files
         async function loadFiles() {
             const filesContainer = document.getElementById('files-container');
@@ -1453,36 +1597,13 @@
                 }
 
                 const data = await response.json();
+                allResources = data.resources || [];
+                currentPage = 1;
+
                 connectionStatus.className = 'connection-status connected';
                 connectionStatus.innerHTML = '<div class="w-2 h-2 bg-current rounded-full"></div><span>Connected</span>';
 
-                if (data.resources && data.resources.length > 0) {
-                    filesContainer.innerHTML = data.resources.map(resource => `
-                        <div class="resource-item">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <div class="resource-name">${resource.name}</div>
-                                    <div class="resource-meta">
-                                        ${resource.description} • ${(resource.size / 1024).toFixed(1)} KB • Modified: ${new Date(resource.lastModified).toLocaleDateString()}
-                                    </div>
-                                </div>
-                                <button onclick="viewFile('${resource.name}')" class="pixel-btn pixel-btn-primary text-sm">
-                                    View Content
-                                </button>
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    filesContainer.innerHTML = `
-                        <div class="text-center py-12">
-                            <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                            </svg>
-                            <p class="pixel-body text-gray-600">No files available</p>
-                            <p class="pixel-body text-gray-500 text-sm mt-2">Upload files through the apiUI dashboard to make them available via MCP</p>
-                        </div>
-                    `;
-                }
+                displayFiles();
             } catch (error) {
                 console.error('Error loading files:', error);
                 connectionStatus.className = 'connection-status disconnected';
@@ -1500,6 +1621,94 @@
                         </button>
                     </div>
                 `;
+            }
+        }
+
+        // Display files for current page
+        function displayFiles() {
+            const filesContainer = document.getElementById('files-container');
+            const totalPages = Math.ceil(allResources.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const currentResources = allResources.slice(startIndex, endIndex);
+
+            if (allResources.length > 0) {
+                let html = currentResources.map(resource => `
+                    <div class="resource-item">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="resource-name">${resource.name}</div>
+                                <div class="resource-meta">
+                                    ${resource.description} • ${(resource.size / 1024).toFixed(1)} KB • Modified: ${new Date(resource.lastModified).toLocaleDateString()}
+                                </div>
+                            </div>
+                            <button onclick="viewFile('${resource.name}')" class="pixel-btn pixel-btn-primary text-sm">
+                                View Content
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add pagination controls if there are multiple pages
+                if (totalPages > 1) {
+                    html += `
+                        <div class="pagination-container">
+                            <div class="pagination-info">
+                                <span class="pixel-body text-gray-600 text-sm">
+                                    Showing ${startIndex + 1}-${Math.min(endIndex, allResources.length)} of ${allResources.length} files
+                                </span>
+                            </div>
+                            <div class="pagination-controls">
+                                <button onclick="changePage(${currentPage - 1})"
+                                        class="pixel-btn pixel-btn-secondary text-sm"
+                                        ${currentPage === 1 ? 'disabled' : ''}>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                    </svg>
+                                    Previous
+                                </button>
+                                <span class="pagination-page-info">
+                                    Page ${currentPage} of ${totalPages}
+                                </span>
+                                <button onclick="changePage(${currentPage + 1})"
+                                        class="pixel-btn pixel-btn-secondary text-sm"
+                                        ${currentPage === totalPages ? 'disabled' : ''}>
+                                    Next
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                filesContainer.innerHTML = html;
+            } else {
+                filesContainer.innerHTML = `
+                    <div class="text-center py-12">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <p class="pixel-body text-gray-600">No files available</p>
+                        <p class="pixel-body text-gray-500 text-sm mt-2">Upload files through the apiUI dashboard to make them available via MCP</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Change page function
+        function changePage(page) {
+            const totalPages = Math.ceil(allResources.length / itemsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displayFiles();
+
+                // Smooth scroll to top of file browser section
+                const fileBrowserSection = document.querySelector('#file-browser');
+                if (fileBrowserSection) {
+                    fileBrowserSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
         }
 
@@ -1554,6 +1763,9 @@
                     <p class="pixel-body text-gray-600">Refreshing files...</p>
                 </div>
             `;
+            // Reset pagination state
+            currentPage = 1;
+            allResources = [];
             loadFiles();
         });
     </script>
