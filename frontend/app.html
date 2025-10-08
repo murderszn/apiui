@@ -103,7 +103,7 @@
                     <span class="pixel-heading text-3xl tracking-[0.32em] text-white">api<span class="text-pink-500">UI</span></span>
                 </div>
                 <h2 class="pixel-subtitle text-xl text-white mb-2">Access Required</h2>
-                <p class="pixel-body text-gray-300 text-sm">Please enter your credentials to access the API management console.</p>
+                <p class="pixel-body text-gray-400 text-sm">Please enter your credentials to access the API management console.</p>
             </div>
 
             <form id="login-form" class="space-y-6">
@@ -1510,7 +1510,7 @@
                         </svg>
                         <span class="text-sm font-medium">admin</span>
                     </div>
-                    <button id="logout-btn" class="inline-flex items-center px-3 py-1.5 border border-white border-opacity-30 text-white text-xs font-medium hover:bg-white hover:bg-opacity-10 transition-colors rounded">
+                    <button id="logout-btn" class="inline-flex items-center px-3 py-1.5 border-2 border-pink-500/40 text-pink-400 text-xs font-medium hover:bg-pink-500/20 hover:border-pink-500/60 transition-all rounded">
                         <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
@@ -1551,7 +1551,7 @@
                         <div class="ascii-line">╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝</div>
                     </div>
                 </h1>
-                <p class="pixel-body text-lg sm:text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed mb-12 pixel-fade-in" style="animation-delay: 0.2s">
+                <p class="pixel-body text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12 pixel-fade-in" style="animation-delay: 0.2s">
                     Manage multiple APIs, track performance metrics, handle authentication, and scale your data endpoints—all from this powerful console.
                 </p>
 
@@ -1571,26 +1571,39 @@
         <div class="fixed inset-0 pointer-events-none opacity-15" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 36px 36px; z-index: 0;"></div>
 
         <!-- Create API Section -->
-        <section class="pixel-section bg-black py-24 sm:py-32">
-            <div class="pixel-container max-w-4xl text-center mb-20">
-                <h2 class="pixel-title arcade-3d text-4xl sm:text-5xl text-white mb-8 pixel-fade-in">Create Your <span class="arcade-gradient">API</span></h2>
-                <p class="pixel-body text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-16 pixel-fade-in" style="animation-delay: 0.2s">
+        <section class="pixel-section bg-black py-32 sm:py-40">
+            <div class="pixel-container max-w-5xl text-center mb-24">
+                <!-- Animated Badge -->
+                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-pink-500/20 to-pink-600/20 border border-pink-500/40 rounded-full mb-8 pixel-fade-in">
+                    <div class="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></div>
+                    <span class="text-pink-400 text-sm font-medium tracking-wider uppercase">API Generator</span>
+                </div>
+                
+                <h2 class="pixel-title text-5xl sm:text-6xl md:text-7xl text-white mb-10 pixel-fade-in">
+                    Create Your <span class="text-pink-500 relative">
+                        API
+                        <div class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent"></div>
+                    </span>
+                </h2>
+                
+                <p class="pixel-body text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-8 pixel-fade-in" style="animation-delay: 0.2s">
                     Upload data files to create APIs, then use our dashboard to monitor traffic, manage access, and optimize performance across all your endpoints.
                 </p>
-
             </div>
 
             <div class="pixel-container max-w-7xl px-4 sm:px-6">
 
             <div id="app-container" class="w-full mb-16">
-                <div class="pixel-card flex flex-col sm:flex-row sm:items-center sm:justify-between p-8 space-y-4 sm:space-y-0 pixel-fade-in">
+                <div class="pixel-card flex flex-col sm:flex-row sm:items-center sm:justify-between p-8 space-y-4 sm:space-y-0 pixel-fade-in bg-gradient-to-br from-green-500/5 to-green-600/5 border-2 border-green-500/20">
                     <div class="min-w-0 flex-1">
-                        <p class="pixel-body text-sm text-white uppercase tracking-wide">Connected to Cloud Run</p>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <p class="pixel-body text-sm text-green-400 uppercase tracking-wide font-medium">Connected to Cloud Run</p>
+                        </div>
                         <p id="backend-url-display" class="font-mono text-xs sm:text-sm text-white break-all">https://apiui-backend-44565368406.us-central1.run.app</p>
                     </div>
                     <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
-                        <span id="backend-status-indicator" class="pixel-badge w-full sm:w-auto text-center">Connected</span>
-                        <button id="test-backend-btn" class="inline-flex items-center px-4 py-2 border border-white border-opacity-30 text-white text-sm font-medium hover:bg-white hover:bg-opacity-10 transition-colors w-full sm:w-auto">
+                        <button id="test-backend-btn" class="inline-flex items-center px-4 py-2 border-2 border-white/20 text-white text-sm font-medium hover:bg-white/10 hover:border-white/30 transition-all w-full sm:w-auto justify-center">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
@@ -1600,25 +1613,28 @@
                 </div>
 
                 <!-- Step-by-Step Instructions -->
-                <div class="pixel-card p-8 mb-20 pixel-fade-in" style="animation-delay: 0.4s">
-                    <h3 class="pixel-subtitle text-2xl text-white mb-8">How to Create Your API</h3>
+                <div class="pixel-card p-10 mb-20 pixel-fade-in bg-gradient-to-br from-pink-500/5 to-pink-600/5 border-2 border-pink-500/20" style="animation-delay: 0.4s">
+                    <div class="flex items-center space-x-3 mb-8">
+                        <div class="w-1 h-8 bg-gradient-to-b from-pink-500 to-pink-600"></div>
+                        <h3 class="pixel-subtitle text-2xl text-white">How to Create Your API</h3>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="flex items-start space-x-4">
-                            <div class="pixel-icon w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                <span class="pixel-title text-lg text-white">1</span>
+                        <div class="flex items-start space-x-4 group">
+                            <div class="w-14 h-14 flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-lg border-2 border-pink-500/30 group-hover:scale-110 transition-transform">
+                                <span class="pixel-title text-2xl text-pink-400 font-bold">1</span>
                             </div>
                             <div>
                                 <h4 class="pixel-body text-lg text-white font-semibold mb-2">Upload Your File</h4>
-                                <p class="pixel-body text-sm text-gray-300">Drag & drop your CSV, XLSX, Parquet, or JSON file here</p>
+                                <p class="pixel-body text-sm text-gray-400 leading-relaxed">Drag & drop your CSV, XLSX, Parquet, or JSON file here</p>
                             </div>
                         </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="pixel-icon w-12 h-12 flex items-center justify-center flex-shrink-0">
-                                <span class="pixel-title text-lg text-white">2</span>
+                        <div class="flex items-start space-x-4 group">
+                            <div class="w-14 h-14 flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-lg border-2 border-pink-500/30 group-hover:scale-110 transition-transform">
+                                <span class="pixel-title text-2xl text-pink-400 font-bold">2</span>
                             </div>
                             <div>
                                 <h4 class="pixel-body text-lg text-white font-semibold mb-2">Generate API</h4>
-                                <p class="pixel-body text-sm text-gray-300">We'll analyze your data and create a production-ready REST API</p>
+                                <p class="pixel-body text-sm text-gray-400 leading-relaxed">We'll analyze your data and create a production-ready REST API</p>
                             </div>
                         </div>
                     </div>
@@ -1627,17 +1643,63 @@
                 <!-- Uploader -->
                 <div id="uploader-section" class="mt-16 mb-16">
                     <input type="file" id="file-input" class="hidden" accept=".xlsx,.xls,.csv,.parquet,.json,.txt">
-                    <label for="file-input" id="file-drop-area" class="api-card w-full p-20 flex flex-col items-center justify-center cursor-pointer pixel-fade-in" style="animation-delay: 0.6s">
-                        <div class="pixel-icon w-16 h-16 mb-6">
-                            <svg class="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
-                            </svg>
+                    <label for="file-input" id="file-drop-area" class="api-card w-full p-24 flex flex-col items-center justify-center cursor-pointer pixel-fade-in bg-gradient-to-br from-pink-500/5 to-pink-600/5 border-2 border-pink-500/30 hover:border-pink-500/60 hover:bg-pink-500/10 transition-all relative overflow-hidden group" style="animation-delay: 0.6s; box-shadow: 0 0 40px rgba(236, 72, 153, 0.15);">
+                        <!-- Pink glow effect -->
+                        <div class="absolute inset-0 bg-gradient-radial from-pink-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        
+                        <!-- Animated background particles -->
+                        <div class="absolute inset-0 pointer-events-none opacity-20">
+                            <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
+                            <div class="absolute top-3/4 right-1/4 w-2 h-2 bg-pink-500 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                            <div class="absolute top-1/2 right-1/3 w-1 h-1 bg-pink-300 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
                         </div>
-                        <p class="pixel-subtitle text-xl text-white mb-4">
-                            Drag & drop your CSV, XLSX, Parquet, or JSON file here
-                        </p>
-                        <p class="pixel-body text-white">Or click to browse and select a file</p>
-                        <p class="pixel-body text-xs text-gray-300 mt-4">💡 Try the demo: <a href="sample-data.csv" download class="pixel-body underline hover:text-pink-300 transition-colors">Download sample-data.csv</a></p>
+                        
+                        <div class="relative z-10 flex flex-col items-center">
+                            <!-- Enhanced icon with multiple layers -->
+                            <div class="relative w-32 h-32 mb-8 group-hover:scale-110 transition-transform duration-300">
+                                <!-- Outer glow ring -->
+                                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-pink-600/30 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
+                                
+                                <!-- Icon container -->
+                                <div class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-2xl border-2 border-pink-500/40">
+                                    <!-- Cloud upload icon -->
+                                    <svg class="w-16 h-16 text-pink-400 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    
+                                    <!-- Decorative corner accents -->
+                                    <div class="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-pink-400 rounded-tl-lg"></div>
+                                    <div class="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-pink-400 rounded-tr-lg"></div>
+                                    <div class="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-pink-400 rounded-bl-lg"></div>
+                                    <div class="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-pink-400 rounded-br-lg"></div>
+                                </div>
+                            </div>
+                            
+                            <p class="pixel-subtitle text-3xl text-white mb-3 font-bold group-hover:text-pink-400 transition-colors">
+                                Drop your data file here
+                            </p>
+                            <p class="pixel-body text-base text-gray-400 mb-2">Supports multiple formats</p>
+                            
+                            <!-- File type badges -->
+                            <div class="flex flex-wrap items-center justify-center gap-2 mb-4">
+                                <span class="px-3 py-1 bg-pink-500/20 border border-pink-500/40 rounded-full text-xs text-pink-400 font-medium">CSV</span>
+                                <span class="px-3 py-1 bg-pink-500/20 border border-pink-500/40 rounded-full text-xs text-pink-400 font-medium">XLSX</span>
+                                <span class="px-3 py-1 bg-pink-500/20 border border-pink-500/40 rounded-full text-xs text-pink-400 font-medium">Parquet</span>
+                                <span class="px-3 py-1 bg-pink-500/20 border border-pink-500/40 rounded-full text-xs text-pink-400 font-medium">JSON</span>
+                            </div>
+                            
+                            <p class="pixel-body text-pink-400 font-medium text-lg mb-6">Or click to browse files</p>
+                            
+                            <!-- Demo download with icon -->
+                            <div class="mt-4 px-5 py-3 bg-gradient-to-r from-pink-500/20 to-pink-600/20 border border-pink-500/40 rounded-lg hover:border-pink-500/60 transition-all">
+                                <p class="pixel-body text-sm text-pink-400 flex items-center">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                    Quick Start: <a href="sample-data.csv" download class="underline hover:text-pink-300 transition-colors font-medium ml-1">Download sample-data.csv</a>
+                                </p>
+                            </div>
+                        </div>
                     </label>
                 </div>
 
@@ -1651,7 +1713,7 @@
                         </div>
                         <div>
                             <p class="pixel-body text-sm font-semibold text-white">Success!</p>
-                            <p id="upload-success-text" class="pixel-body text-sm text-gray-300"></p>
+                            <p id="upload-success-text" class="pixel-body text-sm text-gray-400"></p>
                         </div>
                     </div>
                 </div>
@@ -1666,7 +1728,7 @@
                         </div>
                         <div>
                             <p class="pixel-body text-sm font-semibold text-white">Invalid file type</p>
-                            <p id="upload-error-text" class="pixel-body text-sm text-gray-300">Please upload a CSV, Excel, Parquet, or JSON file.</p>
+                            <p id="upload-error-text" class="pixel-body text-sm text-gray-400">Please upload a CSV, Excel, Parquet, or JSON file.</p>
                         </div>
                     </div>
                 </div>
@@ -1699,7 +1761,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-9 0V1m10 3V1m0 3l1 1v16a2 2 0 01-2 2H6a2 2 0 01-2-2V5l1-1z"></path>
                                 </svg>
                         </div>
-                            <p class="pixel-body text-sm text-slate-400 uppercase tracking-wider mb-2">File Size</p>
+                            <p class="pixel-body text-sm text-gray-400 uppercase tracking-wider mb-2">File Size</p>
                             <p id="preview-file-size" class="pixel-title text-white">-</p>
                         </div>
                         <div class="pixel-card p-6 text-center">
@@ -1708,7 +1770,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
-                            <p class="pixel-body text-sm text-slate-400 uppercase tracking-wider mb-2">File Type</p>
+                            <p class="pixel-body text-sm text-gray-400 uppercase tracking-wider mb-2">File Type</p>
                             <p id="preview-file-type" class="pixel-title text-white">-</p>
                         </div>
                         <div class="pixel-card p-6 text-center">
@@ -1717,7 +1779,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
                                 </svg>
                             </div>
-                            <p class="pixel-body text-sm text-slate-400 uppercase tracking-wider mb-2">Records</p>
+                            <p class="pixel-body text-sm text-gray-400 uppercase tracking-wider mb-2">Records</p>
                             <p id="preview-record-count" class="pixel-title text-white">-</p>
                         </div>
                     </div>
@@ -1726,12 +1788,12 @@
                     <div class="mb-6">
                         <div class="flex items-center justify-between mb-4">
                             <h4 class="pixel-subtitle text-white">Data Preview</h4>
-                            <span id="preview-records-shown" class="pixel-body text-sm text-slate-400">Showing first 5 records</span>
+                            <span id="preview-records-shown" class="pixel-body text-sm text-gray-400">Showing first 5 records</span>
                         </div>
                         <div class="pixel-card p-4 overflow-x-auto">
                             <table class="min-w-full">
                                 <thead class="border-b-2 border-black">
-                                    <tr id="preview-table-headers" class="pixel-body text-sm text-slate-400 uppercase tracking-wider">
+                                    <tr id="preview-table-headers" class="pixel-body text-sm text-gray-400 uppercase tracking-wider">
                                         <!-- Headers will be populated here -->
                                     </tr>
                                 </thead>
@@ -1873,7 +1935,7 @@
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <!-- Endpoint Section -->
                             <div class="space-y-3">
-                                <label class="block font-medium text-sm text-gray-300">API Endpoint:</label>
+                                <label class="block pixel-body font-medium text-sm text-gray-400">API Endpoint:</label>
                                 <div class="flex items-center w-full bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg shadow-sm">
                                     <div class="flex-shrink-0 px-3 py-2 bg-white bg-opacity-20 border-r border-white border-opacity-20">
                                         <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1881,7 +1943,7 @@
                                         </svg>
                                     </div>
                                     <input id="api-endpoint-url" type="text" readonly class="flex-grow px-3 py-2 bg-transparent focus:outline-none text-sm font-mono text-white">
-                                    <button id="copy-url-btn" class="px-3 py-2 text-gray-300 hover:text-white transition-colors">
+                                    <button id="copy-url-btn" class="px-3 py-2 text-gray-400 hover:text-white transition-colors">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                         </svg>
@@ -1891,7 +1953,7 @@
 
                             <!-- cURL Section -->
                             <div class="space-y-3">
-                                <label class="block font-medium text-sm text-gray-300">Example cURL:</label>
+                                <label class="block pixel-body font-medium text-sm text-gray-400">Example cURL:</label>
                                 <div class="flex items-center w-full bg-black rounded-lg shadow-sm border border-white border-opacity-20">
                                     <div class="flex-shrink-0 px-3 py-2 bg-white bg-opacity-10 border-r border-white border-opacity-20">
                                         <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1899,7 +1961,7 @@
                                         </svg>
                                     </div>
                                     <pre id="api-curl-command" class="flex-grow px-3 py-2 text-white text-sm font-mono overflow-x-auto bg-transparent"></pre>
-                                    <button id="copy-curl-btn" class="px-3 py-2 text-gray-300 hover:text-white transition-colors">
+                                    <button id="copy-curl-btn" class="px-3 py-2 text-gray-400 hover:text-white transition-colors">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                         </svg>
@@ -1955,40 +2017,113 @@
         <div class="accent-line"></div>
 
         <!-- My APIs Section -->
-        <section class="pixel-section bg-black mb-16">
-            <div class="pixel-container max-w-6xl">
-                <div class="text-center mb-16">
-                    <h2 class="pixel-title text-4xl sm:text-5xl text-white mb-6 pixel-fade-in">My <span class="text-pink-400">APIs</span></h2>
-                    <p class="pixel-body text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed pixel-fade-in" style="animation-delay: 0.2s">Manage and interact with your generated APIs</p>
+        <section class="pixel-section bg-black py-32 sm:py-40 mb-16">
+            <div class="pixel-container max-w-7xl">
+                <div class="text-center mb-20">
+                    <!-- Animated Badge -->
+                    <div class="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-pink-500/20 to-pink-600/20 border border-pink-500/40 rounded-full mb-8 pixel-fade-in">
+                        <div class="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></div>
+                        <span class="text-pink-400 text-sm font-medium tracking-wider uppercase">API Dashboard</span>
+                    </div>
+                    
+                    <h2 class="pixel-title text-5xl sm:text-6xl md:text-7xl text-white mb-10 pixel-fade-in">
+                        My <span class="text-pink-500 relative">
+                            APIs
+                            <div class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent"></div>
+                        </span>
+                    </h2>
+                    
+                    <p class="pixel-body text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed pixel-fade-in" style="animation-delay: 0.2s">
+                        Manage and interact with your generated APIs
+                    </p>
 
-                    <!-- Stats cards with pixelated design -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 pixel-fade-in" style="animation-delay: 0.4s">
-                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-pink-500/20">
-                            <div class="pixel-icon w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                                </svg>
+                    <!-- Stats cards with enhanced design -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 pixel-fade-in" style="animation-delay: 0.4s">
+                        <!-- Total APIs Card -->
+                        <div class="pixel-card p-8 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-2 border-pink-500/30 hover:border-pink-500/50 transition-all hover:scale-105 relative overflow-hidden group" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);">
+                            <!-- Pink glow effect - visible by default, intensifies on hover -->
+                            <div class="absolute inset-0 bg-gradient-radial from-pink-500/15 via-pink-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="absolute inset-0 bg-gradient-radial from-pink-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <!-- Decorative corner elements -->
+                            <div class="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-pink-500/30 rounded-tl-xl"></div>
+                            <div class="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-pink-500/30 rounded-br-xl"></div>
+                            
+                            <!-- Floating particles -->
+                            <div class="absolute top-4 right-4 w-1 h-1 bg-pink-400 rounded-full animate-pulse"></div>
+                            <div class="absolute bottom-4 left-4 w-1 h-1 bg-pink-500 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                            
+                            <div class="relative z-10">
+                                <div class="relative w-20 h-20 mx-auto mb-6">
+                                    <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-pink-600/30 rounded-xl blur-lg group-hover:blur-xl transition-all"></div>
+                                    <div class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl border-2 border-pink-500/40">
+                                        <svg class="w-10 h-10 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="pixel-title text-5xl text-pink-400 font-bold mb-3 min-h-[3rem] flex items-center justify-center group-hover:scale-110 transition-transform" id="total-apis-count">0</div>
+                                <div class="h-px bg-gradient-to-r from-transparent via-pink-500/50 to-transparent mb-3"></div>
+                                <div class="pixel-body text-base text-white font-medium">Total APIs</div>
                             </div>
-                            <div class="pixel-title text-2xl text-white font-bold mb-2 min-h-[2rem] flex items-center justify-center" id="total-apis-count">0</div>
-                            <div class="pixel-body text-sm text-slate-400">Total APIs</div>
                         </div>
-                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-pink-500/20">
-                            <div class="pixel-icon w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
+                        
+                        <!-- Active APIs Card -->
+                        <div class="pixel-card p-8 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-2 border-pink-500/30 hover:border-pink-500/50 transition-all hover:scale-105 relative overflow-hidden group" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);">
+                            <!-- Pink glow effect - visible by default, intensifies on hover -->
+                            <div class="absolute inset-0 bg-gradient-radial from-pink-500/15 via-pink-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="absolute inset-0 bg-gradient-radial from-pink-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <!-- Decorative corner elements -->
+                            <div class="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-pink-500/30 rounded-tl-xl"></div>
+                            <div class="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-pink-500/30 rounded-br-xl"></div>
+                            
+                            <!-- Floating particles -->
+                            <div class="absolute top-4 right-4 w-1 h-1 bg-pink-400 rounded-full animate-pulse"></div>
+                            <div class="absolute bottom-4 left-4 w-1 h-1 bg-pink-500 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                            
+                            <div class="relative z-10">
+                                <div class="relative w-20 h-20 mx-auto mb-6">
+                                    <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-pink-600/30 rounded-xl blur-lg group-hover:blur-xl transition-all"></div>
+                                    <div class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl border-2 border-pink-500/40">
+                                        <svg class="w-10 h-10 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="pixel-title text-5xl text-pink-400 font-bold mb-3 min-h-[3rem] flex items-center justify-center group-hover:scale-110 transition-transform" id="active-apis-count">0</div>
+                                <div class="h-px bg-gradient-to-r from-transparent via-pink-500/50 to-transparent mb-3"></div>
+                                <div class="pixel-body text-base text-white font-medium">Active APIs</div>
                             </div>
-                            <div class="pixel-title text-2xl text-white font-bold mb-2 min-h-[2rem] flex items-center justify-center" id="active-apis-count">0</div>
-                            <div class="pixel-body text-sm text-slate-400">Active APIs</div>
                         </div>
-                        <div class="pixel-card p-6 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-pink-500/20">
-                            <div class="pixel-icon w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                </svg>
+                        
+                        <!-- Total Requests Card -->
+                        <div class="pixel-card p-8 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-2 border-pink-500/30 hover:border-pink-500/50 transition-all hover:scale-105 relative overflow-hidden group" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);">
+                            <!-- Pink glow effect - visible by default, intensifies on hover -->
+                            <div class="absolute inset-0 bg-gradient-radial from-pink-500/15 via-pink-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="absolute inset-0 bg-gradient-radial from-pink-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <!-- Decorative corner elements -->
+                            <div class="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-pink-500/30 rounded-tl-xl"></div>
+                            <div class="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-pink-500/30 rounded-br-xl"></div>
+                            
+                            <!-- Floating particles -->
+                            <div class="absolute top-4 right-4 w-1 h-1 bg-pink-400 rounded-full animate-pulse"></div>
+                            <div class="absolute bottom-4 left-4 w-1 h-1 bg-pink-500 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                            
+                            <div class="relative z-10">
+                                <div class="relative w-20 h-20 mx-auto mb-6">
+                                    <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-pink-600/30 rounded-xl blur-lg group-hover:blur-xl transition-all"></div>
+                                    <div class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl border-2 border-pink-500/40">
+                                        <svg class="w-10 h-10 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="pixel-title text-5xl text-pink-400 font-bold mb-3 min-h-[3rem] flex items-center justify-center group-hover:scale-110 transition-transform" id="total-requests">0</div>
+                                <div class="h-px bg-gradient-to-r from-transparent via-pink-500/50 to-transparent mb-3"></div>
+                                <div class="pixel-body text-base text-white font-medium">Total Requests</div>
                             </div>
-                            <div class="pixel-title text-2xl text-white font-bold mb-2 min-h-[2rem] flex items-center justify-center" id="total-requests">0</div>
-                            <div class="pixel-body text-sm text-slate-400">Total Requests</div>
                         </div>
                     </div>
                 </div>
@@ -2011,7 +2146,7 @@
                                 </svg>
                             </div>
                             <h3 class="pixel-title text-2xl text-white mb-6">No APIs yet</h3>
-                            <p class="pixel-body text-lg text-gray-300 mb-8 leading-relaxed">Upload a CSV file above to create your first API and start building production-ready endpoints</p>
+                            <p class="pixel-body text-lg text-gray-400 mb-8 leading-relaxed">Upload a CSV file above to create your first API and start building production-ready endpoints</p>
                             <a href="#create-api" class="pixel-btn pixel-btn-primary inline-flex items-center px-6 py-3">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -2024,23 +2159,7 @@
 
                 <!-- APIs List -->
                 <div id="apis-list" class="hidden pixel-fade-in" style="animation-delay: 0.4s">
-                    <div class="pixel-card overflow-hidden">
-                        <div class="px-6 py-4 border-b border-white border-opacity-20 bg-white bg-opacity-5">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="pixel-subtitle text-xl text-white">Your APIs</h3>
-                                    <p class="pixel-body text-white text-sm mt-1">Manage your deployed endpoints</p>
-                                </div>
-                                <div class="flex items-center space-x-3">
-                                    <div class="pixel-body text-sm text-white">
-                                        <span id="api-count">0 APIs</span>
-                                    </div>
-                                    <button id="clear-cache-btn" class="pixel-btn pixel-btn-secondary px-3 py-1 text-xs">
-                                        Clear Cache
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="pixel-card overflow-hidden border-2 border-white/10 backdrop-blur-sm">
                         <div id="apis-table-body" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 p-6">
                             <!-- API rows will be populated here -->
                         </div>
@@ -2061,6 +2180,154 @@
     <!-- Pixel Section Divider -->
     <div class="pixel-accent-line"></div>
 
+    <!-- Directory Navigation Section -->
+    <section class="bg-gradient-to-b from-black via-gray-900 to-black py-24 relative overflow-hidden">
+        <!-- Background effects -->
+        <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 50px 50px;"></div>
+        
+        <!-- Radial glow effects -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-radial from-pink-500/5 via-transparent to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-pink-500/20 to-pink-600/20 border border-pink-500/40 rounded-full mb-6">
+                    <div class="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></div>
+                    <span class="text-pink-400 text-sm font-medium tracking-wider uppercase">Explore More</span>
+                </div>
+                
+                <h2 class="pixel-title text-4xl sm:text-5xl text-white mb-4">
+                    Discover <span class="text-pink-500">APIUI</span>
+                </h2>
+                <p class="pixel-body text-lg text-gray-400 max-w-2xl mx-auto">
+                    Explore our documentation, tools, and resources to get the most out of your API journey
+                </p>
+            </div>
+
+            <!-- Directory Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Documentation Card -->
+                <a href="docs.html" class="group pixel-card p-8 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-2 border-pink-500/30 hover:border-pink-500/50 transition-all hover:scale-105 relative overflow-hidden" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);">
+                    <!-- Pink glow effect - visible by default, intensifies on hover -->
+                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/15 via-pink-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    <!-- Decorative corner elements -->
+                    <div class="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-pink-500/30 rounded-tl-xl"></div>
+                    <div class="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-pink-500/30 rounded-br-xl"></div>
+
+                    <!-- Floating particles -->
+                    <div class="absolute top-4 right-4 w-1 h-1 bg-pink-400 rounded-full animate-pulse"></div>
+                    <div class="absolute bottom-4 left-4 w-1 h-1 bg-pink-500 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+
+                    <div class="relative z-10">
+                        <div class="relative w-20 h-20 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-pink-600/30 rounded-xl blur-lg group-hover:blur-xl transition-all"></div>
+                            <div class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl border-2 border-pink-500/40">
+                                <svg class="w-10 h-10 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:scale-110 transition-transform">Documentation</h3>
+                        <div class="h-px bg-gradient-to-r from-transparent via-pink-500/50 to-transparent mb-3"></div>
+                        <p class="pixel-body text-base text-white font-medium">Complete guides, API references, and tutorials</p>
+                    </div>
+                </a>
+
+                <!-- MCP Tools Card -->
+                <a href="mcp.html" class="group pixel-card p-8 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-2 border-pink-500/30 hover:border-pink-500/50 transition-all hover:scale-105 relative overflow-hidden" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);">
+                    <!-- Pink glow effect - visible by default, intensifies on hover -->
+                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/15 via-pink-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    <!-- Decorative corner elements -->
+                    <div class="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-pink-500/30 rounded-tl-xl"></div>
+                    <div class="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-pink-500/30 rounded-br-xl"></div>
+
+                    <!-- Floating particles -->
+                    <div class="absolute top-4 right-4 w-1 h-1 bg-pink-400 rounded-full animate-pulse"></div>
+                    <div class="absolute bottom-4 left-4 w-1 h-1 bg-pink-500 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+
+                    <div class="relative z-10">
+                        <div class="relative w-20 h-20 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-pink-600/30 rounded-xl blur-lg group-hover:blur-xl transition-all"></div>
+                            <div class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl border-2 border-pink-500/40">
+                                <svg class="w-10 h-10 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:scale-110 transition-transform">MCP Tools</h3>
+                        <div class="h-px bg-gradient-to-r from-transparent via-pink-500/50 to-transparent mb-3"></div>
+                        <p class="pixel-body text-base text-white font-medium">Model Context Protocol integration</p>
+                    </div>
+                </a>
+
+                <!-- Socket Chat Card -->
+                <a href="socket-chat.html" class="group pixel-card p-8 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-2 border-pink-500/30 hover:border-pink-500/50 transition-all hover:scale-105 relative overflow-hidden" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);">
+                    <!-- Pink glow effect - visible by default, intensifies on hover -->
+                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/15 via-pink-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    <!-- Decorative corner elements -->
+                    <div class="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-pink-500/30 rounded-tl-xl"></div>
+                    <div class="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-pink-500/30 rounded-br-xl"></div>
+
+                    <!-- Floating particles -->
+                    <div class="absolute top-4 right-4 w-1 h-1 bg-pink-400 rounded-full animate-pulse"></div>
+                    <div class="absolute bottom-4 left-4 w-1 h-1 bg-pink-500 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+
+                    <div class="relative z-10">
+                        <div class="relative w-20 h-20 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-pink-600/30 rounded-xl blur-lg group-hover:blur-xl transition-all"></div>
+                            <div class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl border-2 border-pink-500/40">
+                                <svg class="w-10 h-10 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:scale-110 transition-transform">Socket Chat</h3>
+                        <div class="h-px bg-gradient-to-r from-transparent via-pink-500/50 to-transparent mb-3"></div>
+                        <p class="pixel-body text-base text-white font-medium">Real-time chat powered by WebSocket</p>
+                    </div>
+                </a>
+
+                <!-- Home Card -->
+                <a href="index.html" class="group pixel-card p-8 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-2 border-pink-500/30 hover:border-pink-500/50 transition-all hover:scale-105 relative overflow-hidden" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);">
+                    <!-- Pink glow effect - visible by default, intensifies on hover -->
+                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/15 via-pink-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    <!-- Decorative corner elements -->
+                    <div class="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-pink-500/30 rounded-tl-xl"></div>
+                    <div class="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-pink-500/30 rounded-br-xl"></div>
+
+                    <!-- Floating particles -->
+                    <div class="absolute top-4 right-4 w-1 h-1 bg-pink-400 rounded-full animate-pulse"></div>
+                    <div class="absolute bottom-4 left-4 w-1 h-1 bg-pink-500 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+
+                    <div class="relative z-10">
+                        <div class="relative w-20 h-20 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-pink-600/30 rounded-xl blur-lg group-hover:blur-xl transition-all"></div>
+                            <div class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl border-2 border-pink-500/40">
+                                <svg class="w-10 h-10 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:scale-110 transition-transform">Home</h3>
+                        <div class="h-px bg-gradient-to-r from-transparent via-pink-500/50 to-transparent mb-3"></div>
+                        <p class="pixel-body text-base text-white font-medium">Return to the homepage to learn more</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pixel Section Divider -->
+    <div class="pixel-accent-line"></div>
+
     <!-- Footer -->
     <footer class="bg-black border-t border-slate-800 py-12 relative">
         <div class="absolute inset-0 pointer-events-none opacity-8" style="background-image: linear-gradient(rgba(236, 72, 153, 0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.01) 1px, transparent 1px); background-size: 40px 40px;"></div>
@@ -2068,9 +2335,9 @@
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
                     <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-white">api<span class="text-pink-500">UI</span></a>
-                    <p class="pixel-heading text-xs text-slate-400 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
+                    <p class="pixel-heading text-xs text-gray-400 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
                 </div>
-                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-400">
+                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-gray-400">
                     <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
                     <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
                     <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
@@ -2089,7 +2356,7 @@
                 </div>
             </div>
             <div class="hub-divider mt-8"></div>
-            <div class="mt-6 text-right pixel-heading text-xs uppercase tracking-[0.28em] text-slate-400">&copy; 2025 apiUI Inc. All rights reserved.</div>
+            <div class="mt-6 text-right pixel-heading text-xs uppercase tracking-[0.28em] text-gray-400">&copy; 2025 apiUI Inc. All rights reserved.</div>
         </div>
     </footer>
 
@@ -3207,12 +3474,12 @@
                         <div>
                             <p class="pixel-heading text-xs text-pink-400">API</p>
                             <h3 class="text-xl font-semibold text-white">${api.custom_name || api.title || `API ${api.id.slice(0, 8)}`}</h3>
-                            <p class="text-sm text-gray-300">${api.status === 'running' ? 'Running' : 'Stopped'}</p>
+                            <p class="pixel-body text-sm text-gray-400">${api.status === 'running' ? 'Running' : 'Stopped'}</p>
                         </div>
                     </div>
                     <span class="hub-pill">${api.status === 'running' ? 'Live' : 'Stopped'}</span>
                 </div>
-                <p class="text-sm text-gray-300 leading-6">
+                <p class="pixel-body text-sm text-gray-400 leading-6">
                     ${api.description || 'Generated API with endpoints available through apiUI.'}
                 </p>
                 ${(api.api_url || api.url) ? `
@@ -3614,7 +3881,7 @@
             if (previewData.headers && previewTableHeaders) {
                 previewData.headers.forEach(header => {
                     const th = document.createElement('th');
-                    th.className = 'px-4 py-3 text-left pixel-body text-slate-400 uppercase tracking-wider';
+                    th.className = 'px-4 py-3 text-left pixel-body text-gray-400 uppercase tracking-wider';
                     th.textContent = header;
                     previewTableHeaders.appendChild(th);
                 });
@@ -4073,7 +4340,7 @@
                     styleClass = 'text-white font-bold';
                 } else if (level === 'warning') {
                     prefix = '[WARN] ';
-                    styleClass = 'text-gray-300';
+                    styleClass = 'text-gray-400';
                 } else if (level === 'success') {
                     prefix = '[SUCCESS] ';
                     styleClass = 'text-white font-bold';
