@@ -3,10 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Editor | apiUI</title>
+    <title>Data Editor | APIUI</title>
     <meta name="description" content="Excel-like data editor for viewing and editing API data inline">
-    <meta name="author" content="apiUI by AURABLOX">
+    <meta name="author" content="APIUI by AURABLOX">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:site_name" content="APIUI">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Data Editor | APIUI">
+    <meta property="og:description" content="Excel-like data editor for viewing and editing API data inline">
+    <meta property="og:url" content="https://apiui.web.app/data-editor.html">
+    <meta property="og:image" content="https://apiui.web.app/favicon.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="APIUI - Data Editor">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Data Editor | APIUI">
+    <meta name="twitter:description" content="Excel-like data editor for viewing and editing API data inline">
+    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
+    <meta name="twitter:image:alt" content="APIUI - Data Editor">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,34 +44,34 @@
         <style>
         /* Pixel-Inspired CSS Variables */
         :root {
-            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
-            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
-            --pixel-pink-light: #F472B6;  /* Light pink */
-            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
-            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
-            --pixel-black: #000000;  /* Black text */
-            --pixel-white: #ffffff;  /* White background */
-            --pixel-gray-100: #f8fafc;
-            --pixel-gray-200: #e2e8f0;
-            --pixel-gray-300: #cbd5e1;
-            --pixel-gray-600: #64748b;
-            --pixel-gray-800: #1f2937;
-            /* Pixel Design System */
-            --pixel-border-width: 2px;
-            --pixel-border-radius: 0;
-            --pixel-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
-            --pixel-shadow-hover: 6px 6px 0 rgba(0, 0, 0, 0.3);
-            --pixel-success: #10b981;
-            --pixel-warning: #f59e0b;
-            --pixel-danger: #ef4444;
+            /* Hub Design System - Professional Theme */
+            --hub-pink: #ec4899;
+            --hub-pink-soft: #f472b6;
+            --hub-purple: #7c3aed;
+            --hub-purple-soft: #a855f7;
+            --hub-ink: #0f172a;
+            --hub-ink-soft: #1f2937;
+            --hub-surface: #ffffff;
+            --hub-muted: #64748b;
+            --hub-border: rgba(15, 23, 42, 0.12);
+            --hub-success: #10b981;
+            --hub-warning: #f59e0b;
+            --hub-danger: #ef4444;
+
+            /* Professional Design System */
+            --border-width: 1px;
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--pixel-white);
-            color: var(--pixel-black);
+            background-color: var(--hub-surface);
+            color: var(--hub-ink);
             line-height: 1.6;
-            cursor: inherit;
             min-height: 100vh;
             margin: 0;
             padding: 0;
@@ -59,24 +82,24 @@
             position: fixed;
             inset: 0;
             pointer-events: none;
-            opacity: 0.3;
-            background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px);
+            opacity: 0.15;
+            background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px);
             background-size: 32px 32px;
             z-index: 0;
         }
 
         header.editor-header {
             position: relative;
-            z-index: 2;
-            border-bottom: var(--pixel-border-width) solid var(--pixel-black);
-            background: var(--pixel-white);
+            z-index: 10;
+            border-bottom: 1px solid var(--hub-border);
+            background: var(--hub-surface);
         }
 
         .nav-shell {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1.25rem 1rem;
+            padding: 1.25rem 0;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -86,12 +109,13 @@
             font-size: 1.25rem;
             letter-spacing: 0.24em;
             text-transform: uppercase;
-            color: var(--pixel-black);
+            color: var(--hub-ink);
             text-decoration: none;
+            font-weight: 600;
         }
 
         .nav-shell a span {
-            color: var(--pixel-pink);
+            color: var(--hub-pink);
         }
 
         .nav-meta {
@@ -99,129 +123,140 @@
             align-items: center;
             gap: 0.75rem;
             font-size: 0.75rem;
-            letter-spacing: 0.18em;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: var(--pixel-gray-600);
+            color: var(--hub-muted);
         }
 
         .pixel-container {
-            max-width: 1200px;
+            width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 2rem;
         }
 
-        /* Pixel Button System */
-        .pixel-btn {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-            padding: 0.75rem 1.5rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            box-shadow: none;
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
+        /* Corner dots only on outer containers (except those with no-corner-pixel class) */
+        .outer-container:not(.no-corner-pixel)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-image: linear-gradient(90deg, var(--hub-pink) 50%, transparent 50%), linear-gradient(180deg, var(--hub-pink) 50%, transparent 50%);
+            background-size: 4px 4px;
+            opacity: 0.65;
+        }
+
+        /* Professional Button System - Hub Theme */
+        .hub-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-        }
-
-        .pixel-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            transition: left 0.3s ease;
-        }
-
-        .pixel-btn:hover {
-            box-shadow: none;
-            transform: translate(-1px, -1px);
-            color: var(--pixel-black);
-        }
-
-        .pixel-btn:hover::before {
-            left: 100%;
-        }
-
-        .pixel-btn:active {
-            transform: translate(0, 0);
-            box-shadow: none;
-        }
-
-        .pixel-btn-primary {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            border-color: var(--pixel-black);
-        }
-
-        .pixel-btn-primary:hover {
-            background: var(--pixel-pink);
-            border-color: var(--pixel-pink);
-            color: var(--pixel-white);
-        }
-
-        .pixel-btn-secondary {
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            border-color: var(--pixel-pink-subtle);
-        }
-
-        .pixel-btn-secondary:hover {
-            background: var(--pixel-pink-subtle);
-            color: var(--pixel-white);
-        }
-
-        /* Pixel Card System - Soft Interactive */
-        .pixel-card {
-            background: var(--pixel-white);
-            border: 1px solid rgba(15, 23, 42, 0.12);
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0.75rem 1.75rem;
+            border: 2px solid var(--hub-ink);
+            border-radius: 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             position: relative;
             overflow: hidden;
-            margin-bottom: 2rem !important;
+            z-index: 0;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, color 0.25s ease;
+            font-family: 'Pixelify Sans', monospace;
         }
 
-        .pixel-card::before {
+        .hub-btn:focus {
+            outline: 2px solid var(--hub-pink);
+            outline-offset: 3px;
+        }
+
+        .hub-btn-primary {
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 48%, var(--hub-purple) 100%);
+            color: #fff;
+            box-shadow: 0 0 0 2px #ffffff inset, 4px 4px 0 rgba(15, 23, 42, 0.45);
+        }
+
+        .hub-btn-primary::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            inset: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            opacity: 0.65;
             pointer-events: none;
         }
 
-        .pixel-card:hover {
-            border-color: var(--pixel-pink);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
-            transform: translateY(-2px);
+        .hub-btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent 65%);
+            mix-blend-mode: screen;
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
-        .pixel-card:hover::before {
-            opacity: 1;
+        .hub-btn-primary:hover {
+            transform: translate(-3px, -3px);
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-purple) 45%, var(--hub-pink-soft) 85%);
+            box-shadow: 0 0 0 2px #ffffff inset, 6px 6px 0 rgba(124, 58, 237, 0.45), 0 0 18px rgba(124, 58, 237, 0.35);
         }
 
-        /* Pixel Typography Classes */
+        .hub-btn-primary:hover::before {
+            opacity: 0.75;
+        }
+
+        .hub-btn-secondary {
+            border: 2px solid transparent;
+            color: var(--hub-ink);
+            background: linear-gradient(var(--hub-surface), var(--hub-surface)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 3px 3px 0 rgba(15, 23, 42, 0.25);
+        }
+
+        .hub-btn-secondary:hover {
+            transform: translate(-3px, -3px);
+            color: #fff;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple-soft) 45%, var(--hub-ink) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7) inset, 5px 5px 0 rgba(236, 72, 153, 0.4), 0 0 16px rgba(236, 72, 153, 0.3);
+        }
+
+        /* Professional Card System - Hub Theme */
+        .api-card {
+            position: relative;
+            background-color: var(--hub-surface);
+            border: 1px solid var(--hub-border);
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .api-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
+            border-color: rgba(236, 72, 153, 0.45);
+        }
+
+        .api-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-image: linear-gradient(90deg, var(--hub-pink) 50%, transparent 50%), linear-gradient(180deg, var(--hub-pink) 50%, transparent 50%);
+            background-size: 4px 4px;
+            opacity: 0.65;
+        }
+
+        /* Professional Typography Classes - Hub Theme */
         .pixel-heading {
             font-family: 'Pixelify Sans', monospace;
             letter-spacing: 0.14em;
             text-transform: uppercase;
+            color: var(--hub-ink);
         }
 
         .pixel-title {
@@ -229,6 +264,7 @@
             font-weight: 700;
             letter-spacing: 0.05em;
             text-transform: uppercase;
+            color: var(--hub-ink);
         }
 
         .pixel-subtitle {
@@ -236,27 +272,49 @@
             font-weight: 500;
             letter-spacing: 0.03em;
             text-transform: uppercase;
+            color: var(--hub-ink-soft);
         }
 
         .pixel-body {
             font-family: 'Inter', sans-serif;
             font-weight: 400;
             line-height: 1.6;
+            color: var(--hub-ink);
+        }
+
+        .eyebrow {
+            letter-spacing: 0.32em;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--hub-pink);
+        }
+
+        .hub-divider {
+            width: 100%;
+            height: 1px;
+            background-image: linear-gradient(90deg, var(--hub-border) 0, transparent 50%, var(--hub-border) 100%);
+            background-size: 24px 1px;
+            opacity: 0.75;
         }
 
         /* Status indicator */
         .status-indicator {
             width: 8px;
             height: 8px;
-            background: var(--pixel-gray-500);
+            background: var(--hub-muted);
             display: inline-block;
             margin-right: 0.5rem;
-            border: 1px solid var(--pixel-black);
+            border-radius: 50%;
         }
 
         .status-indicator.status-live {
-            background: var(--pixel-pink);
-            box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.3);
+            background: var(--hub-pink);
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.3);
+        }
+
+        .status-indicator.status-ready {
+            background: var(--hub-success);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
         }
 
         /* Pixel fade-in animation */
@@ -316,33 +374,34 @@
         }
 
         .status-success {
-            border-color: var(--pixel-success);
-            color: var(--pixel-success);
+            border-color: var(--hub-success);
+            color: var(--hub-success);
         }
 
         .status-error {
-            border-color: var(--pixel-danger);
-            color: var(--pixel-danger);
+            border-color: var(--hub-danger);
+            color: var(--hub-danger);
         }
 
         .status-warning {
-            border-color: var(--pixel-warning);
-            color: var(--pixel-warning);
+            border-color: var(--hub-warning);
+            color: var(--hub-warning);
         }
 
         .status-info {
-            border-color: var(--pixel-pink);
-            color: var(--pixel-pink);
+            border-color: var(--hub-pink);
+            color: var(--hub-pink);
         }
 
         .excel-app {
             position: relative;
-            max-width: 1200px;
+            width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
-            background: var(--pixel-white);
-            border-radius: var(--pixel-border-radius);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            box-shadow: var(--pixel-shadow);
+            background: var(--hub-surface);
+            border-radius: var(--border-radius);
+            border: var(--border-width) solid var(--hub-border);
+            box-shadow: var(--shadow-lg);
             overflow: hidden;
         }
 
@@ -357,7 +416,7 @@
             font-size: 0.75rem;
             letter-spacing: 0.28em;
             text-transform: uppercase;
-            color: var(--pixel-pink);
+            color: var(--hub-pink);
             margin-bottom: 0.65rem;
         }
 
@@ -365,14 +424,14 @@
             font-size: clamp(1.75rem, 3vw, 2.6rem);
             font-weight: 600;
             letter-spacing: -0.01em;
-            color: var(--pixel-black);
+            color: var(--hub-ink);
             margin: 0;
         }
 
         .sheet-subtitle {
             font-size: 1rem;
             line-height: 1.6;
-            color: var(--pixel-gray-600);
+            color: var(--hub-ink-soft);
             max-width: 640px;
             margin: 0;
         }
@@ -435,16 +494,16 @@
             gap: 0.75rem;
             align-items: center;
             padding: 1rem 1.2rem;
-            border: 1px solid rgba(15, 23, 42, 0.12);
-            border-radius: 8px;
-            background: var(--pixel-white);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--hub-border);
+            border-radius: var(--border-radius);
+            background: var(--hub-surface);
+            box-shadow: var(--shadow-sm);
             transition: all 0.2s ease;
         }
 
         .toolbar:hover {
-            border-color: var(--pixel-pink);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+            border-color: var(--hub-pink);
+            box-shadow: var(--shadow-md);
         }
 
         .toolbar-group {
@@ -460,15 +519,16 @@
             gap: 0.55rem;
             padding: 0.55rem 1.1rem;
             border-radius: 6px;
-            border: 1px solid rgba(15, 23, 42, 0.12);
-            background: var(--pixel-white);
-            color: var(--pixel-black);
+            border: 1px solid var(--hub-border);
+            background: var(--hub-surface);
+            color: var(--hub-ink);
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.2s ease;
+            font-family: 'Pixelify Sans', monospace;
         }
 
         .toolbar-btn svg {
@@ -478,23 +538,23 @@
 
         .toolbar-btn:hover:not(:disabled) {
             transform: translateY(-1px);
-            border-color: var(--pixel-pink);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+            border-color: var(--hub-pink);
+            box-shadow: var(--shadow-md);
             background: rgba(236, 72, 153, 0.05);
         }
 
         .toolbar-btn.primary {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            border: 1px solid var(--pixel-black);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: var(--hub-ink);
+            color: #fff;
+            border: 1px solid var(--hub-ink);
+            box-shadow: var(--shadow-sm);
         }
 
         .toolbar-btn.primary:hover:not(:disabled) {
             transform: translateY(-2px);
-            background: var(--pixel-pink);
-            border-color: var(--pixel-pink);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.25);
+            background: var(--hub-pink);
+            border-color: var(--hub-pink);
+            box-shadow: var(--shadow-lg);
         }
 
         .toolbar-btn:disabled {
@@ -522,16 +582,16 @@
             align-items: center;
             gap: 1rem;
             padding: 0.85rem 1.2rem;
-            border: 1px solid rgba(15, 23, 42, 0.12);
-            border-radius: 8px;
-            background: var(--pixel-white);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--hub-border);
+            border-radius: var(--border-radius);
+            background: var(--hub-surface);
+            box-shadow: var(--shadow-sm);
             transition: all 0.2s ease;
         }
 
         .formula-bar:hover {
-            border-color: var(--pixel-pink);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+            border-color: var(--hub-pink);
+            box-shadow: var(--shadow-md);
         }
 
         .formula-label {
@@ -539,48 +599,49 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             font-size: 0.75rem;
-            background: var(--pixel-pink);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            color: var(--pixel-white);
+            background: var(--hub-pink);
+            border: var(--border-width) solid var(--hub-ink);
+            color: #fff;
             padding: 0.5rem 1rem;
-            border-radius: var(--pixel-border-radius);
+            border-radius: var(--border-radius);
         }
 
         .formula-input {
             width: 100%;
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
+            border: var(--border-width) solid var(--hub-border);
+            border-radius: var(--border-radius);
             padding: 0.6rem 1rem;
             font-family: 'SF Mono', 'Roboto Mono', 'Monaco', monospace;
             font-size: 0.9rem;
-            background: var(--pixel-white);
+            background: var(--hub-surface);
+            color: var(--hub-ink);
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .formula-input:focus {
             outline: none;
-            border-color: var(--pixel-pink);
-            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.15);
+            border-color: var(--hub-pink);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
         }
 
         .spreadsheet-container {
             margin: 0 0 2rem;
-            border-radius: 8px;
-            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--hub-border);
             overflow: hidden;
-            background: var(--pixel-white);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: var(--hub-surface);
+            box-shadow: var(--shadow-sm);
             transition: all 0.2s ease;
         }
 
         .spreadsheet-container:hover {
-            border-color: var(--pixel-pink);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+            border-color: var(--hub-pink);
+            box-shadow: var(--shadow-md);
         }
 
         .spreadsheet-grid {
             overflow: auto;
-            max-height: 60vh;
+            max-height: 75vh;
         }
 
         .spreadsheet-grid::-webkit-scrollbar {
@@ -619,28 +680,29 @@
         .column-headers th {
             position: sticky;
             top: 0;
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-white);
-            padding: 0.75rem 0.75rem;
+            background: var(--hub-ink);
+            color: #fff;
+            border: var(--border-width) solid #fff;
+            padding: 0.6rem 0.6rem;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             min-width: 140px;
             cursor: pointer;
             transition: background 0.18s ease, transform 0.18s ease;
+            font-family: 'Pixelify Sans', monospace;
         }
 
         .column-headers th:first-child {
             position: sticky;
             left: 0;
             min-width: 70px;
-            background: var(--pixel-black);
+            background: var(--hub-ink);
             cursor: default;
         }
 
         .column-headers th:hover:not(:first-child) {
-            background: var(--pixel-pink);
+            background: var(--hub-pink);
             transform: translateY(-1px);
         }
 
@@ -652,19 +714,20 @@
             position: sticky;
             left: 0;
             z-index: 2;
-            background: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            padding: 0.6rem 0.75rem;
+            background: var(--hub-surface);
+            border: var(--border-width) solid var(--hub-border);
+            padding: 0.5rem 0.6rem;
             font-size: 0.75rem;
             font-weight: 600;
-            color: var(--pixel-gray-600);
+            color: var(--hub-muted);
             letter-spacing: 0.08em;
             text-transform: uppercase;
+            font-family: 'Pixelify Sans', monospace;
         }
 
         .data-cell {
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            background: var(--pixel-white);
+            border: var(--border-width) solid var(--hub-border);
+            background: var(--hub-surface);
             min-width: 140px;
             height: 44px;
             position: relative;
@@ -673,14 +736,14 @@
 
         .data-cell:hover {
             background: rgba(236, 72, 153, 0.05);
-            border-color: var(--pixel-pink);
+            border-color: var(--hub-pink);
         }
 
         .data-cell.selected,
         .data-cell:focus-within {
-            border-color: var(--pixel-pink);
-            box-shadow: inset 0 0 0 1px var(--pixel-pink), 0 0 0 3px rgba(236, 72, 153, 0.18);
-            background: var(--pixel-white);
+            border-color: var(--hub-pink);
+            box-shadow: inset 0 0 0 1px var(--hub-pink), 0 0 0 3px rgba(236, 72, 153, 0.18);
+            background: var(--hub-surface);
         }
 
         .data-cell input,
@@ -690,7 +753,7 @@
             height: 100%;
             border: none;
             background: transparent;
-            padding: 0.45rem 0.75rem;
+            padding: 0.35rem 0.6rem;
             font-family: inherit;
             font-size: 0.85rem;
             color: var(--hub-ink);
@@ -778,16 +841,16 @@
             justify-content: space-between;
             gap: 1rem;
             padding: 1rem 1.2rem;
-            border: 1px solid rgba(15, 23, 42, 0.12);
-            border-radius: 8px;
-            background: var(--pixel-white);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--hub-border);
+            border-radius: var(--border-radius);
+            background: var(--hub-surface);
+            box-shadow: var(--shadow-sm);
             transition: all 0.2s ease;
         }
 
         .pagination-container:hover {
-            border-color: var(--pixel-pink);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+            border-color: var(--hub-pink);
+            box-shadow: var(--shadow-md);
         }
 
         .pagination-actions {
@@ -801,21 +864,22 @@
             gap: 0.4rem;
             padding: 0.55rem 1rem;
             border-radius: 6px;
-            border: 1px solid rgba(15, 23, 42, 0.12);
-            background: var(--pixel-white);
-            color: var(--pixel-black);
+            border: 1px solid var(--hub-border);
+            background: var(--hub-surface);
+            color: var(--hub-ink);
             font-weight: 600;
             font-size: 0.8rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.2s ease;
+            font-family: 'Pixelify Sans', monospace;
         }
 
         .pagination-btn:hover:not(:disabled) {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
-            border-color: var(--pixel-pink);
+            box-shadow: var(--shadow-md);
+            border-color: var(--hub-pink);
             background: rgba(236, 72, 153, 0.05);
         }
 
@@ -913,6 +977,10 @@
         }
 
         @media (max-width: 1024px) {
+            .pixel-container {
+                padding: 0 1.5rem;
+            }
+
             .sheet-banner {
                 padding: 2.2rem 2rem;
             }
@@ -928,6 +996,10 @@
             /* Hide floating sidebar on mobile */
             .fixed.left-6 {
                 display: none;
+            }
+
+            .pixel-container {
+                padding: 0 1rem;
             }
 
             .nav-shell {
@@ -947,16 +1019,24 @@
             .toolbar {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 0.75rem;
             }
 
             .toolbar-group {
                 width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                justify-content: center;
             }
 
             .toolbar-btn,
             select.toolbar-btn {
                 width: 100%;
                 justify-content: center;
+                min-height: 44px;
+                flex: 1;
+                max-width: calc(50% - 0.25rem);
             }
 
             .formula-bar {
@@ -976,24 +1056,47 @@
             }
 
             /* Mobile hero section adjustments */
-            .pixel-card.p-10 {
+            .api-card.p-10 {
                 padding: 1.5rem;
             }
 
             .flex.items-start.space-x-6 {
                 flex-direction: column;
                 gap: 1rem;
+                align-items: center;
+                text-align: center;
             }
 
-            .flex.space-x-3 {
-                flex-direction: column;
-                gap: 0.75rem;
+            .hero-button-section {
+                align-items: center;
+            }
+
+            /* Data Editor specific mobile improvements */
+            .data-status-section {
+                text-align: center;
+            }
+
+            .hero-button-section {
                 width: 100%;
             }
 
-            .flex.space-x-3 .pixel-btn {
-                width: 100%;
+            .hero-button-section .hub-btn {
+                min-height: 48px;
+                font-size: 1rem;
+            }
+
+            /* Ensure toolbar groups are properly centered on mobile */
+            .toolbar-group {
+                display: flex;
                 justify-content: center;
+                width: 100%;
+            }
+
+            .toolbar-group .toolbar-btn,
+            .toolbar-group select.toolbar-btn {
+                flex: 1;
+                max-width: 200px;
+                margin: 0 2px;
             }
         }
 
@@ -1009,48 +1112,6 @@
 
 </head>
 <body>
-    <!-- Floating Navigation Sidebar -->
-    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
-        <div class="pixel-card bg-white p-2 shadow-lg">
-            <div class="flex flex-col space-y-2">
-                <!-- Home -->
-                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                    </svg>
-                </a>
-
-                <!-- Dashboard -->
-                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    </svg>
-                </a>
-
-                <!-- Docs -->
-                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
-                </a>
-
-
-                <!-- MCP Server -->
-                <a href="mcp.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
-                    </svg>
-                </a>
-
-                <!-- Socket Chat -->
-                <a href="socket-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </div>
 
     <!-- Navigation -->
     <header class="bg-white">
@@ -1064,7 +1125,6 @@
             <div class="hidden md:flex items-center space-x-8">
                 <a href="app.html" class="text-gray-700 hover:text-black font-medium">App</a>
                 <a href="mcp.html" class="text-gray-700 hover:text-black font-medium">MCP</a>
-                <a href="socket-chat.html" class="text-gray-700 hover:text-black font-medium">Sock chat</a>
                 <a href="docs.html" class="text-gray-700 hover:text-black font-medium">Docs</a>
                 <a href="learn-more.html" class="text-gray-700 hover:text-black font-medium">Learn more</a>
             </div>
@@ -1080,7 +1140,6 @@
             <div class="pixel-container py-4 space-y-4">
                 <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
                 <a href="mcp.html" class="block text-gray-700 hover:text-black font-medium py-2">MCP</a>
-                <a href="socket-chat.html" class="block text-gray-700 hover:text-black font-medium py-2">Sock chat</a>
                 <a href="docs.html" class="block text-gray-700 hover:text-black font-medium py-2">Docs</a>
                 <a href="learn-more.html" class="block text-gray-700 hover:text-black font-medium py-2">Learn more</a>
             </div>
@@ -1094,10 +1153,10 @@
         </div>
 
         <!-- Hero Section -->
-        <div class="pixel-card p-10 mb-8 pixel-fade-in">
-            <div class="flex items-start justify-between mb-8">
-                <div class="flex items-start space-x-6 flex-1">
-                    <div class="pixel-card w-20 h-20 flex items-center justify-center flex-shrink-0">
+        <div class="api-card outer-container p-10 mb-8 pixel-fade-in">
+            <div class="flex flex-col gap-8">
+                <div class="flex items-start space-x-6">
+                    <div class="api-card w-20 h-20 flex items-center justify-center flex-shrink-0 no-corner-pixel">
                         <svg class="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
@@ -1105,30 +1164,36 @@
                     <div class="min-w-0 flex-1">
                         <h1 class="pixel-title text-4xl mb-2 text-black" id="api-title">Data Editor</h1>
                         <p class="pixel-body text-gray-600 text-xl mb-4" id="api-description">Review, edit, and publish rows directly from your browser with live validation, pagination, and export tools.</p>
-                        <div class="flex items-center space-x-8">
-                            <div class="flex items-center space-x-2">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-center sm:justify-start gap-4 sm:gap-8 data-status-section">
+                            <div class="flex items-center space-x-2 justify-center sm:justify-start">
                                 <div class="status-indicator"></div>
                                 <span class="pixel-body text-sm text-gray-600">Status: <span id="status-info" class="font-mono font-medium">Ready</span></span>
                             </div>
-                            <div class="flex items-center space-x-2">
+                            <div class="flex items-center space-x-2 justify-center sm:justify-start">
                                 <div class="status-indicator"></div>
                                 <span class="pixel-body text-sm text-gray-600">Total Rows: <span id="total-rows" class="font-mono font-medium">0 rows</span></span>
                             </div>
-                            <div class="flex items-center space-x-2">
+                            <div class="flex items-center space-x-2 justify-center sm:justify-start">
                                 <div class="status-indicator"></div>
                                 <span class="pixel-body text-sm text-gray-600">Modified: <span id="modified-rows" class="font-mono font-medium">0 modified</span></span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="flex space-x-3">
-                    <button id="test-api-btn" class="pixel-btn pixel-btn-secondary inline-flex items-center px-6 py-3 pixel-flicker-on-hover">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-3 hero-button-section justify-center sm:justify-start">
+                    <button id="test-api-btn" class="hub-btn hub-btn-secondary inline-flex items-center justify-center px-6 py-3 pixel-flicker-on-hover w-full sm:w-auto">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                         </svg>
                         Export Data
                     </button>
-                    <a href="app.html" class="pixel-btn pixel-btn-primary inline-flex items-center px-6 py-3 pixel-flicker-on-hover">
+                    <button id="view-api-docs-btn" class="hub-btn hub-btn-secondary inline-flex items-center justify-center px-6 py-3 pixel-flicker-on-hover w-full sm:w-auto">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        View API Docs
+                    </button>
+                    <a href="app.html" class="hub-btn hub-btn-primary inline-flex items-center justify-center px-6 py-3 pixel-flicker-on-hover w-full sm:w-auto">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
@@ -1141,7 +1206,7 @@
             <!-- Pixel Section Divider -->
             <div class="pixel-accent-line"></div>
 
-            <div class="pixel-card p-8">
+            <div class="api-card outer-container p-8">
                 <div class="sheet-controls">
                 <div class="toolbar">
                     <div class="toolbar-group">
@@ -1305,6 +1370,16 @@
                 testApiBtn.addEventListener('click', exportToCsv);
             }
 
+            // View API Docs button
+            const viewApiDocsBtn = document.getElementById('view-api-docs-btn');
+            if (viewApiDocsBtn && api) {
+                viewApiDocsBtn.addEventListener('click', () => {
+                    // Encode API data and navigate to API docs
+                    const apiData = encodeURIComponent(JSON.stringify(api));
+                    window.location.href = `api-docs.html?id=${api.id}&data=${apiData}`;
+                });
+            }
+
             // Context menu
             document.addEventListener('contextmenu', handleContextMenu);
             document.addEventListener('click', hideContextMenu);
@@ -1321,8 +1396,24 @@
                     throw new Error('No API URL available');
                 }
 
-                // Fetch all data (remove limit to get everything)
-                const response = await fetch(`${baseUrl}/data`);
+                // Fetch all data with maximum limit
+                // Backend supports up to 1000 records per request
+                let response;
+                try {
+                    response = await fetch(`${baseUrl}/data?limit=1000`);
+                } catch (fetchError) {
+                    // Handle network-level errors (including SSL certificate issues)
+                    if (fetchError.message.includes('ERR_CERT_COMMON_NAME_INVALID') ||
+                        fetchError.message.includes('SSL') ||
+                        fetchError.message.includes('certificate')) {
+                        throw new Error('SSL Certificate Error: The API endpoint has an SSL certificate issue. This is common with dynamically generated Cloud Run URLs. Try refreshing the page or contacting support if the issue persists.');
+                    } else if (fetchError.message.includes('Failed to fetch')) {
+                        throw new Error('Network Error: Unable to connect to the API. The API may be stopped, there may be a network issue, or the SSL certificate may be invalid.');
+                    } else {
+                        throw fetchError;
+                    }
+                }
+
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
@@ -1351,7 +1442,22 @@
 
             } catch (error) {
                 console.error('Error loading data:', error);
-                showError('Failed to load data: ' + error.message);
+
+                // Provide more helpful error messages for common issues
+                let errorMessage = error.message;
+                if (error.message.includes('Failed to fetch') || error.message.includes('ERR_CERT_COMMON_NAME_INVALID')) {
+                    errorMessage = 'SSL Certificate Error: The API endpoint has an SSL certificate issue. This is common with dynamically generated Cloud Run URLs. Try refreshing the page or contacting support if the issue persists.';
+                } else if (error.message.includes('CORS')) {
+                    errorMessage = 'CORS Error: The API doesn\'t allow requests from this domain. This API may need CORS configuration.';
+                } else if (error.message.includes('NetworkError') || error.message.includes('ERR_CONNECTION_REFUSED')) {
+                    errorMessage = 'Network Error: Unable to connect to the API. The API may be stopped or there may be a network issue.';
+                } else if (error.message.includes('404')) {
+                    errorMessage = 'API Not Found: The API endpoint returned a 404 error. The API may have been deleted or the URL may be incorrect.';
+                } else if (error.message.includes('403') || error.message.includes('401')) {
+                    errorMessage = 'Authentication Error: Access denied to the API. You may need valid credentials.';
+                }
+
+                showError('Failed to load data: ' + errorMessage);
             }
         }
 
@@ -1375,77 +1481,91 @@
             });
 
             // Render body for current page, skipping deleted rows
-            const startIndex = (currentPage - 1) * pageSize;
-            let renderedCount = 0;
+            let nonDeletedCount = 0;
             let actualIndex = 0;
+            const startRowIndex = (currentPage - 1) * pageSize;
+
+            // First pass: find the starting actualIndex
+            while (nonDeletedCount <= startRowIndex && actualIndex < modifiedData.length) {
+                if (!deletedIndices.has(actualIndex)) {
+                    nonDeletedCount++;
+                }
+                if (nonDeletedCount <= startRowIndex) {
+                    actualIndex++;
+                }
+            }
+
+            // Second pass: render the page
+            let renderedCount = 0;
+            const startActualIndex = actualIndex;
 
             while (renderedCount < pageSize && actualIndex < modifiedData.length) {
                 if (!deletedIndices.has(actualIndex)) {
                     const row = modifiedData[actualIndex];
-                    const displayIndex = startIndex + renderedCount;
+                    const displayIndex = startRowIndex + renderedCount;
 
-                    const rowElement = document.createElement('tr');
-                    rowElement.setAttribute('data-row-index', actualIndex);
+                        const rowElement = document.createElement('tr');
+                        rowElement.setAttribute('data-row-index', actualIndex);
 
-                    // Row header with number
-                    const rowHeader = document.createElement('th');
-                    rowHeader.className = 'row-headers';
-                    rowHeader.textContent = displayIndex + 1;
-                    rowHeader.onclick = () => selectRow(actualIndex);
-                    rowElement.appendChild(rowHeader);
+                        // Row header with number
+                        const rowHeader = document.createElement('th');
+                        rowHeader.className = 'row-headers';
+                        rowHeader.textContent = displayIndex + 1;
+                        rowHeader.onclick = () => selectRow(actualIndex);
+                        rowElement.appendChild(rowHeader);
 
-                    // Data cells
-                    columns.forEach((column, colIndex) => {
-                        const cellElement = document.createElement('td');
-                        cellElement.className = 'data-cell';
+                        // Data cells
+                        columns.forEach((column, colIndex) => {
+                            const cellElement = document.createElement('td');
+                            cellElement.className = 'data-cell';
 
-                        const value = row[column];
-                        const inputType = getInputType(value);
-                        const cellRef = `${String.fromCharCode(65 + colIndex)}${displayIndex + 1}`;
+                            const value = row[column];
+                            const inputType = getInputType(value);
+                            const cellRef = `${String.fromCharCode(65 + colIndex)}${displayIndex + 1}`;
 
-                        const inputElement = document.createElement(inputType);
-                        inputElement.value = value || '';
-                        inputElement.onfocus = () => selectCell(cellElement, cellRef, actualIndex, column);
-                        inputElement.oninput = (e) => {
-                            updateCell(actualIndex, column, e.target.value);
-                            updateFormulaBar(e.target.value);
-                        };
-                        inputElement.onblur = () => deselectCell(cellElement);
+                            const inputElement = document.createElement(inputType);
+                            inputElement.value = value || '';
+                            inputElement.onfocus = () => selectCell(cellElement, cellRef, actualIndex, column);
+                            inputElement.oninput = (e) => {
+                                updateCell(actualIndex, column, e.target.value);
+                                updateFormulaBar(e.target.value);
+                            };
+                            inputElement.onblur = () => deselectCell(cellElement);
 
-                        if (inputType === 'textarea') {
-                            inputElement.textContent = value || '';
-                        }
-
-                        // Add cell type class
-                        if (cellElement && cellElement.classList) {
-                            if (inputType === 'input' && typeof value === 'number') {
-                                cellElement.classList.add('cell-number');
-                            } else if (typeof value === 'boolean') {
-                                cellElement.classList.add('cell-boolean');
-                            } else {
-                                cellElement.classList.add('cell-text');
+                            if (inputType === 'textarea') {
+                                inputElement.textContent = value || '';
                             }
-                        }
 
-                        cellElement.appendChild(inputElement);
+                            // Add cell type class
+                            if (cellElement && cellElement.classList) {
+                                if (inputType === 'input' && typeof value === 'number') {
+                                    cellElement.classList.add('cell-number');
+                                } else if (typeof value === 'boolean') {
+                                    cellElement.classList.add('cell-boolean');
+                                } else {
+                                    cellElement.classList.add('cell-text');
+                                }
+                            }
 
-                        // Add row actions on hover
-                        if (colIndex === columns.length - 1 && cellElement) {
-                            const actionsDiv = document.createElement('div');
-                            actionsDiv.className = 'row-actions';
-                            actionsDiv.innerHTML = `
-                                <button class="row-action-btn delete" onclick="deleteRow(${actualIndex})">
-                                    ×
-                                </button>
-                            `;
-                            cellElement.appendChild(actionsDiv);
-                        }
+                            cellElement.appendChild(inputElement);
 
-                        rowElement.appendChild(cellElement);
-                    });
+                            // Add row actions on hover
+                            if (colIndex === columns.length - 1 && cellElement) {
+                                const actionsDiv = document.createElement('div');
+                                actionsDiv.className = 'row-actions';
+                                actionsDiv.innerHTML = `
+                                    <button class="row-action-btn delete" onclick="deleteRow(${actualIndex})">
+                                        ×
+                                    </button>
+                                `;
+                                cellElement.appendChild(actionsDiv);
+                            }
 
-                    tableBody.appendChild(rowElement);
-                    renderedCount++;
+                            rowElement.appendChild(cellElement);
+                        });
+
+                        tableBody.appendChild(rowElement);
+                        renderedCount++;
                 }
                 actualIndex++;
             }
@@ -1453,6 +1573,12 @@
             totalRows = modifiedData.length - deletedIndices.size;
             if (totalRowsSpan) totalRowsSpan.textContent = totalRows;
             if (statusInfo) statusInfo.textContent = `Ready - ${totalRows} rows loaded`;
+
+            // Add green ready indicator to status dots
+            document.querySelectorAll('.status-indicator').forEach(indicator => {
+                indicator.classList.add('status-ready');
+            });
+
             updatePagination();
         }
 
@@ -1516,42 +1642,6 @@
             updateModifiedCount();
         }
 
-        function changePageSize() {
-            pageSize = parseInt(pageSizeSelect.value);
-            currentPage = 1;
-            renderTable();
-            updatePagination();
-        }
-
-        function changePage(direction) {
-            const totalPages = Math.ceil(totalRows / pageSize);
-            const newPage = currentPage + direction;
-
-            if (newPage >= 1 && newPage <= totalPages) {
-                currentPage = newPage;
-                renderTable();
-                updatePagination();
-            }
-        }
-
-        function updatePagination() {
-            const totalPages = Math.ceil(totalRows / pageSize);
-
-            if (totalPages <= 1) {
-                if (paginationContainer && paginationContainer.classList) {
-                    paginationContainer.classList.add('hidden');
-                }
-                return;
-            }
-
-            if (paginationContainer && paginationContainer.classList) {
-                paginationContainer.classList.remove('hidden');
-            }
-            if (pageInfo) pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-
-            if (prevPageBtn) prevPageBtn.disabled = currentPage === 1;
-            if (nextPageBtn) nextPageBtn.disabled = currentPage === totalPages;
-        }
 
         function selectCell(cellElement, cellRef, rowIndex, column) {
             // Deselect previous cell
@@ -1699,6 +1789,7 @@
             // Implement clear functionality
             hideContextMenu();
         }
+
 
         function changePageSize() {
             pageSize = parseInt(pageSizeSelect.value);

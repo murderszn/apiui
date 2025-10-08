@@ -147,6 +147,352 @@ Keep your responses conversational but informative. If you need to show data, fo
         else:
             return "I can help you with questions about your data! Try asking about the number of records, column names, sample data, or a summary of the dataset."
 
+    async def generate_api_summary(self, schema: Dict[str, Any], sample_data: Optional[list] = None, api_name: Optional[str] = None) -> str:
+        """
+        Generate a concise API summary using AI for documentation
+        """
+        try:
+            print(f"AI service: Generating API summary for {api_name or 'unnamed API'}")
+            print(f"AI service: Schema has {len(schema.get('columns', []))} columns, {schema.get('row_count', 0)} rows")
+
+            if self.openai_api_key and self.openai_api_key.strip() and self.openai_api_key != "demo-key-placeholder":
+                result = await self._generate_summary_with_openai(schema, sample_data, api_name)
+                print(f"AI service: Generated summary using OpenAI, length: {len(result)}")
+                return result
+            else:
+                result = await self._generate_summary_mock(schema, sample_data, api_name)
+                print(f"AI service: Generated summary using mock, length: {len(result)}")
+                return result
+
+        except Exception as e:
+            print(f"AI summary generation failed: {str(e)}, falling back to mock")
+            return await self._generate_summary_mock(schema, sample_data, api_name)
+
+    async def _generate_summary_with_openai(self, schema: Dict[str, Any], sample_data: Optional[list] = None, api_name: Optional[str] = None) -> str:
+        """Generate API summary using OpenAI GPT API"""
+        try:
+            if not self.openai_api_key or self.openai_api_key == "demo-key-placeholder":
+                return await self._generate_summary_mock(schema, sample_data, api_name)
+
+            # Build context about the API
+            api_info = self._build_api_summary_context(schema, sample_data, api_name)
+
+            async with httpx.AsyncClient() as client:
+                headers = {
+                    "Authorization": f"Bearer {self.openai_api_key}",
+                    "Content-Type": "application/json"
+                }
+
+                system_prompt = """You are a technical writer specializing in creating concise, informative API documentation summaries that describe the actual content and structure of the data.
+
+Your task is to write a brief, professional summary of an API based on the provided data schema and samples. The summary should be suitable for API documentation and specifically describe:
+
+1. What type of real-world entities/records the API contains (e.g., "YouTube channels", "football players", "businesses", "products")
+2. Key identifying and descriptive fields that users would care about (e.g., "channel names and subscriber counts", "player names, positions, and ratings")
+3. The scope and nature of the data (how many records, what makes this data valuable)
+4. Any notable data characteristics from the samples (ranges, categories, text content)
+
+Keep the summary to 2-3 sentences maximum. Use clear, professional language. Focus on helping developers understand what specific data they can access and why it would be useful."""
+
+                data = {
+                    "model": "gpt-3.5-turbo",  # Use cheaper model for summaries
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": system_prompt
+                        },
+                        {
+                            "role": "user",
+                            "content": f"Write a brief API summary for: {api_info}"
+                        }
+                    ],
+                    "max_tokens": 200,  # Limit tokens for cost control
+                    "temperature": 0.3
+                }
+
+                response = await client.post(
+                    "https://api.openai.com/v1/chat/completions",
+                    headers=headers,
+                    json=data,
+                    timeout=20.0
+                )
+
+                if response.status_code != 200:
+                    print(f"OpenAI summary error: {response.status_code} - {response.text}")
+                    return await self._generate_summary_mock(schema, sample_data, api_name)
+
+                result = response.json()
+                return result["choices"][0]["message"]["content"].strip()
+
+        except Exception as e:
+            print(f"OpenAI summary API error: {str(e)}")
+            return await self._generate_summary_mock(schema, sample_data, api_name)
+
+    async def _generate_summary_mock(self, schema: Dict[str, Any], sample_data: Optional[list] = None, api_name: Optional[str] = None) -> str:
+        """Generate mock API summary when no AI API is configured"""
+        try:
+            row_count = schema.get('row_count', 'unknown')
+            columns = schema.get('columns', [])
+            column_count = len(columns)
+
+            # Extract meaningful column information
+            column_names = [col['name'].lower() for col in columns]
+
+            # Try to identify the data domain based on column names
+            domain_info = self._identify_data_domain(column_names)
+
+            # Get sample data insights if available
+            sample_insights = ""
+            if sample_data and len(sample_data) > 0:
+                sample_insights = self._analyze_sample_data(sample_data, columns)
+
+            # Determine data types breakdown
+            data_types = {}
+            for col in columns:
+                col_type = col.get('inferred_type', 'unknown')
+                data_types[col_type] = data_types.get(col_type, 0) + 1
+
+            # Create a more descriptive summary
+            api_title = api_name or "Data API"
+
+            if domain_info:
+                summary = f"{api_title} contains {row_count:,} {domain_info['entity']} records with key information including {domain_info['key_fields']}. {sample_insights}This RESTful API supports full CRUD operations with filtering, sorting, and pagination capabilities."
+            else:
+                # Fallback to generic but more descriptive summary
+                key_columns = [col['name'] for col in columns[:5]]  # First 5 columns
+                key_fields_str = ", ".join(key_columns)
+                if len(columns) > 5:
+                    key_fields_str += f", and {len(columns) - 5} more fields"
+
+                summary = f"{api_title} provides access to {row_count:,} data records with {column_count} columns including {key_fields_str}. {sample_insights}This RESTful API supports full CRUD operations with filtering, sorting, and pagination capabilities."
+
+            return summary
+
+        except Exception as e:
+            print(f"Mock summary generation error: {str(e)}")
+            return f"This API provides access to {schema.get('row_count', 'multiple')} data records with comprehensive CRUD operations and filtering capabilities."
+
+    def _identify_data_domain(self, column_names: list) -> Optional[Dict[str, str]]:
+        """Identify the data domain based on column names"""
+        # Convert to lowercase for matching
+        columns_lower = [name.lower() for name in column_names]
+
+        # YouTube/Video content detection
+        youtube_keywords = ['channel', 'subscriber', 'video', 'view', 'title', 'description', 'url', 'thumbnail']
+        if any(keyword in ' '.join(columns_lower) for keyword in youtube_keywords):
+            key_fields = []
+            if any('channel' in col for col in columns_lower):
+                key_fields.append('channel names')
+            if any('subscriber' in col for col in columns_lower):
+                key_fields.append('subscriber counts')
+            if any('video' in col for col in columns_lower):
+                key_fields.append('video information')
+            if not key_fields:
+                key_fields = ['channel and video data']
+            return {
+                'entity': 'YouTube channel',
+                'key_fields': ', '.join(key_fields)
+            }
+
+        # Sports/Player data detection (FIFA, soccer, etc.)
+        sports_keywords = ['player', 'position', 'rating', 'team', 'club', 'nation', 'age', 'height', 'weight', 'pace', 'shooting', 'passing', 'dribbling', 'defending', 'physical']
+        if any(keyword in ' '.join(columns_lower) for keyword in sports_keywords):
+            key_fields = []
+            if any('player' in col for col in columns_lower):
+                key_fields.append('player names')
+            if any('position' in col for col in columns_lower):
+                key_fields.append('playing positions')
+            if any('rating' in col for col in columns_lower):
+                key_fields.append('performance ratings')
+            if any('team' in col or 'club' in col for col in columns_lower):
+                key_fields.append('team affiliations')
+            if not key_fields:
+                key_fields = ['player statistics and attributes']
+            return {
+                'entity': 'player',
+                'key_fields': ', '.join(key_fields)
+            }
+
+        # Business/Company data detection
+        business_keywords = ['company', 'business', 'revenue', 'employee', 'industry', 'location', 'website', 'contact']
+        if any(keyword in ' '.join(columns_lower) for keyword in business_keywords):
+            key_fields = []
+            if any('company' in col for col in columns_lower):
+                key_fields.append('company names')
+            if any('revenue' in col or 'employee' in col for col in columns_lower):
+                key_fields.append('business metrics')
+            if any('industry' in col for col in columns_lower):
+                key_fields.append('industry classifications')
+            if not key_fields:
+                key_fields = ['business information']
+            return {
+                'entity': 'business',
+                'key_fields': ', '.join(key_fields)
+            }
+
+        # Product/E-commerce data detection
+        product_keywords = ['product', 'price', 'category', 'brand', 'sku', 'inventory', 'description', 'rating', 'review']
+        if any(keyword in ' '.join(columns_lower) for keyword in product_keywords):
+            key_fields = []
+            if any('product' in col for col in columns_lower):
+                key_fields.append('product names')
+            if any('price' in col for col in columns_lower):
+                key_fields.append('pricing information')
+            if any('category' in col for col in columns_lower):
+                key_fields.append('product categories')
+            if not key_fields:
+                key_fields = ['product details and specifications']
+            return {
+                'entity': 'product',
+                'key_fields': ', '.join(key_fields)
+            }
+
+        # Demographic/Population data detection
+        demographic_keywords = ['population', 'age', 'gender', 'income', 'education', 'ethnicity', 'city', 'state', 'country']
+        if any(keyword in ' '.join(columns_lower) for keyword in demographic_keywords):
+            key_fields = []
+            if any('population' in col for col in columns_lower):
+                key_fields.append('population figures')
+            if any('age' in col or 'income' in col for col in columns_lower):
+                key_fields.append('demographic statistics')
+            if any('city' in col or 'state' in col or 'country' in col for col in columns_lower):
+                key_fields.append('geographic locations')
+            if not key_fields:
+                key_fields = ['demographic and geographic data']
+            return {
+                'entity': 'geographic/demographic',
+                'key_fields': ', '.join(key_fields)
+            }
+
+        return None  # No specific domain identified
+
+    def _analyze_sample_data(self, sample_data: list, columns: list) -> str:
+        """Analyze sample data to provide additional insights"""
+        try:
+            if not sample_data or len(sample_data) == 0:
+                return ""
+
+            insights = []
+
+            # Check for date/time patterns
+            date_columns = []
+            for col in columns:
+                col_name = col['name'].lower()
+                if any(term in col_name for term in ['date', 'time', 'year', 'month', 'day']):
+                    date_columns.append(col['name'])
+
+            if date_columns:
+                insights.append(f"includes temporal data across {len(date_columns)} date/time fields")
+
+            # Check for numeric ranges
+            numeric_insights = []
+            for col in columns:
+                if col.get('inferred_type') in ['integer', 'float']:
+                    col_name = col['name']
+                    # Get sample values for this column
+                    sample_values = []
+                    for row in sample_data[:10]:  # Check first 10 rows
+                        if col_name in row and row[col_name] is not None:
+                            try:
+                                val = float(row[col_name])
+                                sample_values.append(val)
+                            except (ValueError, TypeError):
+                                continue
+
+                    if sample_values:
+                        min_val = min(sample_values)
+                        max_val = max(sample_values)
+                        if max_val > min_val:
+                            numeric_insights.append(f"{col_name}: {min_val:.1f}-{max_val:.1f}")
+
+            if numeric_insights and len(numeric_insights) <= 3:
+                insights.append(f"with numeric ranges like {', '.join(numeric_insights[:3])}")
+
+            # Check for text data variety
+            text_insights = []
+            for col in columns:
+                if col.get('inferred_type') == 'string':
+                    col_name = col['name']
+                    # Get sample values for this column
+                    sample_values = []
+                    for row in sample_data[:10]:  # Check first 10 rows
+                        if col_name in row and row[col_name] is not None:
+                            val = str(row[col_name]).strip()
+                            if val:
+                                sample_values.append(val)
+
+                    # Remove duplicates and check variety
+                    unique_values = list(set(sample_values))
+                    if len(unique_values) > 1:
+                        if len(unique_values) <= 5:
+                            # Few unique values - might be categorical
+                            text_insights.append(f"{col_name} ({len(unique_values)} categories)")
+                        else:
+                            # Many unique values - likely descriptive text
+                            text_insights.append(f"{col_name} (descriptive text)")
+
+            if text_insights and len(text_insights) <= 3:
+                insights.append(f"featuring {', '.join(text_insights[:3])}")
+
+            if insights:
+                return " ".join(insights).capitalize() + ". "
+
+            return ""
+
+        except Exception as e:
+            print(f"Error analyzing sample data: {str(e)}")
+            return ""
+
+    def _build_api_summary_context(self, schema: Dict[str, Any], sample_data: Optional[list] = None, api_name: Optional[str] = None) -> str:
+        """Build context string for API summary generation"""
+        context_parts = []
+
+        if api_name:
+            context_parts.append(f"API Name: {api_name}")
+
+        # Basic stats
+        row_count = schema.get('row_count', 'unknown')
+        context_parts.append(f"Records: {row_count}")
+
+        # Column analysis with names and types
+        columns = schema.get('columns', [])
+        context_parts.append(f"Columns: {len(columns)}")
+
+        # Include first 8 column names with their types for better context
+        if columns:
+            column_details = []
+            for col in columns[:8]:  # Show more columns for better AI understanding
+                col_name = col.get('name', 'unknown')
+                col_type = col.get('inferred_type', 'unknown')
+                column_details.append(f"{col_name}({col_type})")
+
+            if len(columns) > 8:
+                column_details.append(f"...and {len(columns) - 8} more")
+            context_parts.append(f"Column Details: {', '.join(column_details)}")
+
+        # Sample data insights
+        if sample_data and len(sample_data) > 0:
+            context_parts.append(f"Sample Records: {len(sample_data)} provided")
+
+            # Add some sample data context
+            if len(sample_data) > 0 and len(columns) > 0:
+                sample_insights = []
+                first_sample = sample_data[0]
+
+                # Show a few key values from the first sample record
+                for col in columns[:5]:  # First 5 columns
+                    col_name = col.get('name')
+                    if col_name in first_sample and first_sample[col_name] is not None:
+                        value = str(first_sample[col_name])
+                        if len(value) > 50:  # Truncate long values
+                            value = value[:47] + "..."
+                        sample_insights.append(f"{col_name}: {value}")
+
+                if sample_insights:
+                    context_parts.append(f"Sample Values: {' | '.join(sample_insights)}")
+
+        return " | ".join(context_parts)
+
     def _build_data_context(self, schema: Dict[str, Any], sample_data: Optional[list] = None) -> str:
         """Build context string about the data for the AI"""
         context_parts = []

@@ -3,30 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>apiUI Documentation</title>
-    <meta name="description" content="Learn how to use apiUI to turn your data files into REST APIs. Upload CSV, Excel, JSON, or Parquet files and get instant APIs with filtering, sorting, and pagination.">
+    <title>APIUI Documentation</title>
+    <meta name="description" content="Learn how to use APIUI to turn your data files into REST APIs. Upload CSV, Excel, JSON, or Parquet files and get instant APIs with filtering, sorting, and pagination.">
     <link rel="canonical" href="https://apiui.web.app/docs.html">
     
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    
     <!-- Open Graph / Facebook -->
-    <meta property="og:site_name" content="apiUI">
+    <meta property="og:site_name" content="APIUI">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="apiUI Documentation | Turn Data Into APIs">
-    <meta property="og:description" content="Complete guide to using apiUI. Upload CSV, Excel, JSON, or Parquet files and get instant REST APIs with filtering, sorting, and pagination.">
+    <meta property="og:title" content="APIUI Documentation | Turn Data Into APIs">
+    <meta property="og:description" content="Complete guide to using APIUI. Upload CSV, Excel, JSON, or Parquet files and get instant REST APIs with filtering, sorting, and pagination.">
     <meta property="og:url" content="https://apiui.web.app/docs.html">
     <meta property="og:image" content="https://apiui.web.app/favicon.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="apiUI Documentation - Data to API Guide">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="APIUI Documentation - Data to API Guide">
     <meta property="og:locale" content="en_US">
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@apiui">
     <meta name="twitter:creator" content="@apiui">
-    <meta name="twitter:title" content="apiUI Documentation | Turn Data Into APIs">
-    <meta name="twitter:description" content="Learn how to transform your data files into production-ready REST APIs with apiUI. Step-by-step documentation and examples.">
+    <meta name="twitter:title" content="APIUI Documentation | Turn Data Into APIs">
+    <meta name="twitter:description" content="Learn how to transform your data files into production-ready REST APIs with APIUI. Step-by-step documentation and examples.">
     <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
-    <meta name="twitter:image:alt" content="apiUI Documentation - Data to API Guide">
+    <meta name="twitter:image:alt" content="APIUI Documentation - Data to API Guide">
 
     <!-- LinkedIn -->
     <meta property="og:image:secure_url" content="https://apiui.web.app/favicon.png">
@@ -880,7 +886,6 @@
 
         /* Footer */
         footer {
-            border-top: 1px solid rgba(15, 23, 42, 0.12);
             background: var(--pixel-white);
         }
 
@@ -932,6 +937,58 @@
             opacity: 1;
             transform: translateX(0);
         }
+
+        /* Kisuke-style ASCII Block Text */
+        .kisuke-ascii {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            line-height: 0.8;
+            letter-spacing: 1px;
+            color: var(--pixel-black);
+            text-shadow:
+                2px 2px 0px rgba(0, 0, 0, 0.1),
+                -1px -1px 0px rgba(255, 255, 255, 0.1);
+        }
+
+        .kisuke-ascii .ascii-line {
+            display: block;
+            white-space: pre;
+            font-size: 0.6rem;
+            margin-bottom: 2px;
+        }
+
+        .kisuke-ascii.large {
+            font-size: 2rem;
+        }
+
+        .kisuke-ascii.large .ascii-line {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        /* Retro terminal glow effect */
+        .kisuke-glow {
+            text-shadow:
+                0 0 5px rgba(236, 72, 153, 0.3),
+                0 0 10px rgba(236, 72, 153, 0.2),
+                0 0 15px rgba(236, 72, 153, 0.1);
+            animation: kisuke-glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes kisuke-glow-pulse {
+            from {
+                text-shadow:
+                    0 0 5px rgba(236, 72, 153, 0.3),
+                    0 0 10px rgba(236, 72, 153, 0.2),
+                    0 0 15px rgba(236, 72, 153, 0.1);
+            }
+            to {
+                text-shadow:
+                    0 0 8px rgba(236, 72, 153, 0.5),
+                    0 0 15px rgba(236, 72, 153, 0.3),
+                    0 0 25px rgba(236, 72, 153, 0.2);
+            }
+        }
     </style>
 </head>
 <body>
@@ -969,21 +1026,21 @@
         <div class="floating-sidebar-container bg-white p-2 shadow-lg">
             <div class="flex flex-col space-y-2">
                 <!-- Home -->
-                <a href="index.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                <a href="index.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Home">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                     </svg>
                 </a>
 
                 <!-- Dashboard -->
-                <a href="app.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                <a href="app.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Dashboard">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                     </svg>
                 </a>
 
                 <!-- Docs -->
-                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Documentation">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
@@ -991,14 +1048,14 @@
 
 
                 <!-- MCP Server -->
-                <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
+                <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="MCP Server">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                     </svg>
                 </a>
 
                 <!-- Socket Chat -->
-                <a href="socket-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                <a href="socket-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Socket Chat">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                     </svg>
@@ -1012,16 +1069,15 @@
         <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
-                    api<span class="text-pink-500">UI</span>
+                    api<span class="text-pink-400">UI</span>
                 </a>
                 <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
-                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
-                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Sock chat</a>
-                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
+                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">MCP</a>
+                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Docs</a>
+                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Learn more</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -1034,11 +1090,11 @@
         <!-- Mobile Navigation Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
             <div class="pixel-container py-4 space-y-4">
-                <a href="app.html" class="block text-black hover:text-pink-500 font-medium py-2">App</a>
-                <a href="mcp.html" class="block text-black hover:text-pink-500 font-medium py-2">MCP</a>
-                <a href="socket-chat.html" class="block text-black hover:text-pink-500 font-medium py-2">Sock chat</a>
-                <a href="docs.html" class="block text-black hover:text-pink-500 font-medium py-2">Docs</a>
-                <a href="learn-more.html" class="block text-black hover:text-pink-500 font-medium py-2">Learn more</a>
+                <a href="app.html" class="block text-black hover:text-pink-400 font-medium py-2">App</a>
+                <a href="mcp.html" class="block text-black hover:text-pink-400 font-medium py-2">MCP</a>
+                <a href="socket-chat.html" class="block text-black hover:text-pink-400 font-medium py-2">Sock chat</a>
+                <a href="docs.html" class="block text-black hover:text-pink-400 font-medium py-2">Docs</a>
+                <a href="learn-more.html" class="block text-black hover:text-pink-400 font-medium py-2">Learn more</a>
             </div>
         </div>
     </header>
@@ -1046,11 +1102,25 @@
     <!-- Hero Section for Docs -->
     <section class="hero-section-docs bg-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
 
-        <div class="pixel-container max-w-6xl text-center relative z-10">
+        <div class="pixel-container max-w-7xl text-center relative z-10">
             <!-- Main Headline -->
             <div class="mb-8 pixel-fade-in">
                 <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
-                    Master <span class="arcade-neon">apiUI</span> and build APIs <span class="arcade-neon">like a pro</span>
+                    <div class="kisuke-ascii large kisuke-glow">
+                        <div class="ascii-line">███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗</div>
+                        <div class="ascii-line">████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗</div>
+                        <div class="ascii-line">██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝</div>
+                        <div class="ascii-line">██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗</div>
+                        <div class="ascii-line">██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║</div>
+                        <div class="ascii-line">╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝</div>
+                        <div class="ascii-line"></div>
+                        <div class="ascii-line">██╗   ██╗ ██████╗ ██╗   ██╗██████╗      █████╗ ██████╗ ██╗███████╗</div>
+                        <div class="ascii-line">╚██╗ ██╔╝██╔═══██╗██║   ██║██╔══██╗    ██╔══██╗██╔══██╗██║██╔════╝</div>
+                        <div class="ascii-line"> ╚████╔╝ ██║   ██║██║   ██║██████╔╝    ███████║██████╔╝██║███████╗</div>
+                        <div class="ascii-line">  ╚██╔╝  ██║   ██║██║   ██║██╔══██╗    ██╔══██║██╔═══╝ ██║╚════██║</div>
+                        <div class="ascii-line">   ██║   ╚██████╔╝╚██████╔╝██║  ██║    ██║  ██║██║     ██║███████║</div>
+                        <div class="ascii-line">   ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝</div>
+                    </div>
                 </h1>
             </div>
 
@@ -1059,7 +1129,7 @@
                 <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
                     Everything you need to transform your data into
                     <span class="font-semibold text-gray-900">production-ready REST APIs</span> with
-                    <span class="text-pink-500 font-medium">step-by-step guides and examples</span>
+                    <span class="text-pink-400 font-medium">step-by-step guides and examples</span>
                 </p>
             </div>
 
@@ -1067,7 +1137,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto pixel-fade-in" style="animation-delay: 0.4s">
                 <a href="#getting-started" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
                     <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
-                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
                     </div>
@@ -1077,7 +1147,7 @@
 
                 <a href="#api-features" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
                     <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
-                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                         </svg>
                     </div>
@@ -1087,7 +1157,7 @@
 
                 <a href="#code-examples" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
                     <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
-                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                         </svg>
                     </div>
@@ -1101,11 +1171,16 @@
     <!-- Pixel Section Divider -->
     <div class="pixel-accent-line"></div>
 
-    <div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="pixel-container max-w-7xl mx-auto px-4 py-8">
 
         <main>
-            <section id="getting-started" class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">Getting Started</h2>
+            <section id="getting-started" class="mb-12 relative">
+                <!-- Background Image -->
+                <div class="absolute inset-0 opacity-15 pointer-events-none">
+                    <img src="images/cube-columns.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+                </div>
+                <div class="relative z-10">
+                    <h2 class="text-2xl font-bold mb-4">Getting Started</h2>
                 <div class="space-y-6">
                     <div>
                         <h3 class="text-xl font-semibold mb-2">1. Upload Your Data</h3>
@@ -1157,6 +1232,7 @@
                             <li><strong>Deployment:</strong> One-click deployment to Google Cloud Run</li>
                         </ul>
                     </div>
+                </div>
                 </div>
             </section>
 
@@ -1318,9 +1394,14 @@
                 </div>
             </section>
 
-            <section id="mcp-server" class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">MCP Server</h2>
-                <p class="mb-6">The Model Context Protocol (MCP) server enables AI models and tools to access your flat files through a standardized protocol.</p>
+            <section id="mcp-server" class="mb-12 relative">
+                <!-- Background Image -->
+                <div class="absolute inset-0 opacity-15 pointer-events-none">
+                    <img src="images/cube-card.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+                </div>
+                <div class="relative z-10">
+                    <h2 class="text-2xl font-bold mb-4">MCP Server</h2>
+                    <p class="mb-6">The Model Context Protocol (MCP) server enables AI models and tools to access your flat files through a standardized protocol.</p>
 
                 <div class="space-y-6">
                     <div>
@@ -1333,7 +1414,7 @@
                                 <div class="space-y-3">
                                     <div class="flex items-start space-x-3">
                                         <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                             </svg>
                                         </div>
@@ -1344,7 +1425,7 @@
                                     </div>
                                     <div class="flex items-start space-x-3">
                                         <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                             </svg>
                                         </div>
@@ -1357,7 +1438,7 @@
                                 <div class="space-y-3">
                                     <div class="flex items-start space-x-3">
                                         <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                             </svg>
                                         </div>
@@ -1368,7 +1449,7 @@
                                     </div>
                                     <div class="flex items-start space-x-3">
                                         <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                             </svg>
                                         </div>
@@ -1455,6 +1536,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </section>
 
@@ -1627,10 +1709,6 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
                     <h4 class="pixel-subtitle text-black mb-2">API Docs</h4>
                     <p class="pixel-body text-black text-sm">Interactive API documentation and testing</p>
                 </a>
-                <a href="api-hub.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
-                    <h4 class="pixel-subtitle text-black mb-2">API Hub</h4>
-                    <p class="pixel-body text-black text-sm">Browse available API integrations</p>
-                </a>
                 <a href="mcp.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
                     <h4 class="pixel-subtitle text-black mb-2">MCP Server</h4>
                     <p class="pixel-body text-black text-sm">Model Context Protocol file access</p>
@@ -1639,7 +1717,7 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
                     <h4 class="pixel-subtitle text-black mb-2">Analytics</h4>
                     <p class="pixel-body text-black text-sm">Monitor API performance and usage</p>
                 </a>
-                <a href="docs.html" class="pixel-card p-4 bg-pink-50 border-pink-500 transition-colors">
+                <a href="docs.html" class="pixel-card p-4 bg-pink-50 border-pink-400 transition-colors">
                     <h4 class="pixel-subtitle text-black mb-2">Documentation</h4>
                     <p class="pixel-body text-black text-sm">Complete platform documentation</p>
                 </a>
@@ -1658,26 +1736,25 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
 
     <!-- Footer -->
     <footer class="bg-white py-16">
-        <div class="pixel-container max-w-6xl">
+        <div class="pixel-container max-w-7xl">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
-                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
+                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-400">UI</span></a>
                     <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
                 </div>
                 <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
-                    <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
-                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
-                    <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
-                    <a href="socket-chat.html" class="hover:text-pink-500 transition-colors">Sock chat</a>
-                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
-                    <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
-                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
-                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
+                    <a href="index.html" class="hover:text-pink-400 transition-colors">Home</a>
+                    <a href="app.html" class="hover:text-pink-400 transition-colors">App</a>
+                    <a href="mcp.html" class="hover:text-pink-400 transition-colors">MCP</a>
+                    <a href="docs.html" class="hover:text-pink-400 transition-colors">Docs</a>
+                    <a href="learn-more.html" class="hover:text-pink-400 transition-colors">Learn more</a>
+                    <a href="cookie-policy.html" class="hover:text-pink-400 transition-colors">Cookie Policy</a>
+                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                         </svg>
                     </a>
-                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
+                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                         </svg>
@@ -1776,13 +1853,13 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
                 }
             }, 150);
 
-            // Fallback: hide loading screen after 3 seconds regardless
+            // Fallback: hide loading screen after 1.5 seconds regardless
             setTimeout(() => {
                 if (loadingScreen && loadingScreen.style.display !== 'none') {
                     loadingScreen.style.display = 'none';
                     console.log('Documentation loading screen hidden via fallback timeout');
                 }
-            }, 3000);
+            }, 1500);
         });
 
         // Pixel Scroll-triggered Animations

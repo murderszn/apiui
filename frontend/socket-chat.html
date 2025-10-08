@@ -3,15 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Socket Chat | apiUI</title>
+    <title>Socket Chat | APIUI</title>
     <meta name="description" content="Real-time chat interface for interacting with your generated APIs using Socket.io">
-    <meta name="author" content="apiUI by AURABLOX">
+    <meta name="author" content="APIUI by AURABLOX">
     <link rel="canonical" href="https://apiui.web.app/socket-chat.html">
+    
+    <!-- Favicon and Icons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
     <link rel="shortcut icon" href="favicon.ico">
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:site_name" content="APIUI">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Socket Chat | APIUI">
+    <meta property="og:description" content="Real-time chat interface for interacting with your generated APIs using Socket.io">
+    <meta property="og:url" content="https://apiui.web.app/socket-chat.html">
+    <meta property="og:image" content="https://apiui.web.app/favicon.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="APIUI - Socket Chat">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Socket Chat | APIUI">
+    <meta name="twitter:description" content="Real-time chat interface for interacting with your generated APIs using Socket.io">
+    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
+    <meta name="twitter:image:alt" content="APIUI - Socket Chat">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -516,7 +536,6 @@
             <div class="hidden md:flex items-center space-x-6">
                 <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
                 <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
-                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Sock chat</a>
                 <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
                 <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
             </div>
@@ -532,7 +551,6 @@
             <div class="pixel-container py-4 space-y-4">
                 <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
                 <a href="mcp.html" class="block text-gray-700 hover:text-black font-medium py-2">MCP</a>
-                <a href="socket-chat.html" class="block text-gray-700 hover:text-black font-medium py-2">Sock chat</a>
                 <a href="docs.html" class="block text-gray-700 hover:text-black font-medium py-2">Docs</a>
                 <a href="learn-more.html" class="block text-gray-700 hover:text-black font-medium py-2">Learn more</a>
             </div>
@@ -1640,13 +1658,13 @@
                 }
             }, 150);
 
-            // Fallback: hide loading screen after 3 seconds regardless
+            // Fallback: hide loading screen after 1.5 seconds regardless
             setTimeout(() => {
                 if (loadingScreen && loadingScreen.style.display !== 'none') {
                     loadingScreen.style.display = 'none';
                     console.log('Socket chat loading screen hidden via fallback timeout');
                 }
-            }, 3000);
+            }, 1500);
         });
 
         // Initialize
@@ -1677,7 +1695,6 @@
                     <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
                     <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
                     <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
-                    <a href="socket-chat.html" class="hover:text-pink-500 transition-colors">Sock chat</a>
                     <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
                     <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
                     <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>

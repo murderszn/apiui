@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>apiUI | Learn More - Turn Data Into APIs Instantly</title>
+    <title>APIUI | Learn More - Turn Data Into APIs Instantly</title>
     <meta name="description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics. No-code API builder for developers and businesses.">
     <meta name="keywords" content="csv to api, excel to rest api, parquet api generator, json api builder, no-code api platform, data api creation, rest api generator, api automation, data transformation api, fast api deployment, apiui, data to api converter">
-    <meta name="author" content="apiUI by AURABLOX">
+    <meta name="author" content="APIUI by AURABLOX">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
     <meta name="bingbot" content="index, follow">
@@ -19,8 +19,30 @@
     <meta name="distribution" content="Global">
     <meta name="revisit-after" content="7 days">
     <link rel="canonical" href="https://apiui.web.app/learn-more.html">
-    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:site_name" content="APIUI">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="APIUI | Learn More - Turn Data Into APIs Instantly">
+    <meta property="og:description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics.">
+    <meta property="og:url" content="https://apiui.web.app/learn-more.html">
+    <meta property="og:image" content="https://apiui.web.app/favicon.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="APIUI - Turn Data Into APIs Instantly">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="APIUI | Learn More - Turn Data Into APIs Instantly">
+    <meta name="twitter:description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics.">
+    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
+    <meta name="twitter:image:alt" content="APIUI - Turn Data Into APIs Instantly">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -578,6 +600,58 @@
             animation: pixel-flicker 0.1s ease-in-out;
         }
 
+        /* Kisuke-style ASCII Block Text */
+        .kisuke-ascii {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            line-height: 0.8;
+            letter-spacing: 1px;
+            color: var(--pixel-black);
+            text-shadow:
+                2px 2px 0px rgba(0, 0, 0, 0.1),
+                -1px -1px 0px rgba(255, 255, 255, 0.1);
+        }
+
+        .kisuke-ascii .ascii-line {
+            display: block;
+            white-space: pre;
+            font-size: 0.6rem;
+            margin-bottom: 2px;
+        }
+
+        .kisuke-ascii.large {
+            font-size: 2rem;
+        }
+
+        .kisuke-ascii.large .ascii-line {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        /* Retro terminal glow effect */
+        .kisuke-glow {
+            text-shadow:
+                0 0 5px rgba(236, 72, 153, 0.3),
+                0 0 10px rgba(236, 72, 153, 0.2),
+                0 0 15px rgba(236, 72, 153, 0.1);
+            animation: kisuke-glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes kisuke-glow-pulse {
+            from {
+                text-shadow:
+                    0 0 5px rgba(236, 72, 153, 0.3),
+                    0 0 10px rgba(236, 72, 153, 0.2),
+                    0 0 15px rgba(236, 72, 153, 0.1);
+            }
+            to {
+                text-shadow:
+                    0 0 8px rgba(236, 72, 153, 0.5),
+                    0 0 15px rgba(236, 72, 153, 0.3),
+                    0 0 25px rgba(236, 72, 153, 0.2);
+            }
+        }
+
         /* Smooth Scrolling */
         html {
             scroll-behavior: smooth;
@@ -861,35 +935,35 @@
         <div class="floating-sidebar-container bg-white p-2 shadow-lg">
             <div class="flex flex-col space-y-2">
                 <!-- Home -->
-                <a href="index.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
+                <a href="index.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Home">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                     </svg>
                 </a>
 
                 <!-- Dashboard -->
-                <a href="app.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
+                <a href="app.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Dashboard">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                     </svg>
                 </a>
 
                 <!-- Docs -->
-                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Documentation">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
                 </a>
 
                 <!-- MCP Server -->
-                <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
+                <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="MCP Server">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                     </svg>
                 </a>
 
                 <!-- Socket Chat -->
-                <a href="socket-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                <a href="socket-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Socket Chat">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                     </svg>
@@ -904,16 +978,15 @@
         <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
-                    api<span class="text-pink-500">UI</span>
+                    api<span class="text-pink-400">UI</span>
                 </a>
                 <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
-                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
-                <a href="socket-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Sock chat</a>
-                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="#features" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
+                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">MCP</a>
+                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Docs</a>
+                <a href="#features" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Learn more</a>
             </div>
 
     </div>
@@ -941,9 +1014,9 @@
     <section class="hero-section bg-gradient-to-b from-white via-gray-50/30 to-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
         <!-- Subtle geometric pattern -->
         <div class="absolute inset-0 opacity-[0.02]">
-            <div class="absolute top-20 left-10 w-96 h-96 border border-pink-500/20 rounded-full"></div>
+            <div class="absolute top-20 left-10 w-96 h-96 border border-pink-400/20 rounded-full"></div>
             <div class="absolute top-40 right-20 w-64 h-64 border border-pink-600/20 rounded-full"></div>
-            <div class="absolute bottom-32 left-1/4 w-48 h-48 border border-pink-500/20 rounded-full"></div>
+            <div class="absolute bottom-32 left-1/4 w-48 h-48 border border-pink-400/20 rounded-full"></div>
             <div class="absolute bottom-20 right-1/3 w-32 h-32 border border-pink-600/20 rounded-full"></div>
         </div>
 
@@ -952,7 +1025,35 @@
             <!-- Main Headline -->
             <div class="mb-8 pixel-fade-in">
                 <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
-                    Build <span class="arcade-neon">live APIs</span> from your data <span class="arcade-neon">in</span> <span class="arcade-neon">seconds</span>
+                    <div class="kisuke-ascii large kisuke-glow">
+                        <div class="ascii-line">██████╗ ██╗   ██╗██╗██╗     ██████╗     ██╗     ██╗██╗   ██╗███████╗</div>
+                        <div class="ascii-line">██╔══██╗██║   ██║██║██║     ██╔══██╗    ██║     ██║██║   ██║██╔════╝</div>
+                        <div class="ascii-line">██████╔╝██║   ██║██║██║     ██║  ██║    ██║     ██║██║   ██║█████╗  </div>
+                        <div class="ascii-line">██╔══██╗██║   ██║██║██║     ██║  ██║    ██║     ██║╚██╗ ██╔╝██╔══╝  </div>
+                        <div class="ascii-line">██████╔╝╚██████╔╝██║███████╗██████╔╝    ███████╗██║ ╚████╔╝ ███████╗</div>
+                        <div class="ascii-line">╚═════╝  ╚═════╝ ╚═╝╚══════╝╚═════╝     ╚══════╝╚═╝  ╚═══╝  ╚══════╝</div>
+                        <div class="ascii-line"></div>
+                        <div class="ascii-line"> █████╗ ██████╗ ██╗███████╗    ███████╗██████╗  ██████╗ ███╗   ███╗</div>
+                        <div class="ascii-line">██╔══██╗██╔══██╗██║██╔════╝    ██╔════╝██╔══██╗██╔═══██╗████╗ ████║</div>
+                        <div class="ascii-line">███████║██████╔╝██║███████╗    █████╗  ██████╔╝██║   ██║██╔████╔██║</div>
+                        <div class="ascii-line">██╔══██║██╔═══╝ ██║╚════██║    ██╔══╝  ██╔══██╗██║   ██║██║╚██╔╝██║</div>
+                        <div class="ascii-line">██║  ██║██║     ██║███████║    ██║     ██║  ██║╚██████╔╝██║ ╚═╝ ██║</div>
+                        <div class="ascii-line">╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝</div>
+                        <div class="ascii-line"></div>
+                        <div class="ascii-line">██╗   ██╗ ██████╗ ██╗   ██╗██████╗     ██████╗  █████╗ ████████╗ █████╗</div>
+                        <div class="ascii-line">╚██╗ ██╔╝██╔═══██╗██║   ██║██╔══██╗    ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗</div>
+                        <div class="ascii-line"> ╚████╔╝ ██║   ██║██║   ██║██████╔╝    ██║  ██║███████║   ██║   ███████║</div>
+                        <div class="ascii-line">  ╚██╔╝  ██║   ██║██║   ██║██╔══██╗    ██║  ██║██╔══██║   ██║   ██╔══██║</div>
+                        <div class="ascii-line">   ██║   ╚██████╔╝╚██████╔╝██║  ██║    ██████╔╝██║  ██║   ██║   ██║  ██║</div>
+                        <div class="ascii-line">   ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝</div>
+                        <div class="ascii-line"></div>
+                        <div class="ascii-line">██╗███╗   ██╗    ███████╗███████╗ ██████╗ ██████╗ ███╗   ██╗██████╗ ███████╗</div>
+                        <div class="ascii-line">██║████╗  ██║    ██╔════╝██╔════╝██╔════╝██╔═══██╗████╗  ██║██╔══██╗██╔════╝</div>
+                        <div class="ascii-line">██║██╔██╗ ██║    ███████╗█████╗  ██║     ██║   ██║██╔██╗ ██║██║  ██║███████╗</div>
+                        <div class="ascii-line">██║██║╚██╗██║    ╚════██║██╔══╝  ██║     ██║   ██║██║╚██╗██║██║  ██║╚════██║</div>
+                        <div class="ascii-line">██║██║ ╚████║    ███████║███████╗╚██████╗╚██████╔╝██║ ╚████║██████╔╝███████║</div>
+                        <div class="ascii-line">╚═╝╚═╝  ╚═══╝    ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═════╝ ╚══════╝</div>
+                    </div>
                 </h1>
             </div>
 
@@ -961,16 +1062,16 @@
                 <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
                     Upload CSV, Excel, or Parquet files and get instant REST APIs with
                     <span class="font-semibold text-gray-900">authentication, filtering, and analytics</span>—
-                    <span class="text-pink-500 font-medium">no coding required.</span>
+                    <span class="text-pink-400 font-medium">no coding required.</span>
                 </p>
             </div>
 
             <!-- Premium CTA Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 pixel-fade-in" style="animation-delay: 0.4s">
-                <a href="app.html" class="pixel-btn pixel-btn-primary px-10 py-4 text-lg">
+                <a href="app.html" class="hub-btn hub-btn-primary">
                     Start Building Free
                 </a>
-                <a href="#features" class="pixel-btn pixel-btn-secondary px-10 py-4 text-lg">
+                <a href="#features" class="hub-btn hub-btn-secondary">
                     Learn More
                 </a>
             </div>
@@ -1010,106 +1111,144 @@
         </div>
     </section>
 
-    <!-- Pixel Section Divider -->
-    <div class="pixel-accent-line"></div>
+    <div class="hub-divider"></div>
 
     <!-- Features Section -->
-    <section id="features" class="pixel-section bg-gray-50 py-20">
-        <div class="pixel-container max-w-7xl">
-            <div class="text-center mb-16 pixel-fade-in">
-                <h2 class="pixel-title text-4xl sm:text-5xl text-black mb-6">Everything You Need to Build APIs</h2>
-                <p class="pixel-body text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                    Powerful features that make API development
-                    <span class="font-semibold text-black">effortless</span>
-                </p>
+    <section id="features" class="pixel-section bg-gray-50 py-20 relative">
+        <!-- Background Image -->
+        <div class="absolute inset-0 opacity-15 pointer-events-none">
+            <img src="images/cube-columns.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+        </div>
+        <div class="pixel-container max-w-7xl relative z-10">
+            <div class="space-y-3 mb-16 pixel-fade-in">
+                <div class="flex items-center gap-3 justify-center">
+                    <span class="pixel-dot"></span>
+                    <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">Features</p>
+                </div>
+                <div class="text-center">
+                    <h2 class="text-3xl font-semibold tracking-tight text-slate-900 mb-6">Everything You Need to Build APIs</h2>
+                    <p class="text-base text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                        Powerful features that make API development
+                        <span class="font-semibold text-slate-900">effortless</span>
+                    </p>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="pixel-card p-8 pixel-slide-in-left h-full">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
-                        </svg>
+            <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="pixel-icon w-12 h-12 mb-6">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Universal File Support</h3>
+                            <p class="text-sm text-slate-600 leading-6">
+                                Upload CSV, Excel, Parquet, or JSON files. Automatic format detection and data type inference.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Universal File Support</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Upload CSV, Excel, Parquet, or JSON files. Automatic format detection and data type inference.
-                    </p>
-                </div>
+                </article>
 
-                <div class="pixel-card p-8 pixel-fade-in h-full" style="animation-delay: 0.2s">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
+                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="pixel-icon w-12 h-12 mb-6">
+                                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Instant Deployment</h3>
+                            <p class="text-sm text-slate-600 leading-6">
+                                Your API is live within seconds. No server setup, no configuration, just instant endpoints.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Instant Deployment</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Your API is live within seconds. No server setup, no configuration, just instant endpoints.
-                    </p>
-                </div>
+                </article>
 
-                <div class="pixel-card p-8 pixel-slide-in-right h-full">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="pixel-icon w-12 h-12 mb-6">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">RESTful Endpoints</h3>
+                            <p class="text-sm text-slate-600 leading-6">
+                                Full REST API with filtering, pagination, and query parameters. Industry-standard endpoints.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">RESTful Endpoints</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Full REST API with filtering, pagination, and query parameters. Industry-standard endpoints.
-                    </p>
-                </div>
+                </article>
 
-                <div class="pixel-card p-8 pixel-slide-in-left h-full" style="animation-delay: 0.1s">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
+                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="pixel-icon w-12 h-12 mb-6">
+                                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Secure & Private</h3>
+                            <p class="text-sm text-slate-600 leading-6">
+                                Enterprise-grade security with API keys, rate limiting, and data encryption.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Secure & Private</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Enterprise-grade security with API keys, rate limiting, and data encryption.
-                    </p>
-                </div>
+                </article>
 
-                <div class="pixel-card p-8 pixel-fade-in h-full" style="animation-delay: 0.3s">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                        </svg>
+                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="pixel-icon w-12 h-12 mb-6">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Real-time Analytics</h3>
+                            <p class="text-sm text-slate-600 leading-6">
+                                Monitor API usage, performance metrics, and data access patterns in real-time.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Real-time Analytics</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Monitor API usage, performance metrics, and data access patterns in real-time.
-                    </p>
-                </div>
+                </article>
 
-                <div class="pixel-card p-8 pixel-slide-in-right h-full" style="animation-delay: 0.1s">
-                    <div class="pixel-icon w-12 h-12 mb-6 mx-auto">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                        </svg>
+                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="pixel-icon w-12 h-12 mb-6">
+                                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Developer Friendly</h3>
+                            <p class="text-sm text-slate-600 leading-6">
+                                Comprehensive documentation, code examples, and SDKs for popular programming languages.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="pixel-subtitle text-xl text-black mb-4 text-center">Developer Friendly</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed text-center">
-                        Comprehensive documentation, code examples, and SDKs for popular programming languages.
-                    </p>
-                </div>
+                </article>
             </div>
         </section>
 
-        <!-- Pixel Section Divider -->
-        <div class="pixel-accent-line"></div>
+        <div class="hub-divider"></div>
 
         <!-- How It Works Section -->
         <section class="pixel-section bg-white py-20">
             <div class="pixel-container max-w-6xl">
-                <div class="text-center mb-16 pixel-fade-in">
-                    <h2 class="pixel-title text-3xl sm:text-4xl text-black mb-6">How It Works</h2>
-                    <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        Three simple steps to turn your data into a <span class="font-semibold text-black">production-ready</span> <span class="text-pink-500">API</span>
-                    </p>
+                <div class="space-y-3 mb-16 pixel-fade-in">
+                    <div class="flex items-center gap-3 justify-center">
+                        <span class="pixel-dot"></span>
+                        <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">Process</p>
+                    </div>
+                    <div class="text-center">
+                        <h2 class="text-3xl font-semibold tracking-tight text-slate-900 mb-6">How It Works</h2>
+                        <p class="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                            Three simple steps to turn your data into a <span class="font-semibold text-slate-900">production-ready</span> <span class="text-pink-400">API</span>
+                        </p>
+                    </div>
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8">
@@ -1223,183 +1362,138 @@
             </div>
         </section>
 
-        <!-- Pixel Section Divider -->
-        <div class="pixel-accent-line"></div>
+        <div class="hub-divider"></div>
 
         <!-- Pricing Section -->
-        <section id="pricing" class="pixel-section bg-gray-50 py-20">
-            <div class="pixel-container max-w-6xl">
-                <div class="text-center mb-16 pixel-fade-in">
-                    <h2 class="pixel-title text-4xl sm:text-5xl text-black mb-6">Simple, Transparent Pricing</h2>
-                    <p class="pixel-body text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        Start free, scale as you grow.
-                        <span class="font-semibold text-black">No hidden fees, no surprises.</span>
-                    </p>
+        <section id="pricing" class="pixel-section bg-gray-50 py-20 relative">
+            <!-- Background Image -->
+            <div class="absolute inset-0 opacity-15 pointer-events-none">
+                <img src="images/cube-card.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+            </div>
+            <div class="pixel-container max-w-6xl relative z-10">
+                <div class="space-y-3 mb-16 pixel-fade-in">
+                    <div class="flex items-center gap-3 justify-center">
+                        <span class="pixel-dot"></span>
+                        <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">Pricing</p>
+                    </div>
+                    <div class="text-center">
+                        <h2 class="text-3xl font-semibold tracking-tight text-slate-900 mb-6">Simple, Transparent Pricing</h2>
+                        <p class="text-base text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                            Start free, scale as you grow.
+                            <span class="font-semibold text-slate-900">No hidden fees, no surprises.</span>
+                        </p>
+                    </div>
                 </div>
 
-                <div class="grid sm:grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto pt-8">
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-8">
                     <!-- Free Plan -->
-                    <div class="pixel-card p-8 sm:p-10 relative transform scale-105 featured-plan pixel-slide-in-left">
-                        <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 z-50">
-                            <span class="pixel-badge">
-                                Most Popular
-                            </span>
-                        </div>
-
+                    <div class="api-card p-8 sm:p-10 pixel-slide-in-left bg-white border border-slate-200/70 flex flex-col h-full">
                         <div class="text-center mb-8">
-                            <h3 class="pixel-subtitle text-2xl text-black mb-3">Free</h3>
-                            <div class="pixel-title text-5xl text-black mb-6">$0<span class="pixel-body text-xl text-gray-600 ml-1">/month</span></div>
-                            <p class="pixel-body text-gray-600 font-medium">Perfect for getting started</p>
+                            <h3 class="pixel-subtitle text-2xl text-slate-900 mb-3">Free</h3>
+                            <div class="pixel-title text-5xl text-slate-900 mb-6">$0<span class="pixel-body text-xl text-slate-600 ml-1">/month</span></div>
+                            <p class="pixel-body text-slate-600 font-medium">Perfect for getting started</p>
                         </div>
 
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center text-black">
+                        <ul class="space-y-4 mb-8 flex-1">
+                            <li class="flex items-center text-slate-900">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
                                 <span class="pixel-body">Up to 5 APIs</span>
                             </li>
-                            <li class="flex items-center text-black">
+                            <li class="flex items-center text-slate-900">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
                                 <span class="pixel-body">100 requests/day</span>
                             </li>
-                            <li class="flex items-center text-black">
+                            <li class="flex items-center text-slate-900">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
                                 <span class="pixel-body">Basic analytics</span>
                             </li>
-                            <li class="flex items-center text-black">
+                            <li class="flex items-center text-slate-900">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
                                 <span class="pixel-body">Community support</span>
                             </li>
+                            <li class="flex items-center text-slate-900 opacity-0 pointer-events-none">
+                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
+                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span class="pixel-body">Placeholder</span>
+                            </li>
                         </ul>
 
-                        <a href="app.html" class="pixel-btn pixel-btn-primary w-full py-3">
+                        <a href="app.html" class="hub-btn hub-btn-primary w-full py-3 text-center mt-auto">
                             Get Started Free
                         </a>
                     </div>
 
-                    <!-- Pro Plan -->
-                    <div class="pixel-card p-8 sm:p-10 pixel-fade-in" style="animation-delay: 0.2s">
-                        <div class="text-center mb-8">
-                            <h3 class="pixel-subtitle text-2xl text-black mb-3">Pro</h3>
-                            <div class="pixel-title text-5xl text-black mb-6">$29<span class="pixel-body text-xl text-gray-600 ml-1">/month</span></div>
-                            <p class="pixel-body text-gray-600 font-medium">For growing businesses</p>
-                        </div>
-
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Unlimited APIs</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">10,000 requests/day</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Advanced analytics</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Priority support</span>
-                            </li>
-                            <li class="flex items-center text-black">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Custom domains</span>
-                            </li>
-                        </ul>
-
-                        <button class="pixel-btn pixel-btn-primary w-full py-3">
-                            Start Free Trial
-                        </button>
-                    </div>
-
                     <!-- Enterprise Plan -->
-                    <div class="pixel-card p-8 sm:p-10 pixel-slide-in-right">
+                    <div class="api-card p-8 sm:p-10 pixel-slide-in-right bg-white border border-slate-200/70 flex flex-col h-full">
                         <div class="text-center mb-8">
-                            <h3 class="pixel-subtitle text-2xl text-black mb-3">Enterprise</h3>
-                            <div class="pixel-title text-5xl text-black mb-6">Custom<span class="pixel-body text-xl text-gray-600 ml-1 block">pricing</span></div>
-                            <p class="pixel-body text-gray-600 font-medium">For large organizations</p>
+                            <h3 class="pixel-subtitle text-2xl text-slate-900 mb-3">Enterprise</h3>
+                            <div class="pixel-title text-5xl text-slate-900 mb-6">Custom<span class="pixel-body text-xl text-slate-600 ml-1 block">pricing</span></div>
+                            <p class="pixel-body text-slate-600 font-medium">For large organizations</p>
                         </div>
 
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center">
+                        <ul class="space-y-4 mb-8 flex-1">
+                            <li class="flex items-center text-slate-700">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
                                     <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
-                                <span class="pixel-body text-gray-700">Everything in Pro</span>
+                                <span class="pixel-body text-slate-700">Everything in Pro</span>
                             </li>
-                            <li class="flex items-center">
+                            <li class="flex items-center text-slate-700">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
                                     <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
-                                <span class="pixel-body text-gray-700">Unlimited requests</span>
+                                <span class="pixel-body text-slate-700">Unlimited requests</span>
                             </li>
-                            <li class="flex items-center">
+                            <li class="flex items-center text-slate-700">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
                                     <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
-                                <span class="pixel-body text-gray-700">Dedicated support</span>
+                                <span class="pixel-body text-slate-700">Dedicated support</span>
                             </li>
-                            <li class="flex items-center">
+                            <li class="flex items-center text-slate-700">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
                                     <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
-                                <span class="pixel-body text-gray-700">SLA guarantees</span>
+                                <span class="pixel-body text-slate-700">SLA guarantees</span>
                             </li>
-                            <li class="flex items-center">
+                            <li class="flex items-center text-slate-700">
                                 <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
                                     <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
-                                <span class="pixel-body text-gray-700">Custom integrations</span>
+                                <span class="pixel-body text-slate-700">Custom integrations</span>
                             </li>
                         </ul>
 
-                        <button class="pixel-btn pixel-btn-secondary w-full py-3">
+                        <button class="hub-btn hub-btn-secondary w-full py-3 mt-auto">
                             Contact Sales
                         </button>
                     </div>
@@ -1409,7 +1503,7 @@
                     <p class="pixel-body text-gray-600 mb-4 font-medium">All plans include:</p>
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm">
                         <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 mr-2 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <span class="pixel-body">99.9% uptime SLA</span>
@@ -1421,7 +1515,7 @@
                             <span class="pixel-body">GDPR compliant</span>
                         </span>
                         <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 mr-2 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <span class="pixel-body">24/7 monitoring</span>
@@ -1431,32 +1525,33 @@
             </div>
         </section>
 
-        <!-- Pixel Section Divider -->
-        <div class="pixel-accent-line"></div>
+        <div class="hub-divider"></div>
 
     <!-- CTA Section -->
-    <section class="cta-section bg-gray-50 py-20 pixel-fade-in">
+    <section class="cta-section bg-white py-20 pixel-fade-in">
         <div class="pixel-container max-w-4xl text-center">
-            <h2 class="pixel-title text-3xl sm:text-4xl lg:text-5xl text-black mb-6">Ready to Turn Your Data Into APIs?</h2>
-            <p class="pixel-body text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Join teams shipping faster with apiUI—spin up <span class="font-semibold text-black">production-ready</span> <span class="text-pink-500">endpoints</span> without waiting on engineering backlogs.
+            <div class="space-y-3 mb-6">
+                <div class="flex items-center gap-3 justify-center">
+                    <span class="pixel-dot"></span>
+                    <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">Get Started</p>
+                </div>
+            </div>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-slate-900 mb-6">Ready to Turn Your Data Into APIs?</h2>
+            <p class="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Join teams shipping faster with apiUI—spin up <span class="font-semibold text-slate-900">production-ready</span> <span class="text-pink-400">endpoints</span> without waiting on engineering backlogs.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="app.html" class="pixel-btn pixel-btn-primary w-full sm:w-auto px-8 py-4 text-lg">
+                <a href="app.html" class="hub-btn hub-btn-primary">
                     Start Building APIs Free
                 </a>
-                <a href="docs.html" class="pixel-btn pixel-btn-secondary w-full sm:w-auto px-8 py-4 text-lg">
+                <a href="docs.html" class="hub-btn hub-btn-secondary">
                     Read Documentation
-                </a>
-                <a href="api-hub.html" class="pixel-btn pixel-btn-secondary w-full sm:w-auto px-8 py-4 text-lg">
-                    Explore API Hub
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Pixel Section Divider -->
-    <div class="pixel-accent-line"></div>
+    <div class="hub-divider"></div>
 
     </main>
     <button id="back-to-top" class="back-to-top" type="button" aria-label="Return to top">
@@ -1465,25 +1560,24 @@
         </svg>
     </button>
     <!-- Footer -->
-    <footer class="bg-white border-t-2 border-black py-16">
+    <footer class="bg-white py-16">
         <div class="pixel-container max-w-6xl">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
-                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
+                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-400">UI</span></a>
                     <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
                 </div>
                 <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
-                    <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
-                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
-                    <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
-                    <a href="socket-chat.html" class="hover:text-pink-500 transition-colors">Sock chat</a>
-                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
-                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
+                    <a href="index.html" class="hover:text-pink-400 transition-colors">Home</a>
+                    <a href="app.html" class="hover:text-pink-400 transition-colors">App</a>
+                    <a href="mcp.html" class="hover:text-pink-400 transition-colors">MCP</a>
+                    <a href="docs.html" class="hover:text-pink-400 transition-colors">Docs</a>
+                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                         </svg>
                     </a>
-                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
+                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                         </svg>
@@ -2084,7 +2178,109 @@ supabase.auth.onAuthStateChange(async (event, session) => {
     }
 });
 
-// Demo Video Functionality
+    // ASCII Block Text Generator (Kisuke Style)
+    function createAsciiBlockText(text, options = {}) {
+        const { size = 'normal', glow = false } = options;
+
+        // Simple block character patterns for each letter
+        const charPatterns = {
+            'A': [' ██╗ ', '███║ ', '╚██║ ', ' ╚═╝ '],
+            'B': ['████╗ ', '██╔═╝ ', '████╗ ', '╚═══╝ '],
+            'C': [' ███╗', '██╔╝ ', '██║  ', '╚══╝ '],
+            'D': ['████╗ ', '██╔═╝ ', '██║   ', '╚═══╝ '],
+            'E': ['█████╗', '██╔═╝ ', '████╗ ', '╚═══╝ '],
+            'F': ['█████╗', '██╔═╝ ', '██║   ', '╚═╝   '],
+            'G': [' ███╗', '██╔╝ ', '██║██╗', '╚═══╝ '],
+            'H': ['██╗██╗', '██║██║', '██████║', '╚════╝ '],
+            'I': ['███╗███╗', '╚══██╔╝ ', '  ██║   ', '███║███║', '╚══╝╚══╝ '],
+            'J': [' ███████╗', '     ██║ ', '     ██║ ', '██   ██║ ', '╚██████╔╝', ' ╚═════╝  '],
+            'K': ['██╗ ██╗', '██║██╔╝', '███╔╝  ', '██║██╗ ', '╚═╝ ╚═╝ '],
+            'L': ['██╗   ', '██║   ', '██║   ', '██████╗', '╚═════╝ '],
+            'M': ['███╗███╗', '██╔╝╚═╝ ', '██║     ', '██║     ', '╚═╝     '],
+            'N': ['███╗██╗', '██╔╝██║ ', '██║ ██║ ', '██║  ██║', '╚═╝  ╚═╝'],
+            'O': [' ███╗ ', '██ ╚██╗', '██║ ██║', '╚███╔██║', ' ╚══╝ ╚═╝'],
+            'P': ['████╗ ', '██╔═╝ ', '████╗ ', '██║   ', '╚═╝   '],
+            'Q': [' ███╗ ', '██ ╚██╗', '██║ ██║', '╚███╔██╗', ' ╚══╝██║', '     ╚═╝ '],
+            'R': ['████╗ ', '██╔═╝ ', '████╗ ', '██║██╗ ', '╚═╝ ╚═╝ '],
+            'S': [' ███╗ ', '██╔═╝ ', ' ███╗ ', '╚═██║ ', ' ███║ ', ' ╚══╝ '],
+            'T': ['████████╗', '╚══██╔══╝ ', '   ██║    ', '   ██║    ', '   ╚═╝    '],
+            'U': ['██╗   ██╗', '██║   ██║', '██║   ██║', '╚██████╔╝', ' ╚═════╝  '],
+            'V': ['██╗   ██╗', '██║   ██║', '██║   ██║', ' ╚███╔██║', '  ╚══╝ ╚═╝'],
+            'W': ['██╗    ██╗', '██║    ██║', '██║ █╗ ██║', '██║███╗██║', '╚███╔███╔╝', ' ╚══╝╚══╝  '],
+            'X': ['██╗  ██╗', '╚██╗██╔╝', ' ╚███╔╝ ', ' ██╔██╗ ', '██╔╝ ╚██╗', '╚═╝   ╚═╝'],
+            'Y': ['██╗   ██╗', '╚██╗ ██╔╝', ' ╚████╔╝ ', '  ╚██╔╝  ', '   ██║   ', '   ╚═╝   '],
+            'Z': ['███████╗', '╚══██╔══╝', '  ██║   ', ' ██║    ', '███████╗', '╚══════╝ '],
+            ' ': ['  ', '  ', '  ', '  ', '  ', '  '],
+            'a': ['     ', ' ███╗', '██╔╝ ', '██████╗', '╚═════╝'],
+            'b': ['██╗   ', '██║   ', '██║██╗', '██║╚██╗', '╚██████║', ' ╚═════╝'],
+            'c': ['     ', ' ███╗', '██╔╝ ', '██║  ', '╚══╝ '],
+            'd': ['   ██╗', '   ██║', '██████║', '██╔══██║', '╚██████╔╝', ' ╚═════╝ '],
+            'e': ['     ', ' ███╗', '██████╗', '██╔═╝ ', '╚══╝  '],
+            'f': [' ██╗', '██║ ', '████╗', '██║ ', '╚═╝ '],
+            'g': ['     ', ' ███╗', '██╔╝ ', '██████╗', '╚═════╝', '██╗   ', '╚═╝   '],
+            'h': ['██╗   ', '██║   ', '██║██╗', '██║╚██╗', '██████║ ', '╚═════╝ '],
+            'i': ['██╗', '╚═╝', '██╗', '██║', '╚═╝'],
+            'j': ['   ██╗', '   ╚═╝', '   ██╗', '   ██║', '██╗██║', '╚═════╝'],
+            'k': ['██╗   ', '██║   ', '██║██╗ ', '██║╚██╗', '██████║ ', '╚═════╝ '],
+            'l': ['██╗', '██║', '██║', '██║', '╚═╝'],
+            'm': ['     ', '███╗███╗', '██╔╝╚═╝ ', '██║     ', '██║     ', '╚═╝     '],
+            'n': ['     ', '███╗██╗', '██╔╝██║ ', '██║ ██║ ', '██║  ██║', '╚═╝  ╚═╝'],
+            'o': ['     ', ' ███╗ ', '██ ╚██╗', '██║ ██║', '╚███╔██║', ' ╚══╝ ╚═╝'],
+            'p': ['     ', '███╗  ', '██║██╗ ', '██║╚██╗', '██████║ ', '██║    ', '╚═╝    '],
+            'q': ['     ', ' ███╗ ', '██ ╚██╗', '██║ ██║', '╚███╔██╗', ' ╚══╝██║', '     ╚═╝'],
+            'r': ['     ', '███╗  ', '██║██╗ ', '██║╚██╗', '██████║ ', '╚═════╝ '],
+            's': ['     ', ' ███╗ ', '██╔═╝ ', ' ███╗ ', '╚═██║ ', ' ███║ ', ' ╚══╝ '],
+            't': ['██╗', '██║', '██║', '██║', '╚═╝'],
+            'u': ['     ', '██╗   ██╗', '██║   ██║', '██║   ██║', '╚██████╔╝', ' ╚═════╝ '],
+            'v': ['     ', '██╗   ██╗', '██║   ██║', '██║   ██║', ' ╚███╔██║', '  ╚══╝ ╚═╝'],
+            'w': ['     ', '██╗    ██╗', '██║    ██║', '██║ █╗ ██║', '██║███╗██║', '╚███╔███╔╝', ' ╚══╝╚══╝ '],
+            'x': ['     ', '██╗  ██╗', '╚██╗██╔╝', ' ╚███╔╝ ', ' ██╔██╗ ', '██╔╝ ╚██╗', '╚═╝   ╚═╝'],
+            'y': ['     ', '██╗   ██╗', '╚██╗ ██╔╝', ' ╚████╔╝ ', '  ╚██╔╝  ', '   ██║   ', '   ╚═╝   '],
+            'z': ['     ', '███████╗', '╚══██╔══╝', '  ██║   ', ' ██║    ', '███████╗', '╚══════╝ ']
+        };
+
+        const words = text.toUpperCase().split(' ');
+        const lines = [];
+
+        // Find max height for any character
+        let maxHeight = 0;
+        for (const word of words) {
+            for (const char of word) {
+                const pattern = charPatterns[char] || ['█', '█', '█', '█', '█', '█'];
+                maxHeight = Math.max(maxHeight, pattern.length);
+            }
+        }
+
+        // Create each line
+        for (let lineIndex = 0; lineIndex < maxHeight; lineIndex++) {
+            const lineChars = [];
+            for (const word of words) {
+                for (const char of word) {
+                    const pattern = charPatterns[char] || ['█', '█', '█', '█', '█', '█'];
+                    const charLine = pattern[lineIndex] || '     ';
+                    lineChars.push(charLine);
+                }
+                lineChars.push('  '); // Space between words
+            }
+            lines.push(lineChars.join('').trimEnd());
+        }
+
+        const container = document.createElement('div');
+        container.className = `kisuke-ascii ${size}${glow ? ' kisuke-glow' : ''}`;
+
+        lines.forEach(line => {
+            const lineDiv = document.createElement('div');
+            lineDiv.className = 'ascii-line';
+            lineDiv.textContent = line;
+            container.appendChild(lineDiv);
+        });
+
+        return container;
+    }
+
+    // ASCII block text is now rendered directly in HTML
+
+    // Demo Video Functionality
 const demoVideo = document.getElementById('demo-video');
 const playOverlay = document.getElementById('play-overlay');
 const playBtn = document.getElementById('play-btn');

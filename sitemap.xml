@@ -44,19 +44,6 @@
     </image:image>
   </url>
 
-  <!-- API Hub -->
-  <url>
-    <loc>https://apiui.web.app/api-hub.html</loc>
-    <lastmod>2025-01-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://apiui.web.app/favicon.png</image:loc>
-      <image:title>apiUI API Hub</image:title>
-      <image:caption>Curated APIs and integration resources</image:caption>
-    </image:image>
-  </url>
-
   <!-- Socket Chat -->
   <url>
     <loc>https://apiui.web.app/socket-chat.html</loc>

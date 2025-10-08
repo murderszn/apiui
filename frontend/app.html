@@ -1394,6 +1394,58 @@
             border-color: rgba(236, 72, 153, 0.8) !important;
             box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
         }
+
+        /* Kisuke-style ASCII Block Text */
+        .kisuke-ascii {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            line-height: 0.8;
+            letter-spacing: 1px;
+            color: white;
+            text-shadow:
+                2px 2px 0px rgba(0, 0, 0, 0.3),
+                -1px -1px 0px rgba(255, 255, 255, 0.1);
+        }
+
+        .kisuke-ascii .ascii-line {
+            display: block;
+            white-space: pre;
+            font-size: 0.6rem;
+            margin-bottom: 2px;
+        }
+
+        .kisuke-ascii.large {
+            font-size: 2rem;
+        }
+
+        .kisuke-ascii.large .ascii-line {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        /* Retro terminal glow effect */
+        .kisuke-glow {
+            text-shadow:
+                0 0 5px rgba(236, 72, 153, 0.3),
+                0 0 10px rgba(236, 72, 153, 0.2),
+                0 0 15px rgba(236, 72, 153, 0.1);
+            animation: kisuke-glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes kisuke-glow-pulse {
+            from {
+                text-shadow:
+                    0 0 5px rgba(236, 72, 153, 0.3),
+                    0 0 10px rgba(236, 72, 153, 0.2),
+                    0 0 15px rgba(236, 72, 153, 0.1);
+            }
+            to {
+                text-shadow:
+                    0 0 8px rgba(236, 72, 153, 0.5),
+                    0 0 15px rgba(236, 72, 153, 0.3),
+                    0 0 25px rgba(236, 72, 153, 0.2);
+            }
+        }
     </style>
 </head>
 
@@ -1422,10 +1474,10 @@
                     </svg>
                 </a>
 
-                <!-- API Hub -->
-                <a href="api-hub.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="API Hub">
+                <!-- MCP -->
+                <a href="mcp.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                     </svg>
                 </a>
 
@@ -1472,14 +1524,32 @@
     </header>
 
     <!-- Hero -->
-    <section class="hero-section-app section-spacing">
-        <div class="pixel-container max-w-6xl relative z-10 py-8 sm:py-16">
-            <div class="text-center mb-16">
-                <div class="pixel-fade-in mb-8 flex items-center justify-center">
-                    <a href="index.html" class="pixel-heading text-3xl tracking-[0.32em] text-white hover:text-pink-300 transition-colors">api<span class="text-pink-500">UI</span></a>
-                </div>
+    <section class="hero-section-app min-h-screen flex items-center justify-center">
+        <div class="pixel-container max-w-6xl relative z-10">
+            <div class="text-center">
                 <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white max-w-4xl mx-auto mb-6 pixel-fade-in">
-                    Command your <span class="arcade-neon">API empire</span> from one dashboard
+                    <div class="kisuke-ascii large kisuke-glow text-center">
+                        <div class="ascii-line"> ██████╗ ██████╗ ███╗   ███╗███╗   ███╗ █████╗ ███╗   ██╗██████╗</div>
+                        <div class="ascii-line">██╔════╝██╔═══██╗████╗ ████║████╗ ████║██╔══██╗████╗  ██║██╔══██╗</div>
+                        <div class="ascii-line">██║     ██║   ██║██╔████╔██║██╔████╔██║███████║██╔██╗ ██║██║  ██║</div>
+                        <div class="ascii-line">██║     ██║   ██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║╚██╗██║██║  ██║</div>
+                        <div class="ascii-line">╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║██║  ██║██║ ╚████║██████╔╝</div>
+                        <div class="ascii-line"> ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝</div>
+                        <div class="ascii-line"></div>
+                        <div class="ascii-line"> ██╗   ██╗ ██████╗ ██╗   ██╗██████╗</div>
+                        <div class="ascii-line"> ██║   ██║██╔═══██╗██║   ██║██╔══██╗</div>
+                        <div class="ascii-line"> ██║   ██║██║   ██║██║   ██║██████╔╝</div>
+                        <div class="ascii-line"> ╚██╗ ██╔╝██║   ██║██║   ██║██╔══██╗</div>
+                        <div class="ascii-line">  ╚████╔╝ ╚██████╔╝╚██████╔╝██║  ██║</div>
+                        <div class="ascii-line">   ╚═══╝   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝</div>
+                        <div class="ascii-line"></div>
+                        <div class="ascii-line"> █████╗ ██████╗ ██╗███████╗</div>
+                        <div class="ascii-line">██╔══██╗██╔══██╗██║██╔════╝</div>
+                        <div class="ascii-line">███████║██████╔╝██║███████╗</div>
+                        <div class="ascii-line">██╔══██║██╔═══╝ ██║╚════██║</div>
+                        <div class="ascii-line">██║  ██║██║     ██║███████║</div>
+                        <div class="ascii-line">╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝</div>
+                    </div>
                 </h1>
                 <p class="pixel-body text-lg sm:text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed mb-12 pixel-fade-in" style="animation-delay: 0.2s">
                     Manage multiple APIs, track performance metrics, handle authentication, and scale your data endpoints—all from this powerful console.
@@ -1487,8 +1557,11 @@
 
             </div>
 
-        </div>
-    </section>
+            </div>
+        </section>
+
+        <!-- Bottom spacing -->
+        <div class="pb-24"></div>
 
     <!-- Pixel Section Divider -->
     <div class="pixel-accent-line"></div>
@@ -1498,19 +1571,19 @@
         <div class="fixed inset-0 pointer-events-none opacity-15" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 36px 36px; z-index: 0;"></div>
 
         <!-- Create API Section -->
-        <section class="pixel-section bg-black">
-            <div class="pixel-container max-w-4xl text-center mb-16">
-                <h2 class="pixel-title arcade-3d text-4xl sm:text-5xl text-white mb-6 pixel-fade-in">Create Your <span class="arcade-gradient">API</span></h2>
-                <p class="pixel-body text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-12 pixel-fade-in" style="animation-delay: 0.2s">
+        <section class="pixel-section bg-black py-24 sm:py-32">
+            <div class="pixel-container max-w-4xl text-center mb-20">
+                <h2 class="pixel-title arcade-3d text-4xl sm:text-5xl text-white mb-8 pixel-fade-in">Create Your <span class="arcade-gradient">API</span></h2>
+                <p class="pixel-body text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-16 pixel-fade-in" style="animation-delay: 0.2s">
                     Upload data files to create APIs, then use our dashboard to monitor traffic, manage access, and optimize performance across all your endpoints.
                 </p>
 
             </div>
 
-            <div class="pixel-container max-w-7xl mt-12">
+            <div class="pixel-container max-w-7xl px-4 sm:px-6">
 
-            <div id="app-container" class="w-full">
-                <div class="pixel-card flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 p-6 space-y-4 sm:space-y-0 pixel-fade-in">
+            <div id="app-container" class="w-full mb-16">
+                <div class="pixel-card flex flex-col sm:flex-row sm:items-center sm:justify-between p-8 space-y-4 sm:space-y-0 pixel-fade-in">
                     <div class="min-w-0 flex-1">
                         <p class="pixel-body text-sm text-white uppercase tracking-wide">Connected to Cloud Run</p>
                         <p id="backend-url-display" class="font-mono text-xs sm:text-sm text-white break-all">https://apiui-backend-44565368406.us-central1.run.app</p>
@@ -1527,9 +1600,9 @@
                 </div>
 
                 <!-- Step-by-Step Instructions -->
-                <div class="pixel-card p-6 mb-12 pixel-fade-in" style="animation-delay: 0.4s">
-                    <h3 class="pixel-subtitle text-xl text-white mb-6">How to Create Your API</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="pixel-card p-8 mb-20 pixel-fade-in" style="animation-delay: 0.4s">
+                    <h3 class="pixel-subtitle text-2xl text-white mb-8">How to Create Your API</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="flex items-start space-x-4">
                             <div class="pixel-icon w-12 h-12 flex items-center justify-center flex-shrink-0">
                                 <span class="pixel-title text-lg text-white">1</span>
@@ -1552,9 +1625,9 @@
                 </div>
 
                 <!-- Uploader -->
-                <div id="uploader-section">
+                <div id="uploader-section" class="mt-16 mb-16">
                     <input type="file" id="file-input" class="hidden" accept=".xlsx,.xls,.csv,.parquet,.json,.txt">
-                    <label for="file-input" id="file-drop-area" class="api-card w-full p-16 flex flex-col items-center justify-center cursor-pointer pixel-fade-in" style="animation-delay: 0.6s">
+                    <label for="file-input" id="file-drop-area" class="api-card w-full p-20 flex flex-col items-center justify-center cursor-pointer pixel-fade-in" style="animation-delay: 0.6s">
                         <div class="pixel-icon w-16 h-16 mb-6">
                             <svg class="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
@@ -1599,7 +1672,7 @@
                 </div>
 
                 <!-- File Preview -->
-                <div id="file-preview-section" class="hidden w-full pixel-card p-8 pixel-fade-in">
+                <div id="file-preview-section" class="hidden w-full pixel-card p-8 mt-16 pixel-fade-in">
                     <!-- File Info Header -->
                     <div class="flex items-center justify-between pb-6 border-b-2 border-black mb-6">
                         <div class="flex items-center space-x-4">
@@ -1687,7 +1760,7 @@
                 </div>
 
                 <!-- Status & Result -->
-                <div id="status-section" class="hidden w-full api-card p-8 mt-8 pixel-fade-in">
+                <div id="status-section" class="hidden w-full api-card p-8 mt-16 pixel-fade-in">
                     <!-- File Info -->
                     <div id="file-info" class="flex items-center justify-between pb-6 border-b-2 border-black mb-8">
                         <div class="flex items-center space-x-4">

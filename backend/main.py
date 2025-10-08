@@ -43,10 +43,14 @@ from services.storage_service import storage_service
 from services.database_service import db_service
 from services.deployment_service import DeploymentService
 from services.socket_service import socket_service
+from services.cloud_metrics_service import CloudMetricsService
+from services.mcp_service import mcp_service
 
 app = Flask(__name__)
 app.secret_key = settings.secret_key
 app.config.setdefault("SESSION_COOKIE_SAMESITE", "Lax")
+app.config.setdefault("PERMANENT_SESSION_LIFETIME", 2592000)  # 30 days in seconds
+app.config.setdefault("SESSION_PERMANENT", True)
 cookie_secure = any(
     url and url.startswith("https://")
     for url in (settings.github_redirect_uri, settings.google_redirect_uri)
@@ -555,6 +559,38 @@ def auth_logout():
     return jsonify({"success": True})
 
 
+@app.route("/auth/status", methods=["GET"])
+def auth_status():
+    """Check if user is currently authenticated"""
+    auth_provider = session.get('auth_provider')
+    auth_user = session.get('auth_user')
+    github_user = session.get('github_user')
+    google_user = session.get('google_user')
+
+    if auth_provider and auth_user:
+        return jsonify({
+            "authenticated": True,
+            "provider": auth_provider,
+            "user": auth_user
+        })
+    elif github_user:
+        return jsonify({
+            "authenticated": True,
+            "provider": "github",
+            "user": github_user
+        })
+    elif google_user:
+        return jsonify({
+            "authenticated": True,
+            "provider": "google",
+            "user": google_user
+        })
+    else:
+        return jsonify({
+            "authenticated": False
+        })
+
+
 # Supabase Authentication Routes
 @app.route("/auth/supabase/signup", methods=["POST"])
 def supabase_signup():
@@ -805,6 +841,7 @@ def add_log_entry(job_id, message, level="info"):
 # Initialize AI service
 ai_service = AIService()
 deployment_service = DeploymentService()
+cloud_metrics_service = CloudMetricsService()
 
 def run_async_ai_generation(schema, job_id):
     """Run async AI generation in a new event loop"""
@@ -2668,7 +2705,100 @@ def health_check():
 @app.route('/v1/apis/<api_id>/metrics', methods=['GET'])
 def get_api_metrics(api_id):
     """Get metrics data for an API for charting"""
-    if api_id not in api_metrics:
+    try:
+        # First try to get real Cloud Run metrics
+        if hasattr(settings, 'gcp_project_id') and settings.gcp_project_id:
+            service_name = f"apiui-{api_id[:8]}"
+            try:
+                # Run async function in sync context
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                cloud_metrics = loop.run_until_complete(
+                    cloud_metrics_service.get_cloud_run_metrics(service_name, hours=24)
+                )
+                loop.close()
+
+                # If we got real metrics with actual data, return them
+                if cloud_metrics.get('source') == 'cloud_monitoring':
+                    return jsonify(cloud_metrics)
+
+            except Exception as e:
+                print(f"Failed to fetch Cloud Run metrics for {api_id}: {str(e)}")
+                # Fall back to in-memory metrics
+
+        # Fall back to in-memory metrics if Cloud Run metrics fail or aren't available
+        if api_id not in api_metrics:
+            return jsonify({
+                'hourly_data': [],
+                'summary': {
+                    'uptime_percentage': 100.0,
+                    'avg_response_time': 0,
+                    'total_requests': 0,
+                    'error_rate': 0,
+                    'last_updated': datetime.utcnow().isoformat()
+                },
+                'source': 'fallback'
+            })
+
+        metrics = api_metrics[api_id]
+        now = datetime.utcnow()
+
+        # Calculate metrics for the last 24 hours
+        last_24h = now - timedelta(hours=24)
+        recent_requests = [r for r in metrics['requests'] if r['timestamp'] > last_24h]
+        recent_response_times = [rt for rt in metrics['response_times'] if rt['timestamp'] > last_24h]
+        recent_errors = [e for e in metrics['errors'] if e['timestamp'] > last_24h]
+
+        # Calculate uptime (assuming API is up if we have recent requests)
+        uptime_percentage = 99.9  # Default high uptime
+        if recent_requests:
+            # Simple uptime calculation based on request distribution
+            hours_with_requests = len(set(r['timestamp'].hour for r in recent_requests))
+            uptime_percentage = min(99.9, (hours_with_requests / 24) * 100)
+
+        # Calculate average response time
+        avg_response_time = sum(rt['response_time'] for rt in recent_response_times) / len(recent_response_times) if recent_response_times else 0
+
+        # Calculate error rate
+        total_requests = len(recent_requests)
+        error_rate = (len(recent_errors) / total_requests * 100) if total_requests > 0 else 0
+
+        # Prepare chart data (hourly aggregation for the last 24 hours)
+        hourly_data = []
+        for hour in range(24):
+            hour_start = now.replace(hour=hour, minute=0, second=0, microsecond=0)
+            if hour_start > now:
+                hour_start = hour_start - timedelta(days=1)
+
+            hour_end = hour_start + timedelta(hours=1)
+
+            hour_requests = [r for r in recent_requests if hour_start <= r['timestamp'] < hour_end]
+            hour_response_times = [rt for rt in recent_response_times if hour_start <= rt['timestamp'] < hour_end]
+            hour_errors = [e for e in recent_errors if hour_start <= e['timestamp'] < hour_end]
+
+            avg_rt = sum(rt['response_time'] for rt in hour_response_times) / len(hour_response_times) if hour_response_times else 0
+
+            hourly_data.append({
+                'hour': hour_start.strftime('%H:00'),
+                'requests': len(hour_requests),
+                'avg_response_time': round(avg_rt, 2),
+                'errors': len(hour_errors)
+            })
+
+        return jsonify({
+            'hourly_data': hourly_data,
+            'summary': {
+                'uptime_percentage': round(uptime_percentage, 1),
+                'avg_response_time': round(avg_response_time, 2),
+                'total_requests': total_requests,
+                'error_rate': round(error_rate, 2),
+                'last_updated': metrics['last_updated'].isoformat()
+            },
+            'source': 'in_memory'
+        })
+
+    except Exception as e:
+        print(f"Error in get_api_metrics for {api_id}: {str(e)}")
         return jsonify({
             'hourly_data': [],
             'summary': {
@@ -2677,64 +2807,10 @@ def get_api_metrics(api_id):
                 'total_requests': 0,
                 'error_rate': 0,
                 'last_updated': datetime.utcnow().isoformat()
-            }
+            },
+            'source': 'error',
+            'error': str(e)
         })
-
-    metrics = api_metrics[api_id]
-    now = datetime.utcnow()
-
-    # Calculate metrics for the last 24 hours
-    last_24h = now - timedelta(hours=24)
-    recent_requests = [r for r in metrics['requests'] if r['timestamp'] > last_24h]
-    recent_response_times = [rt for rt in metrics['response_times'] if rt['timestamp'] > last_24h]
-    recent_errors = [e for e in metrics['errors'] if e['timestamp'] > last_24h]
-
-    # Calculate uptime (assuming API is up if we have recent requests)
-    uptime_percentage = 99.9  # Default high uptime
-    if recent_requests:
-        # Simple uptime calculation based on request distribution
-        hours_with_requests = len(set(r['timestamp'].hour for r in recent_requests))
-        uptime_percentage = min(99.9, (hours_with_requests / 24) * 100)
-
-    # Calculate average response time
-    avg_response_time = sum(rt['response_time'] for rt in recent_response_times) / len(recent_response_times) if recent_response_times else 0
-
-    # Calculate error rate
-    total_requests = len(recent_requests)
-    error_rate = (len(recent_errors) / total_requests * 100) if total_requests > 0 else 0
-
-    # Prepare chart data (hourly aggregation for the last 24 hours)
-    hourly_data = []
-    for hour in range(24):
-        hour_start = now.replace(hour=hour, minute=0, second=0, microsecond=0)
-        if hour_start > now:
-            hour_start = hour_start - timedelta(days=1)
-
-        hour_end = hour_start + timedelta(hours=1)
-
-        hour_requests = [r for r in recent_requests if hour_start <= r['timestamp'] < hour_end]
-        hour_response_times = [rt for rt in recent_response_times if hour_start <= rt['timestamp'] < hour_end]
-        hour_errors = [e for e in recent_errors if hour_start <= e['timestamp'] < hour_end]
-
-        avg_rt = sum(rt['response_time'] for rt in hour_response_times) / len(hour_response_times) if hour_response_times else 0
-
-        hourly_data.append({
-            'hour': hour_start.strftime('%H:00'),
-            'requests': len(hour_requests),
-            'avg_response_time': round(avg_rt, 2),
-            'errors': len(hour_errors)
-        })
-
-    return jsonify({
-        'hourly_data': hourly_data,
-        'summary': {
-            'uptime_percentage': round(uptime_percentage, 1),
-            'avg_response_time': round(avg_response_time, 2),
-            'total_requests': total_requests,
-            'error_rate': round(error_rate, 2),
-            'last_updated': metrics['last_updated'].isoformat()
-        }
-    })
 
 @app.route('/v1/analytics/requests', methods=['GET'])
 def get_analytics_requests():
@@ -3029,6 +3105,49 @@ else:
 
     def handle_cleanup():
         pass
+
+# MCP (Model Context Protocol) endpoints
+@app.route('/mcp/resources', methods=['GET'])
+def get_mcp_resources():
+    """List available MCP resources (uploaded files)"""
+    try:
+        # Run async function in sync context
+        resources = asyncio.run(mcp_service.list_resources())
+
+        # Convert to the format expected by the frontend
+        result = {
+            "resources": [
+                {
+                    "name": r.name,
+                    "description": r.description,
+                    "size": r.size,
+                    "lastModified": r.last_modified
+                } for r in resources
+            ]
+        }
+
+        return jsonify(result)
+    except Exception as e:
+        print(f"Error in MCP resources endpoint: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/mcp/resources/<filename>', methods=['GET'])
+def get_mcp_resource(filename):
+    """Get a specific MCP resource (file content)"""
+    try:
+        # Construct URI from filename
+        uri = f"file://{filename}"
+
+        # Run async function in sync context
+        content = asyncio.run(mcp_service.read_resource(uri))
+
+        if content is None or "error" in content:
+            return jsonify({"error": "File not found"}), 404
+
+        return jsonify(content)
+    except Exception as e:
+        print(f"Error in MCP resource endpoint: {e}")
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     import os

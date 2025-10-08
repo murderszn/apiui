@@ -13,7 +13,7 @@
 
     // Modal HTML template
     const modalHTML = `
-        <div id="cookie-consent-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50" style="display: none;">
+        <div id="cookie-consent-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50" style="display: none;" aria-hidden="true" role="dialog" aria-labelledby="cookie-modal-title" aria-describedby="cookie-modal-description">
             <div class="pixel-card bg-white max-w-lg w-full mx-4 shadow-2xl border-2 border-black">
                 <div class="p-6">
                     <!-- Header -->
@@ -23,11 +23,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="arcade-title text-lg text-black">Cookie Policy</h3>
+                        <h3 id="cookie-modal-title" class="arcade-title text-lg text-black">Cookie Policy</h3>
                     </div>
 
                     <!-- Content -->
-                    <div class="pixel-body text-gray-700 mb-6 leading-relaxed">
+                    <div id="cookie-modal-description" class="pixel-body text-gray-700 mb-6 leading-relaxed">
                         <p class="mb-3">
                             We use cookies and similar technologies to enhance your experience on apiUI. By continuing to use our platform, you agree to our use of cookies.
                         </p>
@@ -76,9 +76,26 @@
             }
         }
 
-        /* Ensure modal appears above all content */
+        /* Ensure modal appears above all content and is clickable */
         #cookie-consent-modal {
             z-index: 9999 !important;
+            pointer-events: auto !important;
+        }
+
+        /* Ensure buttons are clickable */
+        #cookie-consent-modal button,
+        #cookie-consent-modal a {
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
+
+        /* Ensure modal content is interactive */
+        #cookie-consent-modal .pixel-card {
+            pointer-events: auto !important;
+            position: relative !important;
+            z-index: 1 !important;
         }
     `;
 
@@ -122,17 +139,22 @@
     function showCookieModal() {
         const modal = document.getElementById('cookie-consent-modal');
         if (modal) {
+            // Set aria-hidden to false BEFORE showing the modal
+            modal.setAttribute('aria-hidden', 'false');
+            
+            // Show the modal
             modal.style.display = 'flex';
 
             // Prevent background scrolling when modal is open
             document.body.style.overflow = 'hidden';
 
-            // Focus management
-            modal.setAttribute('aria-hidden', 'false');
-            const acceptBtn = document.getElementById('accept-cookies');
-            if (acceptBtn) {
-                acceptBtn.focus();
-            }
+            // Focus management - only focus after modal is visible and aria-hidden is false
+            setTimeout(() => {
+                const acceptBtn = document.getElementById('accept-cookies');
+                if (acceptBtn) {
+                    acceptBtn.focus();
+                }
+            }, 100); // Small delay to ensure modal is fully rendered
         }
     }
 
@@ -142,11 +164,20 @@
     function hideCookieModal() {
         const modal = document.getElementById('cookie-consent-modal');
         if (modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
+            // Remove focus from any focused element within the modal
+            const focusedElement = modal.querySelector(':focus');
+            if (focusedElement) {
+                focusedElement.blur();
+            }
 
-            // Focus management
+            // Set aria-hidden to true BEFORE hiding the modal
             modal.setAttribute('aria-hidden', 'true');
+            
+            // Hide the modal
+            modal.style.display = 'none';
+            
+            // Restore background scrolling
+            document.body.style.overflow = '';
         }
     }
 
@@ -167,39 +198,83 @@
         // Inject modal HTML
         document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-        // Set up event listeners
-        const acceptBtn = document.getElementById('accept-cookies');
-        const modal = document.getElementById('cookie-consent-modal');
+        // Wait for DOM to be ready, then set up event listeners
+        setTimeout(function() {
+            const acceptBtn = document.getElementById('accept-cookies');
+            const modal = document.getElementById('cookie-consent-modal');
 
-        if (acceptBtn) {
-            acceptBtn.addEventListener('click', function() {
-                acceptCookies();
-                hideCookieModal();
-            });
-        }
+            if (acceptBtn) {
+                console.log('Cookie consent button found and event listener attached');
+                
+                acceptBtn.addEventListener('click', function(e) {
+                    console.log('Accept cookies button clicked');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    acceptCookies();
+                    hideCookieModal();
+                });
+                
+                // Also add mousedown event for better responsiveness
+                acceptBtn.addEventListener('mousedown', function(e) {
+                    console.log('Accept cookies button mousedown');
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+            } else {
+                console.error('Accept cookies button not found!');
+            }
 
-        // Close modal when clicking outside
-        if (modal) {
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    // Optional: You could make clicking outside NOT close the modal
-                    // to ensure users make a conscious choice
+            // Close modal when clicking outside (optional - commented out for user choice)
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        // Optional: You could make clicking outside NOT close the modal
+                        // to ensure users make a conscious choice
+                        // hideCookieModal();
+                    }
+                });
+            }
+        }, 100); // Small delay to ensure DOM is ready
+
+        // Handle escape key and keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('cookie-consent-modal');
+            if (modal && modal.style.display !== 'none' && modal.getAttribute('aria-hidden') === 'false') {
+                if (e.key === 'Escape') {
+                    // Optional: Allow escape to close modal
                     // hideCookieModal();
                 }
-            });
-        }
-
-        // Handle escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal && modal.style.display !== 'none') {
-                // Optional: Allow escape to close modal
-                // hideCookieModal();
+                
+                // Trap focus within modal when it's open
+                if (e.key === 'Tab') {
+                    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+                    
+                    if (e.shiftKey) {
+                        // Shift + Tab
+                        if (document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        }
+                    } else {
+                        // Tab
+                        if (document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                }
             }
         });
 
         // Show the modal after a short delay to ensure page is loaded
         setTimeout(function() {
-            showCookieModal();
+            // Double-check that modal exists before showing it
+            const modal = document.getElementById('cookie-consent-modal');
+            if (modal && !hasAcceptedCookies()) {
+                showCookieModal();
+            }
         }, 1000);
     }
 
@@ -212,6 +287,26 @@
             console.log('Cookie consent reset. Refresh the page to see the modal again.');
         } catch (error) {
             console.error('Error resetting cookie consent:', error);
+        }
+    };
+
+    /**
+     * Debug function to check modal state
+     */
+    window.debugCookieModal = function() {
+        const modal = document.getElementById('cookie-consent-modal');
+        const acceptBtn = document.getElementById('accept-cookies');
+        
+        console.log('Modal element:', modal);
+        console.log('Accept button element:', acceptBtn);
+        console.log('Modal display style:', modal ? modal.style.display : 'not found');
+        console.log('Modal aria-hidden:', modal ? modal.getAttribute('aria-hidden') : 'not found');
+        console.log('Button disabled:', acceptBtn ? acceptBtn.disabled : 'not found');
+        console.log('Button pointer-events:', acceptBtn ? window.getComputedStyle(acceptBtn).pointerEvents : 'not found');
+        
+        if (modal && acceptBtn) {
+            console.log('Modal z-index:', window.getComputedStyle(modal).zIndex);
+            console.log('Button z-index:', window.getComputedStyle(acceptBtn).zIndex);
         }
     };
 

@@ -460,7 +460,6 @@ apiui/
 ├── frontend/                 # Web interface
 │   ├── index.html            # Main application interface
 │   ├── docs.html             # Documentation page
-│   ├── api-hub.html          # API management interface
 │   ├── socket-chat.html      # Chat interface
 │   ├── api-docs.html         # API documentation viewer
 │   └── dist/                 # Built assets

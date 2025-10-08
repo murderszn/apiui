@@ -1,24 +1,4 @@
 User-agent: *
 Allow: /
 
-# Disallow test and development files
-Disallow: /test-*.html
-Disallow: /test_copy.html
-Disallow: /*.log
-Disallow: /uploads/
-
-# Allow important pages
-Allow: /index.html
-Allow: /docs.html
-Allow: /app.html
-Allow: /api-hub.html
-Allow: /socket-chat.html
-Allow: /data-editor.html
-Allow: /api-analytics.html
-Allow: /cookie-policy.html
-
-# Crawl delay for respectful crawling
-Crawl-delay: 1
-
-# Sitemap location
 Sitemap: https://apiui.web.app/sitemap.xml
