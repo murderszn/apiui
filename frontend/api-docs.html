@@ -878,12 +878,38 @@
         </div>
     </div>
 
-    <!-- Main Content -->
-    <main class="flex-grow">
-        <!-- Hero Section -->
-        <section class="py-8">
-            <div class="pixel-container">
-                <div class="pixel-card outer-container p-6 pixel-fade-in">
+    <!-- Scrolling Marquee -->
+    <div class="marquee overflow-hidden">
+        <div class="marquee-content">
+            🌟 Discover APIUI's full potential • Transform your data into powerful APIs instantly • <a href="mcp-chat.html" class="marquee-link">Try MCP Chat</a> - chat with your APIs using natural language • <a href="learn-more.html" class="marquee-link">Learn More</a> about building integrations with AI, payments, and communication services • Join our community of API creators • 🌟 Discover APIUI's full potential • Transform your data into powerful APIs instantly • <a href="mcp-chat.html" class="marquee-link">Try MCP Chat</a> - chat with your APIs using natural language • <a href="learn-more.html" class="marquee-link">Learn More</a> about building integrations with AI, payments, and communication services • Join our community of API creators •
+        </div>
+    </div>
+
+    <main class="flex-1 relative z-10">
+        <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+        <section class="bg-white text-slate-900 overflow-hidden relative">
+            <!-- Hero Background Image -->
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <img src="images/cube-hero.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+            </div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-24 relative z-10">
+                <div class="grid gap-16 md:grid-cols-[1.05fr_minmax(0,0.95fr)] items-center">
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">API DOCS</p>
+                        </div>
+                        <h1 class="pixel-heading text-3xl sm:text-4xl md:text-5xl leading-tight text-slate-900 tracking-[0.18em]">
+                            Professional API documentation made simple
+                        </h1>
+                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl">
+                            Generate comprehensive API documentation automatically from your data. Interactive examples, real-time testing, and seamless integration with your development workflow. Built for developers who value clarity and precision.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+                            <a href="#api-content" class="hub-btn hub-btn-primary">Explore Documentation</a>
+                            <a href="app.html" class="hub-btn hub-btn-secondary">Create Your API</a>
+                        </div>
+                    </div>
             <div class="flex items-start justify-between mb-8">
                 <div class="flex items-start space-x-6 flex-1">
                     <div class="pixel-card w-20 h-20 flex items-center justify-center flex-shrink-0">

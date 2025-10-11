@@ -13,13 +13,13 @@
     <meta name="theme-color" content="#0f172a">
     <meta name="language" content="English">
     <link rel="canonical" href="https://apiui.web.app/api-analytics.html">
-    
+
     <!-- Favicon and Icons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-    
+
     <!-- Open Graph Meta Tags for Social Sharing -->
     <meta property="og:site_name" content="APIUI">
     <meta property="og:type" content="website">
@@ -30,7 +30,7 @@
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
     <meta property="og:image:alt" content="APIUI - API Analytics">
-    
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="APIUI API Analytics | Monitor Your APIs">
@@ -41,109 +41,373 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style"" crossorigin onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"" crossorigin></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" crossorigin onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
 
     <script src="https://cdn.tailwindcss.com" crossorigin></script>
     <script>
         window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
     </script>
+    <style>
+        :root {
+            --hub-pink: #ec4899;
+            --hub-pink-soft: #f472b6;
+            --hub-purple: #7c3aed;
+            --hub-purple-soft: #a855f7;
+            --hub-ink: #0f172a;
+            --hub-ink-soft: #1f2937;
+            --hub-surface: #ffffff;
+            --hub-muted: #64748b;
+            --hub-border: rgba(15, 23, 42, 0.12);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--hub-surface);
+            color: var(--hub-ink);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .pixel-heading {
+            font-family: 'Pixelify Sans', monospace;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .hub-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border: 2px solid var(--hub-ink);
+            border-radius: 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, color 0.25s ease;
+        }
+
+        .hub-btn:focus {
+            outline: 2px solid var(--hub-pink);
+            outline-offset: 3px;
+        }
+
+        .hub-btn-primary {
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 48%, var(--hub-purple) 100%);
+            color: #fff;
+            box-shadow: 0 0 0 2px #ffffff inset, 4px 4px 0 rgba(15, 23, 42, 0.45);
+        }
+
+        .hub-btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+        .hub-btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent 65%);
+            mix-blend-mode: screen;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .hub-btn-primary:hover {
+            transform: translate(-3px, -3px);
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-purple) 45%, var(--hub-pink-soft) 85%);
+            box-shadow: 0 0 0 2px #ffffff inset, 6px 6px 0 rgba(124, 58, 237, 0.45), 0 0 18px rgba(124, 58, 237, 0.35);
+        }
+
+        .hub-btn-primary:hover::before {
+            opacity: 0.75;
+        }
+
+        .hub-btn-secondary {
+            border: 2px solid transparent;
+            color: var(--hub-ink);
+            background: linear-gradient(var(--hub-surface), var(--hub-surface)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 3px 3px 0 rgba(15, 23, 42, 0.25);
+        }
+
+        .hub-btn-secondary:hover {
+            transform: translate(-3px, -3px);
+            color: #fff;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple-soft) 45%, var(--hub-ink) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7) inset, 5px 5px 0 rgba(236, 72, 153, 0.4), 0 0 16px rgba(236, 72, 153, 0.3);
+        }
+
+        .api-card {
+            position: relative;
+            background-color: var(--hub-surface);
+            border: 1px solid var(--hub-border);
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .api-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.12), 0 0 12px rgba(236, 72, 153, 0.1);
+            border-color: rgba(236, 72, 153, 0.2);
+        }
+
+        .pixel-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--hub-pink);
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .hub-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%);
+            color: white;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Hide floating sidebar on mobile devices */
+        @media (max-width: 768px) {
+            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
-<body class="bg-white">
-    <!-- Header -->
-    <header class="bg-white">
+<body class="bg-white text-slate-900 flex flex-col min-h-screen authenticated">
+    <div class="shadow-grid"></div>
+
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="floating-sidebar-container bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+
+                <!-- Dashboard -->
+                <a href="app.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
+
+                <!-- MCP Chat -->
+                <a href="mcp-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="MCP Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
+                    </svg>
+                </a>
+
+                <!-- MCP Server -->
+                <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="MCP Server">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                    </svg>
+                </a>
+
+                <!-- Analytics -->
+                <a href="api-analytics.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="API Analytics">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrolling Marquee -->
+    <div class="marquee overflow-hidden">
+        <div class="marquee-content">
+            🌟 Discover APIUI's full potential • Transform your data into powerful APIs instantly • <a href="mcp-chat.html" class="marquee-link">Try MCP Chat</a> - chat with your APIs using natural language • <a href="learn-more.html" class="marquee-link">Learn More</a> about building integrations with AI, payments, and communication services • Join our community of API creators • 🌟 Discover APIUI's full potential • Transform your data into powerful APIs instantly • <a href="mcp-chat.html" class="marquee-link">Try MCP Chat</a> - chat with your APIs using natural language • <a href="learn-more.html" class="marquee-link">Learn More</a> about building integrations with AI, payments, and communication services • Join our community of API creators •
+        </div>
+    </div>
+    <header class="bg-white border-b border-slate-200/70 relative z-10">
         <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
-                    api<span class="text-pink-500">UI</span>
+                    api<span class="text-pink-400">UI</span>
                 </a>
                 <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Home</a>
-                <a href="mcp-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Chat</a>
-                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">MCP</a>
+                <a href="mcp-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Chat</a>
+                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Docs</a>
+                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Learn more</a>
             </div>
-            <div class="md:hidden">
-                <button id="mobile-menu-toggle" class="pixel-heading text-slate-700 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
         </nav>
+        <!-- Mobile Navigation Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
-            <div class="px-4 py-4 space-y-4">
-                <a href="index.html" class="block pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Home</a>
-                <a href="mcp-chat.html" class="block pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Chat</a>
-                <a href="docs.html" class="block pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="app.html" class="block pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
+            <div class="pixel-container py-4 space-y-4">
+                <a href="app.html" class="block text-black hover:text-pink-500 font-medium py-2">App</a>
+                <a href="mcp.html" class="block text-black hover:text-pink-500 font-medium py-2">MCP</a>
+                <a href="mcp-chat.html" class="block text-black hover:text-pink-500 font-medium py-2">Chat</a>
+                <a href="docs.html" class="block text-black hover:text-pink-500 font-medium py-2">Docs</a>
+                <a href="learn-more.html" class="block text-black hover:text-pink-500 font-medium py-2">Learn more</a>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="min-h-screen">
-        <!-- Hero Section -->
-        <section class="bg-gradient-to-br from-slate-50 to-white py-16">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6">
-                <div class="text-center mb-12">
-                    <h1 class="arcade-title text-4xl sm:text-5xl text-slate-900 mb-4">
-                        API <span class="arcade-neon">Analytics</span>
-                    </h1>
-                    <p class="pixel-body text-lg text-slate-600 max-w-2xl mx-auto">
-                        Monitor your API performance, track request patterns, and analyze usage metrics across all your generated endpoints.
+    <main class="flex-1 relative z-10">
+        <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+        <section class="bg-white text-slate-900 overflow-hidden relative">
+            <!-- Hero Background Image -->
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <img src="images/cube-analytics.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+            </div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-24 relative z-10">
+                <div class="grid gap-16 md:grid-cols-[1.05fr_minmax(0,0.95fr)] items-center">
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">API ANALYTICS</p>
+                        </div>
+                        <h1 class="pixel-heading text-3xl sm:text-4xl md:text-5xl leading-tight text-slate-900 tracking-[0.18em]">
+                            Monitor and analyze your APIs with comprehensive dashboards
+                        </h1>
+                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl">
+                            Track request patterns, API performance, and usage metrics across all your generated endpoints. Get real-time insights and detailed analytics to optimize your API ecosystem.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+                            <a href="#analytics-dashboard" class="hub-btn hub-btn-primary">View Analytics</a>
+                            <a href="app.html" class="hub-btn hub-btn-secondary">Create API</a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <!-- Analytics Feature Card -->
+                        <div class="relative border border-slate-200 bg-white p-6 overflow-hidden api-card">
+                            <div class="absolute inset-0 opacity-5" aria-hidden="true">
+                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(236, 72, 153, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.1) 1px, transparent 1px); background-size: 28px 28px;"></div>
+                            </div>
+                            <div class="relative space-y-3">
+                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-400">REAL-TIME METRICS</p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-slate-700 font-medium">API Performance</span>
+                                        <span class="hub-pill">Live</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-slate-700 font-medium">Usage Analytics</span>
+                                        <span class="hub-pill">Ready</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-slate-700 font-medium">Error Tracking</span>
+                                        <span class="hub-pill">Ready</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Dashboard Section -->
+    <section id="analytics-dashboard" class="bg-white border-b border-slate-200/70 relative">
+        <div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 24px 24px;"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-10 relative">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <span class="pixel-dot"></span>
+                        <p class="pixel-heading eyebrow text-pink-400">Dashboard</p>
+                    </div>
+                    <h2 class="text-3xl font-semibold tracking-tight">API Analytics Overview</h2>
+                    <p class="text-base text-slate-600 max-w-2xl">
+                        Monitor your API performance with comprehensive analytics. Track request patterns, response times, and usage metrics across all your endpoints.
                     </p>
                 </div>
+            </div>
 
-                <!-- Overview Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-slate-600">Total APIs</p>
-                                <p id="total-apis" class="text-3xl font-bold text-slate-900">-</p>
-                            </div>
-                            <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                                </svg>
-                            </div>
+            <!-- Overview Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="api-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-slate-600">Total APIs</p>
+                            <p id="total-apis" class="text-3xl font-bold text-slate-900">-</p>
+                        </div>
+                        <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
                         </div>
                     </div>
+                </div>
 
-                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-slate-600">Active APIs</p>
-                                <p id="active-apis" class="text-3xl font-bold text-green-600">-</p>
-                            </div>
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </div>
+                <div class="api-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-slate-600">Active APIs</p>
+                            <p id="active-apis" class="text-3xl font-bold text-green-600">-</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
                         </div>
                     </div>
+                </div>
 
-                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-slate-600">Total Requests</p>
-                                <p id="total-requests" class="text-3xl font-bold text-blue-600">-</p>
-                            </div>
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                </svg>
-                            </div>
+                <div class="api-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-sm font-medium text-slate-600">Total Requests</p>
+                            <p id="total-requests" class="text-3xl font-bold text-blue-600">-</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
                         </div>
                     </div>
+                </div>
 
-                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
+                <div class="api-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
                                 <p class="text-sm font-medium text-slate-600">Avg Response Time</p>
                                 <p id="avg-response-time" class="text-3xl font-bold text-purple-600">-</p>
                             </div>
