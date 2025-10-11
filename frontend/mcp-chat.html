@@ -220,50 +220,6 @@
             box-shadow: none !important;
         }
 
-        /* Marquee Styles */
-        .marquee {
-            position: relative;
-            width: 100%;
-            background-color: rgba(255, 248, 251, 0.85);
-            border-bottom: 1px solid rgba(236, 72, 153, 0.08);
-        }
-
-        .marquee-content {
-            display: inline-block;
-            white-space: nowrap;
-            animation: scroll 20s linear infinite;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            font-weight: 500;
-            letter-spacing: 0.025em;
-            color: var(--hub-ink);
-            padding: 0.75rem 0;
-        }
-
-        .marquee-content:hover {
-            animation-play-state: paused;
-        }
-
-        .marquee-link {
-            color: var(--hub-pink);
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .marquee-link:hover {
-            color: var(--hub-purple);
-            text-decoration: underline;
-        }
-
-        @keyframes scroll {
-            0% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
 
         /* Hide floating sidebar on mobile devices */
         @media (max-width: 768px) {
@@ -496,12 +452,6 @@
         </div>
     </div>
 
-    <!-- Scrolling Marquee -->
-    <div class="marquee overflow-hidden">
-        <div class="marquee-content">
-            🌟 Chat with your APIs using natural language powered by MCP • Ask questions about your data in plain English • Get instant responses from multiple APIs • <a href="docs.html" class="marquee-link">Learn More</a> about MCP integration • Join the conversation • 🌟 Chat with your APIs using natural language powered by MCP • Ask questions about your data in plain English • Get instant responses from multiple APIs • <a href="docs.html" class="marquee-link">Learn More</a> about MCP integration • Join the conversation •
-        </div>
-    </div>
 
     <header class="bg-white border-b border-slate-200/70 relative z-10">
         <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
