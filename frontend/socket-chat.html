@@ -35,7 +35,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.7.5/dist/socket.io.min.js"></script>
     <script>
         // Configure backend URLs for the frontend
@@ -45,10 +44,14 @@
                            window.location.hostname === '';
 
         // Flask backend for API operations - Always use Cloud Run
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
 
-        // Firebase Functions chat server for communication - Always use Cloud Functions
-        window.CHAT_SERVER_URL = 'https://us-central1-ai-apiui.cloudfunctions.net/chat';
+        // Cloud Run backend for chat communication
+        window.CHAT_SERVER_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
+
+        console.log('🔍 [DEBUG] Socket Chat Page Loaded');
+        console.log('🔍 [DEBUG] APIUI_AUTH_BASE_URL:', window.APIUI_AUTH_BASE_URL);
+        console.log('🔍 [DEBUG] CHAT_SERVER_URL:', window.CHAT_SERVER_URL);
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
@@ -65,6 +68,18 @@
             --pixel-gray-100: #f8fafc;  /* Lightest gray */
             --pixel-gray-200: #e2e8f0;  /* Very light gray */
             --pixel-gray-300: #cbd5e1;  /* Light gray */
+            --pixel-gray-800: #1f2937;  /* Dark gray */
+
+            /* Hub-themed variables */
+            --hub-pink: #ec4899;
+            --hub-pink-soft: #f472b6;
+            --hub-purple: #7c3aed;
+            --hub-purple-soft: #a855f7;
+            --hub-ink: #0f172a;
+            --hub-ink-soft: #1f2937;
+            --hub-surface: #ffffff;
+            --hub-muted: #64748b;
+            --hub-border: rgba(15, 23, 42, 0.12);
         }
 
         /* CTA Button with Layered Glow Effect */
@@ -107,7 +122,8 @@
 
         .chat-message {
             animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
         }
 
         .chat-message.user {
@@ -115,10 +131,10 @@
         }
 
         .chat-message.user .message-bubble {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
-            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 48%, var(--hub-purple) 100%);
+            color: #fff;
+            border: 2px solid var(--hub-ink);
+            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.3), 0 0 20px rgba(236, 72, 153, 0.2);
         }
 
         .chat-message.bot {
@@ -126,34 +142,78 @@
         }
 
         .chat-message.bot .message-bubble {
-            background: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
-            color: var(--pixel-black);
-            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid var(--hub-border);
+            color: var(--hub-ink);
+            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.08), 0 0 16px rgba(15, 23, 42, 0.05);
         }
 
         .message-bubble {
-            padding: 1rem 1.25rem;
+            padding: 1.25rem 1.5rem;
             border-radius: 0;
             max-width: 75%;
             word-wrap: break-word;
-            line-height: 1.5;
+            line-height: 1.6;
             font-size: 0.95rem;
             position: relative;
-            transition: all 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(8px);
         }
 
         .message-bubble.user-bubble {
             border-bottom-right-radius: 0;
+            border-top-right-radius: 1rem;
         }
 
         .message-bubble.bot-bubble {
             border-bottom-left-radius: 0;
+            border-top-left-radius: 1rem;
         }
 
         .message-bubble:hover {
-            transform: translateY(-1px);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 rgba(15, 23, 42, 0.15), 0 0 24px rgba(236, 72, 153, 0.15);
+        }
+
+        .message-bubble.user:hover {
+            box-shadow: 6px 6px 0 rgba(15, 23, 42, 0.4), 0 0 24px rgba(236, 72, 153, 0.3);
+        }
+
+        /* Message avatar styles */
+        .message-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0;
+            border: 2px solid var(--hub-border);
+            background: linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: white;
+            margin: 0 0.75rem;
+            flex-shrink: 0;
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.1);
+        }
+
+        .message-avatar.user {
+            order: 2;
+            background: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 100%);
+        }
+
+        .message-avatar.bot {
+            order: 0;
+            background: linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%);
+        }
+
+        .chat-message.user .message-content {
+            order: 1;
+        }
+
+        .chat-message.bot .message-content {
+            order: 1;
         }
 
         @keyframes slideIn {
@@ -442,6 +502,155 @@
             box-shadow: none !important;
         }
 
+        /* Marquee Styles */
+        .marquee {
+            position: relative;
+            width: 100%;
+            background-color: rgba(255, 248, 251, 0.85);
+            border-bottom: 1px solid rgba(236, 72, 153, 0.08);
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scroll 20s linear infinite;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            color: var(--hub-ink);
+            padding: 0.75rem 0;
+        }
+
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-link {
+            color: var(--hub-pink);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .marquee-link:hover {
+            color: var(--hub-purple);
+            text-decoration: underline;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Hub Button Styles */
+        .hub-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border: 2px solid var(--hub-ink);
+            border-radius: 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, color 0.25s ease;
+        }
+
+        .hub-btn:focus {
+            outline: 2px solid var(--hub-pink);
+            outline-offset: 3px;
+        }
+
+        .hub-btn-primary {
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 48%, var(--hub-purple) 100%);
+            color: #fff;
+            box-shadow: 0 0 0 2px #ffffff inset, 4px 4px 0 rgba(15, 23, 42, 0.45);
+        }
+
+        .hub-btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+        .hub-btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent 65%);
+            mix-blend-mode: screen;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .hub-btn-primary:hover {
+            transform: translate(-3px, -3px);
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-purple) 45%, var(--hub-pink-soft) 85%);
+            box-shadow: 0 0 0 2px #ffffff inset, 6px 6px 0 rgba(124, 58, 237, 0.45), 0 0 18px rgba(124, 58, 237, 0.35);
+        }
+
+        .hub-btn-primary:hover::before {
+            opacity: 0.75;
+        }
+
+        .hub-btn-secondary {
+            border: 2px solid transparent;
+            color: var(--hub-ink);
+            background: linear-gradient(var(--hub-surface), var(--hub-surface)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 3px 3px 0 rgba(15, 23, 42, 0.25);
+        }
+
+        .hub-btn-secondary:hover {
+            transform: translate(-3px, -3px);
+            color: #fff;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple-soft) 45%, var(--hub-ink) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7) inset, 5px 5px 0 rgba(236, 72, 153, 0.4), 0 0 16px rgba(236, 72, 153, 0.3);
+        }
+
+        /* Hub Pill Styles */
+        .hub-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid rgba(236, 72, 153, 0.45);
+            background-color: rgba(236, 72, 153, 0.08);
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Hub Divider */
+        .hub-divider {
+            width: 100%;
+            height: 1px;
+            background-image: linear-gradient(90deg, rgba(15, 23, 42, 0.12) 0, transparent 50%, rgba(15, 23, 42, 0.12) 100%);
+            background-size: 24px 1px;
+            opacity: 0.75;
+        }
+
+        /* Eyebrow text */
+        .eyebrow {
+            letter-spacing: 0.32em;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
         /* Hide floating sidebar on mobile devices */
         @media (max-width: 768px) {
             .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
@@ -450,36 +659,7 @@
         }
     </style>
 </head>
-<body class="bg-white">
-    <!-- Pixel Loading Screen -->
-    <div id="pixel-loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
-        <div class="text-center">
-            <!-- Pixel Logo Animation -->
-            <div class="mb-8">
-                <div class="inline-block relative">
-                    <div class="text-4xl arcade-title text-black mb-4">api<span class="arcade-neon">UI</span></div>
-                    <div class="flex justify-center space-x-1">
-                        <div class="w-3 h-3 bg-pink-500 animate-pulse"></div>
-                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.2s"></div>
-                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.4s"></div>
-                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.6s"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Loading Text -->
-            <div class="pixel-subtitle text-black text-lg mb-4">CONNECTING TO CHAT...</div>
-
-            <!-- Pixel Loading Bar -->
-            <div class="w-64 h-4 bg-gray-200 border-2 border-gray-400 mx-auto relative overflow-hidden">
-                <div id="loading-bar" class="h-full bg-gradient-to-r from-pink-500 to-pink-600 transition-all duration-1000 ease-out" style="width: 0%"></div>
-            </div>
-
-            <!-- Fun Loading Messages -->
-            <div id="loading-message" class="pixel-body text-gray-600 text-sm mt-4">Initializing chat connection...</div>
-        </div>
-    </div>
-
+<body class="flex flex-col min-h-screen">
     <!-- Floating Navigation Sidebar -->
     <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
         <div class="floating-sidebar-container bg-white p-2 shadow-lg">
@@ -498,13 +678,12 @@
                     </svg>
                 </a>
 
-                <!-- Docs -->
-                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                <!-- MCP Chat -->
+                <a href="mcp-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Chat">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
                     </svg>
                 </a>
-
 
                 <!-- MCP Server -->
                 <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
@@ -513,31 +692,38 @@
                     </svg>
                 </a>
 
-                <!-- Socket Chat -->
-                <a href="socket-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                <!-- Docs -->
+                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
                 </a>
             </div>
         </div>
     </div>
 
+    <!-- Scrolling Marquee -->
+    <div class="marquee overflow-hidden">
+        <div class="marquee-content">
+            🌟 Real-time API chat powered by Socket.io • Connect to your data APIs instantly • Ask natural language questions about your datasets • <a href="docs.html" class="marquee-link">Learn More</a> about the API documentation • Join the community of API creators • 🌟 Real-time API chat powered by Socket.io • Connect to your data APIs instantly • Ask natural language questions about your datasets • <a href="docs.html" class="marquee-link">Learn More</a> about the API documentation • Join the community of API creators •
+        </div>
+    </div>
+
     <!-- Header -->
-    <header class="bg-white">
+    <header class="bg-white border-b border-slate-200/70 relative z-10">
         <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
-                    api<span class="text-pink-500">UI</span>
+                    api<span class="text-pink-400">UI</span>
                 </a>
                 <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
-                <span class="ml-4 pixel-heading text-xs text-pink-500 tracking-[0.32em] uppercase">SocketChat BETA</span>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
-                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
-                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
+                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">MCP</a>
+                <a href="mcp-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">MCP Chat</a>
+                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Docs</a>
+                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Learn more</a>
             </div>
             <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="md:hidden p-2">
@@ -551,361 +737,387 @@
             <div class="pixel-container py-4 space-y-4">
                 <a href="app.html" class="block text-gray-700 hover:text-black font-medium py-2">App</a>
                 <a href="mcp.html" class="block text-gray-700 hover:text-black font-medium py-2">MCP</a>
+                <a href="mcp-chat.html" class="block text-gray-700 hover:text-black font-medium py-2">MCP Chat</a>
                 <a href="docs.html" class="block text-gray-700 hover:text-black font-medium py-2">Docs</a>
                 <a href="learn-more.html" class="block text-gray-700 hover:text-black font-medium py-2">Learn more</a>
             </div>
         </div>
     </header>
 
-    <!-- Quick Actions Toolbar -->
-    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-4">
-        <div class="bg-white rounded-lg shadow-lg border border-black p-4">
-            <div class="flex flex-wrap gap-3 justify-center md:justify-start">
-                <button
-                    id="sampleQueryBtn"
-                    class="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none whitespace-nowrap"
-                    disabled
-                >
-                    Show me a sample
-                </button>
-                <button
-                    id="countQueryBtn"
-                    class="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none whitespace-nowrap"
-                    disabled
-                >
-                    Count records
-                </button>
-                <button
-                    id="schemaQueryBtn"
-                    class="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none whitespace-nowrap"
-                    disabled
-                >
-                    Show columns
-                </button>
-                <button
-                    id="describeQueryBtn"
-                    class="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none whitespace-nowrap"
-                    disabled
-                >
-                    Describe data
-                </button>
+    <main class="flex-1 relative z-10">
+        <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+        <section class="bg-white text-slate-900 overflow-hidden relative">
+            <!-- Hero Background Image -->
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <img src="images/cube-hero.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
             </div>
-        </div>
-    </div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-24 relative z-10">
+                <div class="grid gap-16 md:grid-cols-[1.05fr_minmax(0,0.95fr)] items-center">
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">SOCKET CHAT</p>
+                        </div>
+                        <h1 class="pixel-heading text-3xl sm:text-4xl md:text-5xl leading-tight text-slate-900 tracking-[0.18em]">
+                            Chat with your APIs in real-time
+                        </h1>
+                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl">
+                            Connect directly to your APIUI-generated APIs using natural language. Ask questions about your data, run queries, and get instant responses powered by Socket.io technology.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+                            <button onclick="document.getElementById('apiSelect').scrollIntoView({behavior: 'smooth'})" class="hub-btn hub-btn-primary">Start Chatting</button>
+                            <a href="docs.html" class="hub-btn hub-btn-secondary">View Documentation</a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <!-- Chat Preview Card -->
+                        <div class="relative border border-slate-200 bg-white p-6 overflow-hidden api-card mb-6">
+                            <div class="absolute inset-0 opacity-5" aria-hidden="true">
+                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(236, 72, 153, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.1) 1px, transparent 1px); background-size: 28px 28px;"></div>
+                            </div>
+                            <div class="relative space-y-3">
+                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-400">LIVE DEMO</p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-slate-700 font-medium">Real-time API Connection</span>
+                                        <span class="hub-pill">Connected</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-slate-700 font-medium">Natural Language Queries</span>
+                                        <span class="hub-pill">Ready</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-slate-700 font-medium">Instant Responses</span>
+                                        <span class="hub-pill">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 h-screen flex flex-col">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
+                        <!-- Features Card -->
+                        <div class="relative border border-slate-200 bg-white p-6 overflow-hidden api-card">
+                            <div class="absolute inset-0 opacity-5" aria-hidden="true">
+                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.05) 1px, transparent 1px); background-size: 24px 24px;"></div>
+                            </div>
+                            <div class="relative">
+                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-400 mb-3">FEATURES</p>
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2">Interactive API Communication</h3>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    Experience the future of API interaction with real-time chat powered by Socket.io. Connect to any APIUI-generated API and start asking questions immediately.
+                                </p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3">
+                                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-sm text-slate-700">Real-time bidirectional communication</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-sm text-slate-700">Natural language query processing</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-sm text-slate-700">JSON response formatting</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+        <!-- Quick Actions Toolbar -->
+        <section class="bg-white border-b border-slate-200/70 relative">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-10 relative">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading eyebrow text-pink-400">Chat Interface</p>
+                        </div>
+                        <h2 class="text-3xl font-semibold tracking-tight">Interactive API Communication</h2>
+                        <p class="text-base text-slate-600 max-w-2xl">
+                            Select an API and start asking questions about your data. Use the quick action buttons or type your own queries in natural language.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg border border-black p-6">
+                    <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                        <button
+                            id="sampleQueryBtn"
+                            class="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none whitespace-nowrap"
+                            disabled
+                        >
+                            Show me a sample
+                        </button>
+                        <button
+                            id="countQueryBtn"
+                            class="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none whitespace-nowrap"
+                            disabled
+                        >
+                            Count records
+                        </button>
+                        <button
+                            id="schemaQueryBtn"
+                            class="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none whitespace-nowrap"
+                            disabled
+                        >
+                            Show columns
+                        </button>
+                        <button
+                            id="describeQueryBtn"
+                            class="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none whitespace-nowrap"
+                            disabled
+                        >
+                            Describe data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Chat Interface -->
+        <section class="bg-gray-50/70 relative">
+            <div class="absolute inset-0 pointer-events-none opacity-15" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 28px 28px;"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-12 relative">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
 
             <!-- API Selection Sidebar -->
             <div class="lg:col-span-1">
-                <div class="bg-white shadow-lg border-2 border-black p-8 flex-1 flex flex-col overflow-y-auto">
-                    <h2 class="text-xl font-bold text-black mb-6">Select API</h2>
+                <div class="relative bg-white shadow-lg border-2 border-black p-8 flex-1 flex flex-col overflow-y-auto api-card">
+                    <!-- Pixel Grid Background -->
+                    <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.08) 1px, transparent 1px); background-size: 20px 20px;"></div>
 
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3">Choose an API</label>
-                            <select
-                                id="apiSelect"
-                                class="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors text-base"
-                            >
-                                <option value="">Select an API to start chatting...</option>
-                            </select>
-                            <input
-                                type="text"
-                                id="apiIdInput"
-                                placeholder="Or enter a custom API ID manually"
-                                class="mt-3 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-colors text-sm"
-                            >
+                    <!-- Header -->
+                    <div class="relative mb-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading text-sm tracking-[0.32em] text-pink-400">API CONNECTION</p>
+                        </div>
+                        <h2 class="pixel-heading text-xl text-black tracking-[0.12em]">Select Your API</h2>
+                        <p class="text-sm text-slate-600 mt-2 leading-relaxed">Choose from available APIs or enter a custom ID to start chatting with your data.</p>
+                    </div>
+
+                    <!-- API Selection Form -->
+                    <div class="relative space-y-6 flex-1">
+                        <!-- API Dropdown -->
+                        <div class="space-y-3">
+                            <label class="block pixel-heading text-sm font-medium text-slate-900 tracking-[0.08em]">Available APIs</label>
+                            <div class="relative">
+                                <select
+                                    id="apiSelect"
+                                    class="w-full px-4 py-3 bg-white border-2 border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-all duration-200 text-slate-900 shadow-sm hover:border-slate-300 api-card"
+                                    style="border-radius: 0; box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.08);"
+                                >
+                                    <option value="">Select an API to start chatting...</option>
+                                </select>
+                                <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.05) 1px, transparent 1px); background-size: 16px 16px;"></div>
+                            </div>
                         </div>
 
-                        <button
-                            id="connectBtn"
-                            class="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                        >
-                            Connect to API
-                        </button>
+                        <!-- Custom API Input -->
+                        <div class="space-y-3">
+                            <label class="block pixel-heading text-sm font-medium text-slate-900 tracking-[0.08em]">Custom API ID</label>
+                            <div class="relative">
+                                <input
+                                    type="text"
+                                    id="apiIdInput"
+                                    placeholder="Enter custom API ID manually"
+                                    class="w-full px-4 py-3 bg-white border-2 border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-all duration-200 text-slate-900 shadow-sm hover:border-slate-300 api-card"
+                                    style="border-radius: 0; box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.08);"
+                                >
+                                <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.05) 1px, transparent 1px); background-size: 16px 16px;"></div>
+                            </div>
+                        </div>
 
-                        <div id="connectionStatus" class="text-sm text-gray-600">
-                            Status: <span class="text-red-500">Disconnected</span>
+                        <!-- Connect Button -->
+                        <div class="pt-4">
+                            <button
+                                id="connectBtn"
+                                class="hub-btn hub-btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                                </svg>
+                                Connect to API
+                            </button>
+                        </div>
+
+                        <!-- Connection Status -->
+                        <div class="relative bg-slate-50 border border-slate-200 p-4 api-card">
+                            <div class="absolute inset-0 opacity-8 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 12px 12px;"></div>
+                            <div class="relative flex items-center justify-between">
+                                <span class="pixel-heading text-sm text-slate-700 tracking-[0.08em]">Connection Status</span>
+                                <div id="connectionStatus" class="flex items-center gap-2">
+                                    <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                                    <span class="text-sm font-medium text-red-600">Disconnected</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Connection Info -->
-                    <div class="mt-6 pt-6 border-t border-gray-200">
-                        <h3 class="text-sm font-medium text-gray-900 mb-2">Connection Info</h3>
-                        <div class="text-xs text-gray-600 space-y-1">
-                            <div>Socket URL: <code class="bg-gray-100 px-1 py-0.5 rounded">/api/{api_id}</code></div>
-                            <div>Events: chat_message, query_data, stream_data</div>
+                    <div class="relative mt-8 pt-6 border-t border-slate-200">
+                        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 14px 14px;"></div>
+                        <div class="relative">
+                            <h3 class="pixel-heading text-sm font-medium text-slate-900 mb-4 tracking-[0.08em]">Technical Details</h3>
+                            <div class="space-y-3 text-xs text-slate-600">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-3 h-3 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                                    </svg>
+                                    <span>Socket URL: <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono">/api/{api_id}</code></span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-3 h-3 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                                    </svg>
+                                    <span>Events: <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800 font-mono">chat_message, query_data, stream_data</code></span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-3 h-3 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                    </svg>
+                                    <span>Powered by Socket.io & AI</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <!-- Chat Interface -->
             <div class="lg:col-span-2">
-                <div class="bg-white shadow-lg border-2 border-black flex-1 flex flex-col overflow-hidden">
+                <div class="relative bg-white shadow-lg border-2 border-black flex-1 flex flex-col overflow-hidden api-card">
+                    <!-- Pixel Grid Background -->
+                    <div class="absolute inset-0 opacity-3 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 24px 24px;"></div>
 
                     <!-- Chat Header -->
-                    <div class="px-8 py-6 border-b border-black bg-white">
-                        <h2 class="text-xl font-bold text-black">Chat with your API</h2>
-                        <p class="text-sm font-medium text-gray-600 mt-1" id="api-status">Ask questions about your data</p>
+                    <div class="relative px-8 py-6 border-b-2 border-black bg-gradient-to-r from-white to-slate-50">
+                        <div class="absolute inset-0 opacity-8 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.06) 1px, transparent 1px); background-size: 16px 16px;"></div>
+                        <div class="relative flex items-center justify-between">
+                            <div>
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="pixel-dot"></span>
+                                    <p class="pixel-heading text-sm tracking-[0.32em] text-pink-400">LIVE CHAT</p>
+                                </div>
+                                <h2 class="pixel-heading text-xl text-black tracking-[0.12em]">Chat with your API</h2>
+                            </div>
+                            <div class="hidden sm:flex items-center gap-2">
+                                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+                                <span class="pixel-heading text-xs text-slate-600 tracking-[0.08em]">Real-time</span>
+                            </div>
+                        </div>
+                        <p class="text-sm font-medium text-slate-600 mt-3 leading-relaxed" id="api-status">
+                            <span class="inline-flex items-center gap-2">
+                                <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                Ask natural language questions about your data
+                            </span>
+                        </p>
                     </div>
 
                     <!-- Messages Container -->
-                    <div id="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-2">
-                        <div class="text-center text-gray-500 py-4">
-                            <div class="text-lg font-medium text-black">Ready to chat</div>
-                            <p class="text-sm opacity-75">Select an API to get started</p>
+                    <div class="relative flex-1 overflow-y-auto p-6 bg-gradient-to-b from-slate-50/50 to-white">
+                        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 20px 20px;"></div>
+                        <div class="relative">
+                            <!-- Welcome Message -->
+                            <div class="text-center text-slate-500 py-12">
+                                <div class="max-w-md mx-auto">
+                                    <div class="mb-6">
+                                        <svg class="w-16 h-16 text-pink-400 mx-auto opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="pixel-heading text-lg font-medium text-black mb-2 tracking-[0.08em]">Ready to chat</div>
+                                    <p class="text-sm opacity-75 leading-relaxed">Select an API from the sidebar to start asking questions about your data in natural language.</p>
+                                </div>
+                            </div>
+                            <div id="messagesContainer" class="space-y-4">
+                                <!-- Messages will be inserted here dynamically -->
+                            </div>
                         </div>
                     </div>
 
                     <!-- Typing Indicator -->
-                    <div id="typingIndicator" class="typing-indicator px-8 pb-4">
-                        <div class="flex items-center space-x-3 text-gray-500">
+                    <div id="typingIndicator" class="typing-indicator relative px-8 py-4 bg-gradient-to-r from-slate-50 to-white border-t border-slate-200">
+                        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.05) 1px, transparent 1px); background-size: 12px 12px;"></div>
+                        <div class="relative flex items-center space-x-3 text-slate-600">
                             <div class="flex space-x-1">
-                                <div class="w-2 h-2 bg-gray-400 rounded-full pulse"></div>
-                                <div class="w-2 h-2 bg-gray-400 rounded-full pulse" style="animation-delay: 0.2s"></div>
-                                <div class="w-2 h-2 bg-gray-400 rounded-full pulse" style="animation-delay: 0.4s"></div>
+                                <div class="w-2 h-2 bg-pink-400 rounded-full pulse shadow-sm shadow-pink-400/50"></div>
+                                <div class="w-2 h-2 bg-pink-400 rounded-full pulse shadow-sm shadow-pink-400/50" style="animation-delay: 0.2s"></div>
+                                <div class="w-2 h-2 bg-pink-400 rounded-full pulse shadow-sm shadow-pink-400/50" style="animation-delay: 0.4s"></div>
                             </div>
-                            <span class="text-sm">API is thinking...</span>
+                            <span class="text-sm font-medium pixel-heading tracking-[0.04em]">API is thinking...</span>
                         </div>
                     </div>
 
                     <!-- Message Input -->
-                    <div class="px-8 py-6 border-t-2 border-black bg-gray-50">
-                        <div class="flex space-x-3">
-                            <input
-                                type="text"
-                                id="messageInput"
-                                placeholder="Ask a question about your data..."
-                                class="flex-1 px-4 py-3 border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 bg-white"
-                                disabled
-                            >
-                            <button
-                                id="sendBtn"
-                                class="btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                                disabled
-                            >
-                                Send
-                            </button>
+                    <div class="relative px-8 py-6 border-t-2 border-black bg-gradient-to-r from-slate-50 to-white">
+                        <div class="absolute inset-0 opacity-8 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 18px 18px;"></div>
+                        <div class="relative space-y-4">
+                            <!-- Input Area -->
+                            <div class="flex space-x-3">
+                                <div class="relative flex-1">
+                                    <input
+                                        type="text"
+                                        id="messageInput"
+                                        placeholder="Ask a question about your data..."
+                                        class="w-full px-4 py-3 bg-white border-2 border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-slate-900 shadow-sm hover:border-slate-300 api-card"
+                                        style="border-radius: 0; box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.08);"
+                                        disabled
+                                    >
+                                    <div class="absolute inset-0 pointer-events-none opacity-5" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 14px 14px;"></div>
+                                </div>
+                                <button
+                                    id="sendBtn"
+                                    class="hub-btn hub-btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex-shrink-0"
+                                    disabled
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Helper Text -->
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-slate-500 opacity-75 flex items-center gap-2">
+                                    <svg class="w-3 h-3 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Try: "Show me the first 5 records", "How many records are there?", "What columns do I have?"
+                                </p>
+                                <div class="flex items-center gap-1 text-xs text-slate-400">
+                                    <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-slate-600 font-mono text-xs">Enter</kbd>
+                                    <span>to send</span>
+                                </div>
+                            </div>
                         </div>
-                        <p class="text-xs text-gray-500 mt-3 opacity-75">
-                            Try: "Show me the first 5 records", "How many records are there?", "What columns do I have?"
-                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <!-- Authentication JavaScript -->
+    <!-- Mobile Menu JavaScript -->
     <script>
-        // Initialize Supabase client
-        const supabaseUrl = 'https://witlgqqqsusdfxbejoqb.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpdGxncXFxc3VzZGZ4YmVqb3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MjQ3MDUsImV4cCI6MjA3NDMwMDcwNX0.UN7qm7bGk_-BrL_th2auH7lwW1OjqAdxOLpzqgfdHw4';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Authentication UI elements
-        const signinDropdownBtn = document.getElementById('signin-dropdown-btn');
-        const signinDropdown = document.getElementById('signin-dropdown');
-        const signedinDropdown = document.getElementById('signedin-dropdown');
-        const signinButtonLabel = document.getElementById('signin-button-label');
-        const signedinName = document.getElementById('signedin-name');
-        const signedinEmail = document.getElementById('signedin-email');
-        const signedinAvatar = document.getElementById('signedin-avatar');
-        const signedinProfileLink = document.getElementById('signedin-profile-link');
-        const logoutButtons = document.querySelectorAll('#logout-btn, #mobile-logout-btn');
-
         // Mobile elements
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        const mobileSigninToggle = document.getElementById('mobile-signin-toggle');
-        const mobileSigninOptions = document.getElementById('mobile-signin-options');
-        const mobileSignupOptions = document.getElementById('mobile-signup-options');
-        const mobileSignedinOptions = document.getElementById('mobile-signedin-options');
-        const mobileSignedoutOptions = document.getElementById('mobile-signedout-options');
-        const mobileSigninLabel = document.getElementById('mobile-signin-label');
-        const mobileSignedinName = document.getElementById('mobile-signedin-name');
-        const mobileSignedinEmail = document.getElementById('mobile-signedin-email');
-        const mobileSignedinAvatar = document.getElementById('mobile-signedin-avatar');
-        const mobileSignedinProfileLink = document.getElementById('mobile-signedin-profile-link');
 
-        // UI update functions
-        function clearImage(imgEl) {
-            if (!imgEl) return;
-            imgEl.classList.add('hidden');
-            imgEl.removeAttribute('src');
-        }
 
-        function setImage(imgEl, src) {
-            if (!imgEl) return;
-            if (src) {
-                imgEl.src = src;
-                imgEl.classList.remove('hidden');
-
-                // Add error handling for Google avatars
-                imgEl.onerror = function() {
-                    console.log('Avatar failed to load:', src);
-                    // Try to load a fallback avatar
-                    if (src && src.includes('googleusercontent.com')) {
-                        const fallbackSizes = ['s96-c', 's64-c', 's32-c'];
-                        for (const size of fallbackSizes) {
-                            if (!src.includes(size)) {
-                                const newSrc = src.replace(/=s\d+-c/, `=${size}`);
-                                if (newSrc !== src) {
-                                    console.log('Trying fallback avatar:', newSrc);
-                                    imgEl.src = newSrc;
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                    // If all fallbacks fail, hide the image
-                    clearImage(imgEl);
-                };
-            } else {
-                clearImage(imgEl);
-            }
-        }
-
-        function setProfileLink(linkEl, url, label) {
-            if (!linkEl) return;
-
-            if (url) {
-                linkEl.href = url;
-                const span = linkEl.querySelector('span');
-                if (span && label) {
-                    span.textContent = label;
-                }
-                linkEl.classList.remove('hidden');
-            } else {
-                linkEl.classList.add('hidden');
-                linkEl.removeAttribute('href');
-            }
-        }
-
-        function applySignedOutUI() {
-            if (signinButtonLabel) {
-                signinButtonLabel.textContent = 'Sign In';
-            }
-            if (mobileSigninLabel) {
-                mobileSigninLabel.textContent = 'Sign In';
-            }
-            if (signinDropdown) {
-                signinDropdown.classList.add('hidden');
-            }
-            if (signedinDropdown) {
-                signedinDropdown.classList.add('hidden');
-            }
-            if (mobileSignedoutOptions) {
-                mobileSignedoutOptions.classList.remove('hidden');
-            }
-            if (mobileSignedinOptions) {
-                mobileSignedinOptions.classList.add('hidden');
-            }
-            if (signedinName) {
-                signedinName.textContent = '';
-            }
-            if (signedinEmail) {
-                signedinEmail.textContent = '';
-                signedinEmail.classList.remove('hidden');
-            }
-            if (mobileSignedinName) {
-                mobileSignedinName.textContent = '';
-            }
-            if (mobileSignedinEmail) {
-                mobileSignedinEmail.textContent = '';
-                mobileSignedinEmail.classList.remove('hidden');
-            }
-            clearImage(signedinAvatar);
-            clearImage(mobileSignedinAvatar);
-            setProfileLink(signedinProfileLink, null);
-            setProfileLink(mobileSignedinProfileLink, null);
-        }
-
-        function applySignedInUI(session) {
-            if (!session || !session.user) {
-                applySignedOutUI();
-                return;
-            }
-
-            const user = session.user;
-            const provider = session.provider || 'account';
-            const displayName = user.name || user.login || (user.email ? user.email.split('@')[0] : '') || 'Account';
-            const email = user.email || '';
-            const avatar = user.avatar_url || user.picture || '';
-
-            // Update desktop UI
-            if (signinButtonLabel) {
-                signinButtonLabel.textContent = displayName;
-            }
-            if (signedinDropdown) {
-                signedinDropdown.classList.remove('hidden');
-            }
-            if (signinDropdown) {
-                signinDropdown.classList.add('hidden');
-            }
-
-            // Update mobile UI
-            if (mobileSignedinOptions) {
-                mobileSignedinOptions.classList.remove('hidden');
-            }
-            if (mobileSignedoutOptions) {
-                mobileSignedoutOptions.classList.add('hidden');
-            }
-            if (mobileSigninLabel) {
-                mobileSigninLabel.textContent = displayName;
-            }
-            if (mobileSignedinName) {
-                mobileSignedinName.textContent = displayName;
-            }
-            if (mobileSignedinEmail) {
-                mobileSignedinEmail.textContent = email;
-                mobileSignedinEmail.classList.remove('hidden');
-            }
-            setImage(mobileSignedinAvatar, avatar);
-            setProfileLink(mobileSignedinProfileLink, user.html_url || user.profile || null, 'View Profile');
-
-            // Update signed in elements
-            if (signedinName) {
-                signedinName.textContent = displayName;
-            }
-            if (signedinEmail) {
-                signedinEmail.textContent = email;
-                signedinEmail.classList.remove('hidden');
-            }
-            setImage(signedinAvatar, avatar);
-            setProfileLink(signedinProfileLink, user.html_url || user.profile || null, 'View Profile');
-        }
-
-        async function fetchAuthSession() {
-            try {
-                // Try Supabase first
-                const { data: { session }, error } = await supabase.auth.getSession();
-                if (!error && session) {
-                    applySignedInUI(session);
-                    return;
-                }
-            } catch (error) {
-                // Supabase check failed, continue to backend check
-            }
-
-            // Fallback to backend session check
-            const sessionUrl = 'http://localhost:8000/auth/session';
-            try {
-                const response = await fetch(sessionUrl, { credentials: 'include' });
-                if (!response.ok) {
-                    applySignedOutUI();
-                    return;
-                }
-                const data = await response.json();
-                applySignedInUI(data);
-            } catch (error) {
-                applySignedOutUI();
-            }
-        };
 
         // Mobile menu toggle
         if (mobileMenuBtn && mobileMenu) {
@@ -921,276 +1133,7 @@
             });
         }
 
-        // Sign-in dropdown functionality
-        if (signinDropdownBtn && signinDropdown) {
-            signinDropdownBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isVisible = !signinDropdown.classList.contains('opacity-0');
 
-                if (isVisible) {
-                    // Hide dropdown
-                    signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
-                    signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
-                } else {
-                    // Show dropdown
-                    signinDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
-                    signinDropdown.classList.add('opacity-100', 'visible', 'scale-100');
-                }
-            });
-        }
-
-        // Mobile signin toggle
-        if (mobileSigninToggle && mobileSigninOptions && mobileSignupOptions && mobileSignedinOptions) {
-            mobileSigninToggle.addEventListener('click', () => {
-                const isExpanded = !mobileSigninOptions.classList.contains('hidden');
-                if (isExpanded) {
-                    mobileSigninOptions.classList.add('hidden');
-                    mobileSignupOptions.classList.add('hidden');
-                } else {
-                    mobileSigninOptions.classList.remove('hidden');
-                    mobileSignupOptions.classList.add('hidden');
-                }
-            });
-        }
-
-        logoutButtons.forEach(button => {
-            button.addEventListener('click', async (event) => {
-                event.preventDefault();
-
-                // Try Supabase logout first
-                try {
-                    const { error } = await supabase.auth.signOut();
-                    if (!error) {
-                        sessionStorage.removeItem('supabase_session');
-                    }
-                } catch (e) {
-                    // Ignore Supabase logout errors
-                }
-
-                // Fallback to backend logout
-                const logoutUrl = 'http://localhost:8000/auth/logout';
-                try {
-                    await fetch(logoutUrl, { method: 'POST', credentials: 'include' });
-                } catch (error) {
-                    // Ignore logout errors
-                }
-                applySignedOutUI();
-            });
-        });
-
-        applySignedOutUI();
-        fetchAuthSession();
-
-        // Listen for auth state changes
-        supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('Supabase auth state changed:', event, session);
-            if (event === 'SIGNED_IN' && session) {
-                await fetchAuthSession();
-            } else if (event === 'SIGNED_OUT') {
-                applySignedOutUI();
-            }
-        });
-
-        // Email authentication handlers
-        const emailSigninForm = document.getElementById('email-signin-form');
-        const emailSignupForm = document.getElementById('email-signup-form');
-        const showSignupBtn = document.getElementById('show-signup');
-        const showSigninBtn = document.getElementById('show-signin');
-        const signinForm = document.getElementById('signin-form');
-        const signupForm = document.getElementById('signup-form');
-        const authMessage = document.getElementById('auth-message');
-
-        // Mobile forms
-        const mobileEmailSigninForm = document.getElementById('mobile-email-signin-form');
-        const mobileEmailSignupForm = document.getElementById('mobile-email-signup-form');
-        const mobileShowSignupBtn = document.getElementById('mobile-show-signup');
-        const mobileShowSigninBtn = document.getElementById('mobile-show-signin');
-        const mobileSigninForm = document.getElementById('mobile-signin-form');
-        const mobileSignupForm = document.getElementById('mobile-signup-form');
-        const mobileAuthMessage = document.getElementById('mobile-auth-message');
-
-        // Form switching
-        if (showSignupBtn && signupForm && signinForm) {
-            showSignupBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                signupForm.classList.remove('hidden');
-                signinForm.classList.add('hidden');
-            });
-        }
-
-        if (showSigninBtn && signinForm && signupForm) {
-            showSigninBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                signinForm.classList.remove('hidden');
-                signupForm.classList.add('hidden');
-            });
-        }
-
-        // Mobile form switching
-        if (mobileShowSignupBtn && mobileSigninOptions && mobileSignupOptions) {
-            mobileShowSignupBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                mobileSigninOptions.classList.add('hidden');
-                mobileSignupOptions.classList.remove('hidden');
-            });
-        }
-
-        if (mobileShowSigninBtn && mobileSigninOptions && mobileSignupOptions) {
-            mobileShowSigninBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                mobileSignupOptions.classList.add('hidden');
-                mobileSigninOptions.classList.remove('hidden');
-            });
-        }
-
-        // Email signin handler
-        if (emailSigninForm) {
-            emailSigninForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.target);
-                const email = formData.get('email');
-                const password = formData.get('password');
-
-                if (authMessage) authMessage.classList.add('hidden');
-
-                try {
-                    const { data, error } = await supabase.auth.signInWithPassword({
-                        email: email,
-                        password: password
-                    });
-
-                    if (error) throw error;
-
-                    if (authMessage) {
-                        authMessage.textContent = 'Sign in successful!';
-                        authMessage.classList.remove('hidden', 'text-red-600');
-                        authMessage.classList.add('text-pink-600');
-                    }
-
-                    // Close dropdown after successful signin
-                    if (signinDropdown) {
-                        signinDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
-                        signinDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
-                    }
-
-                    await fetchAuthSession();
-                } catch (error) {
-                    console.error('Sign in error:', error);
-                    if (authMessage) {
-                        authMessage.textContent = error.message || 'Sign in failed';
-                        authMessage.classList.remove('hidden', 'text-pink-600');
-                        authMessage.classList.add('text-red-600');
-                    }
-                }
-            });
-        }
-
-        // Email signup handler
-        if (emailSignupForm) {
-            emailSignupForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.target);
-                const email = formData.get('email');
-                const password = formData.get('password');
-
-                if (authMessage) authMessage.classList.add('hidden');
-
-                try {
-                    const { data, error } = await supabase.auth.signUp({
-                        email: email,
-                        password: password
-                    });
-
-                    if (error) throw error;
-
-                    if (authMessage) {
-                        authMessage.textContent = 'Sign up successful! Please check your email to confirm your account.';
-                        authMessage.classList.remove('hidden', 'text-red-600');
-                        authMessage.classList.add('text-pink-600');
-                    }
-                } catch (error) {
-                    console.error('Sign up error:', error);
-                    if (authMessage) {
-                        authMessage.textContent = error.message || 'Sign up failed';
-                        authMessage.classList.remove('hidden', 'text-pink-600');
-                        authMessage.classList.add('text-red-600');
-                    }
-                }
-            });
-        }
-
-        // Mobile email signin handler
-        if (mobileEmailSigninForm) {
-            mobileEmailSigninForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.target);
-                const email = formData.get('email');
-                const password = formData.get('password');
-
-                if (mobileAuthMessage) mobileAuthMessage.classList.add('hidden');
-
-                try {
-                    const { data, error } = await supabase.auth.signInWithPassword({
-                        email: email,
-                        password: password
-                    });
-
-                    if (error) throw error;
-
-                    if (mobileAuthMessage) {
-                        mobileAuthMessage.textContent = 'Sign in successful!';
-                        mobileAuthMessage.classList.remove('hidden', 'text-red-600');
-                        mobileAuthMessage.classList.add('text-pink-600');
-                    }
-
-                    // Close mobile menu after successful signin
-                    if (mobileMenu) mobileMenu.classList.add('hidden');
-
-                    await fetchAuthSession();
-                } catch (error) {
-                    console.error('Mobile sign in error:', error);
-                    if (mobileAuthMessage) {
-                        mobileAuthMessage.textContent = error.message || 'Sign in failed';
-                        mobileAuthMessage.classList.remove('hidden', 'text-pink-600');
-                        mobileAuthMessage.classList.add('text-red-600');
-                    }
-                }
-            });
-        }
-
-        // Mobile email signup handler
-        if (mobileEmailSignupForm) {
-            mobileEmailSignupForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.target);
-                const email = formData.get('email');
-                const password = formData.get('password');
-
-                if (mobileAuthMessage) mobileAuthMessage.classList.add('hidden');
-
-                try {
-                    const { data, error } = await supabase.auth.signUp({
-                        email: email,
-                        password: password
-                    });
-
-                    if (error) throw error;
-
-                    if (mobileAuthMessage) {
-                        mobileAuthMessage.textContent = 'Sign up successful! Please check your email to confirm your account.';
-                        mobileAuthMessage.classList.remove('hidden', 'text-red-600');
-                        mobileAuthMessage.classList.add('text-pink-600');
-                    }
-                } catch (error) {
-                    console.error('Mobile sign up error:', error);
-                    if (mobileAuthMessage) {
-                        mobileAuthMessage.textContent = error.message || 'Sign up failed';
-                        mobileAuthMessage.classList.remove('hidden', 'text-pink-600');
-                        mobileAuthMessage.classList.add('text-red-600');
-                    }
-                }
-            });
-        }
     </script>
 
     <!-- Socket.io JavaScript -->
@@ -1227,25 +1170,37 @@
 
         async function sendMessageViaHttp(message) {
             try {
-                console.log('Sending message via HTTP:', message);
-                const response = await fetch(`${window.CHAT_SERVER_URL}/chat`, {
+                console.log('🔍 [DEBUG] sendMessageViaHttp called with message:', message);
+                console.log('🔍 [DEBUG] Current API ID:', currentApiId);
+                const chatUrl = `${window.CHAT_SERVER_URL}/v1/chat`;
+                console.log('🔍 [DEBUG] Chat endpoint URL:', chatUrl);
+
+                const requestBody = {
+                    message: message,
+                    api_id: currentApiId,
+                    user_id: 'web-user-' + Date.now(),
+                    timestamp: new Date().toISOString()
+                };
+                console.log('🔍 [DEBUG] Request body:', requestBody);
+
+                const response = await fetch(chatUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        message: message,
-                        api_id: currentApiId,
-                        user_id: 'web-user-' + Date.now(),
-                        timestamp: new Date().toISOString()
-                    })
+                    body: JSON.stringify(requestBody)
                 });
 
+                console.log('🔍 [DEBUG] HTTP request sent, waiting for response...');
+                console.log('🔍 [DEBUG] Response status:', response.status, response.statusText);
+
                 if (!response.ok) {
+                    console.log('🔍 [DEBUG] HTTP request failed with status:', response.status);
                     throw new Error(`HTTP request failed: ${response.status}`);
                 }
 
                 const data = await response.json();
+                console.log('🔍 [DEBUG] Response received:', data);
                 hideTypingIndicator();
 
                 if (data.type === 'success') {
@@ -1271,32 +1226,38 @@
 
         // Connect to API
         async function connectToAPI(apiId) {
+            console.log(`🔍 [DEBUG] connectToAPI called with apiId:`, apiId);
             if (!apiId.trim()) {
+                console.log(`🔍 [DEBUG] Empty API ID provided`);
                 addErrorMessage('Please select an API from the dropdown or enter an API ID manually.');
                 return;
             }
 
             // For manual input, validate API ID against available APIs
             if (!isValidApiId(apiId)) {
+                console.log(`🔍 [DEBUG] Invalid API ID:`, apiId, 'Available APIs:', availableApis.map(a => a.id));
                 addErrorMessage(`Invalid API ID: ${apiId}. Please select a valid API from the dropdown or enter a valid ID.`);
                 return;
             }
+            console.log(`🔍 [DEBUG] API ID validated successfully`);
 
             try {
                 console.log(`Connecting to chat server for API: ${apiId}`);
                 console.log(`Chat server URL: ${window.CHAT_SERVER_URL}`);
 
-                // Check if we're using Firebase Functions (production) which doesn't support WebSockets
-                const isFirebaseFunctions = window.CHAT_SERVER_URL.includes('cloudfunctions.net');
+                // Check if we're using Firebase Functions or Cloud Run (production) which doesn't support WebSockets
+                const isServerless = window.CHAT_SERVER_URL.includes('cloudfunctions.net') ||
+                                   window.CHAT_SERVER_URL.includes('run.app');
 
-                if (isFirebaseFunctions) {
-                    // Skip Socket.IO and go straight to HTTP mode for Firebase Functions
-                    console.log('Firebase Functions detected - using HTTP-only mode');
+                if (isServerless) {
+                    // Skip Socket.IO and go straight to HTTP mode for serverless platforms
+                    console.log('Serverless backend detected - using HTTP-only mode');
                     enableHttpFallback();
                     updateConnectionStatus(true);
                     currentApiId = apiId;
-                    updateApiStatus(`Connected to API: ${apiId.substring(0, 8)}...`);
-                    addSystemMessage('Connected to API! You can now chat with your data.');
+                    const displayName = getApiDisplayName(apiId);
+                    updateApiStatus(`Connected to ${displayName}`);
+                    addSystemMessage(`Connected to ${displayName}! You can now chat with your data.`);
                     return;
                 }
 
@@ -1314,8 +1275,9 @@
                     console.log('Connected to API socket');
                     updateConnectionStatus(true);
                     currentApiId = apiId;
-                    updateApiStatus(`Connected to API: ${apiId.substring(0, 8)}...`);
-                    addSystemMessage('Connected to API! You can now chat with your data.');
+                    const displayName = getApiDisplayName(apiId);
+                    updateApiStatus(`Connected to ${displayName}`);
+                    addSystemMessage(`Connected to ${displayName}! You can now chat with your data.`);
                 });
 
                 socket.on('disconnect', (reason) => {
@@ -1409,20 +1371,37 @@
 
         // Update connection status UI
         function updateConnectionStatus(connected) {
-            const statusSpan = connectionStatus.querySelector('span');
+            const statusDiv = connectionStatus;
+            const statusIndicator = statusDiv.querySelector('div');
+            const statusText = statusDiv.querySelector('span');
+
             if (connected) {
-                statusSpan.textContent = 'Connected';
-                statusSpan.className = 'text-pink-500';
-                connectBtn.textContent = 'Disconnect';
-                connectBtn.className = connectBtn.className.replace('bg-pink-600', 'bg-red-600').replace('hover:bg-pink-700', 'hover:bg-pink-700');
+                statusIndicator.className = 'w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50';
+                statusText.textContent = 'Connected';
+                statusText.className = 'text-sm font-medium text-green-600';
+                connectBtn.innerHTML = `
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    Disconnect
+                `;
+                connectBtn.classList.remove('hub-btn-primary');
+                connectBtn.classList.add('hub-btn-secondary');
                 messageInput.disabled = false;
                 sendBtn.disabled = false;
                 quickActionBtns.forEach(btn => btn.disabled = false);
             } else {
-                statusSpan.textContent = 'Disconnected';
-                statusSpan.className = 'text-red-500';
-                connectBtn.textContent = 'Connect to API';
-                connectBtn.className = connectBtn.className.replace('bg-red-600', 'bg-pink-600').replace('hover:bg-pink-700', 'hover:bg-pink-700');
+                statusIndicator.className = 'w-2 h-2 bg-red-500 rounded-full animate-pulse';
+                statusText.textContent = 'Disconnected';
+                statusText.className = 'text-sm font-medium text-red-600';
+                connectBtn.innerHTML = `
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                    </svg>
+                    Connect to API
+                `;
+                connectBtn.classList.remove('hub-btn-secondary');
+                connectBtn.classList.add('hub-btn-primary');
                 messageInput.disabled = true;
                 sendBtn.disabled = true;
                 quickActionBtns.forEach(btn => btn.disabled = true);
@@ -1434,9 +1413,12 @@
             const messageDiv = document.createElement('div');
             messageDiv.className = 'chat-message user';
             messageDiv.innerHTML = `
-                <div class="message-bubble user-bubble">
-                    ${escapeHtml(message)}
+                <div class="message-content">
+                    <div class="message-bubble user-bubble">
+                        ${escapeHtml(message)}
+                    </div>
                 </div>
+                <div class="message-avatar user">U</div>
             `;
             messagesContainer.appendChild(messageDiv);
             scrollToBottom();
@@ -1446,8 +1428,11 @@
             const messageDiv = document.createElement('div');
             messageDiv.className = 'chat-message bot';
             messageDiv.innerHTML = `
-                <div class="message-bubble bot-bubble">
-                    ${formatMessage(message)}
+                <div class="message-avatar bot">AI</div>
+                <div class="message-content">
+                    <div class="message-bubble bot-bubble">
+                        ${formatMessage(message)}
+                    </div>
                 </div>
             `;
             messagesContainer.appendChild(messageDiv);
@@ -1458,8 +1443,17 @@
             const messageDiv = document.createElement('div');
             messageDiv.className = 'chat-message bot';
             messageDiv.innerHTML = `
-                <div class="message-bubble bot-bubble" style="border-color: #fca5a5; background-color: #fef2f2; color: #dc2626;">
-                    <strong>Error:</strong> ${escapeHtml(message)}
+                <div class="message-avatar bot">!</div>
+                <div class="message-content">
+                    <div class="message-bubble bot-bubble" style="border-color: #fca5a5; background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); color: #dc2626; box-shadow: 4px 4px 0 rgba(252, 165, 165, 0.3);">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-4 h-4 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                            <strong class="text-red-700">Error</strong>
+                        </div>
+                        ${escapeHtml(message)}
+                    </div>
                 </div>
             `;
             messagesContainer.appendChild(messageDiv);
@@ -1468,8 +1462,15 @@
 
         function addSystemMessage(message) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = 'text-center text-gray-500 text-xs py-1';
-            messageDiv.innerHTML = `<span class="opacity-75">${escapeHtml(message)}</span>`;
+            messageDiv.className = 'text-center py-3';
+            messageDiv.innerHTML = `
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 border border-slate-200 text-slate-600 text-xs font-medium tracking-[0.04em] pixel-heading" style="border-radius: 0; box-shadow: 1px 1px 0 rgba(15, 23, 42, 0.05);">
+                    <svg class="w-3 h-3 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    ${escapeHtml(message)}
+                </div>
+            `;
             messagesContainer.appendChild(messageDiv);
             scrollToBottom();
         }
@@ -1535,14 +1536,28 @@
         // Load available APIs from backend
         async function loadAvailableAPIs() {
             try {
-                console.log('Loading available APIs from backend...');
-                const response = await fetch(`${window.CHAT_SERVER_URL}/apis`);
+                console.log('🔍 [DEBUG] Loading available APIs from backend...');
+                console.log('🔍 [DEBUG] Chat server URL:', window.CHAT_SERVER_URL);
+                const apiUrl = `${window.CHAT_SERVER_URL}/v1/apis`;
+                console.log('🔍 [DEBUG] API endpoint:', apiUrl);
+                const response = await fetch(apiUrl);
+                console.log('🔍 [DEBUG] API fetch response status:', response.status, response.statusText);
                 if (!response.ok) {
-                    throw new Error(`Failed to load APIs: ${response.status}`);
+                    throw new Error(`Failed to load APIs: ${response.status} ${response.statusText}`);
                 }
 
                 const data = await response.json();
+                console.log('🔍 [DEBUG] API response data:', data);
                 availableApis = data.apis || [];
+                console.log('🔍 [DEBUG] Available APIs array:', availableApis);
+
+                // Sort APIs by created date descending (newest first)
+                availableApis.sort((a, b) => {
+                    const dateA = new Date(a.created_at || a.created_dt || 0);
+                    const dateB = new Date(b.created_at || b.created_dt || 0);
+                    return dateB - dateA; // Descending order (newest first)
+                });
+                console.log('🔍 [DEBUG] APIs sorted by date');
 
                 // Clear existing options except the first one
                 apiSelect.innerHTML = '<option value="">Select an API...</option>';
@@ -1551,13 +1566,16 @@
                 availableApis.forEach(api => {
                     const option = document.createElement('option');
                     option.value = api.id;
-                    option.textContent = `${api.title}`;
+                    // Use the same naming logic as index.html: custom_name first, then title, then api_name, then fallback
+                    const displayName = api.custom_name || api.title || api.api_name || `API ${String(api.id).slice(0, 8)}`;
+                    option.textContent = displayName;
                     apiSelect.appendChild(option);
                 });
+                console.log('🔍 [DEBUG] API options added to dropdown');
 
                 // Show the dropdown
                 apiSelect.classList.remove('hidden');
-                console.log(`Loaded ${availableApis.length} APIs from backend`);
+                console.log(`🔍 [DEBUG] Successfully loaded ${availableApis.length} APIs from backend:`, availableApis.map(api => ({id: api.id, title: api.title || api.custom_name})));
 
             } catch (error) {
                 console.error('Failed to load APIs from backend:', error);
@@ -1574,17 +1592,30 @@
             return availableApis.some(api => api.id === apiId);
         }
 
+        // Get display name for an API using the same logic as index.html
+        function getApiDisplayName(apiId) {
+            const api = availableApis.find(api => api.id === apiId);
+            if (api) {
+                return api.custom_name || api.title || api.api_name || `API ${String(api.id).slice(0, 8)}`;
+            }
+            return `API ${String(apiId).slice(0, 8)}`;
+        }
+
         // Handle API selection from dropdown
         apiSelect.addEventListener('change', () => {
             const selectedId = apiSelect.value;
+            console.log('🔍 [DEBUG] API selected from dropdown:', selectedId);
             if (selectedId) {
                 apiIdInput.value = selectedId;
+                console.log('🔍 [DEBUG] Auto-connecting to API in 500ms...');
                 // Auto-connect when API is selected
                 setTimeout(() => {
+                    console.log('🔍 [DEBUG] Executing auto-connect for API:', selectedId);
                     connectToAPI(selectedId);
                 }, 500);
             } else {
                 apiIdInput.value = '';
+                console.log('🔍 [DEBUG] No API selected, cleared input field');
             }
         });
 
@@ -1620,53 +1651,6 @@
             });
         });
 
-        // Pixel Loading Animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('pixel-loading');
-            const loadingBar = document.getElementById('loading-bar');
-            const loadingMessage = document.getElementById('loading-message');
-
-            const loadingMessages = [
-                'Initializing chat connection...',
-                'Setting up socket channels...',
-                'Loading API interfaces...',
-                'Preparing chat room...',
-                'Chat connection ready!'
-            ];
-
-            let messageIndex = 0;
-            let progress = 0;
-
-            const loadingInterval = setInterval(() => {
-                progress += Math.random() * 15;
-                if (progress > 100) progress = 100;
-
-                loadingBar.style.width = progress + '%';
-
-                // Change message every 20% progress
-                const newMessageIndex = Math.floor(progress / 20);
-                if (newMessageIndex !== messageIndex && newMessageIndex < loadingMessages.length) {
-                    messageIndex = newMessageIndex;
-                    loadingMessage.textContent = loadingMessages[messageIndex];
-                }
-
-                if (progress >= 100) {
-                    clearInterval(loadingInterval);
-                    // Hide immediately for debugging
-                    loadingScreen.style.display = 'none';
-                    console.log('Socket chat loading screen hidden - content should be visible now');
-                }
-            }, 150);
-
-            // Fallback: hide loading screen after 1.5 seconds regardless
-            setTimeout(() => {
-                if (loadingScreen && loadingScreen.style.display !== 'none') {
-                    loadingScreen.style.display = 'none';
-                    console.log('Socket chat loading screen hidden via fallback timeout');
-                }
-            }, 1500);
-        });
-
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             console.log('Socket Chat interface loaded');
@@ -1688,16 +1672,17 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 relative">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
-                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
+                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-400">UI</span></a>
                     <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
                 </div>
                 <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
-                    <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
-                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
-                    <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
-                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
-                    <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
-                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
+                    <a href="index.html" class="hover:text-pink-400 transition-colors">Home</a>
+                    <a href="app.html" class="hover:text-pink-400 transition-colors">App</a>
+                    <a href="mcp.html" class="hover:text-pink-400 transition-colors">MCP</a>
+                    <a href="mcp-chat.html" class="hover:text-pink-400 transition-colors">MCP Chat</a>
+                    <a href="docs.html" class="hover:text-pink-400 transition-colors">Docs</a>
+                    <a href="learn-more.html" class="hover:text-pink-400 transition-colors">Learn more</a>
+                    <a href="cookie-policy.html" class="hover:text-pink-400 transition-colors">Cookie Policy</a>
                     <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>

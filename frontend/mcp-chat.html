@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Chat | APIUI</title>
+    <meta name="description" content="Chat with your APIs using natural language powered by Model Context Protocol">
+    <meta name="keywords" content="mcp chat, api chat, natural language, model context protocol, ai chat">
+    <meta name="author" content="APIUI by AURABLOX">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="language" content="English">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="United States">
+    <meta name="classification" content="Directory, Software, API Resources">
+    <meta name="rating" content="General">
+    <meta name="distribution" content="Global">
+    <meta name="revisit-after" content="7 days">
+    <link rel="canonical" href="https://apiui.web.app/mcp-chat.html">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
+    </script>
+    
+    <style>
+        :root {
+            --hub-pink: #ec4899;
+            --hub-pink-soft: #f472b6;
+            --hub-purple: #7c3aed;
+            --hub-purple-soft: #a855f7;
+            --hub-ink: #0f172a;
+            --hub-ink-soft: #1f2937;
+            --hub-surface: #ffffff;
+            --hub-muted: #64748b;
+            --hub-border: rgba(15, 23, 42, 0.12);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--hub-surface);
+            color: var(--hub-ink);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .pixel-heading {
+            font-family: 'Pixelify Sans', monospace;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .hub-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            border: 2px solid var(--hub-ink);
+            border-radius: 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, color 0.25s ease;
+        }
+
+        .hub-btn:focus {
+            outline: 2px solid var(--hub-pink);
+            outline-offset: 3px;
+        }
+
+        .hub-btn-primary {
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 48%, var(--hub-purple) 100%);
+            color: #fff;
+            box-shadow: 0 0 0 2px #ffffff inset, 4px 4px 0 rgba(15, 23, 42, 0.45);
+        }
+
+        .hub-btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+        .hub-btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent 65%);
+            mix-blend-mode: screen;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .hub-btn-primary:hover {
+            transform: translate(-3px, -3px);
+            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-purple) 45%, var(--hub-pink-soft) 85%);
+            box-shadow: 0 0 0 2px #ffffff inset, 6px 6px 0 rgba(124, 58, 237, 0.45), 0 0 18px rgba(124, 58, 237, 0.35);
+        }
+
+        .hub-btn-primary:hover::before {
+            opacity: 0.75;
+        }
+
+        .hub-btn-secondary {
+            border: 2px solid transparent;
+            color: var(--hub-ink);
+            background: linear-gradient(var(--hub-surface), var(--hub-surface)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 3px 3px 0 rgba(15, 23, 42, 0.25);
+        }
+
+        .hub-btn-secondary:hover {
+            transform: translate(-3px, -3px);
+            color: #fff;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)) padding-box,
+                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple-soft) 45%, var(--hub-ink) 100%) border-box;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7) inset, 5px 5px 0 rgba(236, 72, 153, 0.4), 0 0 16px rgba(236, 72, 153, 0.3);
+        }
+
+        .api-card {
+            position: relative;
+            background-color: var(--hub-surface);
+            border: 1px solid var(--hub-border);
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .api-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
+            border-color: rgba(236, 72, 153, 0.45);
+        }
+
+        .api-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-image: linear-gradient(90deg, var(--hub-pink) 50%, transparent 50%), linear-gradient(180deg, var(--hub-pink) 50%, transparent 50%);
+            background-size: 4px 4px;
+            opacity: 0.65;
+        }
+
+        .pixel-dot {
+            width: 12px;
+            height: 12px;
+            background-image: repeating-linear-gradient(90deg, var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px);
+            image-rendering: pixelated;
+        }
+
+        .hub-divider {
+            width: 100%;
+            height: 1px;
+            background-image: linear-gradient(90deg, var(--hub-border) 0, transparent 50%, var(--hub-border) 100%);
+            background-size: 24px 1px;
+            opacity: 0.75;
+        }
+
+        .shadow-grid {
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.08) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        .eyebrow {
+            letter-spacing: 0.32em;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .hub-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid rgba(236, 72, 153, 0.45);
+            background-color: rgba(236, 72, 153, 0.08);
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Floating Sidebar Styling */
+        .floating-sidebar-icon {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .floating-sidebar-icon:hover {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Floating Sidebar Container Override - No Borders */
+        .floating-sidebar-container {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Marquee Styles */
+        .marquee {
+            position: relative;
+            width: 100%;
+            background-color: rgba(255, 248, 251, 0.85);
+            border-bottom: 1px solid rgba(236, 72, 153, 0.08);
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scroll 20s linear infinite;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            color: var(--hub-ink);
+            padding: 0.75rem 0;
+        }
+
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-link {
+            color: var(--hub-pink);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .marquee-link:hover {
+            color: var(--hub-purple);
+            text-decoration: underline;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Hide floating sidebar on mobile devices */
+        @media (max-width: 768px) {
+            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
+                display: none !important;
+            }
+        }
+
+        /* Chat-specific styles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            max-height: 800px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: rgba(248, 250, 252, 0.5);
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-user {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .message-bot {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 1rem 1.5rem;
+            border-radius: 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .message-user .message-content {
+            background: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 48%, var(--hub-purple) 100%);
+            color: #fff;
+            border: 2px solid var(--hub-ink);
+            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.3), 0 0 20px rgba(236, 72, 153, 0.2);
+        }
+
+        .message-bot .message-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid var(--hub-border);
+            color: var(--hub-ink);
+            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.08), 0 0 16px rgba(15, 23, 42, 0.05);
+        }
+
+        .message-content:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 rgba(15, 23, 42, 0.15), 0 0 24px rgba(236, 72, 153, 0.15);
+        }
+
+        .message-user .message-content:hover {
+            box-shadow: 6px 6px 0 rgba(15, 23, 42, 0.4), 0 0 24px rgba(236, 72, 153, 0.3);
+        }
+
+        .api-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: rgba(248, 250, 252, 0.5);
+            border: 2px solid var(--hub-border);
+            border-radius: 0;
+        }
+
+        .api-selector .api-card {
+            padding: 0.75rem;
+            cursor: pointer;
+            border: 2px solid var(--hub-border);
+        }
+
+        .api-selector .api-card:hover {
+            border-color: var(--hub-pink);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .api-selector .api-card.selected {
+            background: linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%);
+            color: white;
+            border-color: var(--hub-pink);
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: white;
+            border-top: 2px solid var(--hub-border);
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--hub-border);
+            border-radius: 0;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--hub-pink);
+            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--hub-ink);
+            border-radius: 0;
+            background: var(--hub-ink);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: var(--hub-pink);
+            border-color: var(--hub-pink);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.25);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--hub-muted);
+            border-top-color: var(--hub-pink);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 flex flex-col min-h-screen authenticated">
+    <div class="shadow-grid"></div>
+
+    <!-- Floating Navigation Sidebar -->
+    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
+        <div class="floating-sidebar-container bg-white p-2 shadow-lg">
+            <div class="flex flex-col space-y-2">
+                <!-- Home -->
+                <a href="index.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Home">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+
+                <!-- Dashboard -->
+                <a href="app.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </a>
+
+                <!-- MCP Chat -->
+                <a href="mcp-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="MCP Chat">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
+                    </svg>
+                </a>
+
+                <!-- MCP Server -->
+                <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="MCP Server">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                    </svg>
+                </a>
+
+                <!-- Docs -->
+                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-400 hover:text-white transition-all tooltip" title="Documentation">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrolling Marquee -->
+    <div class="marquee overflow-hidden">
+        <div class="marquee-content">
+            🌟 Chat with your APIs using natural language powered by MCP • Ask questions about your data in plain English • Get instant responses from multiple APIs • <a href="docs.html" class="marquee-link">Learn More</a> about MCP integration • Join the conversation • 🌟 Chat with your APIs using natural language powered by MCP • Ask questions about your data in plain English • Get instant responses from multiple APIs • <a href="docs.html" class="marquee-link">Learn More</a> about MCP integration • Join the conversation •
+        </div>
+    </div>
+
+    <header class="bg-white border-b border-slate-200/70 relative z-10">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
+                    api<span class="text-pink-400">UI</span>
+                </a>
+                <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">MCP Chat</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">App</a>
+                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">MCP</a>
+                <a href="mcp-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Chat</a>
+                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Docs</a>
+                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Learn more</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-1 relative z-10">
+        <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+        <section class="bg-white text-slate-900 overflow-hidden relative">
+            <!-- Hero Background Image -->
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <img src="images/cube-pyramid.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
+            </div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-24 relative z-10">
+                <div class="grid gap-16 md:grid-cols-[1.05fr_minmax(0,0.95fr)] items-center">
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">MCP CHAT</p>
+                        </div>
+                        <h1 class="pixel-heading text-3xl sm:text-4xl md:text-5xl leading-tight text-slate-900 tracking-[0.18em]">
+                            Chat with your APIs in natural language
+                        </h1>
+                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl">
+                            Select one or multiple APIs and ask questions about your data using plain English. Powered by MCP and AI for intelligent responses.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+                            <button onclick="document.getElementById('api-selector').scrollIntoView({behavior: 'smooth'})" class="hub-btn hub-btn-primary">Start Chatting</button>
+                            <a href="docs.html" class="hub-btn hub-btn-secondary">View Documentation</a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <!-- Chat Preview Card -->
+                        <div class="relative border border-slate-200 bg-white p-6 overflow-hidden api-card mb-6">
+                            <div class="absolute inset-0 opacity-5" aria-hidden="true">
+                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(236, 72, 153, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.1) 1px, transparent 1px); background-size: 28px 28px;"></div>
+                            </div>
+                            <div class="relative space-y-3">
+                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-400">LIVE DEMO</p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-slate-700 font-medium">Multi-API Queries</span>
+                                        <span class="hub-pill">Active</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-slate-700 font-medium">Natural Language</span>
+                                        <span class="hub-pill">Ready</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-slate-700 font-medium">AI-Powered Responses</span>
+                                        <span class="hub-pill">Enabled</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Features Card -->
+                        <div class="relative border border-slate-200 bg-white p-6 overflow-hidden api-card">
+                            <div class="absolute inset-0 opacity-5" aria-hidden="true">
+                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.05) 1px, transparent 1px); background-size: 24px 24px;"></div>
+                            </div>
+                            <div class="relative">
+                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-400 mb-3">FEATURES</p>
+                                <h3 class="text-lg font-semibold text-slate-900 mb-2">Intelligent API Communication</h3>
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    Experience the future of API interaction with MCP-powered chat. Connect to multiple APIs and get intelligent responses to your natural language queries.
+                                </p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3">
+                                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-sm text-slate-700">Multi-API conversation support</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-sm text-slate-700">Natural language processing</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-sm text-slate-700">AI-powered responses</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Interface Section -->
+        <section class="bg-gray-50/70 relative">
+            <div class="absolute inset-0 pointer-events-none opacity-15" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 28px 28px;"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-12 relative">
+
+                <!-- API Selection Section -->
+                <div class="w-full">
+                    <div class="relative bg-white shadow-lg border-2 border-black p-8 api-card">
+                        <!-- Pixel Grid Background -->
+                        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.08) 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+                        <!-- Header -->
+                        <div class="relative mb-8">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="pixel-dot"></span>
+                                <p class="pixel-heading text-sm tracking-[0.32em] text-pink-400">API CONNECTION</p>
+                            </div>
+                            <h2 class="pixel-heading text-xl text-black tracking-[0.12em]">Select Your APIs</h2>
+                            <p class="text-sm text-slate-600 mt-2 leading-relaxed">Choose one or multiple APIs to chat with. Each API adds context to your conversation.</p>
+                        </div>
+
+                        <!-- API Selection Form -->
+                        <div class="relative space-y-6 flex-1">
+                            <!-- API Selector -->
+                            <div class="space-y-3">
+                                <label class="block pixel-heading text-sm font-medium text-slate-900 tracking-[0.08em]">Available APIs</label>
+                                <div id="api-selector" class="api-selector">
+                                    <div class="col-span-full text-center py-8">
+                                        <div class="loading mx-auto mb-4"></div>
+                                        <p class="text-gray-600">Loading APIs...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Selection Summary -->
+                            <div class="relative bg-slate-50 border border-slate-200 p-4 api-card">
+                                <div class="absolute inset-0 opacity-8 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 12px 12px;"></div>
+                                <div class="relative flex items-center justify-between">
+                                    <span class="pixel-heading text-sm text-slate-700 tracking-[0.08em]">APIs Selected</span>
+                                    <span id="selected-count" class="hub-pill">0 selected</span>
+                                </div>
+                            </div>
+
+                            <!-- Refresh Button -->
+                            <div class="pt-4">
+                                <button id="refresh-apis" class="hub-btn hub-btn-secondary w-full">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    Refresh APIs
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Connection Info -->
+                        <div class="relative mt-8 pt-6 border-t border-slate-200">
+                            <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 14px 14px;"></div>
+                            <div class="relative">
+                                <h3 class="pixel-heading text-sm font-medium text-slate-900 mb-4 tracking-[0.08em]">Technical Details</h3>
+                                <div class="space-y-3 text-xs text-slate-600">
+                                    <div class="flex items-start gap-2">
+                                        <svg class="w-3 h-3 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
+                                        </svg>
+                                        <span>Multi-API chat support</span>
+                                    </div>
+                                    <div class="flex items-start gap-2">
+                                        <svg class="w-3 h-3 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                        </svg>
+                                        <span>Powered by MCP & AI</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Interface -->
+                <div class="w-full">
+                    <div class="relative bg-white shadow-lg border-2 border-black flex flex-col overflow-hidden api-card">
+                        <!-- Pixel Grid Background -->
+                        <div class="absolute inset-0 opacity-3 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 24px 24px;"></div>
+
+                        <!-- Chat Header -->
+                        <div class="relative px-8 py-6 border-b-2 border-black bg-gradient-to-r from-white to-slate-50">
+                            <div class="absolute inset-0 opacity-8 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.06) 1px, transparent 1px); background-size: 16px 16px;"></div>
+                            <div class="relative flex items-center justify-between">
+                                <div>
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <span class="pixel-dot"></span>
+                                        <p class="pixel-heading text-sm tracking-[0.32em] text-pink-400">LIVE CHAT</p>
+                                    </div>
+                                    <h2 class="pixel-heading text-xl text-black tracking-[0.12em]">Chat with your APIs</h2>
+                                </div>
+                                <div class="hidden sm:flex items-center gap-2">
+                                    <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+                                    <span class="pixel-heading text-xs text-slate-600 tracking-[0.08em]">MCP Powered</span>
+                                </div>
+                            </div>
+                            <p class="text-sm font-medium text-slate-600 mt-3 leading-relaxed" id="chat-status">
+                                <span class="inline-flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
+                                    </svg>
+                                    Select APIs above and start asking questions
+                                </span>
+                            </p>
+                        </div>
+
+                        <!-- Messages Container -->
+                        <div class="relative flex-1 overflow-y-auto p-6 bg-gradient-to-b from-slate-50/50 to-white">
+                            <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 20px 20px;"></div>
+                            <div class="relative">
+                                <!-- Welcome Message -->
+                                <div class="text-center text-slate-500 py-12">
+                                    <div class="max-w-md mx-auto">
+                                        <div class="mb-6">
+                                            <svg class="w-16 h-16 text-pink-400 mx-auto opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="pixel-heading text-lg font-medium text-black mb-2 tracking-[0.08em]">Ready to chat</div>
+                                        <p class="text-sm opacity-75 leading-relaxed">Select one or more APIs from the sidebar to start asking questions about your data in natural language.</p>
+                                    </div>
+                                </div>
+                                <div id="chat-messages" class="space-y-4">
+                                    <!-- Messages will be inserted here dynamically -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Typing Indicator -->
+                        <div id="typing-indicator" class="typing-indicator relative px-8 py-4 bg-gradient-to-r from-slate-50 to-white border-t border-slate-200">
+                            <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.05) 1px, transparent 1px); background-size: 12px 12px;"></div>
+                            <div class="relative flex items-center space-x-3 text-slate-600">
+                                <div class="flex space-x-1">
+                                    <div class="w-2 h-2 bg-pink-400 rounded-full pulse shadow-sm shadow-pink-400/50"></div>
+                                    <div class="w-2 h-2 bg-pink-400 rounded-full pulse shadow-sm shadow-pink-400/50" style="animation-delay: 0.2s"></div>
+                                    <div class="w-2 h-2 bg-pink-400 rounded-full pulse shadow-sm shadow-pink-400/50" style="animation-delay: 0.4s"></div>
+                                </div>
+                                <span class="text-sm font-medium pixel-heading tracking-[0.04em]">AI is thinking...</span>
+                            </div>
+                        </div>
+
+                        <!-- Message Input -->
+                        <div class="relative px-8 py-6 border-t-2 border-black bg-gradient-to-r from-slate-50 to-white">
+                            <div class="absolute inset-0 opacity-8 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 18px 18px;"></div>
+                            <div class="relative space-y-4">
+                                <!-- Input Area -->
+                                <div class="flex space-x-3">
+                                    <div class="relative flex-1">
+                                        <input
+                                            type="text"
+                                            id="chat-input"
+                                            placeholder="Ask a question about your selected APIs..."
+                                            class="w-full px-4 py-3 bg-white border-2 border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-slate-900 shadow-sm hover:border-slate-300 api-card"
+                                            style="border-radius: 0; box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.08);"
+                                            disabled
+                                        >
+                                        <div class="absolute inset-0 pointer-events-none opacity-5" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 14px 14px;"></div>
+                                    </div>
+                                    <button
+                                        id="send-btn"
+                                        class="hub-btn hub-btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex-shrink-0"
+                                        disabled
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <!-- Helper Text -->
+                                <div class="flex items-center justify-between">
+                                    <p class="text-xs text-slate-500 opacity-75 flex items-center gap-2">
+                                        <svg class="w-3 h-3 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Try: "What are the columns?", "Show me a summary", "Compare data across APIs"
+                                    </p>
+                                    <div class="flex items-center gap-1 text-xs text-slate-400">
+                                        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-slate-600 font-mono text-xs">Enter</kbd>
+                                        <span>to send</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section class="bg-white border-t border-slate-200/70 relative">
+            <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 32px 32px;"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 flex flex-col gap-10 md:flex-row md:items-center md:justify-between relative">
+                <div class="space-y-4 max-w-3xl">
+                    <div class="flex items-center gap-3">
+                        <span class="pixel-dot"></span>
+                        <p class="pixel-heading eyebrow text-pink-400">Tips & Best Practices</p>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-semibold text-slate-900">
+                        Get the most out of MCP Chat
+                    </h2>
+                    <p class="text-base text-slate-600">
+                        Learn how to ask better questions and leverage the full power of multi-API conversations.
+                    </p>
+                </div>
+                <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="api-card p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <h3 class="font-semibold text-slate-900">Single API</h3>
+                        </div>
+                        <p class="text-sm text-slate-600">Ask specific questions about one dataset: "What are the columns?" or "Show me recent records"</p>
+                    </div>
+                    <div class="api-card p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            <h3 class="font-semibold text-slate-900">Multi-API</h3>
+                        </div>
+                        <p class="text-sm text-slate-600">Compare data across APIs: "Compare sales between datasets" or "Find relationships"</p>
+                    </div>
+                    <div class="api-card p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                            <h3 class="font-semibold text-slate-900">AI-Powered</h3>
+                        </div>
+                        <p class="text-sm text-slate-600">Ask natural questions: "What's the trend?" or "Summarize the data for me"</p>
+                    </div>
+                    <div class="api-card p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <h3 class="font-semibold text-slate-900">Performance</h3>
+                        </div>
+                        <p class="text-sm text-slate-600">Start with specific APIs for faster responses and more accurate answers</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200/70 py-12 relative">
+        <div class="absolute inset-0 pointer-events-none opacity-8" style="background-image: linear-gradient(rgba(236, 72, 153, 0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.01) 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div>
+                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-400">UI</span></a>
+                    <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">MCP Chat</p>
+                </div>
+                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
+                    <a href="index.html" class="hover:text-pink-400 transition-colors">Home</a>
+                    <a href="app.html" class="hover:text-pink-400 transition-colors">App</a>
+                    <a href="mcp.html" class="hover:text-pink-400 transition-colors">MCP</a>
+                    <a href="mcp-chat.html" class="hover:text-pink-400 transition-colors">Chat</a>
+                    <a href="docs.html" class="hover:text-pink-400 transition-colors">Docs</a>
+                    <a href="learn-more.html" class="hover:text-pink-400 transition-colors">Learn more</a>
+                    <a href="cookie-policy.html" class="hover:text-pink-400 transition-colors">Cookie Policy</a>
+                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="hub-divider mt-8"></div>
+            <div class="mt-6 text-right pixel-heading text-xs uppercase tracking-[0.28em] text-slate-500">&copy; 2025 APIUI Inc. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Modal -->
+    <script src="cookie-consent.js"></script>
+
+    <script>
+        // Global state
+        let availableAPIs = [];
+        let selectedAPIIds = new Set();
+        let chatHistory = [];
+
+        // Elements
+        const apiSelector = document.getElementById('api-selector');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const selectedCountEl = document.getElementById('selected-count');
+        const refreshBtn = document.getElementById('refresh-apis');
+
+        // Load available APIs
+        async function loadAPIs() {
+            try {
+                apiSelector.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <div class="loading mx-auto mb-4"></div>
+                        <p class="text-gray-600">Loading APIs...</p>
+                    </div>
+                `;
+
+                // Try MCP APIs endpoint first
+                let response = await fetch(`${window.APIUI_AUTH_BASE_URL}/mcp/apis`);
+
+                if (!response.ok) {
+                    console.log('MCP APIs endpoint failed, trying fallback...');
+                    // Fallback to v1/apis endpoint
+                    response = await fetch(`${window.APIUI_AUTH_BASE_URL}/v1/apis`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    const v1Data = await response.json();
+                    console.log('v1 API data received:', v1Data);
+
+                    // Convert v1 format to MCP format
+                    availableAPIs = v1Data.apis.map(api => ({
+                        id: api.id,
+                        name: api.custom_name || api.title || `API ${api.id.slice(-8)}`,
+                        description: api.summary || api.title || `API for ${api.id}`,
+                        endpoint_url: api.url,
+                        schema: { columns: [] }, // We'll fetch this separately if needed
+                        sample_data: [], // v1 doesn't provide sample data in list
+                        created_at: api.created_at || api.started_at,
+                        status: api.status || 'ready'
+                    }));
+
+                    console.log('Converted APIs:', availableAPIs);
+                } else {
+                    const data = await response.json();
+                    availableAPIs = data.apis || [];
+                }
+
+                if (availableAPIs.length === 0) {
+                    apiSelector.innerHTML = `
+                        <div class="col-span-full text-center py-8">
+                            <p class="text-gray-600">No APIs available. Create some APIs first!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                renderAPIs();
+            } catch (error) {
+                console.error('Error loading APIs:', error);
+                apiSelector.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <p class="text-red-600">Failed to load APIs: ${error.message}</p>
+                        <button onclick="loadAPIs()" class="pixel-btn pixel-btn-primary mt-4">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render API cards
+        function renderAPIs() {
+            if (availableAPIs.length === 0) {
+                apiSelector.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <p class="text-gray-600">No APIs available</p>
+                    </div>
+                `;
+                return;
+            }
+
+            apiSelector.innerHTML = availableAPIs.map(api => `
+                <div class="api-card ${selectedAPIIds.has(api.id) ? 'selected' : ''}" 
+                     data-api-id="${api.id}"
+                     onclick="toggleAPI('${api.id}')">
+                    <div class="font-bold text-sm mb-2 truncate">${api.name}</div>
+                    <div class="text-xs text-gray-600 truncate">${api.description}</div>
+                    ${api.schema && api.schema.row_count ? `
+                        <div class="mt-2">
+                            <span class="badge">${api.schema.row_count} rows</span>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Toggle API selection
+        function toggleAPI(apiId) {
+            if (selectedAPIIds.has(apiId)) {
+                selectedAPIIds.delete(apiId);
+            } else {
+                selectedAPIIds.add(apiId);
+            }
+
+            updateSelectedCount();
+            renderAPIs();
+            
+            // Enable/disable input based on selection
+            const hasSelection = selectedAPIIds.size > 0;
+            chatInput.disabled = !hasSelection;
+            sendBtn.disabled = !hasSelection;
+        }
+
+        // Update selected count
+        function updateSelectedCount() {
+            const count = selectedAPIIds.size;
+            selectedCountEl.textContent = `${count} API${count !== 1 ? 's' : ''} selected`;
+        }
+
+        // Add message to chat
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'message-user' : 'message-bot'}`;
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${text.replace(/\n/g, '<br>')}
+                </div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Clear welcome message
+        function clearWelcomeMessage() {
+            if (chatMessages.querySelector('.text-center')) {
+                chatMessages.innerHTML = '';
+            }
+        }
+
+        // Send chat message
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || selectedAPIIds.size === 0) return;
+
+            // Disable input while processing
+            chatInput.disabled = true;
+            sendBtn.disabled = true;
+
+            // Clear welcome and add user message
+            clearWelcomeMessage();
+            addMessage(message, true);
+            chatInput.value = '';
+
+            // Show loading
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message message-bot';
+            loadingDiv.id = 'loading-message';
+            loadingDiv.innerHTML = `
+                <div class="message-content flex items-center gap-2">
+                    <div class="loading"></div>
+                    <span>Thinking...</span>
+                </div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                // Try MCP chat endpoint first
+                let response = await fetch(`${window.APIUI_AUTH_BASE_URL}/mcp/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        api_ids: Array.from(selectedAPIIds)
+                    })
+                });
+
+                // If MCP chat fails, show a fallback message
+                if (!response.ok) {
+                    console.log('MCP chat failed, showing fallback message');
+                    // Remove loading message
+                    document.getElementById('loading-message')?.remove();
+
+                    addMessage(`I would analyze the selected APIs for your question: "${message}", but the MCP chat service isn't available yet. Please check back after the deployment completes!`, false);
+                    return;
+                }
+
+                // Remove loading message
+                document.getElementById('loading-message')?.remove();
+
+                const data = await response.json();
+                addMessage(data.message, false);
+
+                // Show which APIs were used
+                if (data.apis_used && data.apis_used.length > 0) {
+                    const apiNames = data.apis_used.map(id => {
+                        const api = availableAPIs.find(a => a.id === id);
+                        return api ? api.name : id;
+                    }).join(', ');
+                    
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'message message-bot';
+                    infoDiv.innerHTML = `
+                        <div class="message-content text-xs text-gray-600">
+                            📊 Used data from: ${apiNames}
+                        </div>
+                    `;
+                    chatMessages.appendChild(infoDiv);
+                }
+
+            } catch (error) {
+                console.error('Error sending message:', error);
+                document.getElementById('loading-message')?.remove();
+                addMessage(`❌ Error: ${error.message}`, false);
+            } finally {
+                // Re-enable input
+                chatInput.disabled = false;
+                sendBtn.disabled = false;
+                chatInput.focus();
+            }
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        refreshBtn.addEventListener('click', () => {
+            loadAPIs();
+        });
+
+        // Initialize
+        loadAPIs();
+    </script>
+</body>
+</html>
+

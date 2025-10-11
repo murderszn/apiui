@@ -22,6 +22,11 @@ class SocketService:
         self.last_activity: Dict[str, datetime] = {}  # job_id -> last activity timestamp
         self.ai_service = AIService()  # AI service for chat responses
         self.initialized_namespaces: set = set()  # Track which namespaces have handlers
+        self.jobs = {}  # Reference to jobs data from main app
+
+    def set_jobs_reference(self, jobs_dict: Dict[str, Any]):
+        """Set reference to jobs data from main application"""
+        self.jobs = jobs_dict
 
     def initialize_job_socket(self, job_id: str, socketio_instance):
         """
@@ -294,13 +299,13 @@ class SocketService:
 
     def _get_job_data(self, job_id: str) -> Optional[pd.DataFrame]:
         """
-        Get cached data for a job, loading from file if necessary
+        Get cached data for a job, loading from file or API if necessary
         """
         # Check cache first
         if job_id in self.data_cache:
             return self.data_cache[job_id]
 
-        # Try to load from file
+        # Try to load from file first (for local development)
         try:
             # Look for uploaded files with this job_id
             upload_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'uploads')
@@ -316,9 +321,66 @@ class SocketService:
                         self.data_cache[job_id] = df
                         return df
         except Exception as e:
-            print(f"Error loading data for job {job_id}: {str(e)}")
+            print(f"Error loading local data for job {job_id}: {str(e)}")
 
-        return None
+        # If no local file found, try to fetch from Cloud Run API
+        try:
+            # Import requests for API calls
+            import requests
+
+            # Check if this is a Cloud Run API by looking up the API URL
+            api_url = None
+            for jid, job_data in self.jobs.items():  # Access jobs from main app
+                if jid == job_id:
+                    api_url = job_data.get('api_url')
+                    break
+
+            if not api_url:
+                print(f"No API URL found for job {job_id}")
+                return None
+
+            # Fetch sample data from the Cloud Run API
+            data_url = f"{api_url}/data?limit=100"  # Get up to 100 records for chat context
+            print(f"[DEBUG] Fetching data from Cloud Run API: {data_url}")
+
+            try:
+                # Disable SSL verification for Cloud Run APIs (they may have certificate issues)
+                print(f"[DEBUG] Making HTTP request to {data_url} (SSL verification disabled)")
+                response = requests.get(data_url, timeout=30, verify=False)
+                print(f"[DEBUG] Response status: {response.status_code}")
+                print(f"[DEBUG] Response headers: {dict(response.headers)}")
+
+                if response.status_code == 200:
+                    print(f"[DEBUG] Response content preview: {response.text[:200]}...")
+                    data = response.json()
+                    print(f"[DEBUG] Parsed JSON data keys: {list(data.keys()) if isinstance(data, dict) else 'not a dict'}")
+
+                    if 'data' in data and data['data']:
+                        print(f"[DEBUG] Found data array with {len(data['data'])} records")
+                        # Convert to DataFrame
+                        df = pd.DataFrame(data['data'])
+                        self.data_cache[job_id] = df
+                        print(f"[DEBUG] Successfully created DataFrame with {len(df)} rows and {len(df.columns)} columns")
+                        print(f"[DEBUG] Column names: {list(df.columns)}")
+                        return df
+                    else:
+                        print(f"[DEBUG] No 'data' key or empty data array in response from Cloud Run API for job {job_id}")
+                        print(f"[DEBUG] Full response: {data}")
+                else:
+                    print(f"[DEBUG] Failed to fetch data from Cloud Run API for job {job_id}: HTTP {response.status_code}")
+                    print(f"[DEBUG] Response content: {response.text[:500]}")
+
+            except requests.exceptions.RequestException as e:
+                print(f"[DEBUG] Request error fetching from Cloud Run API for job {job_id}: {str(e)}")
+            except Exception as e:
+                print(f"[DEBUG] General error loading data from Cloud Run API for job {job_id}: {str(e)}")
+                import traceback
+                print(f"[DEBUG] Full traceback: {traceback.format_exc()}")
+
+            return None
+        except Exception as e:
+            print(f"Error fetching from Cloud Run API for job {job_id}: {str(e)}")
+            return None
 
     def get_connection_stats(self) -> Dict[str, Any]:
         """

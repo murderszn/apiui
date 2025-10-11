@@ -116,36 +116,108 @@ Keep your responses conversational but informative. If you need to show data, fo
         """Mock chat responses when no AI API is configured"""
         message_lower = message.lower()
 
+        api_details = schema.get('api_details') or []
+        total_apis = len(api_details)
+
         # Simple keyword-based responses
         if 'count' in message_lower or 'how many' in message_lower:
+            if api_details:
+                parts = []
+                known_total = 0
+                unknown_count = False
+                for api in api_details:
+                    api_name = api.get('name', api.get('id', 'API'))
+                    api_rows = api.get('row_count')
+                    if isinstance(api_rows, (int, float)):
+                        known_total += int(api_rows)
+                        parts.append(f"- {api_name}: {int(api_rows)} records")
+                    elif api_rows:
+                        unknown_count = True
+                        parts.append(f"- {api_name}: {api_rows} records")
+                    else:
+                        unknown_count = True
+                        parts.append(f"- {api_name}: row count unavailable")
+
+                total_line = schema.get('row_count') if not unknown_count else 'unknown'
+                if isinstance(total_line, (int, float)):
+                    total_line = int(total_line)
+                summary = f"Across {total_apis} API{'s' if total_apis != 1 else ''}, there are {total_line if total_line != 'unknown' else known_total if known_total else 'unknown'} total records."
+                return "Here is the record count by API:\n" + "\n".join(parts + [summary])
+
             row_count = schema.get('row_count', 'unknown')
             return f"The dataset contains {row_count} records."
 
         elif 'columns' in message_lower or 'fields' in message_lower:
-            columns = [col['name'] for col in schema.get('columns', [])]
-            return f"The dataset has {len(columns)} columns: {', '.join(columns)}."
+            columns = schema.get('columns', [])
+            if columns:
+                grouped = {}
+                for col in columns:
+                    api_name = col.get('source_api_name') or col.get('source_api') or 'Dataset'
+                    grouped.setdefault(api_name, []).append(col.get('name'))
+
+                parts = []
+                for api_name, names in grouped.items():
+                    clean_names = [n for n in names if n]
+                    if not clean_names:
+                        continue
+                    parts.append(f"- {api_name}: {', '.join(sorted(set(clean_names)))}")
+
+                if parts:
+                    return "Here are the available columns by API:\n" + "\n".join(parts)
+
+            # Fallback if no grouped data
+            column_names = [col.get('name') for col in columns if col.get('name')]
+            return f"The dataset has {len(column_names)} columns: {', '.join(column_names)}." if column_names else "I could not find column information for the selected APIs."
 
         elif 'sample' in message_lower or 'show me' in message_lower or 'examples' in message_lower:
             if sample_data and len(sample_data) > 0:
-                sample = sample_data[:3]  # First 3 records
-                return f"Here are the first {len(sample)} records:\n" + json.dumps(sample, indent=2, default=str)
+                sample_sections = []
+                for record in sample_data[:5]:
+                    api_name = record.get('__api_name', 'API') if isinstance(record, dict) else 'API'
+                    if isinstance(record, dict):
+                        content = {k: v for k, v in record.items() if not k.startswith('__')}
+                    else:
+                        content = record
+                    sample_sections.append(f"From {api_name}:\n" + json.dumps(content, indent=2, default=str))
+                return "\n\n".join(sample_sections)
             else:
                 return "I don't have access to sample data at the moment."
 
         elif 'describe' in message_lower or 'summary' in message_lower:
             columns = schema.get('columns', [])
-            summary = f"The dataset has {schema.get('row_count', 'unknown')} rows and {len(columns)} columns."
+            summary_lines = []
+
+            if api_details:
+                summary_lines.append("Here's what I know about the selected APIs:")
+                for api in api_details:
+                    api_name = api.get('name', api.get('id', 'API'))
+                    row_info = api.get('row_count', 'unknown')
+                    column_info = api.get('column_count', 'unknown')
+                    summary_lines.append(f"- {api_name}: {row_info} rows, {column_info} columns")
+
+                if len(api_details) > 1:
+                    total_rows = schema.get('row_count', 'unknown')
+                    summary_lines.append(f"Combined total rows: {total_rows}")
+
             if columns:
-                numeric_cols = [col['name'] for col in columns if col.get('inferred_type') in ['integer', 'float']]
-                text_cols = [col['name'] for col in columns if col.get('inferred_type') == 'string']
+                numeric_cols = [col['name'] for col in columns if col.get('inferred_type') in ['integer', 'float'] and col.get('name')]
+                text_cols = [col['name'] for col in columns if col.get('inferred_type') == 'string' and col.get('name')]
                 if numeric_cols:
-                    summary += f"\nNumeric columns: {', '.join(numeric_cols)}"
+                    summary_lines.append(f"Numeric columns observed: {', '.join(sorted(set(numeric_cols)))}")
                 if text_cols:
-                    summary += f"\nText columns: {', '.join(text_cols)}"
-            return summary
+                    summary_lines.append(f"Text columns observed: {', '.join(sorted(set(text_cols)))}")
+
+            if summary_lines:
+                return "\n".join(summary_lines)
+
+            return f"The dataset has {schema.get('row_count', 'unknown')} rows and {len(columns)} columns."
 
         else:
-            return "I can help you with questions about your data! Try asking about the number of records, column names, sample data, or a summary of the dataset."
+            helper_note = "You currently have one API selected." if total_apis == 1 else f"You currently have {total_apis} APIs selected."
+            return (
+                "I can help you with questions about your data! Try asking about the number of records, "
+                "column names, sample data, or a summary of the dataset. " + helper_note
+            )
 
     async def generate_api_summary(self, schema: Dict[str, Any], sample_data: Optional[list] = None, api_name: Optional[str] = None) -> str:
         """
@@ -497,23 +569,40 @@ Keep the summary to 2-3 sentences maximum. Use clear, professional language. Foc
         """Build context string about the data for the AI"""
         context_parts = []
 
+        api_details = schema.get('api_details') or []
+        if api_details:
+            context_parts.append(f"- APIs selected: {len(api_details)}")
+            for api in api_details[:5]:
+                api_name = api.get('name', api.get('id', 'API'))
+                api_rows = api.get('row_count', 'unknown')
+                column_count = api.get('column_count', 'unknown')
+                context_parts.append(
+                    f"  - {api_name}: {api_rows} rows, {column_count} columns"
+                )
+
+            if len(api_details) > 5:
+                context_parts.append(f"  ... and {len(api_details) - 5} more APIs")
+
         # Basic info
         row_count = schema.get('row_count', 'unknown')
-        context_parts.append(f"- Total records: {row_count}")
+        context_parts.append(f"- Total records across selection: {row_count}")
 
         # Columns info
         columns = schema.get('columns', [])
         if columns:
-            context_parts.append(f"- Number of columns: {len(columns)}")
-            context_parts.append("- Columns:")
+            context_parts.append(f"- Combined column entries: {len(columns)}")
+            context_parts.append("- Column overview:")
 
             for col in columns[:10]:  # Limit to first 10 columns
                 col_type = col.get('inferred_type', 'unknown')
                 nullable = 'nullable' if col.get('nullable', False) else 'required'
-                context_parts.append(f"  - {col['name']}: {col_type} ({nullable})")
+                source = col.get('source_api_name') or col.get('source_api')
+                context_parts.append(
+                    f"  - {col['name']} ({col_type}, {nullable}) from {source}"
+                )
 
             if len(columns) > 10:
-                context_parts.append(f"  ... and {len(columns) - 10} more columns")
+                context_parts.append(f"  ... and {len(columns) - 10} more column entries")
 
         # Sample data if available
         if sample_data and len(sample_data) > 0:

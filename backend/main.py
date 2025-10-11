@@ -45,6 +45,7 @@ from services.deployment_service import DeploymentService
 from services.socket_service import socket_service
 from services.cloud_metrics_service import CloudMetricsService
 from services.mcp_service import mcp_service
+from services.mcp_api_service import mcp_api_service
 
 app = Flask(__name__)
 app.secret_key = settings.secret_key
@@ -762,7 +763,14 @@ async def load_persistent_data():
                 print(f"Auto-registered deployed API: {job_id}")
 
         print(f"Total APIs after auto-registration: {len(running_apis)}")
-
+        
+        # Set MCP API service references after data is loaded
+        print(f"[DEBUG] Setting MCP API service references: jobs={len(jobs)}, running_apis={len(running_apis)}")
+        mcp_api_service.set_jobs_reference(jobs)
+        mcp_api_service.set_running_apis_reference(running_apis)
+        mcp_api_service.set_api_metadata_reference(api_metadata)
+        print(f"MCP API service references updated with {len(jobs)} jobs, {len(running_apis)} running APIs")
+Please do this piece for me. Redeploy the Cloud Run service through my cloudrun.sh file. Please do this for me.
     except Exception as e:
         print(f"Failed to load persistent data: {str(e)}")
 
@@ -3084,6 +3092,7 @@ def download_original_file(job_id):
 # Initialize socket service with global handlers (only if SocketIO is enabled)
 if socketio:
     socket_service.register_global_handlers(socketio)
+    socket_service.set_jobs_reference(jobs)
 
 # Socket endpoints for API management (only if SocketIO is enabled)
 if socketio:
@@ -3105,6 +3114,14 @@ else:
 
     def handle_cleanup():
         pass
+
+# Set jobs reference for socket service (needed for HTTP chat endpoints)
+socket_service.set_jobs_reference(jobs)
+
+# Set references for MCP API service
+mcp_api_service.set_jobs_reference(jobs)
+mcp_api_service.set_running_apis_reference(running_apis)
+mcp_api_service.set_api_metadata_reference(api_metadata)
 
 # MCP (Model Context Protocol) endpoints
 @app.route('/mcp/resources', methods=['GET'])
@@ -3147,6 +3164,271 @@ def get_mcp_resource(filename):
         return jsonify(content)
     except Exception as e:
         print(f"Error in MCP resource endpoint: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/mcp/ping', methods=['GET'])
+def mcp_ping():
+    """Simple ping endpoint to test deployment"""
+    return jsonify({"status": "MCP endpoints deployed", "timestamp": datetime.utcnow().isoformat()})
+
+# MCP API endpoints - Expose generated APIs as queryable resources
+@app.route('/mcp/apis', methods=['GET'])
+def get_mcp_apis():
+    print(f"[DEBUG] MCP APIs endpoint hit at {datetime.utcnow()}")
+    return get_mcp_apis_impl()
+
+def get_mcp_apis_impl():
+    """List all available APIs as MCP resources"""
+    try:
+        # Load persistent data first to ensure MCP API service has references
+        print(f"[DEBUG] MCP APIs endpoint called")
+        asyncio.run(load_persistent_data())
+        print(f"[DEBUG] Data loaded, calling MCP API service")
+
+        resources = asyncio.run(mcp_api_service.list_api_resources())
+        print(f"[DEBUG] Got {len(resources)} resources from MCP API service")
+        
+        result = {
+            "apis": [
+                {
+                    "id": r.id,
+                    "name": r.name,
+                    "description": r.description,
+                    "endpoint_url": r.endpoint_url,
+                    "schema": r.schema,
+                    "sample_data": r.sample_data,
+                    "created_at": r.created_at,
+                    "status": r.status
+                } for r in resources
+            ],
+            "total": len(resources)
+        }
+        
+        return jsonify(result)
+    except Exception as e:
+        print(f"Error in MCP APIs endpoint: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/mcp/apis/<api_id>', methods=['GET'])
+def get_mcp_api(api_id):
+    """Get a specific API resource"""
+    try:
+        # Load persistent data first to ensure MCP API service has references
+        asyncio.run(load_persistent_data())
+
+        resource = asyncio.run(mcp_api_service.get_api_resource(api_id))
+        
+        if not resource:
+            return jsonify({"error": "API not found"}), 404
+        
+        return jsonify({
+            "id": resource.id,
+            "name": resource.name,
+            "description": resource.description,
+            "endpoint_url": resource.endpoint_url,
+            "schema": resource.schema,
+            "sample_data": resource.sample_data,
+            "created_at": resource.created_at,
+            "status": resource.status
+        })
+    except Exception as e:
+        print(f"Error in MCP API endpoint: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/mcp/apis/<api_id>/query', methods=['GET', 'POST'])
+def query_mcp_api(api_id):
+    """Query a specific API"""
+    try:
+        # Load persistent data first to ensure MCP API service has references
+        asyncio.run(load_persistent_data())
+
+        # Get query parameters from request
+        query_params = {}
+
+        if request.method == 'GET':
+            query_params = dict(request.args)
+        elif request.method == 'POST':
+            query_params = request.get_json() or {}
+
+        result = asyncio.run(mcp_api_service.query_api(api_id, query_params))
+        
+        return jsonify(result)
+    except Exception as e:
+        print(f"Error querying MCP API: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/mcp/apis/query-multiple', methods=['POST'])
+def query_multiple_mcp_apis():
+    """Query multiple APIs at once"""
+    try:
+        # Load persistent data first to ensure MCP API service has references
+        asyncio.run(load_persistent_data())
+
+        data = request.get_json() or {}
+        api_ids = data.get('api_ids', [])
+        query_params = data.get('query_params', {})
+
+        if not api_ids:
+            return jsonify({"error": "No API IDs provided"}), 400
+
+        result = asyncio.run(mcp_api_service.query_multiple_apis(api_ids, query_params))
+        
+        return jsonify(result)
+    except Exception as e:
+        print(f"Error querying multiple APIs: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/mcp/test', methods=['GET'])
+def test_mcp_service():
+    """Test MCP API service functionality"""
+    try:
+        print(f"[DEBUG] Test endpoint called")
+        asyncio.run(load_persistent_data())
+
+        if hasattr(mcp_api_service, 'jobs') and mcp_api_service.jobs:
+            print(f"[DEBUG] MCP service has {len(mcp_api_service.jobs)} jobs")
+        else:
+            print(f"[DEBUG] MCP service has no jobs reference")
+
+        if hasattr(mcp_api_service, 'running_apis') and mcp_api_service.running_apis:
+            print(f"[DEBUG] MCP service has {len(mcp_api_service.running_apis)} running_apis")
+        else:
+            print(f"[DEBUG] MCP service has no running_apis reference")
+
+        return jsonify({
+            "jobs_count": len(mcp_api_service.jobs) if mcp_api_service.jobs else 0,
+            "running_apis_count": len(mcp_api_service.running_apis) if mcp_api_service.running_apis else 0,
+            "has_jobs_ref": hasattr(mcp_api_service, 'jobs') and mcp_api_service.jobs is not None,
+            "has_running_apis_ref": hasattr(mcp_api_service, 'running_apis') and mcp_api_service.running_apis is not None
+        })
+    except Exception as e:
+        print(f"[DEBUG] Test endpoint error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+# MCP Chat endpoint - Chat with APIs using AI
+@app.route('/mcp/chat', methods=['POST'])
+def mcp_chat():
+    """Chat with selected APIs using AI"""
+    try:
+        # Load persistent data first to ensure MCP API service has references
+        asyncio.run(load_persistent_data())
+
+        data = request.get_json() or {}
+        message = data.get('message', '')
+        api_ids = data.get('api_ids', [])
+
+        if not message:
+            return jsonify({"error": "No message provided"}), 400
+
+        if not api_ids:
+            return jsonify({"error": "No APIs selected"}), 400
+        
+        # Get API resources
+        api_resources = []
+        for api_id in api_ids:
+            resource = asyncio.run(mcp_api_service.get_api_resource(api_id))
+            if resource:
+                api_resources.append(resource)
+        
+        if not api_resources:
+            return jsonify({"error": "No valid APIs found"}), 404
+        
+        # Build context for AI
+        context = mcp_api_service.format_for_chat_context(api_resources)
+        
+        # Use AI service to generate response
+        ai_service = AIService()
+
+        # Build schema information combining all APIs
+        combined_schema = {
+            "row_count": 0,
+            "columns": [],
+            "api_details": [],
+            "api_count": len(api_resources)
+        }
+
+        all_sample_data = []
+        seen_columns = set()
+
+        for resource in api_resources:
+            schema = resource.schema or {}
+            row_count = schema.get('row_count')
+            if isinstance(row_count, (int, float)):
+                combined_schema["row_count"] += int(row_count)
+
+            combined_schema["api_details"].append({
+                "id": resource.id,
+                "name": resource.name,
+                "description": resource.description,
+                "row_count": row_count,
+                "column_count": len(schema.get('columns', []) or []),
+                "endpoint_url": resource.endpoint_url,
+                "status": resource.status
+            })
+
+            for column in schema.get('columns', []) or []:
+                col_name = column.get('name')
+                if not col_name:
+                    continue
+
+                # Keep duplicate column names per API separate so context includes origin
+                col_key = (resource.id, col_name)
+                if col_key in seen_columns:
+                    continue
+                seen_columns.add(col_key)
+
+                combined_schema["columns"].append({
+                    "name": col_name,
+                    "inferred_type": column.get('inferred_type'),
+                    "nullable": column.get('nullable', False),
+                    "source_api": resource.id,
+                    "source_api_name": resource.name
+                })
+
+            # Annotate sample rows with their source so downstream responses can reference it
+            annotated_samples = []
+            for record in (resource.sample_data or [])[:3]:
+                if isinstance(record, dict):
+                    sample_record = {
+                        "__api_id": resource.id,
+                        "__api_name": resource.name,
+                        **record
+                    }
+                else:
+                    sample_record = {
+                        "__api_id": resource.id,
+                        "__api_name": resource.name,
+                        "values": record
+                    }
+                annotated_samples.append(sample_record)
+
+            if annotated_samples:
+                all_sample_data.extend(annotated_samples)
+
+        print(
+            f"[MCP Chat] Message received for {len(api_resources)} API(s). "
+            f"Combined rows: {combined_schema['row_count']}, "
+            f"columns tracked: {len(combined_schema['columns'])}, "
+            f"samples gathered: {len(all_sample_data)}"
+        )
+
+        response = asyncio.run(
+            ai_service.chat_with_data(
+                f"{context}\n\nUser question: {message}",
+                combined_schema,
+                all_sample_data
+            )
+        )
+        
+        return jsonify({
+            "success": True,
+            "message": response,
+            "apis_used": [r.id for r in api_resources],
+            "timestamp": datetime.utcnow().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"Error in MCP chat: {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':

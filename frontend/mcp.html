@@ -1037,35 +1037,6 @@
     </style>
 </head>
 <body>
-    <!-- Pixel Loading Screen -->
-    <div id="pixel-loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
-        <div class="text-center">
-            <!-- Pixel Logo Animation -->
-            <div class="mb-8">
-                <div class="inline-block relative">
-                    <div class="text-4xl arcade-title text-black mb-4">api<span class="arcade-neon">UI</span></div>
-                    <div class="flex justify-center space-x-1">
-                        <div class="w-3 h-3 bg-pink-500 animate-pulse"></div>
-                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.2s"></div>
-                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.4s"></div>
-                        <div class="w-3 h-3 bg-pink-500 animate-pulse" style="animation-delay: 0.6s"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Loading Text -->
-            <div class="pixel-subtitle text-black text-lg mb-4">CONNECTING TO MCP SERVER...</div>
-
-            <!-- Pixel Loading Bar -->
-            <div class="w-64 h-4 bg-gray-200 border-2 border-gray-400 mx-auto relative overflow-hidden">
-                <div id="loading-bar" class="h-full bg-gradient-to-r from-pink-500 to-pink-600 transition-all duration-1000 ease-out" style="width: 0%"></div>
-            </div>
-
-            <!-- Fun Loading Messages -->
-            <div id="loading-message" class="pixel-body text-gray-600 text-sm mt-4">Initializing MCP connection...</div>
-        </div>
-    </div>
-
     <!-- Floating Navigation Sidebar -->
     <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
         <div class="floating-sidebar-container bg-white p-2 shadow-lg">
@@ -1084,13 +1055,12 @@
                     </svg>
                 </a>
 
-                <!-- Docs -->
-                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
+                <!-- MCP Chat -->
+                <a href="mcp-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Chat">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
                     </svg>
                 </a>
-
 
                 <!-- MCP Server -->
                 <a href="mcp.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Server">
@@ -1099,10 +1069,10 @@
                     </svg>
                 </a>
 
-                <!-- Socket Chat -->
-                <a href="socket-chat.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Socket Chat">
+                <!-- Docs -->
+                <a href="docs.html" class="group floating-sidebar-icon p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
                 </a>
             </div>
@@ -1121,6 +1091,7 @@
             <div class="hidden md:flex items-center space-x-6">
                 <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
                 <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
+                <a href="mcp-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Chat</a>
                 <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
                 <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
             </div>
@@ -1137,7 +1108,8 @@
             <div class="pixel-container py-4 space-y-4">
                 <a href="app.html" class="block text-black hover:text-pink-500 font-medium py-2">App</a>
                 <a href="mcp.html" class="block text-black hover:text-pink-500 font-medium py-2">MCP</a>
-                <a href="socket-chat.html" class="block text-black hover:text-pink-500 font-medium py-2">Sock chat</a>
+                <a href="mcp-chat.html" class="block text-black hover:text-pink-500 font-medium py-2">MCP Chat</a>
+                <a href="socket-chat.html" class="block text-black hover:text-pink-500 font-medium py-2">Socket chat</a>
                 <a href="docs.html" class="block text-black hover:text-pink-500 font-medium py-2">Docs</a>
                 <a href="learn-more.html" class="block text-black hover:text-pink-500 font-medium py-2">Learn more</a>
             </div>
@@ -1198,6 +1170,16 @@
                     </div>
                     <h3 class="pixel-subtitle text-lg text-black mb-2">How to Connect</h3>
                     <p class="pixel-body text-black text-sm">Step-by-step guide to connect MCP clients to your server</p>
+                </a>
+
+                <a href="mcp-chat.html" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
+                    <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
+                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="pixel-subtitle text-lg text-black mb-2">Chat with APIs</h3>
+                    <p class="pixel-body text-black text-sm">Ask questions about your data using natural language</p>
                 </a>
 
                 <a href="#file-browser" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
@@ -1412,6 +1394,10 @@
                     <h4 class="pixel-subtitle text-black mb-2">MCP Server</h4>
                     <p class="pixel-body text-black text-sm">Model Context Protocol file access</p>
                 </a>
+                <a href="mcp-chat.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">MCP Chat</h4>
+                    <p class="pixel-body text-black text-sm">Chat with APIs using natural language</p>
+                </a>
                 </div>
             </section>
         </main>
@@ -1494,57 +1480,6 @@
                     });
                 }
             });
-        });
-
-        // Pixel Loading Animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('pixel-loading');
-            const loadingBar = document.getElementById('loading-bar');
-            const loadingMessage = document.getElementById('loading-message');
-
-            const loadingMessages = [
-                'Initializing MCP connection...',
-                'Setting up file access...',
-                'Loading resource manifest...',
-                'Preparing file browser...',
-                'MCP server ready!'
-            ];
-
-            let messageIndex = 0;
-            let progress = 0;
-
-            const loadingInterval = setInterval(() => {
-                progress += Math.random() * 15;
-                if (progress > 100) progress = 100;
-
-                loadingBar.style.width = progress + '%';
-
-                // Change message every 20% progress
-                const newMessageIndex = Math.floor(progress / 20);
-                if (newMessageIndex !== messageIndex && newMessageIndex < loadingMessages.length) {
-                    messageIndex = newMessageIndex;
-                    loadingMessage.textContent = loadingMessages[messageIndex];
-                }
-
-                if (progress >= 100) {
-                    clearInterval(loadingInterval);
-                    // Hide immediately for debugging
-                    loadingScreen.style.display = 'none';
-                    console.log('MCP page loading screen hidden - content should be visible now');
-
-                    // Now load the actual files
-                    loadFiles();
-                }
-            }, 150);
-
-            // Fallback: hide loading screen after 1.5 seconds regardless
-            setTimeout(() => {
-                if (loadingScreen && loadingScreen.style.display !== 'none') {
-                    loadingScreen.style.display = 'none';
-                    console.log('MCP page loading screen hidden via fallback timeout');
-                    loadFiles();
-                }
-            }, 1500);
         });
 
         // Pixel Scroll-triggered Animations
