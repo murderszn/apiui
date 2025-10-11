@@ -3532,6 +3532,18 @@
             const statusColor = api.status === 'running' ? 'text-pink-400' : 'text-yellow-400';
             const statusIcon = api.status === 'running' ? '●' : '○';
 
+            // Load local summaries from localStorage (same as index.html)
+            let localSummaries = {};
+            try {
+                localSummaries = JSON.parse(localStorage.getItem('apiui_summaries') || '{}');
+            } catch (e) {
+                console.log('Could not load local summaries');
+            }
+
+            // Get description with same priority as index.html: localSummary > api.summary > api.description > default
+            const localSummary = localSummaries[api.id];
+            const description = localSummary || api.summary || api.description || 'Generated API with endpoints available through apiUI.';
+
             row.innerHTML = `
                 <div class="flex items-start justify-between gap-4">
                     <div class="flex items-center gap-3">
@@ -3545,7 +3557,7 @@
                     <span class="hub-pill">${api.status === 'running' ? 'Live' : 'Stopped'}</span>
                 </div>
                 <p class="pixel-body text-sm text-gray-400 leading-6">
-                    ${api.description || 'Generated API with endpoints available through apiUI.'}
+                    ${description}
                 </p>
                 ${(api.api_url || api.url) ? `
                     <div class="text-xs text-gray-400 font-mono truncate">${api.api_url || api.url}</div>
