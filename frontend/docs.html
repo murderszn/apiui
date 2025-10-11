@@ -1062,7 +1062,6 @@
             <div class="pixel-container py-4 space-y-4">
                 <a href="app.html" class="block text-black hover:text-pink-400 font-medium py-2">App</a>
                 <a href="mcp.html" class="block text-black hover:text-pink-400 font-medium py-2">MCP</a>
-                <a href="socket-chat.html" class="block text-black hover:text-pink-400 font-medium py-2">Sock chat</a>
                 <a href="docs.html" class="block text-black hover:text-pink-400 font-medium py-2">Docs</a>
                 <a href="learn-more.html" class="block text-black hover:text-pink-400 font-medium py-2">Learn more</a>
             </div>
@@ -1197,7 +1196,7 @@
                         <p class="mb-3">Explore additional tools for data management and interaction:</p>
                         <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
                             <li><strong>Data Editor:</strong> Excel-like interface for real-time data editing</li>
-                            <li><strong>Socket Chat:</strong> Natural language queries to interact with your API</li>
+                            <li><strong>MCP Chat:</strong> Natural language queries to interact with your APIs using AI</li>
                             <li><strong>API Analytics:</strong> Monitor performance, usage, and error rates</li>
                             <li><strong>Deployment:</strong> One-click deployment to Google Cloud Run</li>
                         </ul>
@@ -1303,62 +1302,64 @@
                 </div>
             </section>
 
-            <section id="socket-chat" class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">Socket Chat</h2>
-                <p class="mb-6">The Socket Chat feature provides a natural language interface for interacting with your APIs using real-time chat.</p>
+            <section id="mcp-chat" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">MCP Chat</h2>
+                <p class="mb-6">The MCP Chat feature provides a natural language interface for interacting with your APIs using the Model Context Protocol (MCP). Ask questions about your data in plain English and get intelligent responses powered by AI.</p>
 
                 <div class="space-y-6">
                     <div>
                         <h3 class="text-xl font-semibold mb-2">Natural Language Queries</h3>
-                        <p class="mb-3">Ask questions about your data in plain English and get instant responses:</p>
+                        <p class="mb-3">Ask questions about your data in plain English and get intelligent AI-powered responses:</p>
                         <div class="code-block">
-"Show me the first 5 records"<br>
-"How many records are there?"<br>
-"What columns do I have?"<br>
-"Find all records where department is Engineering"
+"What are the columns in this dataset?"<br>
+"Show me a summary of the data"<br>
+"Find records where sales > 1000"<br>
+"Compare data between these two APIs"<br>
+"What's the trend in user registrations?"
                         </div>
                     </div>
 
                     <div>
-                        <h3 class="text-xl font-semibold mb-2">Quick Actions</h3>
+                        <h3 class="text-xl font-semibold mb-2">Key Features</h3>
                         <div class="grid md:grid-cols-2 gap-4">
                             <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Sample Query</h4>
-                                <p class="pixel-body text-black text-sm">Get a preview of your data structure and sample records.</p>
+                                <h4 class="pixel-subtitle text-black mb-2">AI-Powered Queries</h4>
+                                <p class="pixel-body text-black text-sm">Intelligent responses using natural language processing and AI.</p>
                             </div>
                             <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Count Records</h4>
-                                <p class="pixel-body text-black text-sm">Get the total number of records in your dataset.</p>
+                                <h4 class="pixel-subtitle text-black mb-2">Multi-API Support</h4>
+                                <p class="pixel-body text-black text-sm">Chat with multiple APIs simultaneously for comprehensive insights.</p>
                             </div>
                             <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Show Columns</h4>
-                                <p class="pixel-body text-black text-sm">View all available column names and their data types.</p>
+                                <h4 class="pixel-subtitle text-black mb-2">Context Awareness</h4>
+                                <p class="pixel-body text-black text-sm">Maintains conversation context across multiple queries.</p>
                             </div>
                             <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Describe Data</h4>
-                                <p class="pixel-body text-black text-sm">Get statistical summaries and data insights.</p>
+                                <h4 class="pixel-subtitle text-black mb-2">Structured Responses</h4>
+                                <p class="pixel-body text-black text-sm">JSON-formatted responses perfect for programmatic use.</p>
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <h3 class="text-xl font-semibold mb-2">Real-time Communication</h3>
+                        <h3 class="text-xl font-semibold mb-2">Advanced Capabilities</h3>
                         <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
-                            <li><strong>WebSocket Support:</strong> Real-time bidirectional communication</li>
-                            <li><strong>HTTP Fallback:</strong> Automatic fallback for environments without WebSocket support</li>
-                            <li><strong>Typing Indicators:</strong> Visual feedback when the API is processing your query</li>
-                            <li><strong>Chat History:</strong> Persistent conversation history during your session</li>
+                            <li><strong>AI-Powered Responses:</strong> Intelligent answers using natural language processing</li>
+                            <li><strong>Multi-API Conversations:</strong> Query multiple APIs simultaneously for comprehensive insights</li>
+                            <li><strong>Context Awareness:</strong> Maintains conversation context across multiple queries</li>
+                            <li><strong>API Usage Tracking:</strong> Shows which APIs were used for each response</li>
                         </ul>
                     </div>
 
                     <div>
                         <h3 class="text-xl font-semibold mb-2">How to Use</h3>
                         <ol class="list-decimal list-inside text-sm text-gray-600 space-y-2">
-                            <li>Select an API from the dropdown menu or enter an API ID manually</li>
-                            <li>Click "Connect to API" to establish the chat connection</li>
-                            <li>Use quick action buttons for common queries or type custom questions</li>
-                            <li>View responses in the chat interface with formatted JSON output</li>
-                            <li>Ask follow-up questions to explore your data further</li>
+                            <li>Navigate to the MCP Chat page from the sidebar</li>
+                            <li>Select one or multiple APIs from the selector at the top</li>
+                            <li>Start chatting by typing questions in natural language</li>
+                            <li>Use the interface to ask follow-up questions and explore your data</li>
+                            <li>View structured responses with API usage information</li>
+                            <li>Leverage AI-powered insights across multiple data sources</li>
                         </ol>
                     </div>
                 </div>
@@ -1671,9 +1672,9 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
                     <h4 class="pixel-subtitle text-black mb-2">Data Editor</h4>
                     <p class="pixel-body text-black text-sm">Excel-like interface for editing API data</p>
                 </a>
-                <a href="socket-chat.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
-                    <h4 class="pixel-subtitle text-black mb-2">Socket Chat</h4>
-                    <p class="pixel-body text-black text-sm">Natural language queries for your APIs</p>
+                <a href="mcp-chat.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
+                    <h4 class="pixel-subtitle text-black mb-2">MCP Chat</h4>
+                    <p class="pixel-body text-black text-sm">AI-powered chat with your APIs</p>
                 </a>
                 <a href="api-docs.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
                     <h4 class="pixel-subtitle text-black mb-2">API Docs</h4>
