@@ -2,7 +2,7 @@
   "running_apis": {
     "cb895f91-d355-49e1-a6ef-546c14f08fd1": {
       "id": "cb895f91-d355-49e1-a6ef-546c14f08fd1",
-      "api_url": "https://apiui-cb895f91-us-central1.run.app/api/cb895f91-d355-49e1-a6ef-546c14f08fd1",
+      "api_url": "https://apiui-backend-44565368406.us-central1.run.app/api/cb895f91-d355-49e1-a6ef-546c14f08fd1",
       "api_key": "7fc4ee0c-ec73-4aba-bc34-2ac5b72c2a90",
       "started_at": "2025-10-03T00:02:11.096251",
       "port": null,

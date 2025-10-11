@@ -70,6 +70,19 @@
     </image:image>
   </url>
 
+  <!-- API Docs -->
+  <url>
+    <loc>https://apiui.web.app/api-docs.html</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://apiui.web.app/favicon.png</image:loc>
+      <image:title>API Documentation</image:title>
+      <image:caption>Professional API analytics dashboard with real-time monitoring, sample data, and comprehensive insights</image:caption>
+    </image:image>
+  </url>
+
   <!-- API Analytics -->
   <url>
     <loc>https://apiui.web.app/api-analytics.html</loc>

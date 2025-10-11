@@ -154,3 +154,4 @@ echo "3. Start chatting with your data!"
 echo ""
 echo -e "${YELLOW}💡 Tip: Run ./test_mcp_chat.sh to test all endpoints${NC}"
 
+

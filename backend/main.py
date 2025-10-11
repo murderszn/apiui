@@ -754,7 +754,7 @@ async def load_persistent_data():
             if job_data.get('status') == 'deployed' and job_id not in running_apis:
                 running_apis[job_id] = {
                     "id": job_id,
-                    "api_url": job_data.get("api_url"),
+                    "api_url": build_external_url(f"/api/{job_id}"),
                     "api_key": job_data.get("api_key"),
                     "started_at": job_data.get("completed_at", job_data.get("created_at")),
                     "port": None,  # Cloud Run doesn't use local ports
@@ -770,7 +770,6 @@ async def load_persistent_data():
         mcp_api_service.set_running_apis_reference(running_apis)
         mcp_api_service.set_api_metadata_reference(api_metadata)
         print(f"MCP API service references updated with {len(jobs)} jobs, {len(running_apis)} running APIs")
-Please do this piece for me. Redeploy the Cloud Run service through my cloudrun.sh file. Please do this for me.
     except Exception as e:
         print(f"Failed to load persistent data: {str(e)}")
 
@@ -951,7 +950,7 @@ def trigger_deployment(job_id: str) -> None:
             # Register the deployed API in running_apis for Cloud Run deployments
             running_apis[job_id] = {
                 "id": job_id,
-                "api_url": job_ref["api_url"],
+                "api_url": build_external_url(f"/api/{job_id}"),
                 "api_key": job_ref.get("api_key"),
                 "started_at": job_ref["completed_at"],
                 "port": None,  # Cloud Run doesn't use local ports
@@ -968,7 +967,7 @@ def trigger_deployment(job_id: str) -> None:
             # Save API record to Supabase database
             api_record = {
                 "api_name": f"API {job_id[:8]}",
-                "endpoint_url": job_ref["api_url"],
+                "endpoint_url": build_external_url(f"/api/{job_id}"),
                 "file_path": job_ref.get("file_path"),
                 "status": "active",
                 "deployment_metadata": {
@@ -1626,6 +1625,85 @@ def read_data_from_bytes(file_data: bytes, file_ext: str):
         raise ValueError(f"Unsupported file format: {file_ext}")
 
 
+def _get_job_record(api_id: str):
+    """Retrieve a job record for a generated API, loading persisted jobs if needed"""
+    job = jobs.get(api_id)
+    if job:
+        return job
+
+    try:
+        persisted_jobs = storage_service.load_persistent_data("jobs") or {}
+        if api_id in persisted_jobs:
+            jobs[api_id] = persisted_jobs[api_id]
+            return jobs[api_id]
+    except Exception as e:
+        print(f"Failed to load job record for {api_id}: {str(e)}")
+
+    return None
+
+
+def _normalize_records(records):
+    """Ensure records are a list of dictionaries for serialization"""
+    if not records:
+        return []
+
+    normalized = []
+    for idx, item in enumerate(records, start=1):
+        if isinstance(item, dict):
+            normalized.append(item)
+        elif isinstance(item, (list, tuple)):
+            normalized.append({f"column_{i+1}": value for i, value in enumerate(item)})
+        else:
+            normalized.append({"value": item, "index": idx})
+
+    return normalized
+
+
+def _serialize_records_to_csv(records):
+    """Convert list of dict records into CSV bytes"""
+    import csv
+    import io
+
+    normalized = _normalize_records(records)
+    if not normalized:
+        return b""
+
+    fieldnames = []
+    for record in normalized:
+        for key in record.keys():
+            if key not in fieldnames:
+                fieldnames.append(key)
+
+    buffer = io.StringIO()
+    writer = csv.DictWriter(buffer, fieldnames=fieldnames)
+    writer.writeheader()
+    for record in normalized:
+        writer.writerow({field: record.get(field, '') for field in fieldnames})
+
+    return buffer.getvalue().encode('utf-8')
+
+
+def _determine_mime_type(filename: str) -> str:
+    ext = os.path.splitext(filename)[1].lower()
+    return {
+        '.csv': 'text/csv',
+        '.json': 'application/json',
+        '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        '.xls': 'application/vnd.ms-excel',
+        '.parquet': 'application/octet-stream',
+        '.txt': 'text/plain'
+    }.get(ext, 'application/octet-stream')
+
+
+def _build_download_response(content: bytes, filename: str, mime_type: str):
+    response = make_response(content)
+    response.headers['Content-Type'] = mime_type
+    response.headers['Content-Disposition'] = f'attachment; filename="{filename}"'
+    response.headers['Content-Length'] = str(len(content))
+    response.headers['Access-Control-Expose-Headers'] = 'Content-Disposition'
+    return response
+
+
 @app.route('/v1/auth/log-login', methods=['POST'])
 def log_user_login():
     """Log user login attempts to the database"""
@@ -1837,7 +1915,7 @@ def get_generation_status(job_id):
     return jsonify({
         "job_id": job["id"],
         "status": job["status"],
-        "api_url": job["api_url"],
+        "api_url": build_external_url(f"/api/{job['id']}"),
         "api_endpoints": job.get("api_endpoints"),
         "api_key": job["api_key"],
         "error_message": job["error_message"],
@@ -1966,7 +2044,7 @@ def list_generated_apis():
                 "has_data_csv": True,  # They serve data
                 "has_requirements": False,  # No local requirements file
                 "status": "running",  # Cloud Run APIs are always "running"
-                "url": api_info_running.get("api_url"),
+                "url": build_external_url(f"/api/{api_id}"),
                 "port": api_info_running.get("port"),
                 "started_at": api_info_running.get("started_at"),
                 "api_key": api_info_running.get("api_key"),
@@ -2036,7 +2114,7 @@ def list_chat_enabled_apis():
                     "status": job_data.get("status", "unknown"),
                     "created_at": job_data.get("created_at"),
                     "completed_at": job_data.get("completed_at"),
-                    "url": job_data.get("api_url"),
+                    "url": build_external_url(f"/api/{job_id}"),
                     "has_data": bool(job_data.get("schema"))
                 }
                 chat_enabled_apis.append(api_info)
@@ -2180,6 +2258,92 @@ def get_api_details(api_id):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/v1/apis/<api_id>/download', methods=['GET'])
+def download_generated_api_asset(api_id):
+    """Download assets for a generated API (original file, CSV, JSON)"""
+    try:
+        format_option = (request.args.get('format') or 'original').lower()
+        if format_option not in {'original', 'csv', 'json'}:
+            return jsonify({"error": f"Unsupported format '{format_option}'"}), 400
+
+        def load_dataset():
+            csv_bytes = storage_service.get_generated_api_file_bytes(api_id, 'data.csv')
+            if csv_bytes:
+                try:
+                    records = read_data_from_bytes(csv_bytes, '.csv')
+                    if isinstance(records, dict) and records.get('error'):
+                        raise ValueError(records['error'])
+                    return records, '.csv', csv_bytes
+                except Exception as csv_error:
+                    print(f"Failed to parse stored CSV for {api_id}: {csv_error}")
+
+            job_record = _get_job_record(api_id)
+            if not job_record:
+                return None, None, None
+
+            file_path = job_record.get('file_path')
+            if not file_path:
+                return None, None, None
+
+            file_bytes = storage_service.get_upload_file(file_path)
+            if not file_bytes:
+                return None, None, None
+
+            source_ext = os.path.splitext(file_path)[1].lower() or '.csv'
+            try:
+                records = read_data_from_bytes(file_bytes, source_ext)
+                if isinstance(records, dict) and records.get('error'):
+                    raise ValueError(records['error'])
+                return records, source_ext, file_bytes
+            except Exception as original_error:
+                print(f"Failed to parse original file for {api_id}: {original_error}")
+                return None, None, None
+
+        if format_option == 'original':
+            job_record = _get_job_record(api_id)
+            if not job_record:
+                return jsonify({"error": "Original file not available for this API"}), 404
+
+            file_path = job_record.get('file_path')
+            if not file_path:
+                return jsonify({"error": "Original file path missing for this API"}), 404
+
+            file_bytes = storage_service.get_upload_file(file_path)
+            if not file_bytes:
+                return jsonify({"error": "Original file not found"}), 404
+
+            filename = job_record.get('filename') or os.path.basename(file_path) or f"api_{api_id}_data"
+            if '.' not in filename:
+                filename = f"{filename}.dat"
+            mime_type = _determine_mime_type(filename)
+            return _build_download_response(file_bytes, filename, mime_type)
+
+        records, source_ext, csv_bytes = load_dataset()
+        if records is None:
+            return jsonify({"error": "Dataset not available for this API"}), 404
+
+        normalized_records = records
+        if not isinstance(normalized_records, list):
+            normalized_records = [normalized_records]
+        if normalized_records and not isinstance(normalized_records[0], dict):
+            normalized_records = _normalize_records(normalized_records)
+
+        if format_option == 'json':
+            json_payload = json.dumps(normalized_records, indent=2)
+            return _build_download_response(json_payload.encode('utf-8'), f"{api_id}.json", 'application/json')
+
+        if source_ext == '.csv' and csv_bytes:
+            csv_payload = csv_bytes
+        else:
+            csv_payload = _serialize_records_to_csv(normalized_records)
+
+        return _build_download_response(csv_payload, f"{api_id}.csv", 'text/csv')
+
+    except Exception as e:
+        return jsonify({"error": f"Failed to download asset: {str(e)}"}), 500
+
 
 @app.route('/v1/apis/<api_id>/name', methods=['PUT'])
 def update_api_name(api_id):

@@ -164,6 +164,22 @@ class StorageService:
             print(f"❌ Failed to retrieve generated API {api_id}: {str(e)}")
             return None
 
+    def get_generated_api_file_bytes(self, api_id: str, filename: str) -> Optional[bytes]:
+        """Retrieve a generated API file as raw bytes"""
+        try:
+            if self.use_gcs:
+                blob = self.bucket.blob(f"generated_apis/{api_id}/{filename}")
+                if blob.exists():
+                    return blob.download_as_bytes()
+            else:
+                file_path = os.path.join(self.local_apis_dir, api_id, filename)
+                if os.path.exists(file_path):
+                    with open(file_path, 'rb') as f:
+                        return f.read()
+        except Exception as e:
+            print(f"❌ Failed to retrieve generated API file {api_id}/{filename}: {str(e)}")
+        return None
+
     def list_generated_apis(self) -> List[str]:
         """List all generated API IDs"""
         try:

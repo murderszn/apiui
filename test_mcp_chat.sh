@@ -183,3 +183,4 @@ echo -e "4. Try comparing multiple APIs"
 echo ""
 echo -e "${GREEN}Happy chatting with your APIs! 🚀${NC}"
 
+

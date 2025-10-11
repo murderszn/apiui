@@ -22,8 +22,11 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <link rel="canonical" href="https://apiui.web.app/app.html">
-    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -62,7 +65,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Default to hosted Cloud Run backend; override via query param for local testing
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
     </script>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -206,14 +209,21 @@
             --pixel-gray-100: #0f172a;  /* Inverted: darkest gray */
             --pixel-gray-200: #1e293b;  /* Inverted: dark gray */
             --pixel-gray-300: #334155;  /* Inverted: medium dark gray */
-            /* Hub Design System */
+            /* Hub Design System - Rigid Pixel-Inspired Variables */
             --hub-pink: #ec4899;
             --hub-pink-soft: #f472b6;
-            --hub-ink: #0f172a;
-            --hub-ink-soft: #1f2937;
-            --hub-surface: #ffffff;
-            --hub-muted: #64748b;
-            --hub-border: rgba(15, 23, 42, 0.12);
+            --hub-black: #000000;
+            --hub-white: #ffffff;
+            --hub-gray-50: #f9fafb;
+            --hub-gray-100: #f3f4f6;
+            --hub-gray-200: #e5e7eb;
+            --hub-gray-300: #d1d5db;
+            --hub-gray-400: #9ca3af;
+            --hub-gray-500: #6b7280;
+            --hub-gray-600: #4b5563;
+            --hub-gray-700: #374151;
+            --hub-gray-800: #1f2937;
+            --hub-gray-900: #111827;
         }
 
         /* CTA Button with Layered Glow Effect */
@@ -3515,11 +3525,27 @@
             }
         }
 
+        // Navigation helper to open the API detail page
+
+        function openApiDetail(api) {
+            if (!api || !api.id) return;
+            try {
+                sessionStorage.setItem('apiui_selected_api', JSON.stringify(api));
+            } catch (error) {
+                console.warn('Failed to cache API details locally', error);
+            }
+
+            window.location.href = `api-detail.html?id=${encodeURIComponent(api.id)}`;
+        }
+
         // Create API row element
+
         function createApiRow(api) {
             const row = document.createElement('div');
             row.className = 'api-card p-6 flex flex-col gap-6 cursor-pointer';
             row.style.cursor = 'pointer';
+            row.setAttribute('role', 'button');
+            row.setAttribute('tabindex', '0');
 
             const statusColor = api.status === 'running' ? 'text-pink-400' : 'text-yellow-400';
             const statusIcon = api.status === 'running' ? '●' : '○';
@@ -3556,9 +3582,13 @@
                 ` : ''}
                 <div class="hub-divider"></div>
             `;
-
-            // Button functionality removed - pages no longer exist
-
+            row.addEventListener('click', () => openApiDetail(api));
+            row.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openApiDetail(api);
+                }
+            });
 
             return row;
         }
