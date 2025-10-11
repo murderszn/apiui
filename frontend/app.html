@@ -3582,25 +3582,22 @@
                 if (e.target.closest('.api-docs-btn') || e.target.closest('.view-data-btn')) {
                     return;
                 }
-                // Encode API data and navigate to API docs page
-                const apiData = encodeURIComponent(JSON.stringify(api));
-                window.location.href = `api-docs.html?id=${api.id}&data=${apiData}`;
+                // Navigate to API details (functionality removed)
+                console.log('API docs navigation removed');
             });
 
             const docsBtn = row.querySelector('.api-docs-btn');
             docsBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // Encode API data and pass it via URL parameters
-                const apiData = encodeURIComponent(JSON.stringify(api));
-                window.open(`api-docs.html?id=${api.id}&data=${apiData}`, '_blank');
+                // API docs functionality removed
+                console.log('API docs functionality removed');
             });
 
             const viewDataBtn = row.querySelector('.view-data-btn');
             viewDataBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // Encode API data and pass it via URL parameters
-                const apiData = encodeURIComponent(JSON.stringify(api));
-                window.open(`data-editor.html?id=${api.id}&data=${apiData}`, '_blank');
+                // Data editor functionality removed
+                console.log('Data editor functionality removed');
             });
 
 
