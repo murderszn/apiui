@@ -3576,29 +3576,7 @@
                 </div>
             `;
 
-            // Make the entire card clickable to go to API docs
-            row.addEventListener('click', (e) => {
-                // Don't trigger if clicking on buttons
-                if (e.target.closest('.api-docs-btn') || e.target.closest('.view-data-btn')) {
-                    return;
-                }
-                // Navigate to API details (functionality removed)
-                console.log('API docs navigation removed');
-            });
-
-            const docsBtn = row.querySelector('.api-docs-btn');
-            docsBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                // API docs functionality removed
-                console.log('API docs functionality removed');
-            });
-
-            const viewDataBtn = row.querySelector('.view-data-btn');
-            viewDataBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                // Data editor functionality removed
-                console.log('Data editor functionality removed');
-            });
+            // Button functionality removed - pages no longer exist
 
 
             return row;
