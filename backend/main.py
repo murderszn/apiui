@@ -3595,6 +3595,110 @@ def mcp_chat():
         print(f"Error in MCP chat: {e}")
         return jsonify({"error": str(e)}), 500
 
+# GitHub Contributions Update Endpoint
+@app.route('/api/github/contributions/update', methods=['POST'])
+def update_github_contributions():
+    """Update GitHub contributions data and refresh the resume"""
+    try:
+        import os
+        import json
+        import subprocess
+        import tempfile
+
+        # Get GitHub token from environment
+        github_token = os.getenv('GITHUB_TOKEN') or os.getenv('PERSONAL_ACCESS_TOKEN')
+        if not github_token:
+            return jsonify({"error": "GitHub token not configured"}), 500
+
+        # GitHub GraphQL query
+        query = """
+        query {
+            user(login: "murderszn") {
+                contributionsCollection {
+                    contributionCalendar {
+                        totalContributions
+                        weeks {
+                            contributionDays {
+                                contributionCount
+                                date
+                            }
+                        }
+                    }
+                }
+            }
+        }"""
+
+        # Make GraphQL request
+        response = httpx.post(
+            'https://api.github.com/graphql',
+            headers={
+                'Authorization': f'Bearer {github_token}',
+                'Content-Type': 'application/json'
+            },
+            json={'query': query}
+        )
+
+        if response.status_code != 200:
+            return jsonify({"error": f"GitHub API error: {response.status_code}"}), 500
+
+        data = response.json()
+
+        if 'errors' in data:
+            return jsonify({"error": f"GraphQL errors: {data['errors']}"}), 500
+
+        # Extract contributions data
+        weeks = data['data']['user']['contributionsCollection']['contributionCalendar']['weeks']
+        contributions = []
+        for week in weeks:
+            for day in week['contributionDays']:
+                contributions.append({
+                    'date': day['date'],
+                    'count': day['contributionCount']
+                })
+
+        total_contributions = sum(c['count'] for c in contributions)
+
+        # Create JavaScript data file
+        js_content = f"// Static GitHub contributions data (fetched {datetime.utcnow().strftime('%Y-%m-%d')})\n"
+        js_content += "function getStaticContributions() {\n"
+        js_content += f"    return {json.dumps(contributions, indent=12)};\n"
+        js_content += "}\n"
+
+        # Write to frontend data file
+        frontend_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
+        data_file = os.path.join(frontend_dir, 'github-contributions-data.js')
+        with open(data_file, 'w') as f:
+            f.write(js_content)
+
+        # Update resume.html
+        resume_file = os.path.join(frontend_dir, 'resume.html')
+        with open(resume_file, 'r') as f:
+            resume_content = f.read()
+
+        # Find and replace the getStaticContributions function
+        import re
+        pattern = r'function getStaticContributions\(\) \{\s*return \[[\s\S]*?\];\s*\}'
+        new_function = f'function getStaticContributions() {{\n            return {json.dumps(contributions, indent=12)};\n        }}'
+
+        if re.search(pattern, resume_content):
+            resume_content = re.sub(pattern, new_function, resume_content)
+
+            # Write updated resume
+            with open(resume_file, 'w') as f:
+                f.write(resume_content)
+
+        return jsonify({
+            "success": True,
+            "message": f"Updated GitHub contributions: {total_contributions} total contributions",
+            "total_contributions": total_contributions,
+            "days_processed": len(contributions),
+            "last_updated": datetime.utcnow().isoformat()
+        })
+
+    except Exception as e:
+        print(f"Error updating GitHub contributions: {e}")
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     import os
     port = int(os.environ.get('PORT', 9999))  # Docker container port
