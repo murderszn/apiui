@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APIUI | API Detail</title>
     <meta name="description" content="Deep dive into an APIUI dataset API. View documentation, sample data, code snippets, and download source files.">
-    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-cloud-logo-black.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apiui-cloud-logo-black.png">
+    <link rel="shortcut icon" href="apiui-cloud-logo-black.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -15,7 +17,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        window.APIUI_AUTH_BASE_URL = window.APIUI_AUTH_BASE_URL || 'https://apiui-backend-44565368406.us-central1.run.app';
+        window.APIUI_AUTH_BASE_URL = window.APIUI_AUTH_BASE_URL || 'https://apiui-backend-24bi767viq-uc.a.run.app';
 
         // Pixel Loading Animation
         document.addEventListener('DOMContentLoaded', function() {
@@ -887,11 +889,7 @@
         <div class="sidebar-header">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-pink-400 to-pink-500 flex items-center justify-center rounded shadow-sm">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                        </svg>
-                    </div>
+                    <img src="apiui-cloud-logo-black.png" alt="apiUI Logo" class="w-8 h-8 rounded shadow-sm">
                     <div>
                         <h2 class="text-base font-bold tracking-[0.14em] text-white pixel-heading">
                             api<span class="text-pink-500">UI</span>
@@ -1068,26 +1066,63 @@
                 <div class="absolute inset-0 opacity-25 pointer-events-none" style="background: radial-gradient(circle at top right, rgba(233, 30, 99, 0.3), transparent 60%);"></div>
                 <div class="relative z-10 grid gap-10 lg:grid-cols-[2fr,1fr] lg:items-start">
                     <div>
-                        <div class="inline-flex items-center gap-2 pixel-badge px-3 py-2 mb-6">
-                            <span class="w-2 h-2 bg-pink-400" id="status-dot"></span>
-                            <span id="api-status-label">Status</span>
+                        <!-- API Header Section -->
+                        <div class="mb-8">
+                            <!-- Status Badge -->
+                            <div class="inline-flex items-center gap-2 pixel-badge px-3 py-2 mb-6">
+                                <span class="w-2 h-2 bg-pink-400" id="status-dot"></span>
+                                <span id="api-status-label">Status</span>
+                            </div>
+
+                            <!-- API Title and Actions -->
+                            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-6">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-white" id="api-name-display">Loading API...</h1>
+                                        <input id="api-name-edit" type="text" class="hidden text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-white bg-transparent border-2 border-pink-500 outline-none px-4 py-2 rounded" style="width: auto;">
+                                    </div>
+                                    <p class="text-lg text-slate-300 leading-relaxed" id="api-summary">We are gathering the documentation and dataset preview for this API. Please hold tight.</p>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="flex items-center gap-2 flex-shrink-0">
+                                    <button id="edit-name-btn" class="pixel-badge px-3 py-2 hover:bg-pink-600 transition-colors" title="Edit API name">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        </svg>
+                                    </button>
+                                    <button id="share-btn" class="pixel-badge px-3 py-2 hover:bg-pink-600 transition-colors" title="Share API">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Download Actions -->
+                            <div class="flex flex-wrap gap-3" id="download-actions">
+                                <a id="download-original" class="pixel-btn pixel-btn-primary text-sm cursor-not-allowed opacity-60" aria-disabled="true">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Download Original
+                                </a>
+                                <a id="download-csv" class="pixel-btn pixel-btn-secondary text-sm cursor-not-allowed opacity-60" aria-disabled="true">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Download CSV
+                                </a>
+                                <a id="download-json" class="pixel-btn pixel-btn-secondary text-sm cursor-not-allowed opacity-60" aria-disabled="true">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                    </svg>
+                                    Download JSON
+                                </a>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-center gap-4 mb-6">
-                            <h1 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-0" id="api-name-display">Loading API...</h1>
-                            <input id="api-name-edit" type="text" class="hidden text-4xl md:text-5xl font-semibold tracking-tight text-white bg-transparent border-2 border-pink-500 outline-none px-4 py-2 rounded" style="width: auto;">
-                            <button id="edit-name-btn" class="pixel-badge px-3 py-2 hover:bg-pink-600 transition-colors" title="Edit API name">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <p class="text-lg text-slate-300 leading-relaxed" id="api-summary">We are gathering the documentation and dataset preview for this API. Please hold tight.</p>
+
                         <div class="divider my-8"></div>
-                        <div class="flex flex-wrap gap-4" id="download-actions">
-                            <a id="download-original" class="pixel-btn pixel-btn-primary text-xs cursor-not-allowed opacity-60" aria-disabled="true">Download Original</a>
-                            <a id="download-csv" class="pixel-btn pixel-btn-secondary text-xs cursor-not-allowed opacity-60" aria-disabled="true">Download CSV</a>
-                            <a id="download-json" class="pixel-btn pixel-btn-secondary text-xs cursor-not-allowed opacity-60" aria-disabled="true">Download JSON</a>
-                        </div>
                     </div>
                     <aside class="space-y-4 text-sm text-slate-300">
                         <div class="flex items-center justify-between">
@@ -1125,6 +1160,18 @@
                     No summary available. Click "Generate" to create one with AI.
                 </div>
 
+                <!-- Generate AI Summary Button -->
+                <div class="mb-4">
+                    <button id="generate-summary-btn" class="pixel-btn pixel-btn-primary text-sm">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <span>Generate AI Summary</span>
+                        </div>
+                    </button>
+                </div>
+
                 <div id="summary-actions" class="hidden flex gap-2">
                     <button id="save-summary-btn" class="pixel-badge px-4 py-2 bg-pink-600 hover:bg-pink-700 transition-colors">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1138,19 +1185,6 @@
                 <textarea id="api-summary-edit" class="hidden w-full pixel-body text-lg p-4 border-2 border-pink-500 bg-slate-800 text-white focus:border-pink-400 focus:outline-none resize-vertical rounded" rows="6" placeholder="Enter your API summary..."></textarea>
             </section>
 
-            <!-- Generate AI Summary Button -->
-            <section class="mb-12">
-                <div class="flex justify-center">
-                    <button id="generate-summary-btn" class="pixel-btn pixel-btn-primary text-sm">
-                        <div class="flex items-center gap-3">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
-                            <span class="text-lg">Generate AI Summary</span>
-                        </div>
-                    </button>
-                </div>
-            </section>
 
             <section class="grid gap-6 md:grid-cols-4 mb-12" id="stats-grid">
                 <div class="pixel-card p-6">
@@ -1606,7 +1640,7 @@
             if (attr) {
                 return attr;
             }
-            return 'https://apiui-backend-44565368406.us-central1.run.app';
+            return 'https://apiui-backend-24bi767viq-uc.a.run.app';
         }
 
         const state = {
@@ -2238,6 +2272,81 @@ socket.on('query_result', (data) => {
             nameEdit.addEventListener('blur', function() {
                 saveApiName();
             });
+        }
+
+        // Share Button Functionality
+        function initializeShareButton() {
+            const shareBtn = document.getElementById('share-btn');
+
+            if (!shareBtn) return;
+
+            shareBtn.addEventListener('click', function() {
+                const apiId = document.getElementById('api-id').textContent;
+                const apiName = document.getElementById('api-name-display').textContent;
+                const apiEndpoint = document.getElementById('api-endpoint').href;
+
+                // Create share URL
+                const shareUrl = window.location.href;
+                const shareText = `Check out this API: ${apiName}\n\nEndpoint: ${apiEndpoint}\n\nView details: ${shareUrl}`;
+
+                // Try Web Share API first (mobile-friendly)
+                if (navigator.share) {
+                    navigator.share({
+                        title: `${apiName} - APIUI API`,
+                        text: shareText,
+                        url: shareUrl
+                    }).catch(err => {
+                        console.log('Error sharing:', err);
+                        fallbackShare(shareUrl, shareText);
+                    });
+                } else {
+                    // Fallback to clipboard and notification
+                    fallbackShare(shareUrl, shareText);
+                }
+            });
+        }
+
+        function fallbackShare(shareUrl, shareText) {
+            // Copy to clipboard
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    showShareNotification('Link copied to clipboard!');
+                }).catch(() => {
+                    showShareNotification('Share URL: ' + shareUrl);
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = shareText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showShareNotification('Link copied to clipboard!');
+                } catch (err) {
+                    showShareNotification('Share URL: ' + shareUrl);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showShareNotification(message) {
+            // Create a temporary notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-pink-600 text-white px-6 py-3 rounded shadow-lg z-50 transition-all duration-300';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
         }
 
         function toggleNameEdit(editing) {
@@ -3269,6 +3378,7 @@ socket.on('query_result', (data) => {
         // Initialize API name editing and summary functionality when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             initializeApiNameEditing();
+            initializeShareButton();
 
             // Add summary editing event listeners
             const editSummaryBtn = document.getElementById('edit-summary-btn');
