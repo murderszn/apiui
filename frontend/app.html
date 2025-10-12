@@ -22,11 +22,8 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <link rel="canonical" href="https://apiui.web.app/app.html">
-    <!-- Favicon and Icons -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apiui-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -65,7 +62,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Default to hosted Cloud Run backend; override via query param for local testing
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-44565368406.us-central1.run.app';
+        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
     </script>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -99,31 +96,59 @@
     </div>
 
     <!-- Password Lock Screen -->
-    <div id="password-lock-screen" class="fixed inset-0 bg-black z-40 flex items-center justify-center">
-        <div class="pixel-card p-8 max-w-md w-full mx-4">
-            <div class="text-center mb-8">
-                <div class="mb-6">
-                    <span class="pixel-heading text-3xl tracking-[0.32em] text-white">api<span class="text-pink-500">UI</span></span>
-                </div>
-                <h2 class="pixel-subtitle text-xl text-white mb-2">Access Required</h2>
-                <p class="pixel-body text-gray-400 text-sm">Please enter your credentials to access the API management console.</p>
+    <div id="password-lock-screen" class="fixed inset-0 bg-black z-40 flex items-center justify-center" style="left: 240px;">
+        <div class="pixel-card p-6 max-w-md w-full mx-4">
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <span class="pixel-heading text-2xl tracking-[0.32em] text-white">api<span class="text-pink-500">UI</span></span>
             </div>
 
-            <form id="login-form" class="space-y-6">
+            <!-- Beta Signup Section -->
+            <div id="beta-signup-section" class="mb-6 pb-6 border-b border-pink-500/20">
+                <div class="text-center mb-4">
+                    <h3 class="pixel-heading text-base text-white mb-1 tracking-[0.08em]">Join the Beta</h3>
+                    <p class="pixel-body text-gray-400 text-xs">Get early access and exclusive features</p>
+                </div>
+
+                <form id="beta-signup-form" class="space-y-3">
+                    <input type="email" id="beta-email" name="beta-email" class="w-full bg-gray-800 border border-gray-600 text-white px-3 py-2 rounded text-sm focus:outline-none focus:border-pink-500 transition-colors" placeholder="your@email.com" required autocomplete="email">
+
+                    <div id="beta-signup-success" class="hidden pixel-body text-xs text-pink-400 text-center py-2 bg-pink-500/10 border border-pink-500/30 rounded">
+                        ✓ Thanks! We'll notify you in December 2025.
+                    </div>
+
+                    <div id="beta-signup-error" class="hidden pixel-body text-xs text-red-400 text-center"></div>
+
+                    <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-pink-500 to-pink-600 text-white font-medium text-xs uppercase tracking-wider hover:from-pink-600 hover:to-pink-700 transition-all duration-200 rounded">
+                        <svg class="w-3.5 h-3.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Get Early Access
+                    </button>
+                </form>
+            </div>
+
+            <!-- Login Section -->
+            <div class="text-center mb-4">
+                <h2 class="pixel-subtitle text-lg text-white mb-1">Sign In</h2>
+                <p class="pixel-body text-gray-400 text-xs">Access the API console</p>
+            </div>
+
+            <form id="login-form" class="space-y-3">
                 <div>
-                    <label for="email" class="block pixel-body text-sm text-white mb-2">Email</label>
-                    <input type="email" id="email" name="email" class="w-full bg-gray-800 border border-gray-600 text-white px-4 py-3 rounded focus:outline-none focus:border-pink-500 transition-colors" placeholder="Enter email address" autocomplete="email">
+                    <label for="email" class="block pixel-body text-xs text-white mb-1.5">Email</label>
+                    <input type="email" id="email" name="email" class="w-full bg-gray-800 border border-gray-600 text-white px-3 py-2 rounded text-sm focus:outline-none focus:border-pink-500 transition-colors" placeholder="Enter email address" autocomplete="email">
                 </div>
 
                 <div>
-                    <label for="password" class="block pixel-body text-sm text-white mb-2">Password</label>
-                    <input type="password" id="password" name="password" class="w-full bg-gray-800 border border-gray-600 text-white px-4 py-3 rounded focus:outline-none focus:border-pink-500 transition-colors" placeholder="Enter password" autocomplete="current-password">
+                    <label for="password" class="block pixel-body text-xs text-white mb-1.5">Password</label>
+                    <input type="password" id="password" name="password" class="w-full bg-gray-800 border border-gray-600 text-white px-3 py-2 rounded text-sm focus:outline-none focus:border-pink-500 transition-colors" placeholder="Enter password" autocomplete="current-password">
                 </div>
 
-                <div id="login-error" class="hidden pixel-body text-sm text-red-400 text-center"></div>
+                <div id="login-error" class="hidden pixel-body text-xs text-red-400 text-center"></div>
 
-                <button type="submit" class="w-full inline-flex items-center justify-center px-6 py-3 border-2 border-pink-500 text-pink-500 font-medium text-sm uppercase tracking-wider hover:bg-pink-500 hover:text-white transition-all duration-200 hover:shadow-lg hover:shadow-pink-500/25">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-2 border-2 border-pink-500 text-pink-500 font-medium text-xs uppercase tracking-wider hover:bg-pink-500 hover:text-white transition-all duration-200 rounded">
+                    <svg class="w-3.5 h-3.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
                     </svg>
                     Access Console
@@ -209,21 +234,14 @@
             --pixel-gray-100: #0f172a;  /* Inverted: darkest gray */
             --pixel-gray-200: #1e293b;  /* Inverted: dark gray */
             --pixel-gray-300: #334155;  /* Inverted: medium dark gray */
-            /* Hub Design System - Rigid Pixel-Inspired Variables */
+            /* Hub Design System */
             --hub-pink: #ec4899;
             --hub-pink-soft: #f472b6;
-            --hub-black: #000000;
-            --hub-white: #ffffff;
-            --hub-gray-50: #f9fafb;
-            --hub-gray-100: #f3f4f6;
-            --hub-gray-200: #e5e7eb;
-            --hub-gray-300: #d1d5db;
-            --hub-gray-400: #9ca3af;
-            --hub-gray-500: #6b7280;
-            --hub-gray-600: #4b5563;
-            --hub-gray-700: #374151;
-            --hub-gray-800: #1f2937;
-            --hub-gray-900: #111827;
+            --hub-ink: #0f172a;
+            --hub-ink-soft: #1f2937;
+            --hub-surface: #ffffff;
+            --hub-muted: #64748b;
+            --hub-border: rgba(15, 23, 42, 0.12);
         }
 
         /* CTA Button with Layered Glow Effect */
@@ -1061,6 +1079,7 @@
         }
 
         /* API button sizing - prevent expansion */
+        .api-docs-btn,
         .test-api-btn,
         .delete-api-btn {
             min-width: fit-content;
@@ -1069,8 +1088,10 @@
             box-sizing: border-box;
         }
 
+        .api-docs-btn:active,
         .test-api-btn:active,
         .delete-api-btn:active,
+        .api-docs-btn:focus,
         .test-api-btn:focus,
         .delete-api-btn:focus {
             transform: none !important;
@@ -1079,12 +1100,16 @@
         }
 
         /* Ensure consistent button sizing across all states */
+        .api-docs-btn,
         .test-api-btn,
         .delete-api-btn,
+        .api-docs-btn:hover,
         .test-api-btn:hover,
         .delete-api-btn:hover,
+        .api-docs-btn:active,
         .test-api-btn:active,
         .delete-api-btn:active,
+        .api-docs-btn:focus,
         .test-api-btn:focus,
         .delete-api-btn:focus {
             padding: 0.375rem 0.75rem; /* px-3 py-1.5 */
@@ -1121,6 +1146,7 @@
             }
 
             /* Specific button sizing for API management */
+            .api-docs-btn,
             .test-api-btn,
             .delete-api-btn {
                 font-size: 0.875rem;
@@ -1368,12 +1394,6 @@
             }
         }
 
-        /* Hide floating sidebar on mobile devices */
-        @media (max-width: 768px) {
-            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
-                display: none !important;
-            }
-        }
 
         /* Password Lock Screen Styling - Matching API Card Format */
         #password-lock-screen .pixel-card {
@@ -1449,50 +1469,443 @@
             }
         }
     </style>
+    <style>
+        /* Directory Sidebar Styles - Pure Black Theme */
+        .api-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 240px;
+            background: #000000;
+            border-right: 1px solid rgba(236, 72, 153, 0.2);
+            box-shadow:
+                4px 0 32px rgba(236, 72, 153, 0.1),
+                0 0 0 1px rgba(236, 72, 153, 0.05),
+                inset -1px 0 0 rgba(236, 72, 153, 0.08);
+            z-index: 40;
+            overflow-y: auto;
+            padding-top: 0;
+        }
+
+        .api-sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(236, 72, 153, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .api-sidebar .sidebar-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(236, 72, 153, 0.15);
+            background: #000000;
+            position: relative;
+            z-index: 1;
+        }
+
+        .api-sidebar .sidebar-header::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(236, 72, 153, 0.2) 20%,
+                rgba(236, 72, 153, 0.1) 50%,
+                rgba(236, 72, 153, 0.2) 80%,
+                transparent 100%);
+        }
+
+        .api-sidebar .sidebar-header h2 {
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .api-sidebar .sidebar-content {
+            padding: 0.5rem 0;
+        }
+
+        .api-sidebar .sidebar-section {
+            margin-bottom: 1rem;
+        }
+
+        .api-sidebar .sidebar-section-title {
+            padding: 0.5rem 1.5rem 0.25rem 1.5rem;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: rgba(156, 163, 175, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 0.125rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .api-sidebar .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.625rem 1.25rem;
+            margin: 0.125rem 0.5rem;
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .api-sidebar .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg,
+                #ec4899 0%,
+                rgba(236, 72, 153, 0.6) 100%);
+            transform: scaleY(0);
+            transition: transform 0.25s ease;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .api-sidebar .sidebar-link:hover {
+            background: linear-gradient(135deg,
+                rgba(236, 72, 153, 0.08) 0%,
+                rgba(236, 72, 153, 0.04) 100%);
+            color: #ec4899;
+            transform: translateX(2px);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+        }
+
+        .api-sidebar .sidebar-link:hover::before {
+            transform: scaleY(1);
+        }
+
+        .api-sidebar .sidebar-link.active {
+            background: linear-gradient(135deg,
+                rgba(236, 72, 153, 0.12) 0%,
+                rgba(236, 72, 153, 0.06) 100%);
+            color: #ec4899;
+            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.2);
+        }
+
+        .api-sidebar .sidebar-link.active::before {
+            transform: scaleY(1);
+        }
+
+        .api-sidebar .sidebar-link-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .api-sidebar .sidebar-link-text {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .api-sidebar .sidebar-link-description {
+            font-size: 0.6875rem;
+            color: rgba(156, 163, 175, 0.8);
+            margin-top: 0.0625rem;
+            line-height: 1.2;
+        }
+
+        .api-sidebar .sidebar-section-toggle {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1.5rem;
+            margin: 0.25rem 0.5rem;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.1);
+            border-radius: 0.5rem;
+            color: rgba(156, 163, 175, 0.9);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .api-sidebar .sidebar-section-toggle::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                rgba(236, 72, 153, 0.04) 0%,
+                rgba(59, 130, 246, 0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .api-sidebar .sidebar-section-toggle:hover {
+            color: #e2e8f0;
+            border-color: rgba(236, 72, 153, 0.2);
+            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .api-sidebar .sidebar-section-toggle:hover::before {
+            opacity: 1;
+        }
+
+        .api-sidebar .sidebar-section-toggle[aria-expanded="true"] .sidebar-chevron {
+            transform: rotate(180deg);
+        }
+
+        .api-sidebar .sidebar-links {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .api-sidebar .sidebar-links.collapsed {
+            max-height: 0;
+            transition: max-height 0.3s ease;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 50;
+            background-color: black;
+            border: 2px solid #ec4899;
+            border-radius: 0;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            box-shadow: 2px 2px 0 rgba(236, 72, 153, 0.5);
+        }
+
+        .sidebar-toggle:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 rgba(236, 72, 153, 0.5);
+        }
+
+        .sidebar-toggle svg {
+            color: #ec4899;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 30;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (min-width: 768px) {
+            .sidebar-toggle {
+                display: none;
+            }
+
+            .sidebar-overlay {
+                display: none;
+            }
+
+            body {
+                margin-left: 240px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .api-sidebar {
+                z-index: 50;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .api-sidebar.open {
+                transform: translateX(0);
+            }
+
+            body {
+                margin-left: 0;
+            }
+        }
+    </style>
 </head>
+<body class="flex flex-col min-h-screen">
 
-    <!-- Floating Navigation Sidebar -->
-    <div class="fixed left-6 top-1/2 transform -translate-y-1/2 z-40">
-        <div class="pixel-card bg-white p-2 shadow-lg">
-            <div class="flex flex-col space-y-2">
-                <!-- Home -->
-                <a href="index.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Home">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                    </svg>
-                </a>
+    <!-- Sidebar Toggle Button (Mobile Only) -->
+    <button class="sidebar-toggle md:hidden" aria-label="Toggle sidebar">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
 
-                <!-- Dashboard -->
-                <a href="app.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Dashboard">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    </svg>
-                </a>
+    <!-- Sidebar Overlay (Mobile Only) -->
+    <div class="sidebar-overlay md:hidden"></div>
 
-                <!-- MCP Chat -->
-                <a href="mcp-chat.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP Chat">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
-                    </svg>
-                </a>
-
-                <!-- MCP -->
-                <a href="mcp.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="MCP">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
-                    </svg>
-                </a>
-
-                <!-- Docs -->
-                <a href="docs.html" class="group pixel-btn pixel-btn-secondary p-3 hover:bg-pink-500 hover:text-white transition-all tooltip" title="Documentation">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
-                </a>
+    <!-- Directory Sidebar - Dark Theme -->
+    <aside class="api-sidebar" id="api-sidebar">
+        <div class="sidebar-header">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-pink-400 to-pink-500 flex items-center justify-center rounded shadow-sm">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold tracking-[0.14em] text-white pixel-heading">
+                            api<span class="text-pink-500">UI</span>
+                        </h2>
+                        <p class="text-xs text-gray-400 uppercase tracking-wider font-medium">Directory</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="sidebar-content">
+            <!-- Platform Section -->
+            <div class="sidebar-section">
+                <button class="sidebar-section-toggle" data-target="#platform-links">
+                    <span class="sidebar-section-title">Platform</span>
+                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="platform-links" class="sidebar-links">
+                    <a href="index.html" class="sidebar-link">
+                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                        <div>
+                            <div class="sidebar-link-text">API Hub</div>
+                            <div class="sidebar-link-description">Browse & discover APIs</div>
+                        </div>
+                    </a>
+                    <a href="app.html" class="sidebar-link active">
+                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <div>
+                            <div class="sidebar-link-text">My APIs</div>
+                            <div class="sidebar-link-description">Manage your APIs</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
+            <!-- Servers Section -->
+            <div class="sidebar-section">
+                <button class="sidebar-section-toggle" data-target="#tools-links">
+                    <span class="sidebar-section-title">Servers</span>
+                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="tools-links" class="sidebar-links">
+                    <a href="mcp.html" class="sidebar-link">
+                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                        </svg>
+                        <div>
+                            <div class="sidebar-link-text">MCP Server</div>
+                            <div class="sidebar-link-description">Model Context Protocol</div>
+                        </div>
+                    </a>
+                    <a href="mcp-chat.html" class="sidebar-link">
+                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        <div>
+                            <div class="sidebar-link-text">MCP Chat</div>
+                            <div class="sidebar-link-description">AI conversation interface</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Resources Section -->
+            <div class="sidebar-section">
+                <button class="sidebar-section-toggle" data-target="#resources-links">
+                    <span class="sidebar-section-title">Resources</span>
+                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="resources-links" class="sidebar-links">
+                    <a href="docs.html" class="sidebar-link">
+                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <div>
+                            <div class="sidebar-link-text">Documentation</div>
+                            <div class="sidebar-link-description">Guides & API reference</div>
+                        </div>
+                    </a>
+                    <a href="learn-more.html" class="sidebar-link">
+                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <div class="sidebar-link-text">Learn More</div>
+                            <div class="sidebar-link-description">Integration examples</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Community Section -->
+            <div class="sidebar-section">
+                <button class="sidebar-section-toggle" data-target="#community-links">
+                    <span class="sidebar-section-title">Community</span>
+                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="community-links" class="sidebar-links">
+                    <a href="index.html#featured-apis" class="sidebar-link">
+                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                        <div>
+                            <div class="sidebar-link-text">Featured APIs</div>
+                            <div class="sidebar-link-description">Curated integrations</div>
+                        </div>
+                    </a>
+                    <a href="index.html#community-apis" class="sidebar-link">
+                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <div>
+                            <div class="sidebar-link-text">Community APIs</div>
+                            <div class="sidebar-link-description">User-contributed APIs</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </aside>
 
     <!-- Navigation Header -->
     <header class="bg-black border-b border-white border-opacity-20 relative z-10">
@@ -1807,27 +2220,17 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-8 border-t-2 border-white/10 space-y-4 sm:space-y-0">
-                        <button id="cancel-preview-btn" class="group px-6 py-3 bg-white/5 hover:bg-white/10 border-2 border-white/20 hover:border-white/30 rounded-lg transition-all duration-200 flex items-center space-x-2 text-white/70 group-hover:text-white font-medium">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                            <span>Cancel</span>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-6 border-t-2 border-black space-y-4 sm:space-y-0">
+                        <button id="cancel-preview-btn" class="pixel-btn pixel-btn-secondary w-full sm:w-auto">
+                            Cancel
                         </button>
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
-                            <div id="preview-loading" class="hidden flex items-center justify-center sm:justify-start space-x-3">
-                                <div class="relative">
-                                    <div class="w-5 h-5 border-2 border-pink-500/30 border-t-pink-500 rounded-full animate-spin"></div>
-                                    <div class="absolute inset-0 w-5 h-5 border-2 border-pink-500/20 rounded-full animate-ping"></div>
+                            <div id="preview-loading" class="hidden flex items-center justify-center sm:justify-start space-x-2">
+                                <div class="pixel-loader"></div>
+                                <span class="pixel-body text-white">Analyzing file...</span>
                                 </div>
-                                <span class="pixel-body text-gray-400 font-medium">Analyzing file...</span>
-                            </div>
-                            <button id="generate-api-btn" class="group px-6 py-3 bg-gradient-to-r from-pink-500/20 to-pink-600/20 hover:from-pink-500/30 hover:to-pink-600/30 border-2 border-pink-500/40 hover:border-pink-500/60 rounded-lg transition-all duration-200 flex items-center space-x-2 text-pink-400 hover:text-pink-300 font-medium relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-radial from-pink-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                <svg class="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                </svg>
-                                <span class="relative z-10">Generate API</span>
+                            <button id="generate-api-btn" class="pixel-btn pixel-btn-primary w-full sm:w-auto">
+                                Generate API
                             </button>
                         </div>
                     </div>
@@ -1836,26 +2239,20 @@
                 <!-- Status & Result -->
                 <div id="status-section" class="hidden w-full api-card p-8 mt-16 pixel-fade-in">
                     <!-- File Info -->
-                    <div id="file-info" class="flex items-center justify-between pb-8 border-b-2 border-white/10 mb-8">
+                    <div id="file-info" class="flex items-center justify-between pb-6 border-b-2 border-black mb-8">
                         <div class="flex items-center space-x-4">
-                            <div class="relative w-14 h-14 flex-shrink-0">
-                                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-pink-600/30 rounded-xl blur-lg"></div>
-                                <div class="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl border-2 border-pink-500/40">
-                                    <svg class="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="pixel-icon w-12 h-12 flex-shrink-0">
+                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                     </svg>
-                                </div>
                             </div>
                             <div>
-                                <p class="pixel-body text-gray-400 text-sm font-medium uppercase tracking-wider">Processing File:</p>
-                                <p id="file-name" class="pixel-title text-white text-xl font-bold mt-1"></p>
+                                <p class="pixel-body text-white text-sm">Processing File:</p>
+                                <p id="file-name" class="pixel-title text-white"></p>
                             </div>
                         </div>
-                        <button id="change-file-btn" class="group px-4 py-2 bg-white/5 hover:bg-white/10 border-2 border-white/20 hover:border-white/30 rounded-lg transition-all duration-200 flex items-center space-x-2 text-white/70 group-hover:text-white font-medium">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-                            </svg>
-                            <span>Change File</span>
+                        <button id="change-file-btn" class="pixel-btn pixel-btn-secondary">
+                            Change File
                         </button>
                     </div>
 
@@ -1864,63 +2261,38 @@
                         <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 h-[600px]">
                             <!-- Process Steps -->
                             <div class="xl:col-span-1">
-                                <div class="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm rounded-lg p-8 border-2 border-white/20 h-full flex flex-col relative overflow-hidden">
-                                    <!-- Subtle background glow -->
-                                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/5 via-transparent to-transparent"></div>
-
-                                    <!-- Header with icon -->
-                                    <div class="text-center mb-8 relative z-10">
-                                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-xl border-2 border-pink-500/40">
-                                            <svg class="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                            </svg>
-                                        </div>
-                                        <h3 class="text-xl font-bold text-white">API Generation Progress</h3>
-                                        <p class="text-gray-400 text-sm mt-1">Building your API step by step</p>
-                                    </div>
-
-                                    <div class="space-y-6 flex-grow relative z-10">
+                                <div class="bg-white bg-opacity-5 rounded-lg p-6 border border-white border-opacity-20 h-full flex flex-col">
+                                    <h3 class="font-semibold text-white mb-6 text-center">API Generation Progress</h3>
+                                    <div class="space-y-4 flex-grow">
                                         <!-- Step 1: Analyze -->
-                                        <div class="group flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-all">
-                                            <div id="step-icon-analyze" class="w-10 h-10 flex items-center justify-center bg-white/10 border-2 border-white/30 rounded-full group-hover:border-pink-500/50 transition-all">
-                                                <span class="text-white text-sm font-bold">1</span>
-                                            </div>
-                                            <div class="flex-grow">
-                                                <p id="step-text-analyze" class="font-semibold text-white group-hover:text-pink-400 transition-colors">Analyzing Data Structure</p>
-                                                <p class="text-gray-400 text-sm mt-1">Understanding your file format</p>
+                                        <div class="flex items-center space-x-4">
+                                            <div id="step-icon-analyze" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-white border-opacity-30 rounded-full"></div>
+                                            <div>
+                                                <p id="step-text-analyze" class="font-medium text-white">Analyzing Data Structure</p>
                                             </div>
                                         </div>
 
                                         <!-- Step 2: Generate Code -->
-                                        <div class="group flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-all">
-                                            <div id="step-icon-generate" class="w-10 h-10 flex items-center justify-center bg-white/10 border-2 border-white/30 rounded-full group-hover:border-pink-500/50 transition-all">
-                                                <span class="text-white text-sm font-bold">2</span>
-                                            </div>
-                                            <div class="flex-grow">
-                                                <p id="step-text-generate" class="font-semibold text-white group-hover:text-pink-400 transition-colors">Generating API Code</p>
-                                                <p class="text-gray-400 text-sm mt-1">Creating FastAPI endpoints</p>
+                                        <div class="flex items-center space-x-4">
+                                            <div id="step-icon-generate" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-white border-opacity-30 rounded-full"></div>
+                                            <div>
+                                                <p id="step-text-generate" class="font-medium text-white">Generating API Code</p>
                                             </div>
                                         </div>
 
                                         <!-- Step 3: Build Environment -->
-                                        <div class="group flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-all">
-                                            <div id="step-icon-build" class="w-10 h-10 flex items-center justify-center bg-white/10 border-2 border-white/30 rounded-full group-hover:border-pink-500/50 transition-all">
-                                                <span class="text-white text-sm font-bold">3</span>
-                                            </div>
-                                            <div class="flex-grow">
-                                                <p id="step-text-build" class="font-semibold text-white group-hover:text-pink-400 transition-colors">Building Environment</p>
-                                                <p class="text-gray-400 text-sm mt-1">Setting up dependencies</p>
+                                        <div class="flex items-center space-x-4">
+                                            <div id="step-icon-build" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-white border-opacity-30 rounded-full"></div>
+                                            <div>
+                                                <p id="step-text-build" class="font-medium text-white">Building Environment</p>
                                             </div>
                                         </div>
 
                                         <!-- Step 4: Deploy -->
-                                        <div class="group flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-all">
-                                            <div id="step-icon-deploy" class="w-10 h-10 flex items-center justify-center bg-white/10 border-2 border-white/30 rounded-full group-hover:border-pink-500/50 transition-all">
-                                                <span class="text-white text-sm font-bold">4</span>
-                                            </div>
-                                            <div class="flex-grow">
-                                                <p id="step-text-deploy" class="font-semibold text-white group-hover:text-pink-400 transition-colors">Deploying API</p>
-                                                <p class="text-gray-400 text-sm mt-1">Publishing to Cloud Run</p>
+                                        <div class="flex items-center space-x-4">
+                                            <div id="step-icon-deploy" class="w-8 h-8 flex items-center justify-center bg-white border-2 border-white border-opacity-30 rounded-full"></div>
+                                            <div>
+                                                <p id="step-text-deploy" class="font-medium text-white">Deploying API</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1929,56 +2301,32 @@
 
                             <!-- Terminal Logs -->
                             <div class="xl:col-span-2">
-                                <div class="bg-gradient-to-br from-black via-gray-900 to-black rounded-lg border-2 border-white/20 overflow-hidden shadow-2xl h-full flex flex-col relative">
-                                    <!-- Terminal glow effect -->
-                                    <div class="absolute inset-0 bg-gradient-radial from-pink-500/10 via-transparent to-transparent opacity-50"></div>
-
-                                    <div class="flex items-center justify-between px-8 py-6 border-b-2 border-white/10 flex-shrink-0 relative z-10">
-                                        <div class="flex items-center space-x-4">
-                                            <!-- Modern window controls -->
-                                            <div class="flex space-x-2">
-                                                <div class="w-4 h-4 bg-red-500 rounded-full border border-red-400"></div>
-                                                <div class="w-4 h-4 bg-yellow-500 rounded-full border border-yellow-400"></div>
-                                                <div class="w-4 h-4 bg-green-500 rounded-full border border-green-400"></div>
-                                            </div>
-
-                                            <!-- Terminal title -->
+                                <div class="bg-gradient-to-br from-gray-900 to-black rounded-lg border border-white border-opacity-20 overflow-hidden shadow-lg h-full flex flex-col">
+                                    <div class="flex items-center justify-between px-6 py-4 border-b border-white border-opacity-20 flex-shrink-0">
                                             <div class="flex items-center space-x-3">
-                                                <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-pink-500/20 to-pink-600/20 rounded-lg border border-pink-500/40">
-                                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                                    </svg>
+                                            <div class="flex space-x-1">
+                                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                                <div class="w-3 h-3 bg-pink-500 rounded-full"></div>
                                                 </div>
-                                                <div>
-                                                    <span class="font-mono text-base font-bold text-white">apiUI Terminal</span>
-                                                    <div class="flex items-center space-x-2 text-xs text-gray-400">
+                                            <span class="font-mono text-sm font-medium text-white">apiUI terminal</span>
+                                            <div class="flex items-center space-x-2 text-xs text-white">
                                                         <span>•</span>
-                                                        <span class="font-medium">Process Monitor</span>
+                                                <span>Process Monitor</span>
                                                         <div class="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                        <button id="minimize-logs-btn" class="group p-2 rounded-lg hover:bg-white/10 transition-all">
-                                            <svg class="w-5 h-5 text-white/70 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <button id="minimize-logs-btn" class="text-white hover:text-gray-200 transition-colors">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
                                             </svg>
                                         </button>
                                     </div>
-
-                                    <!-- Command line -->
-                                    <div class="bg-gradient-to-r from-black to-gray-900 px-8 py-4 border-b-2 border-white/10 flex-shrink-0 relative z-10">
-                                        <div class="flex items-center space-x-3">
-                                            <span class="text-green-400 font-mono text-sm">$</span>
-                                            <span class="text-pink-400 font-mono text-sm font-medium">apiui generate --file sample-data.csv</span>
-                                            <div class="w-2 h-4 bg-pink-400 animate-pulse ml-2"></div>
+                                    <div class="bg-black px-6 py-3 border-b border-white border-opacity-20 flex-shrink-0">
+                                        <span class="text-pink-400 font-mono text-sm">$ apiui generate --file sample-data.csv</span>
                                         </div>
-                                    </div>
-
-                                    <!-- Terminal content -->
-                                    <div id="logs-content" class="p-8 overflow-y-auto font-mono text-sm bg-gradient-to-b from-black to-gray-900 text-pink-400 leading-relaxed relative z-10" style="height: 450px; max-height: 450px;">
-                                        <div class="text-gray-400 italic font-medium">Ready to process your file...</div>
+                                    <div id="logs-content" class="p-6 overflow-y-auto font-mono text-sm bg-black text-pink-400 leading-relaxed" style="height: 450px; max-height: 450px;">
+                                        <div class="text-gray-400 italic">Ready to process your file...</div>
                                     </div>
                                 </div>
                             </div>
@@ -2099,10 +2447,10 @@
                             <div class="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent"></div>
                         </span>
                     </h2>
-                    
+
                     <p class="pixel-body text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed pixel-fade-in" style="animation-delay: 0.2s">
-                        Manage and interact with your generated APIs
-                    </p>
+                            Manage and interact with your generated APIs
+                        </p>
 
                     <!-- Stats cards with enhanced design -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 pixel-fade-in" style="animation-delay: 0.4s">
@@ -2244,10 +2592,10 @@
         </svg>
     </button>
 
-    <!-- Pixel Section Divider -->
-    <div class="pixel-accent-line"></div>
+        <!-- Pixel Section Divider -->
+        <div class="pixel-accent-line"></div>
 
-    <!-- Directory Navigation Section -->
+        <!-- Directory Navigation Section -->
     <section class="bg-gradient-to-b from-black via-gray-900 to-black py-24 relative overflow-hidden">
         <!-- Background effects -->
         <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 50px 50px;"></div>
@@ -2331,8 +2679,8 @@
                     </div>
                 </a>
 
-                <!-- MCP Chat Card -->
-                <a href="mcp-chat.html" class="group pixel-card p-8 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-2 border-pink-500/30 hover:border-pink-500/50 transition-all hover:scale-105 relative overflow-hidden" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);">
+                <!-- Socket Chat Card -->
+                <a href="socket-chat.html" class="group pixel-card p-8 text-center bg-gradient-to-br from-pink-500/10 to-pink-600/10 border-2 border-pink-500/30 hover:border-pink-500/50 transition-all hover:scale-105 relative overflow-hidden" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);">
                     <!-- Pink glow effect - visible by default, intensifies on hover -->
                     <div class="absolute inset-0 bg-gradient-radial from-pink-500/15 via-pink-500/5 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="absolute inset-0 bg-gradient-radial from-pink-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -2354,9 +2702,9 @@
                                 </svg>
                             </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:scale-110 transition-transform">MCP Chat</h3>
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:scale-110 transition-transform">Socket Chat</h3>
                         <div class="h-px bg-gradient-to-r from-transparent via-pink-500/50 to-transparent mb-3"></div>
-                        <p class="pixel-body text-base text-white font-medium">Natural language chat powered by MCP</p>
+                        <p class="pixel-body text-base text-white font-medium">Real-time chat powered by WebSocket</p>
                     </div>
                 </a>
 
@@ -2476,6 +2824,91 @@
                     console.log('Loading screen hidden via fallback timeout');
                 }
             }, 3000);
+        });
+
+        // Beta Signup System
+        document.addEventListener('DOMContentLoaded', function() {
+            const betaSignupForm = document.getElementById('beta-signup-form');
+            const betaEmailInput = document.getElementById('beta-email');
+            const betaSignupSuccess = document.getElementById('beta-signup-success');
+            const betaSignupError = document.getElementById('beta-signup-error');
+
+            if (betaSignupForm) {
+                betaSignupForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const email = betaEmailInput.value.trim();
+
+                    // Basic email validation
+                    if (!email || !email.includes('@')) {
+                        betaSignupError.textContent = 'Please enter a valid email address';
+                        betaSignupError.classList.remove('hidden');
+                        betaSignupSuccess.classList.add('hidden');
+                        setTimeout(() => {
+                            betaSignupError.classList.add('hidden');
+                        }, 3000);
+                        return;
+                    }
+
+                    // Store in localStorage for now
+                    try {
+                        const betaSignups = JSON.parse(localStorage.getItem('apiui_beta_signups') || '[]');
+                        
+                        // Check if email already exists
+                        if (betaSignups.some(signup => signup.email === email)) {
+                            betaSignupSuccess.textContent = '✓ You\'re already on the list! We\'ll notify you in December 2025.';
+                            betaSignupSuccess.classList.remove('hidden');
+                            betaSignupError.classList.add('hidden');
+                            betaEmailInput.value = '';
+                            return;
+                        }
+
+                        betaSignups.push({
+                            email: email,
+                            signup_date: new Date().toISOString(),
+                            user_agent: navigator.userAgent,
+                            source: 'app_page'
+                        });
+                        localStorage.setItem('apiui_beta_signups', JSON.stringify(betaSignups));
+
+                        console.log('Beta signup saved:', email);
+
+                        // Try to send to backend (optional)
+                        try {
+                            await fetch(`${BACKEND_BASE_URL}/v1/beta/signup`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    email: email,
+                                    signup_date: new Date().toISOString(),
+                                    source: 'app_page'
+                                })
+                            });
+                            console.log('Beta signup sent to backend');
+                        } catch (backendError) {
+                            console.log('Backend signup failed (non-critical):', backendError);
+                        }
+
+                        // Show success message
+                        betaSignupSuccess.classList.remove('hidden');
+                        betaSignupError.classList.add('hidden');
+                        betaEmailInput.value = '';
+
+                        // Hide success message after 5 seconds
+                        setTimeout(() => {
+                            betaSignupSuccess.classList.add('hidden');
+                        }, 5000);
+
+                    } catch (error) {
+                        console.error('Beta signup error:', error);
+                        betaSignupError.textContent = 'Something went wrong. Please try again.';
+                        betaSignupError.classList.remove('hidden');
+                        betaSignupSuccess.classList.add('hidden');
+                    }
+                });
+            }
         });
 
         // Password Authentication System
@@ -3525,42 +3958,14 @@
             }
         }
 
-        // Navigation helper to open the API detail page
-
-        function openApiDetail(api) {
-            if (!api || !api.id) return;
-            try {
-                sessionStorage.setItem('apiui_selected_api', JSON.stringify(api));
-            } catch (error) {
-                console.warn('Failed to cache API details locally', error);
-            }
-
-            window.location.href = `api-detail.html?id=${encodeURIComponent(api.id)}`;
-        }
-
         // Create API row element
-
         function createApiRow(api) {
             const row = document.createElement('div');
             row.className = 'api-card p-6 flex flex-col gap-6 cursor-pointer';
             row.style.cursor = 'pointer';
-            row.setAttribute('role', 'button');
-            row.setAttribute('tabindex', '0');
 
             const statusColor = api.status === 'running' ? 'text-pink-400' : 'text-yellow-400';
             const statusIcon = api.status === 'running' ? '●' : '○';
-
-            // Load local summaries from localStorage (same as index.html)
-            let localSummaries = {};
-            try {
-                localSummaries = JSON.parse(localStorage.getItem('apiui_summaries') || '{}');
-            } catch (e) {
-                console.log('Could not load local summaries');
-            }
-
-            // Get description with same priority as index.html: localSummary > api.summary > api.description > default
-            const localSummary = localSummaries[api.id];
-            const description = localSummary || api.summary || api.description || 'Generated API with endpoints available through apiUI.';
 
             row.innerHTML = `
                 <div class="flex items-start justify-between gap-4">
@@ -3575,20 +3980,50 @@
                     <span class="hub-pill">${api.status === 'running' ? 'Live' : 'Stopped'}</span>
                 </div>
                 <p class="pixel-body text-sm text-gray-400 leading-6">
-                    ${description}
+                    ${api.description || 'Generated API with endpoints available through apiUI.'}
                 </p>
                 ${(api.api_url || api.url) ? `
                     <div class="text-xs text-gray-400 font-mono truncate">${api.api_url || api.url}</div>
                 ` : ''}
                 <div class="hub-divider"></div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs uppercase tracking-[0.24em] text-gray-400">Click to view details</span>
+                    <div class="flex items-center space-x-2">
+                        <button class="api-docs-btn inline-flex items-center px-3 py-1.5 border border-white border-opacity-30 text-white text-sm font-medium hover:bg-white hover:bg-opacity-10 transition-colors">
+                            Docs
+                        </button>
+                        <button class="view-data-btn inline-flex items-center px-3 py-1.5 border border-white border-opacity-30 text-white text-sm font-medium hover:bg-white hover:bg-opacity-10 transition-colors">
+                            View Data
+                        </button>
+                    </div>
+                </div>
             `;
-            row.addEventListener('click', () => openApiDetail(api));
-            row.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    openApiDetail(api);
+
+            // Make the entire card clickable to go to API detail page
+            row.addEventListener('click', (e) => {
+                // Don't trigger if clicking on buttons
+                if (e.target.closest('.api-docs-btn') || e.target.closest('.view-data-btn')) {
+                    return;
                 }
+                // Navigate to API detail page
+                window.location.href = `api-detail.html?id=${api.id}`;
             });
+
+            const docsBtn = row.querySelector('.api-docs-btn');
+            docsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Navigate to API detail page
+                window.location.href = `api-detail.html?id=${api.id}`;
+            });
+
+            const viewDataBtn = row.querySelector('.view-data-btn');
+            viewDataBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Encode API data and pass it via URL parameters
+                const apiData = encodeURIComponent(JSON.stringify(api));
+                window.open(`data-editor.html?id=${api.id}&data=${apiData}`, '_blank');
+            });
+
 
             return row;
         }
@@ -4798,6 +5233,71 @@
 
         // Confirm all authentication code has been successfully removed
         console.log('✅ App initialization complete - all authentication code removed, only app functionality remains');
+    </script>
+
+    <!-- Sidebar functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('api-sidebar');
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            const sidebarOverlay = document.querySelector('.sidebar-overlay');
+
+            // Initialize collapsible sections - all expanded
+            const sectionToggles = document.querySelectorAll('.sidebar-section-toggle');
+            sectionToggles.forEach(toggle => {
+                const targetId = toggle.getAttribute('data-target');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    toggle.setAttribute('aria-expanded', 'true');
+
+                    toggle.addEventListener('click', function() {
+                        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+                        if (isExpanded) {
+                            toggle.setAttribute('aria-expanded', 'false');
+                            targetElement.classList.add('collapsed');
+                        } else {
+                            toggle.setAttribute('aria-expanded', 'true');
+                            targetElement.classList.remove('collapsed');
+                        }
+                    });
+                }
+            });
+
+            // Mobile sidebar toggle
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    const isOpen = sidebar.classList.contains('open');
+                    if (isOpen) {
+                        sidebar.classList.remove('open');
+                        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+            } else {
+                        sidebar.classList.add('open');
+                        if (sidebarOverlay) sidebarOverlay.classList.add('active');
+                    }
+                });
+            }
+
+            // Close sidebar when clicking overlay
+            if (sidebarOverlay && sidebar) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+
+            // Close sidebar when clicking links (mobile)
+            if (sidebar) {
+                const sidebarLinks = sidebar.querySelectorAll('.sidebar-link');
+                sidebarLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth < 768) {
+                            sidebar.classList.remove('open');
+                            if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+                        }
+                    });
+                });
+            }
+        });
     </script>
 
     <!-- Cookie Consent Modal -->
