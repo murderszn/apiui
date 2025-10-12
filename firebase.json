@@ -18,6 +18,14 @@
     ],
     "rewrites": [
       {
+        "source": "/api/signup",
+        "function": "chat"
+      },
+      {
+        "source": "/api/beta-signup",
+        "function": "chat"
+      },
+      {
         "source": "/api/**",
         "function": "chat"
       },

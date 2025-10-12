@@ -19,11 +19,9 @@
     <meta name="distribution" content="Global">
     <meta name="revisit-after" content="7 days">
     <link rel="canonical" href="https://apiui.web.app/api-hub">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-cloud-logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apiui-cloud-logo.png">
+    <link rel="shortcut icon" href="apiui-cloud-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -334,6 +332,7 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
             z-index: 40;
             overflow-y: auto;
+            overflow-x: hidden;
             padding-top: 0; /* Start from top */
         }
 
@@ -764,18 +763,13 @@
     <!-- Directory Sidebar - Always Fixed on Desktop -->
     <aside class="api-sidebar" id="api-sidebar">
         <div class="sidebar-header">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-center">
                 <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-pink-400 to-pink-500 flex items-center justify-center rounded shadow-sm">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                        </svg>
-                    </div>
+                    <img src="apiui-cloud-logo.png" alt="apiUI Logo" class="w-10 h-10 rounded shadow-sm">
                     <div>
-                        <h2 class="text-base font-bold tracking-[0.14em] text-slate-900 pixel-heading">
+                        <h2 class="text-lg font-bold tracking-[0.14em] text-slate-900 pixel-heading">
                             api<span class="text-pink-500">UI</span>
                         </h2>
-                        <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">Directory</p>
                     </div>
                 </div>
             </div>
@@ -865,7 +859,7 @@
                         </svg>
                         <div>
                             <div class="sidebar-link-text">Learn More</div>
-                            <div class="sidebar-link-description">Integration examples</div>
+                            <div class="sidebar-link-description">About APIUI</div>
                         </div>
                     </a>
                 </div>
@@ -947,16 +941,12 @@
                                     <span class="hub-pill">Ready</span>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="text-sm text-slate-700 font-medium">MCP Chat</span>
-                                    <span class="hub-pill">Ready</span>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-sm text-slate-700 font-medium">Inline Data Editing</span>
+                                    <span class="text-sm text-slate-700 font-medium">MCP Server/Chat</span>
                                     <span class="hub-pill">Beta</span>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="text-sm text-slate-700 font-medium">MCP Server</span>
-                                    <span class="hub-pill">Beta</span>
+                                    <span class="text-sm text-slate-700 font-medium">PostgREST Integration</span>
+                                    <span class="hub-pill">Development</span>
                                 </div>
                             </div>
                         </div>
@@ -1728,31 +1718,40 @@
 
                     // Disable button and show loading state
                     newsletterSignup.disabled = true;
+                    const originalText = newsletterSignup.textContent;
                     newsletterSignup.textContent = 'Subscribing...';
 
                     try {
-                        // Here you would typically send the email to your backend
-                        // For now, we'll simulate a successful signup
-                        console.log('Newsletter signup:', email);
+                        // Send email to backend webhook
+                        const response = await fetch('/api/signup', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ email })
+                        });
 
-                        // Simulate API call delay
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        const data = await response.json();
 
-                        // Show success state
-                        newsletterSignup.textContent = '✓ Subscribed!';
-                        newsletterSignup.classList.remove('hub-btn-primary');
-                        newsletterSignup.classList.add('hub-btn-secondary');
-                        newsletterEmail.disabled = true;
+                        if (response.ok && data.success) {
+                            // Show success state
+                            newsletterSignup.textContent = '✓ Subscribed! Check your email';
+                            newsletterSignup.classList.remove('hub-btn-primary');
+                            newsletterSignup.classList.add('hub-btn-secondary');
+                            newsletterEmail.disabled = true;
 
-                        // Reset after 3 seconds
-                        setTimeout(() => {
-                            newsletterSignup.textContent = 'Subscribe to Updates';
-                            newsletterSignup.classList.remove('hub-btn-secondary');
-                            newsletterSignup.classList.add('hub-btn-primary');
-                            newsletterEmail.disabled = false;
-                            newsletterEmail.value = '';
-                            newsletterSignup.disabled = true;
-                        }, 3000);
+                            // Reset after 5 seconds
+                            setTimeout(() => {
+                                newsletterSignup.textContent = originalText;
+                                newsletterSignup.classList.remove('hub-btn-secondary');
+                                newsletterSignup.classList.add('hub-btn-primary');
+                                newsletterEmail.disabled = false;
+                                newsletterEmail.value = '';
+                                newsletterSignup.disabled = true;
+                            }, 5000);
+                        } else {
+                            throw new Error(data.error || 'Subscription failed');
+                        }
 
                     } catch (error) {
                         console.error('Newsletter signup error:', error);
@@ -1760,7 +1759,7 @@
                         newsletterSignup.disabled = false;
 
                         setTimeout(() => {
-                            newsletterSignup.textContent = 'Subscribe to Updates';
+                            newsletterSignup.textContent = originalText;
                         }, 2000);
                     }
                 });

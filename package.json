@@ -28,7 +28,8 @@
     "cors": "^2.8.5",
     "axios": "^1.6.8",
     "openai": "^4.52.7",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "nodemailer": "^6.9.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",

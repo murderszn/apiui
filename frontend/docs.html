@@ -8,10 +8,9 @@
     <link rel="canonical" href="https://apiui.web.app/docs.html">
     
     <!-- Favicon and Icons -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-cloud-logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apiui-cloud-logo.png">
+    <link rel="shortcut icon" href="apiui-cloud-logo.png">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:site_name" content="APIUI">
@@ -19,7 +18,7 @@
     <meta property="og:title" content="APIUI Documentation | Turn Data Into APIs">
     <meta property="og:description" content="Complete guide to using APIUI. Upload CSV, Excel, JSON, or Parquet files and get instant REST APIs with filtering, sorting, and pagination.">
     <meta property="og:url" content="https://apiui.web.app/docs.html">
-    <meta property="og:image" content="https://apiui.web.app/favicon.png">
+    <meta property="og:image" content="https://apiui.web.app/apiui-cloud-logo.png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
     <meta property="og:image:alt" content="APIUI Documentation - Data to API Guide">
@@ -31,16 +30,11 @@
     <meta name="twitter:creator" content="@apiui">
     <meta name="twitter:title" content="APIUI Documentation | Turn Data Into APIs">
     <meta name="twitter:description" content="Learn how to transform your data files into production-ready REST APIs with APIUI. Step-by-step documentation and examples.">
-    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
+    <meta name="twitter:image" content="https://apiui.web.app/apiui-cloud-logo.png">
     <meta name="twitter:image:alt" content="APIUI Documentation - Data to API Guide">
 
     <!-- LinkedIn -->
-    <meta property="og:image:secure_url" content="https://apiui.web.app/favicon.png">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-    <link rel="shortcut icon" href="favicon.ico">
+    <meta property="og:image:secure_url" content="https://apiui.web.app/apiui-cloud-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -73,7 +67,7 @@
             "name": "apiUI by AURABLOX",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://apiui.web.app/favicon.png"
+                "url": "https://apiui.web.app/apiui-cloud-logo.png"
             }
         },
         "datePublished": "2024-01-01",
@@ -229,13 +223,53 @@
             background: var(--pixel-gray-200);
         }
 
-        /* Pixel Card System */
+        /* API Card - From index.html */
+        .api-card {
+            position: relative;
+            background-color: #ffffff;
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            border-radius: 0;
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .api-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
+            border-color: rgba(236, 72, 153, 0.45);
+        }
+
+        .api-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-image: linear-gradient(90deg, #ec4899 50%, transparent 50%), linear-gradient(180deg, #ec4899 50%, transparent 50%);
+            background-size: 4px 4px;
+            opacity: 0.65;
+        }
+
+        .hub-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border: 1px solid rgba(236, 72, 153, 0.45);
+            background-color: rgba(236, 72, 153, 0.08);
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Pixel Card System - Clean Light Mode */
         .pixel-card {
             background: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
@@ -243,9 +277,9 @@
         .pixel-card-borderless {
             background: var(--pixel-white);
             border: none;
-            border-radius: var(--pixel-border-radius);
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
@@ -264,15 +298,16 @@
         }
 
         .pixel-card:hover {
-            box-shadow: var(--pixel-shadow-hover);
-            transform: translate(-1px, -1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+            border-color: rgba(236, 72, 153, 0.2);
         }
 
         .pixel-card:hover::before {
             opacity: 1;
         }
 
-        /* Pixel Button System */
+        /* Pixel Button System - Clean Light Mode */
         .pixel-btn {
             font-family: 'Pixelify Sans', monospace;
             font-weight: 600;
@@ -280,12 +315,12 @@
             text-transform: uppercase;
             font-size: 0.875rem;
             padding: 0.75rem 1.5rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
             background: var(--pixel-white);
             color: var(--pixel-black);
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             text-decoration: none;
@@ -307,8 +342,9 @@
         }
 
         .pixel-btn:hover {
-            box-shadow: var(--pixel-shadow-hover);
-            transform: translate(-1px, -1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            border-color: rgba(236, 72, 153, 0.3);
             color: var(--pixel-black);
         }
 
@@ -317,31 +353,32 @@
         }
 
         .pixel-btn:active {
-            transform: translate(0, 0);
-            box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         .pixel-btn-primary {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            border-color: var(--pixel-black);
+            background: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
         }
 
         .pixel-btn-primary:hover {
             background: var(--pixel-pink);
             border-color: var(--pixel-pink);
-            color: var(--pixel-white);
+            color: #ffffff;
         }
 
         .pixel-btn-secondary {
             background: var(--pixel-white);
             color: var(--pixel-black);
-            border-color: var(--pixel-pink);
+            border-color: rgba(236, 72, 153, 0.3);
         }
 
         .pixel-btn-secondary:hover {
             background: var(--pixel-pink);
-            color: var(--pixel-white);
+            border-color: var(--pixel-pink);
+            color: #ffffff;
         }
 
         .floating-nav-btn {
@@ -363,19 +400,16 @@
             transform: translateY(-1px);
         }
 
-        /* Pixel Icon Containers */
+        /* Pixel Icon Containers - Clean Light Mode */
         .pixel-icon {
-            background: var(--pixel-gray-100);
-            border: var(--pixel-border-width) solid var(--pixel-gray-300);
-            border-radius: var(--pixel-border-radius);
+            background: #f8fafc;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--pixel-shadow);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             color: var(--pixel-gray-600);
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
         }
 
         .pixel-icon svg {
@@ -445,35 +479,35 @@
             height: 6px;
         }
 
-        /* Pixel Badge - Consistent Pink Styling */
+        /* Pixel Badge - Clean Light Mode */
         .pixel-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            border-radius: 0;
+            border-radius: 6px;
             background: var(--pixel-pink);
-            border: 2px solid var(--pixel-black);
+            border: 1px solid rgba(236, 72, 153, 0.5);
             color: var(--pixel-white);
             font-family: 'Pixelify Sans', monospace;
             font-size: 0.75rem;
             font-weight: 600;
             letter-spacing: 0.02em;
             text-transform: uppercase;
-            box-shadow: var(--pixel-shadow);
+            box-shadow: 0 2px 4px rgba(236, 72, 153, 0.2);
             transition: all 0.2s ease;
         }
 
         .pixel-badge:hover {
             background: var(--pixel-pink-subtle);
-            border-color: var(--pixel-black);
+            border-color: rgba(236, 72, 153, 0.7);
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
+            box-shadow: 0 4px 8px rgba(236, 72, 153, 0.3);
         }
 
         .pixel-badge.category-active {
-            background: var(--pixel-black);
-            border-color: var(--pixel-black);
+            background: #0f172a;
+            border-color: #0f172a;
             color: var(--pixel-white);
         }
 
@@ -645,11 +679,11 @@
             position: sticky;
             top: 120px;
             align-self: start;
-            background: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
             padding: 1.75rem 1.5rem;
-            box-shadow: var(--pixel-shadow);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             max-height: calc(100vh - 140px);
             overflow-y: auto;
         }
@@ -745,10 +779,10 @@
         }
 
         .doc-mobile-nav__panel {
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            background: var(--pixel-white);
-            box-shadow: var(--pixel-shadow);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             overflow: hidden;
         }
 
@@ -788,18 +822,18 @@
             gap: 0.5rem;
         }
 
-        /* Code Blocks */
+        /* Code Blocks - Clean Light Mode */
         .code-block {
-            background: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
-            border-radius: 0;
+            background: #f8fafc;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
             font-family: 'Monaco', 'Consolas', monospace;
             font-size: 0.875rem;
-            line-height: 1.4;
-            padding: 1rem;
+            line-height: 1.6;
+            padding: 1.25rem;
             overflow-x: auto;
-            color: var(--pixel-black);
-            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            color: #1f2937;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             position: relative;
         }
 
@@ -811,21 +845,23 @@
             align-items: center;
             gap: 0.35rem;
             padding: 0.4rem 0.9rem;
-            border-radius: 0;
+            border-radius: 6px;
             font-family: 'Pixelify Sans', monospace;
             font-size: 0.75rem;
             font-weight: 600;
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            border: var(--pixel-border-width) solid var(--pixel-gray-300);
-            transition: all 0.15s ease;
-            box-shadow: var(--pixel-shadow);
+            background: #ffffff;
+            color: #1f2937;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         .copy-code-btn:hover {
-            background: var(--pixel-gray-100);
-            color: var(--pixel-black);
-            transform: translate(-1px, -1px);
+            background: #f8fafc;
+            color: #0f172a;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-color: rgba(236, 72, 153, 0.3);
         }
 
         .copy-code-btn.copied {
@@ -834,31 +870,32 @@
             border-color: var(--pixel-pink);
         }
 
-        /* Back to Top */
+        /* Back to Top - Clean Light Mode */
         .back-to-top {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
             width: 3rem;
             height: 3rem;
-            border-radius: 0;
-            background: var(--pixel-black);
-            color: var(--pixel-white);
+            border-radius: 50%;
+            background: #0f172a;
+            color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--pixel-shadow);
-            border: var(--pixel-border-width) solid var(--pixel-black);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+            border: 1px solid rgba(15, 23, 42, 0.1);
             opacity: 0;
             pointer-events: none;
             transform: translateY(16px);
-            transition: all 0.15s ease;
+            transition: all 0.2s ease;
             z-index: 100;
         }
 
         .back-to-top:hover {
             background: var(--pixel-pink);
-            transform: translateY(14px);
+            box-shadow: 0 6px 16px rgba(236, 72, 153, 0.3);
+            transform: translateY(0) scale(1.05);
         }
 
         .back-to-top.show {
@@ -977,6 +1014,11 @@
                     0 0 25px rgba(236, 72, 153, 0.2);
             }
         }
+
+        /* Radial gradient utility for light mode glow effects */
+        .bg-gradient-radial {
+            background: radial-gradient(circle, var(--tw-gradient-stops));
+        }
     </style>
     <style>
         /* Sidebar Styles */
@@ -999,6 +1041,7 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
             z-index: 40;
             overflow-y: auto;
+            overflow-x: hidden;
             padding-top: 0;
         }
 
@@ -1150,17 +1193,18 @@
             left: 1rem;
             z-index: 50;
             background-color: white;
-            border: 2px solid #0f172a;
-            border-radius: 0;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
             padding: 0.5rem;
             cursor: pointer;
-            transition: all 0.18s ease;
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.25);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar-toggle:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
+            border-color: rgba(236, 72, 153, 0.3);
         }
 
         .sidebar-overlay {
@@ -1296,18 +1340,13 @@
     <!-- Directory Sidebar -->
     <aside class="api-sidebar" id="api-sidebar">
         <div class="sidebar-header">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-center">
                 <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-pink-400 to-pink-500 flex items-center justify-center rounded shadow-sm">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                        </svg>
-                    </div>
+                    <img src="apiui-cloud-logo.png" alt="apiUI Logo" class="w-10 h-10 rounded shadow-sm">
                     <div>
-                        <h2 class="text-base font-bold tracking-[0.14em] text-slate-900 pixel-heading">
+                        <h2 class="text-lg font-bold tracking-[0.14em] text-slate-900 pixel-heading">
                             api<span class="text-pink-500">UI</span>
                         </h2>
-                        <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">Directory</p>
                     </div>
                 </div>
             </div>
@@ -1458,7 +1497,7 @@
     <main>
     <section class="hero-section-docs bg-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
 
-        <div class="pixel-container max-w-7xl text-center relative z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
             <!-- Main Headline -->
             <div class="mb-8 pixel-fade-in">
                 <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
@@ -1481,44 +1520,44 @@
             </div>
 
             <!-- Enhanced Subtitle -->
-            <div class="mb-12 pixel-fade-in" style="animation-delay: 0.2s">
+            <div class="mb-10 pixel-fade-in" style="animation-delay: 0.2s">
                 <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
                     Everything you need to transform your data into
                     <span class="font-semibold text-gray-900">production-ready REST APIs</span> with
-                    <span class="text-pink-400 font-medium">step-by-step guides and examples</span>
+                    <span class="text-pink-500 font-semibold">step-by-step guides and examples</span>
                 </p>
             </div>
 
-            <!-- Navigation Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto pixel-fade-in" style="animation-delay: 0.4s">
-                <a href="#getting-started" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
-                    <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
-                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <!-- Navigation Cards - Compact -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto pixel-fade-in" style="animation-delay: 0.3s">
+                <a href="#getting-started" class="group p-5 text-center bg-white rounded-lg border border-gray-200 hover:border-pink-400 transition-all hover:shadow-md">
+                    <div class="w-10 h-10 mx-auto mb-3 flex items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200 rounded-lg">
+                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
                     </div>
-                    <h3 class="pixel-subtitle text-lg text-black mb-2">Getting Started</h3>
-                    <p class="pixel-body text-black text-sm">Quick start guide to upload and generate your first API</p>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Getting Started</h3>
+                    <p class="pixel-body text-gray-600 text-xs leading-relaxed">Quick start guide to upload and generate your first API</p>
                 </a>
 
-                <a href="#api-features" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
-                    <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
-                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="#api-features" class="group p-5 text-center bg-white rounded-lg border border-gray-200 hover:border-pink-400 transition-all hover:shadow-md">
+                    <div class="w-10 h-10 mx-auto mb-3 flex items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200 rounded-lg">
+                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                         </svg>
                     </div>
-                    <h3 class="pixel-subtitle text-lg text-black mb-2">API Features</h3>
-                    <p class="pixel-body text-black text-sm">Complete REST API endpoints with filtering, sorting, and pagination</p>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">API Features</h3>
+                    <p class="pixel-body text-gray-600 text-xs leading-relaxed">Complete REST API endpoints with filtering, sorting, and pagination</p>
                 </a>
 
-                <a href="#code-examples" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
-                    <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
-                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="#code-examples" class="group p-5 text-center bg-white rounded-lg border border-gray-200 hover:border-pink-400 transition-all hover:shadow-md">
+                    <div class="w-10 h-10 mx-auto mb-3 flex items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200 rounded-lg">
+                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                         </svg>
                     </div>
-                    <h3 class="pixel-subtitle text-lg text-black mb-2">Code Examples</h3>
-                    <p class="pixel-body text-black text-sm">Ready-to-use code snippets in JavaScript, Python, and cURL</p>
+                    <h3 class="text-sm font-bold text-gray-900 mb-1">Code Examples</h3>
+                    <p class="pixel-body text-gray-600 text-xs leading-relaxed">Ready-to-use code snippets in JavaScript, Python, and cURL</p>
                 </a>
             </div>
         </div>
@@ -1527,14 +1566,9 @@
     <!-- Pixel Section Divider -->
     <div class="pixel-accent-line"></div>
 
-    <div class="pixel-container max-w-7xl mx-auto px-4 py-8">
-            <section id="getting-started" class="mb-12 relative">
-                <!-- Background Image -->
-                <div class="absolute inset-0 opacity-15 pointer-events-none">
-                    <img src="images/cube-columns.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
-                </div>
-                <div class="relative z-10">
-                    <h2 class="text-2xl font-bold mb-4">Getting Started</h2>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+            <section id="getting-started" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">Getting Started</h2>
                 <div class="space-y-6">
                     <div>
                         <h3 class="text-xl font-semibold mb-2">1. Upload Your Data</h3>
@@ -1587,7 +1621,6 @@
                         </ul>
                     </div>
                 </div>
-                </div>
             </section>
 
             <section id="api-features" class="mb-12">
@@ -1624,22 +1657,22 @@
                 <div class="space-y-6">
                     <div>
                         <h3 class="text-xl font-semibold mb-2">Key Features</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Real-time Editing</h4>
-                                <p class="pixel-body text-black text-sm">Edit cells directly in the spreadsheet interface with automatic type detection and validation.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">Real-time Editing</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Edit cells directly in the spreadsheet interface with automatic type detection and validation.</p>
                             </div>
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Formula Bar</h4>
-                                <p class="pixel-body text-black text-sm">View and edit cell values in a dedicated formula bar with cell reference display (A1, B2, etc.).</p>
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">Formula Bar</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">View and edit cell values in a dedicated formula bar with cell reference display (A1, B2, etc.).</p>
                             </div>
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">CRUD Operations</h4>
-                                <p class="pixel-body text-black text-sm">Create, read, update, and delete records with one-click actions and bulk operations.</p>
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">CRUD Operations</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Create, read, update, and delete records with one-click actions and bulk operations.</p>
                             </div>
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Data Validation</h4>
-                                <p class="pixel-body text-black text-sm">Automatic data type validation with visual indicators for errors and warnings.</p>
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">Data Validation</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Automatic data type validation with visual indicators for errors and warnings.</p>
                             </div>
                         </div>
                     </div>
@@ -1670,17 +1703,17 @@
                     <div>
                         <h3 class="text-xl font-semibold mb-2">Data Types Supported</h3>
                         <div class="grid md:grid-cols-3 gap-4">
-                            <div class="pixel-card p-3">
-                                <h4 class="pixel-subtitle text-black mb-1">Text</h4>
-                                <p class="pixel-body text-black text-xs">String values with multi-line support</p>
+                            <div class="p-4 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-200 hover:border-pink-300 transition-all">
+                                <h4 class="font-bold text-gray-900 mb-1">Text</h4>
+                                <p class="pixel-body text-gray-700 text-xs">String values with multi-line support</p>
                             </div>
-                            <div class="pixel-card p-3">
-                                <h4 class="pixel-subtitle text-black mb-1">Numbers</h4>
-                                <p class="pixel-body text-black text-xs">Integer and decimal values with right alignment</p>
+                            <div class="p-4 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-200 hover:border-pink-300 transition-all">
+                                <h4 class="font-bold text-gray-900 mb-1">Numbers</h4>
+                                <p class="pixel-body text-gray-700 text-xs">Integer and decimal values with right alignment</p>
                             </div>
-                            <div class="pixel-card p-3">
-                                <h4 class="pixel-subtitle text-black mb-1">Booleans</h4>
-                                <p class="pixel-body text-black text-xs">True/false values with checkbox display</p>
+                            <div class="p-4 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-200 hover:border-pink-300 transition-all">
+                                <h4 class="font-bold text-gray-900 mb-1">Booleans</h4>
+                                <p class="pixel-body text-gray-700 text-xs">True/false values with checkbox display</p>
                             </div>
                         </div>
                     </div>
@@ -1706,22 +1739,22 @@
 
                     <div>
                         <h3 class="text-xl font-semibold mb-2">Key Features</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">AI-Powered Queries</h4>
-                                <p class="pixel-body text-black text-sm">Intelligent responses using natural language processing and AI.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">AI-Powered Queries</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Intelligent responses using natural language processing and AI.</p>
                             </div>
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Multi-API Support</h4>
-                                <p class="pixel-body text-black text-sm">Chat with multiple APIs simultaneously for comprehensive insights.</p>
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">Multi-API Support</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Chat with multiple APIs simultaneously for comprehensive insights.</p>
                             </div>
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Context Awareness</h4>
-                                <p class="pixel-body text-black text-sm">Maintains conversation context across multiple queries.</p>
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">Context Awareness</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Maintains conversation context across multiple queries.</p>
                             </div>
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Structured Responses</h4>
-                                <p class="pixel-body text-black text-sm">JSON-formatted responses perfect for programmatic use.</p>
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">Structured Responses</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">JSON-formatted responses perfect for programmatic use.</p>
                             </div>
                         </div>
                     </div>
@@ -1750,13 +1783,8 @@
                 </div>
             </section>
 
-            <section id="mcp-server" class="mb-12 relative">
-                <!-- Background Image -->
-                <div class="absolute inset-0 opacity-15 pointer-events-none">
-                    <img src="images/cube-card.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
-                </div>
-                <div class="relative z-10">
-                    <h2 class="text-2xl font-bold mb-4">MCP Server</h2>
+            <section id="mcp-server" class="mb-12">
+                <h2 class="text-2xl font-bold mb-4">MCP Server</h2>
                     <p class="mb-6">The Model Context Protocol (MCP) server enables AI models and tools to access your flat files through a standardized protocol.</p>
 
                 <div class="space-y-6">
@@ -1764,9 +1792,9 @@
                         <h3 class="text-xl font-semibold mb-2">What is MCP?</h3>
                         <p class="mb-4">The Model Context Protocol (MCP) is a standardized way for AI models and tools to access external data sources and APIs. It provides a consistent interface for connecting various data providers to AI applications.</p>
 
-                        <div class="pixel-card p-6 mb-6">
-                            <h4 class="pixel-subtitle text-lg text-black mb-4">Key Benefits</h4>
-                            <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-8 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 mb-6 shadow-sm">
+                            <h4 class="text-xl font-bold text-gray-900 mb-6">Key Benefits</h4>
+                            <div class="grid md:grid-cols-2 gap-6">
                                 <div class="space-y-3">
                                     <div class="flex items-start space-x-3">
                                         <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
@@ -1843,27 +1871,27 @@
                             <div>
                                 <h4 class="text-lg font-medium mb-2">Direct API Access</h4>
                                 <p class="mb-3">You can also access the MCP server directly via HTTP APIs:</p>
-                                <div class="space-y-3">
-                                    <div class="pixel-card p-4">
+                                <div class="space-y-4">
+                                    <div class="p-5 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-md">
                                         <div class="flex items-center justify-between mb-2">
-                                            <code class="pixel-body text-sm bg-gray-100 px-2 py-1 rounded">GET /mcp/resources</code>
+                                            <code class="pixel-body text-sm bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200">GET /mcp/resources</code>
                                             <span class="pixel-badge">List Files</span>
                                         </div>
-                                        <p class="pixel-body text-black text-sm">Retrieve a list of all available files with metadata</p>
+                                        <p class="pixel-body text-gray-700 text-sm">Retrieve a list of all available files with metadata</p>
                                     </div>
-                                    <div class="pixel-card p-4">
+                                    <div class="p-5 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-md">
                                         <div class="flex items-center justify-between mb-2">
-                                            <code class="pixel-body text-sm bg-gray-100 px-2 py-1 rounded">POST /mcp</code>
+                                            <code class="pixel-body text-sm bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200">POST /mcp</code>
                                             <span class="pixel-badge">MCP Protocol</span>
                                         </div>
-                                        <p class="pixel-body text-black text-sm">Send MCP protocol requests (resources/list, resources/read)</p>
+                                        <p class="pixel-body text-gray-700 text-sm">Send MCP protocol requests (resources/list, resources/read)</p>
                                     </div>
-                                    <div class="pixel-card p-4">
+                                    <div class="p-5 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-md">
                                         <div class="flex items-center justify-between mb-2">
-                                            <code class="pixel-body text-sm bg-gray-100 px-2 py-1 rounded">GET /mcp/resources/{filename}</code>
+                                            <code class="pixel-body text-sm bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200">GET /mcp/resources/{filename}</code>
                                             <span class="pixel-badge">Read File</span>
                                         </div>
-                                        <p class="pixel-body text-black text-sm">Direct access to read specific file content</p>
+                                        <p class="pixel-body text-gray-700 text-sm">Direct access to read specific file content</p>
                                     </div>
                                 </div>
                             </div>
@@ -1874,25 +1902,24 @@
                         <h3 class="text-xl font-semibold mb-2">File Browser</h3>
                         <p class="mb-4">Browse and access all files available through your MCP server. Files uploaded to apiUI are automatically made available via MCP.</p>
 
-                        <div class="pixel-card p-6">
-                            <h4 class="pixel-subtitle text-lg text-black mb-4">Supported File Formats</h4>
+                        <div class="p-8 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 shadow-sm">
+                            <h4 class="text-xl font-bold text-gray-900 mb-6">Supported File Formats</h4>
                             <div class="grid md:grid-cols-3 gap-4">
-                                <div class="pixel-card p-3">
-                                    <h5 class="pixel-subtitle text-black mb-1">CSV Files</h5>
-                                    <p class="pixel-body text-black text-xs">Comma-separated values with headers</p>
+                                <div class="p-4 bg-white rounded-lg border border-gray-200 hover:border-pink-300 transition-all">
+                                    <h5 class="font-bold text-gray-900 mb-1">CSV Files</h5>
+                                    <p class="pixel-body text-gray-700 text-xs">Comma-separated values with headers</p>
                                 </div>
-                                <div class="pixel-card p-3">
-                                    <h5 class="pixel-subtitle text-black mb-1">JSON Files</h5>
-                                    <p class="pixel-body text-black text-xs">Array of objects format</p>
+                                <div class="p-4 bg-white rounded-lg border border-gray-200 hover:border-pink-300 transition-all">
+                                    <h5 class="font-bold text-gray-900 mb-1">JSON Files</h5>
+                                    <p class="pixel-body text-gray-700 text-xs">Array of objects format</p>
                                 </div>
-                                <div class="pixel-card p-3">
-                                    <h5 class="pixel-subtitle text-black mb-1">Parquet Files</h5>
-                                    <p class="pixel-body text-black text-xs">Columnar storage format</p>
+                                <div class="p-4 bg-white rounded-lg border border-gray-200 hover:border-pink-300 transition-all">
+                                    <h5 class="font-bold text-gray-900 mb-1">Parquet Files</h5>
+                                    <p class="pixel-body text-gray-700 text-xs">Columnar storage format</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </section>
 
@@ -1915,39 +1942,39 @@
                         <h3 class="text-xl font-semibold mb-2">Code Examples</h3>
                         <p class="mb-3">Ready-to-use code snippets in multiple programming languages:</p>
                         <div class="grid md:grid-cols-3 gap-4">
-                            <div class="pixel-card p-3">
-                                <h4 class="pixel-subtitle text-black mb-1">JavaScript</h4>
-                                <p class="pixel-body text-black text-xs">Fetch API and Axios examples</p>
+                            <div class="p-4 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-200 hover:border-pink-300 transition-all">
+                                <h4 class="font-bold text-gray-900 mb-1">JavaScript</h4>
+                                <p class="pixel-body text-gray-700 text-xs">Fetch API and Axios examples</p>
                             </div>
-                            <div class="pixel-card p-3">
-                                <h4 class="pixel-subtitle text-black mb-1">Python</h4>
-                                <p class="pixel-body text-black text-xs">Requests library examples</p>
+                            <div class="p-4 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-200 hover:border-pink-300 transition-all">
+                                <h4 class="font-bold text-gray-900 mb-1">Python</h4>
+                                <p class="pixel-body text-gray-700 text-xs">Requests library examples</p>
                             </div>
-                            <div class="pixel-card p-3">
-                                <h4 class="pixel-subtitle text-black mb-1">cURL</h4>
-                                <p class="pixel-body text-black text-xs">Command-line examples</p>
+                            <div class="p-4 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-200 hover:border-pink-300 transition-all">
+                                <h4 class="font-bold text-gray-900 mb-1">cURL</h4>
+                                <p class="pixel-body text-gray-700 text-xs">Command-line examples</p>
                             </div>
                         </div>
                     </div>
 
                     <div>
                         <h3 class="text-xl font-semibold mb-2">Endpoint Information</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Dataset Overview</h4>
-                                <p class="pixel-body text-black text-sm">Complete information about your data structure, record count, and column details.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">Dataset Overview</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Complete information about your data structure, record count, and column details.</p>
                             </div>
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Data Preview</h4>
-                                <p class="pixel-body text-black text-sm">Sample records and data validation information.</p>
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">Data Preview</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Sample records and data validation information.</p>
                             </div>
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">API Endpoints</h4>
-                                <p class="pixel-body text-black text-sm">Detailed documentation for all REST endpoints with parameters and examples.</p>
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">API Endpoints</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Detailed documentation for all REST endpoints with parameters and examples.</p>
                             </div>
-                            <div class="pixel-card p-4">
-                                <h4 class="pixel-subtitle text-black mb-2">Analytics</h4>
-                                <p class="pixel-body text-black text-sm">Usage statistics, performance metrics, and error tracking.</p>
+                            <div class="group p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-lg">
+                                <h4 class="text-lg font-bold text-gray-900 mb-2">Analytics</h4>
+                                <p class="pixel-body text-gray-700 text-sm leading-relaxed">Usage statistics, performance metrics, and error tracking.</p>
                             </div>
                         </div>
                     </div>
@@ -2017,53 +2044,124 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
             </section>
 
             <section class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">File Format Support</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="pixel-card p-4">
-                        <h4 class="pixel-subtitle text-black mb-2">CSV Files</h4>
-                        <p class="pixel-body text-black text-sm">Comma-separated values with headers</p>
+                <h2 class="text-2xl font-bold mb-8 text-center">Supported File Formats</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="group pixel-card p-6 bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 hover:border-pink-400 transition-all hover:scale-105 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-radial from-pink-100/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-pink-300 rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">CSV Files</h4>
+                            <div class="h-px bg-gradient-to-r from-gray-300 to-transparent mb-2 group-hover:from-pink-400 transition-colors"></div>
+                            <p class="pixel-body text-gray-700 text-sm">Comma-separated values with headers</p>
+                        </div>
                     </div>
-                    <div class="pixel-card p-4">
-                        <h4 class="pixel-subtitle text-black mb-2">Excel Files</h4>
-                        <p class="pixel-body text-black text-sm">.xlsx and .xls spreadsheets</p>
+                    <div class="group pixel-card p-6 bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 hover:border-pink-400 transition-all hover:scale-105 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-radial from-pink-100/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-pink-300 rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">Excel Files</h4>
+                            <div class="h-px bg-gradient-to-r from-gray-300 to-transparent mb-2 group-hover:from-pink-400 transition-colors"></div>
+                            <p class="pixel-body text-gray-700 text-sm">.xlsx and .xls spreadsheets</p>
+                        </div>
                     </div>
-                    <div class="pixel-card p-4">
-                        <h4 class="pixel-subtitle text-black mb-2">JSON Files</h4>
-                        <p class="pixel-body text-black text-sm">Array of objects format</p>
+                    <div class="group pixel-card p-6 bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 hover:border-pink-400 transition-all hover:scale-105 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-radial from-pink-100/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-pink-300 rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">JSON Files</h4>
+                            <div class="h-px bg-gradient-to-r from-gray-300 to-transparent mb-2 group-hover:from-pink-400 transition-colors"></div>
+                            <p class="pixel-body text-gray-700 text-sm">Array of objects format</p>
+                        </div>
                     </div>
-                    <div class="pixel-card p-4">
-                        <h4 class="pixel-subtitle text-black mb-2">Parquet Files</h4>
-                        <p class="pixel-body text-black text-sm">Columnar storage format</p>
+                    <div class="group pixel-card p-6 bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 hover:border-pink-400 transition-all hover:scale-105 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-radial from-pink-100/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-pink-300 rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">Parquet Files</h4>
+                            <div class="h-px bg-gradient-to-r from-gray-300 to-transparent mb-2 group-hover:from-pink-400 transition-colors"></div>
+                            <p class="pixel-body text-gray-700 text-sm">Columnar storage format</p>
+                        </div>
                     </div>
-                    <div class="pixel-card p-4">
-                        <h4 class="pixel-subtitle text-black mb-2">Text Files</h4>
-                        <p class="pixel-body text-black text-sm">Plain text with delimiters</p>
+                    <div class="group pixel-card p-6 bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 hover:border-pink-400 transition-all hover:scale-105 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-radial from-pink-100/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-pink-300 rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative z-10">
+                            <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">Text Files</h4>
+                            <div class="h-px bg-gradient-to-r from-gray-300 to-transparent mb-2 group-hover:from-pink-400 transition-colors"></div>
+                            <p class="pixel-body text-gray-700 text-sm">Plain text with delimiters</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <section class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">Navigation</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <a href="index.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
-                    <h4 class="pixel-subtitle text-black mb-2">Home</h4>
-                    <p class="pixel-body text-black text-sm">Landing page and overview</p>
+                <h2 class="text-2xl font-bold mb-8 text-center">Explore More</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="index.html" class="api-card p-6 flex flex-col min-h-[160px]">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-400">PLATFORM</p>
+                            <h3 class="text-lg font-semibold text-slate-900 mt-1">Home</h3>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-slate-600 leading-6">Landing page and overview</p>
+                    </div>
+                    <div class="hub-divider mt-4 mb-3"></div>
+                    <div class="text-xs uppercase tracking-[0.24em] text-slate-500">Discover APIs</div>
                 </a>
-                <a href="app.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
-                    <h4 class="pixel-subtitle text-black mb-2">My APIs</h4>
-                    <p class="pixel-body text-black text-sm">Manage and generate APIs</p>
+                <a href="app.html" class="api-card p-6 flex flex-col min-h-[160px]">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-400">PLATFORM</p>
+                            <h3 class="text-lg font-semibold text-slate-900 mt-1">My APIs</h3>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-slate-600 leading-6">Manage and generate APIs</p>
+                    </div>
+                    <div class="hub-divider mt-4 mb-3"></div>
+                    <div class="text-xs uppercase tracking-[0.24em] text-slate-500">API Console</div>
                 </a>
-                <a href="mcp-chat.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
-                    <h4 class="pixel-subtitle text-black mb-2">MCP Chat</h4>
-                    <p class="pixel-body text-black text-sm">AI-powered chat with your APIs</p>
+                <a href="mcp-chat.html" class="api-card p-6 flex flex-col min-h-[160px]">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-400">SERVERS</p>
+                            <h3 class="text-lg font-semibold text-slate-900 mt-1">MCP Chat</h3>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-slate-600 leading-6">AI-powered chat with your APIs</p>
+                    </div>
+                    <div class="hub-divider mt-4 mb-3"></div>
+                    <div class="text-xs uppercase tracking-[0.24em] text-slate-500">Natural Language</div>
                 </a>
-                <a href="mcp.html" class="pixel-card p-4 hover:bg-pink-50 transition-colors">
-                    <h4 class="pixel-subtitle text-black mb-2">MCP Server</h4>
-                    <p class="pixel-body text-black text-sm">Model Context Protocol file access</p>
+                <a href="mcp.html" class="api-card p-6 flex flex-col min-h-[160px]">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-400">SERVERS</p>
+                            <h3 class="text-lg font-semibold text-slate-900 mt-1">MCP Server</h3>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-slate-600 leading-6">Model Context Protocol file access</p>
+                    </div>
+                    <div class="hub-divider mt-4 mb-3"></div>
+                    <div class="text-xs uppercase tracking-[0.24em] text-slate-500">File Browser</div>
                 </a>
-                <a href="docs.html" class="pixel-card p-4 bg-pink-50 border-pink-400 transition-colors">
-                    <h4 class="pixel-subtitle text-black mb-2">Documentation</h4>
-                    <p class="pixel-body text-black text-sm">Complete platform documentation</p>
+                <a href="docs.html" class="api-card p-6 flex flex-col min-h-[160px] bg-pink-50 border-pink-400">
+                    <div class="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-500">RESOURCES</p>
+                            <h3 class="text-lg font-semibold text-slate-900 mt-1">Documentation</h3>
+                        </div>
+                        <span class="hub-pill bg-pink-100 text-pink-600">Active</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-slate-600 leading-6">Complete platform documentation</p>
+                    </div>
+                    <div class="hub-divider mt-4 mb-3"></div>
+                    <div class="text-xs uppercase tracking-[0.24em] text-pink-500 font-semibold">Current Page</div>
                 </a>
                 </div>
             </section>
@@ -2078,7 +2176,7 @@ curl -X GET "https://your-api-endpoint.com/data?department=Engineering"
 
     <!-- Footer -->
     <footer class="bg-white py-16">
-        <div class="pixel-container max-w-7xl">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
                     <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-400">UI</span></a>

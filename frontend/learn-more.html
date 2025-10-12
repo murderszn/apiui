@@ -19,11 +19,9 @@
     <meta name="distribution" content="Global">
     <meta name="revisit-after" content="7 days">
     <link rel="canonical" href="https://apiui.web.app/learn-more.html">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="apiui-cloud-logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apiui-cloud-logo.png">
+    <link rel="shortcut icon" href="apiui-cloud-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
@@ -35,11 +33,11 @@
     <meta property="og:title" content="APIUI | Learn More - Turn Data Into APIs Instantly">
     <meta property="og:description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics.">
     <meta property="og:url" content="https://apiui.web.app/learn-more.html">
-    <meta property="og:image" content="https://apiui.web.app/favicon.png">
+    <meta property="og:image" content="https://apiui.web.app/apiui-cloud-logo.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="APIUI | Learn More - Turn Data Into APIs Instantly">
     <meta name="twitter:description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics.">
-    <meta name="twitter:image" content="https://apiui.web.app/favicon.png">
+    <meta name="twitter:image" content="https://apiui.web.app/apiui-cloud-logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
@@ -528,6 +526,47 @@
             box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
         }
 
+        /* API Card System - matching index.html */
+        .api-card {
+            position: relative;
+            background-color: var(--hub-surface);
+            border: 1px solid var(--hub-border);
+            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .api-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
+            border-color: rgba(236, 72, 153, 0.45);
+        }
+
+        .api-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-image: linear-gradient(90deg, var(--hub-pink) 50%, transparent 50%), linear-gradient(180deg, var(--hub-pink) 50%, transparent 50%);
+            background-size: 4px 4px;
+            opacity: 0.65;
+        }
+
+        .hub-divider {
+            width: 100%;
+            height: 1px;
+            background-image: linear-gradient(90deg, var(--hub-border) 0, transparent 50%, var(--hub-border) 100%);
+            background-size: 24px 1px;
+            opacity: 0.75;
+        }
+
+        .eyebrow {
+            letter-spacing: 0.32em;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
         /* Pixel Loading Animation */
         .pixel-loader {
             display: inline-block;
@@ -879,6 +918,7 @@
     <header class="bg-white">
         <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
+                <img src="apiui-cloud-logo.png" alt="apiUI Logo" class="w-10 h-10 rounded shadow-sm">
                 <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
                     api<span class="text-pink-400">UI</span>
                 </a>
@@ -1024,7 +1064,7 @@
             </div>
 
             <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                <article class="api-card p-6 flex flex-col min-h-[280px]">
                     <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
                             <div class="pixel-icon w-12 h-12 mb-6">
@@ -1040,7 +1080,7 @@
                     </div>
                 </article>
 
-                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                <article class="api-card p-6 flex flex-col min-h-[280px]">
                     <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
                             <div class="pixel-icon w-12 h-12 mb-6">
@@ -1056,7 +1096,7 @@
                     </div>
                 </article>
 
-                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                <article class="api-card p-6 flex flex-col min-h-[280px]">
                     <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
                             <div class="pixel-icon w-12 h-12 mb-6">
@@ -1072,7 +1112,7 @@
                     </div>
                 </article>
 
-                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                <article class="api-card p-6 flex flex-col min-h-[280px]">
                     <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
                             <div class="pixel-icon w-12 h-12 mb-6">
@@ -1088,7 +1128,7 @@
                     </div>
                 </article>
 
-                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                <article class="api-card p-6 flex flex-col min-h-[280px]">
                     <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
                             <div class="pixel-icon w-12 h-12 mb-6">
@@ -1104,7 +1144,7 @@
                     </div>
                 </article>
 
-                <article class="api-card p-6 flex flex-col min-h-[280px] bg-white border border-slate-200/70">
+                <article class="api-card p-6 flex flex-col min-h-[280px]">
                     <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
                             <div class="pixel-icon w-12 h-12 mb-6">
@@ -1276,7 +1316,7 @@
 
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-8">
                     <!-- Free Plan -->
-                    <div class="api-card p-8 sm:p-10 pixel-slide-in-left bg-white border border-slate-200/70 flex flex-col h-full">
+                    <div class="api-card p-8 sm:p-10 pixel-slide-in-left flex flex-col h-full">
                         <div class="text-center mb-8">
                             <h3 class="pixel-subtitle text-2xl text-slate-900 mb-3">Free</h3>
                             <div class="pixel-title text-5xl text-slate-900 mb-6">$0<span class="pixel-body text-xl text-slate-600 ml-1">/month</span></div>
@@ -1332,7 +1372,7 @@
                     </div>
 
                     <!-- Enterprise Plan -->
-                    <div class="api-card p-8 sm:p-10 pixel-slide-in-right bg-white border border-slate-200/70 flex flex-col h-full">
+                    <div class="api-card p-8 sm:p-10 pixel-slide-in-right flex flex-col h-full">
                         <div class="text-center mb-8">
                             <h3 class="pixel-subtitle text-2xl text-slate-900 mb-3">Enterprise</h3>
                             <div class="pixel-title text-5xl text-slate-900 mb-6">Custom<span class="pixel-body text-xl text-slate-600 ml-1 block">pricing</span></div>

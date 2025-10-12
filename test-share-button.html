@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Share Button</title>
+</head>
+<body>
+    <h1>Test Share Button</h1>
+    <button id="share-btn">Share API</button>
+    <div id="api-id">test-api-id</div>
+    <div id="api-name-display">Test API Name</div>
+    <a id="api-endpoint" href="https://example.com/api">https://example.com/api</a>
+
+    <script>
+        // Share Button Functionality
+        function initializeShareButton() {
+            const shareBtn = document.getElementById('share-btn');
+
+            if (!shareBtn) return;
+
+            shareBtn.addEventListener('click', function() {
+                const apiId = document.getElementById('api-id').textContent;
+                const apiName = document.getElementById('api-name-display').textContent;
+                const apiEndpoint = document.getElementById('api-endpoint').href;
+
+                // Create share URL
+                const shareUrl = window.location.href;
+                const shareText = `Check out this API: ${apiName}\n\nEndpoint: ${apiEndpoint}\n\nView details: ${shareUrl}`;
+
+                console.log('Share button clicked!');
+                console.log('API ID:', apiId);
+                console.log('API Name:', apiName);
+                console.log('API Endpoint:', apiEndpoint);
+                console.log('Share URL:', shareUrl);
+                console.log('Share Text:', shareText);
+
+                // Try Web Share API first (mobile-friendly)
+                if (navigator.share) {
+                    navigator.share({
+                        title: `${apiName} - APIUI API`,
+                        text: shareText,
+                        url: shareUrl
+                    }).catch(err => {
+                        console.log('Error sharing:', err);
+                        fallbackShare(shareUrl, shareText);
+                    });
+                } else {
+                    // Fallback to clipboard and notification
+                    fallbackShare(shareUrl, shareText);
+                }
+            });
+        }
+
+        function fallbackShare(shareUrl, shareText) {
+            console.log('Using fallback share method');
+            // Copy to clipboard
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    showShareNotification('Link copied to clipboard!');
+                }).catch(() => {
+                    showShareNotification('Share URL: ' + shareUrl);
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = shareText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showShareNotification('Link copied to clipboard!');
+                } catch (err) {
+                    showShareNotification('Share URL: ' + shareUrl);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showShareNotification(message) {
+            console.log('Showing notification:', message);
+            // Create a temporary notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-pink-600 text-white px-6 py-3 rounded shadow-lg z-50 transition-all duration-300';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing share button...');
+            initializeShareButton();
+        });
+    </script>
+</body>
+</html>
