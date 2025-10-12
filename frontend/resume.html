@@ -253,26 +253,72 @@
         }
 
         /* Floating Sidebar Styling */
-        .floating-sidebar-icon {
-            border: none !important;
-            box-shadow: none !important;
-        }
 
-        .floating-sidebar-icon:hover {
-            border: none !important;
-            box-shadow: none !important;
-        }
 
-        .floating-sidebar-container {
-            border: none !important;
-            box-shadow: none !important;
-        }
 
         /* Hide floating sidebar on mobile devices */
         @media (max-width: 768px) {
             .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
                 display: none !important;
             }
+        }
+
+        /* Contribution Calendar Styling */
+        .contribution-day {
+            cursor: default;
+        }
+
+        #calendar-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 1rem 0;
+        }
+
+        #calendar-grid svg {
+            width: 100%;
+            height: auto;
+            max-width: none;
+        }
+
+        .month-label {
+            font-size: 0.75rem;
+            fill: #64748b;
+            font-weight: 500;
+        }
+
+        .weekday-label {
+            font-size: 0.7rem;
+            fill: #64748b;
+        }
+
+
+        .stat-card {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(236, 72, 153, 0.05);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(236, 72, 153, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--hub-pink);
+            font-family: 'Pixelify Sans', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--hub-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
     </style>
 </head>
@@ -377,8 +423,45 @@
             </div>
         </section>
 
-        <!-- Skills Section -->
+        <!-- Contributions Section -->
         <section class="bg-white relative">
+            <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 32px 32px;"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-10 relative">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <span class="pixel-dot"></span>
+                        <p class="pixel-heading eyebrow text-pink-400">Activity</p>
+                    </div>
+                    <h2 class="text-3xl font-semibold tracking-tight">GitHub Contributions</h2>
+                    <p class="text-slate-600">My coding activity over the past year</p>
+                </div>
+
+                <div class="resume-card">
+                    <div id="contribution-calendar">
+                        <div class="flex items-center justify-center gap-4 mb-6">
+                            <div class="text-sm text-slate-600">Less</div>
+                            <div class="flex gap-1">
+                                <div class="w-3 h-3 bg-slate-100 border border-slate-200"></div>
+                                <div class="w-3 h-3 bg-pink-100 border border-pink-200"></div>
+                                <div class="w-3 h-3 bg-pink-300 border border-pink-400"></div>
+                                <div class="w-3 h-3 bg-pink-400 border border-pink-500"></div>
+                                <div class="w-3 h-3 bg-pink-500 border border-pink-600"></div>
+                            </div>
+                            <div class="text-sm text-slate-600">More</div>
+                        </div>
+                        <div id="calendar-grid" class="inline-block">
+                            <!-- Calendar will be generated here -->
+                        </div>
+                        <div id="calendar-stats" class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <!-- Stats will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="bg-gray-50/70 relative">
             <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 32px 32px;"></div>
             <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-10 relative">
                 <div class="space-y-3">
@@ -888,6 +971,1707 @@
 
     <!-- Cookie Consent Modal -->
     <script src="cookie-consent.js"></script>
+
+    <!-- GitHub Contributions Calendar -->
+    <script>
+        // Configuration - UPDATE YOUR GITHUB USERNAME HERE
+        const GITHUB_USERNAME = 'murderszn'; // Change this to your GitHub username
+        
+
+        // Helper function to get contribution level based on count
+        function getContributionLevel(count, maxCount) {
+            if (count === 0) return 0;
+            const percentage = (count / maxCount) * 100;
+            if (percentage <= 20) return 1;
+            if (percentage <= 40) return 2;
+            if (percentage <= 60) return 3;
+            if (percentage <= 80) return 4;
+            return 5;
+        }
+
+        // Format date for display
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // Generate calendar grid
+        function generateCalendar(contributions) {
+            const calendarGrid = document.getElementById('calendar-grid');
+            if (!calendarGrid) {
+                console.error('calendar-grid element not found');
+                return;
+            }
+
+            // Clear any existing content
+            calendarGrid.innerHTML = '';
+
+            // Calculate date range (last 365 days)
+            const endDate = new Date();
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - 364); // 365 days including today
+
+            // Adjust start date to Sunday
+            const startDay = startDate.getDay();
+            if (startDay !== 0) {
+                startDate.setDate(startDate.getDate() - startDay);
+            }
+
+            // Build contribution map
+            const contributionMap = {};
+            let maxCount = 0;
+            contributions.forEach(c => {
+                contributionMap[c.date] = c.count;
+                maxCount = Math.max(maxCount, c.count);
+            });
+
+            // Create SVG
+            const weeks = [];
+            const currentDate = new Date(startDate);
+            const monthLabels = [];
+            let lastMonth = -1;
+
+            while (currentDate <= endDate) {
+                const week = [];
+                for (let day = 0; day < 7; day++) {
+                    const dateStr = currentDate.toISOString().split('T')[0];
+                    const count = contributionMap[dateStr] || 0;
+                    const level = getContributionLevel(count, maxCount);
+                    
+                    // Check if we need a month label
+                    const month = currentDate.getMonth();
+                    if (month !== lastMonth && currentDate.getDate() <= 7) {
+                        monthLabels.push({
+                            month: currentDate.toLocaleDateString('en-US', { month: 'short' }),
+                            weekIndex: weeks.length
+                        });
+                        lastMonth = month;
+                    }
+
+                    week.push({
+                        date: new Date(currentDate),
+                        dateStr: dateStr,
+                        count: count,
+                        level: level
+                    });
+                    
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                weeks.push(week);
+            }
+
+            // Calculate SVG dimensions - make it larger and more visually appealing
+            const cellSize = 14;
+            const cellGap = 2;
+            const labelOffset = 35;
+            const monthLabelHeight = 25;
+            const svgWidth = weeks.length * (cellSize + cellGap) + labelOffset;
+            const svgHeight = 7 * (cellSize + cellGap) + monthLabelHeight;
+
+            // Create SVG element - let CSS handle sizing for responsiveness
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', `0 0 ${svgWidth} ${svgHeight}`);
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+            // Add month labels
+            monthLabels.forEach(({ month, weekIndex }) => {
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', labelOffset + weekIndex * (cellSize + cellGap));
+                text.setAttribute('y', 12);
+                text.setAttribute('class', 'month-label');
+                text.textContent = month;
+                svg.appendChild(text);
+            });
+
+            // Add weekday labels
+            const weekdays = ['Mon', 'Wed', 'Fri'];
+            [1, 3, 5].forEach((day, index) => {
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', 0);
+                text.setAttribute('y', monthLabelHeight + day * (cellSize + cellGap) + cellSize / 2 + 3);
+                text.setAttribute('class', 'weekday-label');
+                text.textContent = weekdays[index];
+                svg.appendChild(text);
+            });
+
+            // Define colors for contribution levels
+            const levelColors = {
+                0: '#f1f5f9', // Light gray for no contributions
+                1: '#fce7f3', // Very light pink
+                2: '#fbcfe8', // Light pink
+                3: '#f9a8d4', // Medium light pink
+                4: '#f472b6', // Medium pink
+                5: '#ec4899'  // Deep pink for high contributions
+            };
+
+            // Add contribution cells
+            weeks.forEach((week, weekIndex) => {
+                week.forEach((day, dayIndex) => {
+                    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    rect.setAttribute('x', labelOffset + weekIndex * (cellSize + cellGap));
+                    rect.setAttribute('y', monthLabelHeight + dayIndex * (cellSize + cellGap));
+                    rect.setAttribute('width', cellSize);
+                    rect.setAttribute('height', cellSize);
+                    rect.setAttribute('fill', levelColors[day.level] || levelColors[0]);
+                    rect.setAttribute('stroke', 'rgba(15, 23, 42, 0.1)');
+                    rect.setAttribute('stroke-width', '1');
+                    rect.setAttribute('data-level', day.level);
+                    rect.setAttribute('data-date', day.dateStr);
+                    rect.setAttribute('data-count', day.count);
+                    rect.setAttribute('class', 'contribution-day');
+
+                    svg.appendChild(rect);
+                });
+            });
+
+            calendarGrid.appendChild(svg);
+        }
+
+        // Generate statistics
+        function generateStats(contributions) {
+            const statsContainer = document.getElementById('calendar-stats');
+
+            const totalContributions = contributions.reduce((sum, c) => sum + c.count, 0);
+            const avgContributions = Math.round(totalContributions / 365);
+            const maxDay = contributions.reduce((max, c) => c.count > max.count ? c : max, { count: 0 });
+            const activeDays = contributions.filter(c => c.count > 0).length;
+
+            const stats = [
+                { label: 'Total Contributions', value: totalContributions.toLocaleString() },
+                { label: 'Daily Average', value: avgContributions },
+                { label: 'Busiest Day', value: maxDay.count },
+                { label: 'Active Days', value: activeDays }
+            ];
+
+            stats.forEach(stat => {
+                const card = document.createElement('div');
+                card.className = 'stat-card';
+                card.innerHTML = `
+                    <div class="stat-number">${stat.value}</div>
+                    <div class="stat-label">${stat.label}</div>
+                `;
+                statsContainer.appendChild(card);
+            });
+        }
+
+        // Static GitHub contributions data (fetched 2025-10-12)
+        function getStaticContributions() {
+            return [{
+                    "date": "2024-10-13",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-14",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-15",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-16",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-17",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-18",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-19",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-20",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-21",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-22",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-23",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-24",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-25",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-26",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-27",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-28",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-29",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-30",
+                    "count": 0
+          },
+          {
+                    "date": "2024-10-31",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-01",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-02",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-03",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-04",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-05",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-06",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-07",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-08",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-09",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-10",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-11",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-12",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-13",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-14",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-15",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-16",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-17",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-18",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-19",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-20",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-21",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-22",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-23",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-24",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-25",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-26",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-27",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-28",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-29",
+                    "count": 0
+          },
+          {
+                    "date": "2024-11-30",
+                    "count": 19
+          },
+          {
+                    "date": "2024-12-01",
+                    "count": 2
+          },
+          {
+                    "date": "2024-12-02",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-03",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-04",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-05",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-06",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-07",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-08",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-09",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-10",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-11",
+                    "count": 1
+          },
+          {
+                    "date": "2024-12-12",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-13",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-14",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-15",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-16",
+                    "count": 2
+          },
+          {
+                    "date": "2024-12-17",
+                    "count": 1
+          },
+          {
+                    "date": "2024-12-18",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-19",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-20",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-21",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-22",
+                    "count": 2
+          },
+          {
+                    "date": "2024-12-23",
+                    "count": 5
+          },
+          {
+                    "date": "2024-12-24",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-25",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-26",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-27",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-28",
+                    "count": 2
+          },
+          {
+                    "date": "2024-12-29",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-30",
+                    "count": 0
+          },
+          {
+                    "date": "2024-12-31",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-01",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-02",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-03",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-04",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-05",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-06",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-07",
+                    "count": 15
+          },
+          {
+                    "date": "2025-01-08",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-09",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-10",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-11",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-12",
+                    "count": 9
+          },
+          {
+                    "date": "2025-01-13",
+                    "count": 6
+          },
+          {
+                    "date": "2025-01-14",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-15",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-16",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-17",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-18",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-19",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-20",
+                    "count": 8
+          },
+          {
+                    "date": "2025-01-21",
+                    "count": 3
+          },
+          {
+                    "date": "2025-01-22",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-23",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-24",
+                    "count": 1
+          },
+          {
+                    "date": "2025-01-25",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-26",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-27",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-28",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-29",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-30",
+                    "count": 0
+          },
+          {
+                    "date": "2025-01-31",
+                    "count": 2
+          },
+          {
+                    "date": "2025-02-01",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-02",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-03",
+                    "count": 2
+          },
+          {
+                    "date": "2025-02-04",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-05",
+                    "count": 9
+          },
+          {
+                    "date": "2025-02-06",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-07",
+                    "count": 21
+          },
+          {
+                    "date": "2025-02-08",
+                    "count": 3
+          },
+          {
+                    "date": "2025-02-09",
+                    "count": 7
+          },
+          {
+                    "date": "2025-02-10",
+                    "count": 4
+          },
+          {
+                    "date": "2025-02-11",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-12",
+                    "count": 3
+          },
+          {
+                    "date": "2025-02-13",
+                    "count": 3
+          },
+          {
+                    "date": "2025-02-14",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-15",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-16",
+                    "count": 2
+          },
+          {
+                    "date": "2025-02-17",
+                    "count": 2
+          },
+          {
+                    "date": "2025-02-18",
+                    "count": 1
+          },
+          {
+                    "date": "2025-02-19",
+                    "count": 3
+          },
+          {
+                    "date": "2025-02-20",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-21",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-22",
+                    "count": 11
+          },
+          {
+                    "date": "2025-02-23",
+                    "count": 4
+          },
+          {
+                    "date": "2025-02-24",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-25",
+                    "count": 1
+          },
+          {
+                    "date": "2025-02-26",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-27",
+                    "count": 0
+          },
+          {
+                    "date": "2025-02-28",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-01",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-02",
+                    "count": 2
+          },
+          {
+                    "date": "2025-03-03",
+                    "count": 5
+          },
+          {
+                    "date": "2025-03-04",
+                    "count": 2
+          },
+          {
+                    "date": "2025-03-05",
+                    "count": 6
+          },
+          {
+                    "date": "2025-03-06",
+                    "count": 1
+          },
+          {
+                    "date": "2025-03-07",
+                    "count": 5
+          },
+          {
+                    "date": "2025-03-08",
+                    "count": 4
+          },
+          {
+                    "date": "2025-03-09",
+                    "count": 5
+          },
+          {
+                    "date": "2025-03-10",
+                    "count": 4
+          },
+          {
+                    "date": "2025-03-11",
+                    "count": 3
+          },
+          {
+                    "date": "2025-03-12",
+                    "count": 1
+          },
+          {
+                    "date": "2025-03-13",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-14",
+                    "count": 1
+          },
+          {
+                    "date": "2025-03-15",
+                    "count": 5
+          },
+          {
+                    "date": "2025-03-16",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-17",
+                    "count": 17
+          },
+          {
+                    "date": "2025-03-18",
+                    "count": 4
+          },
+          {
+                    "date": "2025-03-19",
+                    "count": 2
+          },
+          {
+                    "date": "2025-03-20",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-21",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-22",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-23",
+                    "count": 9
+          },
+          {
+                    "date": "2025-03-24",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-25",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-26",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-27",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-28",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-29",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-30",
+                    "count": 0
+          },
+          {
+                    "date": "2025-03-31",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-01",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-02",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-03",
+                    "count": 2
+          },
+          {
+                    "date": "2025-04-04",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-05",
+                    "count": 2
+          },
+          {
+                    "date": "2025-04-06",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-07",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-08",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-09",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-10",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-11",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-12",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-13",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-14",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-15",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-16",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-17",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-18",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-19",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-20",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-21",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-22",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-23",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-24",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-25",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-26",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-27",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-28",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-29",
+                    "count": 0
+          },
+          {
+                    "date": "2025-04-30",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-01",
+                    "count": 2
+          },
+          {
+                    "date": "2025-05-02",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-03",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-04",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-05",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-06",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-07",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-08",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-09",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-10",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-11",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-12",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-13",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-14",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-15",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-16",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-17",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-18",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-19",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-20",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-21",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-22",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-23",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-24",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-25",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-26",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-27",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-28",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-29",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-30",
+                    "count": 0
+          },
+          {
+                    "date": "2025-05-31",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-01",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-02",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-03",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-04",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-05",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-06",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-07",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-08",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-09",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-10",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-11",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-12",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-13",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-14",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-15",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-16",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-17",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-18",
+                    "count": 1
+          },
+          {
+                    "date": "2025-06-19",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-20",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-21",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-22",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-23",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-24",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-25",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-26",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-27",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-28",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-29",
+                    "count": 0
+          },
+          {
+                    "date": "2025-06-30",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-01",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-02",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-03",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-04",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-05",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-06",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-07",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-08",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-09",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-10",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-11",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-12",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-13",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-14",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-15",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-16",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-17",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-18",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-19",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-20",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-21",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-22",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-23",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-24",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-25",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-26",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-27",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-28",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-29",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-30",
+                    "count": 0
+          },
+          {
+                    "date": "2025-07-31",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-01",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-02",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-03",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-04",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-05",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-06",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-07",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-08",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-09",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-10",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-11",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-12",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-13",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-14",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-15",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-16",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-17",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-18",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-19",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-20",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-21",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-22",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-23",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-24",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-25",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-26",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-27",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-28",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-29",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-30",
+                    "count": 0
+          },
+          {
+                    "date": "2025-08-31",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-01",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-02",
+                    "count": 5
+          },
+          {
+                    "date": "2025-09-03",
+                    "count": 6
+          },
+          {
+                    "date": "2025-09-04",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-05",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-06",
+                    "count": 4
+          },
+          {
+                    "date": "2025-09-07",
+                    "count": 10
+          },
+          {
+                    "date": "2025-09-08",
+                    "count": 5
+          },
+          {
+                    "date": "2025-09-09",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-10",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-11",
+                    "count": 4
+          },
+          {
+                    "date": "2025-09-12",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-13",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-14",
+                    "count": 25
+          },
+          {
+                    "date": "2025-09-15",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-16",
+                    "count": 1
+          },
+          {
+                    "date": "2025-09-17",
+                    "count": 1
+          },
+          {
+                    "date": "2025-09-18",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-19",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-20",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-21",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-22",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-23",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-24",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-25",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-26",
+                    "count": 3
+          },
+          {
+                    "date": "2025-09-27",
+                    "count": 1
+          },
+          {
+                    "date": "2025-09-28",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-29",
+                    "count": 0
+          },
+          {
+                    "date": "2025-09-30",
+                    "count": 0
+          },
+          {
+                    "date": "2025-10-01",
+                    "count": 0
+          },
+          {
+                    "date": "2025-10-02",
+                    "count": 11
+          },
+          {
+                    "date": "2025-10-03",
+                    "count": 5
+          },
+          {
+                    "date": "2025-10-04",
+                    "count": 0
+          },
+          {
+                    "date": "2025-10-05",
+                    "count": 0
+          },
+          {
+                    "date": "2025-10-06",
+                    "count": 1
+          },
+          {
+                    "date": "2025-10-07",
+                    "count": 13
+          },
+          {
+                    "date": "2025-10-08",
+                    "count": 4
+          },
+          {
+                    "date": "2025-10-09",
+                    "count": 0
+          },
+          {
+                    "date": "2025-10-10",
+                    "count": 2
+          },
+          {
+                    "date": "2025-10-11",
+                    "count": 15
+          },
+          {
+                    "date": "2025-10-12",
+                    "count": 1
+          }];
+        }
+
+        // Fetch GitHub contributions (now uses static data)
+        function fetchGitHubContributions() {
+            try {
+                const contributions = getStaticContributions();
+                generateCalendar(contributions);
+                generateStats(contributions);
+
+                // Update subtitle with total
+                const subtitle = document.querySelector('#contribution-calendar').closest('section').querySelector('p');
+                const totalContributions = contributions.reduce((sum, c) => sum + c.count, 0);
+                if (subtitle) {
+                    subtitle.textContent = `${totalContributions.toLocaleString()} contributions in the last year`;
+                }
+            } catch (error) {
+                console.error('Error loading contributions:', error);
+                // Fallback to simple demo data
+                generateDemoData();
+            }
+        }
+
+        // Generate demo data (fallback - simplified)
+        function generateDemoData() {
+            const contributions = getStaticContributions();
+            generateCalendar(contributions);
+            generateStats(contributions);
+        }
+
+        // Add GitHub link to the section
+        function addGitHubLink() {
+            const heading = document.querySelector('#contribution-calendar').closest('section').querySelector('h2');
+            const link = document.createElement('a');
+            link.href = `https://github.com/${GITHUB_USERNAME}`;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.className = 'inline-flex items-center gap-2 text-pink-400 hover:text-pink-500 transition-colors ml-4 text-lg';
+            link.innerHTML = `
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                </svg>
+                View on GitHub
+            `;
+            heading.parentElement.appendChild(link);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            addGitHubLink();
+            fetchGitHubContributions();
+        });
+    </script>
 </body>
 </html>
 
