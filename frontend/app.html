@@ -68,7 +68,7 @@
 </head>
 <body class="flex flex-col min-h-screen">
     <!-- Pixel Loading Screen -->
-    <div id="pixel-loading" class="fixed inset-0 bg-black z-50 flex items-center justify-center">
+    <div id="pixel-loading" class="fixed inset-0 bg-black z-40 flex items-center justify-center">
         <div class="text-center">
             <!-- Pixel Logo Animation -->
             <div class="mb-8">
@@ -97,7 +97,7 @@
     </div>
 
     <!-- Password Lock Screen -->
-    <div id="password-lock-screen" class="fixed inset-0 bg-black z-40 flex items-center justify-center" style="left: 240px;">
+    <div id="password-lock-screen" class="fixed inset-0 bg-black z-50 flex items-center justify-center">
         <div class="pixel-card p-6 max-w-md w-full mx-4">
             <!-- Header -->
             <div class="text-center mb-6">
@@ -1770,7 +1770,7 @@
         .sidebar-toggle {
             position: fixed;
             top: 1rem;
-            left: 1rem;
+            right: 1rem;
             z-index: 50;
             background-color: black;
             border: 2px solid #ec4899;

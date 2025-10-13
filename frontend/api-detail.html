@@ -771,7 +771,7 @@
         .sidebar-toggle {
             position: fixed;
             top: 1rem;
-            left: 1rem;
+            right: 1rem;
             z-index: 50;
             background-color: black;
             border: 2px solid #ec4899;
@@ -1682,11 +1682,49 @@
             state.details = details;
             currentApi = details; // Set global currentApi for summary generation
 
+            // Fetch schema data from /schema endpoint if not already in details
+            if (!details.data_schema || !details.data_schema.columns) {
+                console.log('📊 Fetching schema data from API...');
+                const schemaData = await fetchSchemaData(apiId, details);
+                if (schemaData) {
+                    // Merge schema into details
+                    if (!details.data_schema) {
+                        details.data_schema = {};
+                    }
+                    details.data_schema.columns = schemaData.columns || [];
+                    details.data_schema.total_rows = schemaData.total_rows;
+                    details.record_count = schemaData.total_rows;
+                    state.details = details; // Update state
+                }
+            }
+
             // Then fetch OpenAPI spec using the correct API URL
             const docs = await fetchOpenApiSpec(apiId, details.api_url || details.url);
             state.docs = docs;
 
             state.sampleData = await fetchSampleRecords(apiId, details);
+
+            // If we have sample data but no schema columns, infer from sample data
+            if (state.sampleData && state.sampleData.length > 0 && (!details.data_schema || !details.data_schema.columns || details.data_schema.columns.length === 0)) {
+                console.log('📊 Inferring schema from sample data...');
+                const columns = Object.keys(state.sampleData[0]).map(col => ({
+                    name: col,
+                    type: typeof state.sampleData[0][col],
+                    nullable: true
+                }));
+                if (!details.data_schema) {
+                    details.data_schema = {};
+                }
+                details.data_schema.columns = columns;
+                state.details = details;
+            }
+
+            // Calculate actual record count from sample data if not provided
+            if (state.sampleData && state.sampleData.length > 0 && !details.record_count) {
+                // For now, use sample count as estimate (we'll show "5+" if we only have 5 records)
+                details.record_count = state.sampleData.length >= 5 ? '5+' : state.sampleData.length;
+                state.details = details;
+            }
 
             renderHero();
             renderStats();
@@ -1852,6 +1890,31 @@
             return [];
         }
 
+        async function fetchSchemaData(apiId, details) {
+            // Try to fetch schema from /schema endpoint
+            const urlsToTry = [
+                `${state.backend}/api/${apiId}/schema`,
+                `${details?.api_url || details?.url}/schema`
+            ];
+
+            for (const schemaUrl of urlsToTry) {
+                try {
+                    console.log('Fetching schema from:', schemaUrl);
+                    const response = await fetch(schemaUrl);
+                    if (response.ok) {
+                        const schema = await response.json();
+                        console.log('✅ Schema fetched successfully:', schema);
+                        return schema;
+                    }
+                } catch (error) {
+                    console.warn(`Failed to fetch schema from ${schemaUrl}:`, error);
+                }
+            }
+
+            console.warn('Failed to fetch schema from all URLs');
+            return null;
+        }
+
         function renderHero() {
             const name = state.baseApi?.custom_name || state.details?.custom_name || state.details?.title || state.baseApi?.title || `API ${state.apiId.slice(0, 8)}`;
             const summary = state.baseApi?.summary || state.details?.summary || state.details?.description || 'Auto-generated API powered by APIUI.';
@@ -1976,17 +2039,21 @@
             }
             const baseEndpoint = derivePrimaryEndpoint().replace(/\/$/, '');
             list.innerHTML = endpoints.map(endpoint => {
-                const fullUrl = `${baseEndpoint}${endpoint.route}`;
+                // Handle both old (route/function) and new (path/description) formats
+                const route = endpoint.route || endpoint.path || '/unknown';
+                const fullUrl = `${baseEndpoint}${route}`;
+                const functionName = endpoint.function || endpoint.description || route;
+                
                 return `
                     <li>
                         <div class="flex items-center justify-between gap-3">
                             <div>
                                 <span class="text-xs uppercase tracking-[0.18em] text-pink-300 mr-3">${escapeHtml(endpoint.method)}</span>
-                                <code class="text-sm text-slate-200">${escapeHtml(endpoint.route)}</code>
+                                <code class="text-sm text-slate-200">${escapeHtml(functionName)}</code>
                             </div>
                             <a href="${fullUrl}" target="_blank" rel="noopener" class="text-xs uppercase tracking-[0.18em] text-slate-400 hover:text-pink-300">Try</a>
                         </div>
-                        <p class="text-slate-400 text-xs mt-2">Function: ${escapeHtml(endpoint.function)}</p>
+                        <p class="text-slate-400 text-xs mt-2">Path: ${escapeHtml(route)}</p>
                     </li>
                 `;
             }).join('');
@@ -2151,12 +2218,15 @@ socket.on('query_result', (data) => {
                     description: 'Sample data from this API',
                     mimeType: 'application/json'
                 }],
-                endpoints: Array.isArray(state.details?.endpoints) ? state.details.endpoints.map(endpoint => ({
-                    method: endpoint.method,
-                    path: endpoint.route,
-                    handler: endpoint.function,
-                    url: `${baseEndpoint.replace(/\/$/, '')}${endpoint.route}`
-                })) : [],
+                endpoints: Array.isArray(state.details?.endpoints) ? state.details.endpoints.map(endpoint => {
+                    const route = endpoint.route || endpoint.path || '/unknown';
+                    return {
+                        method: endpoint.method,
+                        path: route,
+                        handler: endpoint.function || endpoint.description,
+                        url: `${baseEndpoint.replace(/\/$/, '')}${route}`
+                    };
+                }) : [],
                 schema,
                 sample_query: `${baseEndpoint.replace(/\/$/, '')}/data?limit=25`,
                 auth: state.baseApi?.api_key ? {
@@ -2682,20 +2752,43 @@ socket.on('query_result', (data) => {
             try {
                 const tableBody = document.getElementById('endpoint-performance-table-body');
 
-                // Mock endpoint performance data for demonstration
-                const mockEndpointData = [
-                    { path: '/data', method: 'GET', requests: 1250, avgResponse: 145, errorRate: 0.8, status: 'healthy' },
-                    { path: '/data', method: 'POST', requests: 340, avgResponse: 280, errorRate: 2.1, status: 'warning' },
-                    { path: '/data/{id}', method: 'GET', requests: 890, avgResponse: 120, errorRate: 0.3, status: 'healthy' },
-                    { path: '/data/{id}', method: 'PUT', requests: 156, avgResponse: 350, errorRate: 1.9, status: 'healthy' },
-                    { path: '/data/{id}', method: 'DELETE', requests: 78, avgResponse: 180, errorRate: 0.0, status: 'healthy' },
-                    { path: '/schema', method: 'GET', requests: 234, avgResponse: 95, errorRate: 0.1, status: 'healthy' },
-                    { path: '/code', method: 'GET', requests: 67, avgResponse: 210, errorRate: 0.0, status: 'healthy' }
-                ];
+                // Generate performance data based on actual API endpoints
+                const endpoints = state.details?.endpoints || [];
+                if (endpoints.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td class="py-4 px-4 text-slate-400 text-center" colspan="6">
+                                No endpoints available for performance tracking
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                // Generate realistic mock performance for each actual endpoint
+                const performanceData = endpoints.map(endpoint => {
+                    const route = endpoint.route || endpoint.path || '/unknown';
+                    const method = endpoint.method || 'GET';
+                    
+                    // Generate realistic performance based on method type
+                    const baseRequests = method === 'GET' ? Math.floor(Math.random() * 1000) + 500 : Math.floor(Math.random() * 200) + 50;
+                    const baseResponse = method === 'GET' ? Math.floor(Math.random() * 100) + 80 : Math.floor(Math.random() * 200) + 150;
+                    const errorRate = Math.random() * 2;
+                    const status = errorRate > 1.5 ? 'warning' : 'healthy';
+
+                    return {
+                        path: route,
+                        method: method,
+                        requests: baseRequests,
+                        avgResponse: baseResponse,
+                        errorRate: parseFloat(errorRate.toFixed(1)),
+                        status: status
+                    };
+                });
 
                 // Simulate API call delay
                 setTimeout(() => {
-                    renderEndpointPerformance(mockEndpointData);
+                    renderEndpointPerformance(performanceData);
                 }, 1500);
 
             } catch (error) {
@@ -3171,9 +3264,13 @@ socket.on('query_result', (data) => {
 
             if (Array.isArray(state.details?.endpoints)) {
                 state.details.endpoints.forEach(endpoint => {
+                    // Handle both old (route) and new (path) formats
+                    const route = endpoint.route || endpoint.path || '/unknown';
+                    const displayName = endpoint.description || endpoint.function || route;
+                    
                     const option = document.createElement('option');
-                    option.value = `${baseUrl}${endpoint.route}`;
-                    option.textContent = `${endpoint.method} ${endpoint.route}`;
+                    option.value = `${baseUrl}${route}`;
+                    option.textContent = `${endpoint.method} ${displayName}`;
                     option.dataset.method = endpoint.method;
                     selector.appendChild(option);
                 });
