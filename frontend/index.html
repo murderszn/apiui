@@ -1722,8 +1722,8 @@
                     newsletterSignup.textContent = 'Subscribing...';
 
                     try {
-                        // Send email to backend webhook
-                        const response = await fetch('/api/signup', {
+                        // Send email to Firebase Functions
+                        const response = await fetch('https://us-central1-ai-apiui.cloudfunctions.net/chat/api/signup', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

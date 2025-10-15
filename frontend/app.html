@@ -2887,9 +2887,9 @@
                         return;
                     }
 
-                    // Send to backend email server
+                    // Send to Firebase Functions email server
                     try {
-                        const response = await fetch('/api/beta-signup', {
+                        const response = await fetch('https://us-central1-ai-apiui.cloudfunctions.net/chat/api/beta-signup', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
