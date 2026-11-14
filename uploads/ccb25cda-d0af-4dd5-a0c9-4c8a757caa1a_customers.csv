@@ -1,0 +1,5 @@
+customer_id,name,email,purchase_total,join_date
+1001,Alice Johnson,alice@email.com,1250.50,2024-01-15
+1002,Bob Smith,bob@email.com,890.25,2024-02-20
+1003,Carol White,carol@email.com,2100.00,2024-03-10
+1004,David Lee,david@email.com,540.75,2024-04-05

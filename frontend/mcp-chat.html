@@ -10,7 +10,7 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
     <meta name="bingbot" content="index, follow">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#0B0B0C">
     <meta name="language" content="English">
     <meta name="geo.region" content="US">
     <meta name="geo.placename" content="United States">
@@ -26,32 +26,62 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="config.js"></script>
     <script>
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
+        window.APIUI_AUTH_BASE_URL = window.APIUI_AUTH_BASE_URL || window.BACKEND_BASE_URL || 'http://localhost:8000';
+        window.BACKEND_BASE_URL = window.BACKEND_BASE_URL || window.APIUI_AUTH_BASE_URL;
     </script>
-    
+
     <style>
         :root {
-            --hub-pink: #ec4899;
-            --hub-pink-soft: #f472b6;
-            --hub-purple: #7c3aed;
-            --hub-purple-soft: #a855f7;
-            --hub-ink: #0f172a;
-            --hub-ink-soft: #1f2937;
-            --hub-surface: #ffffff;
-            --hub-muted: #64748b;
-            --hub-border: rgba(15, 23, 42, 0.12);
+            --ink: #0B0B0C;
+            --paper: #FAFAF7;
+            --bg: #FFFFFF;
+            --surface-alt: #F4F3EE;
+            --border: #D9D9D2;
+            --border-strong: #0B0B0C;
+            --text-secondary: #474742;
+            --muted: #62625C;
+            --accent: #EC4899;
+            --accent-deep: #DB2777;
+            --accent-purple: #7C3AED;
+            --gutter: clamp(20px, 5vw, 72px);
+            --nav-h: 76px;
+
+            /* Legacy token aliases mapped to Constructivist palette */
+            --hub-pink: #EC4899;
+            --hub-pink-soft: #F472B6;
+            --hub-purple: #7C3AED;
+            --hub-purple-soft: #A855F7;
+            --hub-ink: #0B0B0C;
+            --hub-ink-soft: #474742;
+            --hub-surface: #FFFFFF;
+            --hub-muted: #62625C;
+            --hub-border: #D9D9D2;
+        }
+
+        *, *::before, *::after {
+            border-radius: 0 !important;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--hub-surface);
-            color: var(--hub-ink);
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--ink);
+            line-height: 1.55;
             scroll-behavior: smooth;
+            padding-top: var(--nav-h);
+            overflow-x: hidden;
+        }
+
+        h1, h2, .ab-display {
+            font-family: 'Anton', Impact, 'Arial Narrow', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 0.94;
         }
 
         .pixel-heading {
@@ -60,189 +90,522 @@
             text-transform: uppercase;
         }
 
+        .ab-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding-left: var(--gutter);
+            padding-right: var(--gutter);
+        }
+
+        /* Aurablox Constructivist Fixed Header + Full-Width Megamenu */
+        .ab-nav-shell {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--paper);
+            border-bottom: 1px solid rgba(11, 11, 12, 0.18);
+            transition: border-color 0.16s ease;
+        }
+
+        .ab-nav-shell.has-mega-open {
+            border-bottom: 2px solid var(--ink);
+        }
+
+        .ab-nav {
+            min-height: var(--nav-h);
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--gutter);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .ab-nav__left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .ab-nav__brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--ink);
+            flex-shrink: 0;
+        }
+
+        .ab-nav__seal {
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%);
+            flex-shrink: 0;
+        }
+
+        .ab-nav__wordmark {
+            font-family: 'Anton', Impact, sans-serif;
+            font-size: 1.45rem;
+            letter-spacing: 0.04em;
+            line-height: 1;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+
+        .ab-nav__wordmark span {
+            color: var(--accent);
+        }
+
+        .ab-nav__platform-badge {
+            display: none;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-secondary);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: border-color 0.16s ease, color 0.16s ease;
+        }
+
+        .ab-nav__platform-badge:hover {
+            border-color: var(--accent);
+            color: var(--accent-deep);
+        }
+
+        @media (min-width: 1080px) {
+            .ab-nav__platform-badge {
+                display: inline-flex;
+                align-items: center;
+            }
+        }
+
+        .ab-nav__list {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ab-nav__item-btn,
+        .ab-nav__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            text-decoration: none;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .ab-nav__item-btn:hover,
+        .ab-nav__link:hover,
+        .ab-nav__item-btn[aria-expanded="true"] {
+            color: var(--ink);
+            border-color: var(--border);
+            background: var(--bg);
+        }
+
+        .ab-nav__link.is-current,
+        .ab-nav__item-btn.is-current {
+            color: var(--ink);
+            border-bottom: 2px solid var(--accent);
+            font-weight: 600;
+        }
+
+        .ab-nav__caret {
+            width: 10px;
+            height: 10px;
+            transition: transform 0.16s ease;
+        }
+
+        .ab-nav__item-btn[aria-expanded="true"] .ab-nav__caret {
+            transform: rotate(180deg);
+        }
+
+        .ab-nav__actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ab-nav__cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--ink);
+            color: #FFFFFF;
+            border: 1px solid var(--ink);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.16s ease, border-color 0.16s ease;
+            white-space: nowrap;
+        }
+
+        .ab-nav__cta-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .ab-nav__toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--ink);
+            background: var(--bg);
+            color: var(--ink);
+            cursor: pointer;
+        }
+
+        /* Full-width Megamenu */
+        .ab-megamenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg);
+            border-bottom: 2px solid var(--ink);
+            box-shadow: 0 24px 48px rgba(11, 11, 12, 0.12);
+            z-index: 999;
+        }
+
+        .ab-megamenu.is-open {
+            display: block;
+        }
+
+        .ab-megamenu__panel {
+            display: none;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 32px var(--gutter);
+            grid-template-columns: 1.05fr 1.35fr 0.9fr;
+            gap: 32px;
+        }
+
+        .ab-megamenu__panel.is-active {
+            display: grid;
+        }
+
+        .ab-megamenu__link {
+            display: block;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            background: var(--paper);
+            text-decoration: none;
+            color: var(--ink);
+            transition: border-top-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .ab-megamenu__link:hover {
+            border-top-color: var(--accent);
+            background: var(--bg);
+        }
+
+        /* Mobile Drawer */
+        .ab-nav__menu {
+            display: none;
+            position: fixed;
+            top: var(--nav-h);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--paper);
+            border-top: 1px solid var(--ink);
+            z-index: 998;
+            overflow-y: auto;
+            padding: 24px var(--gutter) 48px;
+        }
+
+        .ab-nav__menu.is-open {
+            display: block;
+        }
+
+        .ab-nav__mobile-expand {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .ab-nav__mobile-sub {
+            display: none;
+            padding: 8px 0 14px 14px;
+            border-bottom: 1px solid var(--border);
+            border-left: 2px solid var(--accent);
+        }
+
+        .ab-nav__mobile-sub.is-open {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        @media (max-width: 960px) {
+            :root {
+                --nav-h: 68px;
+            }
+            .ab-nav__list,
+            .ab-nav__cta-btn {
+                display: none;
+            }
+            .ab-nav__toggle {
+                display: inline-flex;
+            }
+            .ab-megamenu {
+                display: none !important;
+            }
+        }
+
+        /* Section Index Bar & Capability Cards */
+        .section-index-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .section-index-bar__left {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .seal,
+        .pixel-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            clip-path: polygon(0 0, calc(100% - 3px) 0, 100% 3px, 100% 100%, 0 100%);
+            flex-shrink: 0;
+        }
+
+        .home-capability {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            padding: 24px;
+            transition: border-top-color 0.16s ease, background-color 0.16s ease;
+        }
+
+        .home-capability:hover {
+            border-top-color: var(--accent);
+            background: var(--bg);
+        }
+
+        /* Constructivist Buttons & Surface Cards */
         .hub-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.75rem;
-            border: 2px solid var(--hub-ink);
-            border-radius: 0;
-            font-size: 0.875rem;
+            padding: 0.85rem 1.75rem;
+            border: 1px solid var(--ink);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.8rem;
             font-weight: 600;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-            z-index: 0;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, color 0.25s ease;
+            cursor: pointer;
+            transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+            text-decoration: none;
         }
 
         .hub-btn:focus {
-            outline: 2px solid var(--hub-pink);
-            outline-offset: 3px;
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
 
         .hub-btn-primary {
-            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 48%, var(--hub-purple) 100%);
-            color: #fff;
-            box-shadow: 0 0 0 2px #ffffff inset, 4px 4px 0 rgba(15, 23, 42, 0.45);
+            background: var(--ink);
+            color: #FFFFFF;
+            border-color: var(--ink);
         }
 
-        .hub-btn-primary::after {
-            content: '';
-            position: absolute;
-            inset: 3px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            opacity: 0.65;
-            pointer-events: none;
-        }
-
-        .hub-btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent 65%);
-            mix-blend-mode: screen;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .hub-btn-primary:hover {
-            transform: translate(-3px, -3px);
-            background-image: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-purple) 45%, var(--hub-pink-soft) 85%);
-            box-shadow: 0 0 0 2px #ffffff inset, 6px 6px 0 rgba(124, 58, 237, 0.45), 0 0 18px rgba(124, 58, 237, 0.35);
-        }
-
-        .hub-btn-primary:hover::before {
-            opacity: 0.75;
+        .hub-btn-primary:hover:not(:disabled) {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
         }
 
         .hub-btn-secondary {
-            border: 2px solid transparent;
-            color: var(--hub-ink);
-            background: linear-gradient(var(--hub-surface), var(--hub-surface)) padding-box,
-                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%) border-box;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 3px 3px 0 rgba(15, 23, 42, 0.25);
+            background: var(--bg);
+            color: var(--ink);
+            border: 1px solid var(--ink);
         }
 
-        .hub-btn-secondary:hover {
-            transform: translate(-3px, -3px);
-            color: #fff;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)) padding-box,
-                linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple-soft) 45%, var(--hub-ink) 100%) border-box;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7) inset, 5px 5px 0 rgba(236, 72, 153, 0.4), 0 0 16px rgba(236, 72, 153, 0.3);
+        .hub-btn-secondary:hover:not(:disabled) {
+            background: var(--paper);
+            border-color: var(--accent);
+            color: var(--accent-deep);
         }
 
         .api-card {
             position: relative;
-            background-color: var(--hub-surface);
-            border: 1px solid var(--hub-border);
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
-            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            transition: border-top-color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
         }
 
         .api-card:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
-            border-color: rgba(236, 72, 153, 0.45);
+            border-top-color: var(--accent);
         }
 
-        .api-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            background-image: linear-gradient(90deg, var(--hub-pink) 50%, transparent 50%), linear-gradient(180deg, var(--hub-pink) 50%, transparent 50%);
-            background-size: 4px 4px;
-            opacity: 0.65;
+        .hub-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.3rem 0.7rem;
+            border: 1px solid var(--accent);
+            background-color: var(--paper);
+            color: var(--accent-deep);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
         }
 
-        .pixel-dot {
-            width: 12px;
-            height: 12px;
-            background-image: repeating-linear-gradient(90deg, var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px);
-            image-rendering: pixelated;
-        }
-
-        .hub-divider {
-            width: 100%;
-            height: 1px;
-            background-image: linear-gradient(90deg, var(--hub-border) 0, transparent 50%, var(--hub-border) 100%);
-            background-size: 24px 1px;
-            opacity: 0.75;
+        .capability-tag {
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.72rem;
+            padding: 0.3rem 0.65rem;
+            border: 1px solid var(--border);
+            background: var(--paper);
+            color: var(--text-secondary);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 500;
         }
 
         .shadow-grid {
             pointer-events: none;
             position: absolute;
             inset: 0;
-            background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.08) 1px, transparent 1px);
-            background-size: 32px 32px;
+            background-image: linear-gradient(rgba(11, 11, 12, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(11, 11, 12, 0.04) 1px, transparent 1px);
+            background-size: 36px 36px;
         }
 
-        .eyebrow {
-            letter-spacing: 0.32em;
-            font-size: 0.75rem;
-            font-weight: 600;
+        /* Chat-specific Constructivist styles */
+        .api-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--paper);
+            border: 1px solid var(--border);
+            min-height: 190px;
         }
 
-        .hub-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.35rem 0.75rem;
-            border: 1px solid rgba(236, 72, 153, 0.45);
-            background-color: rgba(236, 72, 153, 0.08);
-            font-size: 0.75rem;
-            letter-spacing: 0.16em;
+        .api-selector .api-card {
+            padding: 0.9rem;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            background: var(--bg);
+        }
+
+        .api-selector .api-card:hover {
+            border-color: var(--ink);
+            border-top-color: var(--accent);
+        }
+
+        .api-selector .api-card.selected {
+            background: var(--ink);
+            color: #FFFFFF;
+            border-color: var(--ink);
+            border-top: 2px solid var(--accent);
+        }
+
+        .api-selector .api-card.selected * {
+            color: #FFFFFF !important;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
+            border: 1px solid var(--border);
+            background: var(--paper);
+            color: var(--text-secondary);
         }
 
-        /* Floating Sidebar Styling */
-
-
-        /* Floating Sidebar Container Override - No Borders */
-
-
-        /* Hide floating sidebar on mobile devices */
-        @media (max-width: 768px) {
-            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
-                display: none !important;
-            }
+        .api-selector .api-card.selected .badge {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF !important;
         }
 
-        /* Chat-specific styles */
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 600px;
-            max-height: 800px;
+        .pagination-controls {
+            margin: 0 -1rem -1rem -1rem;
+            padding: 1rem;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
         }
 
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-            background: rgba(248, 250, 252, 0.5);
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .message {
             margin-bottom: 1rem;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.2s ease;
         }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message-user {
@@ -256,157 +619,182 @@
         }
 
         .message-content {
-            max-width: 75%;
-            padding: 1rem 1.5rem;
-            border-radius: 0;
+            max-width: 78%;
+            padding: 1rem 1.25rem;
             font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.94rem;
             line-height: 1.6;
-            position: relative;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .message-user .message-content {
-            background: linear-gradient(135deg, var(--hub-ink) 0%, var(--hub-pink) 48%, var(--hub-purple) 100%);
-            color: #fff;
-            border: 2px solid var(--hub-ink);
-            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.3), 0 0 20px rgba(236, 72, 153, 0.2);
+            background: var(--ink);
+            color: #FFFFFF;
+            border: 1px solid var(--ink);
+            border-left: 3px solid var(--accent);
         }
 
         .message-bot .message-content {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border: 2px solid var(--hub-border);
-            color: var(--hub-ink);
-            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.08), 0 0 16px rgba(15, 23, 42, 0.05);
-        }
-
-        .message-content:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0 rgba(15, 23, 42, 0.15), 0 0 24px rgba(236, 72, 153, 0.15);
-        }
-
-        .message-user .message-content:hover {
-            box-shadow: 6px 6px 0 rgba(15, 23, 42, 0.4), 0 0 24px rgba(236, 72, 153, 0.3);
-        }
-
-        .api-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 0.75rem;
-            padding: 1rem;
-            background: rgba(248, 250, 252, 0.5);
-            border: 2px solid var(--hub-border);
-            border-radius: 0;
-            min-height: 200px;
-        }
-
-        .pagination-controls {
-            margin: 0 -1rem -1rem -1rem;
-            padding: 1rem;
-            background: rgba(248, 250, 252, 0.8);
-            border-top: 1px solid var(--hub-border);
-        }
-
-        /* Text clamping for descriptions */
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* Responsive adjustments for pagination */
-        @media (max-width: 640px) {
-            .pagination-controls .flex.gap-1 {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .pagination-page {
-                min-width: 40px;
-            }
-        }
-
-        .api-selector .api-card {
-            padding: 0.75rem;
-            cursor: pointer;
-            border: 2px solid var(--hub-border);
-        }
-
-        .api-selector .api-card:hover {
-            border-color: var(--hub-pink);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .api-selector .api-card.selected {
-            background: linear-gradient(135deg, var(--hub-pink) 0%, var(--hub-purple) 100%);
-            color: white;
-            border-color: var(--hub-pink);
-        }
-
-        .chat-input-container {
-            display: flex;
-            gap: 0.5rem;
-            padding: 1rem;
-            background: white;
-            border-top: 2px solid var(--hub-border);
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 2px solid var(--hub-border);
-            border-radius: 0;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s ease;
-        }
-
-        .chat-input:focus {
-            outline: none;
-            border-color: var(--hub-pink);
-            box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: 2px solid var(--hub-ink);
-            border-radius: 0;
-            background: var(--hub-ink);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.18s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .btn:hover:not(:disabled) {
-            background: var(--hub-pink);
-            border-color: var(--hub-pink);
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.25);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            color: var(--ink);
         }
 
         .loading {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 2px solid var(--hub-muted);
-            border-top-color: var(--hub-pink);
-            border-radius: 50%;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
             animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        /* Aurablox Architectural Footer */
+        .ab-footer {
+            background: var(--paper);
+            border-top: 1px solid rgba(11, 11, 12, 0.16);
+            color: var(--ink);
+            position: relative;
+            z-index: 10;
+        }
+
+        .ab-footer__top {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 56px var(--gutter) 44px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ab-footer__directory {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--gutter);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ab-footer__col {
+            padding: 32px 24px 32px 0;
+            border-right: 1px solid var(--border);
+        }
+
+        .ab-footer__col:not(:first-child) {
+            padding-left: 24px;
+        }
+
+        .ab-footer__col:last-child {
+            border-right: none;
+            padding-right: 0;
+        }
+
+        .ab-footer__giant-wordmark {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px var(--gutter) 6px;
+            overflow: hidden;
+            font-family: 'Anton', Impact, sans-serif;
+            font-size: clamp(4.5rem, 16vw, 14.5rem);
+            line-height: 0.84;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            color: var(--ink);
+            user-select: none;
+        }
+
+        .ab-footer__giant-wordmark span {
+            color: var(--accent);
+        }
+
+        .ab-footer__bottom-bar {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px var(--gutter) 32px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .ab-footer__health {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .ab-footer__social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--ink);
+            text-decoration: none;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: border-color 0.15s ease, color 0.15s ease;
+        }
+
+        .ab-footer__social-link:hover {
+            border-color: var(--accent);
+            color: var(--accent-deep);
+        }
+
+        @media (max-width: 960px) {
+            .ab-footer__top {
+                grid-template-columns: 1fr;
+            }
+            .ab-footer__directory {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .ab-footer__col:nth-child(2n) {
+                border-right: none;
+                padding-right: 0;
+            }
+            .ab-footer__col:nth-child(odd) {
+                padding-left: 0;
+            }
+            .ab-footer__col {
+                border-bottom: 1px solid var(--border);
+            }
+            .ab-footer__col:nth-last-child(-n+2) {
+                border-bottom: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .ab-footer__directory {
+                grid-template-columns: 1fr;
+            }
+            .ab-footer__col {
+                padding: 24px 0 !important;
+                border-right: none;
+                border-bottom: 1px solid var(--border) !important;
+            }
+            .ab-footer__col:last-child {
+                border-bottom: none !important;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -418,610 +806,365 @@
             }
         }
     </style>
-    <style>
-        /* Sidebar Styles */
-        .api-sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
-            width: 240px;
-            background: linear-gradient(145deg,
-                rgba(255, 255, 255, 0.98) 0%,
-                rgba(248, 250, 252, 0.95) 50%,
-                rgba(241, 245, 249, 0.92) 100%);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-right: 1px solid rgba(148, 163, 184, 0.1);
-            box-shadow:
-                4px 0 32px rgba(148, 163, 184, 0.08),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            z-index: 40;
-            overflow-y: auto;
-            padding-top: 0;
-        }
-
-        .api-sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background:
-                radial-gradient(circle at 30% 20%, rgba(236, 72, 153, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(59, 130, 246, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .sidebar-header {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.08);
-            background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.8) 0%,
-                rgba(248, 250, 252, 0.6) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            position: relative;
-            z-index: 1;
-        }
-
-        .sidebar-header::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(236, 72, 153, 0.1) 20%,
-                rgba(236, 72, 153, 0.05) 50%,
-                rgba(236, 72, 153, 0.1) 80%,
-                transparent 100%);
-        }
-
-        .sidebar-header h2 {
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .sidebar-header svg {
-            flex-shrink: 0;
-        }
-
-        .sidebar-content {
-            padding: 0.5rem 0;
-        }
-
-        .sidebar-section {
-            margin-bottom: 1rem;
-        }
-
-        .sidebar-section-title {
-            padding: 0.5rem 1.5rem 0.25rem 1.5rem;
-            font-size: 0.6875rem;
-            font-weight: 700;
-            color: rgba(71, 85, 105, 0.8);
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            margin-bottom: 0.125rem;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 0.875rem;
-            padding: 0.625rem 1.25rem;
-            margin: 0.125rem 0.5rem;
-            color: #0f172a;
-            text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 0.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg,
-                #ec4899 0%,
-                rgba(236, 72, 153, 0.6) 100%);
-            transform: scaleY(0);
-            transition: transform 0.25s ease;
-            border-radius: 0 2px 2px 0;
-        }
-
-        .sidebar-link:hover {
-            background: linear-gradient(135deg,
-                rgba(236, 72, 153, 0.04) 0%,
-                rgba(236, 72, 153, 0.02) 100%);
-            color: #ec4899;
-            transform: translateX(2px);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.08);
-        }
-
-        .sidebar-link:hover::before {
-            transform: scaleY(1);
-        }
-
-        .sidebar-link.active {
-            background: linear-gradient(135deg,
-                rgba(236, 72, 153, 0.08) 0%,
-                rgba(236, 72, 153, 0.04) 100%);
-            color: #ec4899;
-            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.12);
-        }
-
-        .sidebar-link.active::before {
-            transform: scaleY(1);
-        }
-
-        .sidebar-link-icon {
-            width: 1.25rem;
-            height: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .sidebar-link-text {
-            font-size: 0.8125rem;
-            font-weight: 500;
-            line-height: 1.3;
-        }
-
-        .sidebar-link-description {
-            font-size: 0.6875rem;
-            color: #64748b;
-            margin-top: 0.0625rem;
-            line-height: 1.2;
-        }
-
-        .sidebar-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 50;
-            background-color: white;
-            border: 2px solid #0f172a;
-            border-radius: 0;
-            padding: 0.5rem;
-            cursor: pointer;
-            transition: all 0.18s ease;
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.25);
-        }
-
-        .sidebar-toggle:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.25);
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 30;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .sidebar-section-toggle {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.5rem 1.5rem;
-            margin: 0.25rem 0.5rem;
-            background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.4) 0%,
-                rgba(248, 250, 252, 0.2) 100%);
-            border: 1px solid rgba(148, 163, 184, 0.06);
-            border-radius: 0.5rem;
-            color: rgba(71, 85, 105, 0.9);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-section-toggle::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg,
-                rgba(236, 72, 153, 0.02) 0%,
-                rgba(59, 130, 246, 0.02) 100%);
-            opacity: 0;
-            transition: opacity 0.25s ease;
-        }
-
-        .sidebar-section-toggle:hover {
-            color: #0f172a;
-            border-color: rgba(236, 72, 153, 0.12);
-            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.06);
-            transform: translateY(-1px);
-        }
-
-        .sidebar-section-toggle:hover::before {
-            opacity: 1;
-        }
-
-        .sidebar-section-toggle[aria-expanded="true"] .sidebar-chevron {
-            transform: rotate(180deg);
-        }
-
-        .sidebar-links {
-            max-height: 500px;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .sidebar-links.collapsed {
-            max-height: 0;
-            transition: max-height 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .sidebar-toggle {
-                display: none;
-            }
-
-            .sidebar-overlay {
-                display: none;
-            }
-
-            main {
-                margin-left: 240px;
-            }
-
-            header {
-                margin-left: 240px;
-            }
-
-            footer {
-                margin-left: 240px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .api-sidebar {
-                z-index: 50;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-
-            .api-sidebar.open {
-                transform: translateX(0);
-            }
-
-            main, header, footer {
-                margin-left: 0;
-            }
-        }
-    </style>
 </head>
-<body class="bg-white text-slate-900 flex flex-col min-h-screen authenticated">
-    <div class="shadow-grid"></div>
-
-    <!-- Sidebar Toggle Button (Mobile Only) -->
-    <button class="sidebar-toggle md:hidden" aria-label="Toggle sidebar">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-    </button>
-
-    <!-- Sidebar Overlay (Mobile Only) -->
-    <div class="sidebar-overlay md:hidden"></div>
-
-    <!-- Directory Sidebar -->
-    <aside class="api-sidebar" id="api-sidebar">
-        <div class="sidebar-header">
-            <div class="flex items-center justify-center">
-                <div class="flex items-center space-x-2">
-                    <img src="apiui-cloud-logo.png" alt="apiUI Logo" class="w-10 h-10 rounded shadow-sm">
-                    <div>
-                        <h2 class="text-lg font-bold tracking-[0.14em] text-slate-900 pixel-heading">
-                            api<span class="text-pink-500">UI</span>
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-content">
-            <!-- Platform Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#platform-links">
-                    <span class="sidebar-section-title">Platform</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="platform-links" class="sidebar-links">
-                    <a href="index.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">API Hub</div>
-                            <div class="sidebar-link-description">Browse & discover APIs</div>
-                        </div>
-                    </a>
-                    <a href="app.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">My APIs</div>
-                            <div class="sidebar-link-description">Manage your APIs</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Servers Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#tools-links">
-                    <span class="sidebar-section-title">Servers</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="tools-links" class="sidebar-links">
-                    <a href="mcp.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">MCP Server</div>
-                            <div class="sidebar-link-description">Model Context Protocol</div>
-                        </div>
-                    </a>
-                    <a href="mcp-chat.html" class="sidebar-link active">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">MCP Chat</div>
-                            <div class="sidebar-link-description">AI conversation interface</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Resources Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#resources-links">
-                    <span class="sidebar-section-title">Resources</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="resources-links" class="sidebar-links">
-                    <a href="docs.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Documentation</div>
-                            <div class="sidebar-link-description">Guides & API reference</div>
-                        </div>
-                    </a>
-                    <a href="learn-more.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Learn More</div>
-                            <div class="sidebar-link-description">Integration examples</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Community Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#community-links">
-                    <span class="sidebar-section-title">Community</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="community-links" class="sidebar-links">
-                    <a href="index.html#featured-apis" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Featured APIs</div>
-                            <div class="sidebar-link-description">Curated integrations</div>
-                        </div>
-                    </a>
-                    <a href="index.html#community-apis" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Community APIs</div>
-                            <div class="sidebar-link-description">User-contributed APIs</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <header class="bg-white border-b border-slate-200/70 relative z-10">
-        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
-                    api<span class="text-pink-400">UI</span>
+<body class="bg-white text-[#0B0B0C] flex flex-col min-h-screen authenticated">
+    <!-- Aurablox Constructivist Fixed Header & Megamenu -->
+    <header class="ab-nav-shell" id="ab-nav-shell">
+        <nav class="ab-nav" aria-label="Primary Navigation">
+            <div class="ab-nav__left">
+                <a href="index.html" class="ab-nav__brand">
+                    <span class="ab-nav__seal" aria-hidden="true"></span>
+                    <span class="ab-nav__wordmark">API<span>UI</span></span>
                 </a>
-                <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">MCP Chat</span>
+                <a href="aurablox.html" class="ab-nav__platform-badge">An Aurablox Platform</a>
             </div>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">App</a>
-                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">MCP</a>
-                <a href="mcp-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Chat</a>
-                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Learn more</a>
+
+            <ul class="ab-nav__list" role="menubar">
+                <li>
+                    <button type="button" class="ab-nav__item-btn" data-mega="platform" aria-expanded="false" aria-controls="ab-megamenu">
+                        <span>Platform</span>
+                        <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                    </button>
+                </li>
+                <li>
+                    <a href="app.html" class="ab-nav__link">Studio</a>
+                </li>
+                <li>
+                    <button type="button" class="ab-nav__item-btn" data-mega="mcp" aria-expanded="false" aria-controls="ab-megamenu">
+                        <span>MCP Server</span>
+                        <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                    </button>
+                </li>
+                <li>
+                    <a href="mcp-chat.html" class="ab-nav__link is-current" aria-current="page">MCP Chat</a>
+                </li>
+                <li>
+                    <button type="button" class="ab-nav__item-btn" data-mega="docs" aria-expanded="false" aria-controls="ab-megamenu">
+                        <span>Docs</span>
+                        <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                    </button>
+                </li>
+            </ul>
+
+            <div class="ab-nav__actions">
+                <a href="app.html" class="ab-nav__cta-btn">Open Studio &rarr;</a>
+                <button id="ab-mobile-toggle" type="button" class="ab-nav__toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="ab-mobile-menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
         </nav>
+
+        <!-- Full-Width Megamenu -->
+        <div id="ab-megamenu" class="ab-megamenu" aria-hidden="true">
+            <div class="ab-megamenu__panel" data-panel="platform">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 pixel-heading text-[11px] tracking-[0.18em] text-[#474742]">
+                        <span class="seal"></span> 01 // PLATFORM ARCHITECTURE
+                    </div>
+                    <h3 class="ab-display text-3xl text-[#0B0B0C]">Datasets Into Live Endpoints.</h3>
+                    <p class="text-sm text-[#474742] leading-relaxed">Explore the public API catalog, spin up datasets in Studio, or learn how APIUI bridges raw files with AI tooling.</p>
+                    <a href="app.html" class="hub-btn hub-btn-primary text-xs py-2.5 px-4">Launch Studio &rarr;</a>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <a href="index.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">01 // HUB</span>
+                        <div class="font-semibold text-sm mt-1">API Hub Home</div>
+                        <p class="text-xs text-[#474742] mt-1">Overview, metrics, and platform tour.</p>
+                    </a>
+                    <a href="index.html#directory" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">02 // CATALOG</span>
+                        <div class="font-semibold text-sm mt-1">Public Directory</div>
+                        <p class="text-xs text-[#474742] mt-1">Browse ready-to-query REST &amp; MCP APIs.</p>
+                    </a>
+                    <a href="learn-more.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">03 // SYSTEM</span>
+                        <div class="font-semibold text-sm mt-1">Platform Architecture</div>
+                        <p class="text-xs text-[#474742] mt-1">Schema inference and FastAPI generation.</p>
+                    </a>
+                    <a href="aurablox.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">04 // STUDIO</span>
+                        <div class="font-semibold text-sm mt-1">Aurablox Platform</div>
+                        <p class="text-xs text-[#474742] mt-1">Design language &amp; software lab behind APIUI.</p>
+                    </a>
+                </div>
+                <div class="bg-[#FAFAF7] border border-[#D9D9D2] border-t-2 border-t-[#EC4899] p-5 flex flex-col justify-between">
+                    <div>
+                        <span class="pixel-heading text-[10px] tracking-[0.16em] text-[#EC4899]">RUNTIME SPEC</span>
+                        <div class="font-mono text-xs text-[#0B0B0C] mt-2 space-y-1.5">
+                            <div>STACK: FASTAPI + SQLITE + MCP</div>
+                            <div>HOST: SELF-HOSTED :8000</div>
+                            <div>FORMAT: CSV / JSON / XLSX</div>
+                        </div>
+                    </div>
+                    <a href="resume.html" class="pixel-heading text-[11px] text-[#0B0B0C] hover:text-[#EC4899] mt-4">Founder / Resume &rarr;</a>
+                </div>
+            </div>
+
+            <div class="ab-megamenu__panel" data-panel="mcp">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 pixel-heading text-[11px] tracking-[0.18em] text-[#474742]">
+                        <span class="seal"></span> 02 // MODEL CONTEXT PROTOCOL
+                    </div>
+                    <h3 class="ab-display text-3xl text-[#0B0B0C]">Wire Any Agent To Your Data.</h3>
+                    <p class="text-sm text-[#474742] leading-relaxed">Generate IDE configs, test JSON-RPC 2.0 tool execution, or query multiple datasets in natural language.</p>
+                    <a href="mcp.html" class="hub-btn hub-btn-primary text-xs py-2.5 px-4">Open MCP Server &rarr;</a>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <a href="mcp.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">01 // SERVER</span>
+                        <div class="font-semibold text-sm mt-1">MCP Server Suite</div>
+                        <p class="text-xs text-[#474742] mt-1">Overview, endpoints, and live status.</p>
+                    </a>
+                    <a href="mcp.html#connecting" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">02 // CLIENTS</span>
+                        <div class="font-semibold text-sm mt-1">Client Configurations</div>
+                        <p class="text-xs text-[#474742] mt-1">Claude Desktop, Cursor &amp; Antigravity JSON.</p>
+                    </a>
+                    <a href="mcp.html#mcp-tester" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">03 // TESTER</span>
+                        <div class="font-semibold text-sm mt-1">JSON-RPC 2.0 Tester</div>
+                        <p class="text-xs text-[#474742] mt-1">Execute tools and inspect live payloads.</p>
+                    </a>
+                    <a href="mcp-chat.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">04 // CONSOLE</span>
+                        <div class="font-semibold text-sm mt-1">MCP Chat Workspace</div>
+                        <p class="text-xs text-[#474742] mt-1">Multi-dataset conversational interface.</p>
+                    </a>
+                </div>
+                <div class="bg-[#FAFAF7] border border-[#D9D9D2] border-t-2 border-t-[#7C3AED] p-5 flex flex-col justify-between">
+                    <div>
+                        <span class="pixel-heading text-[10px] tracking-[0.16em] text-[#7C3AED]">TRANSPORT PIPELINE</span>
+                        <div class="font-mono text-xs text-[#0B0B0C] mt-2 space-y-1.5">
+                            <div>RPC: POST /mcp</div>
+                            <div>CHAT: POST /api/chat</div>
+                            <div>TOOLS: list_apis, query_api</div>
+                        </div>
+                    </div>
+                    <a href="mcp.html#file-browser" class="pixel-heading text-[11px] text-[#0B0B0C] hover:text-[#EC4899] mt-4">Browse Datasets &rarr;</a>
+                </div>
+            </div>
+
+            <div class="ab-megamenu__panel" data-panel="docs">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 pixel-heading text-[11px] tracking-[0.18em] text-[#474742]">
+                        <span class="seal"></span> 03 // DOCUMENTATION
+                    </div>
+                    <h3 class="ab-display text-3xl text-[#0B0B0C]">Specs, Guides &amp; Self-Hosting.</h3>
+                    <p class="text-sm text-[#474742] leading-relaxed">Complete reference for REST routes, MCP protocol schemas, and local Docker / Python deployment.</p>
+                    <a href="docs.html" class="hub-btn hub-btn-primary text-xs py-2.5 px-4">Read Full Docs &rarr;</a>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <a href="docs.html#rest-api" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">01 // REST</span>
+                        <div class="font-semibold text-sm mt-1">REST API Reference</div>
+                        <p class="text-xs text-[#474742] mt-1">Pagination, filters, and CRUD endpoints.</p>
+                    </a>
+                    <a href="docs.html#mcp-protocol" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">02 // RPC</span>
+                        <div class="font-semibold text-sm mt-1">MCP Protocol Spec</div>
+                        <p class="text-xs text-[#474742] mt-1">Methods, tool schemas, and resources.</p>
+                    </a>
+                    <a href="docs.html#self-hosting" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">03 // DEPLOY</span>
+                        <div class="font-semibold text-sm mt-1">Self-Hosting Guide</div>
+                        <p class="text-xs text-[#474742] mt-1">Run backend :8000 and UI :8080 locally.</p>
+                    </a>
+                    <a href="cookie-policy.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">04 // PRIVACY</span>
+                        <div class="font-semibold text-sm mt-1">Cookie Policy</div>
+                        <p class="text-xs text-[#474742] mt-1">Local storage &amp; session transparency.</p>
+                    </a>
+                </div>
+                <div class="bg-[#FAFAF7] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-5 flex flex-col justify-between">
+                    <div>
+                        <span class="pixel-heading text-[10px] tracking-[0.16em] text-[#474742]">QUICK JUMP</span>
+                        <div class="font-mono text-xs text-[#0B0B0C] mt-2 space-y-1.5">
+                            <div>GET /api/v1/apis</div>
+                            <div>GET /health</div>
+                            <div>POST /mcp</div>
+                        </div>
+                    </div>
+                    <a href="#sitemap-footer" class="pixel-heading text-[11px] text-[#0B0B0C] hover:text-[#EC4899] mt-4">Full Sitemap &darr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Accordion Drawer -->
+        <div id="ab-mobile-menu" class="ab-nav__menu" aria-hidden="true">
+            <div class="space-y-1">
+                <button type="button" class="ab-nav__mobile-expand" data-mobile-sub="platform">
+                    <span>Platform</span><span>+</span>
+                </button>
+                <div class="ab-nav__mobile-sub" data-mobile-panel="platform">
+                    <a href="index.html" class="text-sm font-medium text-[#0B0B0C]">API Hub Home</a>
+                    <a href="index.html#directory" class="text-sm text-[#474742]">Public Directory</a>
+                    <a href="learn-more.html" class="text-sm text-[#474742]">Platform Architecture</a>
+                    <a href="aurablox.html" class="text-sm text-[#EC4899] font-medium">Aurablox Platform</a>
+                </div>
+
+                <a href="app.html" class="ab-nav__mobile-expand" style="text-decoration:none;">
+                    <span>Studio</span><span>&rarr;</span>
+                </a>
+
+                <button type="button" class="ab-nav__mobile-expand" data-mobile-sub="mcp">
+                    <span>MCP Server</span><span>+</span>
+                </button>
+                <div class="ab-nav__mobile-sub" data-mobile-panel="mcp">
+                    <a href="mcp.html" class="text-sm font-medium text-[#0B0B0C]">MCP Server Overview</a>
+                    <a href="mcp.html#connecting" class="text-sm text-[#474742]">Client Configs</a>
+                    <a href="mcp.html#mcp-tester" class="text-sm text-[#474742]">JSON-RPC 2.0 Tester</a>
+                    <a href="mcp.html#file-browser" class="text-sm text-[#474742]">Dataset Browser</a>
+                </div>
+
+                <a href="mcp-chat.html" class="ab-nav__mobile-expand" style="text-decoration:none; color: var(--accent-deep);">
+                    <span>MCP Chat (Current)</span><span>&bull;</span>
+                </a>
+
+                <button type="button" class="ab-nav__mobile-expand" data-mobile-sub="docs">
+                    <span>Docs</span><span>+</span>
+                </button>
+                <div class="ab-nav__mobile-sub" data-mobile-panel="docs">
+                    <a href="docs.html" class="text-sm font-medium text-[#0B0B0C]">Documentation Hub</a>
+                    <a href="docs.html#rest-api" class="text-sm text-[#474742]">REST API Reference</a>
+                    <a href="docs.html#mcp-protocol" class="text-sm text-[#474742]">MCP Protocol Spec</a>
+                    <a href="docs.html#self-hosting" class="text-sm text-[#474742]">Self-Hosting Guide</a>
+                </div>
+
+                <div class="pt-6 flex flex-col gap-3">
+                    <a href="app.html" class="hub-btn hub-btn-primary w-full">Open Studio &rarr;</a>
+                    <a href="#sitemap-footer" class="hub-btn hub-btn-secondary w-full ab-mobile-close-link">Jump to Sitemap</a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main class="flex-1 relative z-10">
-        <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
-        <section class="bg-white text-slate-900 overflow-hidden relative">
-            <!-- Hero Background Image -->
-            <div class="absolute inset-0 opacity-20 pointer-events-none">
-                <img src="images/cube-pyramid.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
-            </div>
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-24 relative z-10">
-                <div class="grid gap-16 md:grid-cols-[1.05fr_minmax(0,0.95fr)] items-center">
-                    <div class="space-y-8">
-                        <div class="flex items-center gap-3">
+        <!-- Constructivist Hero Section -->
+        <section class="relative bg-[#FFFFFF] border-b border-[#D9D9D2] overflow-hidden">
+            <div class="shadow-grid"></div>
+            <div class="ab-container py-14 md:py-20 relative z-10">
+                <div class="section-index-bar mb-10">
+                    <span class="section-index-bar__left"><span class="seal"></span> 01 // MCP CHAT WORKSPACE</span>
+                    <span>INGEST &middot; EXPOSE &middot; QUERY</span>
+                </div>
+
+                <div class="grid gap-10 lg:grid-cols-[1.15fr_minmax(0,0.85fr)] items-start">
+                    <div class="space-y-6">
+                        <div class="inline-flex items-center gap-2.5 border border-[#D9D9D2] bg-[#FAFAF7] px-3 py-1.5">
                             <span class="pixel-dot"></span>
-                            <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">MCP CHAT</p>
+                            <span class="pixel-heading text-[11px] tracking-[0.22em] text-[#DB2777]">CONVERSATIONAL DATA TERMINAL</span>
                         </div>
-                        <h1 class="pixel-heading text-3xl sm:text-4xl md:text-5xl leading-tight text-slate-900 tracking-[0.18em]">
-                            Chat with your APIs in natural language
+                        <h1 class="ab-display text-5xl sm:text-6xl lg:text-7xl text-[#0B0B0C]">
+                            Chat With Your <span class="text-[#EC4899]">APIs</span> In Natural Language.
                         </h1>
-                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl">
-                            Select one or multiple APIs and ask questions about your data using plain English. Powered by MCP and AI for intelligent responses.
+                        <p class="text-base sm:text-lg text-[#474742] max-w-2xl leading-relaxed">
+                            Select one or multiple structured datasets and query live records, schemas, and cross-table insights directly over your self-hosted MCP backend.
                         </p>
-                        <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
-                            <button onclick="document.getElementById('api-selector').scrollIntoView({behavior: 'smooth'})" class="hub-btn hub-btn-primary">Start Chatting</button>
-                            <a href="docs.html" class="hub-btn hub-btn-secondary">View Documentation</a>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="capability-tag">Multi-Dataset Context</span>
+                            <span class="capability-tag">Natural Language SQL/JSON</span>
+                            <span class="capability-tag">MCP Powered</span>
+                            <span class="capability-tag">Self-Hosted :8000</span>
+                        </div>
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <button type="button" onclick="document.getElementById('api-selector').scrollIntoView({behavior: 'smooth'})" class="hub-btn hub-btn-primary">Select APIs &amp; Chat &darr;</button>
+                            <a href="mcp.html" class="hub-btn hub-btn-secondary">MCP Server Setup &rarr;</a>
                         </div>
                     </div>
-                    <div class="relative">
-                        <!-- Chat Preview Card -->
-                        <div class="relative border border-slate-200 bg-white p-6 overflow-hidden api-card mb-6">
-                            <div class="absolute inset-0 opacity-5" aria-hidden="true">
-                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(236, 72, 153, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.1) 1px, transparent 1px); background-size: 28px 28px;"></div>
+
+                    <div class="space-y-4">
+                        <div class="home-capability space-y-4">
+                            <div class="flex items-center justify-between border-b border-[#D9D9D2] pb-3">
+                                <span class="pixel-heading text-xs tracking-[0.2em] text-[#0B0B0C] font-semibold">01 // WORKSPACE TELEMETRY</span>
+                                <span class="hub-pill font-semibold">MCP Ready</span>
                             </div>
-                            <div class="relative space-y-3">
-                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-400">LIVE DEMO</p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-slate-700 font-medium">Multi-API Queries</span>
-                                        <span class="hub-pill">Active</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-slate-700 font-medium">Natural Language</span>
-                                        <span class="hub-pill">Ready</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-slate-700 font-medium">AI-Powered Responses</span>
-                                        <span class="hub-pill">Enabled</span>
-                                    </div>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-center justify-between py-1 border-b border-[#D9D9D2]/60">
+                                    <span class="text-[#474742]">Multi-API Context</span>
+                                    <span class="font-mono text-xs font-semibold text-[#0B0B0C] uppercase">Active</span>
+                                </div>
+                                <div class="flex items-center justify-between py-1 border-b border-[#D9D9D2]/60">
+                                    <span class="text-[#474742]">Natural Language Querying</span>
+                                    <span class="font-mono text-xs font-semibold text-[#DB2777] uppercase">Enabled</span>
+                                </div>
+                                <div class="flex items-center justify-between py-1">
+                                    <span class="text-[#474742]">Transport Routes</span>
+                                    <span class="font-mono text-xs text-[#7C3AED]">/api/chat + /mcp</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Features Card -->
-                        <div class="relative border border-slate-200 bg-white p-6 overflow-hidden api-card">
-                            <div class="absolute inset-0 opacity-5" aria-hidden="true">
-                                <div class="w-full h-full" style="background-image: linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.05) 1px, transparent 1px); background-size: 24px 24px;"></div>
-                            </div>
-                            <div class="relative">
-                                <p class="pixel-heading text-sm tracking-[0.3em] text-pink-400 mb-3">FEATURES</p>
-                                <h3 class="text-lg font-semibold text-slate-900 mb-2">Intelligent API Communication</h3>
-                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
-                                    Experience the future of API interaction with MCP-powered chat. Connect to multiple APIs and get intelligent responses to your natural language queries.
-                                </p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-3">
-                                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-sm text-slate-700">Multi-API conversation support</span>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-sm text-slate-700">Natural language processing</span>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                        </svg>
-                                        <span class="text-sm text-slate-700">AI-powered responses</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="home-capability bg-[#FFFFFF]">
+                            <p class="pixel-heading text-[11px] tracking-[0.2em] text-[#474742] mb-2">02 // EXECUTION SEQUENCE</p>
+                            <p class="text-sm text-[#474742] leading-relaxed">
+                                1. Toggle one or more datasets in the selector grid. 2. Prompt the terminal to summarize columns, inspect records, or compare schemas across datasets.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Chat Interface Section -->
-        <section class="bg-gray-50/70 relative">
-            <div class="absolute inset-0 pointer-events-none opacity-15" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 28px 28px;"></div>
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-12 relative">
+        <!-- Chat Workspace Section -->
+        <section class="bg-[#FAFAF7] border-b border-[#D9D9D2] relative">
+            <div class="ab-container py-14 space-y-12 relative">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span> 02 // CONTEXT &amp; QUERY TERMINAL</span>
+                    <span>SELECT DATASETS &middot; SEND PROMPT</span>
+                </div>
 
                 <!-- API Selection Section -->
-                <div class="w-full max-w-6xl mx-auto">
-                    <div class="relative bg-white shadow-lg border-2 border-black p-6 sm:p-8 api-card">
-                        <!-- Pixel Grid Background -->
-                        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.08) 1px, transparent 1px); background-size: 20px 20px;"></div>
-
-                        <!-- Header -->
-                        <div class="relative mb-8">
-                            <div class="flex items-center gap-3 mb-4">
-                                <span class="pixel-dot"></span>
-                                <p class="pixel-heading text-sm tracking-[0.32em] text-pink-400">API CONNECTION</p>
+                <div class="w-full">
+                    <div class="bg-[#FFFFFF] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6 sm:p-8">
+                        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-[#D9D9D2] pb-6 mb-6">
+                            <div>
+                                <div class="flex items-center gap-2.5 mb-2">
+                                    <span class="seal"></span>
+                                    <p class="pixel-heading text-xs tracking-[0.22em] text-[#DB2777]">API CONNECTION</p>
+                                </div>
+                                <h2 class="ab-display text-3xl sm:text-4xl text-[#0B0B0C]">Select Your APIs</h2>
+                                <p class="text-sm text-[#474742] mt-1.5">Choose one or multiple datasets to include in your conversation context.</p>
                             </div>
-                            <h2 class="pixel-heading text-xl text-black tracking-[0.12em]">Select Your APIs</h2>
-                            <p class="text-sm text-slate-600 mt-2 leading-relaxed">Choose one or multiple APIs to chat with. Each API adds context to your conversation.</p>
+                            <div class="flex items-center gap-3">
+                                <span class="pixel-heading text-xs text-[#474742] tracking-[0.12em]">SELECTED:</span>
+                                <span id="selected-count" class="hub-pill">0 selected</span>
+                            </div>
                         </div>
 
                         <!-- API Selection Form -->
-                        <div class="relative space-y-6 flex-1">
-                            <!-- API Selector -->
+                        <div class="space-y-5">
                             <div class="space-y-3">
-                                <label class="block pixel-heading text-sm font-medium text-slate-900 tracking-[0.08em]">Available APIs</label>
+                                <label for="api-search" class="block pixel-heading text-xs font-semibold text-[#0B0B0C] tracking-[0.14em]">Available APIs</label>
 
                                 <!-- Search and Filter -->
                                 <div class="flex flex-col sm:flex-row gap-3">
                                     <div class="relative flex-1">
                                         <input type="text"
                                                id="api-search"
-                                               placeholder="Search APIs..."
-                                               class="w-full px-4 py-2 pl-10 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                                               placeholder="Search APIs by name or description..."
+                                               class="w-full px-4 py-2.5 pl-10 text-sm bg-[#FAFAF7] border border-[#D9D9D2] text-[#0B0B0C] focus:outline-none focus:border-[#EC4899]"
                                                oninput="filterAPIs(this.value)">
-                                        <svg class="absolute left-3 top-2.5 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="absolute left-3 top-3 w-4 h-4 text-[#62625C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z"></path>
                                         </svg>
                                     </div>
                                     <div class="flex gap-2 justify-end">
-                                        <button onclick="selectAllAPIs()"
-                                                class="px-3 py-2 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-md font-medium whitespace-nowrap">
+                                        <button type="button" onclick="selectAllAPIs()"
+                                                class="px-4 py-2.5 text-xs bg-[#FAFAF7] hover:bg-[#FFFFFF] text-[#0B0B0C] border border-[#0B0B0C] hover:border-[#EC4899] hover:text-[#DB2777] pixel-heading tracking-[0.12em] whitespace-nowrap transition-colors">
                                             Select All
                                         </button>
-                                        <button onclick="clearAllAPIs()"
-                                                class="px-3 py-2 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-md font-medium whitespace-nowrap">
+                                        <button type="button" onclick="clearAllAPIs()"
+                                                class="px-4 py-2.5 text-xs bg-[#FAFAF7] hover:bg-[#FFFFFF] text-[#0B0B0C] border border-[#D9D9D2] hover:border-[#0B0B0C] pixel-heading tracking-[0.12em] whitespace-nowrap transition-colors">
                                             Clear All
+                                        </button>
+                                        <button id="refresh-apis" type="button"
+                                                class="px-4 py-2.5 text-xs bg-[#0B0B0C] hover:bg-[#EC4899] text-[#FFFFFF] border border-[#0B0B0C] hover:border-[#EC4899] pixel-heading tracking-[0.12em] whitespace-nowrap inline-flex items-center gap-1.5 transition-colors">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                            </svg>
+                                            Refresh
                                         </button>
                                     </div>
                                 </div>
@@ -1029,80 +1172,40 @@
                                 <div id="api-selector" class="api-selector">
                                     <div class="col-span-full text-center py-8">
                                         <div class="loading mx-auto mb-4"></div>
-                                        <p class="text-gray-600">Loading APIs...</p>
+                                        <p class="text-sm text-[#474742]">Loading APIs...</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Selection Summary -->
-                            <div class="relative bg-slate-50 border border-slate-200 p-4 api-card">
-                                <div class="absolute inset-0 opacity-8 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 12px 12px;"></div>
-                                <div class="relative flex items-center justify-between">
-                                    <span class="pixel-heading text-sm text-slate-700 tracking-[0.08em]">APIs Selected</span>
-                                    <span id="selected-count" class="hub-pill">0 selected</span>
-                                </div>
-                            </div>
-
-                            <!-- Refresh Button -->
-                            <div class="pt-4">
-                                <button id="refresh-apis" class="hub-btn hub-btn-secondary w-full">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                    </svg>
-                                    Refresh APIs
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Connection Info -->
-                        <div class="relative mt-8 pt-6 border-t border-slate-200">
-                            <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 14px 14px;"></div>
-                            <div class="relative">
-                                <h3 class="pixel-heading text-sm font-medium text-slate-900 mb-4 tracking-[0.08em]">Technical Details</h3>
-                                <div class="space-y-3 text-xs text-slate-600">
-                                    <div class="flex items-start gap-2">
-                                        <svg class="w-3 h-3 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
-                                        </svg>
-                                        <span>Multi-API chat support</span>
-                                    </div>
-                                    <div class="flex items-start gap-2">
-                                        <svg class="w-3 h-3 text-pink-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                                        </svg>
-                                        <span>Powered by MCP & AI</span>
-                                    </div>
-                                </div>
+                            <div class="pt-4 border-t border-[#D9D9D2] flex flex-wrap gap-6 text-xs text-[#474742]">
+                                <span class="inline-flex items-center gap-2"><span class="seal"></span> Multi-API context injection</span>
+                                <span class="inline-flex items-center gap-2"><span class="seal" style="background: var(--accent-purple);"></span> Powered by Model Context Protocol &amp; AI</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Chat Interface -->
-                <div class="w-full max-w-6xl mx-auto">
-                    <div class="relative bg-white shadow-lg border-2 border-black flex flex-col overflow-hidden api-card">
-                        <!-- Pixel Grid Background -->
-                        <div class="absolute inset-0 opacity-3 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 24px 24px;"></div>
-
+                <div class="w-full">
+                    <div class="bg-[#FFFFFF] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] flex flex-col">
                         <!-- Chat Header -->
-                        <div class="relative px-8 py-6 border-b-2 border-black bg-gradient-to-r from-white to-slate-50">
-                            <div class="absolute inset-0 opacity-8 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.06) 1px, transparent 1px); background-size: 16px 16px;"></div>
-                            <div class="relative flex items-center justify-between">
+                        <div class="px-6 sm:px-8 py-6 border-b border-[#D9D9D2] bg-[#FAFAF7]">
+                            <div class="flex items-center justify-between gap-4">
                                 <div>
-                                    <div class="flex items-center gap-3 mb-2">
-                                        <span class="pixel-dot"></span>
-                                        <p class="pixel-heading text-sm tracking-[0.32em] text-pink-400">LIVE CHAT</p>
+                                    <div class="flex items-center gap-2.5 mb-1.5">
+                                        <span class="seal"></span>
+                                        <p class="pixel-heading text-xs tracking-[0.22em] text-[#DB2777]">LIVE CHAT TERMINAL</p>
                                     </div>
-                                    <h2 class="pixel-heading text-xl text-black tracking-[0.12em]">Chat with your APIs</h2>
+                                    <h2 class="ab-display text-3xl text-[#0B0B0C]">Query Active Datasets</h2>
                                 </div>
-                                <div class="hidden sm:flex items-center gap-2">
-                                    <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
-                                    <span class="pixel-heading text-xs text-slate-600 tracking-[0.08em]">MCP Powered</span>
+                                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 border border-[#D9D9D2] bg-[#FFFFFF]">
+                                    <span class="w-2.5 h-2.5 bg-emerald-500 inline-block"></span>
+                                    <span class="pixel-heading text-[11px] text-[#0B0B0C] tracking-[0.12em]">MCP Powered</span>
                                 </div>
                             </div>
-                            <p class="text-sm font-medium text-slate-600 mt-3 leading-relaxed" id="chat-status">
+                            <p class="text-sm font-medium text-[#474742] mt-3" id="chat-status">
                                 <span class="inline-flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 text-[#EC4899]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
                                     </svg>
                                     Select APIs above and start asking questions
@@ -1111,19 +1214,18 @@
                         </div>
 
                         <!-- Messages Container -->
-                        <div class="relative flex-1 overflow-y-auto p-6 bg-gradient-to-b from-slate-50/50 to-white">
-                            <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 20px 20px;"></div>
+                        <div class="relative flex-1 overflow-y-auto p-6 bg-[#FAFAF7] min-h-[340px]">
                             <div class="relative">
                                 <!-- Welcome Message -->
-                                <div class="text-center text-slate-500 py-12">
+                                <div class="text-center text-[#474742] py-10">
                                     <div class="max-w-md mx-auto">
-                                        <div class="mb-6">
-                                            <svg class="w-16 h-16 text-pink-400 mx-auto opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div class="mb-4 inline-flex items-center justify-center w-12 h-12 border border-[#D9D9D2] bg-[#FFFFFF]">
+                                            <svg class="w-6 h-6 text-[#EC4899]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4-4-4z"></path>
                                             </svg>
                                         </div>
-                                        <div class="pixel-heading text-lg font-medium text-black mb-2 tracking-[0.08em]">Ready to chat</div>
-                                        <p class="text-sm opacity-75 leading-relaxed">Select one or more APIs from the sidebar to start asking questions about your data in natural language.</p>
+                                        <div class="pixel-heading text-base font-semibold text-[#0B0B0C] mb-1.5 tracking-[0.12em]">Ready To Query</div>
+                                        <p class="text-sm text-[#474742] leading-relaxed">Select one or more APIs above to start asking questions about your records in natural language.</p>
                                     </div>
                                 </div>
                                 <div id="chat-messages" class="space-y-4">
@@ -1133,56 +1235,47 @@
                         </div>
 
                         <!-- Typing Indicator -->
-                        <div id="typing-indicator" class="typing-indicator relative px-8 py-4 bg-gradient-to-r from-slate-50 to-white border-t border-slate-200">
-                            <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.05) 1px, transparent 1px); background-size: 12px 12px;"></div>
-                            <div class="relative flex items-center space-x-3 text-slate-600">
+                        <div id="typing-indicator" class="typing-indicator relative px-6 sm:px-8 py-3.5 bg-[#FFFFFF] border-t border-[#D9D9D2]">
+                            <div class="flex items-center space-x-3 text-[#474742]">
                                 <div class="flex space-x-1">
-                                    <div class="w-2 h-2 bg-pink-400 rounded-full pulse shadow-sm shadow-pink-400/50"></div>
-                                    <div class="w-2 h-2 bg-pink-400 rounded-full pulse shadow-sm shadow-pink-400/50" style="animation-delay: 0.2s"></div>
-                                    <div class="w-2 h-2 bg-pink-400 rounded-full pulse shadow-sm shadow-pink-400/50" style="animation-delay: 0.4s"></div>
+                                    <div class="w-2 h-2 bg-[#EC4899] pulse"></div>
+                                    <div class="w-2 h-2 bg-[#EC4899] pulse" style="animation-delay: 0.2s"></div>
+                                    <div class="w-2 h-2 bg-[#EC4899] pulse" style="animation-delay: 0.4s"></div>
                                 </div>
-                                <span class="text-sm font-medium pixel-heading tracking-[0.04em]">AI is thinking...</span>
+                                <span class="text-xs font-medium pixel-heading tracking-[0.12em]">AI is thinking...</span>
                             </div>
                         </div>
 
                         <!-- Message Input -->
-                        <div class="relative px-8 py-6 border-t-2 border-black bg-gradient-to-r from-slate-50 to-white">
-                            <div class="absolute inset-0 opacity-8 pointer-events-none" style="background-image: linear-gradient(rgba(236, 72, 153, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px); background-size: 18px 18px;"></div>
-                            <div class="relative space-y-4">
-                                <!-- Input Area -->
-                                <div class="flex space-x-3">
-                                    <div class="relative flex-1">
-                                        <input
-                                            type="text"
-                                            id="chat-input"
-                                            placeholder="Ask a question about your selected APIs..."
-                                            class="w-full px-4 py-3 bg-white border-2 border-slate-200 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-slate-900 shadow-sm hover:border-slate-300 api-card"
-                                            style="border-radius: 0; box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.08);"
-                                            disabled
-                                        >
-                                        <div class="absolute inset-0 pointer-events-none opacity-5" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 14px 14px;"></div>
-                                    </div>
-                                    <button
-                                        id="send-btn"
-                                        class="hub-btn hub-btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex-shrink-0"
+                        <div class="px-6 sm:px-8 py-6 border-t-2 border-[#0B0B0C] bg-[#FFFFFF]">
+                            <div class="space-y-3">
+                                <div class="flex gap-3">
+                                    <input
+                                        type="text"
+                                        id="chat-input"
+                                        placeholder="Ask a question about your selected APIs..."
+                                        class="flex-1 px-4 py-3 bg-[#FAFAF7] border border-[#0B0B0C] focus:outline-none focus:border-[#EC4899] disabled:opacity-50 disabled:cursor-not-allowed text-[#0B0B0C]"
                                         disabled
                                     >
+                                    <button
+                                        id="send-btn"
+                                        class="hub-btn hub-btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                                        disabled
+                                    >
+                                        <span>Send</span>
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                                         </svg>
                                     </button>
                                 </div>
 
-                                <!-- Helper Text -->
-                                <div class="flex items-center justify-between">
-                                    <p class="text-xs text-slate-500 opacity-75 flex items-center gap-2">
-                                        <svg class="w-3 h-3 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        Try: "What are the columns?", "Show me a summary", "Compare data across APIs"
+                                <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-[#62625C]">
+                                    <p class="flex items-center gap-2">
+                                        <span class="seal"></span>
+                                        Try: &ldquo;What are the columns?&rdquo;, &ldquo;Show me a summary&rdquo;, &ldquo;Compare data across APIs&rdquo;
                                     </p>
-                                    <div class="flex items-center gap-1 text-xs text-slate-400">
-                                        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-slate-600 font-mono text-xs">Enter</kbd>
+                                    <div class="flex items-center gap-1.5">
+                                        <kbd class="px-1.5 py-0.5 bg-[#FAFAF7] border border-[#D9D9D2] text-[#0B0B0C] font-mono text-xs">Enter</kbd>
                                         <span>to send</span>
                                     </div>
                                 </div>
@@ -1194,93 +1287,163 @@
         </section>
 
         <!-- Tips Section -->
-        <section class="bg-white border-t border-slate-200/70 relative">
-            <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.02) 1px, transparent 1px); background-size: 32px 32px;"></div>
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 flex flex-col gap-10 md:flex-row md:items-center md:justify-between relative">
-                <div class="space-y-4 max-w-3xl">
-                    <div class="flex items-center gap-3">
-                        <span class="pixel-dot"></span>
-                        <p class="pixel-heading eyebrow text-pink-400">Tips & Best Practices</p>
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-semibold text-slate-900">
-                        Get the most out of MCP Chat
-                    </h2>
-                    <p class="text-base text-slate-600">
-                        Learn how to ask better questions and leverage the full power of multi-API conversations.
-                    </p>
+        <section class="bg-[#FFFFFF] relative">
+            <div class="ab-container py-16 space-y-10">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span> 03 // QUERY PLAYBOOK</span>
+                    <span>SINGLE-API &middot; MULTI-API &middot; PERFORMANCE</span>
                 </div>
-                <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <div class="api-card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <h3 class="font-semibold text-slate-900">Single API</h3>
+
+                <div class="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] items-start">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="pixel-dot"></span>
+                            <p class="pixel-heading text-xs tracking-[0.22em] text-[#DB2777]">TIPS &amp; BEST PRACTICES</p>
                         </div>
-                        <p class="text-sm text-slate-600">Ask specific questions about one dataset: "What are the columns?" or "Show me recent records"</p>
+                        <h2 class="ab-display text-4xl sm:text-5xl text-[#0B0B0C]">
+                            Get More Out Of MCP Chat.
+                        </h2>
+                        <p class="text-base text-[#474742] leading-relaxed">
+                            Ask structural questions first, combine complementary datasets, and narrow context for lower latency responses.
+                        </p>
                     </div>
-                    <div class="api-card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
-                            <h3 class="font-semibold text-slate-900">Multi-API</h3>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div class="home-capability">
+                            <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">01 // SINGLE DATASET</span>
+                            <h3 class="font-semibold text-[#0B0B0C] mt-2 mb-1.5">Inspect One Schema</h3>
+                            <p class="text-sm text-[#474742]">Ask specific questions about one dataset: &ldquo;What are the columns?&rdquo; or &ldquo;Show me recent records.&rdquo;</p>
                         </div>
-                        <p class="text-sm text-slate-600">Compare data across APIs: "Compare sales between datasets" or "Find relationships"</p>
-                    </div>
-                    <div class="api-card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                            </svg>
-                            <h3 class="font-semibold text-slate-900">AI-Powered</h3>
+                        <div class="home-capability">
+                            <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">02 // CROSS-TABLE</span>
+                            <h3 class="font-semibold text-[#0B0B0C] mt-2 mb-1.5">Multi-API Context</h3>
+                            <p class="text-sm text-[#474742]">Compare data across APIs: &ldquo;Compare metrics between datasets&rdquo; or &ldquo;Find shared IDs.&rdquo;</p>
                         </div>
-                        <p class="text-sm text-slate-600">Ask natural questions: "What's the trend?" or "Summarize the data for me"</p>
-                    </div>
-                    <div class="api-card p-6">
-                        <div class="flex items-center gap-3 mb-3">
-                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
-                            <h3 class="font-semibold text-slate-900">Performance</h3>
+                        <div class="home-capability">
+                            <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">03 // SYNTHESIS</span>
+                            <h3 class="font-semibold text-[#0B0B0C] mt-2 mb-1.5">AI-Powered Analysis</h3>
+                            <p class="text-sm text-[#474742]">Ask natural analytical questions: &ldquo;What is the distribution?&rdquo; or &ldquo;Summarize anomalies.&rdquo;</p>
                         </div>
-                        <p class="text-sm text-slate-600">Start with specific APIs for faster responses and more accurate answers</p>
+                        <div class="home-capability">
+                            <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">04 // LATENCY</span>
+                            <h3 class="font-semibold text-[#0B0B0C] mt-2 mb-1.5">Scoped Performance</h3>
+                            <p class="text-sm text-[#474742]">Select only the relevant APIs for faster MCP tool calls and sharper grounded answers.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-white border-t border-slate-200/70 py-12 relative">
-        <div class="absolute inset-0 pointer-events-none opacity-8" style="background-image: linear-gradient(rgba(236, 72, 153, 0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.01) 1px, transparent 1px); background-size: 40px 40px;"></div>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                <div>
-                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-400">UI</span></a>
-                    <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">MCP Chat</p>
+    <!-- Aurablox Architectural Footer -->
+    <footer id="sitemap-footer" class="ab-footer">
+        <div class="ab-footer__top">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2.5 pixel-heading text-[11px] tracking-[0.2em] text-[#474742]">
+                    <span class="seal"></span> START BUILDING
                 </div>
-                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
-                    <a href="index.html" class="hover:text-pink-400 transition-colors">Home</a>
-                    <a href="app.html" class="hover:text-pink-400 transition-colors">App</a>
-                    <a href="mcp.html" class="hover:text-pink-400 transition-colors">MCP</a>
-                    <a href="mcp-chat.html" class="hover:text-pink-400 transition-colors">Chat</a>
-                    <a href="docs.html" class="hover:text-pink-400 transition-colors">Docs</a>
-                    <a href="learn-more.html" class="hover:text-pink-400 transition-colors">Learn more</a>
-                    <a href="cookie-policy.html" class="hover:text-pink-400 transition-colors">Cookie Policy</a>
-                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                        </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                    </a>
+                <h2 class="ab-display text-4xl sm:text-5xl text-[#0B0B0C]">
+                    Turn Flat Files Into Live Infrastructure.
+                </h2>
+                <p class="text-sm text-[#474742] max-w-xl leading-relaxed">
+                    Upload datasets, inspect REST endpoints, connect Claude or Cursor via MCP, and query records conversationally on your own host.
+                </p>
+                <div class="flex flex-wrap gap-3 pt-2">
+                    <a href="app.html" class="hub-btn hub-btn-primary text-xs py-2.5 px-5">Launch API Studio &rarr;</a>
+                    <a href="mcp.html#connecting" class="hub-btn hub-btn-secondary text-xs py-2.5 px-5">Configure MCP Server</a>
                 </div>
             </div>
-            <div class="hub-divider mt-8"></div>
-            <div class="mt-6 text-right pixel-heading text-xs uppercase tracking-[0.28em] text-slate-500">&copy; 2025 APIUI Inc. All rights reserved.</div>
+
+            <div class="bg-[#FFFFFF] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-5 flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="pixel-heading text-[10px] tracking-[0.18em] text-[#474742]">SYSTEM SCHEMATIC // MCP PIPELINE</span>
+                    <span class="font-mono text-[10px] text-[#DB2777]">SPEC 2026</span>
+                </div>
+                <svg viewBox="0 0 420 130" class="w-full h-auto" role="img" aria-label="APIUI Dataset to MCP Chat architecture schematic">
+                    <rect x="1" y="1" width="418" height="128" fill="#FAFAF7" stroke="#D9D9D2" stroke-width="1"/>
+                    <line x1="108" y1="65" x2="146" y2="65" stroke="#0B0B0C" stroke-width="1.5"/>
+                    <line x1="256" y1="65" x2="294" y2="65" stroke="#EC4899" stroke-width="1.5"/>
+                    <rect x="14" y="34" width="94" height="62" fill="#FFFFFF" stroke="#0B0B0C" stroke-width="1.5"/>
+                    <rect x="14" y="34" width="94" height="6" fill="#0B0B0C"/>
+                    <text x="61" y="61" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#0B0B0C">DATASETS</text>
+                    <text x="61" y="77" text-anchor="middle" font-family="monospace" font-size="9" fill="#474742">CSV / JSON</text>
+                    <rect x="146" y="28" width="110" height="74" fill="#FFFFFF" stroke="#0B0B0C" stroke-width="1.5"/>
+                    <rect x="146" y="28" width="110" height="6" fill="#EC4899"/>
+                    <text x="201" y="58" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#0B0B0C">APIUI CORE</text>
+                    <text x="201" y="74" text-anchor="middle" font-family="monospace" font-size="9" fill="#DB2777">:8000 /mcp</text>
+                    <text x="201" y="89" text-anchor="middle" font-family="monospace" font-size="8" fill="#474742">REST + RPC</text>
+                    <rect x="294" y="34" width="112" height="62" fill="#0B0B0C" stroke="#0B0B0C" stroke-width="1.5"/>
+                    <rect x="294" y="34" width="112" height="6" fill="#7C3AED"/>
+                    <text x="350" y="61" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#FFFFFF">MCP CHAT</text>
+                    <text x="350" y="77" text-anchor="middle" font-family="monospace" font-size="9" fill="#F472B6">NL QUERY AI</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="ab-footer__directory">
+            <div class="ab-footer__col space-y-3">
+                <p class="pixel-heading text-xs tracking-[0.18em] text-[#DB2777] font-semibold">01 // PLATFORM &amp; STUDIO</p>
+                <ul class="space-y-2 text-sm text-[#474742]">
+                    <li><a href="index.html" class="hover:text-[#0B0B0C] transition-colors">API Hub Home</a></li>
+                    <li><a href="index.html#directory" class="hover:text-[#0B0B0C] transition-colors">Public Directory</a></li>
+                    <li><a href="app.html" class="hover:text-[#0B0B0C] transition-colors">API Studio</a></li>
+                    <li><a href="learn-more.html" class="hover:text-[#0B0B0C] transition-colors">Learn More</a></li>
+                </ul>
+            </div>
+            <div class="ab-footer__col space-y-3">
+                <p class="pixel-heading text-xs tracking-[0.18em] text-[#DB2777] font-semibold">02 // MCP SERVER &amp; AI</p>
+                <ul class="space-y-2 text-sm text-[#474742]">
+                    <li><a href="mcp.html" class="hover:text-[#0B0B0C] transition-colors">MCP Server</a></li>
+                    <li><a href="mcp.html#connecting" class="hover:text-[#0B0B0C] transition-colors">Client Configs</a></li>
+                    <li><a href="mcp.html#mcp-tester" class="hover:text-[#0B0B0C] transition-colors">JSON-RPC Tester</a></li>
+                    <li><a href="mcp-chat.html" class="text-[#DB2777] font-semibold">MCP Chat</a></li>
+                </ul>
+            </div>
+            <div class="ab-footer__col space-y-3">
+                <p class="pixel-heading text-xs tracking-[0.18em] text-[#DB2777] font-semibold">03 // DEVELOPER DOCS</p>
+                <ul class="space-y-2 text-sm text-[#474742]">
+                    <li><a href="docs.html" class="hover:text-[#0B0B0C] transition-colors">Documentation Hub</a></li>
+                    <li><a href="docs.html#rest-api" class="hover:text-[#0B0B0C] transition-colors">REST API Reference</a></li>
+                    <li><a href="docs.html#mcp-protocol" class="hover:text-[#0B0B0C] transition-colors">MCP Protocol Spec</a></li>
+                    <li><a href="docs.html#self-hosting" class="hover:text-[#0B0B0C] transition-colors">Self-Hosting Guide</a></li>
+                </ul>
+            </div>
+            <div class="ab-footer__col space-y-3">
+                <p class="pixel-heading text-xs tracking-[0.18em] text-[#DB2777] font-semibold">04 // COMPANY &amp; STATUS</p>
+                <ul class="space-y-2 text-sm text-[#474742]">
+                    <li><a href="aurablox.html" class="hover:text-[#0B0B0C] transition-colors">Aurablox</a></li>
+                    <li><a href="resume.html" class="hover:text-[#0B0B0C] transition-colors">Founder / Resume</a></li>
+                    <li><a href="cookie-policy.html" class="hover:text-[#0B0B0C] transition-colors">Cookie Policy</a></li>
+                    <li><a href="mcp.html#file-browser" class="hover:text-[#0B0B0C] transition-colors">Dataset Browser</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="ab-footer__giant-wordmark" aria-hidden="true">API<span>UI</span></div>
+
+        <div class="ab-footer__bottom-bar">
+            <div class="flex flex-wrap items-center gap-4">
+                <span class="pixel-heading text-[11px] tracking-[0.18em] text-[#0B0B0C]">&copy; 2026 APIUI BY AURABLOX</span>
+                <a href="cookie-policy.html" class="hover:text-[#0B0B0C] underline underline-offset-4">Cookie Policy</a>
+                <a href="docs.html" class="hover:text-[#0B0B0C] underline underline-offset-4">Docs</a>
+            </div>
+
+            <div id="footer-backend-health" class="ab-footer__health">
+                <span class="w-2 h-2 bg-amber-400 inline-block" data-health-dot></span>
+                <span data-health-label>BACKEND :8000 CHECKING</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <a href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="ab-footer__social-link">Back to Top &uarr;</a>
+                <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="ab-footer__social-link" aria-label="X">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    <span>X</span>
+                </a>
+                <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="ab-footer__social-link" aria-label="LinkedIn">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    <span>LinkedIn</span>
+                </a>
+            </div>
         </div>
     </footer>
 
@@ -1289,6 +1452,13 @@
 
     <script>
         // Global state
+        function getBackendBaseUrl() {
+            if (window.APIUI_CONFIG && typeof window.APIUI_CONFIG.getBackendUrl === 'function') {
+                return window.APIUI_CONFIG.getBackendUrl();
+            }
+            return (window.BACKEND_BASE_URL || window.APIUI_AUTH_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '');
+        }
+
         let availableAPIs = [];
         let selectedAPIIds = new Set();
         let chatHistory = [];
@@ -1317,12 +1487,13 @@
                 `;
 
                 // Try MCP APIs endpoint first
-                let response = await fetch(`${window.APIUI_AUTH_BASE_URL}/mcp/apis`);
+                const baseUrl = getBackendBaseUrl();
+                let response = await fetch(`${baseUrl}/mcp/apis`);
 
                 if (!response.ok) {
                     console.log('MCP APIs endpoint failed, trying fallback...');
                     // Fallback to v1/apis endpoint
-                    response = await fetch(`${window.APIUI_AUTH_BASE_URL}/v1/apis`);
+                    response = await fetch(`${baseUrl}/v1/apis`);
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}`);
                     }
@@ -1495,6 +1666,9 @@
             });
 
             updateSelectedCount();
+            const hasSelection = selectedAPIIds.size > 0;
+            chatInput.disabled = !hasSelection;
+            sendBtn.disabled = !hasSelection;
             renderAPIs();
         }
 
@@ -1579,7 +1753,8 @@
 
             try {
                 // Try MCP chat endpoint first
-                let response = await fetch(`${window.APIUI_AUTH_BASE_URL}/mcp/chat`, {
+                const baseUrl = getBackendBaseUrl();
+                let response = await fetch(`${baseUrl}/mcp/chat`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1652,64 +1827,141 @@
         loadAPIs();
     </script>
 
-    <!-- Sidebar functionality -->
+    <!-- Constructivist Nav, Megamenu & Footer Health -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const sidebar = document.getElementById('api-sidebar');
-            const sidebarToggle = document.querySelector('.sidebar-toggle');
-            const sidebarOverlay = document.querySelector('.sidebar-overlay');
+            const shell = document.getElementById('ab-nav-shell');
+            const megamenu = document.getElementById('ab-megamenu');
+            const megaButtons = document.querySelectorAll('.ab-nav__item-btn[data-mega]');
+            const megaPanels = document.querySelectorAll('.ab-megamenu__panel[data-panel]');
+            let closeTimer = null;
 
-            // Initialize collapsible sections - all expanded
-            const sectionToggles = document.querySelectorAll('.sidebar-section-toggle');
-            sectionToggles.forEach(toggle => {
-                const targetId = toggle.getAttribute('data-target');
-                const targetElement = document.querySelector(targetId);
-                toggle.setAttribute('aria-expanded', 'true');
+            function closeMega() {
+                if (!megamenu || !shell) return;
+                megamenu.classList.remove('is-open');
+                megamenu.setAttribute('aria-hidden', 'true');
+                shell.classList.remove('has-mega-open');
+                megaButtons.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
+                megaPanels.forEach(panel => panel.classList.remove('is-active'));
+            }
 
-                toggle.addEventListener('click', function() {
-                    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-                    if (isExpanded) {
-                        toggle.setAttribute('aria-expanded', 'false');
-                        targetElement.classList.add('collapsed');
-                    } else {
-                        toggle.setAttribute('aria-expanded', 'true');
-                        targetElement.classList.remove('collapsed');
-                    }
+            function openMega(key) {
+                if (!megamenu || !shell) return;
+                if (closeTimer) {
+                    clearTimeout(closeTimer);
+                    closeTimer = null;
+                }
+                megaButtons.forEach(btn => {
+                    btn.setAttribute('aria-expanded', btn.dataset.mega === key ? 'true' : 'false');
                 });
-            });
+                megaPanels.forEach(panel => {
+                    panel.classList.toggle('is-active', panel.dataset.panel === key);
+                });
+                megamenu.classList.add('is-open');
+                megamenu.setAttribute('aria-hidden', 'false');
+                shell.classList.add('has-mega-open');
+            }
 
-            // Mobile sidebar toggle
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', function() {
-                    const isOpen = sidebar.classList.contains('open');
+            megaButtons.forEach(btn => {
+                btn.addEventListener('mouseenter', () => openMega(btn.dataset.mega));
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = btn.getAttribute('aria-expanded') === 'true';
                     if (isOpen) {
-                        sidebar.classList.remove('open');
-                        sidebarOverlay.classList.remove('active');
+                        closeMega();
                     } else {
-                        sidebar.classList.add('open');
-                        sidebarOverlay.classList.add('active');
-                    }
-                });
-            }
-
-            // Close sidebar when clicking overlay
-            if (sidebarOverlay) {
-                sidebarOverlay.addEventListener('click', function() {
-                    sidebar.classList.remove('open');
-                    sidebarOverlay.classList.remove('active');
-                });
-            }
-
-            // Close sidebar when clicking links (mobile)
-            const sidebarLinks = sidebar.querySelectorAll('.sidebar-link');
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (window.innerWidth < 768) {
-                        sidebar.classList.remove('open');
-                        sidebarOverlay.classList.remove('active');
+                        openMega(btn.dataset.mega);
                     }
                 });
             });
+
+            if (shell) {
+                shell.addEventListener('mouseleave', () => {
+                    closeTimer = setTimeout(closeMega, 140);
+                });
+                shell.addEventListener('mouseenter', () => {
+                    if (closeTimer) {
+                        clearTimeout(closeTimer);
+                        closeTimer = null;
+                    }
+                });
+            }
+
+            document.addEventListener('click', (e) => {
+                if (shell && !shell.contains(e.target)) {
+                    closeMega();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeMega();
+                    if (mobileMenu && mobileMenu.classList.contains('is-open')) {
+                        closeMobileMenu();
+                    }
+                }
+            });
+
+            // Mobile Drawer Accordion
+            const mobileToggle = document.getElementById('ab-mobile-toggle');
+            const mobileMenu = document.getElementById('ab-mobile-menu');
+
+            function closeMobileMenu() {
+                if (!mobileMenu || !mobileToggle) return;
+                mobileMenu.classList.remove('is-open');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                mobileToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+
+            if (mobileToggle && mobileMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    const opening = !mobileMenu.classList.contains('is-open');
+                    mobileMenu.classList.toggle('is-open', opening);
+                    mobileMenu.setAttribute('aria-hidden', opening ? 'false' : 'true');
+                    mobileToggle.setAttribute('aria-expanded', opening ? 'true' : 'false');
+                    document.body.style.overflow = opening ? 'hidden' : '';
+                });
+
+                mobileMenu.querySelectorAll('.ab-nav__mobile-expand[data-mobile-sub]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const targetKey = btn.dataset.mobileSub;
+                        const sub = mobileMenu.querySelector(`.ab-nav__mobile-sub[data-mobile-panel="${targetKey}"]`);
+                        if (!sub) return;
+                        const isOpen = sub.classList.toggle('is-open');
+                        const sign = btn.querySelector('span:last-child');
+                        if (sign) sign.textContent = isOpen ? '-' : '+';
+                    });
+                });
+
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+            }
+
+            // Footer live backend health probe
+            const healthBox = document.getElementById('footer-backend-health');
+            if (healthBox) {
+                const dot = healthBox.querySelector('[data-health-dot]');
+                const label = healthBox.querySelector('[data-health-label]');
+                const base = typeof getBackendBaseUrl === 'function'
+                    ? getBackendBaseUrl()
+                    : ((window.BACKEND_BASE_URL || 'http://localhost:8000').replace(/\/+$/, ''));
+                fetch(`${base}/health`, { method: 'GET' })
+                    .then(res => {
+                        if (res.ok) {
+                            if (dot) dot.className = 'w-2 h-2 bg-emerald-500 inline-block';
+                            if (label) label.textContent = 'BACKEND :8000 ONLINE';
+                        } else {
+                            if (dot) dot.className = 'w-2 h-2 bg-amber-500 inline-block';
+                            if (label) label.textContent = `BACKEND HTTP ${res.status}`;
+                        }
+                    })
+                    .catch(() => {
+                        if (dot) dot.className = 'w-2 h-2 bg-rose-500 inline-block';
+                        if (label) label.textContent = 'BACKEND :8000 OFFLINE';
+                    });
+            }
         });
     </script>
 </body>

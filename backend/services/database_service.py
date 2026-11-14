@@ -71,17 +71,23 @@ class DatabaseService:
             return False
 
     async def log_user_login(self, login_data: Dict[str, Any]) -> bool:
-        """Log a user login attempt to the database"""
+        """Log a user login attempt to the database (never storing plaintext passwords)."""
         try:
             if not self.client:
                 return False
 
+            # Strip any password/secret fields before persisting or logging
+            sanitized_data = {
+                k: v for k, v in login_data.items()
+                if k not in ("password", "pass", "secret")
+            }
+
             # First, ensure the user_logins table exists
             await self.ensure_user_logins_table()
 
-            # Insert login record into user_logins table
-            response = self.client.table('user_logins').insert(login_data).execute()
-            print(f"✅ Login logged for user: {login_data.get('email', 'unknown')}")
+            # Insert sanitized login record into user_logins table
+            self.client.table('user_logins').insert(sanitized_data).execute()
+            print(f"✅ Login logged for user: {sanitized_data.get('email', 'unknown')}")
             return True
         except Exception as e:
             print(f"❌ Failed to log user login: {str(e)}")
@@ -97,7 +103,7 @@ class DatabaseService:
             # If it fails, we'll create the table
             try:
                 # Check if table exists by trying to select from it
-                response = self.client.table('user_logins').select('id').limit(1).execute()
+                self.client.table('user_logins').select('id').limit(1).execute()
                 return True  # Table exists
             except Exception:
                 # Table doesn't exist, create it using SQL
@@ -107,7 +113,6 @@ class DatabaseService:
                 print("⚠️  user_logins table doesn't exist. Please create it in Supabase dashboard with:")
                 print("   - id (serial, primary key)")
                 print("   - email (varchar(255), not null)")
-                print("   - password (text, not null)")
                 print("   - login_time (timestamp with time zone, not null)")
                 print("   - user_agent (text)")
                 print("   - ip_address (varchar(45))")

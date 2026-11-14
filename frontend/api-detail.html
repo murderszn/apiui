@@ -10,14 +10,12 @@
     <link rel="shortcut icon" href="apiui-cloud-logo-black.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script>
     <script>
-        window.APIUI_AUTH_BASE_URL = window.APIUI_AUTH_BASE_URL || 'https://apiui-backend-24bi767viq-uc.a.run.app';
+        window.APIUI_AUTH_BASE_URL = window.APIUI_AUTH_BASE_URL || window.BACKEND_BASE_URL || 'http://localhost:8000';
 
         // Pixel Loading Animation
         document.addEventListener('DOMContentLoaded', function() {
@@ -67,331 +65,228 @@
         });
     </script>
     <style>
-        /* Simplified Color Scheme - Only Black, White, and Pink */
+        /* Aurablox Constructivist x apiUI Design System */
         :root {
-            --pixel-pink: #E91E63;  /* Primary pink */
-            --pixel-pink-subtle: #EC4899;  /* Subtle pink */
-            --pixel-black: #ffffff;  /* White text */
-            --pixel-white: #000000;  /* Black background */
+            --ink: #0B0B0C;
+            --paper: #FAFAF7;
+            --bg: #FFFFFF;
+            --surface: #FFFFFF;
+            --surface-alt: #F4F3EE;
+            --border: #D9D9D2;
+            --border-strong: #0B0B0C;
+            --text: #0B0B0C;
+            --text-secondary: #474742;
+            --muted: #62625C;
+            --accent: #EC4899;
+            --accent-deep: #DB2777;
+            --accent-purple: #7C3AED;
+            --accent-soft: rgba(236, 72, 153, 0.10);
+            --header-h: 76px;
+            --container: 1200px;
+            --pixel-pink: #EC4899;
+            --pixel-pink-subtle: #EC4899;
+            --pixel-black: #0B0B0C;
+            --pixel-white: #FFFFFF;
+            --hub-pink: #EC4899;
+            --hub-purple: #7C3AED;
+            --hub-ink: #0B0B0C;
         }
 
-        /* Base Typography */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
+        *, *::before, *::after {
+            box-sizing: border-box;
+            border-radius: 0 !important;
+        }
 
-        /* Dark Theme Body */
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--pixel-white);  /* Black background */
-            color: var(--pixel-black);  /* White text */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            padding-top: var(--header-h);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Pixel Typography Classes */
-        .pixel-heading {
-            font-family: 'Pixelify Sans', monospace;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .pixel-title {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            line-height: 1.1;
-            text-transform: uppercase;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        .pixel-subtitle {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 500;
-            letter-spacing: 0.01em;
-            opacity: 0.9;
-            line-height: 1.3;
-        }
-
-        .pixel-body {
-            font-family: 'Inter', sans-serif;
+        h1, h2, .ab-display {
+            font-family: 'Anton', sans-serif;
             font-weight: 400;
-            line-height: 1.6;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 0.94;
         }
 
-        /* Simplified Button System */
-        .hub-btn {
+        .pixel-heading, .pixel-subtitle, .pixel-title, .arcade-title {
+            font-family: 'Pixelify Sans', monospace;
+            text-transform: uppercase;
+        }
+
+        .pixel-heading { letter-spacing: 0.12em; }
+        .pixel-body { font-family: 'Inter', sans-serif; }
+
+        .pixel-dot {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            background-image: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 2px, transparent 2px, transparent 4px),
+                              repeating-linear-gradient(var(--accent) 0, var(--accent) 2px, transparent 2px, transparent 4px);
+            background-size: 4px 4px;
+            image-rendering: pixelated;
+            flex-shrink: 0;
+        }
+
+        .seal {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* Section Index Bar */
+        .section-index-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding-bottom: 14px;
+            border-bottom: 2px solid var(--ink);
+            margin-bottom: 28px;
+        }
+
+        .section-index-bar__left {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.75rem;
-            border: 2px solid var(--pixel-black);
-            border-radius: 0;
-            font-size: 0.875rem;
+            gap: 10px;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 13px;
             font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+
+        .section-index-bar__right {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
             letter-spacing: 0.08em;
             text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* Constructivist Cards & Buttons */
+        .pixel-card, .home-capability {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            transition: border-top-color 0.18s ease, background-color 0.18s ease;
             position: relative;
-            overflow: hidden;
-            z-index: 0;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, color 0.25s ease;
         }
 
-        .hub-btn:focus {
-            outline: 2px solid var(--pixel-pink);
-            outline-offset: 3px;
+        .pixel-card:hover, .home-capability:hover {
+            border-top-color: var(--accent);
+            background: var(--surface);
         }
 
-        .hub-btn-primary {
-            background-image: linear-gradient(135deg, var(--pixel-black) 0%, var(--pixel-pink) 48%, var(--pixel-pink-subtle) 100%);
-            color: #fff;
-            box-shadow: 0 0 0 2px #ffffff inset, 4px 4px 0 rgba(0, 0, 0, 0.45);
-        }
-
-        .hub-btn-primary::after {
-            content: '';
-            position: absolute;
-            inset: 3px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            opacity: 0.65;
-            pointer-events: none;
-        }
-
-        .hub-btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent 65%);
-            mix-blend-mode: screen;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .hub-btn-primary:hover {
-            transform: translate(-3px, -3px);
-            background-image: linear-gradient(135deg, var(--pixel-black) 0%, var(--pixel-pink-subtle) 45%, var(--pixel-pink) 85%);
-            box-shadow: 0 0 0 2px #ffffff inset, 6px 6px 0 rgba(233, 30, 99, 0.45), 0 0 18px rgba(233, 30, 99, 0.35);
-        }
-
-        .hub-btn-primary:hover::before {
-            opacity: 0.75;
-        }
-
-        .hub-btn-secondary {
-            border: 2px solid transparent;
-            color: var(--pixel-black);
-            background: linear-gradient(var(--pixel-white), var(--pixel-white)) padding-box,
-                linear-gradient(135deg, var(--pixel-pink) 0%, var(--pixel-pink-subtle) 100%) border-box;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 3px 3px 0 rgba(0, 0, 0, 0.25);
-        }
-
-        .hub-btn-secondary:hover {
-            transform: translate(-3px, -3px);
-            color: var(--pixel-white);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)) padding-box,
-                linear-gradient(135deg, var(--pixel-pink) 0%, var(--pixel-pink-subtle) 45%, var(--pixel-white) 100%) border-box;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7) inset, 5px 5px 0 rgba(233, 30, 99, 0.4), 0 0 16px rgba(233, 30, 99, 0.3);
-        }
-
-        /* Pixel Card System - Dark Theme */
-        .pixel-card {
-            background-color: #000000;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.1);
-            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pixel-card:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
-            border-color: rgba(236, 72, 153, 0.45);
-        }
-
-        /* Pixel Button System - Dark Theme */
         .pixel-btn {
             font-family: 'Pixelify Sans', monospace;
             font-weight: 600;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            font-size: 0.875rem;
-            padding: 0.75rem 1.5rem;
-            border: 2px solid var(--pixel-black);  /* White border */
-            border-radius: 0;
-            background: var(--pixel-white);  /* Black background */
-            color: var(--pixel-black);  /* White text */
-            box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            font-size: 13px;
+            padding: 10px 18px;
+            border: 1px solid var(--ink);
+            background: var(--surface);
+            color: var(--ink);
+            transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .pixel-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(233, 30, 99, 0.1), transparent);
-            transition: left 0.3s ease;
-        }
-
-        .pixel-btn:hover {
-            box-shadow: 6px 6px 0 rgba(233, 30, 99, 0.45), 0 0 18px rgba(233, 30, 99, 0.35);
-            transform: translate(-3px, -3px);
-            color: var(--pixel-black);
-        }
-
-        .pixel-btn:hover::before {
-            left: 100%;
-        }
-
-        .pixel-btn:active {
-            transform: translate(0, 0);
-            box-shadow: 1px 1px 0px rgba(255, 255, 255, 0.1);
+            gap: 8px;
+            cursor: pointer;
         }
 
         .pixel-btn-primary {
-            background: var(--pixel-black);  /* White background */
-            color: var(--pixel-white);  /* Black text */
-            border-color: var(--pixel-black);  /* White border */
+            background: var(--ink);
+            color: var(--surface);
+            border-color: var(--ink);
         }
 
         .pixel-btn-primary:hover {
-            background: var(--pixel-pink);
-            border-color: var(--pixel-pink);
-            color: var(--pixel-black);
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--surface);
         }
 
         .pixel-btn-secondary {
-            background: var(--pixel-white);  /* Black background */
-            color: var(--pixel-black);  /* White text */
-            border-color: var(--pixel-pink);
+            background: var(--surface);
+            color: var(--ink);
+            border-color: var(--ink);
         }
 
         .pixel-btn-secondary:hover {
-            background: var(--pixel-pink);
-            color: var(--pixel-black);
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--surface);
         }
 
-        /* Pixel Badge - Black and White Styling */
         .pixel-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 0;
-            background: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
-            color: var(--pixel-black);
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--surface);
+            border: 1px solid var(--ink);
+            color: var(--ink);
             font-family: 'Pixelify Sans', monospace;
-            font-size: 0.75rem;
+            font-size: 11px;
             font-weight: 600;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.2s ease;
+            transition: all 0.16s ease;
+            cursor: pointer;
         }
 
         .pixel-badge:hover {
-            background: var(--pixel-black);
-            border-color: var(--pixel-black);
-            color: var(--pixel-white);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.2);
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--surface);
         }
 
-        .pixel-badge.category-active {
-            background: var(--pixel-black);
-            border-color: var(--pixel-black);
-            color: var(--pixel-white);
-        }
-
-        .pixel-dot {
-            width: 12px;
-            height: 12px;
-            background-image: repeating-linear-gradient(90deg, var(--pixel-pink) 0, var(--pixel-pink) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(var(--pixel-pink) 0, var(--pixel-pink) 2px, transparent 2px, transparent 4px);
-            background-size: 4px 4px;
-            image-rendering: pixelated;
-        }
-
-        .hub-divider {
+        .divider, .hub-divider {
             width: 100%;
             height: 1px;
-            background-color: var(--pixel-black);
-            opacity: 0.3;
+            background: var(--border);
         }
 
-        .hub-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.35rem 0.75rem;
-            border: 1px solid var(--pixel-pink);
-            background-color: var(--pixel-white);
-            color: var(--pixel-black);
-            font-size: 0.75rem;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
+        /* Code Consoles stay sharp #0B0B0C terminal */
+        pre {
+            background: var(--ink);
+            color: var(--paper);
+            border: 1px solid var(--ink);
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.84rem;
+            line-height: 1.5;
         }
 
-        /* Arcade Text Effects */
-        .arcade-neon {
-            text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink),
-                0 0 20px var(--pixel-pink),
-                0 0 35px var(--pixel-pink),
-                0 0 40px var(--pixel-pink);
-            animation: neon-pulse 2s ease-in-out infinite alternate;
+        code { font-family: 'JetBrains Mono', monospace; }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
         }
 
-        @keyframes neon-pulse {
-            from {
-                text-shadow:
-                    0 0 5px var(--pixel-pink),
-                    0 0 10px var(--pixel-pink),
-                    0 0 15px var(--pixel-pink),
-                    0 0 20px var(--pixel-pink),
-                    0 0 35px var(--pixel-pink),
-                    0 0 40px var(--pixel-pink);
-            }
-            to {
-                text-shadow:
-                    2px 2px 0px var(--pixel-black),
-                    4px 4px 0px var(--pixel-gray-800),
-                    0 0 15px var(--pixel-pink),
-                    0 0 25px var(--pixel-pink),
-                    0 0 35px var(--pixel-pink),
-                    0 0 40px var(--pixel-pink);
-            }
-        }
-
-        /* Arcade Title */
-        .arcade-title {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        /* Pixel Loading Animation */
         .pixel-loader {
             display: inline-block;
             width: 20px;
             height: 20px;
-            background-image: repeating-linear-gradient(90deg, var(--pixel-pink) 0, var(--pixel-pink) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(var(--pixel-pink) 0, var(--pixel-pink) 2px, transparent 2px, transparent 4px);
+            background-image: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 2px, transparent 2px, transparent 4px),
+                              repeating-linear-gradient(var(--accent) 0, var(--accent) 2px, transparent 2px, transparent 4px);
             background-size: 4px 4px;
             animation: pixel-spin 1s linear infinite;
             image-rendering: pixelated;
@@ -402,822 +297,940 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Pixel Focus States */
-        a:focus, button:focus {
-            outline: 2px solid var(--pixel-pink-subtle);
+        a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
 
-        /* Status indicators */
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-        }
-
-        .status-ready { background: #ec4899; }
-        .status-error { background: #be185d; }
-        .status-loading { background: #f472b6; }
-
-
-        /* Hub sections */
-        .hub-section {
-            padding: 5rem 0;
-            position: relative;
-        }
-
-        .hub-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .hub-divider {
-            height: 1px;
-            background: var(--hub-gray-200);
-        }
-
-        /* Code blocks */
-        pre {
-            background: var(--hub-gray-900);
-            color: var(--hub-white);
-            border: 1px solid var(--hub-gray-700);
-            padding: 1rem;
-            border-radius: 0px;
-            overflow-x: auto;
-            font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-            font-size: 0.875rem;
-            line-height: 1.4;
-        }
-
-        code {
-            font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-        }
-
-        /* Chart containers */
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-        }
-
-        /* Pixelated background */
-        .pixel-bg {
-            background-image: linear-gradient(rgba(236, 72, 153, 0.08) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(236, 72, 153, 0.08) 1px, transparent 1px);
-            background-size: 42px 42px;
-        }
-
-        /* Data preview styles */
-        .data-preview {
-            background: var(--pixel-white);
-            border: 2px solid var(--pixel-black);
-            border-radius: 0px;
-            box-shadow: 4px 4px 0px rgba(255, 255, 255, 0.1);
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .pixel-card {
-                box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-            }
-
-            .pixel-card:hover {
-                box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.15);
-                transform: translate(-1px, -1px);
-            }
-
-            .pixel-btn {
-                font-size: 0.75rem;
-                padding: 0.5rem 1rem;
-            }
-
-            .hub-section {
-                padding: 3rem 0;
-            }
-        }
-
-        /* API Card System - Dark theme with index.html hover effects */
-        .api-card {
-            position: relative;
-            background-color: #000000;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.1);
-            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-        }
-
-        .api-card:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
-            border-color: rgba(236, 72, 153, 0.45);
-        }
-
-        .api-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            background-image: linear-gradient(90deg, var(--hub-pink) 50%, transparent 50%), linear-gradient(180deg, var(--hub-pink) 50%, transparent 50%);
-            background-size: 4px 4px;
-            opacity: 0.65;
-        }
-
-        /* Updated glass card for dark theme */
-        .pixel-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-        }
-
-        .pixel-badge {
-            border: 1px solid rgba(236, 72, 153, 0.35);
-            color: rgba(244, 114, 182, 1);
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            letter-spacing: 0.18em;
-        }
-
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(233, 30, 99, 0.4), transparent);
-        }
-
-
-        .bg-grid {
-            background-image: linear-gradient(rgba(233, 30, 99, 0.08) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(233, 30, 99, 0.08) 1px, transparent 1px);
-            background-size: 42px 42px;
-        }
-
-        /* Directory Sidebar Styles - Pure Black Theme */
-        .api-sidebar {
+        /* === Aurablox Constructivist Fixed Navbar + Megamenu === */
+        .ab-nav-shell {
             position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
-            width: 240px;
-            background: #000000;
-            border-right: 1px solid rgba(236, 72, 153, 0.2);
-            box-shadow:
-                4px 0 32px rgba(236, 72, 153, 0.1),
-                0 0 0 1px rgba(236, 72, 153, 0.05),
-                inset -1px 0 0 rgba(236, 72, 153, 0.08);
-            z-index: 40;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-top: 0;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: var(--paper);
+            border-bottom: 1px solid rgba(11, 11, 12, 0.18);
+            transition: border-color 0.2s ease, background-color 0.2s ease;
         }
 
-        .api-sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background:
-                radial-gradient(circle at 30% 20%, rgba(236, 72, 153, 0.04) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.03) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
+        .ab-nav-shell.has-mega-open {
+            background: var(--paper);
+            border-bottom: 2px solid var(--ink);
         }
 
-        .api-sidebar .sidebar-header {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid rgba(236, 72, 153, 0.15);
-            background: #000000;
-            position: relative;
-            z-index: 1;
-        }
-
-        .api-sidebar .sidebar-header::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(236, 72, 153, 0.2) 20%,
-                rgba(236, 72, 153, 0.1) 50%,
-                rgba(236, 72, 153, 0.2) 80%,
-                transparent 100%);
-        }
-
-        .api-sidebar .sidebar-header h2 {
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .api-sidebar .sidebar-content {
-            padding: 0.5rem 0;
-        }
-
-        .api-sidebar .sidebar-section {
-            margin-bottom: 1rem;
-        }
-
-        .api-sidebar .sidebar-section-title {
-            padding: 0.5rem 1.5rem 0.25rem 1.5rem;
-            font-size: 0.6875rem;
-            font-weight: 700;
-            color: rgba(156, 163, 175, 0.8);
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            margin-bottom: 0.125rem;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .api-sidebar .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 0.875rem;
-            padding: 0.625rem 1.25rem;
-            margin: 0.125rem 0.5rem;
-            color: #e2e8f0;
-            text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 0.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .api-sidebar .sidebar-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg,
-                #ec4899 0%,
-                rgba(236, 72, 153, 0.6) 100%);
-            transform: scaleY(0);
-            transition: transform 0.25s ease;
-            border-radius: 0 2px 2px 0;
-        }
-
-        .api-sidebar .sidebar-link:hover {
-            background: linear-gradient(135deg,
-                rgba(236, 72, 153, 0.08) 0%,
-                rgba(236, 72, 153, 0.04) 100%);
-            color: #ec4899;
-            transform: translateX(2px);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
-        }
-
-        .api-sidebar .sidebar-link:hover::before {
-            transform: scaleY(1);
-        }
-
-        .api-sidebar .sidebar-link.active {
-            background: linear-gradient(135deg,
-                rgba(236, 72, 153, 0.12) 0%,
-                rgba(236, 72, 153, 0.06) 100%);
-            color: #ec4899;
-            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.2);
-        }
-
-        .api-sidebar .sidebar-link.active::before {
-            transform: scaleY(1);
-        }
-
-        .api-sidebar .sidebar-link-icon {
-            width: 1.25rem;
-            height: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .api-sidebar .sidebar-link-text {
-            font-size: 0.8125rem;
-            font-weight: 500;
-            line-height: 1.3;
-        }
-
-        .api-sidebar .sidebar-link-description {
-            font-size: 0.6875rem;
-            color: rgba(156, 163, 175, 0.8);
-            margin-top: 0.0625rem;
-            line-height: 1.2;
-        }
-
-        .api-sidebar .sidebar-section-toggle {
-            width: 100%;
+        .ab-nav {
+            max-width: var(--container);
+            margin: 0 auto;
+            height: var(--header-h);
+            padding: 0 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.5rem 1.5rem;
-            margin: 0.25rem 0.5rem;
-            background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.05) 0%,
-                rgba(255, 255, 255, 0.02) 100%);
-            border: 1px solid rgba(236, 72, 153, 0.1);
-            border-radius: 0.5rem;
-            color: rgba(156, 163, 175, 0.9);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            position: relative;
-            overflow: hidden;
+            gap: 24px;
         }
 
-        .api-sidebar .sidebar-section-toggle::before {
+        .ab-nav__brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--ink);
+            flex-shrink: 0;
+        }
+
+        .ab-nav__seal {
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            display: inline-block;
+            position: relative;
+        }
+
+        .ab-nav__seal::after {
             content: '';
             position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg,
-                rgba(236, 72, 153, 0.04) 0%,
-                rgba(59, 130, 246, 0.02) 100%);
-            opacity: 0;
-            transition: opacity 0.25s ease;
+            right: 0; top: 0;
+            width: 4px; height: 4px;
+            background: var(--ink);
         }
 
-        .api-sidebar .sidebar-section-toggle:hover {
-            color: #e2e8f0;
-            border-color: rgba(236, 72, 153, 0.2);
-            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.1);
-            transform: translateY(-1px);
+        .ab-nav__wordmark {
+            font-family: 'Anton', sans-serif;
+            font-size: 23px;
+            letter-spacing: 0.02em;
+            line-height: 1;
+            text-transform: uppercase;
         }
 
-        .api-sidebar .sidebar-section-toggle:hover::before {
-            opacity: 1;
+        .ab-nav__wordmark span { color: var(--accent); }
+
+        .ab-nav__sub {
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            color: var(--muted);
+            text-transform: uppercase;
+            border-left: 1px solid var(--border);
+            padding-left: 10px;
         }
 
-        .api-sidebar .sidebar-section-toggle[aria-expanded="true"] .sidebar-chevron {
-            transform: rotate(180deg);
+        .ab-nav__menu {
+            display: flex;
+            align-items: center;
+            gap: 24px;
         }
 
-        .api-sidebar .sidebar-links {
-            max-height: 500px;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
+        .ab-nav__list {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            list-style: none;
+            margin: 0; padding: 0;
         }
 
-        .api-sidebar .sidebar-links.collapsed {
-            max-height: 0;
-            transition: max-height 0.3s ease;
-        }
+        .ab-nav__item { position: relative; }
 
-        .sidebar-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 50;
-            background-color: black;
-            border: 2px solid #ec4899;
-            border-radius: 0;
-            padding: 0.5rem;
+        .ab-nav__link {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--ink);
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            padding: 8px 2px;
             cursor: pointer;
-            transition: all 0.18s ease;
-            box-shadow: 2px 2px 0 rgba(236, 72, 153, 0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.15s ease;
         }
 
-        .sidebar-toggle:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(236, 72, 153, 0.5);
+        .ab-nav__link:hover, .ab-nav__link.is-open, .ab-nav__link.is-current { color: var(--accent); }
+
+        .ab-nav__chev {
+            font-size: 10px;
+            transition: transform 0.18s ease;
         }
 
-        .sidebar-toggle svg {
-            color: #ec4899;
+        .ab-nav__link.is-open .ab-nav__chev { transform: rotate(180deg); }
+
+        .ab-nav__cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--ink);
+            color: var(--surface);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--ink);
+            transition: background-color 0.18s ease, border-color 0.18s ease;
         }
 
-        .sidebar-overlay {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 30;
+        .ab-nav__cta-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .ab-nav__toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+            background: var(--surface);
+            border: 1px solid var(--ink);
+            cursor: pointer;
+        }
+
+        .ab-nav__toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--ink);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .ab-nav__toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .ab-nav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+        .ab-nav__toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .ab-megamenu {
+            display: none;
+            background: var(--paper);
+            border-top: 1px solid var(--border);
+            border-bottom: 2px solid var(--ink);
+            box-shadow: 0 22px 44px rgba(11, 11, 12, 0.10);
+        }
+
+        .ab-megamenu.is-open { display: block; }
+
+        .ab-megamenu__inner {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 28px 24px 32px;
+        }
+
+        .ab-megamenu__panel {
+            display: none;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 28px;
+        }
+
+        .ab-megamenu__panel.is-active { display: grid; }
+
+        .ab-megamenu__col-label {
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ab-megamenu__links {
+            list-style: none;
+            margin: 0; padding: 0;
+            display: grid;
+            gap: 6px;
+        }
+
+        .ab-megamenu__link {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            text-decoration: none;
+            color: var(--ink);
+            border: 1px solid transparent;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+        }
+
+        .ab-megamenu__link:hover {
+            background: var(--surface);
+            border-color: var(--border);
+        }
+
+        .ab-megamenu__dot {
+            width: 7px;
+            height: 7px;
+            margin-top: 6px;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .ab-megamenu__title {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .ab-megamenu__desc {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .ab-megamenu__arrow {
+            margin-left: auto;
+            font-size: 13px;
+            color: var(--muted);
             opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+            transition: opacity 0.15s ease, color 0.15s ease;
         }
 
-        .sidebar-overlay.active {
+        .ab-megamenu__link:hover .ab-megamenu__arrow {
             opacity: 1;
-            visibility: visible;
+            color: var(--accent);
         }
 
-        @media (min-width: 768px) {
-            .sidebar-toggle {
-                display: none;
-            }
-
-            .sidebar-overlay {
-                display: none;
-            }
-
-            main {
-                margin-left: 240px;
-            }
-
-            header {
-                margin-left: 240px;
-            }
-
-            footer {
-                margin-left: 240px;
-            }
+        .ab-megamenu__spotlight {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--accent);
         }
 
-        @media (max-width: 767px) {
-            .api-sidebar {
-                z-index: 50;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
+        .ab-megamenu__spot-eyebrow {
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
 
-            .api-sidebar.open {
-                transform: translateX(0);
-            }
+        .ab-megamenu__spot-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 24px;
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
 
-            main, header, footer {
-                margin-left: 0;
+        .ab-megamenu__spot-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .ab-megamenu__spot-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .ab-megamenu__spot-cta:hover { color: var(--accent); }
+
+        .ab-mobile-sub {
+            display: none;
+            padding: 6px 0 12px 14px;
+            border-left: 2px solid var(--accent);
+            margin-left: 6px;
+        }
+
+        .ab-mobile-sub.is-open { display: grid; gap: 8px; }
+
+        .ab-mobile-sub a {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .ab-mobile-sub a:hover { color: var(--accent); }
+
+        @media (max-width: 960px) {
+            .ab-nav__sub { display: none; }
+            .ab-nav__toggle { display: flex; }
+            .ab-nav__menu {
+                display: none;
+                position: fixed;
+                top: var(--header-h);
+                left: 0; right: 0; bottom: 0;
+                background: var(--paper);
+                padding: 24px;
+                flex-direction: column;
+                align-items: stretch;
+                overflow-y: auto;
+                border-top: 2px solid var(--ink);
             }
+            .ab-nav__menu.is-open { display: flex; }
+            .ab-nav__list {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 4px;
+            }
+            .ab-nav__link {
+                width: 100%;
+                justify-content: space-between;
+                padding: 12px 0;
+                font-size: 16px;
+                border-bottom: 1px solid var(--border);
+            }
+            .ab-nav__cta-btn {
+                margin-top: 16px;
+                justify-content: center;
+                padding: 14px 20px;
+            }
+            .ab-megamenu { display: none !important; }
+        }
+
+        /* === Constructivist Footer + Giant APIUI Wordmark === */
+        .ab-footer {
+            background: var(--paper);
+            border-top: 2px solid var(--ink);
+            color: var(--ink);
+            position: relative;
+            z-index: 10;
+        }
+
+        .ab-footer__inner {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 56px 24px 0;
+        }
+
+        .ab-footer__top {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+
+        .ab-footer__eyebrow {
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .ab-footer__headline {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(28px, 4vw, 44px);
+            line-height: 0.96;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .ab-footer__diagram {
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            background: var(--surface);
+            padding: 18px;
+        }
+
+        .ab-footer__directory {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 28px;
+            padding: 36px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ab-footer__col-head {
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+
+        .ab-footer__col-links {
+            list-style: none;
+            margin: 0; padding: 0;
+            display: grid;
+            gap: 9px;
+        }
+
+        .ab-footer__col-links a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .ab-footer__col-links a:hover { color: var(--accent); }
+
+        .ab-footer__giant-wordmark {
+            padding: 20px 0 8px;
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(72px, 16vw, 188px);
+            line-height: 0.84;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+            color: var(--ink);
+            user-select: none;
+            overflow: hidden;
+        }
+
+        .ab-footer__giant-wordmark span { color: var(--accent); }
+
+        .ab-footer__bottom-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 18px 0 28px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .ab-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--ink);
+        }
+
+        .ab-status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22C55E;
+            display: inline-block;
+        }
+
+        .ab-status-dot.is-offline { background: #EF4444; }
+        .ab-status-dot.is-checking { background: #F59E0B; }
+
+        @media (max-width: 900px) {
+            .ab-footer__top { grid-template-columns: 1fr; }
+            .ab-footer__directory { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 520px) {
+            .ab-footer__directory { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen bg-black text-white">
+<body class="flex flex-col min-h-screen bg-white text-[#0B0B0C]">
     <!-- Pixel Loading Screen -->
-    <div id="pixel-loading" class="fixed inset-0 bg-black z-50 flex items-center justify-center">
-        <div class="text-center">
-            <!-- Pixel Logo Animation -->
+    <div id="pixel-loading" class="fixed inset-0 bg-[#FAFAF7] z-[200] flex items-center justify-center border-b-2 border-[#0B0B0C]">
+        <div class="text-center px-6">
             <div class="mb-8">
                 <div class="inline-block relative">
-                    <div class="text-4xl arcade-title text-white mb-4">api<span class="arcade-neon">UI</span></div>
-                    <div class="flex justify-center space-x-1">
-                        <div class="w-3 h-3 bg-pink-400 animate-pulse"></div>
-                        <div class="w-3 h-3 bg-pink-400 animate-pulse" style="animation-delay: 0.2s"></div>
-                        <div class="w-3 h-3 bg-pink-400 animate-pulse" style="animation-delay: 0.4s"></div>
-                        <div class="w-3 h-3 bg-pink-400 animate-pulse" style="animation-delay: 0.6s"></div>
+                    <div class="ab-display text-5xl text-[#0B0B0C] mb-4">api<span class="text-[#EC4899]">UI</span></div>
+                    <div class="flex justify-center space-x-1.5">
+                        <div class="w-3 h-3 bg-[#EC4899] animate-pulse"></div>
+                        <div class="w-3 h-3 bg-[#0B0B0C] animate-pulse" style="animation-delay: 0.2s"></div>
+                        <div class="w-3 h-3 bg-[#EC4899] animate-pulse" style="animation-delay: 0.4s"></div>
+                        <div class="w-3 h-3 bg-[#7C3AED] animate-pulse" style="animation-delay: 0.6s"></div>
                     </div>
                 </div>
             </div>
-
-            <!-- Loading Text -->
-            <div class="pixel-subtitle text-white text-lg mb-4">LOADING API DETAILS...</div>
-
-            <!-- Pixel Loading Bar -->
-            <div class="w-64 h-4 bg-gray-800 border-2 border-white mx-auto relative overflow-hidden">
-                <div id="loading-bar" class="h-full bg-gradient-to-r from-pink-500 to-pink-600 transition-all duration-1000 ease-out" style="width: 0%"></div>
-                </div>
-
-            <!-- Fun Loading Messages -->
-            <div id="loading-message" class="pixel-body text-gray-400 text-sm mt-4">Initializing API workspace...</div>
+            <div class="pixel-heading text-xs text-[#0B0B0C] tracking-[0.18em] mb-4">LOADING API DETAILS...</div>
+            <div class="w-64 h-4 bg-white border-2 border-[#0B0B0C] mx-auto relative overflow-hidden">
+                <div id="loading-bar" class="h-full bg-[#EC4899] transition-all duration-300 ease-out" style="width: 0%"></div>
             </div>
+            <div id="loading-message" class="font-mono text-xs text-[#62625C] mt-4">Initializing API workspace...</div>
+        </div>
     </div>
 
-    <!-- Sidebar Toggle Button (Mobile Only) -->
-    <button class="sidebar-toggle md:hidden" aria-label="Toggle sidebar">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-    </button>
+    <!-- Aurablox Constructivist Navigation Header -->
+    <header class="ab-nav-shell" id="ab-nav-shell">
+        <nav class="ab-nav" aria-label="Primary Navigation">
+            <a href="index.html" class="ab-nav__brand">
+                <span class="ab-nav__seal" aria-hidden="true"></span>
+                <span class="ab-nav__wordmark">API<span>UI</span></span>
+                <span class="ab-nav__sub">// AURABLOX</span>
+            </a>
 
-    <!-- Sidebar Overlay (Mobile Only) -->
-    <div class="sidebar-overlay md:hidden"></div>
+            <button class="ab-nav__toggle" id="ab-nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="ab-nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-    <!-- Directory Sidebar -->
-    <aside class="api-sidebar" id="api-sidebar">
-        <div class="sidebar-header">
-            <div class="flex items-center justify-center">
-                <div class="flex items-center space-x-2">
-                    <img src="apiui-cloud-logo-black.png" alt="apiUI Logo" class="w-10 h-10 rounded shadow-sm">
-                    <div>
-                        <h2 class="text-lg font-bold tracking-[0.14em] text-white pixel-heading">
-                            api<span class="text-pink-500">UI</span>
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-content">
-            <!-- Platform Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#platform-links">
-                    <span class="sidebar-section-title">Platform</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="platform-links" class="sidebar-links">
-                    <a href="index.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">API Hub</div>
-                            <div class="sidebar-link-description">Browse & discover APIs</div>
+            <div class="ab-nav__menu" id="ab-nav-menu">
+                <ul class="ab-nav__list">
+                    <li class="ab-nav__item">
+                        <button type="button" class="ab-nav__link" data-mega-trigger="platform" aria-expanded="false">
+                            Platform <span class="ab-nav__chev">&#9662;</span>
+                        </button>
+                        <div class="ab-mobile-sub" data-mobile-panel="platform">
+                            <a href="index.html">Home &amp; API Hub</a>
+                            <a href="app.html">API Studio Workspace</a>
+                            <a href="learn-more.html">Platform Capabilities</a>
+                            <a href="aurablox.html">AURABLOX Architecture</a>
                         </div>
-                    </a>
-                    <a href="app.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">My APIs</div>
-                            <div class="sidebar-link-description">Manage your APIs</div>
+                    </li>
+                    <li class="ab-nav__item">
+                        <button type="button" class="ab-nav__link" data-mega-trigger="mcp" aria-expanded="false">
+                            MCP Server <span class="ab-nav__chev">&#9662;</span>
+                        </button>
+                        <div class="ab-mobile-sub" data-mobile-panel="mcp">
+                            <a href="mcp.html">MCP Server Hub</a>
+                            <a href="mcp-chat.html">MCP AI Chat Console</a>
+                            <a href="docs.html#mcp-protocol">MCP Protocol Spec</a>
                         </div>
-                    </a>
-                </div>
-            </div>
+                    </li>
+                    <li class="ab-nav__item">
+                        <a href="mcp-chat.html" class="ab-nav__link">MCP Chat</a>
+                    </li>
+                    <li class="ab-nav__item">
+                        <button type="button" class="ab-nav__link" data-mega-trigger="docs" aria-expanded="false">
+                            Docs <span class="ab-nav__chev">&#9662;</span>
+                        </button>
+                        <div class="ab-mobile-sub" data-mobile-panel="docs">
+                            <a href="docs.html">Documentation Home</a>
+                            <a href="docs.html#rest-api">REST Querying Spec</a>
+                            <a href="docs.html#self-hosting">Self-Hosting (:8000 / :8080)</a>
+                            <a href="cookie-policy.html">Cookie Policy</a>
+                        </div>
+                    </li>
+                    <li class="ab-nav__item">
+                        <a href="#sitemap-footer" class="ab-nav__link">Sitemap</a>
+                    </li>
+                </ul>
 
-            <!-- Servers Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#tools-links">
-                    <span class="sidebar-section-title">Servers</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="tools-links" class="sidebar-links">
-                    <a href="mcp.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">MCP Server</div>
-                            <div class="sidebar-link-description">Model Context Protocol</div>
-                        </div>
-                    </a>
-                    <a href="mcp-chat.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">MCP Chat</div>
-                            <div class="sidebar-link-description">AI conversation interface</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Resources Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#resources-links">
-                    <span class="sidebar-section-title">Resources</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="resources-links" class="sidebar-links">
-                    <a href="docs.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Documentation</div>
-                            <div class="sidebar-link-description">Guides & API reference</div>
-                        </div>
-                    </a>
-                    <a href="learn-more.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Learn More</div>
-                            <div class="sidebar-link-description">Integration examples</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Community Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#community-links">
-                    <span class="sidebar-section-title">Community</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="community-links" class="sidebar-links">
-                    <a href="index.html#featured-apis" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Featured APIs</div>
-                            <div class="sidebar-link-description">Curated integrations</div>
-                        </div>
-                    </a>
-                    <a href="index.html#community-apis" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Community APIs</div>
-                            <div class="sidebar-link-description">User-contributed APIs</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Navigation Header -->
-    <header class="bg-black border-b border-white border-opacity-20 relative z-10">
-        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <a href="index.html" class="pixel-heading text-xl text-white tracking-[0.14em]">
-                    api<span class="text-pink-500">UI</span>
-                </a>
-                <span class="pixel-heading text-xs text-gray-400 tracking-[0.32em] uppercase">an AURABLOX company</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <!-- Desktop User Info -->
-                <div id="user-info-container" class="hidden md:flex items-center space-x-4">
-                    <div class="flex items-center space-x-2 text-white">
-                        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                        <span class="text-sm font-medium">admin</span>
-                    </div>
-                    <button id="logout-btn" class="inline-flex items-center px-3 py-1.5 border-2 border-pink-500/40 text-pink-400 text-xs font-medium hover:bg-pink-500/20 hover:border-pink-500/60 transition-all rounded">
-                        <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                        </svg>
-                        Logout
-                    </button>
-                </div>
-
+                <a href="app.html" class="ab-nav__cta-btn">Launch Studio &nearr;</a>
             </div>
         </nav>
-        </header>
 
-    <main class="flex-grow">
-        <div class="fixed inset-0 pointer-events-none opacity-15" style="background-image: linear-gradient(rgba(233, 30, 99, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(233, 30, 99, 0.02) 1px, transparent 1px); background-size: 36px 36px; z-index: 0;"></div>
+        <!-- Full-Width Megamenu Surface -->
+        <div class="ab-megamenu" id="ab-megamenu" aria-hidden="true">
+            <div class="ab-megamenu__inner">
+                <!-- Platform Panel -->
+                <div class="ab-megamenu__panel" data-mega-panel="platform">
+                    <div>
+                        <div class="ab-megamenu__col-label">Core Workspace</div>
+                        <ul class="ab-megamenu__links">
+                            <li>
+                                <a href="index.html" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">API Hub &amp; Directory</span>
+                                        <span class="ab-megamenu__desc">Browse published datasets &amp; live endpoints</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="app.html" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">API Studio</span>
+                                        <span class="ab-megamenu__desc">Upload CSV, Excel, JSON, or Parquet to launch APIs</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="ab-megamenu__col-label">Architecture</div>
+                        <ul class="ab-megamenu__links">
+                            <li>
+                                <a href="learn-more.html" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">Learn More</span>
+                                        <span class="ab-megamenu__desc">Features, walkthrough &amp; pricing overview</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="aurablox.html" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">AURABLOX Platform</span>
+                                        <span class="ab-megamenu__desc">Systems studio behind apiUI</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ab-megamenu__spotlight">
+                        <div>
+                            <div class="ab-megamenu__spot-eyebrow">01 // INSTANT DEPLOYMENT</div>
+                            <div class="ab-megamenu__spot-title">Dataset to REST &amp; MCP</div>
+                            <p class="ab-megamenu__spot-desc">Inspect schemas, test live endpoints, and export OpenAPI or MCP specs from one console.</p>
+                        </div>
+                        <a href="app.html" class="ab-megamenu__spot-cta">Open API Studio &rarr;</a>
+                    </div>
+                </div>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-            <nav class="text-sm text-slate-400 flex items-center gap-2 mb-8">
-                <a href="index.html" class="hover:text-pink-400 transition">Home</a>
+                <!-- MCP Panel -->
+                <div class="ab-megamenu__panel" data-mega-panel="mcp">
+                    <div>
+                        <div class="ab-megamenu__col-label">Model Context Protocol</div>
+                        <ul class="ab-megamenu__links">
+                            <li>
+                                <a href="mcp.html" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">MCP Server Hub</span>
+                                        <span class="ab-megamenu__desc">Streamable HTTP &amp; SSE agent endpoints</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mcp-chat.html" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">MCP Chat Console</span>
+                                        <span class="ab-megamenu__desc">Query any dataset interactively via AI tools</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="ab-megamenu__col-label">Built-in Tools</div>
+                        <ul class="ab-megamenu__links">
+                            <li>
+                                <a href="docs.html#mcp-protocol" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">4 Core MCP Tools</span>
+                                        <span class="ab-megamenu__desc">list_datasets, get_dataset_schema, query_dataset, summarize_dataset</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ab-megamenu__spotlight">
+                        <div>
+                            <div class="ab-megamenu__spot-eyebrow">02 // AGENT READY</div>
+                            <div class="ab-megamenu__spot-title">Zero Glue Code</div>
+                            <p class="ab-megamenu__spot-desc">Connect Claude Desktop, Cursor, or custom agents directly to this API's MCP profile.</p>
+                        </div>
+                        <a href="mcp-chat.html" class="ab-megamenu__spot-cta">Launch MCP Chat &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Docs Panel -->
+                <div class="ab-megamenu__panel" data-mega-panel="docs">
+                    <div>
+                        <div class="ab-megamenu__col-label">Guides &amp; Specs</div>
+                        <ul class="ab-megamenu__links">
+                            <li>
+                                <a href="docs.html#rest-api" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">REST API Querying</span>
+                                        <span class="ab-megamenu__desc">Filtering, _search, _sort, _order, _limit &amp; _offset</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="docs.html#self-hosting" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">Self-Hosting Guide</span>
+                                        <span class="ab-megamenu__desc">Run ./start-local.sh on ports 8000 &amp; 8080</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="ab-megamenu__col-label">Compliance &amp; Origin</div>
+                        <ul class="ab-megamenu__links">
+                            <li>
+                                <a href="cookie-policy.html" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">Cookie Policy</span>
+                                        <span class="ab-megamenu__desc">Essential session &amp; telemetry transparency</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="resume.html" class="ab-megamenu__link">
+                                    <span class="ab-megamenu__dot"></span>
+                                    <div>
+                                        <span class="ab-megamenu__title">Founder Profile</span>
+                                        <span class="ab-megamenu__desc">Engineering background &amp; system design</span>
+                                    </div>
+                                    <span class="ab-megamenu__arrow">&nearr;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ab-megamenu__spotlight">
+                        <div>
+                            <div class="ab-megamenu__spot-eyebrow">03 // REFERENCE</div>
+                            <div class="ab-megamenu__spot-title">API Documentation</div>
+                            <p class="ab-megamenu__spot-desc">Copyable curl, Python, and MCP client configs synchronized to your active gateway.</p>
+                        </div>
+                        <a href="docs.html" class="ab-megamenu__spot-cta">Open Full Docs &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow relative">
+        <div class="fixed inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(11, 11, 12, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(11, 11, 12, 0.04) 1px, transparent 1px); background-size: 36px 36px; z-index: 0;"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 relative z-10">
+            <nav class="font-mono text-xs uppercase tracking-[0.14em] text-[#62625C] flex items-center gap-2 mb-6" aria-label="Breadcrumb">
+                <a href="index.html" class="hover:text-[#EC4899] transition-colors">Home</a>
                 <span>/</span>
-                <span id="breadcrumb-name" class="text-slate-200">Loading...</span>
+                <span id="breadcrumb-name" class="text-[#0B0B0C] font-semibold">Loading...</span>
             </nav>
 
-            <section class="pixel-card p-10 mb-10 relative overflow-hidden">
-                <div class="absolute inset-0 opacity-25 pointer-events-none" style="background: radial-gradient(circle at top right, rgba(233, 30, 99, 0.3), transparent 60%);"></div>
-                <div class="relative z-10 grid gap-10 lg:grid-cols-[2fr,1fr] lg:items-start">
+            <!-- Hero Blueprint Card -->
+            <section class="pixel-card p-6 sm:p-10 mb-12 relative">
+                <div class="grid gap-8 lg:grid-cols-[2fr,1fr] lg:items-start">
                     <div>
-                        <!-- API Header Section -->
-                        <div class="mb-8">
-                            <!-- Status Badge -->
-                            <div class="inline-flex items-center gap-2 pixel-badge px-3 py-2 mb-6">
-                                <span class="w-2 h-2 bg-pink-400" id="status-dot"></span>
-                                <span id="api-status-label">Status</span>
+                        <div class="inline-flex items-center gap-2 pixel-badge mb-5">
+                            <span class="w-2 h-2 bg-[#EC4899]" id="status-dot"></span>
+                            <span id="api-status-label">Status</span>
+                        </div>
+
+                        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-5">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-3 mb-3 flex-wrap">
+                                    <h1 class="ab-display text-3xl sm:text-5xl text-[#0B0B0C] break-words" id="api-name-display">Loading API...</h1>
+                                    <input id="api-name-edit" type="text" class="hidden ab-display text-3xl sm:text-5xl text-[#0B0B0C] bg-white border-2 border-[#EC4899] outline-none px-3 py-1" style="width: auto;">
+                                </div>
+                                <p class="text-base sm:text-lg text-[#474742] leading-relaxed" id="api-summary">We are gathering the documentation and dataset preview for this API. Please hold tight.</p>
                             </div>
 
-                            <!-- API Title and Actions -->
-                            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-6">
-                                <div class="flex-1">
-                                    <div class="flex items-center gap-3 mb-2">
-                                        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-white" id="api-name-display">Loading API...</h1>
-                                        <input id="api-name-edit" type="text" class="hidden text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-white bg-transparent border-2 border-pink-500 outline-none px-4 py-2 rounded" style="width: auto;">
-                                    </div>
-                                    <p class="text-lg text-slate-300 leading-relaxed" id="api-summary">We are gathering the documentation and dataset preview for this API. Please hold tight.</p>
-                                </div>
-
-                                <!-- Action Buttons -->
-                                <div class="flex items-center gap-2 flex-shrink-0">
-                                    <button id="edit-name-btn" class="pixel-badge px-3 py-2 hover:bg-pink-600 transition-colors" title="Edit API name">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                        </svg>
-                                    </button>
-                                    <button id="share-btn" class="pixel-badge px-3 py-2 hover:bg-pink-600 transition-colors" title="Share API">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Download Actions -->
-                            <div class="flex flex-wrap gap-3" id="download-actions">
-                                <a id="download-original" class="pixel-btn pixel-btn-primary text-sm cursor-not-allowed opacity-60" aria-disabled="true">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                <button id="edit-name-btn" class="pixel-badge" title="Edit API name">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                     </svg>
-                                    Download Original
-                                </a>
-                                <a id="download-csv" class="pixel-btn pixel-btn-secondary text-sm cursor-not-allowed opacity-60" aria-disabled="true">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </button>
+                                <button id="share-btn" class="pixel-badge" title="Share API">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
                                     </svg>
-                                    Download CSV
-                                </a>
-                                <a id="download-json" class="pixel-btn pixel-btn-secondary text-sm cursor-not-allowed opacity-60" aria-disabled="true">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-                                    </svg>
-                                    Download JSON
-                                </a>
+                                </button>
                             </div>
                         </div>
 
-                        <div class="divider my-8"></div>
+                        <div class="flex flex-wrap gap-3 pt-2" id="download-actions">
+                            <a id="download-original" class="pixel-btn pixel-btn-primary text-xs cursor-not-allowed opacity-60" aria-disabled="true">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                Download Original
+                            </a>
+                            <a id="download-csv" class="pixel-btn pixel-btn-secondary text-xs cursor-not-allowed opacity-60" aria-disabled="true">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                Download CSV
+                            </a>
+                            <a id="download-json" class="pixel-btn pixel-btn-secondary text-xs cursor-not-allowed opacity-60" aria-disabled="true">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                </svg>
+                                Download JSON
+                            </a>
+                        </div>
                     </div>
-                    <aside class="space-y-4 text-sm text-slate-300">
-                        <div class="flex items-center justify-between">
-                            <span class="uppercase tracking-[0.22em] text-xs text-slate-400">API ID</span>
-                            <span class="font-mono text-slate-200" id="api-id">--</span>
+
+                    <aside class="space-y-4 text-sm text-[#474742] border-t lg:border-t-0 lg:border-l border-[#D9D9D2] pt-6 lg:pt-0 lg:pl-8">
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="font-mono uppercase tracking-[0.14em] text-[11px] text-[#62625C]">API ID</span>
+                            <span class="font-mono text-[#0B0B0C] font-semibold" id="api-id">--</span>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <span class="uppercase tracking-[0.22em] text-xs text-slate-400">Created</span>
-                            <span id="api-created">--</span>
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="font-mono uppercase tracking-[0.14em] text-[11px] text-[#62625C]">Created</span>
+                            <span class="font-mono text-xs text-[#0B0B0C]" id="api-created">--</span>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <span class="uppercase tracking-[0.22em] text-xs text-slate-400">Primary Endpoint</span>
-                            <a id="api-endpoint" class="text-pink-300 hover:text-pink-400 underline underline-offset-4 break-all" target="_blank" rel="noopener">--</a>
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="font-mono uppercase tracking-[0.14em] text-[11px] text-[#62625C]">Primary Endpoint</span>
+                            <a id="api-endpoint" class="font-mono text-xs text-[#DB2777] hover:text-[#0B0B0C] underline underline-offset-4 break-all text-right" target="_blank" rel="noopener">--</a>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <span class="uppercase tracking-[0.22em] text-xs text-slate-400">Docs</span>
-                            <a id="api-docs-url" class="text-pink-300 hover:text-pink-400 underline underline-offset-4 break-all" target="_blank" rel="noopener">--</a>
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="font-mono uppercase tracking-[0.14em] text-[11px] text-[#62625C]">Docs</span>
+                            <a id="api-docs-url" class="font-mono text-xs text-[#DB2777] hover:text-[#0B0B0C] underline underline-offset-4 break-all text-right" target="_blank" rel="noopener">--</a>
                         </div>
                     </aside>
                 </div>
             </section>
 
+            <!-- 01 // SUMMARY & TELEMETRY -->
+            <div class="section-index-bar">
+                <div class="section-index-bar__left"><span class="seal"></span> 01 // SUMMARY &amp; TELEMETRY</div>
+                <div class="section-index-bar__right">METADATA &amp; DATASET COUNTS</div>
+            </div>
+
             <!-- API Summary Section -->
-            <section class="pixel-card p-8 mb-12">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-semibold text-white tracking-tight">API Summary</h2>
-                    <button id="edit-summary-btn" class="pixel-badge px-3 py-2 hover:bg-pink-600 transition-colors">
+            <section class="pixel-card p-6 sm:p-8 mb-10">
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C]">API Summary</h2>
+                    <button id="edit-summary-btn" class="pixel-badge" title="Edit summary">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
+                        Edit
                     </button>
                 </div>
 
-                <div id="summary-display" class="pixel-body text-slate-300 text-lg leading-relaxed mb-4">
-                    No summary available. Click "Generate" to create one with AI.
+                <div id="summary-display" class="pixel-body text-[#474742] text-base sm:text-lg leading-relaxed mb-5">
+                    No summary available. Click "Generate AI Summary" to create one with AI.
                 </div>
 
-                <!-- Generate AI Summary Button -->
                 <div class="mb-4">
-                    <button id="generate-summary-btn" class="pixel-btn pixel-btn-primary text-sm">
-                        <div class="flex items-center gap-3">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
-                            <span>Generate AI Summary</span>
-                        </div>
+                    <button id="generate-summary-btn" class="pixel-btn pixel-btn-primary text-xs">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span>Generate AI Summary</span>
                     </button>
                 </div>
 
-                <div id="summary-actions" class="hidden flex gap-2">
-                    <button id="save-summary-btn" class="pixel-badge px-4 py-2 bg-pink-600 hover:bg-pink-700 transition-colors">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div id="summary-actions" class="hidden flex gap-2 mb-4">
+                    <button id="save-summary-btn" class="pixel-btn pixel-btn-primary text-xs">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                         Save Summary
                     </button>
-                    <button id="cancel-summary-btn" class="pixel-badge px-4 py-2 hover:bg-pink-600 transition-colors">Cancel</button>
+                    <button id="cancel-summary-btn" class="pixel-btn pixel-btn-secondary text-xs">Cancel</button>
                 </div>
 
-                <textarea id="api-summary-edit" class="hidden w-full pixel-body text-lg p-4 border-2 border-pink-500 bg-slate-800 text-white focus:border-pink-400 focus:outline-none resize-vertical rounded" rows="6" placeholder="Enter your API summary..."></textarea>
+                <textarea id="api-summary-edit" class="hidden w-full pixel-body text-base p-4 border-2 border-[#EC4899] bg-white text-[#0B0B0C] focus:outline-none resize-vertical" rows="6" placeholder="Enter your API summary..."></textarea>
             </section>
 
-
-            <section class="grid gap-6 md:grid-cols-4 mb-12" id="stats-grid">
+            <!-- Stats Grid -->
+            <section class="grid gap-6 md:grid-cols-4 mb-14" id="stats-grid">
                 <div class="pixel-card p-6">
-                    <p class="uppercase text-xs tracking-[0.24em] text-slate-400 mb-3">Records</p>
-                    <p class="text-3xl font-semibold text-white" id="stat-records">--</p>
-                    <p class="text-slate-400 text-sm mt-2">Approximate total rows available.</p>
+                    <p class="pixel-heading text-[11px] text-[#EC4899] mb-2">Records</p>
+                    <p class="ab-display text-3xl sm:text-4xl text-[#0B0B0C]" id="stat-records">--</p>
+                    <p class="text-[#62625C] text-xs mt-2">Approximate total rows available.</p>
                 </div>
                 <div class="pixel-card p-6">
-                    <p class="uppercase text-xs tracking-[0.24em] text-slate-400 mb-3">Columns</p>
-                    <p class="text-3xl font-semibold text-white" id="stat-columns">--</p>
-                    <p class="text-slate-400 text-sm mt-2">Detected attributes in the dataset.</p>
+                    <p class="pixel-heading text-[11px] text-[#EC4899] mb-2">Columns</p>
+                    <p class="ab-display text-3xl sm:text-4xl text-[#0B0B0C]" id="stat-columns">--</p>
+                    <p class="text-[#62625C] text-xs mt-2">Detected attributes in the dataset.</p>
                 </div>
                 <div class="pixel-card p-6">
-                    <p class="uppercase text-xs tracking-[0.24em] text-slate-400 mb-3">Endpoints</p>
-                    <p class="text-3xl font-semibold text-white" id="stat-endpoints">--</p>
-                    <p class="text-slate-400 text-sm mt-2">FastAPI routes generated for this API.</p>
+                    <p class="pixel-heading text-[11px] text-[#EC4899] mb-2">Endpoints</p>
+                    <p class="ab-display text-3xl sm:text-4xl text-[#0B0B0C]" id="stat-endpoints">--</p>
+                    <p class="text-[#62625C] text-xs mt-2">FastAPI routes generated for this API.</p>
                 </div>
                 <div class="pixel-card p-6">
-                    <p class="uppercase text-xs tracking-[0.24em] text-slate-400 mb-3">Status</p>
-                    <p class="text-3xl font-semibold text-white" id="stat-status">--</p>
-                    <p class="text-slate-400 text-sm mt-2">Live state of the deployment.</p>
+                    <p class="pixel-heading text-[11px] text-[#EC4899] mb-2">Status</p>
+                    <p class="ab-display text-3xl sm:text-4xl text-[#0B0B0C]" id="stat-status">--</p>
+                    <p class="text-[#62625C] text-xs mt-2">Live state of the deployment.</p>
                 </div>
             </section>
 
-            <section class="grid gap-10 lg:grid-cols-[1.4fr,1fr] mb-14">
-                <div class="pixel-card p-8">
+            <!-- 02 // SCHEMA & ENDPOINTS -->
+            <div class="section-index-bar">
+                <div class="section-index-bar__left"><span class="seal"></span> 02 // SCHEMA, ROUTES &amp; PREVIEW</div>
+                <div class="section-index-bar__right">DATA STRUCTURE &amp; SAMPLE ROWS</div>
+            </div>
+
+            <section class="grid gap-8 lg:grid-cols-[1.4fr,1fr] mb-10">
+                <div class="pixel-card p-6 sm:p-8">
                     <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-2xl font-semibold text-white tracking-tight">Data Schema</h2>
-                        <span class="pixel-badge px-3 py-1">Structure</span>
+                        <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C]">Data Schema</h2>
+                        <span class="pixel-badge">Structure</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="min-w-full text-sm">
-                            <thead class="text-slate-400 uppercase tracking-[0.18em] text-xs border-b border-slate-800">
+                            <thead class="text-[#62625C] font-mono uppercase tracking-[0.14em] text-xs border-b-2 border-[#0B0B0C]">
                                 <tr>
                                     <th class="py-3 pr-6 text-left">Column</th>
                                     <th class="py-3 pr-6 text-left">Type</th>
@@ -1225,134 +1238,139 @@
                                     <th class="py-3 text-left">Details</th>
                                 </tr>
                             </thead>
-                            <tbody id="schema-body" class="divide-y divide-slate-800 text-slate-200">
+                            <tbody id="schema-body" class="divide-y divide-[#D9D9D2] text-[#0B0B0C]">
                                 <tr>
-                                    <td class="py-4 pr-6" colspan="4">Analyzing column metadata...</td>
+                                    <td class="py-4 pr-6 text-[#62625C]" colspan="4">Analyzing column metadata...</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="pixel-card p-8">
+                <div class="pixel-card p-6 sm:p-8">
                     <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-2xl font-semibold text-white tracking-tight">Endpoints</h2>
-                        <span class="pixel-badge px-3 py-1">Routes</span>
+                        <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C]">Endpoints</h2>
+                        <span class="pixel-badge">Routes</span>
                     </div>
                     <ul class="space-y-4 text-sm" id="endpoint-list">
-                        <li class="text-slate-400">Discovering FastAPI routes...</li>
+                        <li class="text-[#62625C]">Discovering FastAPI routes...</li>
                     </ul>
                 </div>
             </section>
 
-            <section class="pixel-card p-8 mb-14">
+            <section class="pixel-card p-6 sm:p-8 mb-14">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-semibold text-white tracking-tight">Sample Data</h2>
-                    <span class="pixel-badge px-3 py-1">Preview</span>
+                    <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C]">Sample Data</h2>
+                    <span class="pixel-badge">Preview</span>
                 </div>
                 <div class="overflow-x-auto" id="sample-table-wrapper">
-                    <div class="text-sm text-slate-400" id="sample-placeholder">Loading dataset preview...</div>
+                    <div class="text-sm text-[#62625C]" id="sample-placeholder">Loading dataset preview...</div>
                 </div>
             </section>
 
+            <!-- 03 // METRICS & PERFORMANCE -->
+            <div class="section-index-bar">
+                <div class="section-index-bar__left"><span class="seal"></span> 03 // METRICS &amp; PERFORMANCE</div>
+                <div class="section-index-bar__right">24H LATENCY &amp; UPTIME</div>
+            </div>
+
             <!-- API Metrics Section -->
-            <section class="pixel-card p-8 mb-14">
-                <div class="flex items-center justify-between mb-6">
+            <section class="pixel-card p-6 sm:p-8 mb-10">
+                <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
                     <div>
-                        <h2 class="text-2xl font-semibold text-white tracking-tight">API Metrics & Analytics</h2>
-                        <p class="text-sm text-slate-400 mt-1" id="metrics-source">Loading metrics source...</p>
+                        <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C]">API Metrics &amp; Analytics</h2>
+                        <p class="font-mono text-xs text-[#62625C] mt-1" id="metrics-source">Loading metrics source...</p>
                     </div>
-                    <span class="pixel-badge px-3 py-1">Live Monitoring</span>
+                    <span class="pixel-badge">Live Monitoring</span>
                 </div>
 
-                <!-- Metrics Overview -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                    <div class="pixel-card bg-slate-800/50 p-6">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                    <div class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <p class="pixel-body text-slate-400 text-sm">Total Requests</p>
-                                <p class="text-3xl font-bold text-white" id="total-requests">--</p>
+                                <p class="pixel-heading text-[11px] text-[#62625C] mb-1">Total Requests</p>
+                                <p class="ab-display text-3xl text-[#0B0B0C]" id="total-requests">--</p>
                             </div>
-                            <div class="w-12 h-12 bg-pink-100 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-10 h-10 bg-[#FAFAF7] border border-[#0B0B0C] flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#EC4899]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                                 </svg>
                             </div>
                         </div>
-                        <div class="text-sm text-pink-400">+12.5% from last period</div>
+                        <div class="font-mono text-xs text-[#DB2777]">+12.5% from last period</div>
                     </div>
 
-                    <div class="pixel-card bg-slate-800/50 p-6">
+                    <div class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <p class="pixel-body text-slate-400 text-sm">Avg Response Time</p>
-                                <p class="text-3xl font-bold text-white" id="avg-response-time">--ms</p>
+                                <p class="pixel-heading text-[11px] text-[#62625C] mb-1">Avg Response Time</p>
+                                <p class="ab-display text-3xl text-[#0B0B0C]" id="avg-response-time">--ms</p>
                             </div>
-                            <div class="w-12 h-12 bg-pink-100 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-10 h-10 bg-[#FAFAF7] border border-[#0B0B0C] flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#EC4899]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                             </div>
                         </div>
-                        <div class="text-sm text-pink-400">-8.2% from last period</div>
+                        <div class="font-mono text-xs text-[#DB2777]">-8.2% from last period</div>
                     </div>
 
-                    <div class="pixel-card bg-slate-800/50 p-6">
+                    <div class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <p class="pixel-body text-slate-400 text-sm">Error Rate</p>
-                                <p class="text-3xl font-bold text-white" id="error-rate">--%</p>
+                                <p class="pixel-heading text-[11px] text-[#62625C] mb-1">Error Rate</p>
+                                <p class="ab-display text-3xl text-[#0B0B0C]" id="error-rate">--%</p>
                             </div>
-                            <div class="w-12 h-12 bg-pink-100 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-10 h-10 bg-[#FAFAF7] border border-[#0B0B0C] flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#EC4899]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                                 </svg>
                             </div>
                         </div>
-                        <div class="text-sm text-pink-500">+2.1% from last period</div>
+                        <div class="font-mono text-xs text-[#DB2777]">+2.1% from last period</div>
                     </div>
 
-                    <div class="pixel-card bg-slate-800/50 p-6">
+                    <div class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div>
-                                <p class="pixel-body text-slate-400 text-sm">Uptime</p>
-                                <p class="text-3xl font-bold text-white" id="uptime-percentage">--%</p>
+                                <p class="pixel-heading text-[11px] text-[#62625C] mb-1">Uptime</p>
+                                <p class="ab-display text-3xl text-[#0B0B0C]" id="uptime-percentage">--%</p>
                             </div>
-                            <div class="w-12 h-12 bg-pink-100 flex items-center justify-center">
-                                <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-10 h-10 bg-[#FAFAF7] border border-[#0B0B0C] flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#EC4899]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                             </div>
                         </div>
-                        <div class="pixel-badge mt-2" id="uptime-status">Live</div>
+                        <div class="pixel-badge mt-1" id="uptime-status">Live</div>
                     </div>
                 </div>
 
                 <!-- Charts -->
-                <div class="grid lg:grid-cols-2 gap-8 mb-12">
-                    <div class="pixel-card bg-slate-800/50 p-6">
-                        <h3 class="pixel-subtitle text-xl text-white mb-6">Availability (24h)</h3>
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
+                        <h3 class="pixel-heading text-xs text-[#0B0B0C] mb-4">Availability (24h)</h3>
                         <div class="chart-container">
                             <canvas id="availability-chart"></canvas>
                         </div>
                     </div>
 
-                    <div class="pixel-card bg-slate-800/50 p-6">
-                        <h3 class="pixel-subtitle text-xl text-white mb-6">Response Time (24h)</h3>
+                    <div class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
+                        <h3 class="pixel-heading text-xs text-[#0B0B0C] mb-4">Response Time (24h)</h3>
                         <div class="chart-container">
                             <canvas id="response-time-chart"></canvas>
                         </div>
                     </div>
 
-                    <div class="pixel-card bg-slate-800/50 p-6">
-                        <h3 class="pixel-subtitle text-xl text-white mb-6">Requests (24h)</h3>
+                    <div class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
+                        <h3 class="pixel-heading text-xs text-[#0B0B0C] mb-4">Requests (24h)</h3>
                         <div class="chart-container">
                             <canvas id="requests-chart"></canvas>
                         </div>
                     </div>
 
-                    <div class="pixel-card bg-slate-800/50 p-6">
-                        <h3 class="pixel-subtitle text-xl text-white mb-6">Error Rate (24h)</h3>
+                    <div class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
+                        <h3 class="pixel-heading text-xs text-[#0B0B0C] mb-4">Error Rate (24h)</h3>
                         <div class="chart-container">
                             <canvas id="error-chart"></canvas>
                         </div>
@@ -1361,18 +1379,18 @@
             </section>
 
             <!-- Endpoint Performance Section -->
-            <section class="pixel-card p-8 mb-14">
-                <h2 class="pixel-subtitle text-2xl text-white mb-6">Endpoint Performance</h2>
+            <section class="pixel-card p-6 sm:p-8 mb-14">
+                <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C] mb-6">Endpoint Performance</h2>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="border-b-2 border-slate-800">
-                                <th class="text-left py-3 px-4 text-slate-400 font-medium">Endpoint</th>
-                                <th class="text-left py-3 px-4 text-slate-400 font-medium">Method</th>
-                                <th class="text-left py-3 px-4 text-slate-400 font-medium">Requests</th>
-                                <th class="text-left py-3 px-4 text-slate-400 font-medium">Avg Response</th>
-                                <th class="text-left py-3 px-4 text-slate-400 font-medium">Error Rate</th>
-                                <th class="text-left py-3 px-4 text-slate-400 font-medium">Status</th>
+                            <tr class="border-b-2 border-[#0B0B0C] font-mono uppercase text-xs text-[#62625C]">
+                                <th class="text-left py-3 px-4">Endpoint</th>
+                                <th class="text-left py-3 px-4">Method</th>
+                                <th class="text-left py-3 px-4">Requests</th>
+                                <th class="text-left py-3 px-4">Avg Response</th>
+                                <th class="text-left py-3 px-4">Error Rate</th>
+                                <th class="text-left py-3 px-4">Status</th>
                             </tr>
                         </thead>
                         <tbody id="endpoint-performance-table-body">
@@ -1380,7 +1398,7 @@
                                 <td class="py-4 px-4" colspan="6">
                                     <div class="flex items-center justify-center py-8">
                                         <div class="pixel-loader w-6 h-6 mr-4"></div>
-                                        <span class="text-slate-400">Loading endpoint performance data...</span>
+                                        <span class="text-[#62625C]">Loading endpoint performance data...</span>
                                     </div>
                                 </td>
                             </tr>
@@ -1389,45 +1407,51 @@
                 </div>
             </section>
 
-            <section class="pixel-card p-8 mb-14">
+            <!-- 04 // CODE, MCP & API TESTER -->
+            <div class="section-index-bar">
+                <div class="section-index-bar__left"><span class="seal"></span> 04 // CODE, MCP &amp; API TESTER</div>
+                <div class="section-index-bar__right">SDK SNIPPETS, MCP SPEC &amp; CONSOLE</div>
+            </div>
+
+            <section class="pixel-card p-6 sm:p-8 mb-10">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                     <div>
-                        <h2 class="text-2xl font-semibold text-white tracking-tight">Code Examples</h2>
-                        <p class="text-sm text-slate-400 mt-2">Kick-start integrations with ready-to-run snippets for your stack.</p>
+                        <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C]">Code Examples</h2>
+                        <p class="text-sm text-[#474742] mt-1">Kick-start integrations with ready-to-run snippets for your stack.</p>
                     </div>
-                    <div class="flex gap-2 text-xs text-slate-300">
-                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 " data-copy-target="curl">Copy cURL</button>
-                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 " data-copy-target="python">Copy Python</button>
-                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 " data-copy-target="javascript">Copy JS</button>
-                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 " data-copy-target="node">Copy Node</button>
-                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 " data-copy-target="socket">Copy Socket</button>
-                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 " data-copy-target="go">Copy Go</button>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 text-xs" data-copy-target="curl">Copy cURL</button>
+                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 text-xs" data-copy-target="python">Copy Python</button>
+                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 text-xs" data-copy-target="javascript">Copy JS</button>
+                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 text-xs" data-copy-target="node">Copy Node</button>
+                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 text-xs" data-copy-target="socket">Copy Socket</button>
+                        <button class="pixel-btn pixel-btn-secondary px-3 py-2 text-xs" data-copy-target="go">Copy Go</button>
                     </div>
                 </div>
                 <div class="grid gap-6 lg:grid-cols-2" id="code-snippets">
-                    <article class="bg-slate-900/70 border border-slate-800 p-6">
-                        <header class="flex items-center justify-between text-sm text-slate-300 mb-4">
-                            <span class="uppercase tracking-[0.18em] text-xs">cURL</span>
+                    <article class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
+                        <header class="flex items-center justify-between text-xs font-mono text-[#62625C] mb-3">
+                            <span class="uppercase tracking-[0.14em] text-[#0B0B0C] font-semibold">cURL</span>
                         </header>
                         <pre class="p-4 text-sm" id="snippet-curl"><code>curl https://api.example.com/data</code></pre>
                     </article>
                 </div>
             </section>
 
-            <section class="pixel-card p-8 mb-14">
-                <div class="flex items-center justify-between mb-6">
+            <section class="pixel-card p-6 sm:p-8 mb-10">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                     <div>
-                        <h2 class="text-2xl font-semibold text-white tracking-tight">MCP Documentation</h2>
-                        <p class="text-sm text-slate-400 mt-1">Model Context Protocol profile for AI clients to access this API's data.</p>
+                        <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C]">MCP Documentation</h2>
+                        <p class="text-sm text-[#474742] mt-1">Model Context Protocol profile for AI clients to access this API's data.</p>
                     </div>
                     <div class="flex gap-2">
-                        <button class="pixel-btn pixel-btn-secondary px-4 py-2 text-xs uppercase tracking-[0.18em]" data-copy-target="mcp-doc">Copy JSON</button>
-                        <a id="download-mcp" class="pixel-btn pixel-btn-secondary px-4 py-2 text-xs uppercase tracking-[0.18em]" download>Download JSON</a>
+                        <button class="pixel-btn pixel-btn-secondary px-4 py-2 text-xs" data-copy-target="mcp-doc">Copy JSON</button>
+                        <a id="download-mcp" class="pixel-btn pixel-btn-primary px-4 py-2 text-xs" download>Download JSON</a>
                     </div>
                 </div>
                 <div class="relative">
-                    <button class="copy-snippet-btn pixel-btn pixel-btn-secondary px-2 py-1 text-xs absolute top-3 right-3 z-10" data-copy-target="mcp-doc">
-                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button class="copy-snippet-btn pixel-btn pixel-btn-secondary px-2.5 py-1.5 text-xs absolute top-3 right-3 z-10" data-copy-target="mcp-doc" title="Copy MCP JSON">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                         </svg>
                     </button>
@@ -1438,40 +1462,37 @@
             </section>
 
             <!-- API Testing Section -->
-            <section class="pixel-card p-8 mb-14">
+            <section class="pixel-card p-6 sm:p-8 mb-10">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-semibold text-white tracking-tight">API Testing</h2>
-                    <span class="pixel-badge px-3 py-1">Mini Postman</span>
+                    <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C]">API Testing</h2>
+                    <span class="pixel-badge">Mini Postman</span>
                 </div>
 
                 <!-- Request Builder -->
                 <div class="grid lg:grid-cols-3 gap-6 mb-6">
-                    <!-- Method & URL -->
                     <div class="lg:col-span-2">
                         <div class="flex gap-2 mb-4">
-                            <select id="test-method" class="pixel-btn pixel-btn-secondary px-3 py-2 text-sm min-w-[100px]">
+                            <select id="test-method" class="bg-white border border-[#0B0B0C] px-3 py-2 text-sm font-mono font-semibold text-[#0B0B0C] min-w-[100px]">
                                 <option value="GET">GET</option>
                                 <option value="POST">POST</option>
                                 <option value="PUT">PUT</option>
                                 <option value="DELETE">DELETE</option>
                                 <option value="PATCH">PATCH</option>
                             </select>
-                            <input id="test-url" type="text" class="flex-1 pixel-body bg-slate-900 border border-slate-700 focus:border-pink-500 focus:outline-none px-4 py-2 text-white" placeholder="Enter API endpoint URL">
+                            <input id="test-url" type="text" class="flex-1 bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none px-4 py-2 text-[#0B0B0C] font-mono text-sm" placeholder="Enter API endpoint URL">
                         </div>
 
-                        <!-- Quick Endpoint Selection -->
                         <div class="mb-4">
-                            <label class="block text-sm text-slate-400 mb-2">Quick Select Endpoint:</label>
-                            <select id="endpoint-selector" class="pixel-btn pixel-btn-secondary px-3 py-2 text-sm w-full">
+                            <label class="block font-mono uppercase text-xs text-[#62625C] mb-2">Quick Select Endpoint:</label>
+                            <select id="endpoint-selector" class="bg-white border border-[#D9D9D2] focus:border-[#EC4899] px-3 py-2 text-sm font-mono text-[#0B0B0C] w-full">
                                 <option value="">Select an endpoint...</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Send Button -->
                     <div class="flex items-start">
-                        <button id="send-request" class="pixel-btn pixel-btn-primary px-6 py-3 text-sm w-full">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="send-request" class="pixel-btn pixel-btn-primary px-6 py-3 text-xs w-full">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                             </svg>
                             Send Request
@@ -1481,107 +1502,198 @@
 
                 <!-- Request Tabs -->
                 <div class="mb-6">
-                    <div class="flex border-b border-slate-800">
-                        <button class="tab-btn active px-4 py-2 text-sm text-white border-b-2 border-pink-500" data-tab="headers">Headers</button>
-                        <button class="tab-btn px-4 py-2 text-sm text-slate-400 border-b-2 border-transparent" data-tab="body">Body</button>
-                        <button class="tab-btn px-4 py-2 text-sm text-slate-400 border-b-2 border-transparent" data-tab="auth">Auth</button>
+                    <div class="flex border-b border-[#D9D9D2]">
+                        <button class="tab-btn active px-4 py-2 text-xs pixel-heading text-[#0B0B0C] border-b-2 border-[#EC4899]" data-tab="headers">Headers</button>
+                        <button class="tab-btn px-4 py-2 text-xs pixel-heading text-[#62625C] border-b-2 border-transparent" data-tab="body">Body</button>
+                        <button class="tab-btn px-4 py-2 text-xs pixel-heading text-[#62625C] border-b-2 border-transparent" data-tab="auth">Auth</button>
                     </div>
 
-                    <!-- Headers Tab -->
                     <div id="headers-tab" class="tab-content active mt-4">
                         <div class="space-y-2" id="headers-list">
                             <div class="flex gap-2">
-                                <input type="text" placeholder="Header name" class="flex-1 pixel-body bg-slate-900 border border-slate-700 focus:border-pink-500 focus:outline-none px-3 py-2 text-white text-sm" value="Accept">
-                                <input type="text" placeholder="Header value" class="flex-1 pixel-body bg-slate-900 border border-slate-700 focus:border-pink-500 focus:outline-none px-3 py-2 text-white text-sm" value="application/json">
-                                <button class="remove-header pixel-btn pixel-btn-secondary px-2 py-2 text-sm">×</button>
+                                <input type="text" placeholder="Header name" class="flex-1 bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none px-3 py-2 text-[#0B0B0C] font-mono text-sm" value="Accept">
+                                <input type="text" placeholder="Header value" class="flex-1 bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none px-3 py-2 text-[#0B0B0C] font-mono text-sm" value="application/json">
+                                <button class="remove-header pixel-btn pixel-btn-secondary px-3 py-2 text-sm">&times;</button>
                             </div>
                         </div>
-                        <button id="add-header" class="pixel-btn pixel-btn-secondary px-3 py-1 text-xs mt-3">+ Add Header</button>
+                        <button id="add-header" class="pixel-btn pixel-btn-secondary px-3 py-1.5 text-xs mt-3">+ Add Header</button>
                     </div>
 
-                    <!-- Body Tab -->
                     <div id="body-tab" class="tab-content mt-4 hidden">
-                        <select id="body-type" class="pixel-btn pixel-btn-secondary px-3 py-2 text-sm mb-3">
+                        <select id="body-type" class="bg-white border border-[#D9D9D2] px-3 py-2 text-sm font-mono text-[#0B0B0C] mb-3">
                             <option value="none">No Body</option>
                             <option value="json">JSON</option>
                             <option value="form">Form Data</option>
                             <option value="text">Plain Text</option>
                         </select>
-                        <textarea id="request-body" class="w-full pixel-body bg-slate-900 border border-slate-700 focus:border-pink-500 focus:outline-none p-4 text-white text-sm" rows="6" placeholder="Enter request body..."></textarea>
+                        <textarea id="request-body" class="w-full bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none p-4 text-[#0B0B0C] font-mono text-sm" rows="6" placeholder="Enter request body..."></textarea>
                     </div>
 
-                    <!-- Auth Tab -->
                     <div id="auth-tab" class="tab-content mt-4 hidden">
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-sm text-slate-400 mb-2">API Key (if required)</label>
-                                <input id="api-key" type="password" class="w-full pixel-body bg-slate-900 border border-slate-700 focus:border-pink-500 focus:outline-none px-3 py-2 text-white" placeholder="Enter API key">
+                                <label class="block font-mono text-xs text-[#62625C] mb-2">API Key (if required)</label>
+                                <input id="api-key" type="password" class="w-full bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none px-3 py-2 text-[#0B0B0C] font-mono text-sm" placeholder="Enter API key">
                             </div>
                             <div class="flex items-center gap-2">
-                                <input id="auth-enabled" type="checkbox" class="w-4 h-4 text-pink-500 bg-slate-900 border-slate-700 focus:ring-pink-500">
-                                <label for="auth-enabled" class="text-sm text-slate-400">Include API key in headers</label>
+                                <input id="auth-enabled" type="checkbox" class="w-4 h-4 accent-[#EC4899]">
+                                <label for="auth-enabled" class="text-sm text-[#474742]">Include API key in headers</label>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Response Area -->
-                <div class="border-t border-slate-800 pt-6">
+                <div class="border-t border-[#D9D9D2] pt-6">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-white">Response</h3>
+                        <h3 class="pixel-heading text-xs text-[#0B0B0C]">Response</h3>
                         <div class="flex gap-2">
-                            <span id="response-status" class="px-2 py-1 text-xs bg-slate-800 text-slate-400 rounded">Ready</span>
-                            <span id="response-time" class="px-2 py-1 text-xs bg-slate-800 text-slate-400 rounded">--ms</span>
+                            <span id="response-status" class="px-2.5 py-1 text-xs font-mono bg-[#F4F3EE] border border-[#D9D9D2] text-[#474742]">Ready</span>
+                            <span id="response-time" class="px-2.5 py-1 text-xs font-mono bg-[#F4F3EE] border border-[#D9D9D2] text-[#474742]">--ms</span>
                         </div>
                     </div>
 
-                    <!-- Response Headers -->
                     <div class="mb-4">
-                        <button class="toggle-response-headers pixel-btn pixel-btn-secondary px-3 py-1 text-xs mb-2">
-                            Response Headers ▼
+                        <button class="toggle-response-headers pixel-btn pixel-btn-secondary px-3 py-1.5 text-xs mb-2">
+                            Response Headers &#9662;
                         </button>
-                        <div id="response-headers" class="hidden bg-slate-900 border border-slate-700 p-3 text-xs font-mono text-slate-300 max-h-32 overflow-y-auto"></div>
+                        <div id="response-headers" class="hidden bg-[#0B0B0C] border border-[#0B0B0C] p-3 text-xs font-mono text-[#FAFAF7] max-h-32 overflow-y-auto"></div>
                     </div>
 
-                    <!-- Response Body -->
-                    <div class="bg-slate-900 border border-slate-700 p-4">
-                        <pre id="response-body" class="text-sm text-slate-300 whitespace-pre-wrap font-mono">Ready to send your first request!</pre>
+                    <div>
+                        <pre id="response-body" class="text-sm text-[#FAFAF7] whitespace-pre-wrap font-mono">Ready to send your first request!</pre>
                     </div>
                 </div>
             </section>
 
-            <section class="pixel-card p-8 mb-20">
+            <section class="pixel-card p-6 sm:p-8 mb-10">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-semibold text-white tracking-tight">OpenAPI Summary</h2>
-                    <a id="openapi-raw" class="pixel-btn pixel-btn-secondary px-4 py-2 text-xs uppercase tracking-[0.18em]" target="_blank" rel="noopener">View JSON</a>
+                    <h2 class="ab-display text-2xl sm:text-3xl text-[#0B0B0C]">OpenAPI Summary</h2>
+                    <a id="openapi-raw" class="pixel-btn pixel-btn-secondary px-4 py-2 text-xs" target="_blank" rel="noopener">View JSON</a>
                 </div>
-                <div id="openapi-overview" class="space-y-4 text-sm text-slate-300">
+                <div id="openapi-overview" class="space-y-4 text-sm text-[#474742]">
                     <div>Loading OpenAPI spec...</div>
                 </div>
             </section>
-        </main>
 
-    </main>
-
-    <footer class="bg-black border-t border-white border-opacity-10">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-            <div class="flex items-center justify-between text-xs uppercase tracking-[0.24em] text-gray-400">
-                <span>&copy; 2025 APIUI Inc. All rights reserved.</span>
-                <button id="open-bug-report" class="pixel-btn pixel-btn-secondary text-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] bg-[#FAFAF7] px-6 py-4 mb-10">
+                <span class="font-mono text-xs uppercase tracking-[0.14em] text-[#62625C]">Found an issue with this endpoint?</span>
+                <button id="open-bug-report" class="pixel-btn pixel-btn-secondary text-xs py-2 px-4">
                     Report Bug
                 </button>
             </div>
         </div>
-        </footer>
+    </main>
+
+    <!-- Constructivist Footer + Giant APIUI Wordmark -->
+    <footer id="sitemap-footer" class="ab-footer">
+        <div class="ab-footer__inner">
+            <div class="ab-footer__top">
+                <div>
+                    <div class="ab-footer__eyebrow">// AURABLOX PLATFORM ARCHITECTURE</div>
+                    <h2 class="ab-footer__headline">Instant REST &amp; MCP Infrastructure</h2>
+                    <p class="text-sm text-[#474742] max-w-xl">Upload CSV, Excel, JSON, or Parquet datasets and launch live FastAPI REST endpoints and Model Context Protocol servers — locally on your hardware or in the cloud.</p>
+                </div>
+                <div class="ab-footer__diagram">
+                    <svg viewBox="0 0 360 110" class="w-full h-auto" aria-label="apiUI System Flow">
+                        <rect x="4" y="18" width="94" height="74" fill="#FAFAF7" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <rect x="4" y="18" width="94" height="6" fill="#EC4899"/>
+                        <text x="51" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#0B0B0C">DATASET</text>
+                        <text x="51" y="68" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#62625C">CSV / JSON / XLS</text>
+
+                        <line x1="98" y1="55" x2="132" y2="55" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <polygon points="132,51 138,55 132,59" fill="#EC4899"/>
+
+                        <rect x="138" y="18" width="94" height="74" fill="#0B0B0C" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <text x="185" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#FFFFFF">APIUI CORE</text>
+                        <text x="185" y="68" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#EC4899">PORT :8000</text>
+
+                        <line x1="232" y1="55" x2="262" y2="55" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <polygon points="262,51 268,55 262,59" fill="#EC4899"/>
+
+                        <rect x="268" y="18" width="88" height="33" fill="#FAFAF7" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <text x="312" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" font-weight="600" fill="#0B0B0C">REST /api</text>
+
+                        <rect x="268" y="59" width="88" height="33" fill="#FAFAF7" stroke="#EC4899" stroke-width="1.5"/>
+                        <text x="312" y="79" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" font-weight="600" fill="#DB2777">MCP /mcp</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="ab-footer__directory">
+                <div>
+                    <div class="ab-footer__col-head">01 // PLATFORM &amp; STUDIO</div>
+                    <ul class="ab-footer__col-links">
+                        <li><a href="index.html">Home &amp; API Hub</a></li>
+                        <li><a href="app.html">API Studio</a></li>
+                        <li><a href="learn-more.html">Learn More</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="ab-footer__col-head">02 // MCP SERVER &amp; AI</div>
+                    <ul class="ab-footer__col-links">
+                        <li><a href="mcp.html">MCP Server</a></li>
+                        <li><a href="mcp-chat.html">MCP Chat</a></li>
+                        <li><a href="docs.html#mcp-protocol">MCP Protocol Reference</a></li>
+                        <li><a href="http://localhost:8000/mcp" data-hydrate-path="/mcp" target="_blank" rel="noopener">MCP Endpoint (/mcp)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="ab-footer__col-head">03 // DEVELOPER DOCS</div>
+                    <ul class="ab-footer__col-links">
+                        <li><a href="docs.html">Documentation</a></li>
+                        <li><a href="docs.html#rest-api">REST API Querying</a></li>
+                        <li><a href="docs.html#self-hosting">Self-Hosting Guide</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="ab-footer__col-head">04 // COMPANY &amp; STATUS</div>
+                    <ul class="ab-footer__col-links">
+                        <li><a href="aurablox.html">AURABLOX</a></li>
+                        <li><a href="resume.html">Resume</a></li>
+                        <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                        <li><a href="http://localhost:8000/health" data-hydrate-path="/health" target="_blank" rel="noopener">Gateway Health (/health)</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ab-footer__giant-wordmark" aria-hidden="true">API<span>UI</span></div>
+
+            <div class="ab-footer__bottom-bar">
+                <div class="flex flex-wrap items-center gap-4">
+                    <span class="pixel-heading text-xs">&copy; 2026 apiUI &bull; An AURABLOX Platform</span>
+                    <span class="ab-status-pill" id="footer-gateway-pill">
+                        <span class="ab-status-dot is-checking" id="footer-gateway-dot"></span>
+                        <span id="footer-gateway-text">GATEWAY CHECKING...</span>
+                    </span>
+                </div>
+                <div class="flex items-center gap-5 text-[#474742]">
+                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-[#EC4899] transition-colors" aria-label="apiUI on X">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-[#EC4899] transition-colors" aria-label="AURABLOX on LinkedIn">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Bug Report Modal -->
-    <div id="bug-report-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="pixel-card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-6 border-b-2 border-slate-800">
+    <div id="bug-report-modal" class="fixed inset-0 bg-[#0B0B0C]/60 z-[200] hidden flex items-center justify-center p-4">
+        <div class="bg-white border-2 border-[#0B0B0C] max-w-2xl w-full max-h-[90vh] overflow-y-auto text-[#0B0B0C]">
+            <div class="p-6 border-b-2 border-[#0B0B0C] bg-[#FAFAF7]">
                 <div class="flex items-center justify-between">
-                    <h3 class="pixel-heading text-xl text-white">Report Bug</h3>
-                    <button id="close-bug-report" class="pixel-badge px-3 py-2 hover:bg-pink-600 transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <h3 class="ab-display text-2xl text-[#0B0B0C]">Report Bug</h3>
+                    <button id="close-bug-report" class="pixel-badge" aria-label="Close bug report">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
@@ -1589,30 +1701,28 @@
             </div>
             <div class="p-6 space-y-4">
                 <div>
-                    <label for="bug-description" class="block pixel-body text-sm font-medium text-slate-300 mb-2">
+                    <label for="bug-description" class="block font-mono uppercase text-xs font-semibold text-[#62625C] mb-2">
                         Describe the issue
                     </label>
-                    <textarea id="bug-description" rows="4" class="w-full pixel-body p-4 bg-slate-900 border-2 border-slate-700 focus:border-pink-500 focus:outline-none resize-vertical rounded text-white" placeholder="Please describe what went wrong, what you expected to happen, and any steps to reproduce the issue..."></textarea>
+                    <textarea id="bug-description" rows="4" class="w-full pixel-body p-4 bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none resize-vertical text-[#0B0B0C]" placeholder="Please describe what went wrong, what you expected to happen, and any steps to reproduce the issue..."></textarea>
                 </div>
 
                 <div>
-                    <label class="block pixel-body text-sm font-medium text-slate-300 mb-2">
+                    <label class="block font-mono uppercase text-xs font-semibold text-[#62625C] mb-2">
                         Bug Report Details
                     </label>
-                    <div class="pixel-card bg-slate-900 p-4 text-xs font-mono rounded">
-                        <pre id="bug-report-details" class="whitespace-pre-wrap text-slate-300"></pre>
-                    </div>
+                    <pre id="bug-report-details" class="whitespace-pre-wrap text-xs"></pre>
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <button id="copy-bug-report" class="pixel-badge px-4 py-2 bg-pink-600 hover:bg-pink-700 transition-colors flex-1">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="copy-bug-report" class="pixel-btn pixel-btn-primary text-xs flex-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                         </svg>
                         Copy Report
                     </button>
-                    <button id="email-bug-report" class="pixel-badge px-4 py-2 hover:bg-pink-600 transition-colors flex-1">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="email-bug-report" class="pixel-btn pixel-btn-secondary text-xs flex-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
                         Email Report
@@ -1622,17 +1732,22 @@
         </div>
     </div>
 
-
-    <div id="error-state" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl flex items-center justify-center z-50 hidden">
-        <div class="pixel-card p-10 max-w-lg text-center space-y-4">
-            <h2 class="text-2xl font-semibold text-white">We could not load this API</h2>
-            <p class="text-slate-300 text-sm" id="error-message">Please verify the link and try again.</p>
+    <div id="error-state" class="fixed inset-0 bg-[#FAFAF7]/95 backdrop-blur-md flex items-center justify-center z-[200] hidden">
+        <div class="bg-white border-2 border-[#0B0B0C] p-10 max-w-lg text-center space-y-4">
+            <h2 class="ab-display text-3xl text-[#0B0B0C]">We could not load this API</h2>
+            <p class="text-[#474742] text-sm" id="error-message">Please verify the link and try again.</p>
             <a href="index.html" class="pixel-btn pixel-btn-primary text-xs"><span>&larr;</span> Back to APIs</a>
         </div>
     </div>
 
     <script>
         function getBackendUrl() {
+            if (window.APIUI_CONFIG && typeof window.APIUI_CONFIG.getBackendUrl === 'function') {
+                return window.APIUI_CONFIG.getBackendUrl();
+            }
+            if (window.BACKEND_BASE_URL) {
+                return window.BACKEND_BASE_URL;
+            }
             if (window.APIUI_AUTH_BASE_URL) {
                 return window.APIUI_AUTH_BASE_URL;
             }
@@ -1640,7 +1755,7 @@
             if (attr) {
                 return attr;
             }
-            return 'https://apiui-backend-24bi767viq-uc.a.run.app';
+            return 'http://localhost:8000';
         }
 
         const state = {
@@ -1832,8 +1947,8 @@
 
             urlsToTry.push(`${state.backend}/v1/apis/${apiId}/docs`);
 
-            // Only try dedicated API URL as fallback if it's not an individual service URL
-            if (apiUrl && !apiUrl.includes('apiui-')) {
+            // Only try dedicated API URL as fallback if it's not an individual service URL or dead Cloud Run URL
+            if (apiUrl && !apiUrl.includes('apiui-') && !apiUrl.includes('.run.app')) {
                 urlsToTry.push(`${apiUrl}/docs`);
             }
 
@@ -1862,7 +1977,7 @@
             urlsToTry.push(`${state.backend}/api/${apiId}/data?limit=5`);
 
             // Only try the API's own URL as fallback if it's different from backend
-            if ((details?.api_url || details?.url) && !details.api_url?.includes('apiui-') && !details.url?.includes('apiui-')) {
+            if ((details?.api_url || details?.url) && !details.api_url?.includes('apiui-') && !details.url?.includes('apiui-') && !details.api_url?.includes('.run.app') && !details.url?.includes('.run.app')) {
                 urlsToTry.push(`${details.api_url || details.url}/data?limit=5`);
             }
 
@@ -1893,9 +2008,12 @@
         async function fetchSchemaData(apiId, details) {
             // Try to fetch schema from /schema endpoint
             const urlsToTry = [
-                `${state.backend}/api/${apiId}/schema`,
-                `${details?.api_url || details?.url}/schema`
+                `${state.backend}/api/${apiId}/schema`
             ];
+            const directApiUrl = details?.api_url || details?.url;
+            if (directApiUrl && !directApiUrl.includes('.run.app') && !directApiUrl.includes('apiui-')) {
+                urlsToTry.push(`${directApiUrl}/schema`);
+            }
 
             for (const schemaUrl of urlsToTry) {
                 try {
@@ -2021,10 +2139,10 @@
                 }
                 return `
                     <tr>
-                        <td class="py-4 pr-6 font-medium text-white">${escapeHtml(col.name)}</td>
-                        <td class="py-4 pr-6">${escapeHtml(col.type || col.inferred_type || 'string')}</td>
-                        <td class="py-4 pr-6">${nullable}</td>
-                        <td class="py-4 text-slate-400">${detail.join(' | ') || '--'}</td>
+                        <td class="py-4 pr-6 font-mono font-semibold text-[#0B0B0C]">${escapeHtml(col.name)}</td>
+                        <td class="py-4 pr-6 font-mono text-xs text-[#474742]">${escapeHtml(col.type || col.inferred_type || 'string')}</td>
+                        <td class="py-4 pr-6 text-[#474742]">${nullable}</td>
+                        <td class="py-4 text-[#62625C]">${detail.join(' | ') || '--'}</td>
                     </tr>
                 `;
             }).join('');
@@ -2034,7 +2152,7 @@
             const list = document.getElementById('endpoint-list');
             const endpoints = Array.isArray(state.details?.endpoints) ? state.details.endpoints : [];
             if (!endpoints.length) {
-                list.innerHTML = '<li class="text-slate-400">No endpoints were detected in the generated FastAPI app.</li>';
+                list.innerHTML = '<li class="text-[#62625C]">No endpoints were detected in the generated FastAPI app.</li>';
                 return;
             }
             const baseEndpoint = derivePrimaryEndpoint().replace(/\/$/, '');
@@ -2045,15 +2163,15 @@
                 const functionName = endpoint.function || endpoint.description || route;
                 
                 return `
-                    <li>
+                    <li class="border-b border-[#D9D9D2] pb-3 last:border-b-0 last:pb-0">
                         <div class="flex items-center justify-between gap-3">
                             <div>
-                                <span class="text-xs uppercase tracking-[0.18em] text-pink-300 mr-3">${escapeHtml(endpoint.method)}</span>
-                                <code class="text-sm text-slate-200">${escapeHtml(functionName)}</code>
+                                <span class="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-[#DB2777] mr-3">${escapeHtml(endpoint.method)}</span>
+                                <code class="text-sm text-[#0B0B0C]">${escapeHtml(functionName)}</code>
                             </div>
-                            <a href="${fullUrl}" target="_blank" rel="noopener" class="text-xs uppercase tracking-[0.18em] text-slate-400 hover:text-pink-300">Try</a>
+                            <a href="${fullUrl}" target="_blank" rel="noopener" class="font-mono text-xs uppercase tracking-[0.14em] text-[#62625C] hover:text-[#EC4899]">Try &nearr;</a>
                         </div>
-                        <p class="text-slate-400 text-xs mt-2">Path: ${escapeHtml(route)}</p>
+                        <p class="font-mono text-[#62625C] text-xs mt-1.5">Path: ${escapeHtml(route)}</p>
                     </li>
                 `;
             }).join('');
@@ -2062,7 +2180,7 @@
         function renderSampleTable() {
             const wrapper = document.getElementById('sample-table-wrapper');
             if (!Array.isArray(state.sampleData) || state.sampleData.length === 0) {
-                wrapper.innerHTML = '<div class="text-sm text-slate-400">No sample data available. Trigger the API to generate live records.</div>';
+                wrapper.innerHTML = '<div class="text-sm text-[#62625C]">No sample data available. Trigger the API to generate live records.</div>';
                 return;
             }
             const normalized = state.sampleData.map(item => typeof item === 'object' ? item : { value: item });
@@ -2071,10 +2189,10 @@
                 Object.keys(row).forEach(key => columnSet.add(key));
             });
             const columns = Array.from(columnSet);
-            const header = columns.map(col => `<th class="px-4 py-3 text-left text-xs uppercase tracking-[0.18em] text-slate-400">${escapeHtml(col)}</th>`).join('');
+            const header = columns.map(col => `<th class="px-4 py-3 text-left font-mono text-xs uppercase tracking-[0.14em] text-[#62625C] border-b-2 border-[#0B0B0C]">${escapeHtml(col)}</th>`).join('');
             const rows = normalized.map(row => {
-                const cells = columns.map(col => `<td class="px-4 py-3 text-sm text-slate-200">${escapeHtml(formatCell(row[col]))}</td>`).join('');
-                return `<tr class="border-b border-slate-900/60">${cells}</tr>`;
+                const cells = columns.map(col => `<td class="px-4 py-3 text-sm text-[#0B0B0C]">${escapeHtml(formatCell(row[col]))}</td>`).join('');
+                return `<tr class="border-b border-[#D9D9D2] hover:bg-white">${cells}</tr>`;
             }).join('');
             wrapper.innerHTML = `
                 <table class="min-w-full text-sm">
@@ -2161,11 +2279,11 @@ socket.on('query_result', (data) => {
             ];
 
             snippets.innerHTML = blocks.map(block => `
-                <article class="bg-slate-900/70 border border-slate-800 p-6 relative">
-                    <header class="flex items-center justify-between text-sm text-slate-300 mb-4">
-                        <span class="uppercase tracking-[0.18em] text-xs">${block.label}</span>
-                        <button class="copy-snippet-btn pixel-btn pixel-btn-secondary px-2 py-1 text-xs" data-copy-target="snippet-${block.id}">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <article class="bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6 relative">
+                    <header class="flex items-center justify-between text-xs font-mono text-[#0B0B0C] mb-3">
+                        <span class="uppercase tracking-[0.14em] font-semibold">${block.label}</span>
+                        <button class="copy-snippet-btn pixel-btn pixel-btn-secondary px-2.5 py-1.5 text-xs" data-copy-target="snippet-${block.id}" title="Copy ${block.label}">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                             </svg>
                         </button>
@@ -2268,17 +2386,17 @@ socket.on('query_result', (data) => {
             });
 
             container.innerHTML = `
-                <div class="text-sm text-slate-300">
-                    <p class="mb-3"><strong>${escapeHtml(meta.title || 'OpenAPI')}</strong> - Version ${escapeHtml(meta.version || '1.0.0')}</p>
+                <div class="text-sm text-[#474742]">
+                    <p class="mb-3"><strong class="text-[#0B0B0C]">${escapeHtml(meta.title || 'OpenAPI')}</strong> - Version ${escapeHtml(meta.version || '1.0.0')}</p>
                 </div>
                 <div class="grid gap-3">
                     ${entries.map(entry => `
-                        <div class="border border-slate-800 p-4 bg-slate-900/60">
+                        <div class="border border-[#D9D9D2] border-l-2 border-l-[#0B0B0C] p-4 bg-white">
                             <div class="flex flex-wrap items-center justify-between gap-2">
-                                <span class="text-xs uppercase tracking-[0.18em] text-pink-300">${escapeHtml(entry.method)}</span>
-                                <code class="text-sm text-slate-200">${escapeHtml(entry.path)}</code>
+                                <span class="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-[#DB2777]">${escapeHtml(entry.method)}</span>
+                                <code class="text-sm text-[#0B0B0C]">${escapeHtml(entry.path)}</code>
                             </div>
-                            <p class="text-xs text-slate-400 mt-2">${escapeHtml(entry.summary)}</p>
+                            <p class="text-xs text-[#62625C] mt-2">${escapeHtml(entry.summary)}</p>
                         </div>
                     `).join('')}
                 </div>
@@ -2829,15 +2947,15 @@ socket.on('query_result', (data) => {
                                    'bg-pink-400 text-pink-900';
 
                 return `
-                    <tr class="border-b border-slate-900/60 hover:bg-slate-900/20">
-                        <td class="py-3 px-4 font-mono text-sm text-slate-200">${endpoint.path}</td>
+                    <tr class="border-b border-[#D9D9D2] hover:bg-white">
+                        <td class="py-3 px-4 font-mono text-sm text-[#0B0B0C]">${endpoint.path}</td>
                         <td class="py-3 px-4">
-                            <span class="px-2 py-1 text-xs font-medium  ${methodColor}">${endpoint.method}</span>
+                            <span class="px-2 py-1 text-xs font-mono font-semibold border border-[#0B0B0C] ${methodColor}">${endpoint.method}</span>
                         </td>
-                        <td class="py-3 px-4 text-slate-300">${endpoint.requests.toLocaleString()}</td>
-                        <td class="py-3 px-4 text-slate-300">${endpoint.avgResponse}ms</td>
-                        <td class="py-3 px-4 text-slate-300">${endpoint.errorRate}%</td>
-                        <td class="py-3 px-4 ${statusColor} font-medium capitalize">${endpoint.status}</td>
+                        <td class="py-3 px-4 font-mono text-xs text-[#474742]">${endpoint.requests.toLocaleString()}</td>
+                        <td class="py-3 px-4 font-mono text-xs text-[#474742]">${endpoint.avgResponse}ms</td>
+                        <td class="py-3 px-4 font-mono text-xs text-[#474742]">${endpoint.errorRate}%</td>
+                        <td class="py-3 px-4 ${statusColor} font-mono text-xs font-semibold uppercase">${endpoint.status}</td>
                     </tr>
                 `;
             }).join('');
@@ -2900,20 +3018,20 @@ socket.on('query_result', (data) => {
                                 min: 99.5,
                                 max: 100,
                                 grid: {
-                                    color: 'rgba(30, 41, 59, 0.3)',
+                                    color: 'rgba(11, 11, 12, 0.08)',
                                     borderDash: [5, 5]
                                 },
                                 ticks: {
                                     callback: function(value) {
                                         return value.toFixed(2) + '%';
                                     },
-                                    color: 'rgb(148, 163, 184)',
+                                    color: '#62625C',
                                     font: { size: 12 }
                                 }
                             },
                             x: {
-                                grid: { color: 'rgba(148, 163, 184, 0.1)', drawBorder: false },
-                                ticks: { display: false, color: '#94a3b8' }
+                                grid: { color: 'rgba(11, 11, 12, 0.06)', drawBorder: false },
+                                ticks: { display: false, color: '#62625C' }
                             }
                         },
                         elements: { point: { radius: 0 } }
@@ -2931,13 +3049,13 @@ socket.on('query_result', (data) => {
                         datasets: [{
                             label: 'Response Time (ms)',
                             data: defaultHourlyData.map(d => d.avg_response_time),
-                            borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                            borderColor: '#7C3AED',
+                            backgroundColor: 'rgba(124, 58, 237, 0.12)',
                             tension: 0.4,
                             fill: true,
                             borderWidth: 3,
-                            pointBackgroundColor: '#3b82f6',
-                            pointBorderColor: '#ffffff',
+                            pointBackgroundColor: '#7C3AED',
+                            pointBorderColor: '#0B0B0C',
                             pointBorderWidth: 2,
                             pointRadius: 4,
                             pointHoverRadius: 6
@@ -2951,20 +3069,20 @@ socket.on('query_result', (data) => {
                             y: {
                                 beginAtZero: true,
                                 grid: {
-                                    color: 'rgba(30, 41, 59, 0.3)',
+                                    color: 'rgba(11, 11, 12, 0.08)',
                                     borderDash: [5, 5]
                                 },
                                 ticks: {
                                     callback: function(value) {
                                         return value + 'ms';
                                     },
-                                    color: 'rgb(148, 163, 184)',
+                                    color: '#62625C',
                                     font: { size: 12 }
                                 }
                             },
                             x: {
-                                grid: { color: 'rgba(148, 163, 184, 0.1)', drawBorder: false },
-                                ticks: { display: false, color: '#94a3b8' }
+                                grid: { color: 'rgba(11, 11, 12, 0.06)', drawBorder: false },
+                                ticks: { display: false, color: '#62625C' }
                             }
                         },
                         elements: { point: { radius: 0 } }
@@ -2982,13 +3100,13 @@ socket.on('query_result', (data) => {
                         datasets: [{
                             label: 'Requests',
                             data: defaultHourlyData.map(d => d.requests),
-                            borderColor: '#10b981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                            borderColor: '#0B0B0C',
+                            backgroundColor: 'rgba(11, 11, 12, 0.10)',
                             tension: 0.4,
                             fill: true,
                             borderWidth: 3,
-                            pointBackgroundColor: '#10b981',
-                            pointBorderColor: '#ffffff',
+                            pointBackgroundColor: '#0B0B0C',
+                            pointBorderColor: '#FFFFFF',
                             pointBorderWidth: 2,
                             pointRadius: 4,
                             pointHoverRadius: 6
@@ -3002,12 +3120,12 @@ socket.on('query_result', (data) => {
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                grid: { color: 'rgba(148, 163, 184, 0.1)', drawBorder: false },
-                                ticks: { display: false, color: '#94a3b8' }
+                                grid: { color: 'rgba(11, 11, 12, 0.06)', drawBorder: false },
+                                ticks: { display: false, color: '#62625C' }
                             },
                             x: {
-                                grid: { color: 'rgba(148, 163, 184, 0.1)', drawBorder: false },
-                                ticks: { display: false, color: '#94a3b8' }
+                                grid: { color: 'rgba(11, 11, 12, 0.06)', drawBorder: false },
+                                ticks: { display: false, color: '#62625C' }
                             }
                         },
                         elements: { point: { radius: 0 } }
@@ -3025,13 +3143,13 @@ socket.on('query_result', (data) => {
                         datasets: [{
                             label: 'Error Rate %',
                             data: defaultHourlyData.map(d => (d.errors / d.requests) * 100 || 0),
-                            borderColor: '#ef4444',
-                            backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                            borderColor: '#EF4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.12)',
                             tension: 0.4,
                             fill: true,
                             borderWidth: 3,
-                            pointBackgroundColor: '#ef4444',
-                            pointBorderColor: '#ffffff',
+                            pointBackgroundColor: '#EF4444',
+                            pointBorderColor: '#FFFFFF',
                             pointBorderWidth: 2,
                             pointRadius: 4,
                             pointHoverRadius: 6
@@ -3045,12 +3163,12 @@ socket.on('query_result', (data) => {
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                grid: { color: 'rgba(148, 163, 184, 0.1)', drawBorder: false },
-                                ticks: { display: false, color: '#94a3b8' }
+                                grid: { color: 'rgba(11, 11, 12, 0.06)', drawBorder: false },
+                                ticks: { display: false, color: '#62625C' }
                             },
                             x: {
-                                grid: { color: 'rgba(148, 163, 184, 0.1)', drawBorder: false },
-                                ticks: { display: false, color: '#94a3b8' }
+                                grid: { color: 'rgba(11, 11, 12, 0.06)', drawBorder: false },
+                                ticks: { display: false, color: '#62625C' }
                             }
                         },
                         elements: { point: { radius: 0 } }
@@ -3158,11 +3276,11 @@ socket.on('query_result', (data) => {
 
                     // Update tab buttons
                     document.querySelectorAll('.tab-btn').forEach(b => {
-                        b.classList.remove('active', 'text-white', 'border-pink-500');
-                        b.classList.add('text-slate-400', 'border-transparent');
+                        b.classList.remove('active', 'text-[#0B0B0C]', 'border-[#EC4899]');
+                        b.classList.add('text-[#62625C]', 'border-transparent');
                     });
-                    btn.classList.add('active', 'text-white', 'border-pink-500');
-                    btn.classList.remove('text-slate-400', 'border-transparent');
+                    btn.classList.add('active', 'text-[#0B0B0C]', 'border-[#EC4899]');
+                    btn.classList.remove('text-[#62625C]', 'border-transparent');
 
                     // Update tab content
                     document.querySelectorAll('.tab-content').forEach(content => {
@@ -3180,9 +3298,9 @@ socket.on('query_result', (data) => {
                 const headerDiv = document.createElement('div');
                 headerDiv.className = 'flex gap-2';
                 headerDiv.innerHTML = `
-                    <input type="text" placeholder="Header name" class="flex-1 pixel-body bg-slate-900 border border-slate-700 focus:border-pink-500 focus:outline-none px-3 py-2 text-white text-sm">
-                    <input type="text" placeholder="Header value" class="flex-1 pixel-body bg-slate-900 border border-slate-700 focus:border-pink-500 focus:outline-none px-3 py-2 text-white text-sm">
-                    <button class="remove-header pixel-btn pixel-btn-secondary px-2 py-2 text-sm">×</button>
+                    <input type="text" placeholder="Header name" class="flex-1 bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none px-3 py-2 text-[#0B0B0C] font-mono text-sm">
+                    <input type="text" placeholder="Header value" class="flex-1 bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none px-3 py-2 text-[#0B0B0C] font-mono text-sm">
+                    <button class="remove-header pixel-btn pixel-btn-secondary px-3 py-2 text-sm">&times;</button>
                 `;
                 headersList.appendChild(headerDiv);
                 attachHeaderRemoval(headerDiv);
@@ -3315,9 +3433,9 @@ socket.on('query_result', (data) => {
             const headerDiv = document.createElement('div');
             headerDiv.className = 'flex gap-2';
             headerDiv.innerHTML = `
-                <input type="text" value="x-api-key" class="flex-1 pixel-body bg-slate-900 border border-slate-700 focus:border-pink-500 focus:outline-none px-3 py-2 text-white text-sm">
-                <input type="text" value="${apiKey}" class="flex-1 pixel-body bg-slate-900 border border-slate-700 focus:border-pink-500 focus:outline-none px-3 py-2 text-white text-sm">
-                <button class="remove-header pixel-btn pixel-btn-secondary px-2 py-2 text-sm">×</button>
+                <input type="text" value="x-api-key" class="flex-1 bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none px-3 py-2 text-[#0B0B0C] font-mono text-sm">
+                <input type="text" value="${apiKey}" class="flex-1 bg-white border border-[#D9D9D2] focus:border-[#EC4899] focus:outline-none px-3 py-2 text-[#0B0B0C] font-mono text-sm">
+                <button class="remove-header pixel-btn pixel-btn-secondary px-3 py-2 text-sm">&times;</button>
             `;
             headersList.appendChild(headerDiv);
             attachHeaderRemoval(headerDiv);
@@ -3353,7 +3471,7 @@ socket.on('query_result', (data) => {
             sendBtn.disabled = true;
             sendBtn.innerHTML = '<div class="pixel-loader w-4 h-4 mr-2"></div>Sending...';
             statusSpan.textContent = 'Sending...';
-            statusSpan.className = 'px-2 py-1 text-xs bg-yellow-800 text-yellow-200 rounded';
+            statusSpan.className = 'px-2.5 py-1 text-xs font-mono bg-amber-100 border border-[#0B0B0C] text-[#0B0B0C]';
             timeSpan.textContent = '--ms';
             responseBody.textContent = 'Sending request...';
 
@@ -3405,11 +3523,11 @@ socket.on('query_result', (data) => {
                 // Update status
                 statusSpan.textContent = `${response.status} ${response.statusText}`;
                 if (response.status >= 200 && response.status < 300) {
-                    statusSpan.className = 'px-2 py-1 text-xs bg-green-800 text-green-200 rounded';
+                    statusSpan.className = 'px-2.5 py-1 text-xs font-mono bg-emerald-100 border border-[#0B0B0C] text-emerald-900';
                 } else if (response.status >= 400) {
-                    statusSpan.className = 'px-2 py-1 text-xs bg-red-800 text-red-200 rounded';
+                    statusSpan.className = 'px-2.5 py-1 text-xs font-mono bg-rose-100 border border-[#0B0B0C] text-rose-900';
                 } else {
-                    statusSpan.className = 'px-2 py-1 text-xs bg-yellow-800 text-yellow-200 rounded';
+                    statusSpan.className = 'px-2.5 py-1 text-xs font-mono bg-amber-100 border border-[#0B0B0C] text-amber-900';
                 }
                 timeSpan.textContent = `${responseTime}ms`;
 
@@ -3448,7 +3566,7 @@ socket.on('query_result', (data) => {
                 showApiTestError(error.message);
                 document.getElementById('response-body').textContent = `Error: ${error.message}`;
                 document.getElementById('response-status').textContent = 'Error';
-                document.getElementById('response-status').className = 'px-2 py-1 text-xs bg-red-800 text-red-200 rounded';
+                document.getElementById('response-status').className = 'px-2.5 py-1 text-xs font-mono bg-rose-100 border border-[#0B0B0C] text-rose-900';
             } finally {
                 sendBtn.disabled = false;
                 sendBtn.innerHTML = `
@@ -3584,67 +3702,118 @@ socket.on('query_result', (data) => {
             }
         });
 
-        // Sidebar functionality
+        // Aurablox Constructivist Navigation, Megamenu & Live Gateway Status Pill
         document.addEventListener('DOMContentLoaded', function() {
-            const sidebarToggle = document.querySelector('.sidebar-toggle');
-            const sidebarOverlay = document.querySelector('.sidebar-overlay');
-            const sidebar = document.getElementById('api-sidebar');
-            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const navShell = document.getElementById('ab-nav-shell');
+            const megamenu = document.getElementById('ab-megamenu');
+            const megaTriggers = Array.from(document.querySelectorAll('[data-mega-trigger]'));
+            const megaPanels = Array.from(document.querySelectorAll('[data-mega-panel]'));
+            const navToggle = document.getElementById('ab-nav-toggle');
+            const navMenu = document.getElementById('ab-nav-menu');
+            let closeTimer = null;
 
-            // Mobile sidebar toggle
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('open');
-                    sidebarOverlay.classList.toggle('active');
+            function closeMega() {
+                if (!navShell || !megamenu) return;
+                megamenu.classList.remove('is-open');
+                megamenu.setAttribute('aria-hidden', 'true');
+                navShell.classList.remove('has-mega-open');
+                megaTriggers.forEach(t => {
+                    t.classList.remove('is-open');
+                    t.setAttribute('aria-expanded', 'false');
                 });
+                megaPanels.forEach(p => p.classList.remove('is-active'));
             }
 
-            // Close sidebar when clicking overlay
-            if (sidebarOverlay) {
-                sidebarOverlay.addEventListener('click', function() {
-                    sidebar.classList.remove('open');
-                    sidebarOverlay.classList.remove('active');
+            function openMega(name) {
+                if (!navShell || !megamenu || window.innerWidth <= 960) return;
+                clearTimeout(closeTimer);
+                megaTriggers.forEach(t => {
+                    const active = t.dataset.megaTrigger === name;
+                    t.classList.toggle('is-open', active);
+                    t.setAttribute('aria-expanded', active ? 'true' : 'false');
                 });
+                megaPanels.forEach(p => p.classList.toggle('is-active', p.dataset.megaPanel === name));
+                megamenu.classList.add('is-open');
+                megamenu.setAttribute('aria-hidden', 'false');
+                navShell.classList.add('has-mega-open');
             }
 
-            // Section toggles
-            const sectionToggles = document.querySelectorAll('.sidebar-section-toggle');
-            sectionToggles.forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    const targetLinks = document.querySelector(targetId);
-                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
-
-                    if (targetLinks) {
-                        if (isExpanded) {
-                            targetLinks.classList.add('collapsed');
-                            this.setAttribute('aria-expanded', 'false');
-                        } else {
-                            targetLinks.classList.remove('collapsed');
-                            this.setAttribute('aria-expanded', 'true');
+            megaTriggers.forEach(trigger => {
+                trigger.addEventListener('mouseenter', () => openMega(trigger.dataset.megaTrigger));
+                trigger.addEventListener('click', () => {
+                    if (window.innerWidth <= 960) {
+                        const sub = trigger.parentElement.querySelector('[data-mobile-panel]');
+                        if (sub) {
+                            const next = !sub.classList.contains('is-open');
+                            sub.classList.toggle('is-open', next);
+                            trigger.classList.toggle('is-open', next);
+                            trigger.setAttribute('aria-expanded', next ? 'true' : 'false');
                         }
+                        return;
+                    }
+                    if (trigger.classList.contains('is-open')) {
+                        closeMega();
+                    } else {
+                        openMega(trigger.dataset.megaTrigger);
                     }
                 });
             });
 
-            // Initialize all sections as expanded
-            sectionToggles.forEach(toggle => {
-                toggle.setAttribute('aria-expanded', 'true');
+            if (navShell) {
+                navShell.addEventListener('mouseleave', () => {
+                    closeTimer = setTimeout(closeMega, 180);
+                });
+                navShell.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeMega();
+                    if (navMenu && navMenu.classList.contains('is-open')) {
+                        navMenu.classList.remove('is-open');
+                        if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+                    }
+                }
             });
 
-            // Update active sidebar link based on current page
-            function updateActiveSidebarLink() {
-                const currentPath = window.location.pathname;
-                sidebarLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === currentPath.split('/').pop() || 
-                        (currentPath.includes('api-detail') && link.getAttribute('href') === 'app.html')) {
-                        link.classList.add('active');
-                    }
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', () => {
+                    const next = !navMenu.classList.contains('is-open');
+                    navMenu.classList.toggle('is-open', next);
+                    navToggle.setAttribute('aria-expanded', next ? 'true' : 'false');
+                });
+                navMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('is-open');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    });
                 });
             }
 
-            updateActiveSidebarLink();
+            const baseUrl = (typeof getBackendUrl === 'function'
+                ? getBackendUrl()
+                : (window.BACKEND_BASE_URL || 'http://localhost:8000')).replace(/\/$/, '');
+
+            document.querySelectorAll('[data-hydrate-path]').forEach(el => {
+                const path = el.getAttribute('data-hydrate-path') || '';
+                el.setAttribute('href', baseUrl + path);
+            });
+
+            const dot = document.getElementById('footer-gateway-dot');
+            const text = document.getElementById('footer-gateway-text');
+            if (dot && text) {
+                fetch(baseUrl + '/health', { method: 'GET', mode: 'cors' })
+                    .then(res => {
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
+                        dot.classList.remove('is-checking', 'is-offline');
+                        text.textContent = 'GATEWAY ONLINE (' + baseUrl.replace(/^https?:\/\//, '') + ')';
+                    })
+                    .catch(() => {
+                        dot.classList.remove('is-checking');
+                        dot.classList.add('is-offline');
+                        text.textContent = 'GATEWAY STANDBY (' + baseUrl.replace(/^https?:\/\//, '') + ')';
+                    });
+            }
         });
 
     </script>

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APIUI | Learn More - Turn Data Into APIs Instantly</title>
-    <meta name="description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics. No-code API builder for developers and businesses.">
-    <meta name="keywords" content="csv to api, excel to rest api, parquet api generator, json api builder, no-code api platform, data api creation, rest api generator, api automation, data transformation api, fast api deployment, apiui, data to api converter">
+    <title>APIUI | Learn More - Turn Data Into Live REST APIs &amp; MCP</title>
+    <meta name="description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs and MCP servers instantly. Self-hosted or cloud.">
+    <meta name="keywords" content="csv to api, excel to rest api, parquet api generator, json api builder, mcp server, no-code api platform, data api creation, apiui">
     <meta name="author" content="APIUI by AURABLOX">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
     <meta name="bingbot" content="index, follow">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#FAFAF7">
     <meta name="language" content="English">
     <meta name="geo.region" content="US">
     <meta name="geo.placename" content="United States">
@@ -24,23 +24,21 @@
     <link rel="shortcut icon" href="apiui-cloud-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Pixelify+Sans:wght@400;500;600;700&display=swap">
     <meta property="og:site_name" content="APIUI">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="APIUI | Learn More - Turn Data Into APIs Instantly">
-    <meta property="og:description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics.">
+    <meta property="og:title" content="APIUI | Learn More - Turn Data Into Live REST APIs &amp; MCP">
+    <meta property="og:description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs and MCP servers instantly.">
     <meta property="og:url" content="https://apiui.web.app/learn-more.html">
     <meta property="og:image" content="https://apiui.web.app/apiui-cloud-logo.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="APIUI | Learn More - Turn Data Into APIs Instantly">
-    <meta name="twitter:description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics.">
+    <meta name="twitter:title" content="APIUI | Learn More - Turn Data Into Live REST APIs &amp; MCP">
+    <meta name="twitter:description" content="Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs and MCP servers instantly.">
     <meta name="twitter:image" content="https://apiui.web.app/apiui-cloud-logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="config.js"></script>
     <script>
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
+        window.APIUI_AUTH_BASE_URL = window.APIUI_AUTH_BASE_URL || window.BACKEND_BASE_URL || 'http://localhost:8000';
     </script>
     <script type="application/ld+json">
     {
@@ -52,22 +50,19 @@
                 "url": "https://apiui.web.app/",
                 "logo": "https://apiui.web.app/apiui-logo.png",
                 "image": "https://apiui.web.app/apiui-logo.png",
-                "description": "Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs instantly. Generate secure endpoints with authentication, filtering, pagination, and analytics. No-code API builder for developers and businesses.",
+                "description": "Transform CSV, Excel, Parquet, and JSON files into production-ready REST APIs and MCP servers instantly.",
                 "applicationCategory": "DeveloperApplication",
                 "operatingSystem": "Any",
                 "softwareVersion": "1.0.0",
-                "fileSize": "",
-                "downloadUrl": "",
-                "screenshot": "",
                 "featureList": [
                     "CSV to REST API conversion",
                     "Excel file API generation",
                     "Parquet data API creation",
                     "JSON file API transformation",
-                    "Authentication and security",
+                    "Model Context Protocol (MCP) server",
                     "API filtering and pagination",
                     "Real-time analytics",
-                    "No-code API development"
+                    "Self-hosted deployment"
                 ],
                 "author": {
                     "@type": "Organization",
@@ -87,1157 +82,1350 @@
                     "priceValidUntil": "2026-12-31",
                     "availability": "https://schema.org/InStock",
                     "validFrom": "2025-01-01"
-                },
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "4.8",
-                    "ratingCount": "150",
-                    "bestRating": "5",
-                    "worstRating": "1"
-                },
-                "applicationSubCategory": "API Development Tools"
+                }
             },
             {
                 "@type": "WebSite",
                 "name": "apiUI",
                 "url": "https://apiui.web.app/",
-                "description": "Turn your data into APIs instantly - No-code API generation from CSV, Excel, Parquet, and JSON files",
+                "description": "Turn your data into APIs and MCP servers instantly.",
                 "publisher": {
                     "@type": "Organization",
                     "name": "apiUI by AURABLOX"
-                },
-                "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": "https://apiui.web.app/search?q={search_term_string}",
-                    "query-input": "required name=search_term_string"
                 }
-            },
-            {
-                "@type": "Organization",
-                "name": "apiUI by AURABLOX",
-                "url": "https://apiui.web.app/",
-                "logo": "https://apiui.web.app/apiui-logo.png",
-                "description": "Leading provider of no-code API generation tools that transform data files into production-ready REST APIs",
-                "foundingDate": "2024",
-                "sameAs": [
-                    "https://github.com/apiui",
-                    "https://twitter.com/apiui"
-                ]
             }
         ]
     }
     </script>
     <style>
-        /* Pixel-Inspired CSS Variables */
         :root {
-            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
-            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
-            --pixel-pink-light: #F472B6;  /* Light pink */
-            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
-            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
-            --pixel-black: #000000;  /* Black text */
-            --pixel-white: #ffffff;  /* White background */
-            --pixel-gray-100: #f8fafc;
-            --pixel-gray-200: #e2e8f0;
-            --pixel-gray-300: #cbd5e1;
-            /* Hub Design System */
-            --hub-pink: #ec4899;
-            --hub-pink-soft: #f472b6;
-            --hub-ink: #0f172a;
-            --hub-ink-soft: #1f2937;
-            --hub-surface: #ffffff;
-            --hub-muted: #64748b;
-            --hub-border: rgba(15, 23, 42, 0.12);
+            --ink: #0B0B0C;
+            --paper: #FAFAF7;
+            --bg: #FFFFFF;
+            --surface: #FFFFFF;
+            --surface-alt: #F4F3EE;
+            --border: #D9D9D2;
+            --border-strong: #0B0B0C;
+            --text: #0B0B0C;
+            --text-secondary: #474742;
+            --muted: #62625C;
+            --accent: #EC4899;
+            --accent-deep: #DB2777;
+            --accent-purple: #7C3AED;
+            --font-display: 'Anton', Impact, 'Arial Narrow', sans-serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-pixel: 'Pixelify Sans', monospace;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+            --gutter: clamp(20px, 5vw, 72px);
+            color-scheme: light;
         }
 
-        /* CTA Button with Layered Glow Effect */
-        .cta-glow {
-            position: relative;
-            background: var(--pixel-pink);
-            color: white;
-            box-shadow:
-                0 0 20px rgba(233, 30, 99, 0.6),
-                0 0 40px rgba(156, 39, 176, 0.4),
-                0 0 60px rgba(156, 39, 176, 0.2);
-            transition: all 0.3s ease;
+        *, *::before, *::after {
+            box-sizing: border-box;
+            border-radius: 0 !important;
         }
 
-        .cta-glow:hover {
-            background: var(--pixel-pink-subtle);
-            box-shadow:
-                0 0 30px rgba(233, 30, 99, 0.8),
-                0 0 60px rgba(156, 39, 176, 0.6),
-                0 0 90px rgba(156, 39, 176, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .cta-glow:active {
-            transform: translateY(0);
-            box-shadow:
-                0 0 15px rgba(233, 30, 99, 0.4),
-                0 0 30px rgba(156, 39, 176, 0.3);
-        }
-
-        /* Regular Cursor */
-        * {
-            cursor: auto;
-        }
-
-        button, a, [role="button"] {
-            cursor: pointer;
-        }
-
-        /* Base Typography */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--pixel-white);
-            color: var(--pixel-black);
-            line-height: 1.6;
-            cursor: inherit;
-        }
-
-        /* Pixel Typography Classes */
-        .pixel-heading {
-            font-family: 'Pixelify Sans', monospace;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .pixel-body {
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        /* Hub Button System */
-        .hub-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.75rem;
-            border: 1px solid var(--hub-ink);
-            border-radius: 0;
-            font-size: 0.875rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease, color 0.2s ease;
-        }
-
-        .hub-btn:focus {
-            outline: 2px solid var(--hub-pink);
-            outline-offset: 3px;
-        }
-
-        .hub-btn-primary {
-            background-color: var(--hub-ink);
-            color: #fff;
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.4);
-        }
-
-        .hub-btn-primary:hover {
-            background-color: var(--hub-pink);
-            border-color: var(--hub-pink);
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.45);
-        }
-
-        .hub-btn-secondary {
-            background-color: transparent;
-            color: var(--hub-ink);
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
-        }
-
-        .hub-btn-secondary:hover {
-            background-color: var(--hub-pink-soft);
-            border-color: var(--hub-pink-soft);
-            color: #fff;
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(236, 72, 153, 0.35);
-        }
-
-        /* Pixel Elements */
-        .pixel-dot {
-            width: 12px;
-            height: 12px;
-            background-image: repeating-linear-gradient(90deg, var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px);
-            image-rendering: pixelated;
-        }
-
-        /* Arcade Text Effects */
-        .arcade-neon {
-            text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink);
-            animation: neon-pulse 2s ease-in-out infinite alternate;
-        }
-
-        .arcade-3d {
-            text-shadow:
-                2px 2px 0px var(--pixel-gray-800),
-                4px 4px 0px var(--pixel-gray-600),
-                6px 6px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .arcade-gradient {
-            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: none;
-        }
-
-        .arcade-title {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            text-shadow:
-                2px 2px 0px var(--pixel-gray-600),
-                0 0 8px var(--pixel-pink);
-        }
-
-        @keyframes neon-pulse {
-            from { text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink);
-            }
-            to { text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink),
-                0 0 20px var(--pixel-pink);
-            }
-        }
-
-        @keyframes arcade-glow {
-            from {
-                text-shadow:
-                    2px 2px 0px var(--pixel-gray-800),
-                    4px 4px 0px var(--pixel-gray-600),
-                    0 0 10px var(--pixel-pink),
-                    0 0 20px var(--pixel-pink);
-            }
-            to {
-                text-shadow:
-                    2px 2px 0px var(--pixel-gray-800),
-                    4px 4px 0px var(--pixel-gray-600),
-                    0 0 15px var(--pixel-pink),
-                    0 0 25px var(--pixel-pink),
-                    0 0 35px var(--pixel-pink);
-            }
-        }
-
-        /* Pixel Card System */
-        .pixel-card {
-            background: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pixel-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .pixel-card:hover {
-            box-shadow: var(--pixel-shadow-hover);
-            transform: translate(-1px, -1px);
-        }
-
-        .pixel-card:hover::before {
-            opacity: 1;
-        }
-
-        /* Pixel Button System */
-        .pixel-btn {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-            padding: 0.75rem 1.5rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            box-shadow: none;
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .pixel-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            transition: left 0.3s ease;
-        }
-
-        .pixel-btn:hover {
-            box-shadow: none;
-            transform: translate(-1px, -1px);
-            color: var(--pixel-black);
-        }
-
-        .pixel-btn:hover::before {
-            left: 100%;
-        }
-
-        .pixel-btn:active {
-            transform: translate(0, 0);
-            box-shadow: none;
-        }
-
-        .pixel-btn-primary {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            border-color: var(--pixel-black);
-        }
-
-        .pixel-btn-primary:hover {
-            background: var(--pixel-pink);
-            border-color: var(--pixel-pink);
-            color: var(--pixel-white);
-        }
-
-        .pixel-btn-secondary {
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            border-color: var(--pixel-pink-subtle);
-        }
-
-        .pixel-btn-secondary:hover {
-            background: var(--pixel-pink-subtle);
-            color: var(--pixel-white);
-        }
-
-        /* Pixel Icon Containers */
-        .pixel-icon {
-            background: var(--pixel-gray-100);
-            border: var(--pixel-border-width) solid var(--pixel-gray-300);
-            border-radius: var(--pixel-border-radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--pixel-shadow);
-            color: var(--pixel-gray-600);
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        .pixel-icon svg {
-            color: inherit;
-            filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.1));
-        }
-
-        /* Pixel Grid System */
-        .pixel-grid {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .pixel-section {
-            padding: 5rem 0;
-            position: relative;
-        }
-
-        .pixel-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* Pixel Accent Elements */
-        .pixel-accent-line {
-            position: relative;
-            margin: 3rem 0;
-            height: 2px;
-            background: repeating-linear-gradient(
-                90deg,
-                var(--pixel-black) 0px,
-                var(--pixel-black) 2px,
-                transparent 2px,
-                transparent 4px
-            );
-        }
-
-        .pixel-accent-line::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 4px;
-            background: var(--pixel-pink);
-        }
-
-        /* Pixel Badge - Consistent Pink Styling */
-        .pixel-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 0;
-            background: var(--pixel-pink);
-            border: 2px solid var(--pixel-black);
-            color: var(--pixel-white);
-            font-family: 'Pixelify Sans', monospace;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.2s ease;
-        }
-
-        .pixel-badge:hover {
-            background: var(--pixel-pink-subtle);
-            border-color: var(--pixel-black);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
-        }
-
-        /* API Card System - matching index.html */
-        .api-card {
-            position: relative;
-            background-color: var(--hub-surface);
-            border: 1px solid var(--hub-border);
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
-            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-        }
-
-        .api-card:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
-            border-color: rgba(236, 72, 153, 0.45);
-        }
-
-        .api-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            background-image: linear-gradient(90deg, var(--hub-pink) 50%, transparent 50%), linear-gradient(180deg, var(--hub-pink) 50%, transparent 50%);
-            background-size: 4px 4px;
-            opacity: 0.65;
-        }
-
-        .hub-divider {
-            width: 100%;
-            height: 1px;
-            background-image: linear-gradient(90deg, var(--hub-border) 0, transparent 50%, var(--hub-border) 100%);
-            background-size: 24px 1px;
-            opacity: 0.75;
-        }
-
-        .eyebrow {
-            letter-spacing: 0.32em;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Pixel Loading Animation */
-        .pixel-loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--pixel-gray-300);
-            border-radius: 0;
-            border-top-color: var(--pixel-pink);
-            animation: pixel-spin 1s ease-in-out infinite;
-        }
-
-        @keyframes pixel-spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Pixel Flicker Animation */
-        @keyframes pixel-flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        .pixel-flicker {
-            animation: pixel-flicker 0.1s ease-in-out;
-        }
-
-        /* Kisuke-style ASCII Block Text */
-        .kisuke-ascii {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            line-height: 0.8;
-            letter-spacing: 1px;
-            color: var(--pixel-black);
-            text-shadow:
-                2px 2px 0px rgba(0, 0, 0, 0.1),
-                -1px -1px 0px rgba(255, 255, 255, 0.1);
-        }
-
-        .kisuke-ascii .ascii-line {
-            display: block;
-            white-space: pre;
-            font-size: 0.6rem;
-            margin-bottom: 2px;
-        }
-
-        .kisuke-ascii.large {
-            font-size: 2rem;
-        }
-
-        .kisuke-ascii.large .ascii-line {
-            font-size: 1.2rem;
-            margin-bottom: 4px;
-        }
-
-        /* Retro terminal glow effect */
-        .kisuke-glow {
-            text-shadow:
-                0 0 5px rgba(236, 72, 153, 0.3),
-                0 0 10px rgba(236, 72, 153, 0.2),
-                0 0 15px rgba(236, 72, 153, 0.1);
-            animation: kisuke-glow-pulse 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes kisuke-glow-pulse {
-            from {
-                text-shadow:
-                    0 0 5px rgba(236, 72, 153, 0.3),
-                    0 0 10px rgba(236, 72, 153, 0.2),
-                    0 0 15px rgba(236, 72, 153, 0.1);
-            }
-            to {
-                text-shadow:
-                    0 0 8px rgba(236, 72, 153, 0.5),
-                    0 0 15px rgba(236, 72, 153, 0.3),
-                    0 0 25px rgba(236, 72, 153, 0.2);
-            }
-        }
-
-        /* Smooth Scrolling */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Pixel Focus States */
-        a:focus, button:focus {
-            outline: 2px solid var(--pixel-pink-subtle);
-            outline-offset: 2px;
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Hero Section */
-        .hero-section {
-            position: relative;
-            overflow: hidden;
-            background: var(--pixel-white);
-            min-height: 100vh;
+        h1, h2, .ab-display {
+            font-family: var(--font-display);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 0.92;
+            color: var(--ink);
+        }
+
+        .font-pixel {
+            font-family: var(--font-pixel);
+        }
+
+        .font-mono-code {
+            font-family: var(--font-mono);
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: #FFFFFF;
+        }
+
+        /* Aurablox Constructivist Top Nav & Mega-Menu */
+        .ab-nav-shell {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--paper);
+            border-bottom: 1px solid rgba(11, 11, 12, 0.18);
+            transition: border-color 0.15s ease;
+        }
+
+        .ab-nav-shell.has-mega-open {
+            border-bottom: 2px solid var(--ink);
+        }
+
+        .ab-nav {
+            min-height: 76px;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--gutter);
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            gap: 28px;
         }
 
-        .hero-gradient-text {
-            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 700;
-            text-shadow: none;
+        .ab-nav__brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex: none;
+            color: var(--ink);
+            text-decoration: none;
         }
 
-        /* Step Indicators */
-        .pixel-step {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
+        .ab-nav__seal {
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            flex: none;
+            clip-path: polygon(0 0, 11px 0, 11px 4px, 15px 4px, 15px 15px, 0 15px);
         }
 
-        /* CTA Section */
-        .cta-section {
+        .ab-nav__brand-name {
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            line-height: 1;
+            letter-spacing: 0.025em;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+
+        .ab-nav__brand-name span {
+            color: var(--accent);
+        }
+
+        .ab-nav__brand-tag {
+            font-family: var(--font-pixel);
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border-left: 1px solid var(--border);
+            padding-left: 10px;
+        }
+
+        .ab-nav__menu {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: clamp(18px, 2.4vw, 32px);
+            flex: 1;
+        }
+
+        .ab-nav__list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: clamp(16px, 2vw, 28px);
+        }
+
+        .ab-nav__item {
             position: relative;
-            background: var(--pixel-gray-100);
-            color: var(--pixel-black);
         }
 
-        /* Back to Top */
+        .ab-nav__item-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .ab-nav__link {
+            min-height: 76px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 2px solid transparent;
+            color: var(--ink);
+            font: 600 0.75rem/1.2 var(--font-body);
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.15s ease, border-color 0.15s ease;
+            cursor: pointer;
+        }
+
+        .ab-nav__link:hover,
+        .ab-nav__link.is-current,
+        .ab-nav__item.is-open .ab-nav__link {
+            border-bottom-color: var(--accent);
+            color: var(--ink);
+        }
+
+        .ab-nav__caret {
+            width: 10px;
+            height: 10px;
+            color: rgba(11, 11, 12, 0.55);
+            transition: transform 0.18s ease, color 0.18s ease;
+        }
+
+        .ab-nav__item.is-open .ab-nav__caret,
+        .ab-nav__link:hover .ab-nav__caret {
+            transform: rotate(180deg);
+            color: var(--accent);
+        }
+
+        .ab-nav__mobile-expand,
+        .ab-nav__mobile-sub {
+            display: none;
+        }
+
+        .ab-nav__cta-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .ab-nav__cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 40px;
+            padding: 0 16px;
+            background: var(--ink);
+            color: var(--paper);
+            border: 1px solid var(--ink);
+            font: 700 0.72rem/1 var(--font-body);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .ab-nav__cta-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .ab-nav__toggle {
+            display: none;
+        }
+
+        .ab-megamenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--paper);
+            border-top: 1px solid rgba(11, 11, 12, 0.14);
+            border-bottom: 2px solid var(--ink);
+            z-index: 999;
+            display: none;
+        }
+
+        .ab-megamenu.is-open {
+            display: block;
+        }
+
+        .ab-megamenu__inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 28px var(--gutter) 32px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(280px, 1.15fr);
+            gap: clamp(24px, 3.2vw, 48px);
+            align-items: start;
+        }
+
+        .ab-megamenu__col {
+            min-width: 0;
+        }
+
+        .ab-megamenu__col + .ab-megamenu__col {
+            padding-left: clamp(20px, 2.8vw, 40px);
+            border-left: 1px solid rgba(11, 11, 12, 0.14);
+        }
+
+        .ab-megamenu__section-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font: 700 0.68rem/1.2 var(--font-pixel);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin: 0 0 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(11, 11, 12, 0.12);
+            width: 100%;
+        }
+
+        .ab-megamenu__dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent);
+            flex: none;
+        }
+
+        .ab-megamenu__list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 4px;
+        }
+
+        .ab-megamenu__link {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 10px 12px;
+            margin-inline: -12px;
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            transition: background-color 0.15s ease, border-left-color 0.15s ease;
+        }
+
+        .ab-megamenu__link:hover {
+            background: #FFFFFF;
+            border-left-color: var(--accent);
+        }
+
+        .ab-megamenu__link-title {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font: 600 0.9rem/1.3 var(--font-body);
+            color: var(--ink);
+            transition: color 0.15s ease;
+        }
+
+        .ab-megamenu__link:hover .ab-megamenu__link-title {
+            color: var(--accent);
+        }
+
+        .ab-megamenu__link-arrow {
+            opacity: 0;
+            transform: translate(-3px, 3px);
+            color: var(--accent);
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            font-size: 0.85rem;
+        }
+
+        .ab-megamenu__link:hover .ab-megamenu__link-arrow {
+            opacity: 1;
+            transform: translate(0);
+        }
+
+        .ab-megamenu__link-desc {
+            font: 400 0.78rem/1.45 var(--font-body);
+            color: var(--text-secondary);
+        }
+
+        .ab-megamenu__spotlight {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 18px;
+            background: #FFFFFF;
+            border: 1px solid rgba(11, 11, 12, 0.16);
+            border-top: 2px solid var(--ink);
+            text-decoration: none;
+            color: var(--ink);
+            transition: border-color 0.15s ease;
+        }
+
+        .ab-megamenu__spotlight:hover {
+            border-color: var(--accent);
+        }
+
+        .ab-megamenu__spotlight-kicker {
+            font: 700 0.65rem/1.2 var(--font-pixel);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent-purple);
+            margin-bottom: 8px;
+        }
+
+        .ab-megamenu__spotlight h4 {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 0.98rem;
+            line-height: 1.3;
+            text-transform: none;
+            color: var(--ink);
+            margin: 0 0 8px;
+        }
+
+        .ab-megamenu__spotlight p {
+            font: 400 0.78rem/1.5 var(--font-body);
+            color: var(--text-secondary);
+            margin: 0 0 12px;
+        }
+
+        .ab-megamenu__spotlight-cta {
+            font: 700 0.68rem/1.2 var(--font-body);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        /* Constructivist Containers, Index Bars, Cards */
+        .ab-shell {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding-left: var(--gutter);
+            padding-right: var(--gutter);
+        }
+
+        .section-index-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-bottom: 14px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+            font: 700 0.72rem/1.2 var(--font-pixel);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .section-index-bar__left {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        .seal {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            flex: none;
+        }
+
+        .home-capability {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            padding: clamp(22px, 2.5vw, 30px);
+            transition: border-top-color 0.18s ease, background-color 0.18s ease;
+        }
+
+        .home-capability:hover {
+            border-top-color: var(--accent);
+            background: #FFFFFF;
+        }
+
+        .ab-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: var(--paper);
+            border: 1px solid var(--border);
+            font: 600 0.72rem/1.2 var(--font-pixel);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+            transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .ab-tag:hover {
+            border-color: var(--accent);
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .btn-ab {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 46px;
+            padding: 0 22px;
+            font: 700 0.74rem/1 var(--font-body);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--ink);
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+            cursor: pointer;
+        }
+
+        .btn-ab--primary {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .btn-ab--primary:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .btn-ab--secondary {
+            background: #FFFFFF;
+            color: var(--ink);
+        }
+
+        .btn-ab--secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Footer */
+        .ab-footer {
+            background: var(--paper);
+            color: var(--ink);
+            border-top: 1px solid rgba(11, 11, 12, 0.16);
+        }
+
+        .ab-footer__shell {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: clamp(48px, 6vw, 80px) var(--gutter) clamp(28px, 3.5vw, 40px);
+        }
+
+        .ab-footer__top {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: clamp(32px, 5vw, 64px);
+            align-items: center;
+            padding-bottom: clamp(36px, 4.5vw, 56px);
+            border-bottom: 1px solid rgba(11, 11, 12, 0.16);
+        }
+
+        .ab-footer__section-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font: 700 0.72rem/1.2 var(--font-pixel);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin: 0 0 14px;
+        }
+
+        .ab-footer__section-title::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            flex: none;
+        }
+
+        .ab-footer__top h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2.1rem, 3.6vw, 3.4rem);
+            line-height: 0.96;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin: 0 0 14px;
+            max-width: 18ch;
+        }
+
+        .ab-footer__lead {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            margin: 0 0 22px;
+            max-width: 52ch;
+        }
+
+        .ab-footer__schematic {
+            background: #FFFFFF;
+            border: 1px solid rgba(11, 11, 12, 0.18);
+            border-top: 2px solid var(--ink);
+            padding: 20px;
+        }
+
+        .ab-footer__directory {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: clamp(20px, 3vw, 36px);
+            padding: clamp(32px, 4vw, 44px) 0;
+            border-bottom: 1px solid rgba(11, 11, 12, 0.16);
+        }
+
+        .ab-footer__dir-col + .ab-footer__dir-col {
+            padding-left: clamp(16px, 2.2vw, 28px);
+            border-left: 1px solid rgba(11, 11, 12, 0.16);
+        }
+
+        .ab-footer__dir-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .ab-footer__dir-list a {
+            font: 500 0.88rem/1.4 var(--font-body);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .ab-footer__dir-list a:hover {
+            color: var(--accent);
+        }
+
+        .ab-footer__logo-wrap {
+            padding: clamp(24px, 3.5vw, 44px) 0 clamp(18px, 2.5vw, 32px);
+            border-bottom: 1px solid rgba(11, 11, 12, 0.16);
+            overflow: hidden;
+        }
+
+        .ab-footer__giant-wordmark {
+            font-family: var(--font-display);
+            font-size: clamp(4.5rem, 16vw, 14.5rem);
+            line-height: 0.84;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            color: var(--ink);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .ab-footer__giant-wordmark span {
+            color: var(--accent);
+        }
+
+        .ab-footer__bottom-bar {
+            padding-top: clamp(18px, 2.5vw, 28px);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px 28px;
+        }
+
+        .ab-footer__copyright-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 18px;
+        }
+
+        .ab-footer__copyright {
+            font: 600 0.72rem/1.2 var(--font-pixel);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .ab-footer__status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            font: 600 0.68rem/1.2 var(--font-pixel);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .ab-footer__status-dot {
+            width: 7px;
+            height: 7px;
+            background: #10B981;
+            flex: none;
+        }
+
+        .ab-footer__socials {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ab-footer__social-link {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(11, 11, 12, 0.18);
+            background: #FFFFFF;
+            color: var(--ink);
+            text-decoration: none;
+            transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .ab-footer__social-link:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #FFFFFF;
+        }
+
         .back-to-top {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 3rem;
-            height: 3rem;
-            border-radius: 0;
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            display: flex;
+            right: 20px;
+            bottom: 20px;
+            z-index: 900;
+            width: 42px;
+            height: 42px;
+            display: none;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--pixel-shadow);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(16px);
-            transition: all 0.15s ease;
-            z-index: 100;
-        }
-
-        .back-to-top:hover {
-            background: var(--pixel-pink);
-            transform: translateY(14px);
+            background: var(--ink);
+            color: var(--paper);
+            border: 1px solid var(--ink);
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
         }
 
         .back-to-top.show {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
+            display: inline-flex;
         }
 
-        /* Demo Video Styles */
-        .laptop-mockup {
-            perspective: 1000px;
-            transform-style: preserve-3d;
+        .back-to-top:hover {
+            background: var(--accent);
+            border-color: var(--accent);
         }
 
-        .laptop-screen {
-            transform: rotateX(-2deg);
-            transition: transform 0.3s ease;
-        }
-
-        .laptop-screen:hover {
-            transform: rotateX(0deg);
-        }
-
-        .demo-video-container video {
-            border-radius: 0;
-        }
-
-        .demo-video-container video::-webkit-media-controls-panel {
-            background: rgba(0, 0, 0, 0.7);
-        }
-
-        .demo-video-container #play-overlay {
-            backdrop-filter: blur(2px);
-        }
-
-        .demo-video-container #play-btn {
-            animation: pixel-pulse 2s infinite;
-        }
-
-        .demo-video-container #play-btn:hover {
-            animation: none;
-        }
-
-        @keyframes pixel-pulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+        @media (max-width: 960px) {
+            .ab-nav {
+                min-height: 68px;
+                padding-inline: 20px;
+                gap: 12px;
             }
-            50% {
-                box-shadow: 0 0 0 8px rgba(236, 72, 153, 0);
+            .ab-nav__toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 42px;
+                padding: 0 14px;
+                border: 1px solid rgba(11, 11, 12, 0.22);
+                background: #FFFFFF;
+                color: var(--ink);
+                font: 700 0.72rem/1 var(--font-body);
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                cursor: pointer;
             }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .laptop-screen {
-                transform: none;
+            .ab-nav__menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                display: none;
+                align-items: stretch;
+                gap: 0;
+                padding: 8px 20px 22px;
+                background: var(--paper);
+                border-bottom: 2px solid var(--ink);
+                max-height: calc(100svh - 68px);
+                overflow-y: auto;
             }
-
-            .laptop-base {
+            .ab-nav__menu.is-open {
+                display: flex;
+                flex-direction: column;
+            }
+            .ab-nav__list {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+            }
+            .ab-nav__item {
+                border-bottom: 1px solid rgba(11, 11, 12, 0.12);
+            }
+            .ab-nav__item-row {
+                justify-content: space-between;
+            }
+            .ab-nav__link {
+                flex: 1;
+                min-height: 50px;
+                border-bottom: 0;
+            }
+            .ab-nav__caret {
                 display: none;
             }
-
-            .pixel-grid {
-                grid-template-columns: 1fr;
+            .ab-nav__mobile-expand {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 44px;
+                height: 44px;
+                border: 0;
+                background: transparent;
+                color: var(--ink);
+                cursor: pointer;
+                font-size: 0.85rem;
             }
-
-            .pixel-section {
-                padding: 3rem 0;
+            .ab-nav__mobile-sub.is-open {
+                display: grid;
+                gap: 8px;
+                padding: 4px 0 16px 14px;
+                border-left: 2px solid var(--accent);
+                margin-bottom: 8px;
             }
-
-            /* Mobile hero optimizations */
-            .hero-section {
-                padding: 4rem 1rem;
-                min-height: auto;
+            .ab-nav__mobile-sub a {
+                font: 600 0.84rem/1.4 var(--font-body);
+                color: var(--ink);
+                text-decoration: none;
             }
-
-            /* Improve button touch targets on mobile */
-            .pixel-btn {
-                min-height: 48px; /* iOS recommended minimum touch target */
-                font-size: 1rem;
-                padding: 0.75rem 1.5rem;
+            .ab-nav__mobile-sub a:hover {
+                color: var(--accent);
             }
-
-            /* Better mobile spacing for cards */
-            .pixel-card {
-                margin-bottom: 1rem;
+            .ab-nav__cta-group {
+                margin-top: 16px;
             }
-
-            /* Mobile typography adjustments */
-            .arcade-title {
-                font-size: 2rem;
-                line-height: 1.2;
+            .ab-nav__cta-btn {
+                width: 100%;
+                justify-content: center;
+                min-height: 46px;
             }
-
-            /* Improve mobile grid layouts */
-            .grid {
-                gap: 1rem;
-            }
-
-            /* Mobile navigation improvements */
-            .pixel-container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-
-            /* Better mobile pricing layout */
-            .pricing-grid {
-                gap: 2rem;
-            }
-
-            /* Mobile trust indicators */
-            .trust-indicators {
-                gap: 1.5rem;
-            }
-        }
-
-        /* Extra small screens */
-        @media (max-width: 480px) {
-            .pixel-section {
-                padding: 2rem 0;
-            }
-
-            .hero-section {
-                padding: 3rem 1rem;
-            }
-
-            .arcade-title {
-                font-size: 1.75rem;
-                letter-spacing: 0.02em;
-            }
-
-            .pixel-btn {
-                font-size: 0.95rem;
-                padding: 0.875rem 1.25rem;
-            }
-
-            /* Single column layouts on very small screens */
-            .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3,
-            .grid-cols-1.md\\:grid-cols-3,
-            .grid-cols-1.lg\\:grid-cols-2 {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Scroll-triggered animations */
-        .pixel-fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .pixel-fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .pixel-slide-in-left {
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .pixel-slide-in-left.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .pixel-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .pixel-slide-in-right.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Floating Sidebar Styling */
-
-
-        /* Floating Sidebar Container Override - No Borders */
-
-        /* Hide floating sidebar on mobile devices */
-        @media (max-width: 768px) {
-            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
+            .ab-megamenu {
                 display: none !important;
+            }
+            .ab-footer__top {
+                grid-template-columns: 1fr;
+            }
+            .ab-footer__directory {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .ab-footer__dir-col:nth-child(3) {
+                padding-left: 0;
+                border-left: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .ab-nav__brand-tag {
+                display: none;
+            }
+            .section-index-bar__right {
+                display: none;
+            }
+            .ab-footer__directory {
+                grid-template-columns: 1fr;
+            }
+            .ab-footer__dir-col + .ab-footer__dir-col {
+                padding-left: 0;
+                border-left: 0;
+                padding-top: 20px;
+                border-top: 1px solid rgba(11, 11, 12, 0.14);
             }
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
-    <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+<body class="flex flex-col min-h-screen bg-white text-[#0B0B0C]">
+    <!-- Aurablox Constructivist Top Nav + Mega-Menu -->
+    <header class="ab-nav-shell" id="ab-nav-shell">
+        <nav class="ab-nav" aria-label="Primary navigation">
+            <a href="index.html" class="ab-nav__brand">
+                <span class="ab-nav__seal" aria-hidden="true"></span>
+                <span class="ab-nav__brand-name">API<span>UI</span></span>
+                <span class="ab-nav__brand-tag">// AURABLOX</span>
+            </a>
 
-        </div>
-    </div>
-    <!-- Pixel Loading Screen -->
+            <button id="ab-nav-toggle" type="button" class="ab-nav__toggle" aria-expanded="false" aria-controls="ab-nav-menu">
+                Menu
+            </button>
 
-    <!-- Header -->
-    <header class="bg-white">
-        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <img src="apiui-cloud-logo.png" alt="apiUI Logo" class="w-10 h-10 rounded shadow-sm">
-                <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
-                    api<span class="text-pink-400">UI</span>
-                </a>
-                <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
+            <div class="ab-nav__menu" id="ab-nav-menu">
+                <ul class="ab-nav__list">
+                    <li class="ab-nav__item" data-mega-item="platform">
+                        <div class="ab-nav__item-row">
+                            <a href="index.html" class="ab-nav__link is-current" data-mega-trigger="platform">
+                                Platform
+                                <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                            </a>
+                            <button type="button" class="ab-nav__mobile-expand" aria-label="Expand Platform menu" data-mobile-expand="platform">&#9662;</button>
+                        </div>
+                        <div class="ab-nav__mobile-sub" data-mobile-sub="platform">
+                            <a href="index.html">Home &amp; API Hub</a>
+                            <a href="app.html">API Studio</a>
+                            <a href="learn-more.html">Learn More &amp; Architecture</a>
+                            <a href="aurablox.html">AURABLOX Parent Studio</a>
+                        </div>
+                    </li>
+
+                    <li class="ab-nav__item" data-mega-item="mcp">
+                        <div class="ab-nav__item-row">
+                            <a href="mcp.html" class="ab-nav__link" data-mega-trigger="mcp">
+                                MCP Server
+                                <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                            </a>
+                            <button type="button" class="ab-nav__mobile-expand" aria-label="Expand MCP Server menu" data-mobile-expand="mcp">&#9662;</button>
+                        </div>
+                        <div class="ab-nav__mobile-sub" data-mobile-sub="mcp">
+                            <a href="mcp.html">MCP Server Hub</a>
+                            <a href="mcp.html#connecting">Client Configs (Claude / Cursor)</a>
+                            <a href="mcp-chat.html">MCP Multi-API Chat</a>
+                            <a href="docs.html#mcp-protocol">MCP Protocol Spec</a>
+                        </div>
+                    </li>
+
+                    <li class="ab-nav__item">
+                        <div class="ab-nav__item-row">
+                            <a href="mcp-chat.html" class="ab-nav__link">MCP Chat</a>
+                        </div>
+                    </li>
+
+                    <li class="ab-nav__item" data-mega-item="docs">
+                        <div class="ab-nav__item-row">
+                            <a href="docs.html" class="ab-nav__link" data-mega-trigger="docs">
+                                Docs
+                                <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                            </a>
+                            <button type="button" class="ab-nav__mobile-expand" aria-label="Expand Docs menu" data-mobile-expand="docs">&#9662;</button>
+                        </div>
+                        <div class="ab-nav__mobile-sub" data-mobile-sub="docs">
+                            <a href="docs.html">Documentation Home</a>
+                            <a href="docs.html#rest-api">REST API Querying</a>
+                            <a href="docs.html#mcp-protocol">MCP Protocol Reference</a>
+                            <a href="docs.html#self-hosting">Self-Hosted Mini-PC Setup</a>
+                            <a href="cookie-policy.html">Cookie Policy</a>
+                        </div>
+                    </li>
+
+                    <li class="ab-nav__item">
+                        <div class="ab-nav__item-row">
+                            <a href="#sitemap-footer" class="ab-nav__link">Sitemap</a>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="ab-nav__cta-group">
+                    <a href="app.html" class="ab-nav__cta-btn">Launch Studio &#8599;</a>
+                </div>
             </div>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">App</a>
-                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">MCP</a>
-                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="#features" class="pixel-heading text-sm text-slate-700 hover:text-pink-400 transition-colors tracking-[0.08em] uppercase">Learn more</a>
-            </div>
-
-    </div>
-
-            <!-- Mobile Menu Button -->
         </nav>
+
+        <!-- Mega-Menu: Platform -->
+        <div class="ab-megamenu" id="mega-platform" data-mega-panel="platform">
+            <div class="ab-megamenu__inner">
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>01 // Core Workspace</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="index.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Home &amp; Live API Hub <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Browse active REST endpoints, live datasets, and MCP tools.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="app.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">API Studio Console <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Upload CSV, Excel, JSON, or Parquet files and deploy instantly.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>02 // Platform &amp; Brand</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="learn-more.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Learn More &amp; Architecture <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">See how flat datasets transform into FastAPI &amp; MCP infrastructure.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="aurablox.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">AURABLOX Studio <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Parent product &amp; systems engineering studio behind apiUI.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <a href="app.html" class="ab-megamenu__spotlight">
+                        <div>
+                            <div class="ab-megamenu__spotlight-kicker">GUEST MODE // READY</div>
+                            <h4>Zero-Friction API &amp; MCP Studio</h4>
+                            <p>Drop a spreadsheet or JSON payload directly into the self-hosted workspace with zero setup lockouts.</p>
+                        </div>
+                        <span class="ab-megamenu__spotlight-cta">Open Studio &#8599;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mega-Menu: MCP Server -->
+        <div class="ab-megamenu" id="mega-mcp" data-mega-panel="mcp">
+            <div class="ab-megamenu__inner">
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>01 // Model Context Protocol</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="mcp.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">MCP Server Hub <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Live JSON-RPC 2.0 tool explorer, SSE transport, and server telemetry.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mcp.html#connecting" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Claude &amp; Cursor Configs <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Copy-ready mcpServers JSON blocks for Desktop and IDE clients.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>02 // AI Dataset Agents</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="mcp-chat.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">MCP Multi-API Chat <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Query across one or all deployed datasets in natural language.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="docs.html#mcp-protocol" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Built-In MCP Tool Spec <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">list_datasets, get_dataset_schema, query_dataset, summarize_dataset.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <a href="mcp.html" class="ab-megamenu__spotlight">
+                        <div>
+                            <div class="ab-megamenu__spotlight-kicker">STREAMABLE HTTP + SSE</div>
+                            <h4>Test Live MCP JSON-RPC 2.0</h4>
+                            <p>Invoke real tools/list and tools/call methods directly against your self-hosted port 8000 backend.</p>
+                        </div>
+                        <span class="ab-megamenu__spotlight-cta">Inspect MCP Hub &#8599;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mega-Menu: Docs -->
+        <div class="ab-megamenu" id="mega-docs" data-mega-panel="docs">
+            <div class="ab-megamenu__inner">
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>01 // Developer Guides</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="docs.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Documentation Home <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Complete developer guide to REST endpoints, schemas, and AI tools.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="docs.html#rest-api" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">REST API Querying <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Column filtering, _search, _sort, _order, _limit, and _offset.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>02 // Operations &amp; Legal</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="docs.html#self-hosting" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Self-Hosted &amp; Mini-PC Setup <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Run ./start-local.sh on ports 8000 &amp; 8080 across your LAN.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="cookie-policy.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Cookie Policy <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Browser storage, session preferences, and privacy details.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <a href="docs.html#self-hosting" class="ab-megamenu__spotlight">
+                        <div>
+                            <div class="ab-megamenu__spotlight-kicker">HOME LAB // LAN READY</div>
+                            <h4>Self-Host on Your Own Hardware</h4>
+                            <p>Run the full apiUI Python gateway and frontend on macOS, Linux, or a mini-PC with zero cloud dependencies.</p>
+                        </div>
+                        <span class="ab-megamenu__spotlight-cta">Read Self-Host Guide &#8599;</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main class="flex-1">
-        <!-- Hero Section -->
-    <section class="hero-section bg-gradient-to-b from-white via-gray-50/30 to-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
-        <!-- Subtle geometric pattern -->
-        <div class="absolute inset-0 opacity-[0.02]">
-            <div class="absolute top-20 left-10 w-96 h-96 border border-pink-400/20 rounded-full"></div>
-            <div class="absolute top-40 right-20 w-64 h-64 border border-pink-600/20 rounded-full"></div>
-            <div class="absolute bottom-32 left-1/4 w-48 h-48 border border-pink-400/20 rounded-full"></div>
-            <div class="absolute bottom-20 right-1/3 w-32 h-32 border border-pink-600/20 rounded-full"></div>
-        </div>
-
-        <div class="pixel-container max-w-6xl text-center relative z-10">
-
-            <!-- Main Headline -->
-            <div class="mb-8 pixel-fade-in">
-                <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
-                    <div class="kisuke-ascii large kisuke-glow">
-                        <div class="ascii-line">██████╗ ██╗   ██╗██╗██╗     ██████╗     ██╗     ██╗██╗   ██╗███████╗</div>
-                        <div class="ascii-line">██╔══██╗██║   ██║██║██║     ██╔══██╗    ██║     ██║██║   ██║██╔════╝</div>
-                        <div class="ascii-line">██████╔╝██║   ██║██║██║     ██║  ██║    ██║     ██║██║   ██║█████╗  </div>
-                        <div class="ascii-line">██╔══██╗██║   ██║██║██║     ██║  ██║    ██║     ██║╚██╗ ██╔╝██╔══╝  </div>
-                        <div class="ascii-line">██████╔╝╚██████╔╝██║███████╗██████╔╝    ███████╗██║ ╚████╔╝ ███████╗</div>
-                        <div class="ascii-line">╚═════╝  ╚═════╝ ╚═╝╚══════╝╚═════╝     ╚══════╝╚═╝  ╚═══╝  ╚══════╝</div>
-                        <div class="ascii-line"></div>
-                        <div class="ascii-line"> █████╗ ██████╗ ██╗███████╗    ███████╗██████╗  ██████╗ ███╗   ███╗</div>
-                        <div class="ascii-line">██╔══██╗██╔══██╗██║██╔════╝    ██╔════╝██╔══██╗██╔═══██╗████╗ ████║</div>
-                        <div class="ascii-line">███████║██████╔╝██║███████╗    █████╗  ██████╔╝██║   ██║██╔████╔██║</div>
-                        <div class="ascii-line">██╔══██║██╔═══╝ ██║╚════██║    ██╔══╝  ██╔══██╗██║   ██║██║╚██╔╝██║</div>
-                        <div class="ascii-line">██║  ██║██║     ██║███████║    ██║     ██║  ██║╚██████╔╝██║ ╚═╝ ██║</div>
-                        <div class="ascii-line">╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝</div>
-                        <div class="ascii-line"></div>
-                        <div class="ascii-line">██╗   ██╗ ██████╗ ██╗   ██╗██████╗     ██████╗  █████╗ ████████╗ █████╗</div>
-                        <div class="ascii-line">╚██╗ ██╔╝██╔═══██╗██║   ██║██╔══██╗    ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗</div>
-                        <div class="ascii-line"> ╚████╔╝ ██║   ██║██║   ██║██████╔╝    ██║  ██║███████║   ██║   ███████║</div>
-                        <div class="ascii-line">  ╚██╔╝  ██║   ██║██║   ██║██╔══██╗    ██║  ██║██╔══██║   ██║   ██╔══██║</div>
-                        <div class="ascii-line">   ██║   ╚██████╔╝╚██████╔╝██║  ██║    ██████╔╝██║  ██║   ██║   ██║  ██║</div>
-                        <div class="ascii-line">   ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝</div>
-                        <div class="ascii-line"></div>
-                        <div class="ascii-line">██╗███╗   ██╗    ███████╗███████╗ ██████╗ ██████╗ ███╗   ██╗██████╗ ███████╗</div>
-                        <div class="ascii-line">██║████╗  ██║    ██╔════╝██╔════╝██╔════╝██╔═══██╗████╗  ██║██╔══██╗██╔════╝</div>
-                        <div class="ascii-line">██║██╔██╗ ██║    ███████╗█████╗  ██║     ██║   ██║██╔██╗ ██║██║  ██║███████╗</div>
-                        <div class="ascii-line">██║██║╚██╗██║    ╚════██║██╔══╝  ██║     ██║   ██║██║╚██╗██║██║  ██║╚════██║</div>
-                        <div class="ascii-line">██║██║ ╚████║    ███████║███████╗╚██████╗╚██████╔╝██║ ╚████║██████╔╝███████║</div>
-                        <div class="ascii-line">╚═╝╚═╝  ╚═══╝    ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═════╝ ╚══════╝</div>
+    <main class="flex-1 pt-[76px]">
+        <!-- Constructivist Splash Hero -->
+        <section class="bg-[#FAFAF7] border-b border-[#D9D9D2] py-16 md:py-24">
+            <div class="ab-shell">
+                <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-[#D9D9D2]">
+                    <div class="inline-flex items-center gap-3 font-pixel text-xs tracking-[0.16em] uppercase text-[#0B0B0C]">
+                        <span class="seal" aria-hidden="true"></span>
+                        00 // ARCHITECTURE &amp; PLATFORM OVERVIEW
                     </div>
-                </h1>
-            </div>
-
-            <!-- Enhanced Subtitle -->
-            <div class="mb-12 pixel-fade-in" style="animation-delay: 0.2s">
-                <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
-                    Upload CSV, Excel, or Parquet files and get instant REST APIs with
-                    <span class="font-semibold text-gray-900">authentication, filtering, and analytics</span>—
-                    <span class="text-pink-400 font-medium">no coding required.</span>
-                </p>
-            </div>
-
-            <!-- Premium CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 pixel-fade-in" style="animation-delay: 0.4s">
-                <a href="app.html" class="hub-btn hub-btn-primary">
-                    Start Building Free
-                </a>
-                <a href="#features" class="hub-btn hub-btn-secondary">
-                    Learn More
-                </a>
-            </div>
-
-            <!-- Pixel Trust Indicators -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto pixel-fade-in" style="animation-delay: 0.6s">
-                <div class="pixel-card p-8 text-center h-full flex flex-col items-center justify-center">
-                    <div class="pixel-icon w-12 h-12 flex items-center justify-center mb-6 mx-auto bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-lg">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                        </svg>
-                    </div>
-                    <h3 class="pixel-subtitle text-lg text-black mb-3 font-semibold">Free to Start</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed">No credit card required</p>
+                    <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#62625C]">DATA TO LIVE REST &amp; MCP</span>
                 </div>
 
-                <div class="pixel-card p-8 text-center h-full flex flex-col items-center justify-center">
-                    <div class="pixel-icon w-12 h-12 flex items-center justify-center mb-6 mx-auto bg-gradient-to-br from-pink-600 to-pink-700 text-white shadow-lg">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
+                <div class="grid lg:grid-cols-[1.2fr,0.8fr] gap-12 items-center">
+                    <div>
+                        <h1 class="text-5xl sm:text-7xl md:text-8xl tracking-[-0.015em] text-[#0B0B0C] mb-6">
+                            BUILD LIVE <span class="text-[#EC4899]">APIS</span> FROM YOUR DATA
+                        </h1>
+                        <p class="text-lg sm:text-xl text-[#474742] max-w-2xl leading-relaxed mb-8">
+                            Upload CSV, Excel, Parquet, or JSON files and get instant REST endpoints plus a spec-compliant MCP server—complete with filtering, sorting, pagination, and zero boilerplate.
+                        </p>
+
+                        <div class="flex flex-wrap gap-3 mb-8">
+                            <a href="#features" class="ab-tag">01 // Capabilities</a>
+                            <a href="#how-it-works" class="ab-tag">02 // Pipeline &amp; Demo</a>
+                            <a href="#pricing" class="ab-tag">03 // Plans</a>
+                            <a href="docs.html#self-hosting" class="ab-tag">04 // Self-Hosted Ready</a>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            <a href="app.html" class="btn-ab btn-ab--primary">Start Building Free &#8599;</a>
+                            <a href="docs.html" class="btn-ab btn-ab--secondary">Read Documentation &#8599;</a>
+                        </div>
                     </div>
-                    <h3 class="pixel-subtitle text-lg text-black mb-3 font-semibold">Lightning Fast</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed">APIs ready in seconds</p>
+
+                    <!-- Trust Ledger Grid -->
+                    <div class="grid gap-4">
+                        <div class="home-capability bg-white">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#EC4899]">01 // ZERO LOCK-IN</span>
+                                <span class="w-3 h-3 bg-[#EC4899]"></span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-[#0B0B0C] mb-1" style="font-family: var(--font-body); text-transform: none;">Free to Start</h3>
+                            <p class="text-sm text-[#474742] m-0">Open Guest Showcase &amp; self-hosted Studio with zero sign-up barriers.</p>
+                        </div>
+
+                        <div class="home-capability bg-white">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#EC4899]">02 // LOW LATENCY</span>
+                                <span class="w-3 h-3 bg-[#0B0B0C]"></span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-[#0B0B0C] mb-1" style="font-family: var(--font-body); text-transform: none;">Lightning Fast</h3>
+                            <p class="text-sm text-[#474742] m-0">REST &amp; JSON-RPC 2.0 MCP endpoints generated and live in seconds.</p>
+                        </div>
+
+                        <div class="home-capability bg-white">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#7C3AED]">03 // FULL OWNERSHIP</span>
+                                <span class="w-3 h-3 bg-[#7C3AED]"></span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-[#0B0B0C] mb-1" style="font-family: var(--font-body); text-transform: none;">Self-Hosted &amp; Secure</h3>
+                            <p class="text-sm text-[#474742] m-0">Run on your own mini-PC or local LAN with full dataset privacy.</p>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="pixel-card p-8 text-center h-full flex flex-col items-center justify-center">
-                    <div class="pixel-icon w-12 h-12 flex items-center justify-center mb-6 mx-auto bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-lg">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="pixel-subtitle text-lg text-black mb-3 font-semibold">Enterprise Secure</h3>
-                    <p class="pixel-body text-gray-600 leading-relaxed">Bank-level encryption</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="hub-divider"></div>
-
-    <!-- Features Section -->
-    <section id="features" class="pixel-section bg-gray-50 py-20 relative">
-        <!-- Background Image -->
-        <div class="absolute inset-0 opacity-15 pointer-events-none">
-            <img src="images/cube-columns.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
-        </div>
-        <div class="pixel-container max-w-7xl relative z-10">
-            <div class="space-y-3 mb-16 pixel-fade-in">
-                <div class="flex items-center gap-3 justify-center">
-                    <span class="pixel-dot"></span>
-                    <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">Features</p>
-                </div>
-                <div class="text-center">
-                    <h2 class="text-3xl font-semibold tracking-tight text-slate-900 mb-6">Everything You Need to Build APIs</h2>
-                    <p class="text-base text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                        Powerful features that make API development
-                        <span class="font-semibold text-slate-900">effortless</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                <article class="api-card p-6 flex flex-col min-h-[280px]">
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="pixel-icon w-12 h-12 mb-6">
-                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Universal File Support</h3>
-                            <p class="text-sm text-slate-600 leading-6">
-                                Upload CSV, Excel, Parquet, or JSON files. Automatic format detection and data type inference.
-                            </p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="api-card p-6 flex flex-col min-h-[280px]">
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="pixel-icon w-12 h-12 mb-6">
-                                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Instant Deployment</h3>
-                            <p class="text-sm text-slate-600 leading-6">
-                                Your API is live within seconds. No server setup, no configuration, just instant endpoints.
-                            </p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="api-card p-6 flex flex-col min-h-[280px]">
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="pixel-icon w-12 h-12 mb-6">
-                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold text-slate-900 mb-4">RESTful Endpoints</h3>
-                            <p class="text-sm text-slate-600 leading-6">
-                                Full REST API with filtering, pagination, and query parameters. Industry-standard endpoints.
-                            </p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="api-card p-6 flex flex-col min-h-[280px]">
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="pixel-icon w-12 h-12 mb-6">
-                                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Secure & Private</h3>
-                            <p class="text-sm text-slate-600 leading-6">
-                                Enterprise-grade security with API keys, rate limiting, and data encryption.
-                            </p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="api-card p-6 flex flex-col min-h-[280px]">
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="pixel-icon w-12 h-12 mb-6">
-                                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Real-time Analytics</h3>
-                            <p class="text-sm text-slate-600 leading-6">
-                                Monitor API usage, performance metrics, and data access patterns in real-time.
-                            </p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="api-card p-6 flex flex-col min-h-[280px]">
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="pixel-icon w-12 h-12 mb-6">
-                                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold text-slate-900 mb-4">Developer Friendly</h3>
-                            <p class="text-sm text-slate-600 leading-6">
-                                Comprehensive documentation, code examples, and SDKs for popular programming languages.
-                            </p>
-                        </div>
-                    </div>
-                </article>
             </div>
         </section>
 
-        <div class="hub-divider"></div>
-
-        <!-- How It Works Section -->
-        <section class="pixel-section bg-white py-20">
-            <div class="pixel-container max-w-6xl">
-                <div class="space-y-3 mb-16 pixel-fade-in">
-                    <div class="flex items-center gap-3 justify-center">
-                        <span class="pixel-dot"></span>
-                        <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">Process</p>
-                    </div>
-                    <div class="text-center">
-                        <h2 class="text-3xl font-semibold tracking-tight text-slate-900 mb-6">How It Works</h2>
-                        <p class="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                            Three simple steps to turn your data into a <span class="font-semibold text-slate-900">production-ready</span> <span class="text-pink-400">API</span>
-                        </p>
-                    </div>
+        <!-- Section 01: Features -->
+        <section id="features" class="py-16 md:py-24 border-b border-[#D9D9D2]">
+            <div class="ab-shell">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span>01 // PLATFORM CAPABILITIES</span>
+                    <span class="section-index-bar__right">INGEST · VALIDATE · SERVE</span>
                 </div>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="pixel-card p-8 text-center pixel-slide-in-left h-full">
-                        <div class="pixel-step w-16 h-16 bg-pink-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
-                            <span class="pixel-title text-2xl">1</span>
-                        </div>
-                        <h3 class="pixel-subtitle text-xl text-black mb-4">Upload Your Data</h3>
-                        <p class="pixel-body text-gray-600 leading-relaxed">
-                            Drag and drop your CSV, Excel, or Parquet file. We support all major data formats with automatic type detection.
-                        </p>
-                    </div>
-
-                    <div class="pixel-card p-8 text-center pixel-fade-in h-full" style="animation-delay: 0.2s">
-                        <div class="pixel-step w-16 h-16 bg-pink-600 text-white rounded-none flex items-center justify-center mx-auto mb-6">
-                            <span class="pixel-title text-2xl">2</span>
-                        </div>
-                        <h3 class="pixel-subtitle text-xl text-black mb-4">We Build Your API</h3>
-                        <p class="pixel-body text-gray-600 leading-relaxed">
-                            Our AI analyzes your data structure and generates optimized FastAPI code with proper validation and endpoints.
-                        </p>
-                    </div>
-
-                    <div class="pixel-card p-8 text-center pixel-slide-in-right h-full">
-                        <div class="pixel-step w-16 h-16 bg-pink-500 text-white rounded-none flex items-center justify-center mx-auto mb-6">
-                            <span class="pixel-title text-2xl">3</span>
-                        </div>
-                        <h3 class="pixel-subtitle text-xl text-black mb-4">Start Using Your API</h3>
-                        <p class="pixel-body text-gray-600 leading-relaxed">
-                            Get instant access to your live API endpoint. Query, filter, and integrate with your applications immediately.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Live Demo Video -->
-            <div class="demo-video-container mt-12 mb-8">
-                <div class="text-center mb-12 pixel-fade-in">
-                    <h3 class="pixel-title text-2xl sm:text-3xl lg:text-4xl text-black mb-6">See It Live</h3>
-                    <p class="pixel-body text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        Watch the complete workflow in action—from file upload to live API endpoints
+                <div class="max-w-3xl mb-12">
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl mb-4">EVERYTHING YOU NEED TO BUILD APIS</h2>
+                    <p class="text-lg text-[#474742] m-0">
+                        Engineered to turn static spreadsheets and data exports into queryable developer and AI infrastructure without boilerplate.
                     </p>
                 </div>
 
-                <!-- Laptop Mockup -->
-                <div class="relative max-w-4xl mx-auto">
-                    <!-- Laptop Screen -->
-                    <div class="relative bg-gray-900 rounded-t-2xl overflow-hidden shadow-2xl">
-                        <!-- Laptop Header -->
-                        <div class="bg-gray-800 px-4 py-2 flex items-center justify-between">
-                            <div class="flex space-x-2">
-                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                <div class="w-3 h-3 bg-pink-500 rounded-full"></div>
+                <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                    <article class="home-capability flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#D9D9D2]">
+                                <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#EC4899]">CAP 01 // PARSERS</span>
+                                <svg class="w-5 h-5 text-[#0B0B0C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-3-3m0 0l-3 3m3-3v11"></path>
+                                </svg>
                             </div>
-                            <div class="text-white text-xs font-mono">apiUI Demo</div>
-                            <div class="w-16"></div>
+                            <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">Universal File Support</h3>
+                            <p class="text-sm text-[#474742] leading-relaxed">
+                                Upload CSV, Excel, Parquet, or JSON files. Automatic format detection, schema discovery, and data type inference out of the box.
+                            </p>
+                        </div>
+                        <div class="pt-4 mt-6 border-t border-[#D9D9D2] font-mono-code text-xs text-[#62625C]">CSV · XLSX · PARQUET · JSON</div>
+                    </article>
+
+                    <article class="home-capability flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#D9D9D2]">
+                                <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#EC4899]">CAP 02 // RUNTIME</span>
+                                <svg class="w-5 h-5 text-[#0B0B0C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">Instant Deployment</h3>
+                            <p class="text-sm text-[#474742] leading-relaxed">
+                                Your REST and MCP endpoints are live within seconds. No manual server provisioning or schema migration scripts required.
+                            </p>
+                        </div>
+                        <div class="pt-4 mt-6 border-t border-[#D9D9D2] font-mono-code text-xs text-[#62625C]">PORT 8000 // THREADED</div>
+                    </article>
+
+                    <article class="home-capability flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#D9D9D2]">
+                                <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#EC4899]">CAP 03 // QUERY ENGINE</span>
+                                <svg class="w-5 h-5 text-[#0B0B0C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">RESTful Endpoints</h3>
+                            <p class="text-sm text-[#474742] leading-relaxed">
+                                Query any column directly, search across fields with <code class="font-mono-code text-xs">_search</code>, and combine <code class="font-mono-code text-xs">_sort</code>, <code class="font-mono-code text-xs">_limit</code>, and <code class="font-mono-code text-xs">_offset</code>.
+                            </p>
+                        </div>
+                        <div class="pt-4 mt-6 border-t border-[#D9D9D2] font-mono-code text-xs text-[#62625C]">/api/&lt;job_id&gt;/data</div>
+                    </article>
+
+                    <article class="home-capability flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#D9D9D2]">
+                                <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#7C3AED]">CAP 04 // AI AGENTS</span>
+                                <svg class="w-5 h-5 text-[#0B0B0C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">Native MCP Server</h3>
+                            <p class="text-sm text-[#474742] leading-relaxed">
+                                Connect Claude Desktop, Cursor, or custom LLM clients over Streamable HTTP or SSE with 4 built-in dataset tools.
+                            </p>
+                        </div>
+                        <div class="pt-4 mt-6 border-t border-[#D9D9D2] font-mono-code text-xs text-[#62625C]">POST /mcp · GET /mcp/sse</div>
+                    </article>
+
+                    <article class="home-capability flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#D9D9D2]">
+                                <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#EC4899]">CAP 05 // OBSERVABILITY</span>
+                                <svg class="w-5 h-5 text-[#0B0B0C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">Real-Time Analytics</h3>
+                            <p class="text-sm text-[#474742] leading-relaxed">
+                                Inspect schemas, sample records, endpoint health, and request metrics per dataset inside the API detail console.
+                            </p>
+                        </div>
+                        <div class="pt-4 mt-6 border-t border-[#D9D9D2] font-mono-code text-xs text-[#62625C]">SCHEMA · METRICS · LOGS</div>
+                    </article>
+
+                    <article class="home-capability flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#D9D9D2]">
+                                <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#EC4899]">CAP 06 // DX</span>
+                                <svg class="w-5 h-5 text-[#0B0B0C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">Generated Code &amp; Docs</h3>
+                            <p class="text-sm text-[#474742] leading-relaxed">
+                                Download generated FastAPI source code (<code class="font-mono-code text-xs">/code</code>), OpenAPI specs, and ready-to-paste curl/Python/JS clients.
+                            </p>
+                        </div>
+                        <div class="pt-4 mt-6 border-t border-[#D9D9D2] font-mono-code text-xs text-[#62625C]">FASTAPI · CURL · PYTHON · JS</div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 02: How It Works & Live Demo -->
+        <section id="how-it-works" class="py-16 md:py-24 border-b border-[#D9D9D2] bg-[#FAFAF7]">
+            <div class="ab-shell">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span>02 // HOW IT WORKS &amp; LIVE DEMO</span>
+                    <span class="section-index-bar__right">THREE-STAGE DEPLOYMENT PIPELINE</span>
+                </div>
+
+                <div class="max-w-3xl mb-12">
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl mb-4">FROM FLAT FILE TO PRODUCTION IN 3 STEPS</h2>
+                    <p class="text-lg text-[#474742] m-0">
+                        Skip infrastructure scaffolding—drop your dataset into Studio and start querying over REST or MCP immediately.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 mb-16">
+                    <div class="home-capability bg-white">
+                        <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#D9D9D2]">
+                            <span class="font-pixel text-xs tracking-[0.14em] text-[#EC4899] uppercase">STEP 01 // INGEST</span>
+                            <span class="font-display text-3xl text-[#0B0B0C] leading-none">01</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-2" style="font-family: var(--font-body); text-transform: none;">Upload Your Data</h3>
+                        <p class="text-sm text-[#474742] m-0 leading-relaxed">
+                            Drag and drop CSV, Excel, Parquet, or JSON files into API Studio. Automatic encoding &amp; column type detection handles the rest.
+                        </p>
+                    </div>
+
+                    <div class="home-capability bg-white">
+                        <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#D9D9D2]">
+                            <span class="font-pixel text-xs tracking-[0.14em] text-[#EC4899] uppercase">STEP 02 // GENERATE</span>
+                            <span class="font-display text-3xl text-[#0B0B0C] leading-none">02</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-2" style="font-family: var(--font-body); text-transform: none;">Auto-Build REST &amp; MCP</h3>
+                        <p class="text-sm text-[#474742] m-0 leading-relaxed">
+                            apiUI infers schema types, creates OpenAPI definitions, compiles queryable REST routes, and registers your dataset inside the MCP catalog.
+                        </p>
+                    </div>
+
+                    <div class="home-capability bg-white">
+                        <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#D9D9D2]">
+                            <span class="font-pixel text-xs tracking-[0.14em] text-[#EC4899] uppercase">STEP 03 // CONSUME</span>
+                            <span class="font-display text-3xl text-[#0B0B0C] leading-none">03</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-2" style="font-family: var(--font-body); text-transform: none;">Query &amp; Connect Agents</h3>
+                        <p class="text-sm text-[#474742] m-0 leading-relaxed">
+                            Hit <code class="font-mono-code text-xs">/api/&lt;job_id&gt;/data</code> from any frontend or connect Claude, Cursor, and MCP Chat to reason across datasets.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Constructivist Demo Video Frame -->
+                <div class="bg-white border border-[#0B0B0C] border-t-4 border-t-[#EC4899] p-6 sm:p-8">
+                    <div class="flex flex-wrap items-center justify-between gap-4 pb-5 mb-6 border-b border-[#D9D9D2]">
+                        <div>
+                            <div class="font-pixel text-xs tracking-[0.14em] uppercase text-[#EC4899] mb-1">WALKTHROUGH // RECORDING</div>
+                            <h3 class="text-2xl font-semibold text-[#0B0B0C] m-0" style="font-family: var(--font-body); text-transform: none;">See It Live: Upload to Live Endpoints</h3>
+                        </div>
+                        <span class="font-mono-code text-xs px-3 py-1.5 bg-[#0B0B0C] text-[#FAFAF7]">apiUI-demo.mov</span>
+                    </div>
+
+                    <div class="relative max-w-4xl mx-auto border border-[#0B0B0C] bg-[#0B0B0C]">
+                        <div class="bg-[#0B0B0C] px-4 py-2.5 flex items-center justify-between border-b border-white/15">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 bg-[#EC4899] inline-block"></span>
+                                <span class="w-2.5 h-2.5 bg-[#7C3AED] inline-block"></span>
+                                <span class="w-2.5 h-2.5 bg-[#FAFAF7] inline-block"></span>
+                            </div>
+                            <div class="font-mono-code text-xs text-[#FAFAF7]">APIUI // STUDIO WALKTHROUGH</div>
+                            <div class="font-pixel text-[10px] tracking-[0.14em] text-[#EC4899]">16:9</div>
                         </div>
 
-                        <!-- Video Container -->
                         <div class="relative aspect-video bg-black">
                             <video
                                 id="demo-video"
@@ -1254,15 +1442,14 @@
                                 Your browser does not support the video tag.
                             </video>
 
-                            <!-- Play Button Overlay (when paused) -->
-                            <div id="play-overlay" class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 transition-opacity duration-300">
+                            <div id="play-overlay" class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 transition-opacity duration-300">
                                 <div class="flex items-center gap-4">
-                                    <button id="play-btn" class="bg-white bg-opacity-90 hover:bg-opacity-100 text-black rounded-full p-4 transition-all duration-200 transform hover:scale-110">
-                                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                    <button id="play-btn" type="button" class="bg-[#FAFAF7] hover:bg-[#EC4899] text-[#0B0B0C] hover:text-white border border-[#0B0B0C] p-4 transition-colors" aria-label="Play or pause demo video">
+                                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M8 5v14l11-7z"/>
                                         </svg>
                                     </button>
-                                    <button id="mute-btn" class="bg-white bg-opacity-90 hover:bg-opacity-100 text-black rounded-full p-3 transition-all duration-200 transform hover:scale-110">
+                                    <button id="mute-btn" type="button" class="bg-[#FAFAF7] hover:bg-[#EC4899] text-[#0B0B0C] hover:text-white border border-[#0B0B0C] p-3.5 transition-colors" aria-label="Toggle video audio">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>
@@ -1273,1058 +1460,405 @@
                         </div>
                     </div>
 
-                    <!-- Laptop Base -->
-                    <div class="bg-gray-700 h-4 rounded-b-lg mx-auto" style="width: 60%;"></div>
-                    <div class="bg-gray-800 h-2 rounded-b-lg mx-auto mt-1" style="width: 40%;"></div>
-                </div>
-
-                <!-- Video Description -->
-                <div class="text-center mt-8 pixel-fade-in">
-                    <p class="pixel-body text-gray-600 text-sm mb-2">
-                        Experience the complete workflow from file upload to API deployment
-                    </p>
-                    <p class="pixel-body text-gray-500 text-xs">
-                        Video autoplays muted • Click the speaker icon to enable sound
+                    <p class="text-center font-mono-code text-xs text-[#62625C] mt-4 m-0">
+                        Video autoplays muted &bull; Hover video to toggle playback or audio
                     </p>
                 </div>
-            </div>
             </div>
         </section>
 
-        <div class="hub-divider"></div>
-
-        <!-- Pricing Section -->
-        <section id="pricing" class="pixel-section bg-gray-50 py-20 relative">
-            <!-- Background Image -->
-            <div class="absolute inset-0 opacity-15 pointer-events-none">
-                <img src="images/cube-card.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
-            </div>
-            <div class="pixel-container max-w-6xl relative z-10">
-                <div class="space-y-3 mb-16 pixel-fade-in">
-                    <div class="flex items-center gap-3 justify-center">
-                        <span class="pixel-dot"></span>
-                        <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">Pricing</p>
-                    </div>
-                    <div class="text-center">
-                        <h2 class="text-3xl font-semibold tracking-tight text-slate-900 mb-6">Simple, Transparent Pricing</h2>
-                        <p class="text-base text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                            Start free, scale as you grow.
-                            <span class="font-semibold text-slate-900">No hidden fees, no surprises.</span>
-                        </p>
-                    </div>
+        <!-- Section 03: Pricing / Deployment Options -->
+        <section id="pricing" class="py-16 md:py-24 border-b border-[#D9D9D2]">
+            <div class="ab-shell">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span>03 // DEPLOYMENT &amp; PRICING</span>
+                    <span class="section-index-bar__right">SELF-HOSTED COMMUNITY · ENTERPRISE</span>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-8">
-                    <!-- Free Plan -->
-                    <div class="api-card p-8 sm:p-10 pixel-slide-in-left flex flex-col h-full">
-                        <div class="text-center mb-8">
-                            <h3 class="pixel-subtitle text-2xl text-slate-900 mb-3">Free</h3>
-                            <div class="pixel-title text-5xl text-slate-900 mb-6">$0<span class="pixel-body text-xl text-slate-600 ml-1">/month</span></div>
-                            <p class="pixel-body text-slate-600 font-medium">Perfect for getting started</p>
-                        </div>
-
-                        <ul class="space-y-4 mb-8 flex-1">
-                            <li class="flex items-center text-slate-900">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Up to 5 APIs</span>
-                            </li>
-                            <li class="flex items-center text-slate-900">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">100 requests/day</span>
-                            </li>
-                            <li class="flex items-center text-slate-900">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Basic analytics</span>
-                            </li>
-                            <li class="flex items-center text-slate-900">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Community support</span>
-                            </li>
-                            <li class="flex items-center text-slate-900 opacity-0 pointer-events-none">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body">Placeholder</span>
-                            </li>
-                        </ul>
-
-                        <a href="app.html" class="hub-btn hub-btn-primary w-full py-3 text-center mt-auto">
-                            Get Started Free
-                        </a>
-                    </div>
-
-                    <!-- Enterprise Plan -->
-                    <div class="api-card p-8 sm:p-10 pixel-slide-in-right flex flex-col h-full">
-                        <div class="text-center mb-8">
-                            <h3 class="pixel-subtitle text-2xl text-slate-900 mb-3">Enterprise</h3>
-                            <div class="pixel-title text-5xl text-slate-900 mb-6">Custom<span class="pixel-body text-xl text-slate-600 ml-1 block">pricing</span></div>
-                            <p class="pixel-body text-slate-600 font-medium">For large organizations</p>
-                        </div>
-
-                        <ul class="space-y-4 mb-8 flex-1">
-                            <li class="flex items-center text-slate-700">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-slate-700">Everything in Pro</span>
-                            </li>
-                            <li class="flex items-center text-slate-700">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-slate-700">Unlimited requests</span>
-                            </li>
-                            <li class="flex items-center text-slate-700">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-slate-700">Dedicated support</span>
-                            </li>
-                            <li class="flex items-center text-slate-700">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-slate-700">SLA guarantees</span>
-                            </li>
-                            <li class="flex items-center text-slate-700">
-                                <div class="pixel-icon w-6 h-6 mr-3 flex-shrink-0">
-                                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                </div>
-                                <span class="pixel-body text-slate-700">Custom integrations</span>
-                            </li>
-                        </ul>
-
-                        <button class="hub-btn hub-btn-secondary w-full py-3 mt-auto">
-                            Contact Sales
-                        </button>
-                    </div>
+                <div class="max-w-3xl mb-12">
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl mb-4">SIMPLE, TRANSPARENT PLANS</h2>
+                    <p class="text-lg text-[#474742] m-0">
+                        Run completely free on your own hardware via <code class="font-mono-code text-sm bg-[#F4F3EE] px-1.5 py-0.5 border border-[#D9D9D2]">./start-local.sh</code>, or partner with AURABLOX for custom multi-tenant infrastructure.
+                    </p>
                 </div>
 
-                <div class="text-center mt-12 pixel-fade-in">
-                    <p class="pixel-body text-gray-600 mb-4 font-medium">All plans include:</p>
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm">
-                        <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="pixel-body">99.9% uptime SLA</span>
-                        </span>
-                        <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="pixel-body">GDPR compliant</span>
-                        </span>
-                        <span class="flex items-center text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="pixel-body">24/7 monitoring</span>
-                        </span>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl">
+                    <div class="home-capability flex flex-col justify-between p-8">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-6 border-b border-[#D9D9D2]">
+                                <span class="font-pixel text-xs tracking-[0.14em] text-[#EC4899] uppercase">PLAN 01 // SELF-HOSTED &amp; STUDIO</span>
+                                <span class="font-mono-code text-xs px-2 py-1 bg-[#0B0B0C] text-[#FAFAF7]">OPEN</span>
+                            </div>
+                            <h3 class="text-3xl mb-2">COMMUNITY / FREE</h3>
+                            <div class="font-display text-5xl text-[#0B0B0C] mb-4">$0 <span class="text-base font-sans text-[#62625C] font-normal">/ forever</span></div>
+                            <p class="text-sm text-[#474742] mb-6">Ideal for local dev, home mini-PC labs, and prototyping instant APIs &amp; MCP servers.</p>
+                            <ul class="space-y-3 text-sm text-[#0B0B0C] list-none p-0 m-0 mb-8">
+                                <li class="flex items-center gap-2.5"><span class="text-[#EC4899] font-bold">&#9632;</span>Unlimited local datasets on your hardware</li>
+                                <li class="flex items-center gap-2.5"><span class="text-[#EC4899] font-bold">&#9632;</span>Full REST filtering, search, sort &amp; pagination</li>
+                                <li class="flex items-center gap-2.5"><span class="text-[#EC4899] font-bold">&#9632;</span>Spec-compliant MCP Server (HTTP + SSE)</li>
+                                <li class="flex items-center gap-2.5"><span class="text-[#EC4899] font-bold">&#9632;</span>Guest Showcase Mode in API Studio</li>
+                            </ul>
+                        </div>
+                        <a href="app.html" class="btn-ab btn-ab--primary w-full">Get Started Free &#8599;</a>
+                    </div>
+
+                    <div class="home-capability flex flex-col justify-between p-8">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-6 border-b border-[#D9D9D2]">
+                                <span class="font-pixel text-xs tracking-[0.14em] text-[#7C3AED] uppercase">PLAN 02 // CUSTOM CLOUD</span>
+                                <span class="font-mono-code text-xs px-2 py-1 border border-[#0B0B0C] text-[#0B0B0C]">BESPOKE</span>
+                            </div>
+                            <h3 class="text-3xl mb-2">ENTERPRISE</h3>
+                            <div class="font-display text-5xl text-[#0B0B0C] mb-4">CUSTOM <span class="text-base font-sans text-[#62625C] font-normal">/ tailored SLA</span></div>
+                            <p class="text-sm text-[#474742] mb-6">For teams deploying dedicated multi-user gateways, custom SSO, and private MCP connectors.</p>
+                            <ul class="space-y-3 text-sm text-[#0B0B0C] list-none p-0 m-0 mb-8">
+                                <li class="flex items-center gap-2.5"><span class="text-[#7C3AED] font-bold">&#9632;</span>Everything in Community &amp; Self-Hosted</li>
+                                <li class="flex items-center gap-2.5"><span class="text-[#7C3AED] font-bold">&#9632;</span>Custom database &amp; warehouse connectors</li>
+                                <li class="flex items-center gap-2.5"><span class="text-[#7C3AED] font-bold">&#9632;</span>Dedicated engineering support &amp; SLAs</li>
+                                <li class="flex items-center gap-2.5"><span class="text-[#7C3AED] font-bold">&#9632;</span>Private VPC &amp; compliance hardening</li>
+                            </ul>
+                        </div>
+                        <a href="aurablox.html" class="btn-ab btn-ab--secondary w-full">Contact AURABLOX &#8599;</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <div class="hub-divider"></div>
-
-    <!-- CTA Section -->
-    <section class="cta-section bg-white py-20 pixel-fade-in">
-        <div class="pixel-container max-w-4xl text-center">
-            <div class="space-y-3 mb-6">
-                <div class="flex items-center gap-3 justify-center">
-                    <span class="pixel-dot"></span>
-                    <p class="pixel-heading eyebrow text-pink-400 tracking-[0.36em]">Get Started</p>
+        <!-- Section 04: CTA -->
+        <section class="py-16 md:py-24 bg-[#0B0B0C] text-[#FAFAF7]">
+            <div class="ab-shell">
+                <div class="flex items-center gap-3 font-pixel text-xs tracking-[0.16em] uppercase text-[#EC4899] mb-4">
+                    <span class="seal"></span>
+                    04 // GET STARTED
+                </div>
+                <h2 class="text-4xl sm:text-6xl text-[#FAFAF7] mb-5" style="color: #FAFAF7;">READY TO TURN DATA INTO INFRASTRUCTURE?</h2>
+                <p class="text-lg text-[#D9D9D2] max-w-2xl mb-8">
+                    Open API Studio in unlocked Guest Mode or dive straight into the REST &amp; MCP protocol documentation.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="app.html" class="btn-ab" style="background: #EC4899; border-color: #EC4899; color: #FFFFFF;">Launch API Studio &#8599;</a>
+                    <a href="docs.html" class="btn-ab" style="background: transparent; border-color: #FAFAF7; color: #FAFAF7;">Read Documentation &#8599;</a>
                 </div>
             </div>
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-slate-900 mb-6">Ready to Turn Your Data Into APIs?</h2>
-            <p class="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Join teams shipping faster with apiUI—spin up <span class="font-semibold text-slate-900">production-ready</span> <span class="text-pink-400">endpoints</span> without waiting on engineering backlogs.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="app.html" class="hub-btn hub-btn-primary">
-                    Start Building APIs Free
-                </a>
-                <a href="docs.html" class="hub-btn hub-btn-secondary">
-                    Read Documentation
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <div class="hub-divider"></div>
-
+        </section>
     </main>
+
+    <!-- Back to Top Button -->
     <button id="back-to-top" class="back-to-top" type="button" aria-label="Return to top">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
         </svg>
     </button>
-    <!-- Footer -->
-    <footer class="bg-white py-16">
-        <div class="pixel-container max-w-6xl">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+    <!-- Aurablox Constructivist Sitemap Footer + Giant APIUI Wordmark -->
+    <footer id="sitemap-footer" class="ab-footer">
+        <div class="ab-footer__shell">
+            <div class="ab-footer__top">
                 <div>
-                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-400">UI</span></a>
-                    <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
+                    <div class="ab-footer__section-title">START BUILDING</div>
+                    <h2>Turn flat files into live infrastructure.</h2>
+                    <p class="ab-footer__lead">
+                        Upload CSV, Excel, JSON, or Parquet datasets and expose instant REST endpoints plus a spec-compliant MCP server on your own hardware or in the cloud.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="app.html" class="btn-ab btn-ab--primary">Launch Studio &#8599;</a>
+                        <a href="mcp.html" class="btn-ab btn-ab--secondary">MCP Config &#8599;</a>
+                    </div>
                 </div>
-                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
-                    <a href="index.html" class="hover:text-pink-400 transition-colors">Home</a>
-                    <a href="app.html" class="hover:text-pink-400 transition-colors">App</a>
-                    <a href="mcp.html" class="hover:text-pink-400 transition-colors">MCP</a>
-                    <a href="docs.html" class="hover:text-pink-400 transition-colors">Docs</a>
-                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                        </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors inline-flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                    </a>
+
+                <div class="ab-footer__schematic" aria-hidden="true">
+                    <div class="flex items-center justify-between font-pixel text-[11px] tracking-[0.14em] uppercase text-[#62625C] pb-3 mb-3 border-b border-[#D9D9D2]">
+                        <span>SYS // PIPELINE TOPOLOGY</span>
+                        <span class="text-[#EC4899]">PORT 8000</span>
+                    </div>
+                    <svg viewBox="0 0 360 110" class="w-full h-auto block" fill="none">
+                        <rect x="6" y="20" width="88" height="68" fill="#FAFAF7" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <rect x="6" y="20" width="88" height="8" fill="#0B0B0C"/>
+                        <text x="16" y="52" fill="#0B0B0C" font-family="Inter, sans-serif" font-size="10" font-weight="700">DATASET</text>
+                        <text x="16" y="68" fill="#62625C" font-family="JetBrains Mono, monospace" font-size="8">CSV / JSON</text>
+
+                        <line x1="94" y1="54" x2="134" y2="54" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <rect x="110" y="50" width="8" height="8" fill="#EC4899"/>
+
+                        <rect x="134" y="12" width="94" height="84" fill="#0B0B0C"/>
+                        <rect x="134" y="12" width="94" height="6" fill="#EC4899"/>
+                        <text x="146" y="48" fill="#FAFAF7" font-family="Anton, sans-serif" font-size="16" letter-spacing="1">APIUI</text>
+                        <text x="146" y="68" fill="#EC4899" font-family="JetBrains Mono, monospace" font-size="8">FASTAPI + MCP</text>
+
+                        <polyline points="228,36 250,36 250,28 266,28" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <polyline points="228,72 250,72 250,80 266,80" stroke="#7C3AED" stroke-width="1.5"/>
+
+                        <rect x="266" y="10" width="88" height="36" fill="#FAFAF7" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <text x="276" y="32" fill="#0B0B0C" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">/api/*/data</text>
+
+                        <rect x="266" y="62" width="88" height="36" fill="#FAFAF7" stroke="#7C3AED" stroke-width="1.5"/>
+                        <text x="276" y="84" fill="#7C3AED" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">POST /mcp</text>
+                    </svg>
                 </div>
             </div>
-            <div class="hub-divider mt-8"></div>
-            <div class="mt-6 text-right pixel-heading text-xs uppercase tracking-[0.28em] text-slate-500">&copy; 2025 apiUI Inc. All rights reserved.</div>
+
+            <div class="ab-footer__directory">
+                <div class="ab-footer__dir-col">
+                    <h3 class="ab-footer__section-title">01 // PLATFORM &amp; STUDIO</h3>
+                    <ul class="ab-footer__dir-list">
+                        <li><a href="index.html">Home &amp; API Hub</a></li>
+                        <li><a href="app.html">API Studio</a></li>
+                        <li><a href="learn-more.html">Learn More</a></li>
+                        <li><a href="index.html#directory">Live API Directory</a></li>
+                    </ul>
+                </div>
+
+                <div class="ab-footer__dir-col">
+                    <h3 class="ab-footer__section-title">02 // MCP SERVER &amp; AI</h3>
+                    <ul class="ab-footer__dir-list">
+                        <li><a href="mcp.html">MCP Server Hub</a></li>
+                        <li><a href="mcp.html#connecting">Client Configs</a></li>
+                        <li><a href="mcp-chat.html">MCP Multi-API Chat</a></li>
+                        <li><a id="sitemap-mcp-link" href="http://localhost:8000/mcp" target="_blank" rel="noopener">Live /mcp Endpoint</a></li>
+                    </ul>
+                </div>
+
+                <div class="ab-footer__dir-col">
+                    <h3 class="ab-footer__section-title">03 // DEVELOPER DOCS</h3>
+                    <ul class="ab-footer__dir-list">
+                        <li><a href="docs.html">Documentation Home</a></li>
+                        <li><a href="docs.html#rest-api">REST API Querying</a></li>
+                        <li><a href="docs.html#mcp-protocol">MCP Protocol Reference</a></li>
+                        <li><a href="docs.html#self-hosting">Self-Hosting Guide</a></li>
+                    </ul>
+                </div>
+
+                <div class="ab-footer__dir-col">
+                    <h3 class="ab-footer__section-title">04 // COMPANY &amp; STATUS</h3>
+                    <ul class="ab-footer__dir-list">
+                        <li><a href="aurablox.html">AURABLOX</a></li>
+                        <li><a href="resume.html">Builder Resume</a></li>
+                        <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                        <li><a id="sitemap-health-link" href="http://localhost:8000/health" target="_blank" rel="noopener">Gateway Health</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="ab-footer__logo-wrap">
+                <div class="ab-footer__giant-wordmark">API<span>UI</span></div>
+            </div>
+
+            <div class="ab-footer__bottom-bar">
+                <div class="ab-footer__copyright-wrap">
+                    <span class="ab-footer__copyright">&copy; 2026 APIUI BY AURABLOX</span>
+                    <a id="footer-gateway-pill" href="http://localhost:8000/health" target="_blank" rel="noopener" class="ab-footer__status-pill">
+                        <span class="ab-footer__status-dot" id="footer-status-dot"></span>
+                        <span id="footer-status-text">GATEWAY :8000</span>
+                    </a>
+                </div>
+                <ul class="ab-footer__socials">
+                    <li>
+                        <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="ab-footer__social-link" aria-label="apiUI on X">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="ab-footer__social-link" aria-label="AURABLOX on LinkedIn">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </footer>
 
     <script>
+        (function() {
+            const shell = document.getElementById('ab-nav-shell');
+            const toggle = document.getElementById('ab-nav-toggle');
+            const menu = document.getElementById('ab-nav-menu');
+            const megaItems = document.querySelectorAll('[data-mega-item]');
+            const megaPanels = document.querySelectorAll('[data-mega-panel]');
+            let closeTimer = null;
 
-        // Pixel Scroll-triggered Animations
-        document.addEventListener('DOMContentLoaded', function() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
+            function closeAllMega() {
+                if (shell) shell.classList.remove('has-mega-open');
+                megaItems.forEach(el => el.classList.remove('is-open'));
+                megaPanels.forEach(el => el.classList.remove('is-open'));
+            }
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
+            function openMega(key) {
+                if (window.innerWidth <= 960) return;
+                clearTimeout(closeTimer);
+                closeAllMega();
+                const item = document.querySelector('[data-mega-item="' + key + '"]');
+                const panel = document.querySelector('[data-mega-panel="' + key + '"]');
+                if (item && panel && shell) {
+                    shell.classList.add('has-mega-open');
+                    item.classList.add('is-open');
+                    panel.classList.add('is-open');
+                }
+            }
+
+            megaItems.forEach(item => {
+                const key = item.getAttribute('data-mega-item');
+                item.addEventListener('mouseenter', () => openMega(key));
+                item.addEventListener('mouseleave', () => {
+                    closeTimer = setTimeout(closeAllMega, 140);
+                });
+            });
+
+            megaPanels.forEach(panel => {
+                panel.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+                panel.addEventListener('mouseleave', () => {
+                    closeTimer = setTimeout(closeAllMega, 140);
+                });
+            });
+
+            if (shell) {
+                shell.addEventListener('mouseleave', () => {
+                    closeTimer = setTimeout(closeAllMega, 140);
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeAllMega();
+                    if (menu && menu.classList.contains('is-open')) {
+                        menu.classList.remove('is-open');
+                        if (toggle) toggle.setAttribute('aria-expanded', 'false');
                     }
-                });
-            }, observerOptions);
-
-            // Observe all pixel animation elements
-            const animatedElements = document.querySelectorAll('.pixel-fade-in, .pixel-slide-in-left, .pixel-slide-in-right');
-            animatedElements.forEach(element => {
-                observer.observe(element);
-            });
-
-            // Add pixel flicker effect on hover for buttons
-            const pixelButtons = document.querySelectorAll('.pixel-btn');
-            pixelButtons.forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.classList.add('pixel-flicker');
-                    setTimeout(() => {
-                        this.classList.remove('pixel-flicker');
-                    }, 100);
-                });
-            });
-
-        });
-
-        // Initialize Supabase client
-        const supabaseUrl = 'https://witlgqqqsusdfxbejoqb.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpdGxncXFxc3VzZGZ4YmVqb3FiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MjQ3MDUsImV4cCI6MjA3NDMwMDcwNX0.UN7qm7bGk_-BrL_th2auH7lwW1OjqAdxOLpzqgfdHw4';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Back to top button
-        const backToTopBtn = document.getElementById('back-to-top');
-
-        if (backToTopBtn) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 600) {
-                    backToTopBtn.classList.add('show');
-                } else {
-                    backToTopBtn.classList.remove('show');
                 }
             });
 
+            if (toggle && menu) {
+                toggle.addEventListener('click', () => {
+                    const isOpen = menu.classList.toggle('is-open');
+                    toggle.setAttribute('aria-expanded', String(isOpen));
+                });
+            }
+
+            document.querySelectorAll('[data-mobile-expand]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const key = btn.getAttribute('data-mobile-expand');
+                    const sub = document.querySelector('[data-mobile-sub="' + key + '"]');
+                    if (sub) sub.classList.toggle('is-open');
+                });
+            });
+
+            // Hydrate dynamic backend links & status pill via config.js
+            const base = (window.BACKEND_BASE_URL || 'http://localhost:8000').replace(/\/$/, '');
+            const mcpLink = document.getElementById('sitemap-mcp-link');
+            const healthLink = document.getElementById('sitemap-health-link');
+            const pillLink = document.getElementById('footer-gateway-pill');
+            const statusText = document.getElementById('footer-status-text');
+            const statusDot = document.getElementById('footer-status-dot');
+            if (mcpLink) mcpLink.href = base + '/mcp';
+            if (healthLink) healthLink.href = base + '/health';
+            if (pillLink) pillLink.href = base + '/health';
+
+            fetch(base + '/health', { method: 'GET' })
+                .then(r => {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.json();
+                })
+                .then(() => {
+                    if (statusDot) statusDot.style.background = '#10B981';
+                    if (statusText) statusText.textContent = 'ONLINE // ' + base.replace(/^https?:\/\//, '');
+                })
+                .catch(() => {
+                    if (statusDot) statusDot.style.background = '#EC4899';
+                    if (statusText) statusText.textContent = 'OFFLINE // ' + base.replace(/^https?:\/\//, '');
+                });
+        })();
+
+        // Back to top button
+        const backToTopBtn = document.getElementById('back-to-top');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                backToTopBtn.classList.toggle('show', window.scrollY > 600);
+            });
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-            e.preventDefault();
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+        // Demo Video Functionality
+        const demoVideo = document.getElementById('demo-video');
+        const playOverlay = document.getElementById('play-overlay');
+        const playBtn = document.getElementById('play-btn');
+        const muteBtn = document.getElementById('mute-btn');
 
-        
+        if (demoVideo && playOverlay && playBtn && muteBtn) {
+            const showPlayOverlay = () => { playOverlay.style.opacity = '1'; };
+            const hidePlayOverlay = () => { playOverlay.style.opacity = '0'; };
 
-const getAuthBaseUrl = () => {
-    if (typeof window.apiuiGetBackendUrl === 'function') {
-        try {
-            const derived = window.apiuiGetBackendUrl();
-            if (derived) {
-                return derived;
-            }
-        } catch (error) {
-            // Ignore errors and fallback to other options
-        }
-    }
-
-    if (window.APIUI_AUTH_BASE_URL) {
-        return window.APIUI_AUTH_BASE_URL;
-    }
-
-    const attr = document.body?.dataset?.authBase;
-    if (attr) {
-        return attr;
-    }
-
-    try {
-        const stored = window.localStorage ? window.localStorage.getItem('apiui_backend_base_url') : null;
-        if (stored) {
-            return stored;
-        }
-    } catch (error) {
-        // Ignore storage access issues
-    }
-
-    return '';
-};
-
-const buildAuthUrl = (path) => {
-    if (!path) {
-        return '';
-    }
-
-    const isAbsolute = /^https?:\/\//i.test(path);
-    if (isAbsolute) {
-        return path;
-    }
-
-    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-    const base = getAuthBaseUrl();
-
-    if (!base) {
-        return normalizedPath;
-    }
-
-    const trimmedBase = base.replace(/\/+$/, '');
-    return `${trimmedBase}${normalizedPath}`;
-};
-
-const resolveNextTarget = (button) => {
-    if (button?.dataset?.authNext) {
-        return button.dataset.authNext;
-    }
-
-    try {
-        const currentUrl = new URL(window.location.href);
-        if (currentUrl.protocol !== 'file:') {
-            return currentUrl.href;
-        }
-    } catch (error) {
-        // Ignore error and use fallback values
-    }
-
-    if (window.location.origin && window.location.origin !== 'null') {
-        return window.location.href || window.location.origin;
-    }
-
-    if (window.APIUI_APP_BASE_URL) {
-        return window.APIUI_APP_BASE_URL;
-    }
-
-    return '/';
-};
-
-const buildAuthRequestUrl = (route, nextTarget) => {
-    const baseUrl = buildAuthUrl(route);
-    const url = /^https?:\/\//i.test(baseUrl) ? new URL(baseUrl) : new URL(baseUrl, window.location.href);
-    url.searchParams.set('next', nextTarget);
-    return url.toString();
-};
-
-authButtons.forEach(button => {
-    button.addEventListener('click', (event) => {
-        event.preventDefault();
-        const provider = button.dataset.authProvider || 'github';
-        const route = authProviderRoutes[provider] || authProviderRoutes.github;
-        const nextTarget = resolveNextTarget(button);
-        const loginUrl = buildAuthRequestUrl(route, nextTarget);
-        window.location.href = loginUrl;
-    });
-});
-
-const clearImage = (imgEl) => {
-    if (!imgEl) {
-        return;
-    }
-    imgEl.classList.add('hidden');
-    imgEl.removeAttribute('src');
-};
-
-const setImage = (imgEl, src) => {
-    if (!imgEl) {
-        return;
-    }
-    if (src) {
-        imgEl.src = src;
-        imgEl.classList.remove('hidden');
-
-        // Add error handling for Google avatars
-        imgEl.onerror = function() {
-            console.log('Avatar failed to load:', src);
-            // Try to load a fallback avatar
-            if (src && src.includes('googleusercontent.com')) {
-                // Try different Google avatar sizes
-                const fallbackSizes = ['s96-c', 's64-c', 's32-c'];
-                for (const size of fallbackSizes) {
-                    if (!src.includes(size)) {
-                        const newSrc = src.replace(/=s\d+-c/, `=${size}`);
-                        if (newSrc !== src) {
-                            console.log('Trying fallback avatar:', newSrc);
-                            imgEl.src = newSrc;
-                            return;
-                        }
-                    }
-                }
-            }
-            // If all fallbacks fail, hide the image
-            clearImage(imgEl);
-        };
-    } else {
-        clearImage(imgEl);
-    }
-};
-
-const setProfileLink = (linkEl, url, label) => {
-    if (!linkEl) {
-        return;
-    }
-
-    if (url) {
-        linkEl.href = url;
-        const labelSpan = linkEl.querySelector('span');
-        if (labelSpan && label) {
-            labelSpan.textContent = label;
-        }
-        linkEl.classList.remove('hidden');
-    } else {
-        linkEl.classList.add('hidden');
-        linkEl.removeAttribute('href');
-    }
-};
-
-const applySignedOutUI = () => {
-    if (signinButtonLabel) {
-        signinButtonLabel.textContent = 'Sign In';
-    }
-    if (mobileSigninLabel) {
-        mobileSigninLabel.textContent = 'Sign In';
-    }
-    if (signinProviderOptions) {
-        signinProviderOptions.classList.remove('hidden');
-    }
-    if (signedinDropdown) {
-        signedinDropdown.classList.add('hidden');
-    }
-    if (mobileSignedoutOptions) {
-        mobileSignedoutOptions.classList.remove('hidden');
-    }
-    if (mobileSignedinOptions) {
-        mobileSignedinOptions.classList.add('hidden');
-    }
-    if (signedinName) {
-        signedinName.textContent = '';
-    }
-    if (signedinEmail) {
-        signedinEmail.textContent = '';
-        signedinEmail.classList.remove('hidden');
-    }
-    if (mobileSignedinName) {
-        mobileSignedinName.textContent = '';
-    }
-    if (mobileSignedinEmail) {
-        mobileSignedinEmail.textContent = '';
-        mobileSignedinEmail.classList.remove('hidden');
-    }
-    clearImage(signedinAvatar);
-    clearImage(mobileSignedinAvatar);
-    setProfileLink(signedinProfileLink, null);
-    setProfileLink(mobileSignedinProfileLink, null);
-};
-
-const applySignedInUI = (session) => {
-    if (!session || !session.user) {
-        applySignedOutUI();
-        return;
-    }
-
-    const user = session.user;
-    const provider = session.provider || 'account';
-    const displayName = user.name || user.login || (user.email ? user.email.split('@')[0] : '') || 'Account';
-    const email = user.email || '';
-    const avatar = user.avatar_url || user.picture || '';
-    const profileUrl = user.profile_url || user.html_url || '';
-    const providerLabel = provider === 'github' ? 'View on GitHub' : provider === 'google' ? 'Manage Google account' : 'View profile';
-
-    if (signinButtonLabel) {
-        signinButtonLabel.textContent = displayName;
-    }
-    if (mobileSigninLabel) {
-        mobileSigninLabel.textContent = displayName;
-    }
-    if (signinProviderOptions) {
-        signinProviderOptions.classList.add('hidden');
-    }
-    if (signedinDropdown) {
-        signedinDropdown.classList.remove('hidden');
-    }
-    if (mobileSignedoutOptions) {
-        mobileSignedoutOptions.classList.add('hidden');
-    }
-    if (mobileSignedinOptions) {
-        mobileSignedinOptions.classList.remove('hidden');
-    }
-    if (signedinName) {
-        signedinName.textContent = displayName;
-    }
-    if (signedinEmail) {
-        signedinEmail.textContent = email;
-        signedinEmail.classList.toggle('hidden', !email);
-    }
-    if (mobileSignedinName) {
-        mobileSignedinName.textContent = displayName;
-    }
-    if (mobileSignedinEmail) {
-        mobileSignedinEmail.textContent = email;
-        mobileSignedinEmail.classList.toggle('hidden', !email);
-    }
-
-    setImage(signedinAvatar, avatar);
-    setImage(mobileSignedinAvatar, avatar);
-    setProfileLink(signedinProfileLink, profileUrl, providerLabel);
-    setProfileLink(mobileSignedinProfileLink, profileUrl, providerLabel);
-};
-
-const fetchAuthSession = async () => {
-    // Check Supabase auth first
-    try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (session && !error) {
-            // User is authenticated with Supabase
-            const user = session.user;
-            const userData = {
-                authenticated: true,
-                provider: 'supabase',
-                user: {
-                    id: user.id,
-                    email: user.email,
-                    name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
-                    avatar_url: user.user_metadata?.avatar_url
+            const updatePlayButtonIcon = () => {
+                const playIcon = playBtn.querySelector('svg');
+                if (demoVideo.paused) {
+                    playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                } else {
+                    playIcon.innerHTML = '<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>';
                 }
             };
-            applySignedInUI(userData);
-            return;
-        }
-    } catch (error) {
-        // Supabase check failed, continue to backend check
-    }
 
-    // Fallback to backend session check
-    const sessionUrl = 'http://localhost:8000/auth/session';
-    try {
-        const response = await fetch(sessionUrl, { credentials: 'include' });
-        if (!response.ok) {
-            applySignedOutUI();
-            return;
-        }
-        const data = await response.json();
-        applySignedInUI(data);
-    } catch (error) {
-        applySignedOutUI();
-    }
-};
-
-logoutButtons.forEach(button => {
-    button.addEventListener('click', async (event) => {
-        event.preventDefault();
-
-        // Try Supabase logout first
-        try {
-            const { error } = await supabase.auth.signOut();
-            if (!error) {
-                sessionStorage.removeItem('supabase_session');
-            }
-        } catch (e) {
-            // Ignore Supabase logout errors
-        }
-
-        // Fallback to backend logout
-        const logoutUrl = 'http://localhost:8000/auth/logout';
-        try {
-            await fetch(logoutUrl, { method: 'POST', credentials: 'include' });
-        } catch (error) {
-            // Ignore logout errors
-        }
-        applySignedOutUI();
-    });
-});
-
-applySignedOutUI();
-fetchAuthSession();
-
-// Email authentication handlers
-const emailSigninForm = document.getElementById('email-signin-form');
-const emailSignupForm = document.getElementById('email-signup-form');
-const showSignupBtn = document.getElementById('show-signup');
-const showSigninBtn = document.getElementById('show-signin');
-const signinForm = document.getElementById('signin-form');
-const signupForm = document.getElementById('signup-form');
-const authMessage = document.getElementById('auth-message');
-
-// Mobile forms
-const mobileEmailSigninForm = document.getElementById('mobile-email-signin-form');
-const mobileEmailSignupForm = document.getElementById('mobile-email-signup-form');
-const mobileShowSignupBtn = document.getElementById('mobile-show-signup');
-const mobileShowSigninBtn = document.getElementById('mobile-show-signin');
-const mobileSigninForm = document.getElementById('mobile-signin-form');
-const mobileSignupForm = document.getElementById('mobile-signup-form');
-const mobileAuthMessage = document.getElementById('mobile-auth-message');
-
-// Form switching
-if (showSignupBtn && signupForm && signinForm) {
-    showSignupBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        signupForm.classList.remove('hidden');
-        signinForm.classList.add('hidden');
-    });
-}
-
-if (showSigninBtn && signinForm && signupForm) {
-    showSigninBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        signinForm.classList.remove('hidden');
-        signupForm.classList.add('hidden');
-    });
-}
-
-// Mobile form switching
-if (mobileShowSignupBtn && mobileSignupForm && mobileSigninForm) {
-    mobileShowSignupBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        mobileSignupForm.classList.remove('hidden');
-        mobileSigninForm.classList.add('hidden');
-    });
-}
-
-if (mobileShowSigninBtn && mobileSigninForm && mobileSignupForm) {
-    mobileShowSigninBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        mobileSigninForm.classList.remove('hidden');
-        mobileSignupForm.classList.add('hidden');
-    });
-}
-
-// Email authentication handlers
-if (emailSigninForm) {
-    emailSigninForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('signin-email').value;
-        const password = document.getElementById('signin-password').value;
-
-        showAuthMessage('Signing in...', 'text-pink-600');
-
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                showAuthMessage(error.message, 'text-red-600');
-            } else {
-                showAuthMessage('Signed in successfully!', 'text-pink-600');
-            }
-        } catch (error) {
-            showAuthMessage('An error occurred during sign in', 'text-red-600');
-        }
-    });
-}
-
-if (emailSignupForm) {
-    emailSignupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('signup-password').value;
-
-        showAuthMessage('Creating account...', 'text-pink-600');
-
-        try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                showAuthMessage(error.message, 'text-red-600');
-            } else {
-                showAuthMessage('Account created! Please check your email to verify.', 'text-pink-600');
-            }
-        } catch (error) {
-            showAuthMessage('An error occurred during sign up', 'text-red-600');
-        }
-    });
-}
-
-// Mobile email authentication handlers
-if (mobileEmailSigninForm) {
-    mobileEmailSigninForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('mobile-signin-email').value;
-        const password = document.getElementById('mobile-signin-password').value;
-
-        showMobileAuthMessage('Signing in...', 'text-pink-600');
-
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                showMobileAuthMessage(error.message, 'text-red-600');
-            } else {
-                showMobileAuthMessage('Signed in successfully!', 'text-pink-600');
-            }
-        } catch (error) {
-            showMobileAuthMessage('An error occurred during sign in', 'text-red-600');
-        }
-    });
-}
-
-if (mobileEmailSignupForm) {
-    mobileEmailSignupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('mobile-signup-email').value;
-        const password = document.getElementById('mobile-signup-password').value;
-
-        showMobileAuthMessage('Creating account...', 'text-pink-600');
-
-        try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                showMobileAuthMessage(error.message, 'text-red-600');
-            } else {
-                showMobileAuthMessage('Account created! Please check your email to verify.', 'text-pink-600');
-            }
-        } catch (error) {
-            showMobileAuthMessage('An error occurred during sign up', 'text-red-600');
-        }
-    });
-}
-
-// Auth message functions
-function showAuthMessage(message, colorClass) {
-    if (authMessage) {
-        authMessage.textContent = message;
-        authMessage.className = `mt-3 text-sm text-center ${colorClass}`;
-        authMessage.classList.remove('hidden');
-    }
-}
-
-function showMobileAuthMessage(message, colorClass) {
-    if (mobileAuthMessage) {
-        mobileAuthMessage.textContent = message;
-        mobileAuthMessage.className = `mt-3 text-sm text-center ${colorClass}`;
-        mobileAuthMessage.classList.remove('hidden');
-    }
-}
-
-// Listen for auth state changes
-supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log('Supabase auth state changed:', event, session);
-    if (event === 'SIGNED_IN' && session) {
-        await fetchAuthSession();
-    } else if (event === 'SIGNED_OUT') {
-        applySignedOutUI();
-    }
-});
-
-    // ASCII Block Text Generator (Kisuke Style)
-    function createAsciiBlockText(text, options = {}) {
-        const { size = 'normal', glow = false } = options;
-
-        // Simple block character patterns for each letter
-        const charPatterns = {
-            'A': [' ██╗ ', '███║ ', '╚██║ ', ' ╚═╝ '],
-            'B': ['████╗ ', '██╔═╝ ', '████╗ ', '╚═══╝ '],
-            'C': [' ███╗', '██╔╝ ', '██║  ', '╚══╝ '],
-            'D': ['████╗ ', '██╔═╝ ', '██║   ', '╚═══╝ '],
-            'E': ['█████╗', '██╔═╝ ', '████╗ ', '╚═══╝ '],
-            'F': ['█████╗', '██╔═╝ ', '██║   ', '╚═╝   '],
-            'G': [' ███╗', '██╔╝ ', '██║██╗', '╚═══╝ '],
-            'H': ['██╗██╗', '██║██║', '██████║', '╚════╝ '],
-            'I': ['███╗███╗', '╚══██╔╝ ', '  ██║   ', '███║███║', '╚══╝╚══╝ '],
-            'J': [' ███████╗', '     ██║ ', '     ██║ ', '██   ██║ ', '╚██████╔╝', ' ╚═════╝  '],
-            'K': ['██╗ ██╗', '██║██╔╝', '███╔╝  ', '██║██╗ ', '╚═╝ ╚═╝ '],
-            'L': ['██╗   ', '██║   ', '██║   ', '██████╗', '╚═════╝ '],
-            'M': ['███╗███╗', '██╔╝╚═╝ ', '██║     ', '██║     ', '╚═╝     '],
-            'N': ['███╗██╗', '██╔╝██║ ', '██║ ██║ ', '██║  ██║', '╚═╝  ╚═╝'],
-            'O': [' ███╗ ', '██ ╚██╗', '██║ ██║', '╚███╔██║', ' ╚══╝ ╚═╝'],
-            'P': ['████╗ ', '██╔═╝ ', '████╗ ', '██║   ', '╚═╝   '],
-            'Q': [' ███╗ ', '██ ╚██╗', '██║ ██║', '╚███╔██╗', ' ╚══╝██║', '     ╚═╝ '],
-            'R': ['████╗ ', '██╔═╝ ', '████╗ ', '██║██╗ ', '╚═╝ ╚═╝ '],
-            'S': [' ███╗ ', '██╔═╝ ', ' ███╗ ', '╚═██║ ', ' ███║ ', ' ╚══╝ '],
-            'T': ['████████╗', '╚══██╔══╝ ', '   ██║    ', '   ██║    ', '   ╚═╝    '],
-            'U': ['██╗   ██╗', '██║   ██║', '██║   ██║', '╚██████╔╝', ' ╚═════╝  '],
-            'V': ['██╗   ██╗', '██║   ██║', '██║   ██║', ' ╚███╔██║', '  ╚══╝ ╚═╝'],
-            'W': ['██╗    ██╗', '██║    ██║', '██║ █╗ ██║', '██║███╗██║', '╚███╔███╔╝', ' ╚══╝╚══╝  '],
-            'X': ['██╗  ██╗', '╚██╗██╔╝', ' ╚███╔╝ ', ' ██╔██╗ ', '██╔╝ ╚██╗', '╚═╝   ╚═╝'],
-            'Y': ['██╗   ██╗', '╚██╗ ██╔╝', ' ╚████╔╝ ', '  ╚██╔╝  ', '   ██║   ', '   ╚═╝   '],
-            'Z': ['███████╗', '╚══██╔══╝', '  ██║   ', ' ██║    ', '███████╗', '╚══════╝ '],
-            ' ': ['  ', '  ', '  ', '  ', '  ', '  '],
-            'a': ['     ', ' ███╗', '██╔╝ ', '██████╗', '╚═════╝'],
-            'b': ['██╗   ', '██║   ', '██║██╗', '██║╚██╗', '╚██████║', ' ╚═════╝'],
-            'c': ['     ', ' ███╗', '██╔╝ ', '██║  ', '╚══╝ '],
-            'd': ['   ██╗', '   ██║', '██████║', '██╔══██║', '╚██████╔╝', ' ╚═════╝ '],
-            'e': ['     ', ' ███╗', '██████╗', '██╔═╝ ', '╚══╝  '],
-            'f': [' ██╗', '██║ ', '████╗', '██║ ', '╚═╝ '],
-            'g': ['     ', ' ███╗', '██╔╝ ', '██████╗', '╚═════╝', '██╗   ', '╚═╝   '],
-            'h': ['██╗   ', '██║   ', '██║██╗', '██║╚██╗', '██████║ ', '╚═════╝ '],
-            'i': ['██╗', '╚═╝', '██╗', '██║', '╚═╝'],
-            'j': ['   ██╗', '   ╚═╝', '   ██╗', '   ██║', '██╗██║', '╚═════╝'],
-            'k': ['██╗   ', '██║   ', '██║██╗ ', '██║╚██╗', '██████║ ', '╚═════╝ '],
-            'l': ['██╗', '██║', '██║', '██║', '╚═╝'],
-            'm': ['     ', '███╗███╗', '██╔╝╚═╝ ', '██║     ', '██║     ', '╚═╝     '],
-            'n': ['     ', '███╗██╗', '██╔╝██║ ', '██║ ██║ ', '██║  ██║', '╚═╝  ╚═╝'],
-            'o': ['     ', ' ███╗ ', '██ ╚██╗', '██║ ██║', '╚███╔██║', ' ╚══╝ ╚═╝'],
-            'p': ['     ', '███╗  ', '██║██╗ ', '██║╚██╗', '██████║ ', '██║    ', '╚═╝    '],
-            'q': ['     ', ' ███╗ ', '██ ╚██╗', '██║ ██║', '╚███╔██╗', ' ╚══╝██║', '     ╚═╝'],
-            'r': ['     ', '███╗  ', '██║██╗ ', '██║╚██╗', '██████║ ', '╚═════╝ '],
-            's': ['     ', ' ███╗ ', '██╔═╝ ', ' ███╗ ', '╚═██║ ', ' ███║ ', ' ╚══╝ '],
-            't': ['██╗', '██║', '██║', '██║', '╚═╝'],
-            'u': ['     ', '██╗   ██╗', '██║   ██║', '██║   ██║', '╚██████╔╝', ' ╚═════╝ '],
-            'v': ['     ', '██╗   ██╗', '██║   ██║', '██║   ██║', ' ╚███╔██║', '  ╚══╝ ╚═╝'],
-            'w': ['     ', '██╗    ██╗', '██║    ██║', '██║ █╗ ██║', '██║███╗██║', '╚███╔███╔╝', ' ╚══╝╚══╝ '],
-            'x': ['     ', '██╗  ██╗', '╚██╗██╔╝', ' ╚███╔╝ ', ' ██╔██╗ ', '██╔╝ ╚██╗', '╚═╝   ╚═╝'],
-            'y': ['     ', '██╗   ██╗', '╚██╗ ██╔╝', ' ╚████╔╝ ', '  ╚██╔╝  ', '   ██║   ', '   ╚═╝   '],
-            'z': ['     ', '███████╗', '╚══██╔══╝', '  ██║   ', ' ██║    ', '███████╗', '╚══════╝ ']
-        };
-
-        const words = text.toUpperCase().split(' ');
-        const lines = [];
-
-        // Find max height for any character
-        let maxHeight = 0;
-        for (const word of words) {
-            for (const char of word) {
-                const pattern = charPatterns[char] || ['█', '█', '█', '█', '█', '█'];
-                maxHeight = Math.max(maxHeight, pattern.length);
-            }
-        }
-
-        // Create each line
-        for (let lineIndex = 0; lineIndex < maxHeight; lineIndex++) {
-            const lineChars = [];
-            for (const word of words) {
-                for (const char of word) {
-                    const pattern = charPatterns[char] || ['█', '█', '█', '█', '█', '█'];
-                    const charLine = pattern[lineIndex] || '     ';
-                    lineChars.push(charLine);
-                }
-                lineChars.push('  '); // Space between words
-            }
-            lines.push(lineChars.join('').trimEnd());
-        }
-
-        const container = document.createElement('div');
-        container.className = `kisuke-ascii ${size}${glow ? ' kisuke-glow' : ''}`;
-
-        lines.forEach(line => {
-            const lineDiv = document.createElement('div');
-            lineDiv.className = 'ascii-line';
-            lineDiv.textContent = line;
-            container.appendChild(lineDiv);
-        });
-
-        return container;
-    }
-
-    // ASCII block text is now rendered directly in HTML
-
-    // Demo Video Functionality
-const demoVideo = document.getElementById('demo-video');
-const playOverlay = document.getElementById('play-overlay');
-const playBtn = document.getElementById('play-btn');
-const muteBtn = document.getElementById('mute-btn');
-
-if (demoVideo && playOverlay && playBtn && muteBtn) {
-    // Show play overlay when video is paused or hasn't started
-    const showPlayOverlay = () => {
-        playOverlay.style.opacity = '1';
-    };
-
-    // Hide play overlay when video is playing
-    const hidePlayOverlay = () => {
-        playOverlay.style.opacity = '0';
-    };
-
-    // Update play button icon based on video state
-    const updatePlayButtonIcon = () => {
-        const playIcon = playBtn.querySelector('svg');
-        if (demoVideo.paused) {
-            // Show play icon
-            playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-        } else {
-            // Show pause icon
-            playIcon.innerHTML = '<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>';
-        }
-    };
-
-    // Update mute button icon based on mute state
-    const updateMuteButtonIcon = () => {
-        const muteIcon = muteBtn.querySelector('svg');
-        if (demoVideo.muted) {
-            // Show muted icon
-            muteIcon.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>
-            `;
-        } else {
-            // Show unmuted icon
-            muteIcon.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-            `;
-        }
-    };
-
-    // Initial state - hide overlay since video autoplays
-    hidePlayOverlay();
-    updatePlayButtonIcon();
-    updateMuteButtonIcon();
-
-    // Video event listeners
-    demoVideo.addEventListener('play', () => {
-        hidePlayOverlay();
-        updatePlayButtonIcon();
-    });
-    demoVideo.addEventListener('pause', () => {
-        showPlayOverlay();
-        updatePlayButtonIcon();
-    });
-    demoVideo.addEventListener('ended', () => {
-        showPlayOverlay();
-        updatePlayButtonIcon();
-    });
-    demoVideo.addEventListener('volumechange', updateMuteButtonIcon);
-    demoVideo.addEventListener('loadedmetadata', () => {
-        // Video is ready to play
-        console.log('Demo video loaded successfully');
-        updateMuteButtonIcon();
-    });
-
-    // Play button click handler
-    playBtn.addEventListener('click', async (e) => {
-        e.stopPropagation();
-        try {
-            if (demoVideo.paused) {
-                await demoVideo.play();
-            } else {
-                demoVideo.pause();
-            }
-        } catch (error) {
-            console.log('Video play error:', error);
-            // Fallback for browsers that require user interaction
-            alert('Please click the video controls to start playback.');
-        }
-    });
-
-    // Mute button click handler
-    muteBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        demoVideo.muted = !demoVideo.muted;
-        updateMuteButtonIcon();
-    });
-
-    // Click on overlay to play/pause (avoid triggering when buttons are clicked)
-    playOverlay.addEventListener('click', async (e) => {
-        if (e.target === playOverlay) {
-            try {
-                if (demoVideo.paused) {
-                    await demoVideo.play();
+            const updateMuteButtonIcon = () => {
+                const muteIcon = muteBtn.querySelector('svg');
+                if (demoVideo.muted) {
+                    muteIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>';
                 } else {
-                    demoVideo.pause();
+                    muteIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>';
                 }
-            } catch (error) {
-                console.log('Video overlay click error:', error);
-            }
-        }
-    });
+            };
 
-    // Handle video loading errors
-    demoVideo.addEventListener('error', (e) => {
-        console.error('Video loading error:', e);
-        const errorMsg = document.createElement('div');
-        errorMsg.className = 'absolute inset-0 flex items-center justify-center bg-gray-900 text-white text-center p-4';
-        errorMsg.innerHTML = `
-            <div>
-                <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                </svg>
-                <p class="text-sm mb-2">Video format not supported in this browser</p>
-                <p class="text-xs text-gray-400 mb-4">MOV files work best in Safari and Chrome</p>
-                <a href="apiUI-demo.mov" download class="inline-flex items-center gap-2 cta-glow text-white text-xs px-3 py-2 rounded">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    Download Demo Video
-                </a>
-            </div>
-        `;
-        demoVideo.parentElement.appendChild(errorMsg);
-        playOverlay.style.display = 'none';
-    });
-}
+            hidePlayOverlay();
+            updatePlayButtonIcon();
+            updateMuteButtonIcon();
+
+            demoVideo.addEventListener('play', () => { hidePlayOverlay(); updatePlayButtonIcon(); });
+            demoVideo.addEventListener('pause', () => { showPlayOverlay(); updatePlayButtonIcon(); });
+            demoVideo.addEventListener('ended', () => { showPlayOverlay(); updatePlayButtonIcon(); });
+            demoVideo.addEventListener('volumechange', updateMuteButtonIcon);
+
+            demoVideo.parentElement.addEventListener('mouseenter', showPlayOverlay);
+            demoVideo.parentElement.addEventListener('mouseleave', () => {
+                if (!demoVideo.paused) hidePlayOverlay();
+            });
+
+            playBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                try {
+                    if (demoVideo.paused) await demoVideo.play();
+                    else demoVideo.pause();
+                } catch (error) {
+                    console.log('Video play error:', error);
+                }
+            });
+
+            muteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                demoVideo.muted = !demoVideo.muted;
+                updateMuteButtonIcon();
+            });
+
+            playOverlay.addEventListener('click', async (e) => {
+                if (e.target === playOverlay) {
+                    try {
+                        if (demoVideo.paused) await demoVideo.play();
+                        else demoVideo.pause();
+                    } catch (error) {
+                        console.log('Video overlay click error:', error);
+                    }
+                }
+            });
+
+            demoVideo.addEventListener('error', () => {
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'absolute inset-0 flex items-center justify-center bg-[#0B0B0C] text-[#FAFAF7] text-center p-6';
+                errorMsg.innerHTML = '<div><p class="font-pixel text-xs tracking-[0.14em] uppercase text-[#EC4899] mb-2">VIDEO STREAM UNAVAILABLE</p><p class="text-sm text-[#D9D9D2] mb-4">Download the walkthrough file directly to view locally.</p><a href="apiUI-demo.mov" download class="btn-ab btn-ab--primary" style="background:#EC4899;border-color:#EC4899;">Download Demo Video &#8599;</a></div>';
+                demoVideo.parentElement.appendChild(errorMsg);
+                playOverlay.style.display = 'none';
+            });
+        }
     </script>
 </body>
 </html>

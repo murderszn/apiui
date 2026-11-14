@@ -1,36 +1,20 @@
 version: '3.8'
 
 services:
-  # Backend is deployed to Cloud Run (see CLOUD_RUN_DEPLOYMENT.md for the live URL)
-  # Uncomment below if you want to run backend locally for development
-
   apiui-backend:
     build:
       context: .
       dockerfile: docker/backend.Dockerfile
     ports:
-      - "9999:9999"
+      - "8000:8000"
     environment:
-      - PORT=9999
-      - MONGODB_URL=mongodb://mongodb:27017
-      - DATABASE_NAME=apiui
+      - HOST=0.0.0.0
+      - PORT=8000
+      - API_GATEWAY_URL=${API_GATEWAY_URL:-http://localhost:8000}
     volumes:
-      - ./backend:/app
-      - ./backend/env.example:/app/.env
-    depends_on:
-      - mongodb
-    networks:
-      - apiui-network
-
-  mongodb:
-    image: mongo:7.0
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGO_INITDB_DATABASE=apiui
-    volumes:
-      - mongodb_data:/data/db
-      - ./docker/mongo-init:/docker-entrypoint-initdb.d
+      - ./backend:/app/backend
+      - ./uploads:/app/uploads
+      - ./generated_apis:/app/generated_apis
     networks:
       - apiui-network
 
@@ -39,16 +23,15 @@ services:
       context: .
       dockerfile: docker/frontend.Dockerfile
     ports:
-      - "7777:7777"
+      - "8080:8080"
+    environment:
+      - FRONTEND_PORT=8080
     volumes:
       - ./frontend:/usr/share/nginx/html
     depends_on:
       - apiui-backend
     networks:
       - apiui-network
-
-volumes:
-  mongodb_data:
 
 networks:
   apiui-network:

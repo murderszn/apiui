@@ -4,11 +4,15 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
-const port = 8080;
+const port = parseInt(process.env.FRONTEND_PORT || '8080', 10);
+const host = process.env.FRONTEND_HOST || '0.0.0.0';
 
 // Middleware to parse JSON body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Local classification agent POC; uses Ollama without cloud credentials.
+app.use('/api/agent', require('./agent/router').createAgentRouter());
 
 // Serve static files from the frontend directory
 app.use(express.static(path.join(__dirname, 'frontend')));
@@ -22,15 +26,18 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Verify transporter configuration on startup
-transporter.verify((error, success) => {
-    if (error) {
-        console.log('❌ Email transporter error:', error);
-        console.log('⚠️  Make sure GMAIL_USER and GMAIL_APP_PASSWORD are set in .env');
-    } else {
-        console.log('✅ Email transporter ready to send messages');
-    }
-});
+// Verify transporter configuration on startup (only if credentials are configured)
+if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
+    transporter.verify((error) => {
+        if (error) {
+            console.log('⚠️  Email transporter warning:', error.message);
+        } else {
+            console.log('✅ Email transporter ready to send messages');
+        }
+    });
+} else {
+    console.log('ℹ️  Email transporter disabled (GMAIL_USER / GMAIL_APP_PASSWORD not set)');
+}
 
 // Newsletter signup webhook endpoint
 app.post('/api/signup', async (req, res) => {
@@ -580,7 +587,7 @@ app.get('/health', (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
+app.listen(port, host, () => {
     console.log(`🚀 Frontend server running at http://localhost:${port}`);
     console.log(`📁 Serving files from: ${path.join(__dirname, 'frontend')}`);
     console.log(`📧 Newsletter endpoint: http://localhost:${port}/api/signup`);

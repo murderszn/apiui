@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Agent Lab · apiUI</title>
+    <link rel="icon" href="favicon.svg">
+    <link rel="stylesheet" href="agent.css">
+    <script src="agent.js" defer></script>
+</head>
+<body>
+    <header>
+        <a class="logo" href="app.html">api<span>UI</span></a>
+        <nav aria-label="Main navigation"><a href="app.html">Console</a><a href="mcp.html">MCP Server</a><a class="active" href="agent.html" aria-current="page">Agent Lab <span class="tag">POC</span></a></nav>
+        <span class="local-badge"><i></i> LOCAL INFERENCE</span>
+    </header>
+    <main>
+        <div class="intro"><p class="eyebrow">EXPERIMENT / 001</p><h1>A small decision.<br>A clear next step<span>.</span></h1><p class="subtitle">Give your agent a request. Clef classifies the intent, then a routing rule proposes the next APIUI action.</p></div>
+        <div class="flow" aria-label="Agent flow"><span>01 <b>Your request</b></span><span aria-hidden="true">→</span><span>02 <b>Clef decision</b></span><span aria-hidden="true">→</span><span>03 <b>Action preview</b></span></div>
+        <div class="workspace">
+            <section class="panel input-panel" aria-labelledby="input-heading">
+                <div class="panel-heading"><h2 id="input-heading">Request playground</h2><span class="tag">PREVIEW MODE</span></div>
+                <form id="agent-form">
+                    <label for="request">What would you like to do?</label>
+                    <textarea id="request" name="request" maxlength="12000" required placeholder="Show me the columns and data types in my customers API.">Show me the columns and data types in my customers API.</textarea>
+                    <div class="examples" aria-label="Example requests">
+                        <button type="button" data-example="Show me the columns and data types in my customers API.">Inspect schema</button>
+                        <button type="button" data-example="Find customers in Texas and sort them by revenue.">Query records</button>
+                        <button type="button" data-example="Create a REST API from my uploaded sales CSV.">Build an API</button>
+                        <button type="button" data-example="Delete my old inventory API.">Delete an API</button>
+                        <button type="button" data-example="Help me with that thing.">Ambiguous request</button>
+                    </div>
+                    <div class="settings">
+                        <div><label for="model">Decision model</label><select id="model" disabled><option>Connecting to Ollama…</option></select></div>
+                        <div><label for="threshold">Route threshold <output id="threshold-value" for="threshold">75%</output></label><input id="threshold" type="range" min="50" max="99" value="75"><p class="hint">Minimum top-label probability</p></div>
+                    </div>
+                    <button class="primary" type="submit" id="run" disabled>Classify &amp; route <span aria-hidden="true">↗</span></button>
+                    <p id="connection" class="hint" role="status">Checking installed local decision models…</p>
+                    <button type="button" id="reconnect" class="text-button">Refresh connection</button>
+                    <p id="error" role="alert" hidden></p>
+                </form>
+                <details class="route-definitions"><summary>What can this agent recognize?</summary><dl id="routes"></dl></details>
+            </section>
+            <section class="panel output-panel" aria-labelledby="output-heading" aria-busy="false">
+                <div class="panel-heading"><h2 id="output-heading">Decision workspace</h2><span id="result-status" class="tag" role="status">WAITING</span></div>
+                <div id="empty"><div class="decision-icon" aria-hidden="true">⌘</div><h3>See the decision behind the action.</h3><p>Run a request to inspect its intent, probabilities, and proposed route.</p></div>
+                <div id="result" hidden>
+                    <div class="decision-title"><div><p class="eyebrow">CLASSIFIED INTENT</p><h3 id="intent"></h3></div><div class="score"><strong id="probability"></strong><span>label probability</span></div></div>
+                    <p id="metrics" class="hint"></p>
+                    <div id="probabilities" aria-label="Intent probabilities"></div>
+                    <div class="action"><p class="eyebrow">PROPOSED NEXT STEP</p><code id="tool"></code><p id="reason"></p><p id="next"></p><a id="action-link" href="app.html" hidden>Open API console ↗</a><span class="hint">Preview only. No tool has been executed.</span></div>
+                    <ol id="trace" class="trace" aria-label="Agent trace"></ol>
+                    <details><summary>Raw Ollama response</summary><pre id="raw"></pre></details>
+                </div>
+            </section>
+        </div>
+        <section class="history-section" aria-labelledby="history-heading"><div class="panel-heading"><h2 id="history-heading">This session</h2><button id="clear" class="text-button" type="button">Clear history</button></div><p id="history-empty" class="hint">Your last 8 requests will appear here. History stays in this tab’s memory.</p><div id="history"></div></section>
+        <footer><span>apiUI / Agent Lab</span><p>Local model · Fixed routes · Probability thresholds · Action previews</p></footer>
+    </main>
+</body>
+</html>

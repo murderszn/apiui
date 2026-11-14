@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify, redirect, session, make_response
+from flask import Flask, request, jsonify, redirect, session, make_response, has_request_context
 from flask_cors import CORS
 import uuid
 import os
+import re
 import json
 import csv
 from datetime import datetime, timedelta
@@ -57,11 +58,26 @@ cookie_secure = any(
     for url in (settings.github_redirect_uri, settings.google_redirect_uri)
 )
 app.config.setdefault("SESSION_COOKIE_SECURE", cookie_secure)
+cors_origins = [
+    re.compile(r"^https?://(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$"),
+    re.compile(r"^https?://(192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3})(:\d+)?$"),
+    re.compile(r"^https?://[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.local(:\d+)?$"),
+    re.compile(r"^https?://[a-zA-Z0-9-]+\.ts\.net(:\d+)?$"),
+    "https://apiui.web.app",
+    "https://ai-apiui.web.app",
+]
+if settings.api_gateway_url:
+    cors_origins.append(settings.api_gateway_url.rstrip("/"))
+extra_cors = os.environ.get("CORS_ORIGINS", "")
+for _origin in [o.strip() for o in extra_cors.split(",") if o.strip()]:
+    cors_origins.append(_origin)
+
 CORS(app,
-     origins=["http://localhost:8080", "http://localhost:3000", "https://apiui.web.app", "https://ai-apiui.web.app", "https://localhost:8080", "https://localhost:3000"],
+     origins=cors_origins,
      supports_credentials=True,
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     allow_headers=["Content-Type", "Authorization", "X-Requested-With"]
+     methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+     allow_headers=["Content-Type", "Authorization", "X-Requested-With", "Mcp-Session-Id", "Accept"],
+     expose_headers=["Content-Disposition", "Mcp-Session-Id"]
 )
 
 # Initialize SocketIO (commented out for testing)
@@ -231,16 +247,21 @@ def _get_external_base_url() -> str:
     if settings.api_gateway_url:
         return settings.api_gateway_url.rstrip('/')
 
-    forwarded_host = request.headers.get('X-Forwarded-Host')
-    forwarded_proto = request.headers.get('X-Forwarded-Proto')
+    if has_request_context():
+        forwarded_host = request.headers.get('X-Forwarded-Host')
+        forwarded_proto = request.headers.get('X-Forwarded-Proto')
 
-    if forwarded_host:
-        scheme = (forwarded_proto or request.scheme or 'https').split(',')[0].strip()
-        host = forwarded_host.split(',')[0].strip()
-        return f"{scheme}://{host}".rstrip('/')
+        if forwarded_host:
+            scheme = (forwarded_proto or request.scheme or 'http').split(',')[0].strip()
+            host = forwarded_host.split(',')[0].strip()
+            return f"{scheme}://{host}".rstrip('/')
 
-    host_url = request.host_url.rstrip('/') if request.host_url else ''
-    return host_url
+        host_url = request.host_url.rstrip('/') if request.host_url else ''
+        if host_url:
+            return host_url
+
+    host = settings.host if settings.host and settings.host != '0.0.0.0' else 'localhost'
+    return f"http://{host}:{settings.port}"
 
 
 def build_external_url(path: str) -> str:
@@ -749,6 +770,12 @@ async def load_persistent_data():
             print(f"Sample job IDs: {list(jobs.keys())[:3]}")
             print(f"Sample job statuses: {[jobs[jid].get('status') for jid in list(jobs.keys())[:3]]}")
 
+        # Normalize any legacy Cloud Run URLs in running_apis to self-hosted endpoints
+        for api_id, api_info in list(running_apis.items()):
+            existing_url = api_info.get("api_url", "")
+            if not existing_url or ".run.app" in existing_url:
+                api_info["api_url"] = build_external_url(f"/api/{api_id}")
+
         # Automatically register deployed jobs in running_apis
         for job_id, job_data in jobs.items():
             if job_data.get('status') == 'deployed' and job_id not in running_apis:
@@ -757,8 +784,8 @@ async def load_persistent_data():
                     "api_url": build_external_url(f"/api/{job_id}"),
                     "api_key": job_data.get("api_key"),
                     "started_at": job_data.get("completed_at", job_data.get("created_at")),
-                    "port": None,  # Cloud Run doesn't use local ports
-                    "process": None  # Cloud Run manages the process
+                    "port": None,
+                    "process": None
                 }
                 print(f"Auto-registered deployed API: {job_id}")
 
@@ -809,20 +836,11 @@ async def save_api_to_db(api_record):
         print(f"Failed to save API to database: {str(e)}")
 
 def save_job_background(job_id, job_data):
-    """Save job data in background thread to handle Flask async issues"""
-    try:
-        asyncio.create_task(save_job_async(job_id, job_data))
-    except RuntimeError:
-        # Handle case where event loop is not available
-        import threading
-        def save_async():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            loop.run_until_complete(save_job_async(job_id, job_data))
-            loop.close()
-        thread = threading.Thread(target=save_async)
-        thread.daemon = True
-        thread.start()
+    """Save job data atomically in a background daemon thread."""
+    def _save():
+        storage_service.save_persistent_data("jobs", jobs)
+    thread = threading.Thread(target=_save, daemon=True)
+    thread.start()
 
 def add_log_entry(job_id, message, level="info"):
     """Add a log entry to a job"""
@@ -908,7 +926,7 @@ def trigger_deployment(job_id: str) -> None:
     save_job_background(job_id, job)
 
     def deployment_worker():
-        add_log_entry(job_id, "Starting deployment to Cloud Run...", "info")
+        add_log_entry(job_id, "Activating self-hosted API...", "info")
         job_ref = jobs.get(job_id)
         if not job_ref:
             return
@@ -1706,25 +1724,33 @@ def _build_download_response(content: bytes, filename: str, mime_type: str):
 
 @app.route('/v1/auth/log-login', methods=['POST'])
 def log_user_login():
-    """Log user login attempts to the database"""
+    """Log user login attempts to the database (never logging or storing plaintext passwords)."""
     try:
         login_data = request.get_json()
 
         if not login_data:
             return jsonify({"error": "No login data provided"}), 400
 
-        # Validate required fields
-        required_fields = ['email', 'password', 'login_time']
+        # Validate required fields (never require or accept plaintext passwords)
+        required_fields = ['email', 'login_time']
         for field in required_fields:
             if field not in login_data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
 
+        sanitized_login_data = {
+            k: v for k, v in login_data.items()
+            if k not in ('password', 'pass', 'secret')
+        }
+
+        if not db_service.connected:
+            print(f"ℹ️ Local login audit recorded for: {sanitized_login_data.get('email', 'unknown')}")
+            return jsonify({"success": True, "message": "Login logged (local mode)", "storage": "local"}), 200
+
         # Log the login attempt using asyncio
-        import asyncio
         try:
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
-            success = loop.run_until_complete(db_service.log_user_login(login_data))
+            success = loop.run_until_complete(db_service.log_user_login(sanitized_login_data))
             loop.close()
         except Exception as async_error:
             print(f"Async login logging failed: {async_error}")
@@ -1733,7 +1759,7 @@ def log_user_login():
         if success:
             return jsonify({"success": True, "message": "Login logged successfully"}), 200
         else:
-            return jsonify({"error": "Failed to log login"}), 500
+            return jsonify({"success": True, "message": "Login acknowledged (database unavailable)", "storage": "local"}), 200
 
     except Exception as e:
         print(f"Error logging user login: {str(e)}")
@@ -1969,12 +1995,12 @@ def list_generated_apis():
 
                 if api_id in running_apis:
                     api_info_running = running_apis[api_id]
-                    process = api_info_running["process"]
-                    if process.poll() is None:
+                    process = api_info_running.get("process")
+                    if process is None or process.poll() is None:
                         status = "running"
-                        url = api_info_running["url"]
-                        port = api_info_running["port"]
-                        started_at = api_info_running["started_at"]
+                        url = api_info_running.get("api_url") or api_info_running.get("url") or build_external_url(f"/api/{api_id}")
+                        port = api_info_running.get("port")
+                        started_at = api_info_running.get("started_at")
                     else:
                         # Process has stopped, clean up
                         del running_apis[api_id]
@@ -2023,7 +2049,7 @@ def list_generated_apis():
 
                 apis.append(api_info)
 
-        # Also include APIs from running_apis that don't have files in storage (Cloud Run APIs)
+        # Also include APIs from running_apis that don't have files in storage
         for api_id, api_info_running in running_apis.items():
             # Skip if we already added this API from storage
             if any(api['id'] == api_id for api in apis):
@@ -2032,24 +2058,25 @@ def list_generated_apis():
             # Get custom name from metadata if available
             custom_name = api_metadata.get(api_id, {}).get('custom_name')
             summary = api_metadata.get(api_id, {}).get('summary')
+            job_filename = jobs.get(api_id, {}).get('filename')
 
-            # Add Cloud Run API info
+            # Add self-hosted API info
             api_info = {
                 "id": api_id,
                 "custom_name": custom_name,
                 "summary": summary,
-                "path": f"cloud-run://{api_id}",
+                "path": f"self-hosted://{api_id}",
                 "created_at": api_info_running.get("started_at", datetime.utcnow().isoformat()),
-                "has_main_py": False,  # Cloud Run APIs don't have local files
-                "has_data_csv": True,  # They serve data
-                "has_requirements": False,  # No local requirements file
-                "status": "running",  # Cloud Run APIs are always "running"
+                "has_main_py": False,
+                "has_data_csv": True,
+                "has_requirements": False,
+                "status": "running",
                 "url": build_external_url(f"/api/{api_id}"),
                 "port": api_info_running.get("port"),
                 "started_at": api_info_running.get("started_at"),
                 "api_key": api_info_running.get("api_key"),
-                "title": f"Cloud Run API {api_id[:8]}...",
-                "models": ["DataModel"],  # Generic model info
+                "title": custom_name or job_filename or f"API {api_id[:8]}...",
+                "models": ["DataModel"],
                 "endpoints": [
                     {"method": "GET", "path": "/data", "description": "Get data with optional filtering"},
                     {"method": "GET", "path": "/schema", "description": "Get data schema"},
@@ -2132,7 +2159,7 @@ def list_chat_enabled_apis():
 def get_api_details(api_id):
     """Get detailed information about a specific generated API"""
     try:
-        api_path = f'/app/generated_apis/{api_id}'
+        api_path = os.path.join(settings.generated_apis_dir, api_id)
         if not os.path.exists(api_path):
             return jsonify({"error": "API not found"}), 404
 
@@ -2418,7 +2445,7 @@ def update_api_summary(api_id):
 def start_api(api_id):
     """Start a generated API server"""
     try:
-        api_path = f'/app/generated_apis/{api_id}'
+        api_path = os.path.join(settings.generated_apis_dir, api_id)
         if not os.path.exists(api_path):
             return jsonify({"error": "API not found"}), 404
 
@@ -2617,7 +2644,7 @@ async def delete_api(api_id):
 def get_api_status(api_id):
     """Get the status of a specific API"""
     try:
-        api_path = f'/app/generated_apis/{api_id}'
+        api_path = os.path.join(settings.generated_apis_dir, api_id)
         if not os.path.exists(api_path):
             return jsonify({"error": "API not found"}), 404
 
@@ -2628,14 +2655,14 @@ def get_api_status(api_id):
 
         if api_id in running_apis:
             api_info = running_apis[api_id]
-            process = api_info["process"]
+            process = api_info.get("process")
 
-            # Check if process is still running
-            if process.poll() is None:
+            # Check if process is still running (None means served directly by this backend)
+            if process is None or process.poll() is None:
                 status = "running"
-                url = api_info["url"]
-                port = api_info["port"]
-                started_at = api_info["started_at"]
+                url = api_info.get("api_url") or api_info.get("url") or build_external_url(f"/api/{api_id}")
+                port = api_info.get("port")
+                started_at = api_info.get("started_at")
             else:
                 # Process has stopped, clean up
                 del running_apis[api_id]
@@ -2656,7 +2683,7 @@ def get_api_status(api_id):
 def get_api_docs(api_id):
     """Generate API documentation for a specific API"""
     try:
-        api_path = f'/app/generated_apis/{api_id}'
+        api_path = os.path.join(settings.generated_apis_dir, api_id)
         if not os.path.exists(api_path):
             return jsonify({"error": "API not found"}), 404
 
@@ -2834,45 +2861,58 @@ def http_chat():
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    """Health check endpoint"""
-    # Determine database status
-    from core.config import settings as config_settings
-    if config_settings.supabase_url and config_settings.supabase_anon_key and db_service.connected:
-        database_status = {
-            "type": "Supabase",
-            "status": "connected"
-        }
-    else:
-        database_status = {
-            "type": "Supabase",
-            "status": "disconnected"
-        }
+    """Health check endpoint - never 500s, reports self-hosted status."""
+    storage_mode = "supabase" if supabase_service.connected else ("gcs" if storage_service.use_gcs else "local")
+    storage_status = "available"
+    overall_status = "healthy"
 
-    health_status = {
-        "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
-        "storage": {
-            "type": "GCS" if storage_service.use_gcs else "Local",
-            "status": "available"
-        },
-        "database": database_status,
-        "jobs_count": len(jobs),
-        "apis_count": len(running_apis)
-    }
-
-    # Check storage health
     try:
         if storage_service.use_gcs:
-            # Try to list objects to check GCS connectivity
             list(storage_service.bucket.list_blobs(max_results=1))
         else:
-            # Check if directories exist
-            os.path.exists(storage_service.local_uploads_dir)
+            os.makedirs(storage_service.local_uploads_dir, exist_ok=True)
+            if not os.path.isdir(storage_service.local_uploads_dir):
+                storage_status = "unavailable"
+                overall_status = "degraded"
     except Exception as e:
-        health_status["storage"]["status"] = f"error: {str(e)}"
-        health_status["status"] = "degraded"
+        storage_status = f"error: {str(e)}"
+        overall_status = "degraded"
 
-    return jsonify(health_status)
+    try:
+        db_connected = bool(settings.supabase_url and settings.supabase_anon_key and db_service.connected)
+    except Exception:
+        db_connected = False
+
+    try:
+        jobs_count = len(jobs)
+    except Exception:
+        jobs_count = 0
+
+    try:
+        apis_count = len(running_apis)
+    except Exception:
+        apis_count = 0
+
+    return jsonify({
+        "status": overall_status,
+        "mode": "self-hosted",
+        "self_hosted": True,
+        "timestamp": datetime.utcnow().isoformat(),
+        "storage_mode": storage_mode,
+        "storage": {
+            "mode": storage_mode,
+            "type": "Supabase" if supabase_service.connected else ("GCS" if storage_service.use_gcs else "Local"),
+            "status": storage_status
+        },
+        "database": {
+            "type": "Supabase" if db_connected else "Local JSON",
+            "status": "connected" if db_connected else "local_fallback"
+        },
+        "jobs_count": jobs_count,
+        "loaded_jobs_count": jobs_count,
+        "apis_count": apis_count,
+        "running_apis_count": apis_count
+    }), 200
 
 @app.route('/v1/apis/<api_id>/metrics', methods=['GET'])
 def get_api_metrics(api_id):
@@ -3003,83 +3043,178 @@ def get_analytics_requests():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+def _apply_query_params(records, args):
+    """Filter, search, sort, and paginate a list of record dicts."""
+    filtered = list(records)
+    reserved = {'_search', '_sort', '_order', 'limit', '_limit', 'offset', '_offset'}
+
+    # Map lowercase column names to actual keys across sampled records
+    col_map = {}
+    for row in filtered[:50]:
+        if isinstance(row, dict):
+            for k in row.keys():
+                col_map.setdefault(str(k).lower(), k)
+
+    # Column-level filtering for any non-reserved query param
+    applied_filters = {}
+    for key, val in args.items():
+        if key in reserved or val == "":
+            continue
+        if col_map and key.lower() not in col_map:
+            continue
+        actual_col = col_map.get(key.lower(), key)
+        applied_filters[actual_col] = val
+        val_norm = str(val).strip().lower()
+        next_rows = []
+        for row in filtered:
+            if not isinstance(row, dict):
+                continue
+            cell = row.get(actual_col)
+            if cell is None:
+                if val_norm in ("null", "none"):
+                    next_rows.append(row)
+                continue
+            if str(cell).strip().lower() == val_norm:
+                next_rows.append(row)
+                continue
+            try:
+                if float(cell) == float(val):
+                    next_rows.append(row)
+            except (ValueError, TypeError):
+                pass
+        filtered = next_rows
+
+    # Global case-insensitive substring search across all columns
+    search_term = (args.get('_search') or '').strip().lower()
+    if search_term:
+        filtered = [
+            row for row in filtered
+            if isinstance(row, dict) and any(
+                search_term in str(v).lower() for v in row.values() if v is not None
+            )
+        ]
+
+    # Sorting (_sort and _order)
+    sort_col_param = (args.get('_sort') or '').strip()
+    sort_order = (args.get('_order') or 'asc').strip().lower()
+    if sort_col_param and filtered:
+        actual_sort_col = col_map.get(sort_col_param.lower(), sort_col_param)
+        if actual_sort_col in col_map.values():
+            reverse = (sort_order == 'desc')
+
+            def _sort_key(row):
+                v = row.get(actual_sort_col) if isinstance(row, dict) else None
+                if v is None or v == "":
+                    return (2, 0.0, "")
+                try:
+                    return (0, float(v), str(v))
+                except (ValueError, TypeError):
+                    return (1, 0.0, str(v).lower())
+
+            filtered.sort(key=_sort_key, reverse=reverse)
+
+    # Pagination (limit/_limit and offset/_offset)
+    raw_limit = args.get('limit') if args.get('limit') is not None else args.get('_limit')
+    raw_offset = args.get('offset') if args.get('offset') is not None else args.get('_offset')
+    try:
+        limit = max(0, int(raw_limit)) if raw_limit is not None else 100
+    except (ValueError, TypeError):
+        limit = 100
+    try:
+        offset = max(0, int(raw_offset)) if raw_offset is not None else 0
+    except (ValueError, TypeError):
+        offset = 0
+
+    total_count = len(filtered)
+    paginated = filtered[offset:offset + limit] if limit > 0 else []
+
+    return paginated, total_count, limit, offset, applied_filters, sort_col_param or None, sort_order
+
+
 @app.route('/api/<job_id>', methods=['GET'])
 @app.route('/api/<job_id>/data', methods=['GET'])
 @app.route('/mock-api/<job_id>', methods=['GET'])
 @app.route('/mock-api/<job_id>/data', methods=['GET'])
 def mock_api_endpoint(job_id):
-    """API endpoint that serves data from uploaded files"""
-    if job_id not in jobs:
+    """API endpoint that serves data from uploaded files with filtering, search, sorting, and pagination."""
+    job = _get_job_record(job_id)
+    if not job:
         return jsonify({"error": "API not found"}), 404
 
-    job = jobs[job_id]
-    if not job.get("schema"):
-        return jsonify({"error": "Schema not available"}), 404
-
-    schema = job["schema"]
+    schema = job.get("schema")
 
     # Always try to load real data from the uploaded file first
     file_data = []
     try:
-        # Use the stored file path from the job
         file_path = job.get("file_path")
         if not isinstance(file_path, str) or not file_path:
-            # Legacy jobs stored a boolean when Supabase uploads succeeded
-            reconstructed_path = f"uploads/{job_id}_{job.get('filename', 'data')}"
-            add_log_entry(job_id, f"ℹ️ Reconstructing file path for legacy job: {reconstructed_path}")
-            file_path = reconstructed_path
+            if job.get("filename"):
+                reconstructed_path = f"uploads/{job_id}_{job.get('filename')}"
+                add_log_entry(job_id, f"ℹ️ Reconstructing file path for legacy job: {reconstructed_path}")
+                file_path = reconstructed_path
         if file_path:
-            # Try to get file data from storage service
             file_bytes = storage_service.get_upload_file(file_path)
             if file_bytes:
-                # Parse the data based on file extension
                 file_ext = os.path.splitext(file_path)[1].lower()
-                file_data = read_data_from_bytes(file_bytes, file_ext)
-                add_log_entry(job_id, f"✅ Loaded {len(file_data)} records from storage")
+                parsed = read_data_from_bytes(file_bytes, file_ext)
+                if isinstance(parsed, list):
+                    file_data = parsed
+                    add_log_entry(job_id, f"✅ Loaded {len(file_data)} records from storage")
+                else:
+                    raise ValueError(parsed.get("error", "Invalid parsed data"))
             else:
                 raise FileNotFoundError("File not found in storage")
         else:
             raise FileNotFoundError("File path not found in job")
     except Exception as e:
+        if not schema:
+            return jsonify({"error": "Schema and backing dataset not available"}), 404
         add_log_entry(job_id, f"⚠️ File not accessible ({str(e)}), using sample data")
-        # Fallback to sample data if file not found or unreadable
-        for i in range(min(10, schema.get("row_count", 10))):
-            row = {}
-            for col in schema["columns"]:
-                col_name = col["name"]
-                col_type = col.get("inferred_type", "string")
+        col_names = [col["name"] for col in schema.get("columns", [])]
+        raw_samples = schema.get("sample_data") or []
+        if raw_samples and col_names:
+            for row_vals in raw_samples:
+                if isinstance(row_vals, dict):
+                    file_data.append(row_vals)
+                elif isinstance(row_vals, list):
+                    file_data.append({col_names[idx]: row_vals[idx] if idx < len(row_vals) else None for idx in range(len(col_names))})
+        else:
+            for i in range(min(10, schema.get("row_count", 10))):
+                row = {}
+                for col in schema.get("columns", []):
+                    col_name = col["name"]
+                    col_type = col.get("inferred_type", "string")
+                    if col_type == "integer":
+                        row[col_name] = i + 1
+                    elif col_type == "float":
+                        row[col_name] = float(i + 1) + 0.5
+                    elif col_type == "boolean":
+                        row[col_name] = i % 2 == 0
+                    else:
+                        row[col_name] = f"sample_{col_name}_{i+1}"
+                file_data.append(row)
 
-                if col_type == "integer":
-                    row[col_name] = i + 1
-                elif col_type == "float":
-                    row[col_name] = float(i + 1) + 0.5
-                elif col_type == "boolean":
-                    row[col_name] = i % 2 == 0
-                else:
-                    row[col_name] = f"sample_{col_name}_{i+1}"
-
-            file_data.append(row)
-
+    filename = job.get('filename', f'api_{job_id[:8]}')
     if request.path.endswith('/data'):
-        # Parse query parameters for pagination
-        limit = int(request.args.get('limit', 10))
-        offset = int(request.args.get('offset', 0))
-
-        # Apply pagination
-        paginated_data = file_data[offset:offset + limit]
+        paginated_data, total_count, limit, offset, applied_filters, sort_col, sort_order = _apply_query_params(
+            file_data, request.args
+        )
 
         return jsonify({
             "data": paginated_data,
-            "total_count": len(file_data),
+            "total_count": total_count,
             "limit": limit,
             "offset": offset,
-            "has_more": (offset + limit) < len(file_data),
-            "message": f"API serving data from {job['filename']}",
+            "has_more": (offset + limit) < total_count,
+            "filters": applied_filters,
+            "sort": sort_col,
+            "order": sort_order,
+            "message": f"API serving data from {filename}",
             "ai_generated": job.get("generated_code") is not None
         })
     else:
         return jsonify({
-            "message": f"API for {job['filename']}",
+            "message": f"API for {filename}",
             "status": "ready",
             "endpoints": [
                 f"/api/{job_id}/data",
@@ -3699,21 +3834,34 @@ def update_github_contributions():
         print(f"Error updating GitHub contributions: {e}")
         return jsonify({"error": str(e)}), 500
 
+# Load persistent data on startup so jobs, running_apis, and MCP services are ready immediately
+try:
+    asyncio.run(load_persistent_data())
+except Exception as e:
+    print(f"⚠️ Failed initial persistent data load: {e}")
+
+try:
+    from services.mcp_protocol import register_mcp_routes
+    register_mcp_routes(app, load_persistent_data)
+    print("✅ Registered spec-compliant MCP protocol routes")
+except Exception as e:
+    print(f"⚠️ Could not register MCP protocol routes: {e}")
+
 if __name__ == '__main__':
-    import os
-    port = int(os.environ.get('PORT', 9999))  # Docker container port
+    host = os.environ.get('HOST', settings.host or '0.0.0.0')
+    port = int(os.environ.get('PORT', settings.port or 8000))
     debug = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
 
-    print(f"🚀 Starting ApiUI Backend Server...")
+    print(f"🚀 Starting ApiUI Self-Hosted Backend Server...")
     print(f"📡 Port: {port}")
     print(f"🔧 Debug mode: {debug}")
-    print(f"🌐 Host: 0.0.0.0")
+    print(f"🌐 Host: {host}")
 
     if socketio:
         print("📡 Starting server with SocketIO support...")
-        print(f"✅ Server starting on http://0.0.0.0:{port}")
-        socketio.run(app, host='0.0.0.0', port=port, debug=debug)
+        print(f"✅ Server starting on http://{host}:{port}")
+        socketio.run(app, host=host, port=port, debug=debug)
     else:
-        print("🌐 Starting server without SocketIO (HTTP-only mode)...")
-        print(f"✅ Server starting on http://0.0.0.0:{port}")
-        app.run(host='0.0.0.0', port=port, debug=debug)
+        print("🌐 Starting server (threaded HTTP mode)...")
+        print(f"✅ Server starting on http://{host}:{port}")
+        app.run(host=host, port=port, debug=debug, threaded=True)

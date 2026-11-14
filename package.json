@@ -4,11 +4,13 @@
   "description": "Turn your data into APIs instantly",
   "main": "index.js",
   "scripts": {
-    "dev": "python3 backend/main.py",
+    "dev": "bash start-local.sh",
     "start": "npm run frontend-server",
+    "start:local": "bash start-local.sh",
+    "backend": "python3 backend/main.py",
     "frontend-server": "node server.js",
-    "chat-server": "node chat-server/server.js",
-    "chat-dev": "nodemon chat-server/server.js",
+    "test:agent": "node --test agent/*.test.js",
+    "eval:agent": "node agent/evaluate.js",
     "build": "echo 'Static files ready for deployment'",
     "vercel-deploy": "vercel --prod"
   },

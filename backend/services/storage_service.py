@@ -5,6 +5,11 @@ Supports Supabase Storage (primary), Google Cloud Storage, and local storage (fa
 
 import os
 import json
+import asyncio
+import tempfile
+import threading
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from typing import Optional, Dict, Any, List
 from datetime import datetime
 try:
@@ -16,8 +21,18 @@ except ImportError:  # pragma: no cover - optional dependency
     class NotFound(Exception):
         """Fallback NotFound when google cloud libraries are unavailable."""
         pass
-from core.config import settings
+from core.config import settings, BASE_DIR
 from services.supabase_service import supabase_service
+
+
+def _run_async(coro):
+    """Run an async coroutine safely whether or not an event loop is already running."""
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(coro)
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        return pool.submit(asyncio.run, coro).result()
 
 
 class StorageService:
@@ -25,11 +40,17 @@ class StorageService:
         self.use_gcs = settings.use_gcs_storage
         self.local_uploads_dir = settings.uploads_dir
         self.local_apis_dir = settings.generated_apis_dir
+        self._supabase_list_cache = None
+        self._supabase_list_cache_ts = 0.0
+        self._persist_lock = threading.Lock()
+
+        # Always ensure local directories exist for self-hosted / fallback mode
+        os.makedirs(self.local_uploads_dir, exist_ok=True)
+        os.makedirs(self.local_apis_dir, exist_ok=True)
 
         # Priority: Supabase > GCS > Local
-        # Note: Supabase connection is checked dynamically, not cached
         if supabase_service.connected:
-            print("✅ Using Supabase Storage as primary storage")
+            print(f"✅ Using Supabase Storage (with local fallback: {self.local_uploads_dir})")
         elif self.use_gcs:
             if storage is None:
                 raise RuntimeError("Google Cloud Storage requested but google-cloud-storage package is not installed")
@@ -41,25 +62,21 @@ class StorageService:
                 print(f"❌ GCS initialization failed: {e}")
                 print("🔄 Falling back to local storage")
                 self.use_gcs = False
-                # Ensure local directories exist
-                os.makedirs(self.local_uploads_dir, exist_ok=True)
-                os.makedirs(self.local_apis_dir, exist_ok=True)
                 print(f"✅ Using local storage: {self.local_uploads_dir}")
         else:
-            # Ensure local directories exist
-            os.makedirs(self.local_uploads_dir, exist_ok=True)
-            os.makedirs(self.local_apis_dir, exist_ok=True)
             print(f"✅ Using local storage: {self.local_uploads_dir}")
+
+    def _persistent_file_path(self, data_type: str) -> str:
+        """Resolve local persistent JSON path dynamically relative to repo root."""
+        return getattr(settings, f"{data_type}_file", str(BASE_DIR / "backend" / f"{data_type}.json"))
 
     def save_upload_file(self, file_data: bytes, filename: str, job_id: str) -> str:
         """Save uploaded file with persistent storage"""
         file_path = f"uploads/{job_id}_{filename}"
 
         if supabase_service.connected:
-            # Use Supabase Storage for user-uploads bucket
-            import asyncio
             try:
-                result = asyncio.run(supabase_service.upload_file(
+                result = _run_async(supabase_service.upload_file(
                     "user-uploads",
                     file_path,
                     file_data,
@@ -67,7 +84,11 @@ class StorageService:
                 ))
                 if result:
                     print(f"📤 Uploaded to Supabase Storage: {file_path}")
-                    return file_path  # Always return the storage path for downstream retrieval
+                    # Also keep a local copy for fast/offline self-hosted access
+                    full_path = os.path.join(self.local_uploads_dir, f"{job_id}_{filename}")
+                    with open(full_path, 'wb') as f:
+                        f.write(file_data)
+                    return file_path
                 else:
                     print("❌ Supabase upload failed, falling back to GCS/local")
             except Exception as e:
@@ -78,6 +99,7 @@ class StorageService:
             blob.upload_from_string(file_data, content_type='application/octet-stream')
             print(f"📤 Uploaded to GCS: {file_path}")
         else:
+            os.makedirs(self.local_uploads_dir, exist_ok=True)
             full_path = os.path.join(self.local_uploads_dir, f"{job_id}_{filename}")
             with open(full_path, 'wb') as f:
                 f.write(file_data)
@@ -86,22 +108,29 @@ class StorageService:
         return file_path
 
     def get_upload_file(self, file_path: str) -> Optional[bytes]:
-        """Retrieve uploaded file"""
+        """Retrieve uploaded file (checks local disk first for speed/offline resilience, then remote)."""
         try:
+            # Check local uploads directory first (instant and works offline)
+            local_candidates = [
+                os.path.join(self.local_uploads_dir, os.path.basename(file_path)),
+                os.path.join(self.local_uploads_dir, file_path),
+            ]
+            for full_path in local_candidates:
+                if os.path.isfile(full_path):
+                    with open(full_path, 'rb') as f:
+                        return f.read()
+
             if supabase_service.connected:
-                import asyncio
-                result = asyncio.run(supabase_service.download_file("user-uploads", file_path))
-                if result:
-                    return result
+                try:
+                    result = _run_async(supabase_service.download_file("user-uploads", file_path))
+                    if result:
+                        return result
+                except Exception as e:
+                    print(f"⚠️ Supabase download fallback failed for {file_path}: {e}")
 
             if self.use_gcs:
                 blob = self.bucket.blob(file_path)
                 return blob.download_as_bytes()
-            else:
-                full_path = os.path.join(self.local_uploads_dir, os.path.basename(file_path))
-                if os.path.exists(full_path):
-                    with open(full_path, 'rb') as f:
-                        return f.read()
         except (NotFound, FileNotFoundError):
             return None
         return None
@@ -201,20 +230,28 @@ class StorageService:
             return []
 
     def save_persistent_data(self, data_type: str, data: Dict[str, Any]) -> bool:
-        """Save persistent data (jobs, apis, etc.)"""
+        """Save persistent data (jobs, apis, etc.) atomically and thread-safely."""
         try:
             file_path = f"persistent/{data_type}.json"
-            json_data = json.dumps(data, default=str, indent=2)
+            with self._persist_lock:
+                json_data = json.dumps(dict(data), default=str, indent=2)
 
-            if self.use_gcs:
-                blob = self.bucket.blob(file_path)
-                blob.upload_from_string(json_data, content_type='application/json')
-            else:
-                # Save to local file
-                local_file = getattr(settings, f"{data_type}_file", f"/Users/jahflyx/apiui/backend/{data_type}.json")
-                os.makedirs(os.path.dirname(local_file), exist_ok=True)
-                with open(local_file, 'w') as f:
-                    f.write(json_data)
+                if self.use_gcs:
+                    blob = self.bucket.blob(file_path)
+                    blob.upload_from_string(json_data, content_type='application/json')
+                else:
+                    local_file = self._persistent_file_path(data_type)
+                    target_dir = os.path.dirname(local_file)
+                    os.makedirs(target_dir, exist_ok=True)
+                    fd, tmp_path = tempfile.mkstemp(prefix=f".{data_type}_", suffix=".tmp", dir=target_dir)
+                    try:
+                        with os.fdopen(fd, 'w', encoding='utf-8') as f:
+                            f.write(json_data)
+                        os.replace(tmp_path, local_file)
+                    except Exception:
+                        if os.path.exists(tmp_path):
+                            os.unlink(tmp_path)
+                        raise
 
             print(f"💾 Saved persistent data: {data_type}")
             return True
@@ -230,7 +267,7 @@ class StorageService:
                 blob = self.bucket.blob(file_path)
                 json_data = blob.download_as_text()
             else:
-                local_file = getattr(settings, f"{data_type}_file", f"/Users/jahflyx/apiui/backend/{data_type}.json")
+                local_file = self._persistent_file_path(data_type)
                 if not os.path.exists(local_file):
                     return None
                 with open(local_file, 'r') as f:
@@ -244,50 +281,67 @@ class StorageService:
             return None
 
     def list_uploaded_files(self) -> List[Dict[str, Any]]:
-        """List all uploaded files with metadata"""
+        """List all uploaded files with metadata (includes local fallback files)."""
         try:
             files = []
+            seen_names = set()
 
             if supabase_service.connected:
-                import asyncio
-                # Get list of files from Supabase storage
-                file_list = asyncio.run(supabase_service.list_files("user-uploads"))
-                if file_list:
-                    for file_info in file_list:
-                        files.append({
-                            'name': os.path.basename(file_info.get('name', '')),
-                            'path': file_info.get('name', ''),
-                            'size': file_info.get('size', 0),
-                            'last_modified': file_info.get('updated_at', datetime.now().isoformat()),
-                            'storage': 'supabase'
-                        })
+                try:
+                    import time
+                    now = time.monotonic()
+                    if self._supabase_list_cache is not None and (now - self._supabase_list_cache_ts) < 5.0:
+                        file_list = self._supabase_list_cache
+                    else:
+                        file_list = _run_async(supabase_service.list_files("user-uploads")) or []
+                        self._supabase_list_cache = file_list
+                        self._supabase_list_cache_ts = now
+                    if file_list:
+                        for file_info in file_list:
+                            name = os.path.basename(file_info.get('name', ''))
+                            if name and name not in seen_names:
+                                seen_names.add(name)
+                                files.append({
+                                    'name': name,
+                                    'path': file_info.get('name', ''),
+                                    'size': file_info.get('size', 0),
+                                    'last_modified': file_info.get('updated_at', datetime.now().isoformat()),
+                                    'storage': 'supabase'
+                                })
+                except Exception as e:
+                    print(f"⚠️ Supabase list_files failed, using local uploads: {e}")
 
-            elif self.use_gcs:
+            if self.use_gcs:
                 blobs = self.bucket.list_blobs(prefix="uploads/")
                 for blob in blobs:
                     if blob.name.startswith("uploads/"):
                         filename = os.path.basename(blob.name)
-                        files.append({
-                            'name': filename,
-                            'path': blob.name,
-                            'size': blob.size or 0,
-                            'last_modified': blob.updated.isoformat() if blob.updated else datetime.now().isoformat(),
-                            'storage': 'gcs'
-                        })
-            else:
-                # Local storage
-                if os.path.exists(self.local_uploads_dir):
-                    for filename in os.listdir(self.local_uploads_dir):
-                        file_path = os.path.join(self.local_uploads_dir, filename)
-                        if os.path.isfile(file_path):
-                            stat = os.stat(file_path)
+                        if filename and filename not in seen_names:
+                            seen_names.add(filename)
                             files.append({
                                 'name': filename,
-                                'path': file_path,
-                                'size': stat.st_size,
-                                'last_modified': datetime.fromtimestamp(stat.st_mtime).isoformat(),
-                                'storage': 'local'
+                                'path': blob.name,
+                                'size': blob.size or 0,
+                                'last_modified': blob.updated.isoformat() if blob.updated else datetime.now().isoformat(),
+                                'storage': 'gcs'
                             })
+
+            # Always include local uploads directory files not already listed
+            if os.path.exists(self.local_uploads_dir):
+                for filename in sorted(os.listdir(self.local_uploads_dir)):
+                    if filename.startswith('.'):
+                        continue
+                    file_path = os.path.join(self.local_uploads_dir, filename)
+                    if os.path.isfile(file_path) and filename not in seen_names:
+                        seen_names.add(filename)
+                        stat = os.stat(file_path)
+                        files.append({
+                            'name': filename,
+                            'path': file_path,
+                            'size': stat.st_size,
+                            'last_modified': datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                            'storage': 'local'
+                        })
 
             return files
         except Exception as e:
@@ -322,7 +376,7 @@ class StorageService:
                 if blob.exists(client=self.gcs_client):
                     blob.delete()
             else:
-                local_file = getattr(settings, f"{data_type}_file", f"/Users/jahflyx/apiui/backend/{data_type}.json")
+                local_file = self._persistent_file_path(data_type)
                 if os.path.exists(local_file):
                     os.remove(local_file)
             print(f"🧹 Cleared persistent data: {data_type}")

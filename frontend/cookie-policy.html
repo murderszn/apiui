@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Policy | APIUI</title>
-    <meta name="description" content="APIUI cookie policy - Learn how we use cookies and similar technologies to improve your experience with our API platform.">
+    <title>Cookie Policy | APIUI by AURABLOX</title>
+    <meta name="description" content="APIUI cookie policy - Learn how we use cookies and local browser storage across our self-hosted and cloud API & MCP platform.">
     <meta name="keywords" content="cookie policy, privacy policy, data privacy, apiUI cookies, website tracking">
     <meta name="author" content="APIUI by AURABLOX">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
     <meta name="bingbot" content="index, follow">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#FAFAF7">
     <meta name="language" content="English">
     <meta name="geo.region" content="US">
     <meta name="geo.placename" content="United States">
@@ -24,30 +24,28 @@
     <link rel="shortcut icon" href="apiui-cloud-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Pixelify+Sans:wght@400;500;600;700&display=swap">
     <meta property="og:site_name" content="APIUI">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Cookie Policy | APIUI">
+    <meta property="og:title" content="Cookie Policy | APIUI by AURABLOX">
     <meta property="og:description" content="APIUI cookie policy - Learn how we use cookies and similar technologies to improve your experience with our API platform.">
     <meta property="og:url" content="https://apiui.web.app/cookie-policy.html">
     <meta property="og:image" content="https://apiui.web.app/apiui-cloud-logo.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Cookie Policy | APIUI">
+    <meta name="twitter:title" content="Cookie Policy | APIUI by AURABLOX">
     <meta name="twitter:description" content="APIUI cookie policy - Learn how we use cookies and similar technologies to improve your experience with our API platform.">
     <meta name="twitter:image" content="https://apiui.web.app/apiui-cloud-logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="config.js"></script>
     <script>
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
+        window.APIUI_AUTH_BASE_URL = window.APIUI_AUTH_BASE_URL || window.BACKEND_BASE_URL || 'http://localhost:8000';
     </script>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "APIUI",
-        "description": "Transform your data into powerful APIs instantly. Build, deploy, and manage APIs with our intuitive platform.",
+        "description": "Transform your data into powerful REST APIs and MCP servers instantly.",
         "url": "https://apiui.web.app/",
         "publisher": {
             "@type": "Organization",
@@ -60,1189 +58,1575 @@
     }
     </script>
     <style>
-        /* Pixel-Inspired CSS Variables */
         :root {
-            --pixel-pink: #E91E63;  /* Vibrant fuschia pink */
-            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
-            --pixel-pink-light: #F472B6;  /* Light pink */
-            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
-            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
-            --pixel-black: #000000;  /* Black text */
-            --pixel-white: #ffffff;  /* White background */
-            --pixel-gray-100: #f8fafc;
-            --pixel-gray-200: #e2e8f0;
-            --pixel-gray-300: #cbd5e1;
-            /* Hub Design System */
-            --hub-pink: #ec4899;
-            --hub-pink-soft: #f472b6;
-            --hub-ink: #0f172a;
-            --hub-ink-soft: #1f2937;
-            --hub-surface: #ffffff;
-            --hub-muted: #64748b;
-            --hub-border: rgba(15, 23, 42, 0.12);
+            --ink: #0B0B0C;
+            --paper: #FAFAF7;
+            --bg: #FFFFFF;
+            --surface: #FFFFFF;
+            --surface-alt: #F4F3EE;
+            --border: #D9D9D2;
+            --border-strong: #0B0B0C;
+            --text: #0B0B0C;
+            --text-secondary: #474742;
+            --muted: #62625C;
+            --accent: #EC4899;
+            --accent-deep: #DB2777;
+            --accent-purple: #7C3AED;
+            --font-display: 'Anton', Impact, 'Arial Narrow', sans-serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-pixel: 'Pixelify Sans', monospace;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+            --gutter: clamp(20px, 5vw, 72px);
+            color-scheme: light;
         }
 
-        /* CTA Button with Layered Glow Effect */
-        .cta-glow {
-            position: relative;
-            background: var(--pixel-pink);
-            color: white;
-            box-shadow:
-                0 0 20px rgba(233, 30, 99, 0.6),
-                0 0 40px rgba(156, 39, 176, 0.4),
-                0 0 60px rgba(156, 39, 176, 0.2);
-            transition: all 0.3s ease;
+        *, *::before, *::after {
+            box-sizing: border-box;
+            border-radius: 0 !important;
         }
 
-        .cta-glow:hover {
-            background: var(--pixel-pink-subtle);
-            box-shadow:
-                0 0 30px rgba(233, 30, 99, 0.8),
-                0 0 60px rgba(156, 39, 176, 0.6),
-                0 0 90px rgba(156, 39, 176, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .cta-glow:active {
-            transform: translateY(0);
-            box-shadow:
-                0 0 15px rgba(233, 30, 99, 0.4),
-                0 0 30px rgba(156, 39, 176, 0.3);
-        }
-
-        /* Regular Cursor */
-        * {
-            cursor: auto;
-        }
-
-        button, a, [role="button"] {
-            cursor: pointer;
-        }
-
-        /* Base Typography */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--pixel-white);
-            color: var(--pixel-black);
-            line-height: 1.6;
-            cursor: inherit;
-        }
-
-        /* Pixel Typography Classes */
-        .pixel-heading {
-            font-family: 'Pixelify Sans', monospace;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .pixel-body {
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        /* Hub Button System */
-        .hub-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.75rem;
-            border: 1px solid var(--hub-ink);
-            border-radius: 0;
-            font-size: 0.875rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease, color 0.2s ease;
-        }
-
-        .hub-btn:focus {
-            outline: 2px solid var(--hub-pink);
-            outline-offset: 3px;
-        }
-
-        .hub-btn-primary {
-            background-color: var(--hub-ink);
-            color: #fff;
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.4);
-        }
-
-        .hub-btn-primary:hover {
-            background-color: var(--hub-pink);
-            border-color: var(--hub-pink);
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(15, 23, 42, 0.45);
-        }
-
-        .hub-btn-secondary {
-            background-color: transparent;
-            color: var(--hub-ink);
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
-        }
-
-        .hub-btn-secondary:hover {
-            background-color: var(--hub-pink-soft);
-            border-color: var(--hub-pink-soft);
-            color: #fff;
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 rgba(236, 72, 153, 0.35);
-        }
-
-        /* Pixel Elements */
-        .pixel-dot {
-            width: 12px;
-            height: 12px;
-            background-image: repeating-linear-gradient(90deg, var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px), repeating-linear-gradient(var(--hub-pink) 0, var(--hub-pink) 2px, transparent 2px, transparent 4px);
-            image-rendering: pixelated;
-        }
-
-        /* Arcade Text Effects */
-        .arcade-neon {
-            text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink);
-            animation: neon-pulse 2s ease-in-out infinite alternate;
-        }
-
-        .arcade-3d {
-            text-shadow:
-                2px 2px 0px var(--pixel-gray-800),
-                4px 4px 0px var(--pixel-gray-600),
-                6px 6px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .arcade-gradient {
-            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: none;
-        }
-
-        .arcade-title {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            text-shadow:
-                /* Deep 3D layers for depth */
-                1px 1px 0px var(--pixel-black),
-                2px 2px 0px var(--pixel-gray-800),
-                3px 3px 0px var(--pixel-gray-700),
-                4px 4px 0px var(--pixel-gray-600),
-                5px 5px 5px rgba(0, 0, 0, 0.3),
-                /* Inner glow effect */
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink),
-                /* Outer neon glow */
-                0 0 20px var(--pixel-pink-subtle),
-                0 0 30px var(--pixel-pink-subtle),
-                0 0 40px rgba(233, 30, 99, 0.5);
-            animation: arcade-glow-pulse 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes neon-pulse {
-            from { text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink);
-            }
-            to { text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink),
-                0 0 20px var(--pixel-pink);
-            }
-        }
-
-        @keyframes arcade-glow-pulse {
-            from {
-                text-shadow:
-                    /* Deep 3D layers for depth */
-                    1px 1px 0px var(--pixel-black),
-                    2px 2px 0px var(--pixel-gray-800),
-                    3px 3px 0px var(--pixel-gray-700),
-                    4px 4px 0px var(--pixel-gray-600),
-                    5px 5px 5px rgba(0, 0, 0, 0.3),
-                    /* Inner glow effect */
-                    0 0 5px var(--pixel-pink),
-                    0 0 10px var(--pixel-pink),
-                    0 0 15px var(--pixel-pink),
-                    /* Outer neon glow */
-                    0 0 20px var(--pixel-pink-subtle),
-                    0 0 30px var(--pixel-pink-subtle),
-                    0 0 40px rgba(233, 30, 99, 0.5);
-            }
-            to {
-                text-shadow:
-                    /* Deep 3D layers for depth */
-                    1px 1px 0px var(--pixel-black),
-                    2px 2px 0px var(--pixel-gray-800),
-                    3px 3px 0px var(--pixel-gray-700),
-                    4px 4px 0px var(--pixel-gray-600),
-                    5px 5px 5px rgba(0, 0, 0, 0.3),
-                    /* Enhanced inner glow effect */
-                    0 0 8px var(--pixel-pink),
-                    0 0 16px var(--pixel-pink),
-                    0 0 24px var(--pixel-pink),
-                    /* Enhanced outer neon glow */
-                    0 0 32px var(--pixel-pink-subtle),
-                    0 0 48px var(--pixel-pink-subtle),
-                    0 0 64px rgba(233, 30, 99, 0.7);
-            }
-        }
-
-        /* Pixel Card System */
-        .pixel-card {
-            background: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pixel-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .pixel-card:hover {
-            box-shadow: var(--pixel-shadow-hover);
-            transform: translate(-1px, -1px);
-        }
-
-        .pixel-card:hover::before {
-            opacity: 1;
-        }
-
-        /* Pixel Button System */
-        .pixel-btn {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-            padding: 0.75rem 1.5rem;
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            box-shadow: none;
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .pixel-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            transition: left 0.3s ease;
-        }
-
-        .pixel-btn:hover {
-            box-shadow: none;
-            transform: translate(-1px, -1px);
-            color: var(--pixel-black);
-        }
-
-        .pixel-btn:hover::before {
-            left: 100%;
-        }
-
-        .pixel-btn:active {
-            transform: translate(0, 0);
-            box-shadow: none;
-        }
-
-        .pixel-btn-primary {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            border-color: var(--pixel-black);
-        }
-
-        .pixel-btn-primary:hover {
-            background: var(--pixel-pink);
-            border-color: var(--pixel-pink);
-            color: var(--pixel-white);
-        }
-
-        .pixel-btn-secondary {
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            border-color: var(--pixel-pink-subtle);
-        }
-
-        .pixel-btn-secondary:hover {
-            background: var(--pixel-pink-subtle);
-            color: var(--pixel-white);
-        }
-
-        /* Pixel Icon Containers */
-        .pixel-icon {
-            background: var(--pixel-gray-100);
-            border: var(--pixel-border-width) solid var(--pixel-gray-300);
-            border-radius: var(--pixel-border-radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--pixel-shadow);
-            color: var(--pixel-gray-600);
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        .pixel-icon svg {
-            color: inherit;
-            filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.1));
-        }
-
-        /* Pixel Grid System */
-        .pixel-grid {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .pixel-section {
-            padding: 5rem 0;
-            position: relative;
-        }
-
-        .pixel-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* Pixel Accent Elements */
-        .pixel-accent-line {
-            position: relative;
-            margin: 3rem 0;
-            height: 2px;
-            background: repeating-linear-gradient(
-                90deg,
-                var(--pixel-black) 0px,
-                var(--pixel-black) 2px,
-                transparent 2px,
-                transparent 4px
-            );
-        }
-
-        .pixel-accent-line::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 4px;
-            background: var(--pixel-pink);
-        }
-
-        /* Pixel Badge - Consistent Pink Styling */
-        .pixel-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 0;
-            background: var(--pixel-pink);
-            border: 2px solid var(--pixel-black);
-            color: var(--pixel-white);
-            font-family: 'Pixelify Sans', monospace;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.2s ease;
-        }
-
-        .pixel-badge:hover {
-            background: var(--pixel-pink-subtle);
-            border-color: var(--pixel-black);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
-        }
-
-        /* Pixel Loading Animation */
-        .pixel-loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--pixel-gray-300);
-            border-radius: 0;
-            border-top-color: var(--pixel-pink);
-            animation: pixel-spin 1s ease-in-out infinite;
-        }
-
-        @keyframes pixel-spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Pixel Flicker Animation */
-        @keyframes pixel-flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        .pixel-flicker {
-            animation: pixel-flicker 0.1s ease-in-out;
-        }
-
-        /* Smooth Scrolling */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Pixel Focus States */
-        a:focus, button:focus {
-            outline: 2px solid var(--pixel-pink-subtle);
-            outline-offset: 2px;
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Hero Section */
-        .hero-section {
-            position: relative;
-            overflow: hidden;
-            background: var(--pixel-white);
-            min-height: 100vh;
+        h1, h2, .ab-display {
+            font-family: var(--font-display);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 0.92;
+            color: var(--ink);
+        }
+
+        .font-pixel {
+            font-family: var(--font-pixel);
+        }
+
+        .font-mono-code {
+            font-family: var(--font-mono);
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: #FFFFFF;
+        }
+
+        /* Aurablox Constructivist Top Nav & Mega-Menu */
+        .ab-nav-shell {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--paper);
+            border-bottom: 1px solid rgba(11, 11, 12, 0.18);
+            transition: border-color 0.15s ease;
+        }
+
+        .ab-nav-shell.has-mega-open {
+            border-bottom: 2px solid var(--ink);
+        }
+
+        .ab-nav {
+            min-height: 76px;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--gutter);
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            gap: 28px;
         }
 
-        .hero-gradient-text {
-            background: linear-gradient(45deg, var(--pixel-pink), var(--pixel-pink-subtle), var(--pixel-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 700;
-            text-shadow: none;
+        .ab-nav__brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex: none;
+            color: var(--ink);
+            text-decoration: none;
         }
 
-        /* Step Indicators */
-        .pixel-step {
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
+        .ab-nav__seal {
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            flex: none;
+            clip-path: polygon(0 0, 11px 0, 11px 4px, 15px 4px, 15px 15px, 0 15px);
         }
 
-        /* CTA Section */
-        .cta-section {
+        .ab-nav__brand-name {
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            line-height: 1;
+            letter-spacing: 0.025em;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+
+        .ab-nav__brand-name span {
+            color: var(--accent);
+        }
+
+        .ab-nav__brand-tag {
+            font-family: var(--font-pixel);
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border-left: 1px solid var(--border);
+            padding-left: 10px;
+        }
+
+        .ab-nav__menu {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: clamp(18px, 2.4vw, 32px);
+            flex: 1;
+        }
+
+        .ab-nav__list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: clamp(16px, 2vw, 28px);
+        }
+
+        .ab-nav__item {
             position: relative;
-            background: var(--pixel-gray-100);
-            color: var(--pixel-black);
         }
 
-        /* Back to Top */
+        .ab-nav__item-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .ab-nav__link {
+            min-height: 76px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 2px solid transparent;
+            color: var(--ink);
+            font: 600 0.75rem/1.2 var(--font-body);
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.15s ease, border-color 0.15s ease;
+            cursor: pointer;
+            background: transparent;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            padding: 0;
+        }
+
+        .ab-nav__link:hover,
+        .ab-nav__link.is-current,
+        .ab-nav__item.is-open .ab-nav__link {
+            border-bottom-color: var(--accent);
+            color: var(--ink);
+        }
+
+        .ab-nav__caret {
+            width: 10px;
+            height: 10px;
+            color: rgba(11, 11, 12, 0.55);
+            transition: transform 0.18s ease, color 0.18s ease;
+        }
+
+        .ab-nav__item.is-open .ab-nav__caret,
+        .ab-nav__link:hover .ab-nav__caret {
+            transform: rotate(180deg);
+            color: var(--accent);
+        }
+
+        .ab-nav__mobile-expand,
+        .ab-nav__mobile-sub {
+            display: none;
+        }
+
+        .ab-nav__cta-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .ab-nav__cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 40px;
+            padding: 0 16px;
+            background: var(--ink);
+            color: var(--paper);
+            border: 1px solid var(--ink);
+            font: 700 0.72rem/1 var(--font-body);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .ab-nav__cta-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .ab-nav__toggle {
+            display: none;
+        }
+
+        .ab-megamenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--paper);
+            border-top: 1px solid rgba(11, 11, 12, 0.14);
+            border-bottom: 2px solid var(--ink);
+            z-index: 999;
+            display: none;
+        }
+
+        .ab-megamenu.is-open {
+            display: block;
+        }
+
+        .ab-megamenu__inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 28px var(--gutter) 32px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(280px, 1.15fr);
+            gap: clamp(24px, 3.2vw, 48px);
+            align-items: start;
+        }
+
+        .ab-megamenu__col {
+            min-width: 0;
+        }
+
+        .ab-megamenu__col + .ab-megamenu__col {
+            padding-left: clamp(20px, 2.8vw, 40px);
+            border-left: 1px solid rgba(11, 11, 12, 0.14);
+        }
+
+        .ab-megamenu__section-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font: 700 0.68rem/1.2 var(--font-pixel);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin: 0 0 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(11, 11, 12, 0.12);
+            width: 100%;
+        }
+
+        .ab-megamenu__dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent);
+            flex: none;
+        }
+
+        .ab-megamenu__list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 4px;
+        }
+
+        .ab-megamenu__link {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 10px 12px;
+            margin-inline: -12px;
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            transition: background-color 0.15s ease, border-left-color 0.15s ease;
+        }
+
+        .ab-megamenu__link:hover {
+            background: #FFFFFF;
+            border-left-color: var(--accent);
+        }
+
+        .ab-megamenu__link-title {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font: 600 0.9rem/1.3 var(--font-body);
+            color: var(--ink);
+            transition: color 0.15s ease;
+        }
+
+        .ab-megamenu__link:hover .ab-megamenu__link-title {
+            color: var(--accent);
+        }
+
+        .ab-megamenu__link-arrow {
+            opacity: 0;
+            transform: translate(-3px, 3px);
+            color: var(--accent);
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            font-size: 0.85rem;
+        }
+
+        .ab-megamenu__link:hover .ab-megamenu__link-arrow {
+            opacity: 1;
+            transform: translate(0);
+        }
+
+        .ab-megamenu__link-desc {
+            font: 400 0.78rem/1.45 var(--font-body);
+            color: var(--text-secondary);
+        }
+
+        .ab-megamenu__spotlight {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 18px;
+            background: #FFFFFF;
+            border: 1px solid rgba(11, 11, 12, 0.16);
+            border-top: 2px solid var(--ink);
+            text-decoration: none;
+            color: var(--ink);
+            transition: border-color 0.15s ease;
+        }
+
+        .ab-megamenu__spotlight:hover {
+            border-color: var(--accent);
+        }
+
+        .ab-megamenu__spotlight-kicker {
+            font: 700 0.65rem/1.2 var(--font-pixel);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent-purple);
+            margin-bottom: 8px;
+        }
+
+        .ab-megamenu__spotlight h4 {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 0.98rem;
+            line-height: 1.3;
+            text-transform: none;
+            color: var(--ink);
+            margin: 0 0 8px;
+        }
+
+        .ab-megamenu__spotlight p {
+            font: 400 0.78rem/1.5 var(--font-body);
+            color: var(--text-secondary);
+            margin: 0 0 12px;
+        }
+
+        .ab-megamenu__spotlight-cta {
+            font: 700 0.68rem/1.2 var(--font-body);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        /* Section Index Bars & Constructivist Cards */
+        .ab-shell {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding-left: var(--gutter);
+            padding-right: var(--gutter);
+        }
+
+        .section-index-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-bottom: 14px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+            font: 700 0.72rem/1.2 var(--font-pixel);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .section-index-bar__left {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+        }
+
+        .seal {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            flex: none;
+        }
+
+        .home-capability {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            padding: clamp(22px, 2.5vw, 30px);
+            transition: border-top-color 0.18s ease, background-color 0.18s ease;
+        }
+
+        .home-capability:hover {
+            border-top-color: var(--accent);
+            background: #FFFFFF;
+        }
+
+        .ab-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: var(--paper);
+            border: 1px solid var(--border);
+            font: 600 0.72rem/1.2 var(--font-pixel);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+            transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .ab-tag:hover {
+            border-color: var(--accent);
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .btn-ab {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 44px;
+            padding: 0 20px;
+            font: 700 0.74rem/1 var(--font-body);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--ink);
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+            cursor: pointer;
+        }
+
+        .btn-ab--primary {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .btn-ab--primary:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .btn-ab--secondary {
+            background: #FFFFFF;
+            color: var(--ink);
+        }
+
+        .btn-ab--secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Aurablox Constructivist Footer + Giant Wordmark */
+        .ab-footer {
+            background: var(--paper);
+            color: var(--ink);
+            border-top: 1px solid rgba(11, 11, 12, 0.16);
+        }
+
+        .ab-footer__shell {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: clamp(48px, 6vw, 80px) var(--gutter) clamp(28px, 3.5vw, 40px);
+        }
+
+        .ab-footer__top {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: clamp(32px, 5vw, 64px);
+            align-items: center;
+            padding-bottom: clamp(36px, 4.5vw, 56px);
+            border-bottom: 1px solid rgba(11, 11, 12, 0.16);
+        }
+
+        .ab-footer__section-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font: 700 0.72rem/1.2 var(--font-pixel);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin: 0 0 14px;
+        }
+
+        .ab-footer__section-title::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            flex: none;
+        }
+
+        .ab-footer__top h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2.1rem, 3.6vw, 3.4rem);
+            line-height: 0.96;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin: 0 0 14px;
+            max-width: 18ch;
+        }
+
+        .ab-footer__lead {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            margin: 0 0 22px;
+            max-width: 52ch;
+        }
+
+        .ab-footer__schematic {
+            background: #FFFFFF;
+            border: 1px solid rgba(11, 11, 12, 0.18);
+            border-top: 2px solid var(--ink);
+            padding: 20px;
+        }
+
+        .ab-footer__directory {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: clamp(20px, 3vw, 36px);
+            padding: clamp(32px, 4vw, 44px) 0;
+            border-bottom: 1px solid rgba(11, 11, 12, 0.16);
+        }
+
+        .ab-footer__dir-col + .ab-footer__dir-col {
+            padding-left: clamp(16px, 2.2vw, 28px);
+            border-left: 1px solid rgba(11, 11, 12, 0.16);
+        }
+
+        .ab-footer__dir-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .ab-footer__dir-list a {
+            font: 500 0.88rem/1.4 var(--font-body);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .ab-footer__dir-list a:hover {
+            color: var(--accent);
+        }
+
+        .ab-footer__logo-wrap {
+            padding: clamp(24px, 3.5vw, 44px) 0 clamp(18px, 2.5vw, 32px);
+            border-bottom: 1px solid rgba(11, 11, 12, 0.16);
+            overflow: hidden;
+        }
+
+        .ab-footer__giant-wordmark {
+            font-family: var(--font-display);
+            font-size: clamp(4.5rem, 16vw, 14.5rem);
+            line-height: 0.84;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            color: var(--ink);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .ab-footer__giant-wordmark span {
+            color: var(--accent);
+        }
+
+        .ab-footer__bottom-bar {
+            padding-top: clamp(18px, 2.5vw, 28px);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px 28px;
+        }
+
+        .ab-footer__copyright-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 18px;
+        }
+
+        .ab-footer__copyright {
+            font: 600 0.72rem/1.2 var(--font-pixel);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .ab-footer__status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            font: 600 0.68rem/1.2 var(--font-pixel);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .ab-footer__status-dot {
+            width: 7px;
+            height: 7px;
+            background: #10B981;
+            flex: none;
+        }
+
+        .ab-footer__socials {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ab-footer__social-link {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(11, 11, 12, 0.18);
+            background: #FFFFFF;
+            color: var(--ink);
+            text-decoration: none;
+            transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .ab-footer__social-link:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #FFFFFF;
+        }
+
         .back-to-top {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 3rem;
-            height: 3rem;
-            border-radius: 0;
-            background: var(--pixel-black);
-            color: var(--pixel-white);
-            display: flex;
+            right: 20px;
+            bottom: 20px;
+            z-index: 900;
+            width: 42px;
+            height: 42px;
+            display: none;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--pixel-shadow);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(16px);
-            transition: all 0.15s ease;
-            z-index: 100;
-        }
-
-        .back-to-top:hover {
-            background: var(--pixel-pink);
-            transform: translateY(14px);
+            background: var(--ink);
+            color: var(--paper);
+            border: 1px solid var(--ink);
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
         }
 
         .back-to-top.show {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
+            display: inline-flex;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .laptop-screen {
-                transform: none;
-            }
+        .back-to-top:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
 
-            .laptop-base {
+        @media (max-width: 960px) {
+            .ab-nav {
+                min-height: 68px;
+                padding-inline: 20px;
+                gap: 12px;
+            }
+            .ab-nav__toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 42px;
+                padding: 0 14px;
+                border: 1px solid rgba(11, 11, 12, 0.22);
+                background: #FFFFFF;
+                color: var(--ink);
+                font: 700 0.72rem/1 var(--font-body);
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                cursor: pointer;
+            }
+            .ab-nav__menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                display: none;
+                align-items: stretch;
+                gap: 0;
+                padding: 8px 20px 22px;
+                background: var(--paper);
+                border-bottom: 2px solid var(--ink);
+                max-height: calc(100svh - 68px);
+                overflow-y: auto;
+            }
+            .ab-nav__menu.is-open {
+                display: flex;
+                flex-direction: column;
+            }
+            .ab-nav__list {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+            }
+            .ab-nav__item {
+                border-bottom: 1px solid rgba(11, 11, 12, 0.12);
+            }
+            .ab-nav__item-row {
+                justify-content: space-between;
+            }
+            .ab-nav__link {
+                flex: 1;
+                min-height: 50px;
+                border-bottom: 0;
+            }
+            .ab-nav__caret {
                 display: none;
             }
-
-            .pixel-grid {
-                grid-template-columns: 1fr;
+            .ab-nav__mobile-expand {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 44px;
+                height: 44px;
+                border: 0;
+                background: transparent;
+                color: var(--ink);
+                cursor: pointer;
+                font-size: 0.85rem;
             }
-
-            .pixel-section {
-                padding: 3rem 0;
+            .ab-nav__mobile-sub.is-open {
+                display: grid;
+                gap: 8px;
+                padding: 4px 0 16px 14px;
+                border-left: 2px solid var(--accent);
+                margin-bottom: 8px;
             }
-
-            /* Mobile hero optimizations */
-            .hero-section {
-                padding: 4rem 1rem;
-                min-height: auto;
+            .ab-nav__mobile-sub a {
+                font: 600 0.84rem/1.4 var(--font-body);
+                color: var(--ink);
+                text-decoration: none;
             }
-
-            /* Improve button touch targets on mobile */
-            .pixel-btn {
-                min-height: 48px; /* iOS recommended minimum touch target */
-                font-size: 1rem;
-                padding: 0.75rem 1.5rem;
+            .ab-nav__mobile-sub a:hover {
+                color: var(--accent);
             }
-
-            /* Better mobile spacing for cards */
-            .pixel-card {
-                margin-bottom: 1rem;
+            .ab-nav__cta-group {
+                margin-top: 16px;
             }
-
-            /* Mobile typography adjustments */
-            .arcade-title {
-                font-size: 2rem;
-                line-height: 1.2;
+            .ab-nav__cta-btn {
+                width: 100%;
+                justify-content: center;
+                min-height: 46px;
             }
-
-            /* Improve mobile grid layouts */
-            .grid {
-                gap: 1rem;
-            }
-
-            /* Mobile navigation improvements */
-            .pixel-container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-
-            /* Better mobile pricing layout */
-            .pricing-grid {
-                gap: 2rem;
-            }
-
-            /* Mobile trust indicators */
-            .trust-indicators {
-                gap: 1.5rem;
-            }
-        }
-
-        /* Extra small screens */
-        @media (max-width: 480px) {
-            .pixel-section {
-                padding: 2rem 0;
-            }
-
-            .hero-section {
-                padding: 3rem 1rem;
-            }
-
-            .arcade-title {
-                font-size: 1.75rem;
-                letter-spacing: 0.02em;
-            }
-
-            .pixel-btn {
-                font-size: 0.95rem;
-                padding: 0.875rem 1.25rem;
-            }
-
-            /* Single column layouts on very small screens */
-            .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3,
-            .grid-cols-1.md\\:grid-cols-3,
-            .grid-cols-1.lg\\:grid-cols-2 {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Scroll-triggered animations */
-        .pixel-fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .pixel-fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .pixel-slide-in-left {
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .pixel-slide-in-left.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .pixel-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .pixel-slide-in-right.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Hide floating sidebar on mobile devices */
-        @media (max-width: 768px) {
-            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
+            .ab-megamenu {
                 display: none !important;
             }
-        }
-
-        /* Cookie-style ASCII Block Text */
-        .cookie-ascii {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            line-height: 0.8;
-            letter-spacing: 1px;
-            color: var(--pixel-black);
-            text-shadow:
-                2px 2px 0px rgba(139, 69, 19, 0.1),
-                -1px -1px 0px rgba(255, 218, 185, 0.1);
-        }
-
-        .cookie-ascii .ascii-line {
-            display: block;
-            white-space: pre;
-            font-size: 0.6rem;
-            margin-bottom: 2px;
-        }
-
-        .cookie-ascii.large {
-            font-size: 2rem;
-        }
-
-        .cookie-ascii.large .ascii-line {
-            font-size: 1.2rem;
-            margin-bottom: 4px;
-        }
-
-        /* Chocolate chip cookie glow effect */
-        .cookie-glow {
-            text-shadow:
-                0 0 5px rgba(139, 69, 19, 0.4),
-                0 0 10px rgba(160, 82, 45, 0.3),
-                0 0 15px rgba(210, 105, 30, 0.2);
-            animation: cookie-glow-pulse 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes cookie-glow-pulse {
-            from {
-                text-shadow:
-                    0 0 5px rgba(139, 69, 19, 0.4),
-                    0 0 10px rgba(160, 82, 45, 0.3),
-                    0 0 15px rgba(210, 105, 30, 0.2);
+            .ab-footer__top {
+                grid-template-columns: 1fr;
             }
-            to {
-                text-shadow:
-                    0 0 8px rgba(139, 69, 19, 0.6),
-                    0 0 16px rgba(160, 82, 45, 0.5),
-                    0 0 24px rgba(210, 105, 30, 0.4);
+            .ab-footer__directory {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .ab-footer__dir-col:nth-child(3) {
+                padding-left: 0;
+                border-left: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .ab-nav__brand-tag {
+                display: none;
+            }
+            .section-index-bar__right {
+                display: none;
+            }
+            .ab-footer__directory {
+                grid-template-columns: 1fr;
+            }
+            .ab-footer__dir-col + .ab-footer__dir-col {
+                padding-left: 0;
+                border-left: 0;
+                padding-top: 20px;
+                border-top: 1px solid rgba(11, 11, 12, 0.14);
             }
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
-    <div class="fixed inset-0 pointer-events-none opacity-30" style="background-image: linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px); background-size: 32px 32px; z-index: 0;"></div>
+<body class="flex flex-col min-h-screen bg-white text-[#0B0B0C]">
+    <!-- Aurablox Constructivist Top Nav + Mega-Menu -->
+    <header class="ab-nav-shell" id="ab-nav-shell">
+        <nav class="ab-nav" aria-label="Primary navigation">
+            <a href="index.html" class="ab-nav__brand">
+                <span class="ab-nav__seal" aria-hidden="true"></span>
+                <span class="ab-nav__brand-name">API<span>UI</span></span>
+                <span class="ab-nav__brand-tag">// AURABLOX</span>
+            </a>
 
-        </div>
-    </div>
+            <button id="ab-nav-toggle" type="button" class="ab-nav__toggle" aria-expanded="false" aria-controls="ab-nav-menu">
+                Menu
+            </button>
 
-    <!-- Header -->
-    <header class="bg-white">
-        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
-                    api<span class="text-pink-500">UI</span>
-                </a>
-                <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">an AURABLOX company</span>
+            <div class="ab-nav__menu" id="ab-nav-menu">
+                <ul class="ab-nav__list">
+                    <li class="ab-nav__item" data-mega-item="platform">
+                        <div class="ab-nav__item-row">
+                            <a href="index.html" class="ab-nav__link" data-mega-trigger="platform">
+                                Platform
+                                <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                            </a>
+                            <button type="button" class="ab-nav__mobile-expand" aria-label="Expand Platform menu" data-mobile-expand="platform">&#9662;</button>
+                        </div>
+                        <div class="ab-nav__mobile-sub" data-mobile-sub="platform">
+                            <a href="index.html">Home &amp; API Hub</a>
+                            <a href="app.html">API Studio</a>
+                            <a href="learn-more.html">Learn More &amp; Architecture</a>
+                            <a href="aurablox.html">AURABLOX Parent Studio</a>
+                        </div>
+                    </li>
+
+                    <li class="ab-nav__item" data-mega-item="mcp">
+                        <div class="ab-nav__item-row">
+                            <a href="mcp.html" class="ab-nav__link" data-mega-trigger="mcp">
+                                MCP Server
+                                <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                            </a>
+                            <button type="button" class="ab-nav__mobile-expand" aria-label="Expand MCP Server menu" data-mobile-expand="mcp">&#9662;</button>
+                        </div>
+                        <div class="ab-nav__mobile-sub" data-mobile-sub="mcp">
+                            <a href="mcp.html">MCP Server Hub</a>
+                            <a href="mcp.html#connecting">Client Configs (Claude / Cursor)</a>
+                            <a href="mcp-chat.html">MCP Multi-API Chat</a>
+                            <a href="docs.html#mcp-protocol">MCP Protocol Spec</a>
+                        </div>
+                    </li>
+
+                    <li class="ab-nav__item">
+                        <div class="ab-nav__item-row">
+                            <a href="mcp-chat.html" class="ab-nav__link">MCP Chat</a>
+                        </div>
+                    </li>
+
+                    <li class="ab-nav__item" data-mega-item="docs">
+                        <div class="ab-nav__item-row">
+                            <a href="docs.html" class="ab-nav__link is-current" data-mega-trigger="docs">
+                                Docs
+                                <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                            </a>
+                            <button type="button" class="ab-nav__mobile-expand" aria-label="Expand Docs menu" data-mobile-expand="docs">&#9662;</button>
+                        </div>
+                        <div class="ab-nav__mobile-sub" data-mobile-sub="docs">
+                            <a href="docs.html">Documentation Home</a>
+                            <a href="docs.html#rest-api">REST API Querying</a>
+                            <a href="docs.html#mcp-protocol">MCP Protocol Reference</a>
+                            <a href="docs.html#self-hosting">Self-Hosted Mini-PC Setup</a>
+                            <a href="cookie-policy.html">Cookie Policy</a>
+                        </div>
+                    </li>
+
+                    <li class="ab-nav__item">
+                        <div class="ab-nav__item-row">
+                            <a href="#sitemap-footer" class="ab-nav__link">Sitemap</a>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="ab-nav__cta-group">
+                    <a href="app.html" class="ab-nav__cta-btn">Launch Studio &#8599;</a>
+                </div>
             </div>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Home</a>
-                <a href="#features" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Features</a>
-                <a href="#pricing" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Pricing</a>
-                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
-                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
-            </div>
-
-            <!-- Mobile Menu Button -->
         </nav>
+
+        <!-- Mega-Menu: Platform -->
+        <div class="ab-megamenu" id="mega-platform" data-mega-panel="platform">
+            <div class="ab-megamenu__inner">
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>01 // Core Workspace</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="index.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Home &amp; Live API Hub <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Browse active REST endpoints, live datasets, and MCP tools.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="app.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">API Studio Console <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Upload CSV, Excel, JSON, or Parquet files and deploy instantly.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>02 // Platform &amp; Brand</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="learn-more.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Learn More &amp; Architecture <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">See how flat datasets transform into FastAPI &amp; MCP infrastructure.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="aurablox.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">AURABLOX Studio <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Parent product &amp; systems engineering studio behind apiUI.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <a href="app.html" class="ab-megamenu__spotlight">
+                        <div>
+                            <div class="ab-megamenu__spotlight-kicker">GUEST MODE // READY</div>
+                            <h4>Zero-Friction API &amp; MCP Studio</h4>
+                            <p>Drop a spreadsheet or JSON payload directly into the self-hosted workspace with zero setup lockouts.</p>
+                        </div>
+                        <span class="ab-megamenu__spotlight-cta">Open Studio &#8599;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mega-Menu: MCP Server -->
+        <div class="ab-megamenu" id="mega-mcp" data-mega-panel="mcp">
+            <div class="ab-megamenu__inner">
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>01 // Model Context Protocol</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="mcp.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">MCP Server Hub <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Live JSON-RPC 2.0 tool explorer, SSE transport, and server telemetry.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mcp.html#connecting" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Claude &amp; Cursor Configs <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Copy-ready mcpServers JSON blocks for Desktop and IDE clients.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>02 // AI Dataset Agents</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="mcp-chat.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">MCP Multi-API Chat <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Query across one or all deployed datasets in natural language.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="docs.html#mcp-protocol" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Built-In MCP Tool Spec <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">list_datasets, get_dataset_schema, query_dataset, summarize_dataset.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <a href="mcp.html" class="ab-megamenu__spotlight">
+                        <div>
+                            <div class="ab-megamenu__spotlight-kicker">STREAMABLE HTTP + SSE</div>
+                            <h4>Test Live MCP JSON-RPC 2.0</h4>
+                            <p>Invoke real tools/list and tools/call methods directly against your self-hosted port 8000 backend.</p>
+                        </div>
+                        <span class="ab-megamenu__spotlight-cta">Inspect MCP Hub &#8599;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mega-Menu: Docs -->
+        <div class="ab-megamenu" id="mega-docs" data-mega-panel="docs">
+            <div class="ab-megamenu__inner">
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>01 // Developer Guides</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="docs.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Documentation Home <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Complete developer guide to REST endpoints, schemas, and AI tools.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="docs.html#rest-api" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">REST API Querying <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Column filtering, _search, _sort, _order, _limit, and _offset.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <h4 class="ab-megamenu__section-title"><span class="ab-megamenu__dot"></span>02 // Operations &amp; Legal</h4>
+                    <ul class="ab-megamenu__list">
+                        <li>
+                            <a href="docs.html#self-hosting" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Self-Hosted &amp; Mini-PC Setup <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Run ./start-local.sh on ports 8000 &amp; 8080 across your LAN.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="cookie-policy.html" class="ab-megamenu__link">
+                                <span class="ab-megamenu__link-title">Cookie Policy <span class="ab-megamenu__link-arrow">&#8599;</span></span>
+                                <span class="ab-megamenu__link-desc">Browser storage, session preferences, and privacy details.</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="ab-megamenu__col">
+                    <a href="docs.html#self-hosting" class="ab-megamenu__spotlight">
+                        <div>
+                            <div class="ab-megamenu__spotlight-kicker">HOME LAB // LAN READY</div>
+                            <h4>Self-Host on Your Own Hardware</h4>
+                            <p>Run the full apiUI Python gateway and frontend on macOS, Linux, or a mini-PC with zero cloud dependencies.</p>
+                        </div>
+                        <span class="ab-megamenu__spotlight-cta">Read Self-Host Guide &#8599;</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1">
-        <!-- Hero Section -->
-        <section class="hero-section-docs bg-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
-            <div class="pixel-container max-w-7xl text-center relative z-10">
-                <!-- Main Headline -->
-                <div class="mb-8 pixel-fade-in">
-                    <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
-                        <div class="cookie-ascii large cookie-glow">
-                            <div class="ascii-line"> ██████╗ ██████╗  ██████╗ ██╗  ██╗██╗███████╗</div>
-                            <div class="ascii-line">██╔════╝ ██╔══██╗██╔═══██╗██║ ██╔╝██║██╔════╝</div>
-                            <div class="ascii-line">██║  ███╗██████╔╝██║   ██║█████╔╝ ██║█████╗  </div>
-                            <div class="ascii-line">██║   ██║██╔══██╗██║   ██║██╔═██╗ ██║██╔══╝  </div>
-                            <div class="ascii-line">╚██████╔╝██║  ██║╚██████╔╝██║  ██╗██║███████╗</div>
-                            <div class="ascii-line"> ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝</div>
-                            <div class="ascii-line">                                                    </div>
-                            <div class="ascii-line"> ██████╗ ██████╗  ██████╗ ██╗  ██╗██╗███████╗</div>
-                            <div class="ascii-line">██╔════╝ ██╔══██╗██╔═══██╗██║ ██╔╝██║██╔════╝</div>
-                            <div class="ascii-line">██║  ███╗██████╔╝██║   ██║█████╔╝ ██║█████╗  </div>
-                            <div class="ascii-line">██║   ██║██╔══██╗██║   ██║██╔═██╗ ██║██╔══╝  </div>
-                            <div class="ascii-line">╚██████╔╝██║  ██║╚██████╔╝██║  ██╗██║███████╗</div>
-                            <div class="ascii-line"> ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝</div>
-                        </div>
-                    </h1>
+    <main class="flex-1 pt-[76px]">
+        <!-- Constructivist Header -->
+        <section class="bg-[#FAFAF7] border-b border-[#D9D9D2] py-16 md:py-24">
+            <div class="ab-shell">
+                <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[#D9D9D2]">
+                    <div class="inline-flex items-center gap-3 font-pixel text-xs tracking-[0.16em] uppercase text-[#0B0B0C]">
+                        <span class="seal" aria-hidden="true"></span>
+                        00 // LEGAL &amp; TRANSPARENCY
+                    </div>
+                    <span class="font-pixel text-xs tracking-[0.14em] uppercase text-[#62625C]">EFFECTIVE: OCTOBER 8, 2025</span>
                 </div>
 
-                <!-- Enhanced Subtitle -->
-                <div class="mb-12 pixel-fade-in" style="animation-delay: 0.2s">
-                    <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
-                        Learn how we use <span class="font-semibold text-gray-900">cookies and similar technologies</span>
-                        to enhance your experience on apiUI.
-                    </p>
-                </div>
-
-                <!-- Navigation Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto pixel-fade-in" style="animation-delay: 0.4s">
-                    <a href="#what-are-cookies" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
-                        <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
-                            <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
+                <div class="grid lg:grid-cols-[1.25fr,0.75fr] gap-10 items-end">
+                    <div>
+                        <h1 class="text-5xl sm:text-7xl md:text-8xl tracking-[-0.015em] text-[#0B0B0C] mb-6">
+                            COOKIE <span class="text-[#EC4899]">POLICY</span>
+                        </h1>
+                        <p class="text-lg sm:text-xl text-[#474742] max-w-2xl leading-relaxed mb-8">
+                            Learn how apiUI uses cookies and local browser storage to keep your Studio sessions fast, predictable, and completely under your control.
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="#what-are-cookies" class="ab-tag">01 // What Are Cookies</a>
+                            <a href="#how-we-use" class="ab-tag">02 // Cookie Categories</a>
+                            <a href="#managing-preferences" class="ab-tag">03 // Browser Controls</a>
+                            <a href="#updates-contact" class="ab-tag">04 // Updates &amp; Contact</a>
                         </div>
-                        <h3 class="pixel-subtitle text-lg text-black mb-2">What Are Cookies?</h3>
-                        <p class="pixel-body text-black text-sm">Understanding cookies and how they work</p>
-                    </a>
+                    </div>
 
-                    <a href="#how-we-use" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
-                        <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
-                            <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="pixel-subtitle text-lg text-black mb-2">How We Use Cookies</h3>
-                        <p class="pixel-body text-black text-sm">Our cookie usage and data practices</p>
-                    </a>
-
-                    <a href="#managing-preferences" class="pixel-card p-6 hover:bg-pink-50 transition-colors">
-                        <div class="pixel-icon w-12 h-12 mb-4 mx-auto">
-                            <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="pixel-subtitle text-lg text-black mb-2">Manage Preferences</h3>
-                        <p class="pixel-body text-black text-sm">Control your cookie settings and privacy</p>
-                    </a>
+                    <div class="grid grid-cols-1 gap-3 bg-white border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6">
+                        <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899]">LOCAL-FIRST STORAGE</div>
+                        <p class="text-sm text-[#474742] m-0 leading-relaxed">
+                            Self-hosted apiUI deployments store Studio session flags and backend gateway URLs locally in your browser via <code class="font-mono-code text-xs bg-[#F4F3EE] px-1.5 py-0.5 border border-[#D9D9D2]">localStorage</code> with zero ad-network trackers.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Pixel Section Divider -->
-        <div class="pixel-accent-line"></div>
+        <!-- Section 01: What Are Cookies -->
+        <section id="what-are-cookies" class="py-16 md:py-20 border-b border-[#D9D9D2]">
+            <div class="ab-shell">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span>01 // WHAT ARE COOKIES?</span>
+                    <span class="section-index-bar__right">DEFINITIONS · STORAGE MECHANICS</span>
+                </div>
 
-        <div class="pixel-container max-w-7xl mx-auto px-4 py-8">
-
-            <main>
-                <section id="what-are-cookies" class="mb-12 relative">
-                    <!-- Background Image -->
-                    <div class="absolute inset-0 opacity-15 pointer-events-none">
-                        <img src="images/cube-pyramid.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
-                    </div>
-                    <div class="relative z-10">
-                        <h2 class="text-2xl font-bold mb-4">What Are Cookies?</h2>
-                    <div class="space-y-6">
-                        <div>
-                        <p class="mb-4">Cookies are small text files that are stored on your computer or mobile device when you visit our website. They help us provide you with a better browsing experience by remembering your preferences and understanding how you use our site.</p>
-
-                        <div class="pixel-card p-6 mb-6">
-                            <h3 class="pixel-subtitle text-lg text-black mb-4">Key Points About Cookies</h3>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div class="space-y-3">
-                                    <div class="flex items-start space-x-3">
-                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="pixel-body text-black font-medium mb-1">Small Text Files</h4>
-                                            <p class="pixel-body text-black text-sm">Stored on your device when visiting websites</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start space-x-3">
-                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="pixel-body text-black font-medium mb-1">Improve Experience</h4>
-                                            <p class="pixel-body text-black text-sm">Remember preferences and usage patterns</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="space-y-3">
-                                    <div class="flex items-start space-x-3">
-                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="pixel-body text-black font-medium mb-1">Secure Storage</h4>
-                                            <p class="pixel-body text-black text-sm">Cannot execute code or contain viruses</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start space-x-3">
-                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="pixel-body text-black font-medium mb-1">Controllable</h4>
-                                            <p class="pixel-body text-black text-sm">You can manage and delete cookies anytime</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="how-we-use" class="mb-12 relative">
-                    <!-- Background Image -->
-                    <div class="absolute inset-0 opacity-15 pointer-events-none">
-                        <img src="images/cube-columns.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
-                    </div>
-                    <div class="relative z-10">
-                        <h2 class="text-2xl font-bold mb-4">How We Use Cookies</h2>
-                    <div class="space-y-6">
-                        <div>
-                        <p class="mb-4">We use cookies for several purposes to enhance your experience on apiUI:</p>
-
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="pixel-card p-6">
-                                <h3 class="pixel-subtitle text-lg text-black mb-4">Essential Cookies</h3>
-                                <p class="pixel-body text-black text-sm mb-4">
-                                    Required for the website to function properly, including authentication and security features.
-                                </p>
-                                <div class="bg-gray-100 p-3 rounded text-xs">
-                                    <strong>Duration:</strong> Session or up to 30 days<br>
-                                    <strong>Purpose:</strong> Website functionality and security
-                                </div>
-                            </div>
-
-                            <div class="pixel-card p-6">
-                                <h3 class="pixel-subtitle text-lg text-black mb-4">Analytics Cookies</h3>
-                                <p class="pixel-body text-black text-sm mb-4">
-                                    Help us understand how visitors interact with our website by collecting anonymous information.
-                                </p>
-                                <div class="bg-gray-100 p-3 rounded text-xs">
-                                    <strong>Duration:</strong> Up to 2 years<br>
-                                    <strong>Purpose:</strong> Website analytics and improvements
-                                </div>
-                            </div>
-
-                            <div class="pixel-card p-6">
-                                <h3 class="pixel-subtitle text-lg text-black mb-4">Functional Cookies</h3>
-                                <p class="pixel-body text-black text-sm mb-4">
-                                    Remember your preferences and settings to improve your experience.
-                                </p>
-                                <div class="bg-gray-100 p-3 rounded text-xs">
-                                    <strong>Duration:</strong> Up to 1 year<br>
-                                    <strong>Purpose:</strong> Personalization and preferences
-                                </div>
-                            </div>
-
-                            <div class="pixel-card p-6">
-                                <h3 class="pixel-subtitle text-lg text-black mb-4">Marketing Cookies</h3>
-                                <p class="pixel-body text-black text-sm mb-4">
-                                    Used to deliver relevant advertisements and track the effectiveness of our marketing campaigns.
-                                </p>
-                                <div class="bg-gray-100 p-3 rounded text-xs">
-                                    <strong>Duration:</strong> Up to 1 year<br>
-                                    <strong>Purpose:</strong> Advertising and marketing
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="managing-preferences" class="mb-12 relative">
-                    <!-- Background Image -->
-                    <div class="absolute inset-0 opacity-15 pointer-events-none">
-                        <img src="images/cube-stacks.jpg" alt="" class="w-full h-full object-cover object-center" aria-hidden="true">
-                    </div>
-                    <div class="relative z-10">
-                        <h2 class="text-2xl font-bold mb-4">Managing Your Cookie Preferences</h2>
-                    <div class="space-y-6">
-                        <div>
-                        <p class="mb-4">You have the right to decide whether to accept or reject cookies. Here are the ways you can control your cookie preferences:</p>
-
-                        <div class="pixel-card p-6 mb-6">
-                            <h3 class="pixel-subtitle text-lg text-black mb-4">Cookie Consent Banner</h3>
-                            <p class="pixel-body text-black text-sm mb-4">
-                                When you first visit our site, you'll see a cookie consent banner that allows you to accept or reject different types of cookies.
-                            </p>
-                            <div class="flex items-center space-x-2">
-                                <div class="pixel-dot"></div>
-                                <span class="text-sm text-gray-700">Available on all pages</span>
-                            </div>
-                        </div>
-
-                        <div class="pixel-card p-6 mb-6">
-                            <h3 class="pixel-subtitle text-lg text-black mb-4">Browser Settings</h3>
-                            <p class="pixel-body text-black text-sm mb-4">
-                                Most browsers allow you to control cookies through their settings. You can:
-                            </p>
-                            <div class="grid md:grid-cols-2 gap-4 text-sm">
-                                <ul class="space-y-2">
-                                    <li class="flex items-start space-x-2">
-                                        <span class="text-pink-500">•</span>
-                                        <span>View stored cookies and delete them</span>
-                                    </li>
-                                    <li class="flex items-start space-x-2">
-                                        <span class="text-pink-500">•</span>
-                                        <span>Block third-party cookies</span>
-                                    </li>
-                                </ul>
-                                <ul class="space-y-2">
-                                    <li class="flex items-start space-x-2">
-                                        <span class="text-pink-500">•</span>
-                                        <span>Block cookies from specific sites</span>
-                                    </li>
-                                    <li class="flex items-start space-x-2">
-                                        <span class="text-pink-500">•</span>
-                                        <span>Delete cookies when closing browser</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="pixel-card p-6">
-                            <h3 class="pixel-subtitle text-lg text-black mb-4">Third-Party Services</h3>
-                            <p class="pixel-body text-black text-sm mb-4">
-                                We work with the following third-party services that may set their own cookies:
-                            </p>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div class="text-center">
-                                    <div class="pixel-icon w-8 h-8 mx-auto mb-2">
-                                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="font-medium text-sm">Supabase</div>
-                                    <div class="text-xs text-gray-600">Authentication</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="pixel-icon w-8 h-8 mx-auto mb-2">
-                                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="font-medium text-sm">Google Analytics</div>
-                                    <div class="text-xs text-gray-600">Analytics</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="pixel-icon w-8 h-8 mx-auto mb-2">
-                                        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="font-medium text-sm">Firebase</div>
-                                    <div class="text-xs text-gray-600">Hosting</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </main>
-        </div>
-
-        <!-- Additional Information -->
-        <div class="pixel-container max-w-4xl mx-auto px-4 py-8">
-            <div class="pixel-card p-8">
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold mb-4">Updates to This Policy</h2>
-                    <p class="pixel-body text-gray-700 leading-relaxed">
-                        We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. We will notify you of any material changes by posting the updated policy on this page.
-                    </p>
-                </section>
-
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
-                    <p class="pixel-body text-gray-700 mb-4 leading-relaxed">
-                        If you have any questions about this Cookie Policy or our use of cookies, please contact us:
-                    </p>
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <p class="pixel-body text-gray-700">
-                            <strong>Email:</strong> privacy@apiui.com<br>
-                            <strong>Subject:</strong> Cookie Policy Inquiry
+                <div class="grid lg:grid-cols-[0.85fr,1.15fr] gap-10 items-start">
+                    <div>
+                        <h2 class="text-3xl sm:text-4xl mb-4">BROWSER TEXT &amp; SESSION TOKENS</h2>
+                        <p class="text-[#474742] leading-relaxed">
+                            Cookies are small text files placed on your computer or mobile device when you visit a website. Alongside <code class="font-mono-code text-xs bg-[#F4F3EE] px-1.5 py-0.5 border border-[#D9D9D2]">localStorage</code>, they keep your workspace state intact across page reloads.
                         </p>
                     </div>
-                </section>
 
-                <div class="border-t border-gray-200 pt-6 text-center">
-                    <p class="pixel-body text-gray-600 text-sm">
-                        This Cookie Policy was last updated on October 8, 2025.
-                    </p>
+                    <div class="grid sm:grid-cols-2 gap-5">
+                        <div class="home-capability">
+                            <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899] mb-2">01.A // FORMAT</div>
+                            <h3 class="font-semibold text-base text-[#0B0B0C] mb-1.5" style="font-family: var(--font-body); text-transform: none;">Small Text Files</h3>
+                            <p class="text-sm text-[#474742] m-0">Stored on your device by your browser when visiting web applications.</p>
+                        </div>
+
+                        <div class="home-capability">
+                            <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899] mb-2">01.B // CONTINUITY</div>
+                            <h3 class="font-semibold text-base text-[#0B0B0C] mb-1.5" style="font-family: var(--font-body); text-transform: none;">Improve Experience</h3>
+                            <p class="text-sm text-[#474742] m-0">Remember Studio preferences, gateway URL overrides, and active sessions.</p>
+                        </div>
+
+                        <div class="home-capability">
+                            <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899] mb-2">01.C // SAFETY</div>
+                            <h3 class="font-semibold text-base text-[#0B0B0C] mb-1.5" style="font-family: var(--font-body); text-transform: none;">Non-Executable Data</h3>
+                            <p class="text-sm text-[#474742] m-0">Plain key-value strings that cannot execute code or carry malware.</p>
+                        </div>
+
+                        <div class="home-capability">
+                            <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899] mb-2">01.D // CONTROL</div>
+                            <h3 class="font-semibold text-base text-[#0B0B0C] mb-1.5" style="font-family: var(--font-body); text-transform: none;">User Controllable</h3>
+                            <p class="text-sm text-[#474742] m-0">You can inspect, restrict, or clear stored cookies at any time.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Section 02: How We Use Cookies -->
+        <section id="how-we-use" class="py-16 md:py-20 border-b border-[#D9D9D2] bg-[#FAFAF7]">
+            <div class="ab-shell">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span>02 // HOW WE USE COOKIES</span>
+                    <span class="section-index-bar__right">ESSENTIAL · ANALYTICS · FUNCTIONAL · MARKETING</span>
+                </div>
+
+                <p class="text-[#474742] max-w-2xl mb-8">
+                    We categorize browser cookies and local storage keys into four operational buckets based on their role in the platform:
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <article class="home-capability bg-white">
+                        <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#D9D9D2]">
+                            <span class="font-pixel text-xs tracking-[0.14em] text-[#EC4899] uppercase">CAT 01 // REQUIRED</span>
+                            <span class="font-mono-code text-xs text-[#62625C]">SESSION / 30D</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-2" style="font-family: var(--font-body); text-transform: none;">Essential Cookies</h3>
+                        <p class="text-sm text-[#474742] mb-4">
+                            Required for core platform operation, including Studio session state, CSRF protection, and backend endpoint routing.
+                        </p>
+                        <div class="bg-[#F4F3EE] border border-[#D9D9D2] p-3 text-xs font-mono-code text-[#0B0B0C]">
+                            <strong>Duration:</strong> Session or up to 30 days &bull; <strong>Scope:</strong> Core Security
+                        </div>
+                    </article>
+
+                    <article class="home-capability bg-white">
+                        <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#D9D9D2]">
+                            <span class="font-pixel text-xs tracking-[0.14em] text-[#EC4899] uppercase">CAT 02 // TELEMETRY</span>
+                            <span class="font-mono-code text-xs text-[#62625C]">UP TO 2Y</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-2" style="font-family: var(--font-body); text-transform: none;">Analytics Cookies</h3>
+                        <p class="text-sm text-[#474742] mb-4">
+                            Help us understand aggregate visitor traffic and feature adoption on hosted deployments through anonymized metrics.
+                        </p>
+                        <div class="bg-[#F4F3EE] border border-[#D9D9D2] p-3 text-xs font-mono-code text-[#0B0B0C]">
+                            <strong>Duration:</strong> Up to 2 years &bull; <strong>Scope:</strong> Aggregated Metrics
+                        </div>
+                    </article>
+
+                    <article class="home-capability bg-white">
+                        <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#D9D9D2]">
+                            <span class="font-pixel text-xs tracking-[0.14em] text-[#EC4899] uppercase">CAT 03 // WORKSPACE</span>
+                            <span class="font-mono-code text-xs text-[#62625C]">UP TO 1Y</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-2" style="font-family: var(--font-body); text-transform: none;">Functional Cookies</h3>
+                        <p class="text-sm text-[#474742] mb-4">
+                            Remember custom backend gateway overrides (<code class="font-mono-code text-xs">?backend=</code>), active MCP client tabs, and workspace preferences.
+                        </p>
+                        <div class="bg-[#F4F3EE] border border-[#D9D9D2] p-3 text-xs font-mono-code text-[#0B0B0C]">
+                            <strong>Duration:</strong> Up to 1 year &bull; <strong>Scope:</strong> Preferences
+                        </div>
+                    </article>
+
+                    <article class="home-capability bg-white">
+                        <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#D9D9D2]">
+                            <span class="font-pixel text-xs tracking-[0.14em] text-[#EC4899] uppercase">CAT 04 // CAMPAIGNS</span>
+                            <span class="font-mono-code text-xs text-[#62625C]">UP TO 1Y</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-2" style="font-family: var(--font-body); text-transform: none;">Marketing Cookies</h3>
+                        <p class="text-sm text-[#474742] mb-4">
+                            Used only on public promotional campaigns when enabled to measure campaign attribution and relevance.
+                        </p>
+                        <div class="bg-[#F4F3EE] border border-[#D9D9D2] p-3 text-xs font-mono-code text-[#0B0B0C]">
+                            <strong>Duration:</strong> Up to 1 year &bull; <strong>Scope:</strong> Optional Attribution
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 03: Managing Preferences & Third Parties -->
+        <section id="managing-preferences" class="py-16 md:py-20 border-b border-[#D9D9D2]">
+            <div class="ab-shell">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span>03 // MANAGING PREFERENCES &amp; SERVICES</span>
+                    <span class="section-index-bar__right">BROWSER CONTROLS · THIRD-PARTY PROVIDERS</span>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-6 mb-6">
+                    <div class="home-capability">
+                        <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899] mb-2">CONTROL 01 // CONSENT</div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">Cookie Consent &amp; Self-Hosted Mode</h3>
+                        <p class="text-sm text-[#474742] mb-4">
+                            You have full control over whether to accept or reject non-essential cookies. When running apiUI locally via <code class="font-mono-code text-xs bg-white px-1.5 py-0.5 border border-[#D9D9D2]">./start-local.sh</code>, all dataset queries stay strictly on your own network.
+                        </p>
+                        <div class="inline-flex items-center gap-2 font-pixel text-xs tracking-[0.1em] uppercase text-[#0B0B0C]">
+                            <span class="seal"></span>
+                            <span>Zero third-party trackers required locally</span>
+                        </div>
+                    </div>
+
+                    <div class="home-capability">
+                        <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899] mb-2">CONTROL 02 // BROWSER</div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">Browser Settings</h3>
+                        <p class="text-sm text-[#474742] mb-4">
+                            Modern browsers let you configure cookie and storage behavior directly in privacy settings:
+                        </p>
+                        <ul class="grid sm:grid-cols-2 gap-2.5 text-sm text-[#474742] list-none p-0 m-0">
+                            <li class="flex items-start gap-2"><span class="text-[#EC4899] font-bold">&#9632;</span><span>Inspect &amp; delete stored cookies</span></li>
+                            <li class="flex items-start gap-2"><span class="text-[#EC4899] font-bold">&#9632;</span><span>Block third-party cookies globally</span></li>
+                            <li class="flex items-start gap-2"><span class="text-[#EC4899] font-bold">&#9632;</span><span>Block cookies from specific origins</span></li>
+                            <li class="flex items-start gap-2"><span class="text-[#EC4899] font-bold">&#9632;</span><span>Auto-clear cookies on browser exit</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="home-capability">
+                    <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899] mb-2">INFRASTRUCTURE // CLOUD DEPLOYMENTS</div>
+                    <h3 class="text-xl font-semibold text-[#0B0B0C] mb-4" style="font-family: var(--font-body); text-transform: none;">Third-Party Infrastructure Providers</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-white border border-[#D9D9D2] p-4">
+                            <div class="font-pixel text-xs text-[#EC4899] mb-1">AUTH</div>
+                            <div class="font-semibold text-[#0B0B0C]">Supabase</div>
+                            <div class="text-xs text-[#62625C]">Optional hosted authentication &amp; session tokens</div>
+                        </div>
+                        <div class="bg-white border border-[#D9D9D2] p-4">
+                            <div class="font-pixel text-xs text-[#EC4899] mb-1">METRICS</div>
+                            <div class="font-semibold text-[#0B0B0C]">Google Analytics</div>
+                            <div class="text-xs text-[#62625C]">Aggregate hosted traffic analytics</div>
+                        </div>
+                        <div class="bg-white border border-[#D9D9D2] p-4">
+                            <div class="font-pixel text-xs text-[#EC4899] mb-1">HOSTING</div>
+                            <div class="font-semibold text-[#0B0B0C]">Firebase Hosting</div>
+                            <div class="text-xs text-[#62625C]">Static edge delivery for public deployments</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 04: Updates & Contact -->
+        <section id="updates-contact" class="py-16 md:py-20">
+            <div class="ab-shell">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span>04 // POLICY UPDATES &amp; CONTACT</span>
+                    <span class="section-index-bar__right">LAST UPDATED: OCT 8, 2025</span>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="home-capability">
+                        <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899] mb-2">REVISIONS</div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">Updates to This Policy</h3>
+                        <p class="text-sm text-[#474742] m-0 leading-relaxed">
+                            We may update this Cookie Policy from time to time to reflect changes in our architecture, self-hosting capabilities, or regulatory requirements. Material revisions will be posted directly on this page with an updated effective date.
+                        </p>
+                    </div>
+
+                    <div class="home-capability">
+                        <div class="font-pixel text-[11px] tracking-[0.14em] uppercase text-[#EC4899] mb-2">INQUIRIES</div>
+                        <h3 class="text-xl font-semibold text-[#0B0B0C] mb-3" style="font-family: var(--font-body); text-transform: none;">Contact Privacy Team</h3>
+                        <p class="text-sm text-[#474742] mb-4">
+                            Questions about cookies, local storage, or privacy controls on apiUI? Reach us directly:
+                        </p>
+                        <div class="bg-white border border-[#D9D9D2] p-4 font-mono-code text-xs text-[#0B0B0C]">
+                            <div><strong>Email:</strong> privacy@apiui.com</div>
+                            <div class="mt-1"><strong>Subject:</strong> Cookie Policy Inquiry</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Back to Top Button -->
     <button id="back-to-top" class="back-to-top" type="button" aria-label="Return to top">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
         </svg>
     </button>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200/70 py-16">
-        <div class="pixel-container max-w-6xl">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+    <!-- Aurablox Constructivist Sitemap Footer + Giant APIUI Wordmark -->
+    <footer id="sitemap-footer" class="ab-footer">
+        <div class="ab-footer__shell">
+            <div class="ab-footer__top">
                 <div>
-                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
-                    <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">An AURABLOX company</p>
+                    <div class="ab-footer__section-title">START BUILDING</div>
+                    <h2>Turn flat files into live infrastructure.</h2>
+                    <p class="ab-footer__lead">
+                        Upload CSV, Excel, JSON, or Parquet datasets and expose instant REST endpoints plus a spec-compliant MCP server on your own hardware or in the cloud.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="app.html" class="btn-ab btn-ab--primary">Launch Studio &#8599;</a>
+                        <a href="mcp.html" class="btn-ab btn-ab--secondary">MCP Config &#8599;</a>
+                    </div>
                 </div>
-                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
-                    <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
-                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
-                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
-                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
-                    <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                        </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition-colors inline-flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                    </a>
+
+                <div class="ab-footer__schematic" aria-hidden="true">
+                    <div class="flex items-center justify-between font-pixel text-[11px] tracking-[0.14em] uppercase text-[#62625C] pb-3 mb-3 border-b border-[#D9D9D2]">
+                        <span>SYS // PIPELINE TOPOLOGY</span>
+                        <span class="text-[#EC4899]">PORT 8000</span>
+                    </div>
+                    <svg viewBox="0 0 360 110" class="w-full h-auto block" fill="none">
+                        <rect x="6" y="20" width="88" height="68" fill="#FAFAF7" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <rect x="6" y="20" width="88" height="8" fill="#0B0B0C"/>
+                        <text x="16" y="52" fill="#0B0B0C" font-family="Inter, sans-serif" font-size="10" font-weight="700">DATASET</text>
+                        <text x="16" y="68" fill="#62625C" font-family="JetBrains Mono, monospace" font-size="8">CSV / JSON</text>
+
+                        <line x1="94" y1="54" x2="134" y2="54" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <rect x="110" y="50" width="8" height="8" fill="#EC4899"/>
+
+                        <rect x="134" y="12" width="94" height="84" fill="#0B0B0C"/>
+                        <rect x="134" y="12" width="94" height="6" fill="#EC4899"/>
+                        <text x="146" y="48" fill="#FAFAF7" font-family="Anton, sans-serif" font-size="16" letter-spacing="1">APIUI</text>
+                        <text x="146" y="68" fill="#EC4899" font-family="JetBrains Mono, monospace" font-size="8">FASTAPI + MCP</text>
+
+                        <polyline points="228,36 250,36 250,28 266,28" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <polyline points="228,72 250,72 250,80 266,80" stroke="#7C3AED" stroke-width="1.5"/>
+
+                        <rect x="266" y="10" width="88" height="36" fill="#FAFAF7" stroke="#0B0B0C" stroke-width="1.5"/>
+                        <text x="276" y="32" fill="#0B0B0C" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">/api/*/data</text>
+
+                        <rect x="266" y="62" width="88" height="36" fill="#FAFAF7" stroke="#7C3AED" stroke-width="1.5"/>
+                        <text x="276" y="84" fill="#7C3AED" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700">POST /mcp</text>
+                    </svg>
                 </div>
             </div>
-            <div class="hub-divider mt-8"></div>
-            <div class="mt-6 flex justify-between items-center">
-                <div class="pixel-heading text-xs uppercase tracking-[0.28em] text-slate-500">&copy; 2025 apiUI Inc. All rights reserved.</div>
-                <div class="opacity-60 hover:opacity-100 transition-opacity">
-                    <a href="https://hits.sh/ai-apiup.web.app/" target="_blank" rel="noopener noreferrer">
-                        <img alt="Hits" src="https://hits.sh/ai-apiup.web.app.svg?color=df1bac&labelColor=000000" class="h-4"/>
+
+            <!-- 4-Column Sitemap Directory -->
+            <div class="ab-footer__directory">
+                <div class="ab-footer__dir-col">
+                    <h3 class="ab-footer__section-title">01 // PLATFORM &amp; STUDIO</h3>
+                    <ul class="ab-footer__dir-list">
+                        <li><a href="index.html">Home &amp; API Hub</a></li>
+                        <li><a href="app.html">API Studio</a></li>
+                        <li><a href="learn-more.html">Learn More</a></li>
+                        <li><a href="index.html#directory">Live API Directory</a></li>
+                    </ul>
+                </div>
+
+                <div class="ab-footer__dir-col">
+                    <h3 class="ab-footer__section-title">02 // MCP SERVER &amp; AI</h3>
+                    <ul class="ab-footer__dir-list">
+                        <li><a href="mcp.html">MCP Server Hub</a></li>
+                        <li><a href="mcp.html#connecting">Client Configs</a></li>
+                        <li><a href="mcp-chat.html">MCP Multi-API Chat</a></li>
+                        <li><a id="sitemap-mcp-link" href="http://localhost:8000/mcp" target="_blank" rel="noopener">Live /mcp Endpoint</a></li>
+                    </ul>
+                </div>
+
+                <div class="ab-footer__dir-col">
+                    <h3 class="ab-footer__section-title">03 // DEVELOPER DOCS</h3>
+                    <ul class="ab-footer__dir-list">
+                        <li><a href="docs.html">Documentation Home</a></li>
+                        <li><a href="docs.html#rest-api">REST API Querying</a></li>
+                        <li><a href="docs.html#mcp-protocol">MCP Protocol Reference</a></li>
+                        <li><a href="docs.html#self-hosting">Self-Hosting Guide</a></li>
+                    </ul>
+                </div>
+
+                <div class="ab-footer__dir-col">
+                    <h3 class="ab-footer__section-title">04 // COMPANY &amp; STATUS</h3>
+                    <ul class="ab-footer__dir-list">
+                        <li><a href="aurablox.html">AURABLOX</a></li>
+                        <li><a href="resume.html">Builder Resume</a></li>
+                        <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                        <li><a id="sitemap-health-link" href="http://localhost:8000/health" target="_blank" rel="noopener">Gateway Health</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Giant Edge-to-Edge Wordmark -->
+            <div class="ab-footer__logo-wrap">
+                <div class="ab-footer__giant-wordmark">API<span>UI</span></div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="ab-footer__bottom-bar">
+                <div class="ab-footer__copyright-wrap">
+                    <span class="ab-footer__copyright">&copy; 2026 APIUI BY AURABLOX</span>
+                    <a id="footer-gateway-pill" href="http://localhost:8000/health" target="_blank" rel="noopener" class="ab-footer__status-pill">
+                        <span class="ab-footer__status-dot" id="footer-status-dot"></span>
+                        <span id="footer-status-text">GATEWAY :8000</span>
                     </a>
                 </div>
+                <ul class="ab-footer__socials">
+                    <li>
+                        <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="ab-footer__social-link" aria-label="apiUI on X">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="ab-footer__social-link" aria-label="AURABLOX on LinkedIn">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </footer>
 
     <script>
-        // Pixel Scroll-triggered Animations
-        document.addEventListener('DOMContentLoaded', function() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
+        (function() {
+            const shell = document.getElementById('ab-nav-shell');
+            const toggle = document.getElementById('ab-nav-toggle');
+            const menu = document.getElementById('ab-nav-menu');
+            const megaItems = document.querySelectorAll('[data-mega-item]');
+            const megaPanels = document.querySelectorAll('[data-mega-panel]');
+            let closeTimer = null;
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
+            function closeAllMega() {
+                if (shell) shell.classList.remove('has-mega-open');
+                megaItems.forEach(el => el.classList.remove('is-open'));
+                megaPanels.forEach(el => el.classList.remove('is-open'));
+            }
+
+            function openMega(key) {
+                if (window.innerWidth <= 960) return;
+                clearTimeout(closeTimer);
+                closeAllMega();
+                const item = document.querySelector('[data-mega-item="' + key + '"]');
+                const panel = document.querySelector('[data-mega-panel="' + key + '"]');
+                if (item && panel && shell) {
+                    shell.classList.add('has-mega-open');
+                    item.classList.add('is-open');
+                    panel.classList.add('is-open');
+                }
+            }
+
+            megaItems.forEach(item => {
+                const key = item.getAttribute('data-mega-item');
+                item.addEventListener('mouseenter', () => openMega(key));
+                item.addEventListener('mouseleave', () => {
+                    closeTimer = setTimeout(closeAllMega, 140);
+                });
+            });
+
+            megaPanels.forEach(panel => {
+                panel.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+                panel.addEventListener('mouseleave', () => {
+                    closeTimer = setTimeout(closeAllMega, 140);
+                });
+            });
+
+            if (shell) {
+                shell.addEventListener('mouseleave', () => {
+                    closeTimer = setTimeout(closeAllMega, 140);
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeAllMega();
+                    if (menu && menu.classList.contains('is-open')) {
+                        menu.classList.remove('is-open');
+                        if (toggle) toggle.setAttribute('aria-expanded', 'false');
                     }
-                });
-            }, observerOptions);
-
-            // Observe all pixel animation elements
-            const animatedElements = document.querySelectorAll('.pixel-fade-in, .pixel-slide-in-left, .pixel-slide-in-right');
-            animatedElements.forEach(element => {
-                observer.observe(element);
-            });
-
-            // Add pixel flicker effect on hover for buttons
-            const pixelButtons = document.querySelectorAll('.pixel-btn');
-            pixelButtons.forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.classList.add('pixel-flicker');
-                    setTimeout(() => {
-                        this.classList.remove('pixel-flicker');
-                    }, 100);
-                });
-            });
-
-        });
-
-        // Back to top button
-        const backToTopBtn = document.getElementById('back-to-top');
-
-        if (backToTopBtn) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 600) {
-                    backToTopBtn.classList.add('show');
-                } else {
-                    backToTopBtn.classList.remove('show');
                 }
             });
 
+            if (toggle && menu) {
+                toggle.addEventListener('click', () => {
+                    const isOpen = menu.classList.toggle('is-open');
+                    toggle.setAttribute('aria-expanded', String(isOpen));
+                });
+            }
+
+            document.querySelectorAll('[data-mobile-expand]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const key = btn.getAttribute('data-mobile-expand');
+                    const sub = document.querySelector('[data-mobile-sub="' + key + '"]');
+                    if (sub) sub.classList.toggle('is-open');
+                });
+            });
+
+            // Hydrate dynamic backend links & status pill via config.js
+            const base = (window.BACKEND_BASE_URL || 'http://localhost:8000').replace(/\/$/, '');
+            const mcpLink = document.getElementById('sitemap-mcp-link');
+            const healthLink = document.getElementById('sitemap-health-link');
+            const pillLink = document.getElementById('footer-gateway-pill');
+            const statusText = document.getElementById('footer-status-text');
+            const statusDot = document.getElementById('footer-status-dot');
+            if (mcpLink) mcpLink.href = base + '/mcp';
+            if (healthLink) healthLink.href = base + '/health';
+            if (pillLink) pillLink.href = base + '/health';
+
+            fetch(base + '/health', { method: 'GET' })
+                .then(r => {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.json();
+                })
+                .then(() => {
+                    if (statusDot) statusDot.style.background = '#10B981';
+                    if (statusText) statusText.textContent = 'ONLINE // ' + base.replace(/^https?:\/\//, '');
+                })
+                .catch(() => {
+                    if (statusDot) statusDot.style.background = '#EC4899';
+                    if (statusText) statusText.textContent = 'OFFLINE // ' + base.replace(/^https?:\/\//, '');
+                });
+        })();
+
+        const backToTopBtn = document.getElementById('back-to-top');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                backToTopBtn.classList.toggle('show', window.scrollY > 600);
+            });
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
     </script>
 </body>
 </html>

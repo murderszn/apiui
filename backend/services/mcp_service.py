@@ -3,10 +3,10 @@ import json
 import asyncio
 from typing import Dict, Any, List, Optional
 from pathlib import Path
-import aiofiles
 from dataclasses import dataclass
 from datetime import datetime
 import mimetypes
+from core.config import settings
 from services.storage_service import storage_service
 
 @dataclass
@@ -20,8 +20,8 @@ class MCPResource:
 
 class MCPService:
     def __init__(self, base_path: str = None):
-        self.base_path = Path(base_path or os.path.join(os.path.dirname(__file__), '../../uploads'))
-        self.base_path.mkdir(exist_ok=True)
+        self.base_path = Path(base_path or settings.uploads_dir).resolve()
+        self.base_path.mkdir(parents=True, exist_ok=True)
 
     def _is_safe_path(self, requested_path: str) -> bool:
         """Ensure the requested path is within the allowed directory"""
@@ -34,11 +34,11 @@ class MCPService:
     def _get_file_info(self, file_path: Path) -> MCPResource:
         """Get file information for MCP resource"""
         stat = file_path.stat()
-        mime_type, _ = mimetypes.guess_type(str(file_path))
+        mime_type = self._guess_mime_type(file_path.name)
 
         return MCPResource(
             uri=f"file://{file_path.name}",
-            mime_type=mime_type or "application/octet-stream",
+            mime_type=mime_type,
             name=file_path.name,
             description=f"File: {file_path.name} ({file_path.suffix})",
             size=stat.st_size,
@@ -47,6 +47,18 @@ class MCPService:
 
     def _guess_mime_type(self, filename: str) -> str:
         """Guess MIME type from filename"""
+        ext = os.path.splitext(filename)[1].lower()
+        overrides = {
+            ".csv": "text/csv",
+            ".json": "application/json",
+            ".txt": "text/plain",
+            ".md": "text/markdown",
+            ".parquet": "application/vnd.apache.parquet",
+            ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ".xls": "application/vnd.ms-excel",
+        }
+        if ext in overrides:
+            return overrides[ext]
         mime_type, _ = mimetypes.guess_type(filename)
         return mime_type or "application/octet-stream"
 
@@ -55,11 +67,10 @@ class MCPService:
         resources = []
 
         try:
-            # Get uploaded files from storage service
-            uploaded_files = storage_service.list_uploaded_files()
+            # Run sync storage call in a worker thread so nested asyncio.run in storage_service never conflicts
+            uploaded_files = await asyncio.to_thread(storage_service.list_uploaded_files)
 
             for file_info in uploaded_files:
-                # Create MCP resource from file info
                 resources.append(MCPResource(
                     uri=f"file://{file_info['name']}",
                     mime_type=self._guess_mime_type(file_info['name']),
@@ -76,45 +87,47 @@ class MCPService:
     async def read_resource(self, uri: str) -> Optional[Dict[str, Any]]:
         """Read a specific file resource"""
         try:
-            # Extract filename from URI
             if not uri.startswith("file://"):
                 return None
 
             filename = uri[7:]  # Remove "file://" prefix
+            if not filename or ".." in Path(filename).parts:
+                return {"error": "Invalid file path"}
 
-            # Look for the file in storage (we need to find the full path)
-            uploaded_files = storage_service.list_uploaded_files()
+            uploaded_files = await asyncio.to_thread(storage_service.list_uploaded_files)
             file_path = None
+            matched_name = filename
 
             for file_info in uploaded_files:
-                if file_info['name'] == filename:
+                if file_info['name'] == filename or file_info['path'] == filename:
                     file_path = file_info['path']
+                    matched_name = file_info['name']
                     break
 
             if not file_path:
                 return {"error": "File not found"}
 
-            # Read file content from storage
-            content = storage_service.get_upload_file(file_path)
+            content = await asyncio.to_thread(storage_service.get_upload_file, file_path)
 
             if content is None:
                 return {"error": "File not found"}
 
-            # Try to determine if it's text content
+            guessed_mime = self._guess_mime_type(matched_name)
+
             try:
                 text_content = content.decode('utf-8')
+                mime_type = guessed_mime if guessed_mime != "application/octet-stream" else "text/plain"
                 return {
                     "uri": uri,
-                    "mime_type": "text/plain",
+                    "mime_type": mime_type,
                     "content": text_content,
                     "size": len(content)
                 }
             except UnicodeDecodeError:
-                # Binary file - return as base64 or describe it
                 return {
                     "uri": uri,
-                    "mime_type": "application/octet-stream",
-                    "content": f"Binary file: {filename} ({len(content)} bytes)",
+                    "mime_type": guessed_mime,
+                    "content": f"Binary file: {matched_name} ({len(content)} bytes)",
                     "size": len(content),
                     "is_binary": True
                 }

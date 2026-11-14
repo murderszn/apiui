@@ -34,133 +34,89 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <!-- Performance optimizations -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
+    <meta name="theme-color" content="#0B0B0C">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Pixelify+Sans:wght@400;500;600;700&display=swap"></noscript>
     <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" as="script">
-    <link rel="modulepreload" href="https://cdn.tailwindcss.com">
-    <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
     <script>
-        // Configure backend URLs for the frontend
-        // Always use Cloud Run version for both development and production
-        const isLocalhost = window.location.hostname === 'localhost' ||
-                           window.location.hostname === '127.0.0.1' ||
-                           window.location.hostname === '';
-
-        // Flask backend for API operations - Always use Cloud Run
-        window.APIUI_AUTH_BASE_URL = 'https://apiui-backend-24bi767viq-uc.a.run.app';
+        window.APIUI_AUTH_BASE_URL = window.APIUI_AUTH_BASE_URL || window.BACKEND_BASE_URL || 'http://localhost:8000';
+        window.BACKEND_BASE_URL = window.BACKEND_BASE_URL || window.APIUI_AUTH_BASE_URL;
     </script>
 
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: white;
-            color: black;
-            line-height: 1.6;
-        }
-        .nav-link { color: black; text-decoration: none; }
-        .nav-link:hover { text-decoration: underline; }
-        .code-block {
-            background: #f8f8f8;
-            border: 1px solid #e0e0e0;
-            padding: 1rem;
-            border-radius: 4px;
-        }
-    </style>
-    <style>
-        /* Pixel-Inspired CSS Variables */
         :root {
-            --pixel-pink: #E91E63;
-            --pixel-pink-subtle: #EC4899;  /* More subtle pink */
-            --pixel-pink-light: #F472B6;  /* Light pink */
-            --pixel-purple: #9C27B0;  /* Vibrant purple for outer glow */
-            --pixel-purple-light: #BA68C8;  /* Light purple for subtle effects */
-            --pixel-black: #000000;
-            --pixel-white: #ffffff;
-            --pixel-gray-100: #f8fafc;
-            --pixel-gray-200: #e2e8f0;
-            --pixel-gray-300: #cbd5e1;
-            --pixel-gray-600: #64748b;
-            --pixel-gray-800: #1f2937;
-            /* Pixel Design System */
-            --pixel-border-width: 2px;
+            --ink: #0B0B0C;
+            --paper: #FAFAF7;
+            --bg: #FFFFFF;
+            --surface-alt: #F4F3EE;
+            --border: #D9D9D2;
+            --border-strong: #0B0B0C;
+            --text-secondary: #474742;
+            --muted: #62625C;
+            --accent: #EC4899;
+            --accent-deep: #DB2777;
+            --accent-purple: #7C3AED;
+            --gutter: clamp(20px, 5vw, 72px);
+            --nav-h: 76px;
+
+            /* Mapped aliases */
+            --hub-pink: #EC4899;
+            --hub-pink-soft: #F472B6;
+            --hub-purple: #7C3AED;
+            --hub-purple-soft: #A855F7;
+            --hub-ink: #0B0B0C;
+            --hub-ink-soft: #474742;
+            --hub-surface: #FFFFFF;
+            --hub-muted: #62625C;
+            --hub-border: #D9D9D2;
+            --pixel-pink: #EC4899;
+            --pixel-pink-subtle: #DB2777;
+            --pixel-pink-light: #F472B6;
+            --pixel-purple: #7C3AED;
+            --pixel-purple-light: #A855F7;
+            --pixel-black: #0B0B0C;
+            --pixel-white: #FFFFFF;
+            --pixel-gray-100: #FAFAF7;
+            --pixel-gray-200: #D9D9D2;
+            --pixel-gray-300: #D9D9D2;
+            --pixel-gray-600: #474742;
+            --pixel-gray-800: #0B0B0C;
+            --pixel-border-width: 1px;
             --pixel-border-radius: 0px;
-            --pixel-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-            --pixel-shadow-hover: 4px 4px 0px rgba(0, 0, 0, 0.15);
         }
 
-        /* CTA Button with Layered Glow Effect */
-        .cta-glow {
-            position: relative;
-            background: var(--pixel-pink);
-            color: white;
-            box-shadow:
-                0 0 20px rgba(233, 30, 99, 0.6),
-                0 0 40px rgba(156, 39, 176, 0.4),
-                0 0 60px rgba(156, 39, 176, 0.2);
-            transition: all 0.3s ease;
+        *, *::before, *::after {
+            border-radius: 0 !important;
         }
 
-        .cta-glow:hover {
-            background: var(--pixel-pink-subtle);
-            box-shadow:
-                0 0 30px rgba(233, 30, 99, 0.8),
-                0 0 60px rgba(156, 39, 176, 0.6),
-                0 0 90px rgba(156, 39, 176, 0.3);
-            transform: translateY(-2px);
+        html {
+            scroll-behavior: smooth;
         }
 
-        .cta-glow:active {
-            transform: translateY(0);
-            box-shadow:
-                0 0 15px rgba(233, 30, 99, 0.4),
-                0 0 30px rgba(156, 39, 176, 0.3);
-        }
-
-        /* Regular Cursor */
-        * {
-            cursor: auto;
-        }
-
-        button, a, [role="button"] {
-            cursor: pointer;
-        }
-
-        /* Base Typography */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--pixel-white);
-            color: var(--pixel-black);
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--ink);
+            line-height: 1.55;
+            padding-top: var(--nav-h);
+            overflow-x: hidden;
         }
 
-        /* Pixel Typography Classes */
+        h1, h2, .ab-display {
+            font-family: 'Anton', Impact, 'Arial Narrow', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 0.94;
+        }
+
         .pixel-heading {
             font-family: 'Pixelify Sans', monospace;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-        }
-
-        .pixel-title {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            line-height: 1.1;
-            text-transform: uppercase;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-        }
-
-        .pixel-subtitle {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 500;
-            letter-spacing: 0.01em;
-            opacity: 0.9;
-            line-height: 1.3;
         }
 
         .pixel-body {
@@ -169,709 +125,566 @@
             line-height: 1.6;
         }
 
-        /* Hub Design System */
-        .hub-divider {
-            height: 1px;
-            background: var(--pixel-gray-200);
+        .ab-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding-left: var(--gutter);
+            padding-right: var(--gutter);
         }
 
-        /* API Card - From index.html */
-        .api-card {
-            position: relative;
-            background-color: #ffffff;
-            border: 1px solid rgba(15, 23, 42, 0.12);
-            border-radius: 0;
-            box-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
-            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-        }
-
-        .api-card:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0 rgba(236, 72, 153, 0.25);
-            border-color: rgba(236, 72, 153, 0.45);
-        }
-
-        .api-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            background-image: linear-gradient(90deg, #ec4899 50%, transparent 50%), linear-gradient(180deg, #ec4899 50%, transparent 50%);
-            background-size: 4px 4px;
-            opacity: 0.65;
-        }
-
-        .hub-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.35rem 0.75rem;
-            border: 1px solid rgba(236, 72, 153, 0.45);
-            background-color: rgba(236, 72, 153, 0.08);
-            font-size: 0.75rem;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-        }
-
-        /* Pixel Card System - Clean Light Mode */
-        .pixel-card {
-            background: var(--pixel-white);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pixel-card-borderless {
-            background: var(--pixel-white);
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pixel-card::before {
-            content: '';
-            position: absolute;
+        /* Aurablox Constructivist Fixed Header + Full-Width Megamenu */
+        .ab-nav-shell {
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(236, 72, 153, 0.03) 50%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
+            z-index: 1000;
+            background: var(--paper);
+            border-bottom: 1px solid rgba(11, 11, 12, 0.18);
+            transition: border-color 0.16s ease;
         }
 
-        .pixel-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transform: translateY(-2px);
-            border-color: rgba(236, 72, 153, 0.2);
+        .ab-nav-shell.has-mega-open {
+            border-bottom: 2px solid var(--ink);
         }
 
-        .pixel-card:hover::before {
-            opacity: 1;
+        .ab-nav {
+            min-height: var(--nav-h);
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--gutter);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
 
-        /* Radial gradient utility for light mode glow effects */
-        .bg-gradient-radial {
-            background: radial-gradient(circle, var(--tw-gradient-stops));
+        .ab-nav__left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
         }
 
-        /* Pixel Button System - Clean Light Mode */
-        .pixel-btn {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-            padding: 0.75rem 1.5rem;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
+        .ab-nav__brand {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .pixel-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            transition: left 0.3s ease;
-        }
-
-        .pixel-btn:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-            border-color: rgba(236, 72, 153, 0.3);
-            color: var(--pixel-black);
-        }
-
-        .pixel-btn:hover::before {
-            left: 100%;
-        }
-
-        .pixel-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        }
-
-        .pixel-btn-primary {
-            background: #0f172a;
-            color: #ffffff;
-            border-color: #0f172a;
-        }
-
-        .pixel-btn-primary:hover {
-            background: var(--pixel-pink);
-            border-color: var(--pixel-pink);
-            color: #ffffff;
-        }
-
-        .pixel-btn-secondary {
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            border-color: rgba(236, 72, 153, 0.3);
-        }
-
-        .pixel-btn-secondary:hover {
-            background: var(--pixel-pink);
-            border-color: var(--pixel-pink);
-            color: #ffffff;
-        }
-
-        .floating-nav-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            background: transparent;
-            color: var(--pixel-gray-600);
-            transition: all 0.15s ease;
+            gap: 10px;
             text-decoration: none;
-            border: none;
+            color: var(--ink);
+            flex-shrink: 0;
         }
 
-        .floating-nav-btn:hover {
-            background: var(--pixel-pink);
-            color: var(--pixel-white);
-            transform: translateY(-1px);
+        .ab-nav__seal {
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%);
+            flex-shrink: 0;
         }
 
-        /* Pixel Icon Containers - Clean Light Mode */
-        .pixel-icon {
-            background: #f8fafc;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 8px;
+        .ab-nav__wordmark {
+            font-family: 'Anton', Impact, sans-serif;
+            font-size: 1.45rem;
+            letter-spacing: 0.04em;
+            line-height: 1;
+            text-transform: uppercase;
+            color: var(--ink);
+        }
+
+        .ab-nav__wordmark span {
+            color: var(--accent);
+        }
+
+        .ab-nav__platform-badge {
+            display: none;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-secondary);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: border-color 0.16s ease, color 0.16s ease;
+        }
+
+        .ab-nav__platform-badge:hover {
+            border-color: var(--accent);
+            color: var(--accent-deep);
+        }
+
+        @media (min-width: 1080px) {
+            .ab-nav__platform-badge {
+                display: inline-flex;
+                align-items: center;
+            }
+        }
+
+        .ab-nav__list {
             display: flex;
             align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ab-nav__item-btn,
+        .ab-nav__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            text-decoration: none;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .ab-nav__item-btn:hover,
+        .ab-nav__link:hover,
+        .ab-nav__item-btn[aria-expanded="true"] {
+            color: var(--ink);
+            border-color: var(--border);
+            background: var(--bg);
+        }
+
+        .ab-nav__link.is-current,
+        .ab-nav__item-btn.is-current {
+            color: var(--ink);
+            border-bottom: 2px solid var(--accent);
+            font-weight: 600;
+        }
+
+        .ab-nav__caret {
+            width: 10px;
+            height: 10px;
+            transition: transform 0.16s ease;
+        }
+
+        .ab-nav__item-btn[aria-expanded="true"] .ab-nav__caret {
+            transform: rotate(180deg);
+        }
+
+        .ab-nav__actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ab-nav__cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--ink);
+            color: #FFFFFF;
+            border: 1px solid var(--ink);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.16s ease, border-color 0.16s ease;
+            white-space: nowrap;
+        }
+
+        .ab-nav__cta-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .ab-nav__toggle {
+            display: none;
+            align-items: center;
             justify-content: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            color: var(--pixel-gray-600);
-        }
-
-        .pixel-icon svg {
-            color: inherit;
-            filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.1));
-        }
-
-        /* Pixel Grid System */
-        .pixel-grid {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        }
-
-        .pixel-section {
-            padding: 5rem 0;
-            position: relative;
-        }
-
-        .pixel-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* Pixel Accent Elements */
-        .pixel-accent-line {
-            position: relative;
-            margin: 3rem 0;
-            height: 2px;
-            background: repeating-linear-gradient(
-                90deg,
-                var(--pixel-black) 0px,
-                var(--pixel-black) 2px,
-                transparent 2px,
-                transparent 4px
-            );
-            transition: all 0.3s ease;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--ink);
+            background: var(--bg);
+            color: var(--ink);
             cursor: pointer;
         }
 
-        .pixel-accent-line:hover {
-            background: repeating-linear-gradient(
-                90deg,
-                var(--pixel-pink) 0px,
-                var(--pixel-pink) 2px,
-                transparent 2px,
-                transparent 4px
-            );
-        }
-
-        .pixel-accent-line::before {
-            content: '';
+        /* Full-width Megamenu */
+        .ab-megamenu {
+            display: none;
             position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 4px;
-            background: var(--pixel-pink);
-            transition: all 0.3s ease;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg);
+            border-bottom: 2px solid var(--ink);
+            box-shadow: 0 24px 48px rgba(11, 11, 12, 0.12);
+            z-index: 999;
         }
 
-        .pixel-accent-line:hover::before {
-            background: var(--pixel-black);
-            width: 12px;
-            height: 6px;
+        .ab-megamenu.is-open {
+            display: block;
         }
 
-        /* Pixel Badge - Clean Light Mode */
+        .ab-megamenu__panel {
+            display: none;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 32px var(--gutter);
+            grid-template-columns: 1.05fr 1.35fr 0.9fr;
+            gap: 32px;
+        }
+
+        .ab-megamenu__panel.is-active {
+            display: grid;
+        }
+
+        .ab-megamenu__link {
+            display: block;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            background: var(--paper);
+            text-decoration: none;
+            color: var(--ink);
+            transition: border-top-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .ab-megamenu__link:hover {
+            border-top-color: var(--accent);
+            background: var(--bg);
+        }
+
+        /* Mobile Drawer */
+        .ab-nav__menu {
+            display: none;
+            position: fixed;
+            top: var(--nav-h);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--paper);
+            border-top: 1px solid var(--ink);
+            z-index: 998;
+            overflow-y: auto;
+            padding: 24px var(--gutter) 48px;
+        }
+
+        .ab-nav__menu.is-open {
+            display: block;
+        }
+
+        .ab-nav__mobile-expand {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--ink);
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .ab-nav__mobile-sub {
+            display: none;
+            padding: 8px 0 14px 14px;
+            border-bottom: 1px solid var(--border);
+            border-left: 2px solid var(--accent);
+        }
+
+        .ab-nav__mobile-sub.is-open {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        @media (max-width: 960px) {
+            :root {
+                --nav-h: 68px;
+            }
+            .ab-nav__list,
+            .ab-nav__cta-btn {
+                display: none;
+            }
+            .ab-nav__toggle {
+                display: inline-flex;
+            }
+            .ab-megamenu {
+                display: none !important;
+            }
+        }
+
+        /* Section Index Bar & Capability Cards */
+        .section-index-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .section-index-bar__left {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .seal,
+        .pixel-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            clip-path: polygon(0 0, calc(100% - 3px) 0, 100% 3px, 100% 100%, 0 100%);
+            flex-shrink: 0;
+        }
+
+        .home-capability {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            padding: 24px;
+            transition: border-top-color 0.16s ease, background-color 0.16s ease;
+        }
+
+        .home-capability:hover {
+            border-top-color: var(--accent);
+            background: var(--bg);
+        }
+
+        /* Buttons & Tags */
+        .hub-btn,
+        .pixel-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--ink);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+        }
+
+        .hub-btn-primary,
+        .pixel-btn-primary {
+            background: var(--ink);
+            color: #FFFFFF;
+            border-color: var(--ink);
+        }
+
+        .hub-btn-primary:hover:not(:disabled),
+        .pixel-btn-primary:hover:not(:disabled) {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #FFFFFF;
+        }
+
+        .hub-btn-secondary,
+        .pixel-btn-secondary {
+            background: var(--bg);
+            color: var(--ink);
+            border-color: var(--ink);
+        }
+
+        .hub-btn-secondary:hover:not(:disabled),
+        .pixel-btn-secondary:hover:not(:disabled) {
+            background: var(--paper);
+            border-color: var(--accent);
+            color: var(--accent-deep);
+        }
+
+        .capability-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.3rem 0.65rem;
+            border: 1px solid var(--border);
+            background: var(--paper);
+            color: var(--text-secondary);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .shadow-grid {
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(11, 11, 12, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(11, 11, 12, 0.04) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+
         .pixel-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            background: var(--pixel-pink);
-            border: 1px solid rgba(236, 72, 153, 0.5);
-            color: var(--pixel-white);
+            gap: 0.35rem;
+            padding: 0.3rem 0.65rem;
+            background: var(--ink);
+            border: 1px solid var(--ink);
+            color: #FFFFFF;
             font-family: 'Pixelify Sans', monospace;
-            font-size: 0.75rem;
+            font-size: 0.68rem;
             font-weight: 600;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            box-shadow: 0 2px 4px rgba(236, 72, 153, 0.2);
-            transition: all 0.2s ease;
         }
 
-        .pixel-badge:hover {
-            background: var(--pixel-pink-subtle);
-            border-color: rgba(236, 72, 153, 0.7);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(236, 72, 153, 0.3);
+        .pixel-icon {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
         }
 
-        .pixel-badge.category-active {
-            background: #0f172a;
-            border-color: #0f172a;
-            color: var(--pixel-white);
+        .code-block {
+            background: #0B0B0C;
+            border: 1px solid var(--ink);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.84rem;
+            line-height: 1.6;
+            padding: 1.25rem;
+            overflow-x: auto;
+            color: #F4F3EE;
+            position: relative;
         }
 
-        /* Pixel Loading Animation */
+        .connection-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 0.85rem;
+            border: 1px solid var(--border);
+            background: var(--paper);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .connection-status.connected {
+            background: #0B0B0C;
+            color: #34D399;
+            border-color: #0B0B0C;
+        }
+
+        .connection-status.disconnected {
+            background: #FEF2F2;
+            color: #B91C1C;
+            border-color: #FCA5A5;
+        }
+
+        .resource-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--ink);
+            padding: 1.25rem;
+            margin-bottom: 0.75rem;
+            transition: border-top-color 0.16s ease, background-color 0.16s ease;
+        }
+
+        .resource-item:hover {
+            border-top-color: var(--accent);
+            background: var(--paper);
+        }
+
+        .resource-name {
+            font-family: 'Pixelify Sans', monospace;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .resource-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
         .pixel-loader {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 2px solid var(--pixel-gray-300);
-            border-radius: 0;
-            border-top-color: var(--pixel-pink);
-            animation: pixel-spin 1s ease-in-out infinite;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            animation: pixel-spin 1s linear infinite;
         }
 
         @keyframes pixel-spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Pixel Flicker Animation */
-        @keyframes pixel-flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        .pagination-container {
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
         }
 
-        .pixel-flicker {
-            animation: pixel-flicker 0.1s ease-in-out;
-        }
-
-        /* Arcade Text Effects */
-        .arcade-neon {
-            text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink);
-            animation: neon-pulse 2s ease-in-out infinite alternate;
-        }
-
-        .arcade-title {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            text-shadow:
-                /* Deep 3D layers for depth */
-                1px 1px 0px var(--pixel-black),
-                2px 2px 0px var(--pixel-gray-800),
-                3px 3px 0px var(--pixel-gray-700),
-                4px 4px 0px var(--pixel-gray-600),
-                5px 5px 5px rgba(0, 0, 0, 0.3),
-                /* Inner glow effect */
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink),
-                /* Outer neon glow */
-                0 0 20px var(--pixel-pink-subtle),
-                0 0 30px var(--pixel-pink-subtle),
-                0 0 40px rgba(233, 30, 99, 0.5);
-            animation: arcade-glow-pulse 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes neon-pulse {
-            from { text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink);
-            }
-            to { text-shadow:
-                0 0 5px var(--pixel-pink),
-                0 0 10px var(--pixel-pink),
-                0 0 15px var(--pixel-pink),
-                0 0 20px var(--pixel-pink);
-            }
-        }
-
-        @keyframes arcade-glow-pulse {
-            from {
-                text-shadow:
-                    /* Deep 3D layers for depth */
-                    1px 1px 0px var(--pixel-black),
-                    2px 2px 0px var(--pixel-gray-800),
-                    3px 3px 0px var(--pixel-gray-700),
-                    4px 4px 0px var(--pixel-gray-600),
-                    5px 5px 5px rgba(0, 0, 0, 0.3),
-                    /* Inner glow effect */
-                    0 0 5px var(--pixel-pink),
-                    0 0 10px var(--pixel-pink),
-                    0 0 15px var(--pixel-pink),
-                    /* Outer neon glow */
-                    0 0 20px var(--pixel-pink-subtle),
-                    0 0 30px var(--pixel-pink-subtle),
-                    0 0 40px rgba(233, 30, 99, 0.5);
-            }
-            to {
-                text-shadow:
-                    /* Deep 3D layers for depth */
-                    1px 1px 0px var(--pixel-black),
-                    2px 2px 0px var(--pixel-gray-800),
-                    3px 3px 0px var(--pixel-gray-700),
-                    4px 4px 0px var(--pixel-gray-600),
-                    5px 5px 5px rgba(0, 0, 0, 0.3),
-                    /* Enhanced inner glow effect */
-                    0 0 8px var(--pixel-pink),
-                    0 0 16px var(--pixel-pink),
-                    0 0 24px var(--pixel-pink),
-                    /* Enhanced outer neon glow */
-                    0 0 32px var(--pixel-pink-subtle),
-                    0 0 48px var(--pixel-pink-subtle),
-                    0 0 64px rgba(233, 30, 99, 0.7);
-            }
-        }
-
-        /* Hero Section */
-        .hero-section-docs {
-            position: relative;
-            overflow: hidden;
-            background: var(--pixel-white);
-            color: var(--pixel-black);
-            min-height: 60vh;
+        .pagination-controls {
             display: flex;
             align-items: center;
-        }
-
-        /* Documentation Layout */
-        .doc-section {
-            scroll-margin-top: 120px;
-        }
-
-        .docs-layout {
-            padding: 5rem 0;
-            background: var(--pixel-white);
-        }
-
-        .docs-wrapper {
-            display: grid;
-            gap: 2.5rem;
-        }
-
-        @media (min-width: 1024px) {
-            .docs-wrapper {
-                grid-template-columns: 280px minmax(0, 1fr);
-                align-items: start;
-            }
-        }
-
-        .doc-sidebar {
-            position: sticky;
-            top: 120px;
-            align-self: start;
-            background: var(--pixel-white);
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            padding: 1.75rem 1.5rem;
-            box-shadow: var(--pixel-shadow);
-            max-height: calc(100vh - 140px);
-            overflow-y: auto;
-        }
-
-        .doc-sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .doc-sidebar-group {
-            display: flex;
-            flex-direction: column;
+            justify-content: center;
             gap: 0.75rem;
+            flex-wrap: wrap;
         }
 
-        .doc-sidebar-title {
+        .pagination-page-info {
             font-family: 'Pixelify Sans', monospace;
-            font-size: 0.75rem;
             font-weight: 600;
-            letter-spacing: 0.08em;
+            font-size: 0.8rem;
+            color: var(--ink);
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--pixel-gray-600);
-        }
-
-        .doc-sidebar-links {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .doc-sidebar-links a {
-            display: block;
-            padding: 0.5rem 0 0.5rem 0.25rem;
-            color: var(--pixel-gray-600);
-            border-left: var(--pixel-border-width) solid transparent;
-            transition: all 0.15s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .doc-sidebar-links a:hover {
-            color: var(--pixel-pink);
-            border-left-color: var(--pixel-pink);
-            padding-left: 0.75rem;
-        }
-
-        .doc-sidebar-links a.toc-link-active {
-            color: var(--pixel-black);
-            font-weight: 600;
-            border-left-color: var(--pixel-black);
-            padding-left: 0.75rem;
-        }
-
-        .doc-page-shell {
-            margin-left: 0;
-        }
-
-        .doc-content {
-            width: 100%;
-            max-width: 60rem;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .doc-content .pixel-container {
-            max-width: 60rem;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1.75rem;
-            padding-right: 1.75rem;
-        }
-
-        @media (min-width: 1280px) {
-            .doc-content {
-                max-width: 64rem;
-            }
-
-            .doc-content .pixel-container {
-                max-width: 64rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .doc-content .pixel-container {
-                padding-left: 1.25rem;
-                padding-right: 1.25rem;
-            }
-        }
-
-        .doc-mobile-nav__panel {
-            border: var(--pixel-border-width) solid var(--pixel-black);
-            border-radius: var(--pixel-border-radius);
-            background: var(--pixel-white);
-            box-shadow: var(--pixel-shadow);
-            overflow: hidden;
-        }
-
-        .doc-mobile-nav__summary {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 1.25rem;
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            color: var(--pixel-black);
-            cursor: pointer;
-        }
-
-        .doc-mobile-nav__summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .doc-mobile-nav__summary::after {
-            content: '\25BC';
-            font-size: 0.75rem;
-            color: var(--pixel-gray-600);
-            transition: transform 0.2s ease;
-        }
-
-        .doc-mobile-nav__panel[open] .doc-mobile-nav__summary::after {
-            transform: rotate(-180deg);
-        }
-
-        .doc-mobile-nav__content {
-            padding: 0 1.25rem 1.25rem;
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .doc-mobile-nav__content .doc-sidebar-group {
-            gap: 0.5rem;
-        }
-
-        /* Code Blocks - Clean Light Mode */
-        .code-block {
-            background: #f8fafc;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            font-family: 'Monaco', 'Consolas', monospace;
-            font-size: 0.875rem;
-            line-height: 1.6;
-            padding: 1.25rem;
-            overflow-x: auto;
-            color: #1f2937;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            position: relative;
-        }
-
-        .copy-code-btn {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.4rem 0.9rem;
-            border-radius: 6px;
-            font-family: 'Pixelify Sans', monospace;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: #ffffff;
-            color: #1f2937;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            transition: all 0.2s ease;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        }
-
-        .copy-code-btn:hover {
-            background: #f8fafc;
-            color: #0f172a;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-color: rgba(236, 72, 153, 0.3);
-        }
-
-        .copy-code-btn.copied {
-            background: var(--pixel-pink);
-            color: var(--pixel-white);
-            border-color: var(--pixel-pink);
-        }
-
-        /* Connection status - Clean Light Mode */
-        .connection-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            background: var(--paper);
             padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-family: 'Pixelify Sans', monospace;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
+            border: 1px solid var(--border);
         }
 
-        .connection-status.connected {
-            background: #10b981;
-            color: white;
-            border: 1px solid #059669;
-            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+        .pagination-controls .pixel-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
         }
 
-        .connection-status.disconnected {
-            background: #ef4444;
-            color: white;
-            border: 1px solid #dc2626;
-            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
-        }
-
-        /* MCP specific styles - Clean Light Mode */
-        .resource-item {
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin-bottom: 0.75rem;
-            transition: all 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .resource-item:hover {
-            border-color: rgba(236, 72, 153, 0.4);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .resource-name {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            color: var(--pixel-black);
-        }
-
-        .resource-meta {
-            font-size: 0.875rem;
-            color: var(--pixel-gray-600);
-        }
-
-        /* Back to Top - Clean Light Mode */
         .back-to-top {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            background: #0f172a;
-            color: #ffffff;
+            width: 44px;
+            height: 44px;
+            background: var(--ink);
+            color: #FFFFFF;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
-            border: 1px solid rgba(15, 23, 42, 0.1);
+            border: 1px solid var(--ink);
             opacity: 0;
             pointer-events: none;
             transform: translateY(16px);
@@ -880,9 +693,8 @@
         }
 
         .back-to-top:hover {
-            background: var(--pixel-pink);
-            box-shadow: 0 6px 16px rgba(236, 72, 153, 0.3);
-            transform: translateY(0) scale(1.05);
+            background: var(--accent);
+            border-color: var(--accent);
         }
 
         .back-to-top.show {
@@ -891,36 +703,10 @@
             transform: translateY(0);
         }
 
-        /* Header */
-        header {
-            background: #ffffff !important;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--pixel-white);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .pixel-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pixel-section {
-                padding: 3rem 0;
-            }
-
-            .doc-sidebar {
-                padding: 1rem;
-            }
-        }
-
-        /* Scroll-triggered animations */
         .pixel-fade-in {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: translateY(14px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
         .pixel-fade-in.visible {
@@ -928,835 +714,681 @@
             transform: translateY(0);
         }
 
-        .pixel-slide-in-left {
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        /* Aurablox Architectural Footer */
+        .ab-footer {
+            background: var(--paper);
+            border-top: 1px solid rgba(11, 11, 12, 0.16);
+            color: var(--ink);
+            position: relative;
+            z-index: 10;
         }
 
-        .pixel-slide-in-left.visible {
-            opacity: 1;
-            transform: translateX(0);
+        .ab-footer__top {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 56px var(--gutter) 44px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .pixel-slide-in-right {
-            opacity: 0;
-            transform: translateX(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        .ab-footer__directory {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--gutter);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 1px solid var(--border);
         }
 
-        .pixel-slide-in-right.visible {
-            opacity: 1;
-            transform: translateX(0);
+        .ab-footer__col {
+            padding: 32px 24px 32px 0;
+            border-right: 1px solid var(--border);
         }
 
-        /* Kisuke-style ASCII Block Text */
-        .kisuke-ascii {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            line-height: 0.8;
-            letter-spacing: 1px;
-            color: var(--pixel-black);
-            text-shadow:
-                2px 2px 0px rgba(0, 0, 0, 0.1),
-                -1px -1px 0px rgba(255, 255, 255, 0.1);
+        .ab-footer__col:not(:first-child) {
+            padding-left: 24px;
         }
 
-        .kisuke-ascii .ascii-line {
-            display: block;
-            white-space: pre;
-            font-size: 0.6rem;
-            margin-bottom: 2px;
+        .ab-footer__col:last-child {
+            border-right: none;
+            padding-right: 0;
         }
 
-        .kisuke-ascii.large {
-            font-size: 2rem;
-        }
-
-        .kisuke-ascii.large .ascii-line {
-            font-size: 1.2rem;
-            margin-bottom: 4px;
-        }
-
-        /* Retro terminal glow effect */
-        .kisuke-glow {
-            text-shadow:
-                0 0 5px rgba(236, 72, 153, 0.3),
-                0 0 10px rgba(236, 72, 153, 0.2),
-                0 0 15px rgba(236, 72, 153, 0.1);
-            animation: kisuke-glow-pulse 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes kisuke-glow-pulse {
-            from {
-                text-shadow:
-                    0 0 5px rgba(236, 72, 153, 0.3),
-                    0 0 10px rgba(236, 72, 153, 0.2),
-                    0 0 15px rgba(236, 72, 153, 0.1);
-            }
-            to {
-                text-shadow:
-                    0 0 8px rgba(236, 72, 153, 0.5),
-                    0 0 15px rgba(236, 72, 153, 0.3),
-                    0 0 25px rgba(236, 72, 153, 0.2);
-            }
-        }
-
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Floating Sidebar Icon Override - No Borders */
-
-
-        /* Floating Sidebar Container Override - No Borders */
-
-        /* Hide floating sidebar on mobile devices */
-        @media (max-width: 768px) {
-            .fixed.left-6.top-1\/2.transform.-translate-y-1\/2.z-40 {
-                display: none !important;
-            }
-        }
-
-        /* Pagination Styles - Clean Light Mode */
-        .pagination-container {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.08);
-        }
-
-        .pagination-info {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .pagination-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .pagination-page-info {
-            font-family: 'Pixelify Sans', monospace;
-            font-weight: 600;
-            font-size: 0.875rem;
-            color: #1f2937;
-            letter-spacing: 0.02em;
+        .ab-footer__giant-wordmark {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px var(--gutter) 6px;
+            overflow: hidden;
+            font-family: 'Anton', Impact, sans-serif;
+            font-size: clamp(4.5rem, 16vw, 14.5rem);
+            line-height: 0.84;
+            letter-spacing: -0.02em;
             text-transform: uppercase;
-            background: #f8fafc;
-            padding: 0.5rem 1rem;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            color: var(--ink);
+            user-select: none;
         }
 
-        .pagination-controls .pixel-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: #f1f5f9;
-            border-color: rgba(0, 0, 0, 0.08);
-            color: #94a3b8;
+        .ab-footer__giant-wordmark span {
+            color: var(--accent);
         }
 
-        .pagination-controls .pixel-btn:disabled:hover {
-            transform: none;
-            background: #f1f5f9;
-            border-color: rgba(0, 0, 0, 0.08);
+        .ab-footer__bottom-bar {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px var(--gutter) 32px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
         }
 
-        /* Pixel Focus States */
+        .ab-footer__health {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .ab-footer__social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--ink);
+            text-decoration: none;
+            font-family: 'Pixelify Sans', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: border-color 0.15s ease, color 0.15s ease;
+        }
+
+        .ab-footer__social-link:hover {
+            border-color: var(--accent);
+            color: var(--accent-deep);
+        }
+
+        @media (max-width: 960px) {
+            .ab-footer__top {
+                grid-template-columns: 1fr;
+            }
+            .ab-footer__directory {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .ab-footer__col:nth-child(2n) {
+                border-right: none;
+                padding-right: 0;
+            }
+            .ab-footer__col:nth-child(odd) {
+                padding-left: 0;
+            }
+            .ab-footer__col {
+                border-bottom: 1px solid var(--border);
+            }
+            .ab-footer__col:nth-last-child(-n+2) {
+                border-bottom: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .ab-footer__directory {
+                grid-template-columns: 1fr;
+            }
+            .ab-footer__col {
+                padding: 24px 0 !important;
+                border-right: none;
+                border-bottom: 1px solid var(--border) !important;
+            }
+            .ab-footer__col:last-child {
+                border-bottom: none !important;
+            }
+        }
+
         a:focus, button:focus {
-            outline: 2px solid var(--pixel-pink);
+            outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
     </style>
-    <style>
-        /* Sidebar Styles - Same as index.html */
-        .api-sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
-            width: 240px;
-            background: linear-gradient(145deg,
-                rgba(255, 255, 255, 0.98) 0%,
-                rgba(248, 250, 252, 0.95) 50%,
-                rgba(241, 245, 249, 0.92) 100%);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-right: 1px solid rgba(148, 163, 184, 0.1);
-            box-shadow:
-                4px 0 32px rgba(148, 163, 184, 0.08),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            z-index: 40;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-top: 0;
-        }
-
-        .api-sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background:
-                radial-gradient(circle at 30% 20%, rgba(236, 72, 153, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(59, 130, 246, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .sidebar-header {
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.08);
-            background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.8) 0%,
-                rgba(248, 250, 252, 0.6) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            position: relative;
-            z-index: 1;
-        }
-
-        .sidebar-header::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(236, 72, 153, 0.1) 20%,
-                rgba(236, 72, 153, 0.05) 50%,
-                rgba(236, 72, 153, 0.1) 80%,
-                transparent 100%);
-        }
-
-        .sidebar-header h2 {
-            margin: 0;
-            line-height: 1.2;
-        }
-
-        .sidebar-header svg {
-            flex-shrink: 0;
-        }
-
-        .sidebar-content {
-            padding: 0.5rem 0;
-        }
-
-        .sidebar-section {
-            margin-bottom: 1rem;
-        }
-
-        .sidebar-section-title {
-            padding: 0.5rem 1.5rem 0.25rem 1.5rem;
-            font-size: 0.6875rem;
-            font-weight: 700;
-            color: rgba(71, 85, 105, 0.8);
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            margin-bottom: 0.125rem;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 0.875rem;
-            padding: 0.625rem 1.25rem;
-            margin: 0.125rem 0.5rem;
-            color: #0f172a;
-            text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 0.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg,
-                #ec4899 0%,
-                rgba(236, 72, 153, 0.6) 100%);
-            transform: scaleY(0);
-            transition: transform 0.25s ease;
-            border-radius: 0 2px 2px 0;
-        }
-
-        .sidebar-link:hover {
-            background: linear-gradient(135deg,
-                rgba(236, 72, 153, 0.04) 0%,
-                rgba(236, 72, 153, 0.02) 100%);
-            color: #ec4899;
-            transform: translateX(2px);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.08);
-        }
-
-        .sidebar-link:hover::before {
-            transform: scaleY(1);
-        }
-
-        .sidebar-link.active {
-            background: linear-gradient(135deg,
-                rgba(236, 72, 153, 0.08) 0%,
-                rgba(236, 72, 153, 0.04) 100%);
-            color: #ec4899;
-            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.12);
-        }
-
-        .sidebar-link.active::before {
-            transform: scaleY(1);
-        }
-
-        .sidebar-link-icon {
-            width: 1.25rem;
-            height: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .sidebar-link-text {
-            font-size: 0.8125rem;
-            font-weight: 500;
-            line-height: 1.3;
-        }
-
-        .sidebar-link-description {
-            font-size: 0.6875rem;
-            color: #64748b;
-            margin-top: 0.0625rem;
-            line-height: 1.2;
-        }
-
-        .sidebar-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 50;
-            background-color: white;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 8px;
-            padding: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
-            border-color: rgba(236, 72, 153, 0.3);
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 30;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .sidebar-section-toggle {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.5rem 1.5rem;
-            margin: 0.25rem 0.5rem;
-            background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.4) 0%,
-                rgba(248, 250, 252, 0.2) 100%);
-            border: 1px solid rgba(148, 163, 184, 0.06);
-            border-radius: 0.5rem;
-            color: rgba(71, 85, 105, 0.9);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-section-toggle::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg,
-                rgba(236, 72, 153, 0.02) 0%,
-                rgba(59, 130, 246, 0.02) 100%);
-            opacity: 0;
-            transition: opacity 0.25s ease;
-        }
-
-        .sidebar-section-toggle:hover {
-            color: #0f172a;
-            border-color: rgba(236, 72, 153, 0.12);
-            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.06);
-            transform: translateY(-1px);
-        }
-
-        .sidebar-section-toggle:hover::before {
-            opacity: 1;
-        }
-
-        .sidebar-section-toggle[aria-expanded="true"] .sidebar-chevron {
-            transform: rotate(180deg);
-        }
-
-        .sidebar-links {
-            max-height: 500px;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .sidebar-links.collapsed {
-            max-height: 0;
-            transition: max-height 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .sidebar-toggle {
-                display: none;
-            }
-
-            .sidebar-overlay {
-                display: none;
-            }
-
-            main {
-                margin-left: 240px;
-            }
-
-            header {
-                margin-left: 240px;
-            }
-
-            footer {
-                margin-left: 240px;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .api-sidebar {
-                z-index: 50;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-
-            .api-sidebar.open {
-                transform: translateX(0);
-            }
-
-            main, header, footer {
-                margin-left: 0;
-            }
-        }
-    </style>
 </head>
-<body>
-
-    <!-- Sidebar Toggle Button (Mobile Only) -->
-    <button class="sidebar-toggle md:hidden" aria-label="Toggle sidebar">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-    </button>
-
-    <!-- Sidebar Overlay (Mobile Only) -->
-    <div class="sidebar-overlay md:hidden"></div>
-
-    <!-- Directory Sidebar -->
-    <aside class="api-sidebar" id="api-sidebar">
-        <div class="sidebar-header">
-            <div class="flex items-center justify-center">
-                <div class="flex items-center space-x-2">
-                    <img src="apiui-cloud-logo.png" alt="apiUI Logo" class="w-10 h-10 rounded shadow-sm">
-                    <div>
-                        <h2 class="text-lg font-bold tracking-[0.14em] text-slate-900 pixel-heading">
-                            api<span class="text-pink-500">UI</span>
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-content">
-            <!-- Platform Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#platform-links">
-                    <span class="sidebar-section-title">Platform</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="platform-links" class="sidebar-links">
-                    <a href="index.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">API Hub</div>
-                            <div class="sidebar-link-description">Browse & discover APIs</div>
-                        </div>
-                    </a>
-                    <a href="app.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">My APIs</div>
-                            <div class="sidebar-link-description">Manage your APIs</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Servers Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#tools-links">
-                    <span class="sidebar-section-title">Servers</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="tools-links" class="sidebar-links">
-                    <a href="mcp.html" class="sidebar-link active">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">MCP Server</div>
-                            <div class="sidebar-link-description">Model Context Protocol</div>
-                        </div>
-                    </a>
-                    <a href="mcp-chat.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">MCP Chat</div>
-                            <div class="sidebar-link-description">AI conversation interface</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Resources Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#resources-links">
-                    <span class="sidebar-section-title">Resources</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="resources-links" class="sidebar-links">
-                    <a href="docs.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Documentation</div>
-                            <div class="sidebar-link-description">Guides & API reference</div>
-                        </div>
-                    </a>
-                    <a href="learn-more.html" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Learn More</div>
-                            <div class="sidebar-link-description">Integration examples</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Community Section -->
-            <div class="sidebar-section">
-                <button class="sidebar-section-toggle" data-target="#community-links">
-                    <span class="sidebar-section-title">Community</span>
-                    <svg class="sidebar-chevron w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-                <div id="community-links" class="sidebar-links">
-                    <a href="index.html#featured-apis" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Featured APIs</div>
-                            <div class="sidebar-link-description">Curated integrations</div>
-                        </div>
-                    </a>
-                    <a href="index.html#community-apis" class="sidebar-link">
-                        <svg class="sidebar-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                        <div>
-                            <div class="sidebar-link-text">Community APIs</div>
-                            <div class="sidebar-link-description">User-contributed APIs</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Header -->
-    <header class="bg-white border-b border-slate-200/70 relative z-10">
-        <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <a href="index.html" class="pixel-heading text-xl text-slate-900 tracking-[0.14em]">
-                    api<span class="text-pink-500">UI</span>
+<body id="top" class="bg-white text-[#0B0B0C] flex flex-col min-h-screen relative">
+    <!-- Aurablox Constructivist Fixed Header & Megamenu -->
+    <header class="ab-nav-shell" id="ab-nav-shell">
+        <nav class="ab-nav" aria-label="Primary Navigation">
+            <div class="ab-nav__left">
+                <a href="index.html" class="ab-nav__brand">
+                    <span class="ab-nav__seal" aria-hidden="true"></span>
+                    <span class="ab-nav__wordmark">API<span>UI</span></span>
                 </a>
-                <span class="pixel-heading text-xs text-slate-500 tracking-[0.32em] uppercase">MCP Server</span>
+                <a href="aurablox.html" class="ab-nav__platform-badge">An Aurablox Platform</a>
             </div>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="app.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">App</a>
-                <a href="mcp.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">MCP</a>
-                <a href="mcp-chat.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Chat</a>
-                <a href="docs.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Docs</a>
-                <a href="learn-more.html" class="pixel-heading text-sm text-slate-700 hover:text-pink-500 transition-colors tracking-[0.08em] uppercase">Learn more</a>
+
+            <ul class="ab-nav__list" role="menubar">
+                <li>
+                    <button type="button" class="ab-nav__item-btn" data-mega="platform" aria-expanded="false" aria-controls="ab-megamenu">
+                        <span>Platform</span>
+                        <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                    </button>
+                </li>
+                <li>
+                    <a href="app.html" class="ab-nav__link">Studio</a>
+                </li>
+                <li>
+                    <button type="button" class="ab-nav__item-btn is-current" data-mega="mcp" aria-expanded="false" aria-controls="ab-megamenu" aria-current="page">
+                        <span>MCP Server</span>
+                        <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                    </button>
+                </li>
+                <li>
+                    <a href="mcp-chat.html" class="ab-nav__link">MCP Chat</a>
+                </li>
+                <li>
+                    <button type="button" class="ab-nav__item-btn" data-mega="docs" aria-expanded="false" aria-controls="ab-megamenu">
+                        <span>Docs</span>
+                        <svg class="ab-nav__caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5L6 8l3.5-3.5"/></svg>
+                    </button>
+                </li>
+            </ul>
+
+            <div class="ab-nav__actions">
+                <a href="mcp-chat.html" class="ab-nav__cta-btn">Open MCP Chat &rarr;</a>
+                <button id="ab-mobile-toggle" type="button" class="ab-nav__toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="ab-mobile-menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
         </nav>
-    </header>
 
-    <!-- Hero Section for MCP -->
-    <main>
-    <section class="hero-section-docs bg-white min-h-screen flex items-center justify-center py-16 relative overflow-hidden">
-
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
-            <!-- Main Headline -->
-            <div class="mb-8 pixel-fade-in">
-                <h1 class="arcade-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black max-w-5xl mx-auto leading-tight mb-6">
-                    <div class="kisuke-ascii large kisuke-glow">
-                        <div class="ascii-line">███╗   ███╗ ██████╗ ██████╗ </div>
-                        <div class="ascii-line">████╗ ████║██╔════╝██╔══██╗ </div>
-                        <div class="ascii-line">██╔████╔██║██║     ██████╔╝ </div>
-                        <div class="ascii-line">██║╚██╔╝██║██║     ██╔═══╝  </div>
-                        <div class="ascii-line">██║ ╚═╝ ██║╚██████╗██║      </div>
-                        <div class="ascii-line">╚═╝     ╚═╝ ╚═════╝╚═╝      </div>
-                        <div class="ascii-line">                            </div>
-                        <div class="ascii-line"> ██╗  ██╗██╗   ██╗██████╗   </div>
-                        <div class="ascii-line"> ██║  ██║██║   ██║██╔══██╗  </div>
-                        <div class="ascii-line"> ███████║██║   ██║██████╔╝  </div>
-                        <div class="ascii-line"> ██╔══██║██║   ██║██╔══██╗  </div>
-                        <div class="ascii-line"> ██║  ██║╚██████╔╝██████╔╝  </div>
-                        <div class="ascii-line"> ╚═╝  ╚═╝ ╚═════╝ ╚═════╝   </div>
+        <!-- Full-Width Megamenu -->
+        <div id="ab-megamenu" class="ab-megamenu" aria-hidden="true">
+            <div class="ab-megamenu__panel" data-panel="platform">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 pixel-heading text-[11px] tracking-[0.18em] text-[#474742]">
+                        <span class="seal"></span> 01 // PLATFORM ARCHITECTURE
                     </div>
-                </h1>
+                    <h3 class="ab-display text-3xl text-[#0B0B0C]">Datasets Into Live Endpoints.</h3>
+                    <p class="text-sm text-[#474742] leading-relaxed">Explore the public API catalog, spin up datasets in Studio, or learn how APIUI bridges raw files with AI tooling.</p>
+                    <a href="app.html" class="hub-btn hub-btn-primary text-xs py-2.5 px-4">Launch Studio &rarr;</a>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <a href="index.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">01 // HUB</span>
+                        <div class="font-semibold text-sm mt-1">API Hub Home</div>
+                        <p class="text-xs text-[#474742] mt-1">Overview, metrics, and platform tour.</p>
+                    </a>
+                    <a href="index.html#directory" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">02 // CATALOG</span>
+                        <div class="font-semibold text-sm mt-1">Public Directory</div>
+                        <p class="text-xs text-[#474742] mt-1">Browse ready-to-query REST &amp; MCP APIs.</p>
+                    </a>
+                    <a href="learn-more.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">03 // SYSTEM</span>
+                        <div class="font-semibold text-sm mt-1">Platform Architecture</div>
+                        <p class="text-xs text-[#474742] mt-1">Schema inference and FastAPI generation.</p>
+                    </a>
+                    <a href="aurablox.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">04 // STUDIO</span>
+                        <div class="font-semibold text-sm mt-1">Aurablox Platform</div>
+                        <p class="text-xs text-[#474742] mt-1">Design language &amp; software lab behind APIUI.</p>
+                    </a>
+                </div>
+                <div class="bg-[#FAFAF7] border border-[#D9D9D2] border-t-2 border-t-[#EC4899] p-5 flex flex-col justify-between">
+                    <div>
+                        <span class="pixel-heading text-[10px] tracking-[0.16em] text-[#EC4899]">RUNTIME SPEC</span>
+                        <div class="font-mono text-xs text-[#0B0B0C] mt-2 space-y-1.5">
+                            <div>STACK: FASTAPI + SQLITE + MCP</div>
+                            <div>HOST: SELF-HOSTED :8000</div>
+                            <div>FORMAT: CSV / JSON / XLSX</div>
+                        </div>
+                    </div>
+                    <a href="resume.html" class="pixel-heading text-[11px] text-[#0B0B0C] hover:text-[#EC4899] mt-4">Founder / Resume &rarr;</a>
+                </div>
             </div>
 
-            <!-- Enhanced Subtitle -->
-            <div class="mb-10 pixel-fade-in" style="animation-delay: 0.2s">
-                <p class="pixel-body text-xl sm:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light">
-                    Connect AI models and tools to your flat files through the
-                    <span class="font-semibold text-gray-900">Model Context Protocol (MCP)</span> and
-                    <span class="text-pink-500 font-semibold">chat with your APIs using natural language</span>
-                </p>
+            <div class="ab-megamenu__panel" data-panel="mcp">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 pixel-heading text-[11px] tracking-[0.18em] text-[#474742]">
+                        <span class="seal"></span> 02 // MODEL CONTEXT PROTOCOL
+                    </div>
+                    <h3 class="ab-display text-3xl text-[#0B0B0C]">Wire Any Agent To Your Data.</h3>
+                    <p class="text-sm text-[#474742] leading-relaxed">Generate IDE configs, test JSON-RPC 2.0 tool execution, or query multiple datasets in natural language.</p>
+                    <a href="#mcp-tester" class="hub-btn hub-btn-primary text-xs py-2.5 px-4">Jump to RPC Tester &darr;</a>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <a href="#mcp-overview" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">01 // OVERVIEW</span>
+                        <div class="font-semibold text-sm mt-1">MCP Architecture</div>
+                        <p class="text-xs text-[#474742] mt-1">Protocol capabilities &amp; dataset bindings.</p>
+                    </a>
+                    <a href="#connecting" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">02 // CLIENTS</span>
+                        <div class="font-semibold text-sm mt-1">Client Configurations</div>
+                        <p class="text-xs text-[#474742] mt-1">Claude Desktop, Cursor &amp; Antigravity JSON.</p>
+                    </a>
+                    <a href="#mcp-tester" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">03 // TESTER</span>
+                        <div class="font-semibold text-sm mt-1">JSON-RPC 2.0 Tester</div>
+                        <p class="text-xs text-[#474742] mt-1">Execute tools and inspect live payloads.</p>
+                    </a>
+                    <a href="mcp-chat.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">04 // CONSOLE</span>
+                        <div class="font-semibold text-sm mt-1">MCP Chat Workspace</div>
+                        <p class="text-xs text-[#474742] mt-1">Multi-dataset conversational interface.</p>
+                    </a>
+                </div>
+                <div class="bg-[#FAFAF7] border border-[#D9D9D2] border-t-2 border-t-[#7C3AED] p-5 flex flex-col justify-between">
+                    <div>
+                        <span class="pixel-heading text-[10px] tracking-[0.16em] text-[#7C3AED]">TRANSPORT PIPELINE</span>
+                        <div class="font-mono text-xs text-[#0B0B0C] mt-2 space-y-1.5">
+                            <div>RPC: POST /mcp</div>
+                            <div>SSE: GET /mcp/sse</div>
+                            <div>TOOLS: list_datasets, query_dataset</div>
+                        </div>
+                    </div>
+                    <a href="#file-browser" class="pixel-heading text-[11px] text-[#0B0B0C] hover:text-[#EC4899] mt-4">Browse Datasets &darr;</a>
+                </div>
             </div>
 
-            <!-- Navigation Cards - Compact -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto pixel-fade-in" style="animation-delay: 0.3s">
-                <a href="#mcp-overview" class="group p-5 text-center bg-white rounded-lg border border-gray-200 hover:border-pink-400 transition-all hover:shadow-md">
-                    <div class="w-10 h-10 mx-auto mb-3 flex items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200 rounded-lg">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+            <div class="ab-megamenu__panel" data-panel="docs">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 pixel-heading text-[11px] tracking-[0.18em] text-[#474742]">
+                        <span class="seal"></span> 03 // DOCUMENTATION
                     </div>
-                    <h3 class="text-sm font-bold text-gray-900 mb-1">What is MCP?</h3>
-                    <p class="pixel-body text-gray-600 text-xs leading-relaxed">Learn about the Model Context Protocol</p>
-                </a>
-
-                <a href="#connecting" class="group p-5 text-center bg-white rounded-lg border border-gray-200 hover:border-pink-400 transition-all hover:shadow-md">
-                    <div class="w-10 h-10 mx-auto mb-3 flex items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200 rounded-lg">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
-                        </svg>
+                    <h3 class="ab-display text-3xl text-[#0B0B0C]">Specs, Guides &amp; Self-Hosting.</h3>
+                    <p class="text-sm text-[#474742] leading-relaxed">Complete reference for REST routes, MCP protocol schemas, and local Docker / Python deployment.</p>
+                    <a href="docs.html" class="hub-btn hub-btn-primary text-xs py-2.5 px-4">Read Full Docs &rarr;</a>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <a href="docs.html#rest-api" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">01 // REST</span>
+                        <div class="font-semibold text-sm mt-1">REST API Reference</div>
+                        <p class="text-xs text-[#474742] mt-1">Pagination, filters, and CRUD endpoints.</p>
+                    </a>
+                    <a href="docs.html#mcp-protocol" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">02 // RPC</span>
+                        <div class="font-semibold text-sm mt-1">MCP Protocol Spec</div>
+                        <p class="text-xs text-[#474742] mt-1">Methods, tool schemas, and resources.</p>
+                    </a>
+                    <a href="docs.html#self-hosting" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">03 // DEPLOY</span>
+                        <div class="font-semibold text-sm mt-1">Self-Hosting Guide</div>
+                        <p class="text-xs text-[#474742] mt-1">Run backend :8000 and UI :8080 locally.</p>
+                    </a>
+                    <a href="cookie-policy.html" class="ab-megamenu__link">
+                        <span class="pixel-heading text-[10px] text-[#EC4899] tracking-[0.16em]">04 // PRIVACY</span>
+                        <div class="font-semibold text-sm mt-1">Cookie Policy</div>
+                        <p class="text-xs text-[#474742] mt-1">Local storage &amp; session transparency.</p>
+                    </a>
+                </div>
+                <div class="bg-[#FAFAF7] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-5 flex flex-col justify-between">
+                    <div>
+                        <span class="pixel-heading text-[10px] tracking-[0.16em] text-[#474742]">QUICK JUMP</span>
+                        <div class="font-mono text-xs text-[#0B0B0C] mt-2 space-y-1.5">
+                            <div>GET /api/v1/apis</div>
+                            <div>GET /health</div>
+                            <div>POST /mcp</div>
+                        </div>
                     </div>
-                    <h3 class="text-sm font-bold text-gray-900 mb-1">How to Connect</h3>
-                    <p class="pixel-body text-gray-600 text-xs leading-relaxed">Connect MCP clients to your server</p>
-                </a>
-
-                <a href="mcp-chat.html" class="group p-5 text-center bg-white rounded-lg border border-gray-200 hover:border-pink-400 transition-all hover:shadow-md">
-                    <div class="w-10 h-10 mx-auto mb-3 flex items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200 rounded-lg">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-sm font-bold text-gray-900 mb-1">Chat with APIs</h3>
-                    <p class="pixel-body text-gray-600 text-xs leading-relaxed">Natural language API queries</p>
-                </a>
-
-                <a href="#file-browser" class="group p-5 text-center bg-white rounded-lg border border-gray-200 hover:border-pink-400 transition-all hover:shadow-md">
-                    <div class="w-10 h-10 mx-auto mb-3 flex items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200 rounded-lg">
-                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-sm font-bold text-gray-900 mb-1">File Browser</h3>
-                    <p class="pixel-body text-gray-600 text-xs leading-relaxed">Browse all available files</p>
-                </a>
+                    <a href="#sitemap-footer" class="pixel-heading text-[11px] text-[#0B0B0C] hover:text-[#EC4899] mt-4">Full Sitemap &darr;</a>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- Pixel Section Divider -->
-    <div class="pixel-accent-line"></div>
+        <!-- Mobile Accordion Drawer -->
+        <div id="ab-mobile-menu" class="ab-nav__menu" aria-hidden="true">
+            <div class="space-y-1">
+                <button type="button" class="ab-nav__mobile-expand" data-mobile-sub="platform">
+                    <span>Platform</span><span>+</span>
+                </button>
+                <div class="ab-nav__mobile-sub" data-mobile-panel="platform">
+                    <a href="index.html" class="text-sm font-medium text-[#0B0B0C]">API Hub Home</a>
+                    <a href="index.html#directory" class="text-sm text-[#474742]">Public Directory</a>
+                    <a href="learn-more.html" class="text-sm text-[#474742]">Platform Architecture</a>
+                    <a href="aurablox.html" class="text-sm text-[#EC4899] font-medium">Aurablox Platform</a>
+                </div>
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-            <section id="mcp-overview" class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">What is MCP?</h2>
-                <div class="space-y-6">
-                    <div>
-                        <p class="mb-4">The Model Context Protocol (MCP) is a standardized way for AI models and tools to access external data sources and APIs. It provides a consistent interface for connecting various data providers to AI applications.</p>
+                <a href="app.html" class="ab-nav__mobile-expand" style="text-decoration:none;">
+                    <span>Studio</span><span>&rarr;</span>
+                </a>
 
-                        <div class="p-8 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 mb-6 shadow-sm">
-                            <h3 class="text-xl font-bold text-gray-900 mb-6">Key Benefits</h3>
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div class="space-y-3">
-                                    <div class="flex items-start space-x-3">
-                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="pixel-body text-black font-medium mb-1">Standardized Interface</h4>
-                                            <p class="pixel-body text-black text-sm">Consistent way to access different data sources</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start space-x-3">
-                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="pixel-body text-black font-medium mb-1">Secure Access</h4>
-                                            <p class="pixel-body text-black text-sm">Controlled access to your data with proper authentication</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="space-y-3">
-                                    <div class="flex items-start space-x-3">
-                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="pixel-body text-black font-medium mb-1">Multiple Formats</h4>
-                                            <p class="pixel-body text-black text-sm">Support for CSV, JSON, Parquet, and other file formats</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start space-x-3">
-                                        <div class="pixel-icon w-6 h-6 mt-0.5 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="pixel-body text-black font-medium mb-1">Real-time Updates</h4>
-                                            <p class="pixel-body text-black text-sm">Live access to your changing data</p>
-                                        </div>
-                                    </div>
-                                </div>
+                <button type="button" class="ab-nav__mobile-expand" data-mobile-sub="mcp" style="color: var(--accent-deep);">
+                    <span>MCP Server (Current)</span><span>+</span>
+                </button>
+                <div class="ab-nav__mobile-sub is-open" data-mobile-panel="mcp">
+                    <a href="mcp.html" class="text-sm font-semibold text-[#DB2777]">MCP Server Overview</a>
+                    <a href="#connecting" class="text-sm text-[#474742]">Client Configs</a>
+                    <a href="#mcp-tester" class="text-sm text-[#474742]">JSON-RPC 2.0 Tester</a>
+                    <a href="#file-browser" class="text-sm text-[#474742]">Dataset Browser</a>
+                </div>
+
+                <a href="mcp-chat.html" class="ab-nav__mobile-expand" style="text-decoration:none;">
+                    <span>MCP Chat</span><span>&rarr;</span>
+                </a>
+
+                <button type="button" class="ab-nav__mobile-expand" data-mobile-sub="docs">
+                    <span>Docs</span><span>+</span>
+                </button>
+                <div class="ab-nav__mobile-sub" data-mobile-panel="docs">
+                    <a href="docs.html" class="text-sm font-medium text-[#0B0B0C]">Documentation Hub</a>
+                    <a href="docs.html#rest-api" class="text-sm text-[#474742]">REST API Reference</a>
+                    <a href="docs.html#mcp-protocol" class="text-sm text-[#474742]">MCP Protocol Spec</a>
+                    <a href="docs.html#self-hosting" class="text-sm text-[#474742]">Self-Hosting Guide</a>
+                </div>
+
+                <div class="pt-6 flex flex-col gap-3">
+                    <a href="mcp-chat.html" class="hub-btn hub-btn-primary w-full">Open MCP Chat &rarr;</a>
+                    <a href="#sitemap-footer" class="hub-btn hub-btn-secondary w-full ab-mobile-close-link">Jump to Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 relative z-10">
+        <!-- Constructivist Hero Section -->
+        <section class="relative overflow-hidden border-b border-[#D9D9D2] bg-[#FFFFFF]">
+            <div class="shadow-grid"></div>
+            <div class="ab-container py-14 md:py-20 relative z-10">
+                <div class="section-index-bar mb-10">
+                    <span class="section-index-bar__left"><span class="seal"></span> 01 // MODEL CONTEXT PROTOCOL SERVER</span>
+                    <span>JSON-RPC 2.0 &middot; STREAMABLE HTTP &middot; SSE</span>
+                </div>
+
+                <div class="grid gap-10 lg:grid-cols-[1.15fr_minmax(0,0.85fr)] items-start">
+                    <div class="space-y-6">
+                        <div class="inline-flex items-center gap-2.5 border border-[#D9D9D2] bg-[#FAFAF7] px-3 py-1.5">
+                            <span class="pixel-dot"></span>
+                            <span class="pixel-heading text-[11px] tracking-[0.22em] text-[#DB2777]">SELF-HOSTED AI PROTOCOL GATEWAY</span>
+                        </div>
+
+                        <h1 class="ab-display text-5xl sm:text-6xl lg:text-7xl text-[#0B0B0C]">
+                            MCP <span class="text-[#EC4899]">Server</span> Console.
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-[#474742] max-w-2xl leading-relaxed">
+                            Connect Claude Desktop, Cursor, Antigravity, and AI agents directly to your uploaded datasets via JSON-RPC 2.0 Streamable HTTP (<code class="bg-[#FAFAF7] border border-[#D9D9D2] px-1.5 py-0.5 text-sm font-mono text-[#DB2777]">POST /mcp</code>) and SSE (<code class="bg-[#FAFAF7] border border-[#D9D9D2] px-1.5 py-0.5 text-sm font-mono text-[#DB2777]">GET /mcp/sse</code>).
+                        </p>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="capability-tag">JSON-RPC 2.0</span>
+                            <span class="capability-tag">Streamable HTTP</span>
+                            <span class="capability-tag">SSE Transport</span>
+                            <span class="capability-tag">4 Built-in Tools</span>
+                            <span class="capability-tag">CSV / JSON / XLSX / Parquet</span>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <a href="#connecting" class="hub-btn hub-btn-primary">Connect Client &darr;</a>
+                            <a href="#mcp-tester" class="hub-btn hub-btn-secondary">Test JSON-RPC Live</a>
+                            <a href="mcp-chat.html" class="hub-btn hub-btn-secondary">Open MCP Chat &rarr;</a>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#FAFAF7] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6 space-y-5">
+                        <div class="flex items-center justify-between border-b border-[#D9D9D2] pb-3">
+                            <span class="pixel-heading text-xs tracking-[0.18em] text-[#0B0B0C] font-semibold">PROTOCOL SURFACE</span>
+                            <span class="font-mono text-[11px] text-[#DB2777] uppercase">ACTIVE SUITE</span>
+                        </div>
+                        <div class="space-y-2.5 font-mono text-xs text-[#0B0B0C]">
+                            <div class="flex justify-between py-1.5 border-b border-[#D9D9D2]">
+                                <span class="text-[#474742]">PRIMARY RPC</span>
+                                <span class="font-semibold">POST /mcp</span>
                             </div>
+                            <div class="flex justify-between py-1.5 border-b border-[#D9D9D2]">
+                                <span class="text-[#474742]">STREAM TRANSPORT</span>
+                                <span class="font-semibold">GET /mcp/sse</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-[#D9D9D2]">
+                                <span class="text-[#474742]">CLIENT CONFIG JSON</span>
+                                <span class="font-semibold">GET /mcp/client-config</span>
+                            </div>
+                            <div class="flex justify-between py-1.5">
+                                <span class="text-[#474742]">EXPOSED TOOLS</span>
+                                <span class="font-semibold text-[#7C3AED]">list, query, summarize, schema</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick-Jump Constructivist Index Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-14">
+                    <a href="#mcp-overview" class="home-capability flex flex-col gap-2 text-decoration-none">
+                        <p class="pixel-heading text-[11px] tracking-[0.2em] text-[#DB2777]">01 // OVERVIEW</p>
+                        <h3 class="text-base font-semibold text-[#0B0B0C]">What is MCP?</h3>
+                        <p class="text-xs text-[#474742] leading-relaxed">Standardized AI access to self-hosted datasets</p>
+                    </a>
+                    <a href="#connecting" class="home-capability flex flex-col gap-2 text-decoration-none">
+                        <p class="pixel-heading text-[11px] tracking-[0.2em] text-[#DB2777]">02 // CONFIG</p>
+                        <h3 class="text-base font-semibold text-[#0B0B0C]">How to Connect</h3>
+                        <p class="text-xs text-[#474742] leading-relaxed">Copy-paste JSON for Claude, Cursor &amp; Antigravity</p>
+                    </a>
+                    <a href="#mcp-tester" class="home-capability flex flex-col gap-2 text-decoration-none">
+                        <p class="pixel-heading text-[11px] tracking-[0.2em] text-[#DB2777]">03 // LIVE TESTER</p>
+                        <h3 class="text-base font-semibold text-[#0B0B0C]">JSON-RPC 2.0 Tester</h3>
+                        <p class="text-xs text-[#474742] leading-relaxed">Invoke tools &amp; inspect live server payloads</p>
+                    </a>
+                    <a href="#file-browser" class="home-capability flex flex-col gap-2 text-decoration-none">
+                        <p class="pixel-heading text-[11px] tracking-[0.2em] text-[#DB2777]">04 // RESOURCES</p>
+                        <h3 class="text-base font-semibold text-[#0B0B0C]">File Browser</h3>
+                        <p class="text-xs text-[#474742] leading-relaxed">Inspect datasets exposed through MCP</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="ab-container py-16 space-y-16">
+            <section id="mcp-overview" class="scroll-mt-24 space-y-6">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span> 01 // OVERVIEW</span>
+                    <span>MODEL CONTEXT PROTOCOL</span>
+                </div>
+                <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] items-start">
+                    <div class="space-y-3">
+                        <h2 class="ab-display text-4xl sm:text-5xl text-[#0B0B0C]">What Is MCP?</h2>
+                        <p class="text-[#474742] leading-relaxed">
+                            The Model Context Protocol (MCP) standardizes how AI models and coding agents inspect schemas and query external datasets without custom glue code.
+                        </p>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="home-capability">
+                            <span class="pixel-heading text-[10px] text-[#DB2777] tracking-[0.16em]">01 // INTERFACE</span>
+                            <h4 class="font-semibold text-[#0B0B0C] mt-2 mb-1">Standardized Schema</h4>
+                            <p class="text-sm text-[#474742]">Consistent JSON-RPC contract across datasets and clients.</p>
+                        </div>
+                        <div class="home-capability">
+                            <span class="pixel-heading text-[10px] text-[#DB2777] tracking-[0.16em]">02 // CONTROL</span>
+                            <h4 class="font-semibold text-[#0B0B0C] mt-2 mb-1">Self-Hosted Access</h4>
+                            <p class="text-sm text-[#474742]">Your datasets remain on your own :8000 backend host.</p>
+                        </div>
+                        <div class="home-capability">
+                            <span class="pixel-heading text-[10px] text-[#DB2777] tracking-[0.16em]">03 // FORMATS</span>
+                            <h4 class="font-semibold text-[#0B0B0C] mt-2 mb-1">Multi-Format Native</h4>
+                            <p class="text-sm text-[#474742]">Query CSV, JSON, XLSX, and Parquet uploads seamlessly.</p>
+                        </div>
+                        <div class="home-capability">
+                            <span class="pixel-heading text-[10px] text-[#DB2777] tracking-[0.16em]">04 // REALTIME</span>
+                            <h4 class="font-semibold text-[#0B0B0C] mt-2 mb-1">Instant Tool Discovery</h4>
+                            <p class="text-sm text-[#474742]">New uploads in Studio immediately appear in MCP tools.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="connecting" class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">How to Connect</h2>
+            <section id="connecting" class="scroll-mt-24 space-y-6">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span> 02 // CLIENT CONFIGURATION</span>
+                    <span>CLAUDE DESKTOP &middot; CURSOR &middot; ANTIGRAVITY</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <h2 class="ab-display text-4xl sm:text-5xl text-[#0B0B0C]">How To Connect</h2>
+                    <div class="inline-flex items-center gap-2 px-3 py-2 bg-[#FAFAF7] border border-[#0B0B0C] text-xs font-mono text-[#0B0B0C]">
+                        <span class="w-2 h-2 bg-emerald-500"></span>
+                        <span>Active MCP Server:</span>
+                        <span id="mcp-active-base-url" class="font-semibold text-[#DB2777]">http://localhost:8000</span>
+                    </div>
+                </div>
+
                 <div class="space-y-8">
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">For MCP Clients</h3>
-                        <p class="mb-4">Configure your MCP-compatible AI client to connect to the apiUI MCP server:</p>
-                        <div class="code-block">
-{
-  "mcpServers": {
-    "apiui": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/your/files"],
-      "env": {
-        "APIUI_BASE_URL": "https://apiui-backend-24bi767viq-uc.a.run.app"
-      }
-    }
-  }
-}
+                    <div class="bg-[#FFFFFF] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-6 sm:p-8">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-[#0B0B0C]">For Claude Desktop, Cursor &amp; Antigravity</h3>
+                                <p class="text-sm text-[#474742] mt-1">Ready-to-copy <code class="bg-[#FAFAF7] border border-[#D9D9D2] px-1.5 py-0.5 font-mono text-xs">mcpServers</code> JSON config pointing to your active backend:</p>
+                            </div>
+                            <button id="copy-mcp-config-btn" type="button" class="pixel-btn pixel-btn-secondary text-xs py-2 px-4 self-start sm:self-auto">Copy JSON Config</button>
                         </div>
-                        <p class="text-sm text-gray-600 mt-2">Replace <code>/path/to/your/files</code> with the actual path to your local MCP client configuration.</p>
+
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button type="button" data-config-tab="streamable" class="mcp-config-tab px-3 py-1.5 text-xs font-semibold border border-[#EC4899] bg-[#EC4899] text-white transition-colors">
+                                Claude Desktop / Antigravity (Streamable HTTP)
+                            </button>
+                            <button type="button" data-config-tab="cursor" class="mcp-config-tab px-3 py-1.5 text-xs font-semibold border border-[#D9D9D2] bg-[#FAFAF7] text-[#0B0B0C] hover:border-[#EC4899] transition-colors">
+                                Cursor (Streamable HTTP)
+                            </button>
+                            <button type="button" data-config-tab="sse" class="mcp-config-tab px-3 py-1.5 text-xs font-semibold border border-[#D9D9D2] bg-[#FAFAF7] text-[#0B0B0C] hover:border-[#EC4899] transition-colors">
+                                SSE Transport (/mcp/sse)
+                            </button>
+                        </div>
+
+                        <pre id="mcp-client-config-code" class="code-block overflow-x-auto text-sm"></pre>
+                        <p id="mcp-config-hint" class="text-xs text-[#474742] mt-3">Uses Streamable HTTP transport at <code class="mcp-endpoint-url bg-[#FAFAF7] border border-[#D9D9D2] px-1.5 py-0.5 font-mono">http://localhost:8000/mcp</code>. Live config JSON is also served at <code id="mcp-client-config-endpoint" class="bg-[#FAFAF7] border border-[#D9D9D2] px-1.5 py-0.5 font-mono">GET /mcp/client-config</code>.</p>
                     </div>
 
                     <div>
-                        <h3 class="text-xl font-semibold mb-2">Direct API Access</h3>
-                        <p class="mb-4">You can also access the MCP server directly via HTTP APIs:</p>
-                        <div class="space-y-4">
-                            <div class="p-5 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-md">
-                                <div class="flex items-center justify-between mb-2">
-                                    <code class="pixel-body text-sm bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200">GET /mcp/resources</code>
-                                    <span class="pixel-badge">List Files</span>
+                        <h3 class="pixel-heading text-sm font-semibold text-[#0B0B0C] mb-3 tracking-[0.16em]">Direct MCP &amp; HTTP Endpoints</h3>
+                        <p class="text-sm text-[#474742] mb-4">Your active self-hosted backend exposes spec-compliant MCP transports and dataset REST endpoints:</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="home-capability">
+                                <div class="flex items-center justify-between gap-2 mb-2">
+                                    <code id="endpoint-mcp-post" class="font-mono text-xs sm:text-sm bg-[#FFFFFF] px-2.5 py-1 border border-[#D9D9D2] break-all text-[#0B0B0C]">POST http://localhost:8000/mcp</code>
+                                    <span class="pixel-badge shrink-0">Streamable HTTP</span>
                                 </div>
-                                <p class="pixel-body text-gray-700 text-sm">Retrieve a list of all available files with metadata</p>
+                                <p class="text-sm text-[#474742]">JSON-RPC 2.0 endpoint (<code class="text-xs font-mono">initialize</code>, <code class="text-xs font-mono">tools/list</code>, <code class="text-xs font-mono">tools/call</code>, <code class="text-xs font-mono">resources/list</code>)</p>
                             </div>
-                            <div class="p-5 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-md">
-                                <div class="flex items-center justify-between mb-2">
-                                    <code class="pixel-body text-sm bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200">POST /mcp</code>
-                                    <span class="pixel-badge">MCP Protocol</span>
+                            <div class="home-capability">
+                                <div class="flex items-center justify-between gap-2 mb-2">
+                                    <code id="endpoint-mcp-sse" class="font-mono text-xs sm:text-sm bg-[#FFFFFF] px-2.5 py-1 border border-[#D9D9D2] break-all text-[#0B0B0C]">GET http://localhost:8000/mcp/sse</code>
+                                    <span class="pixel-badge shrink-0">SSE Transport</span>
                                 </div>
-                                <p class="pixel-body text-gray-700 text-sm">Send MCP protocol requests (resources/list, resources/read)</p>
+                                <p class="text-sm text-[#474742]">Server-Sent Events stream with <code class="text-xs font-mono">POST /mcp/messages</code></p>
                             </div>
-                            <div class="p-5 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-pink-300 transition-all hover:shadow-md">
-                                <div class="flex items-center justify-between mb-2">
-                                    <code class="pixel-body text-sm bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200">GET /mcp/resources/{filename}</code>
-                                    <span class="pixel-badge">Read File</span>
+                            <div class="home-capability">
+                                <div class="flex items-center justify-between gap-2 mb-2">
+                                    <code id="endpoint-mcp-resources" class="font-mono text-xs sm:text-sm bg-[#FFFFFF] px-2.5 py-1 border border-[#D9D9D2] break-all text-[#0B0B0C]">GET http://localhost:8000/mcp/resources</code>
+                                    <span class="pixel-badge shrink-0">List Files</span>
                                 </div>
-                                <p class="pixel-body text-gray-700 text-sm">Direct access to read specific file content</p>
+                                <p class="text-sm text-[#474742]">Retrieve a list of all uploaded files and dataset metadata</p>
+                            </div>
+                            <div class="home-capability">
+                                <div class="flex items-center justify-between gap-2 mb-2">
+                                    <code id="endpoint-mcp-client-config" class="font-mono text-xs sm:text-sm bg-[#FFFFFF] px-2.5 py-1 border border-[#D9D9D2] break-all text-[#0B0B0C]">GET http://localhost:8000/mcp/client-config</code>
+                                    <span class="pixel-badge shrink-0">Client Config</span>
+                                </div>
+                                <p class="text-sm text-[#474742]">Machine-readable <code class="text-xs font-mono">mcpServers</code> JSON for desktop &amp; IDE clients</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="file-browser" class="mb-12">
-                <h2 class="text-2xl font-bold mb-4">File Browser</h2>
-                <p class="mb-6">Browse and access all files available through your MCP server. Files uploaded to apiUI are automatically made available via MCP.</p>
+            <section id="mcp-tester" class="scroll-mt-24 space-y-6">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span> 03 // INTERACTIVE JSON-RPC 2.0 TESTER</span>
+                    <span>LIVE REQUEST / RESPONSE CONSOLE</span>
+                </div>
 
-                <!-- File Browser -->
-                <section class="p-8 bg-white rounded-xl border border-gray-200 shadow-sm">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-2xl font-bold text-gray-900">Available Files</h2>
-                        <div class="flex items-center gap-4">
+                <div class="p-6 sm:p-8 bg-[#FFFFFF] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C]">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="ab-display text-3xl sm:text-4xl text-[#0B0B0C]">Interactive MCP Tool Tester</h2>
+                            <p class="text-sm text-[#474742] mt-1.5">Send live JSON-RPC 2.0 requests directly to <code id="tester-target-endpoint" class="bg-[#FAFAF7] border border-[#D9D9D2] px-1.5 py-0.5 font-mono text-xs text-[#0B0B0C]">POST http://localhost:8000/mcp</code></p>
+                        </div>
+                        <span id="mcp-tester-status" class="inline-flex items-center px-3 py-1 border border-[#D9D9D2] text-xs font-mono bg-[#FAFAF7] text-[#474742]">Ready</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button type="button" data-mcp-preset="initialize" class="mcp-preset-btn px-3 py-1.5 text-xs font-mono border border-[#EC4899] bg-[#FAFAF7] text-[#DB2777] hover:bg-[#FFFFFF] transition-colors">initialize</button>
+                        <button type="button" data-mcp-preset="tools/list" class="mcp-preset-btn px-3 py-1.5 text-xs font-mono border border-[#D9D9D2] bg-white text-[#0B0B0C] hover:border-[#EC4899] transition-colors">tools/list</button>
+                        <button type="button" data-mcp-preset="resources/list" class="mcp-preset-btn px-3 py-1.5 text-xs font-mono border border-[#D9D9D2] bg-white text-[#0B0B0C] hover:border-[#EC4899] transition-colors">resources/list</button>
+                        <button type="button" data-mcp-preset="list_datasets" class="mcp-preset-btn px-3 py-1.5 text-xs font-mono border border-[#D9D9D2] bg-white text-[#0B0B0C] hover:border-[#EC4899] transition-colors">tools/call: list_datasets</button>
+                        <button type="button" data-mcp-preset="query_dataset" class="mcp-preset-btn px-3 py-1.5 text-xs font-mono border border-[#D9D9D2] bg-white text-[#0B0B0C] hover:border-[#EC4899] transition-colors">tools/call: query_dataset</button>
+                        <button type="button" data-mcp-preset="summarize_dataset" class="mcp-preset-btn px-3 py-1.5 text-xs font-mono border border-[#D9D9D2] bg-white text-[#0B0B0C] hover:border-[#EC4899] transition-colors">tools/call: summarize_dataset</button>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-3 mb-5 p-4 bg-[#FAFAF7] border border-[#D9D9D2]">
+                        <div>
+                            <label for="tester-dataset-select" class="block text-xs font-semibold text-[#0B0B0C] mb-1">Dataset ID (for query / summarize)</label>
+                            <select id="tester-dataset-select" class="w-full bg-white border border-[#D9D9D2] px-2.5 py-2 text-xs font-mono text-[#0B0B0C] focus:outline-none focus:border-[#EC4899]">
+                                <option value="">Auto-detecting datasets...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="tester-search-input" class="block text-xs font-semibold text-[#0B0B0C] mb-1">Search Term (optional)</label>
+                            <input id="tester-search-input" type="text" placeholder="e.g. active, Electronics..." class="w-full bg-white border border-[#D9D9D2] px-2.5 py-2 text-xs font-mono text-[#0B0B0C] focus:outline-none focus:border-[#EC4899]">
+                        </div>
+                        <div>
+                            <label for="tester-limit-input" class="block text-xs font-semibold text-[#0B0B0C] mb-1">Row Limit</label>
+                            <input id="tester-limit-input" type="number" min="1" max="100" value="5" class="w-full bg-white border border-[#D9D9D2] px-2.5 py-2 text-xs font-mono text-[#0B0B0C] focus:outline-none focus:border-[#EC4899]">
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="mcp-request-json" class="pixel-heading text-xs font-semibold tracking-[0.14em] text-[#0B0B0C]">JSON-RPC 2.0 Request</label>
+                                <button id="send-mcp-request-btn" type="button" class="pixel-btn pixel-btn-primary text-xs py-2 px-4">Send JSON-RPC Request</button>
+                            </div>
+                            <textarea id="mcp-request-json" rows="12" class="w-full font-mono text-xs bg-[#0B0B0C] text-emerald-300 p-4 border border-[#0B0B0C] focus:outline-none focus:border-[#EC4899]"></textarea>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="pixel-heading text-xs font-semibold tracking-[0.14em] text-[#0B0B0C]">Live JSON-RPC Response</span>
+                                <span id="mcp-response-meta" class="text-xs font-mono text-[#62625C]">Waiting for request</span>
+                            </div>
+                            <pre id="mcp-response-json" class="w-full h-[264px] overflow-auto font-mono text-xs bg-[#0B0B0C] text-[#F4F3EE] p-4 border border-[#0B0B0C] whitespace-pre-wrap">{
+  "hint": "Click a preset above or click 'Send JSON-RPC Request' to test your live MCP server."
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="file-browser" class="scroll-mt-24 space-y-6">
+                <div class="section-index-bar">
+                    <span class="section-index-bar__left"><span class="seal"></span> 04 // EXPOSED RESOURCES</span>
+                    <span>AVAILABLE FILES VIA MCP</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                    <div>
+                        <h2 class="ab-display text-4xl sm:text-5xl text-[#0B0B0C]">File Browser</h2>
+                        <p class="text-[#474742] mt-1">Browse datasets automatically exposed through your self-hosted MCP server.</p>
+                    </div>
+                </div>
+
+                <div class="p-6 sm:p-8 bg-[#FFFFFF] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C]">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-[#D9D9D2]">
+                        <h3 class="pixel-heading text-base font-semibold text-[#0B0B0C] tracking-[0.12em]">Available Files</h3>
+                        <div class="flex items-center gap-3">
                             <div id="connection-status" class="connection-status">
-                                <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+                                <div class="w-2 h-2 bg-gray-400 animate-pulse"></div>
                                 <span>Checking...</span>
                             </div>
-                            <button id="refresh-files" class="pixel-btn pixel-btn-primary">
+                            <button id="refresh-files" class="pixel-btn pixel-btn-primary text-xs py-2 px-4">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                                 </svg>
@@ -1768,83 +1400,12 @@
                     <div id="files-container" class="space-y-4">
                         <div class="text-center py-12">
                             <div class="pixel-loader w-8 h-8 mx-auto mb-4"></div>
-                            <p class="pixel-body text-gray-600">Loading available files...</p>
+                            <p class="pixel-body text-[#474742]">Loading available files...</p>
                         </div>
                     </div>
-                </section>
-            </section>
-
-            <section class="mb-12">
-                <h2 class="text-2xl font-bold mb-8 text-center">Explore More</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <a href="index.html" class="api-card p-6 flex flex-col min-h-[160px]">
-                    <div class="flex items-start justify-between gap-4 mb-4">
-                        <div>
-                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-400">PLATFORM</p>
-                            <h3 class="text-lg font-semibold text-slate-900 mt-1">Home</h3>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm text-slate-600 leading-6">Landing page and overview</p>
-                    </div>
-                    <div class="hub-divider mt-4 mb-3"></div>
-                    <div class="text-xs uppercase tracking-[0.24em] text-slate-500">Discover APIs</div>
-                </a>
-                <a href="app.html" class="api-card p-6 flex flex-col min-h-[160px]">
-                    <div class="flex items-start justify-between gap-4 mb-4">
-                        <div>
-                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-400">PLATFORM</p>
-                            <h3 class="text-lg font-semibold text-slate-900 mt-1">My APIs</h3>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm text-slate-600 leading-6">Manage and generate APIs</p>
-                    </div>
-                    <div class="hub-divider mt-4 mb-3"></div>
-                    <div class="text-xs uppercase tracking-[0.24em] text-slate-500">API Console</div>
-                </a>
-                <a href="docs.html" class="api-card p-6 flex flex-col min-h-[160px]">
-                    <div class="flex items-start justify-between gap-4 mb-4">
-                        <div>
-                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-400">RESOURCES</p>
-                            <h3 class="text-lg font-semibold text-slate-900 mt-1">Documentation</h3>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm text-slate-600 leading-6">Complete platform documentation</p>
-                    </div>
-                    <div class="hub-divider mt-4 mb-3"></div>
-                    <div class="text-xs uppercase tracking-[0.24em] text-slate-500">Guides & Reference</div>
-                </a>
-                <a href="mcp.html" class="api-card p-6 flex flex-col min-h-[160px] bg-pink-50 border-pink-400">
-                    <div class="flex items-start justify-between gap-4 mb-4">
-                        <div>
-                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-500">SERVERS</p>
-                            <h3 class="text-lg font-semibold text-slate-900 mt-1">MCP Server</h3>
-                        </div>
-                        <span class="hub-pill bg-pink-100 text-pink-600">Active</span>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm text-slate-600 leading-6">Model Context Protocol file access</p>
-                    </div>
-                    <div class="hub-divider mt-4 mb-3"></div>
-                    <div class="text-xs uppercase tracking-[0.24em] text-pink-500 font-semibold">Current Page</div>
-                </a>
-                <a href="mcp-chat.html" class="api-card p-6 flex flex-col min-h-[160px]">
-                    <div class="flex items-start justify-between gap-4 mb-4">
-                        <div>
-                            <p class="pixel-heading text-xs tracking-[0.3em] text-pink-400">SERVERS</p>
-                            <h3 class="text-lg font-semibold text-slate-900 mt-1">MCP Chat</h3>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm text-slate-600 leading-6">Chat with APIs using natural language</p>
-                    </div>
-                    <div class="hub-divider mt-4 mb-3"></div>
-                    <div class="text-xs uppercase tracking-[0.24em] text-slate-500">AI Interface</div>
-                </a>
                 </div>
             </section>
+        </div>
     </main>
 
     <!-- Back to Top Button -->
@@ -1854,25 +1415,115 @@
         </svg>
     </button>
 
-    <!-- Footer -->
-    <footer class="bg-white py-16">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                <div>
-                    <a href="index.html" class="pixel-heading text-sm tracking-[0.32em] text-slate-900">api<span class="text-pink-500">UI</span></a>
-                    <p class="pixel-heading text-xs text-slate-500 mt-3 tracking-[0.36em] uppercase">MCP Server</p>
+    <!-- Aurablox Architectural Footer -->
+    <footer id="sitemap-footer" class="ab-footer">
+        <div class="ab-footer__top">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2.5 pixel-heading text-[11px] tracking-[0.2em] text-[#474742]">
+                    <span class="seal"></span> START BUILDING
                 </div>
-                <div class="flex flex-wrap gap-6 text-xs uppercase tracking-[0.28em] text-slate-600">
-                    <a href="index.html" class="hover:text-pink-500 transition-colors">Home</a>
-                    <a href="app.html" class="hover:text-pink-500 transition-colors">App</a>
-                    <a href="mcp.html" class="hover:text-pink-500 transition-colors">MCP</a>
-                    <a href="docs.html" class="hover:text-pink-500 transition-colors">Docs</a>
-                    <a href="learn-more.html" class="hover:text-pink-500 transition-colors">Learn more</a>
-                    <a href="cookie-policy.html" class="hover:text-pink-500 transition-colors">Cookie Policy</a>
+                <h2 class="ab-display text-4xl sm:text-5xl text-[#0B0B0C]">
+                    Turn Flat Files Into Live Infrastructure.
+                </h2>
+                <p class="text-sm text-[#474742] max-w-xl leading-relaxed">
+                    Upload datasets, inspect REST endpoints, connect Claude or Cursor via MCP, and query records conversationally on your own host.
+                </p>
+                <div class="flex flex-wrap gap-3 pt-2">
+                    <a href="app.html" class="hub-btn hub-btn-primary text-xs py-2.5 px-5">Launch API Studio &rarr;</a>
+                    <a href="mcp-chat.html" class="hub-btn hub-btn-secondary text-xs py-2.5 px-5">Open MCP Chat</a>
                 </div>
             </div>
-            <div class="hub-divider mt-8"></div>
-            <div class="mt-6 text-right pixel-heading text-xs uppercase tracking-[0.28em] text-slate-500">&copy; 2025 apiUI Inc. All rights reserved.</div>
+
+            <div class="bg-[#FFFFFF] border border-[#D9D9D2] border-t-2 border-t-[#0B0B0C] p-5 flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="pixel-heading text-[10px] tracking-[0.18em] text-[#474742]">SYSTEM SCHEMATIC // MCP GATEWAY</span>
+                    <span class="font-mono text-[10px] text-[#DB2777]">JSON-RPC 2.0</span>
+                </div>
+                <svg viewBox="0 0 420 130" class="w-full h-auto" role="img" aria-label="APIUI MCP Server architecture schematic">
+                    <rect x="1" y="1" width="418" height="128" fill="#FAFAF7" stroke="#D9D9D2" stroke-width="1"/>
+                    <line x1="108" y1="65" x2="146" y2="65" stroke="#0B0B0C" stroke-width="1.5"/>
+                    <line x1="256" y1="65" x2="294" y2="65" stroke="#EC4899" stroke-width="1.5"/>
+                    <rect x="14" y="34" width="94" height="62" fill="#FFFFFF" stroke="#0B0B0C" stroke-width="1.5"/>
+                    <rect x="14" y="34" width="94" height="6" fill="#0B0B0C"/>
+                    <text x="61" y="61" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#0B0B0C">AI CLIENT</text>
+                    <text x="61" y="77" text-anchor="middle" font-family="monospace" font-size="9" fill="#474742">CLAUDE / IDE</text>
+                    <rect x="146" y="28" width="110" height="74" fill="#FFFFFF" stroke="#0B0B0C" stroke-width="1.5"/>
+                    <rect x="146" y="28" width="110" height="6" fill="#EC4899"/>
+                    <text x="201" y="58" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#0B0B0C">MCP SERVER</text>
+                    <text x="201" y="74" text-anchor="middle" font-family="monospace" font-size="9" fill="#DB2777">POST /mcp</text>
+                    <text x="201" y="89" text-anchor="middle" font-family="monospace" font-size="8" fill="#474742">GET /mcp/sse</text>
+                    <rect x="294" y="34" width="112" height="62" fill="#0B0B0C" stroke="#0B0B0C" stroke-width="1.5"/>
+                    <rect x="294" y="34" width="112" height="6" fill="#7C3AED"/>
+                    <text x="350" y="61" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#FFFFFF">DATASETS</text>
+                    <text x="350" y="77" text-anchor="middle" font-family="monospace" font-size="9" fill="#F472B6">TOOLS &amp; ROWS</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="ab-footer__directory">
+            <div class="ab-footer__col space-y-3">
+                <p class="pixel-heading text-xs tracking-[0.18em] text-[#DB2777] font-semibold">01 // PLATFORM &amp; STUDIO</p>
+                <ul class="space-y-2 text-sm text-[#474742]">
+                    <li><a href="index.html" class="hover:text-[#0B0B0C] transition-colors">API Hub Home</a></li>
+                    <li><a href="index.html#directory" class="hover:text-[#0B0B0C] transition-colors">Public Directory</a></li>
+                    <li><a href="app.html" class="hover:text-[#0B0B0C] transition-colors">API Studio</a></li>
+                    <li><a href="learn-more.html" class="hover:text-[#0B0B0C] transition-colors">Learn More</a></li>
+                </ul>
+            </div>
+            <div class="ab-footer__col space-y-3">
+                <p class="pixel-heading text-xs tracking-[0.18em] text-[#DB2777] font-semibold">02 // MCP SERVER &amp; AI</p>
+                <ul class="space-y-2 text-sm text-[#474742]">
+                    <li><a href="mcp.html" class="text-[#DB2777] font-semibold">MCP Server</a></li>
+                    <li><a href="mcp.html#connecting" class="hover:text-[#0B0B0C] transition-colors">Client Configs</a></li>
+                    <li><a href="mcp.html#mcp-tester" class="hover:text-[#0B0B0C] transition-colors">JSON-RPC Tester</a></li>
+                    <li><a href="mcp-chat.html" class="hover:text-[#0B0B0C] transition-colors">MCP Chat</a></li>
+                </ul>
+            </div>
+            <div class="ab-footer__col space-y-3">
+                <p class="pixel-heading text-xs tracking-[0.18em] text-[#DB2777] font-semibold">03 // DEVELOPER DOCS</p>
+                <ul class="space-y-2 text-sm text-[#474742]">
+                    <li><a href="docs.html" class="hover:text-[#0B0B0C] transition-colors">Documentation Hub</a></li>
+                    <li><a href="docs.html#rest-api" class="hover:text-[#0B0B0C] transition-colors">REST API Reference</a></li>
+                    <li><a href="docs.html#mcp-protocol" class="hover:text-[#0B0B0C] transition-colors">MCP Protocol Spec</a></li>
+                    <li><a href="docs.html#self-hosting" class="hover:text-[#0B0B0C] transition-colors">Self-Hosting Guide</a></li>
+                </ul>
+            </div>
+            <div class="ab-footer__col space-y-3">
+                <p class="pixel-heading text-xs tracking-[0.18em] text-[#DB2777] font-semibold">04 // COMPANY &amp; STATUS</p>
+                <ul class="space-y-2 text-sm text-[#474742]">
+                    <li><a href="aurablox.html" class="hover:text-[#0B0B0C] transition-colors">Aurablox</a></li>
+                    <li><a href="resume.html" class="hover:text-[#0B0B0C] transition-colors">Founder / Resume</a></li>
+                    <li><a href="cookie-policy.html" class="hover:text-[#0B0B0C] transition-colors">Cookie Policy</a></li>
+                    <li><a href="mcp.html#file-browser" class="hover:text-[#0B0B0C] transition-colors">Dataset Browser</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="ab-footer__giant-wordmark" aria-hidden="true">API<span>UI</span></div>
+
+        <div class="ab-footer__bottom-bar">
+            <div class="flex flex-wrap items-center gap-4">
+                <span class="pixel-heading text-[11px] tracking-[0.18em] text-[#0B0B0C]">&copy; 2026 APIUI BY AURABLOX</span>
+                <a href="cookie-policy.html" class="hover:text-[#0B0B0C] underline underline-offset-4">Cookie Policy</a>
+                <a href="docs.html" class="hover:text-[#0B0B0C] underline underline-offset-4">Docs</a>
+            </div>
+
+            <div id="footer-backend-health" class="ab-footer__health">
+                <span class="w-2 h-2 bg-amber-400 inline-block" data-health-dot></span>
+                <span data-health-label>BACKEND :8000 CHECKING</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <a href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="ab-footer__social-link">Back to Top &uarr;</a>
+                <a href="https://x.com/jahflyx" target="_blank" rel="noopener noreferrer" class="ab-footer__social-link" aria-label="X">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    <span>X</span>
+                </a>
+                <a href="https://www.linkedin.com/in/jjohnso75/" target="_blank" rel="noopener noreferrer" class="ab-footer__social-link" aria-label="LinkedIn">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    <span>LinkedIn</span>
+                </a>
+            </div>
         </div>
     </footer>
 
@@ -1908,8 +1559,293 @@
             });
         });
 
+        function getMcpBackendUrl() {
+            if (window.APIUI_CONFIG && typeof window.APIUI_CONFIG.getBackendUrl === 'function') {
+                return window.APIUI_CONFIG.getBackendUrl();
+            }
+            return (window.BACKEND_BASE_URL || window.APIUI_AUTH_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '');
+        }
+
+        function buildClientConfigJson(mode) {
+            const base = getMcpBackendUrl();
+            if (mode === 'sse') {
+                return JSON.stringify({
+                    mcpServers: {
+                        'apiui-sse': {
+                            url: `${base}/mcp/sse`
+                        }
+                    }
+                }, null, 2);
+            }
+            if (mode === 'cursor') {
+                return JSON.stringify({
+                    mcpServers: {
+                        apiui: {
+                            url: `${base}/mcp`,
+                            transport: 'http'
+                        }
+                    }
+                }, null, 2);
+            }
+            return JSON.stringify({
+                mcpServers: {
+                    apiui: {
+                        url: `${base}/mcp`
+                    }
+                }
+            }, null, 2);
+        }
+
+        function updateDynamicMcpEndpoints() {
+            const base = getMcpBackendUrl();
+            const setText = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value;
+            };
+            setText('mcp-active-base-url', base);
+            setText('endpoint-mcp-post', `POST ${base}/mcp`);
+            setText('endpoint-mcp-sse', `GET ${base}/mcp/sse`);
+            setText('endpoint-mcp-resources', `GET ${base}/mcp/resources`);
+            setText('endpoint-mcp-client-config', `GET ${base}/mcp/client-config`);
+            setText('tester-target-endpoint', `POST ${base}/mcp`);
+            setText('mcp-client-config-endpoint', `GET ${base}/mcp/client-config`);
+            document.querySelectorAll('.mcp-endpoint-url').forEach(el => {
+                el.textContent = `${base}/mcp`;
+            });
+        }
+
+        let activeConfigTab = 'streamable';
+        function renderMcpClientConfig(mode) {
+            activeConfigTab = mode || activeConfigTab;
+            const codeEl = document.getElementById('mcp-client-config-code');
+            const hintEl = document.getElementById('mcp-config-hint');
+            const base = getMcpBackendUrl();
+            if (codeEl) {
+                codeEl.textContent = buildClientConfigJson(activeConfigTab);
+            }
+            if (hintEl) {
+                const endpoint = activeConfigTab === 'sse' ? `${base}/mcp/sse` : `${base}/mcp`;
+                const label = activeConfigTab === 'sse' ? 'SSE transport' : 'Streamable HTTP transport';
+                hintEl.innerHTML = `Uses ${label} at <code class="bg-gray-100 px-1.5 py-0.5 rounded">${endpoint}</code>. Live config JSON is also served at <code class="bg-gray-100 px-1.5 py-0.5 rounded">GET ${base}/mcp/client-config</code>.`;
+            }
+            document.querySelectorAll('.mcp-config-tab').forEach(btn => {
+                const isActive = btn.getAttribute('data-config-tab') === activeConfigTab;
+                btn.className = isActive
+                    ? 'mcp-config-tab px-3 py-1.5 text-xs font-semibold rounded border border-pink-500 bg-pink-500 text-white transition-colors'
+                    : 'mcp-config-tab px-3 py-1.5 text-xs font-semibold rounded border border-gray-300 bg-white text-gray-700 hover:border-pink-400 transition-colors';
+            });
+        }
+
+        function buildMcpPresetPayload(preset) {
+            const datasetSelect = document.getElementById('tester-dataset-select');
+            const searchInput = document.getElementById('tester-search-input');
+            const limitInput = document.getElementById('tester-limit-input');
+            const datasetId = (datasetSelect && datasetSelect.value) ? datasetSelect.value : 'sample-dataset-id';
+            const search = searchInput ? searchInput.value.trim() : '';
+            const limit = Math.max(1, Math.min(100, parseInt(limitInput ? limitInput.value : '5', 10) || 5));
+
+            switch (preset) {
+                case 'initialize':
+                    return {
+                        jsonrpc: '2.0',
+                        id: 1,
+                        method: 'initialize',
+                        params: {
+                            protocolVersion: '2025-03-26',
+                            capabilities: {},
+                            clientInfo: { name: 'apiui-web-tester', version: '1.0.0' }
+                        }
+                    };
+                case 'tools/list':
+                    return { jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} };
+                case 'resources/list':
+                    return { jsonrpc: '2.0', id: 3, method: 'resources/list', params: {} };
+                case 'list_datasets':
+                    return {
+                        jsonrpc: '2.0',
+                        id: 4,
+                        method: 'tools/call',
+                        params: { name: 'list_datasets', arguments: {} }
+                    };
+                case 'query_dataset': {
+                    const args = { dataset_id: datasetId, limit: limit, offset: 0 };
+                    if (search) args.search = search;
+                    return {
+                        jsonrpc: '2.0',
+                        id: 5,
+                        method: 'tools/call',
+                        params: { name: 'query_dataset', arguments: args }
+                    };
+                }
+                case 'summarize_dataset':
+                    return {
+                        jsonrpc: '2.0',
+                        id: 6,
+                        method: 'tools/call',
+                        params: { name: 'summarize_dataset', arguments: { dataset_id: datasetId } }
+                    };
+                default:
+                    return { jsonrpc: '2.0', id: 1, method: 'initialize', params: {} };
+            }
+        }
+
+        async function loadTesterDatasets() {
+            const selectEl = document.getElementById('tester-dataset-select');
+            if (!selectEl) return;
+            const base = getMcpBackendUrl();
+            try {
+                const res = await fetch(`${base}/mcp/apis`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                const apis = Array.isArray(data.apis) ? data.apis : [];
+                if (apis.length === 0) {
+                    selectEl.innerHTML = '<option value="">No datasets found</option>';
+                    return;
+                }
+                selectEl.innerHTML = apis.map(api => {
+                    const name = api.name || api.custom_name || api.title || api.id;
+                    return `<option value="${api.id}">${name} (${api.id})</option>`;
+                }).join('');
+            } catch (err) {
+                selectEl.innerHTML = '<option value="">Backend offline / no datasets</option>';
+            }
+        }
+
+        async function sendMcpTesterRequest() {
+            const reqEl = document.getElementById('mcp-request-json');
+            const resEl = document.getElementById('mcp-response-json');
+            const statusEl = document.getElementById('mcp-tester-status');
+            const metaEl = document.getElementById('mcp-response-meta');
+            const sendBtn = document.getElementById('send-mcp-request-btn');
+            if (!reqEl || !resEl) return;
+
+            let payloadText = reqEl.value.trim();
+            try {
+                JSON.parse(payloadText);
+            } catch (parseErr) {
+                resEl.textContent = JSON.stringify({ error: 'Invalid JSON request body', detail: parseErr.message }, null, 2);
+                if (statusEl) {
+                    statusEl.className = 'inline-flex items-center px-3 py-1 rounded-full text-xs font-mono bg-red-100 text-red-700';
+                    statusEl.textContent = 'Invalid JSON';
+                }
+                return;
+            }
+
+            const base = getMcpBackendUrl();
+            const startedAt = performance.now();
+            if (sendBtn) sendBtn.disabled = true;
+            if (statusEl) {
+                statusEl.className = 'inline-flex items-center px-3 py-1 rounded-full text-xs font-mono bg-amber-100 text-amber-800';
+                statusEl.textContent = 'Sending...';
+            }
+
+            try {
+                const response = await fetch(`${base}/mcp`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json, text/event-stream'
+                    },
+                    body: payloadText
+                });
+                const elapsedMs = Math.round(performance.now() - startedAt);
+                const rawText = await response.text();
+                let formatted = rawText;
+                try {
+                    formatted = JSON.stringify(JSON.parse(rawText), null, 2);
+                } catch (_) {
+                    // Leave raw text (e.g. SSE or plain text) as-is
+                }
+
+                resEl.textContent = formatted;
+                if (metaEl) metaEl.textContent = `HTTP ${response.status} • ${elapsedMs} ms`;
+                if (statusEl) {
+                    statusEl.className = response.ok
+                        ? 'inline-flex items-center px-3 py-1 rounded-full text-xs font-mono bg-emerald-100 text-emerald-700'
+                        : 'inline-flex items-center px-3 py-1 rounded-full text-xs font-mono bg-red-100 text-red-700';
+                    statusEl.textContent = response.ok ? `OK (${response.status})` : `Error (${response.status})`;
+                }
+            } catch (err) {
+                const elapsedMs = Math.round(performance.now() - startedAt);
+                resEl.textContent = JSON.stringify({ error: err.message, target: `${base}/mcp` }, null, 2);
+                if (metaEl) metaEl.textContent = `Network Error • ${elapsedMs} ms`;
+                if (statusEl) {
+                    statusEl.className = 'inline-flex items-center px-3 py-1 rounded-full text-xs font-mono bg-red-100 text-red-700';
+                    statusEl.textContent = 'Offline';
+                }
+            } finally {
+                if (sendBtn) sendBtn.disabled = false;
+            }
+        }
+
+        function initMcpInteractiveUi() {
+            updateDynamicMcpEndpoints();
+            renderMcpClientConfig('streamable');
+
+            document.querySelectorAll('.mcp-config-tab').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    renderMcpClientConfig(btn.getAttribute('data-config-tab'));
+                });
+            });
+
+            const copyBtn = document.getElementById('copy-mcp-config-btn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', async () => {
+                    const text = buildClientConfigJson(activeConfigTab);
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        const orig = copyBtn.textContent;
+                        copyBtn.textContent = 'Copied!';
+                        setTimeout(() => { copyBtn.textContent = orig; }, 1600);
+                    } catch (_) {
+                        // Fallback if clipboard blocked
+                    }
+                });
+            }
+
+            const reqEl = document.getElementById('mcp-request-json');
+            if (reqEl) {
+                reqEl.value = JSON.stringify(buildMcpPresetPayload('initialize'), null, 2);
+            }
+
+            let activePreset = 'initialize';
+            document.querySelectorAll('.mcp-preset-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activePreset = btn.getAttribute('data-mcp-preset');
+                    if (reqEl) {
+                        reqEl.value = JSON.stringify(buildMcpPresetPayload(activePreset), null, 2);
+                    }
+                    document.querySelectorAll('.mcp-preset-btn').forEach(b => {
+                        const isSel = b === btn;
+                        b.className = isSel
+                            ? 'mcp-preset-btn px-3 py-1.5 text-xs font-mono rounded border border-pink-300 bg-pink-50 text-pink-700 hover:bg-pink-100 transition-colors'
+                            : 'mcp-preset-btn px-3 py-1.5 text-xs font-mono rounded border border-gray-300 bg-white text-gray-800 hover:border-pink-400 transition-colors';
+                    });
+                });
+            });
+
+            ['tester-dataset-select', 'tester-search-input', 'tester-limit-input'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('change', () => {
+                        if ((activePreset === 'query_dataset' || activePreset === 'summarize_dataset') && reqEl) {
+                            reqEl.value = JSON.stringify(buildMcpPresetPayload(activePreset), null, 2);
+                        }
+                    });
+                }
+            });
+
+            const sendBtn = document.getElementById('send-mcp-request-btn');
+            if (sendBtn) {
+                sendBtn.addEventListener('click', sendMcpTesterRequest);
+            }
+
+            loadTesterDatasets();
+        }
+
         // Initialize MCP server connection on page load
         document.addEventListener('DOMContentLoaded', function() {
+            initMcpInteractiveUi();
             // Auto-load MCP files on page load
             loadFiles();
 
@@ -1955,7 +1891,7 @@
             const connectionStatus = document.getElementById('connection-status');
 
             try {
-                const response = await fetch(`${window.APIUI_AUTH_BASE_URL}/mcp/resources`);
+                const response = await fetch(`${getMcpBackendUrl()}/mcp/resources`);
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}`);
                 }
@@ -2079,7 +2015,7 @@
         // View file content
         async function viewFile(filename) {
             try {
-                const response = await fetch(`${window.APIUI_AUTH_BASE_URL}/mcp/resources/${filename}`);
+                const response = await fetch(`${getMcpBackendUrl()}/mcp/resources/${filename}`);
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}`);
                 }
@@ -2134,70 +2070,143 @@
         });
     </script>
 
-    <!-- Sidebar functionality -->
+    <!-- Constructivist Nav, Megamenu & Footer Health -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const sidebar = document.getElementById('api-sidebar');
-            const sidebarToggle = document.querySelector('.sidebar-toggle');
-            const sidebarOverlay = document.querySelector('.sidebar-overlay');
+            const shell = document.getElementById('ab-nav-shell');
+            const megamenu = document.getElementById('ab-megamenu');
+            const megaButtons = document.querySelectorAll('.ab-nav__item-btn[data-mega]');
+            const megaPanels = document.querySelectorAll('.ab-megamenu__panel[data-panel]');
+            let closeTimer = null;
 
-            // Initialize collapsible sections - all expanded
-            const sectionToggles = document.querySelectorAll('.sidebar-section-toggle');
-            sectionToggles.forEach(toggle => {
-                const targetId = toggle.getAttribute('data-target');
-                const targetElement = document.querySelector(targetId);
-                toggle.setAttribute('aria-expanded', 'true');
+            function closeMega() {
+                if (!megamenu || !shell) return;
+                megamenu.classList.remove('is-open');
+                megamenu.setAttribute('aria-hidden', 'true');
+                shell.classList.remove('has-mega-open');
+                megaButtons.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
+                megaPanels.forEach(panel => panel.classList.remove('is-active'));
+            }
 
-                toggle.addEventListener('click', function() {
-                    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-                    if (isExpanded) {
-                        toggle.setAttribute('aria-expanded', 'false');
-                        targetElement.classList.add('collapsed');
-                    } else {
-                        toggle.setAttribute('aria-expanded', 'true');
-                        targetElement.classList.remove('collapsed');
-                    }
+            function openMega(key) {
+                if (!megamenu || !shell) return;
+                if (closeTimer) {
+                    clearTimeout(closeTimer);
+                    closeTimer = null;
+                }
+                megaButtons.forEach(btn => {
+                    btn.setAttribute('aria-expanded', btn.dataset.mega === key ? 'true' : 'false');
                 });
-            });
+                megaPanels.forEach(panel => {
+                    panel.classList.toggle('is-active', panel.dataset.panel === key);
+                });
+                megamenu.classList.add('is-open');
+                megamenu.setAttribute('aria-hidden', 'false');
+                shell.classList.add('has-mega-open');
+            }
 
-            // Mobile sidebar toggle
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', function() {
-                    const isOpen = sidebar.classList.contains('open');
+            megaButtons.forEach(btn => {
+                btn.addEventListener('mouseenter', () => openMega(btn.dataset.mega));
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = btn.getAttribute('aria-expanded') === 'true';
                     if (isOpen) {
-                        sidebar.classList.remove('open');
-                        sidebarOverlay.classList.remove('active');
+                        closeMega();
                     } else {
-                        sidebar.classList.add('open');
-                        sidebarOverlay.classList.add('active');
-                    }
-                });
-            }
-
-            // Close sidebar when clicking overlay
-            if (sidebarOverlay) {
-                sidebarOverlay.addEventListener('click', function() {
-                    sidebar.classList.remove('open');
-                    sidebarOverlay.classList.remove('active');
-                });
-            }
-
-            // Close sidebar when clicking links (mobile)
-            const sidebarLinks = sidebar.querySelectorAll('.sidebar-link');
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    if (window.innerWidth < 768) {
-                        sidebar.classList.remove('open');
-                        sidebarOverlay.classList.remove('active');
+                        openMega(btn.dataset.mega);
                     }
                 });
             });
+
+            if (shell) {
+                shell.addEventListener('mouseleave', () => {
+                    closeTimer = setTimeout(closeMega, 140);
+                });
+                shell.addEventListener('mouseenter', () => {
+                    if (closeTimer) {
+                        clearTimeout(closeTimer);
+                        closeTimer = null;
+                    }
+                });
+            }
+
+            document.addEventListener('click', (e) => {
+                if (shell && !shell.contains(e.target)) {
+                    closeMega();
+                }
+            });
+
+            const mobileToggle = document.getElementById('ab-mobile-toggle');
+            const mobileMenu = document.getElementById('ab-mobile-menu');
+
+            function closeMobileMenu() {
+                if (!mobileMenu || !mobileToggle) return;
+                mobileMenu.classList.remove('is-open');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                mobileToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeMega();
+                    if (mobileMenu && mobileMenu.classList.contains('is-open')) {
+                        closeMobileMenu();
+                    }
+                }
+            });
+
+            if (mobileToggle && mobileMenu) {
+                mobileToggle.addEventListener('click', () => {
+                    const opening = !mobileMenu.classList.contains('is-open');
+                    mobileMenu.classList.toggle('is-open', opening);
+                    mobileMenu.setAttribute('aria-hidden', opening ? 'false' : 'true');
+                    mobileToggle.setAttribute('aria-expanded', opening ? 'true' : 'false');
+                    document.body.style.overflow = opening ? 'hidden' : '';
+                });
+
+                mobileMenu.querySelectorAll('.ab-nav__mobile-expand[data-mobile-sub]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const targetKey = btn.dataset.mobileSub;
+                        const sub = mobileMenu.querySelector(`.ab-nav__mobile-sub[data-mobile-panel="${targetKey}"]`);
+                        if (!sub) return;
+                        const isOpen = sub.classList.toggle('is-open');
+                        const sign = btn.querySelector('span:last-child');
+                        if (sign) sign.textContent = isOpen ? '-' : '+';
+                    });
+                });
+
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+            }
+
+            const healthBox = document.getElementById('footer-backend-health');
+            if (healthBox) {
+                const dot = healthBox.querySelector('[data-health-dot]');
+                const label = healthBox.querySelector('[data-health-label]');
+                const base = typeof getMcpBackendUrl === 'function'
+                    ? getMcpBackendUrl()
+                    : ((window.BACKEND_BASE_URL || 'http://localhost:8000').replace(/\/+$/, ''));
+                fetch(`${base}/health`, { method: 'GET' })
+                    .then(res => {
+                        if (res.ok) {
+                            if (dot) dot.className = 'w-2 h-2 bg-emerald-500 inline-block';
+                            if (label) label.textContent = 'BACKEND :8000 ONLINE';
+                        } else {
+                            if (dot) dot.className = 'w-2 h-2 bg-amber-500 inline-block';
+                            if (label) label.textContent = `BACKEND HTTP ${res.status}`;
+                        }
+                    })
+                    .catch(() => {
+                        if (dot) dot.className = 'w-2 h-2 bg-rose-500 inline-block';
+                        if (label) label.textContent = 'BACKEND :8000 OFFLINE';
+                    });
+            }
         });
     </script>
 
     <!-- Cookie Consent Modal -->
     <script src="cookie-consent.js"></script>
 </body>
-</html></contents>
-</xai:function_call:-write>
-<parameter name="file_path">/Users/jahflyx/apiui/frontend/mcp.html
+</html>
